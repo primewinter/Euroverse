@@ -3,22 +3,22 @@ package com.ksy.service.domain;
 import java.sql.Timestamp;
 
 public class Order {
-	private String orderId;
-	private String buyerId;
-	private String buyerName;
-	private String buyerPhone;
-	private String buyerEmail;
-	private Timestamp orderDate;
-	private String orderStatus;
-	private String filghtId;
-	private String roomId;
-	private Timestamp payDate;
-	private int payOpt;
-	private int payInstal;
-	private int totalAmount;
-	private int actualAmount;
-	private String cardNo;
-	private Timestamp refundDate;
+	private String orderId; //order_id
+	private String buyerId; //buyer_id
+	private String buyerName; //buyer_name
+	private String buyerPhone; //buyer_phone
+	private String buyerEmail; //buyer_email
+	private Timestamp orderDate; //order_date
+	private String orderStatus; //order_status
+	private String flightId; //flight_id
+	private String roomId; //room_id
+	private Timestamp payDate; //pay_date
+	private int payOpt; //pay_opt
+	private int payInstal; //pay_instal
+	private int totalAmount; //total_amount
+	private int actualAmount; //actual_amount
+	private String cardNo; //card_no
+	private Timestamp refundDate; //refund_date
 	
 	public String getOrderId() {
 		return orderId;
@@ -62,11 +62,11 @@ public class Order {
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
-	public String getFilghtId() {
-		return filghtId;
+	public String getFlightId() {
+		return flightId;
 	}
-	public void setFilghtId(String filghtId) {
-		this.filghtId = filghtId;
+	public void setFlightId(String flightId) {
+		this.flightId = flightId;
 	}
 	public String getRoomId() {
 		return roomId;
@@ -120,7 +120,7 @@ public class Order {
 	public String toString() {
 		return "Order [orderId=" + orderId + ", buyerId=" + buyerId + ", buyerName=" + buyerName + ", buyerPhone="
 				+ buyerPhone + ", buyerEmail=" + buyerEmail + ", orderDate=" + orderDate + ", orderStatus="
-				+ orderStatus + ", filghtId=" + filghtId + ", roomId=" + roomId + ", payDate=" + payDate + ", payOpt="
+				+ orderStatus + ", flightId=" + flightId + ", roomId=" + roomId + ", payDate=" + payDate + ", payOpt="
 				+ payOpt + ", payInstal=" + payInstal + ", totalAmount=" + totalAmount + ", actualAmount="
 				+ actualAmount + ", cardNo=" + cardNo + ", refundDate=" + refundDate + "]";
 	}

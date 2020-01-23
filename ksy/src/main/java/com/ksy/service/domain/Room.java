@@ -3,19 +3,19 @@ package com.ksy.service.domain;
 import java.sql.Timestamp;
 
 public class Room {
-	private String roomId;
-	private String roomName;
-	private int price;
-	private String roomCity;
-	private Timestamp checkIn;
-	private Timestamp checkOut;
-	private String roomType;
-	private int adultNum;
-	private int childNum;
-	private int roomNum;
-	private String roomImg;
-	private String roomDetail;
-	public String getRoomId() {
+	private String roomId; //room_id
+	private String roomName; //room_name
+	private int price; //price
+	private String roomCity; //room_city
+	private Timestamp checkIn; //check_in
+	private Timestamp checkOut; //check_out
+	private String roomType; //room_type
+	private int adultNum;  //adult_num
+	private int childNum; //child_num
+	private int roomNum; //room_num
+	private String roomImg; //room_img
+	private String roomDetail; //room_detail
+	public String getRoomId() { 
 		return roomId;
 	}
 	public void setRoomId(String roomId) {
