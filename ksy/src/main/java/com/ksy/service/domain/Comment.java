@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class Comment {
 	
 	private String postId; //post_id
-	private String cmtId; //cmt_id
+	private String cmtId; //parent_cmt_id
 	private String cmtWriterId; //writer_id
 	private String cmtContent; //cmt_content
 	private Timestamp cmtDate; //cmt_date

@@ -5,11 +5,11 @@ import java.sql.Timestamp;
 public class Recomment {
 	
 	private String postId; //post_id
-	private String cmtId; //cmt_id
-	private String rcmtId; //parent_cmt_id
+	private String cmtId; //parent_cmt_id
+	private String rcmtId; //cmt_id
 	private String rcmtWriterId; //writer_id
-	private String rcmtContent; //cmtContent
-	private Timestamp rcmtDate; //cmtDate
+	private String rcmtContent; //cmt_content
+	private Timestamp rcmtDate; //cmt_date
 	private String blocked; //blocked
 	private String rcmtLikeFlag; 
 	private int rcmtLikeCount; 

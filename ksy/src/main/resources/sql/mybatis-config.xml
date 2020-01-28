@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration
+ 		 PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ 		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+  						
+<!--	mybatis-config.xml :: MyBatis Framework  MetaData -->
+<configuration>
+
+	<!-- 기타 설정정보 :: [MyBatis_Home]/mybatis-3.2.1.pdf 참조 -->
+	<settings>
+		<setting name="callSettersOnNulls" value="false"/>
+	</settings>	
+	
+	<!-- FQCN(Full Qualified Class Name) Alias(별칭관리) -->
+	<typeAliases>
+		<typeAlias alias="plan" type="com.ksy.service.domain.Plan" />
+		<typeAlias alias="todo" type="com.ksy.service.domain.Todo" />
+		<typeAlias alias="party" type="com.ksy.service.domain.Party" />
+		<typeAlias alias="stuff" type="com.ksy.service.domain.Stuff" />
+		<typeAlias alias="memo" type="com.ksy.service.domain.Memo" />
+		<typeAlias alias="daily" type="com.ksy.service.domain.Daily" />
+		<typeAlias alias="city" type="com.ksy.service.domain.City" />
+		<typeAlias alias="offer" type="com.ksy.service.domain.Offer" />
+		<typeAlias alias="user" type="com.ksy.service.domain.User" />
+		
+	</typeAliases>
+	
+	 <!-- SQL Definition :: file include -->
+	<mappers>
+		<mapper resource="sql/PlanMapper.xml"/>
+		<mapper resource="sql/PlanSubMapper.xml"/>
+	</mappers>
+
+</configuration>

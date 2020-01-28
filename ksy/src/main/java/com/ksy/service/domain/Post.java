@@ -24,8 +24,8 @@ public class Post {
 	private String postLikeFlag; 
 	private String deleted; //deleted
 	private Plan planId; //plan_id;
-	private String qnaFcate; //qna_first_cate
-	private String qnaScate; //qna_second_cate
+	private String qnaFirstCate; //qna_first_cate
+	private String qnaSecondCate; //qna_second_cate
 	
 	public Post() {
 		
@@ -191,20 +191,20 @@ public class Post {
 		this.planId = planId;
 	}
 
-	public String getQnaFcate() {
-		return qnaFcate;
+	public String getQnaFirstCate() {
+		return qnaFirstCate;
 	}
 
-	public void setQnaFcate(String qnaFcate) {
-		this.qnaFcate = qnaFcate;
+	public void setQnaFirstCate(String qnaFirstCate) {
+		this.qnaFirstCate = qnaFirstCate;
 	}
 
-	public String getQnaScate() {
-		return qnaScate;
+	public String getQnaSecondCate() {
+		return qnaSecondCate;
 	}
 
-	public void setQnaScate(String qnaScate) {
-		this.qnaScate = qnaScate;
+	public void setQnaSecondCate(String qnaSecondCate) {
+		this.qnaSecondCate = qnaSecondCate;
 	}
 
 	@Override
@@ -214,8 +214,8 @@ public class Post {
 				+ ", postDate=" + postDate + ", accCount=" + accCount + ", accPerson=" + accPerson + ", accStartDate="
 				+ accStartDate + ", accEcdDate=" + accEcdDate + ", postLikeCount=" + postLikeCount + ", views=" + views
 				+ ", comments=" + comments + ", blocked=" + blocked + ", tags=" + tags + ", postLikeFlag="
-				+ postLikeFlag + ", deleted=" + deleted + ", planId=" + planId + ", qnaFcate=" + qnaFcate
-				+ ", qnaScate=" + qnaScate + "]";
+				+ postLikeFlag + ", deleted=" + deleted + ", planId=" + planId + ", qnaFirstCate=" + qnaFirstCate
+				+ ", qnaSecondCate=" + qnaSecondCate + "]";
 	}
 	
 }

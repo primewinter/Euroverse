@@ -1,6 +1,5 @@
 package com.ksy.service.domain;
 
-
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
@@ -85,7 +84,7 @@ public class Push {
 	
 	public String getPushTime() {
 		long now = System.currentTimeMillis(); 
-		SimpleDateFormat dayTime = new SimpleDateFormat("yyyy.mm.dd");
+		SimpleDateFormat dayTime = new SimpleDateFormat("yyyy.MM.dd");
 		long pDate = pushDate.getTime();
 		long diff = now-pDate;
 		
@@ -102,7 +101,7 @@ public class Push {
 		} else if(hour < 24) {
 			return hour+"½Ã°£ Àü";
 		} else {
-			return dayTime.format(pushDate);
+			return dayTime.format(pDate);
 		}
 	}
 	public void setPushTime(String pushTime) {
@@ -123,4 +122,3 @@ public class Push {
 	
 
 }
-

@@ -6,9 +6,19 @@ public class Memo {
 	private String memoId;			//memo_id
 	private String memoDetail;		//memo_detail
 	private String memoRegDate;		//memo_reg_date	:: SYSDATE
-	private String memoRegUser;		//memo_reg_user 
+	private String memoRegUser;		//memo_reg_user
+	
+	private String regUserNickname;
 	
 	
+	public String getRegUserNickname() {
+		return regUserNickname;
+	}
+	public void setRegUserNickname(String regUserNickname) {
+		this.regUserNickname = regUserNickname;
+	}
+
+
 	public Memo() {
 		super();
 	}
@@ -48,14 +58,14 @@ public class Memo {
 	public void setMemoRegUser(String memoRegUser) {
 		this.memoRegUser = memoRegUser;
 	}
-
-
 	@Override
 	public String toString() {
 		return "Memo [planId=" + planId + ", memoId=" + memoId + ", memoDetail=" + memoDetail + ", memoRegDate="
-				+ memoRegDate + ", memoRegUser=" + memoRegUser + "]";
+				+ memoRegDate + ", memoRegUser=" + memoRegUser + ", regUserNickname=" + regUserNickname + "]";
 	}
-	
+
+
+
 	
 
 }

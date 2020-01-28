@@ -24,11 +24,11 @@ public class User {
 	private String phone3;
 	
 	private String userImg; //user_img
-	private String sex; //sex
+	private String sex; //sex 남자(M) , 여자(F)
 	private String birth; //birth
 	private int slot;//slot
 	private int totalPoint;//total_point 
-	private String pushAgree; //push_agree
+	private String pushAgree; //push_agree  T , F
 	
 	private Timestamp regDate; //reg_date
 	private Timestamp unRegDate;//unreg_date
