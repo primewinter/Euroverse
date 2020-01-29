@@ -19,13 +19,14 @@ public class City {
 	private String cityInfo;	//도시정보
 	private String cityImg;		//도시 이미지
 	
-	//private List<Bucket> bucketList;	//버킷리스트
+	//private List<Bucket> bucketList;	// 버킷리스트
 	
 	
 	public City() {
 		super();
 	}
 
+	
 	
 	public String getPlanId() {
 		return planId;
