@@ -12,7 +12,8 @@ public class Plan {
 	private String planType;			// plan_type (CHAR) :: 여자혼자(A), 남자혼자(B), 여자끼리(C), 남자끼리(D), 단체(E), 부모님과(F), 커플(G)
 	
 	private Timestamp planRegDate;		// plan_reg_date (TIMESTAMP)
-	private String startDate;			// start_date (TIMESTAMP)
+	private Timestamp startDate;		// start_date (TIMESTAMP)
+	private String startDateString;		
 	private String planStatus;			// plan_status (CHAR) :: 여행준비중(R), 여행완료(C)
 	
 	private String endDate;			//여행종료일자
@@ -78,12 +79,23 @@ public class Plan {
 		this.planRegDate = planRegDate;
 	}
 
-	public String getStartDate() {
+
+
+	public Timestamp getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(String startDate) {
+	public void setStartDate(Timestamp startDate) {
 		this.startDate = startDate;
 	}
+
+	public String getStartDateString() {
+		return startDateString;
+	}
+	public void setStartDateString(String startDateString) {
+		this.startDateString = startDateString;
+	}
+
+
 
 	public String getPlanStatus() {
 		return planStatus;
@@ -168,10 +180,10 @@ public class Plan {
 	public String toString() {
 		return "Plan [planId=" + planId + ", planMaster=" + planMaster + ", planTitle=" + planTitle + ", planImg="
 				+ planImg + ", planType=" + planType + ", planRegDate=" + planRegDate + ", startDate=" + startDate
-				+ ", planStatus=" + planStatus + ", endDate=" + endDate + ", planTotalDays=" + planTotalDays
-				+ ", planDday=" + planDday + ", planPartyList=" + planPartyList + ", planPartySize=" + planPartySize
-				+ ", todoList=" + todoList + ", dayList=" + dayList + ", dailyList=" + dailyList + ", stuffList="
-				+ stuffList + ", memoList=" + memoList + "]";
+				+ ", startDateString=" + startDateString + ", planStatus=" + planStatus + ", endDate=" + endDate
+				+ ", planTotalDays=" + planTotalDays + ", planDday=" + planDday + ", planPartyList=" + planPartyList
+				+ ", planPartySize=" + planPartySize + ", todoList=" + todoList + ", dayList=" + dayList
+				+ ", dailyList=" + dailyList + ", stuffList=" + stuffList + ", memoList=" + memoList + "]";
 	}
 	
 
