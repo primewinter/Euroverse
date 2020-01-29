@@ -13,7 +13,7 @@
 		<result	jdbcType="VARCHAR"		column="plan_img"		property="planImg"/>
 		<result	jdbcType="CHAR"			column="plan_type"		property="planType"/>
 		<result	jdbcType="TIMESTAMP"	column="plan_reg_date"	property="planRegDate"/>
-		<result	jdbcType="VARCHAR"		column="start_date"		property="startDate"/>
+		<result	jdbcType="TIMESTAMP"	column="start_date"		property="startDate"/>
 		<result	jdbcType="VARCHAR"		column="plan_status"	property="planStatus"/>
 		
 		<result	jdbcType="NUMERIC"		column="plan_total_days"	property="planTotalDays"/>
@@ -38,7 +38,7 @@
 	</resultMap>
 	
 	
-	<resultMap id="userSelectMap" type="user">
+	<resultMap id="userssSelectMap" type="userss">
 		<result property="userId"		column="user_id"		jdbcType="VARCHAR"/>
 		<result property="userName"		column="user_name"		jdbcType="VARCHAR"/>
 		<result property="nickname"		column="nickname"		jdbcType="VARCHAR"/>
@@ -65,7 +65,7 @@
 		INTO plan ( plan_id, plan_master_id, plan_title, plan_img, 	
 						plan_type, plan_reg_date, start_date, plan_status, deleted )
 		VALUES ( TO_CHAR(seq_plan_plan_id.NEXTVAL), #{planMaster.userId}, #{planTitle:VARCHAR}, #{planImg:VARCHAR}, 
-						#{planType:CHAR}, SYSDATE, #{startDate}, 'R', 'F' )
+						#{planType:CHAR}, SYSDATE, #{startDateString}, 'R', 'F' )
 	</insert>
 	
 	<select id="getPlan"	parameterType="string"	resultMap="planSelectMap">
@@ -126,7 +126,7 @@
 	
 	<!-- 		Party 관련 SQL		 -->
 	
-	<insert id="addPlanPartyKing" parameterType="party">
+	<insert id="addPlanPartyKing" parameterType="string">
 		INSERT 
 		INTO party ( party_id, party_user_id, party_type, ref_id, party_role ) 
 		VALUES ( TO_CHAR(seq_party_party_id.NEXTVAL), #{partyUserId}, 'P', TO_CHAR(seq_plan_plan_id.CURRVAL), 'K' )
@@ -135,12 +135,12 @@
 	<delete id="deletePlanParty"	parameterType="party">
 		DELETE 
 		FROM 	party 
-		WHERE 	ref_id = #{planId} 
+		WHERE 	ref_id = #{refId} 
 		AND 	party_user_id = #{partyUserId}
 	</delete>
 	
 	<!-- user mapper 필요? -->
-	<select id="getPlanPartyList"	parameterType="string"	resultMap="userSelectMap">
+	<select id="getPlanPartyList"	parameterType="string"	resultMap="userssSelectMap">
 		SELECT 	u.user_id, u.nickname, u.user_img, pt.party_role role
 		FROM 	userss u, party pt 
 		WHERE 	u.user_id = pt.party_user_id 
@@ -194,12 +194,26 @@
 	</delete>
 	
 	<!-- 디폴트 todo 리스트를 추가하기 위한 SQL -->
-	<insert id="addDefaultTodos"	parameterType="">
+	<insert id="addDefaultTodos"	parameterType="string">
 		INSERT 
 		INTO 	todo ( plan_id, todo_id, todo_name, todo_check ) 
-		VALUES 		( TO_CHAR(seq_plan_plan_id.CURRVAL), TO_CHAR(seq_todo_todo_id.NEXTVAL), #{todoName}, 'F');
+		VALUES 		( TO_CHAR(seq_plan_plan_id.CURRVAL), TO_CHAR(seq_todo_todo_id.NEXTVAL), #{todoName}, 'F')
 	</insert>
 	
+	
+	
+	<!-- 	User Mapper에 가야하는 SQL.... 테스트용으로 여기서 만들어 씀	 -->
+	<update id="updateUserSlot"	parameterType="string">
+		UPDATE 	userss 
+		SET 	slot = slot + 1 
+		WHERE 	user_id = #{userId}
+	</update>
+	
+	<select id="findUserId"	parameterType="string" resultType="string">
+		SELECT 	user_id 
+		FROM 	userss 
+		WHERE 	user_id = #{userId}
+	</select>
 	
 	
 

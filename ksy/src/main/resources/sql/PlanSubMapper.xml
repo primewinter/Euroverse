@@ -49,8 +49,8 @@
 	<!-- 		Daily SQL		 -->
 	
 	<!--  resultType map..??? -->
-	<select id="getBudgetOverview"	parameterType="string"	resultType="map">
-		SELECT 	SUM(b.won) sum, b.daily_cate cate 
+	<select id="getBudgetOverview"	parameterType="string"	resultType="daily">
+		SELECT 	SUM(b.won) budget_amount, b.daily_cate  
 		FROM 	( SELECT daily_cate, 
 						DECODE(budget_currency, 'K', budget_amount, 'E', budget_amount*1300, 'G', budget_amount*1500, budget_amount) AS won 
 					FROM daily WHERE plan_id = #{planId} ) b 
@@ -180,6 +180,13 @@
 		FROM 	stuff 
 		WHERE 	stuff_id = #{stuffId}
 	</delete>
+	
+	<!-- 디폴트 stuff 리스트를 추가하기 위한 SQL -->
+	<insert id="addDefaultStuffs"	parameterType="string">
+		INSERT 
+		INTO 	stuff ( plan_id, stuff_id, stuff_name, stuff_check ) 
+		VALUES 		( TO_CHAR(seq_plan_plan_id.CURRVAL), TO_CHAR(seq_stuff_stuff_id.NEXTVAL), #{stuffName}, 'F' )
+	</insert>
 	
 	
 	
