@@ -79,7 +79,6 @@ public class PlanController {
 		
 		
 		
-		
 		plan.setPlanDday(0);		//여행 D-Day
 		plan.setEndDate("2020-11-11");	//여행종료일자
 		

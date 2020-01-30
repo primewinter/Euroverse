@@ -14,15 +14,33 @@
 	
 	<!-- FQCN(Full Qualified Class Name) Alias(별칭관리) -->
 	<typeAliases>
-		<typeAlias alias="plan" type="com.ksy.service.domain.Plan" />
-		<typeAlias alias="todo" type="com.ksy.service.domain.Todo" />
-		<typeAlias alias="party" type="com.ksy.service.domain.Party" />
-		<typeAlias alias="stuff" type="com.ksy.service.domain.Stuff" />
-		<typeAlias alias="memo" type="com.ksy.service.domain.Memo" />
-		<typeAlias alias="daily" type="com.ksy.service.domain.Daily" />
-		<typeAlias alias="city" type="com.ksy.service.domain.City" />
-		<typeAlias alias="offer" type="com.ksy.service.domain.Offer" />
-		<typeAlias alias="user" type="com.ksy.service.domain.User" />
+		
+		<typeAlias alias="bucket" 	type="com.ksy.service.domain.Bucket" />
+		<typeAlias alias="chat" 	type="com.ksy.service.domain.Chat" />
+		<typeAlias alias="chatRoom" type="com.ksy.service.domain.ChatRoom" />
+		<typeAlias alias="city" 	type="com.ksy.service.domain.City" />
+		<typeAlias alias="comment" 	type="com.ksy.service.domain.Comment" />
+		<typeAlias alias="daily" 	type="com.ksy.service.domain.Daily" />
+		<typeAlias alias="day" 		type="com.ksy.service.domain.Day" />
+		<typeAlias alias="flight" 	type="com.ksy.service.domain.Flight" />
+		<typeAlias alias="like" 	type="com.ksy.service.domain.Like" />
+		<typeAlias alias="memo" 	type="com.ksy.service.domain.Memo" />
+		<typeAlias alias="offer" 	type="com.ksy.service.domain.Offer" />
+		<typeAlias alias="order" 	type="com.ksy.service.domain.Order" />
+		<typeAlias alias="party" 	type="com.ksy.service.domain.Party" />
+		<typeAlias alias="plan" 	type="com.ksy.service.domain.Plan" />
+		<typeAlias alias="point" 	type="com.ksy.service.domain.Point" />
+		<typeAlias alias="post" 	type="com.ksy.service.domain.Post" />
+		<typeAlias alias="push" 	type="com.ksy.service.domain.Push" />
+		<typeAlias alias="qna" 		type="com.ksy.service.domain.Qna" />
+		<typeAlias alias="recomment"	type="com.ksy.service.domain.Recomment" />
+		<typeAlias alias="report" 	type="com.ksy.service.domain.Report" />
+		<typeAlias alias="room" 	type="com.ksy.service.domain.Room" />
+		<typeAlias alias="stats" 	type="com.ksy.service.domain.Stats" />
+		<typeAlias alias="stuff"	type="com.ksy.service.domain.Stuff" />
+		<typeAlias alias="tag" 		type="com.ksy.service.domain.Tag" />
+		<typeAlias alias="todo" 	type="com.ksy.service.domain.Todo" />
+		<typeAlias alias="user" 	type="com.ksy.service.domain.User" />
 		
 	</typeAliases>
 	
@@ -30,6 +48,13 @@
 	<mappers>
 		<mapper resource="sql/PlanMapper.xml"/>
 		<mapper resource="sql/PlanSubMapper.xml"/>
+		<mapper resource="sql/UserMapper.xml"/>
+		
+		<!-- 
+		<mapper resource="sql/PushMapper.xml"/>
+		<mapper resource="sql/OrderMapper.xml"/>
+		<mapper resource="sql/PostMapper.xml"/>
+		 -->
 	</mappers>
 
 </configuration>
