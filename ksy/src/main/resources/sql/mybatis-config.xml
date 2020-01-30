@@ -48,9 +48,10 @@
 	<mappers>
 		<mapper resource="sql/PlanMapper.xml"/>
 		<mapper resource="sql/PlanSubMapper.xml"/>
-		<mapper resource="sql/UserMapper.xml"/>
+		
 		
 		<!-- 
+		<mapper resource="sql/UserMapper.xml"/>
 		<mapper resource="sql/PushMapper.xml"/>
 		<mapper resource="sql/OrderMapper.xml"/>
 		<mapper resource="sql/PostMapper.xml"/>
