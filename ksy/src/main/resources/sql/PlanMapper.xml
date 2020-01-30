@@ -38,7 +38,7 @@
 	</resultMap>
 	
 	
-	<resultMap id="userssSelectMap" type="userss">
+	<resultMap id="userSelectMap" type="user">
 		<result property="userId"		column="user_id"		jdbcType="VARCHAR"/>
 		<result property="userName"		column="user_name"		jdbcType="VARCHAR"/>
 		<result property="nickname"		column="nickname"		jdbcType="VARCHAR"/>
@@ -65,7 +65,7 @@
 		INTO plan ( plan_id, plan_master_id, plan_title, plan_img, 	
 						plan_type, plan_reg_date, start_date, plan_status, deleted )
 		VALUES ( TO_CHAR(seq_plan_plan_id.NEXTVAL), #{planMaster.userId}, #{planTitle:VARCHAR}, #{planImg:VARCHAR}, 
-						#{planType:CHAR}, SYSDATE, #{startDateString}, 'R', 'F' )
+						#{planType}, SYSDATE, TO_DATE( #{startDateString:VARCHAR} , 'yyyymmdd'), 'R', 'F' )
 	</insert>
 	
 	<select id="getPlan"	parameterType="string"	resultMap="planSelectMap">
@@ -77,11 +77,11 @@
 	</select>
 
 	<select id="getPlanList"	parameterType="string"	resultMap="planSelectMap">
-		SELECT 	p.plan_id, p.plan_title, p.plan_img, p.plan_type, p.start_date, p.plan_status, (cr.sum - (cr.cnt-1)) plan_total_days, pt.plan_party_size 
+		SELECT 	p.plan_id, p.plan_title, p.plan_img, p.plan_type, p.start_date, p.plan_status, NVL((cr.sum - (cr.cnt-1)), 0) plan_total_days, pt.plan_party_size 
 		FROM 	plan p, 
 				( SELECT SUM(city_duration) sum, COUNT(*) cnt, plan_id FROM city_route GROUP BY plan_id ) cr, 
 				( SELECT ref_id, COUNT(*) plan_party_size FROM party WHERE party_type = 'P' GROUP BY ref_id ) pt 
-		WHERE 	p.plan_id = cr.plan_id AND pt.ref_id = p.plan_id AND p.deleted = 'F' 
+		WHERE 	p.plan_id = cr.plan_id(+) AND pt.ref_id = p.plan_id AND p.deleted = 'F' 
 			AND p.plan_id IN ( SELECT ref_id FROM party WHERE party_user_id = #{userId} AND party_type = 'P' ) 
 		ORDER BY 	p.plan_id
 	</select>
@@ -92,7 +92,7 @@
 			plan_title = #{planTitle}, 
 			plan_img = #{planImg}, 
 			plan_type = #{planType}, 
-			start_date = #{startDate} 
+			start_date = TO_DATE( #{startDateString} , 'yyyymmdd')
 		</set>
 		WHERE 	plan_id = #{planId}
 	</update>
@@ -117,7 +117,7 @@
 	<insert id="addOffer"	parameterType="offer">
 		INSERT 
 		INTO 	offer ( offer_id, offer_type, ref_id, offer_msg, offer_status, from_user_id, to_user_id, offer_date ) 
-		VALUES 		( TO_CHAR(seq_offer_offer_id.NEXTVAL), 'P', #{refId}, #{offerMsg}, 'S', #{fromUserId}, #{toUserId}, SYSDATE );
+		VALUES 		( TO_CHAR(seq_offer_offer_id.NEXTVAL), 'P', #{refId}, #{offerMsg}, 'S', #{fromUserId}, #{toUserId}, SYSDATE )
 	</insert>
 	
 	
@@ -140,8 +140,8 @@
 	</delete>
 	
 	<!-- user mapper 필요? -->
-	<select id="getPlanPartyList"	parameterType="string"	resultMap="userssSelectMap">
-		SELECT 	u.user_id, u.nickname, u.user_img, pt.party_role role
+	<select id="getPlanPartyList"	parameterType="string"	resultMap="userSelectMap">
+		SELECT 	u.user_id, u.nickname, u.user_img, u.phone, pt.party_role role
 		FROM 	userss u, party pt 
 		WHERE 	u.user_id = pt.party_user_id 
 			AND pt.ref_id = #{planId} 
@@ -149,7 +149,7 @@
 	</select>
 	
 	<!-- 이미 참여중인 회원인지 체크 -->
-	<select id="checkUserFromParty"	parameterType="party">
+	<select id="checkUserFromParty"	parameterType="party" resultType="string">
 		SELECT 	pt.party_user_id 
 		FROM 	party pt 
 		WHERE 	pt.party_user_id = #{partyUserId} 
@@ -173,6 +173,7 @@
 		SELECT 	t.todo_id, t.todo_name, t.todo_check 
 		FROM 	todo t 
 		WHERE 	t.plan_id = #{planId}
+		ORDER BY t.todo_id
 	</select>
 	
 	<update id="checkTodo"	parameterType="todo">

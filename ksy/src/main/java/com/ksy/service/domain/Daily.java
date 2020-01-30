@@ -76,7 +76,7 @@ public class Daily {
 
 	@Override
 	public String toString() {
-		return "Daily [planId=" + planId + ", dailyId=" + dailyId + ", dailyCate=" + dailyCate + ", dailyDetail="
+		return "\nDaily [planId=" + planId + ", dailyId=" + dailyId + ", dailyCate=" + dailyCate + ", dailyDetail="
 				+ dailyDetail + ", dayNo=" + dayNo + ", dayTime=" + dayTime + ", budgetAmount=" + budgetAmount
 				+ ", budgetCurrency=" + budgetCurrency + "]";
 	}

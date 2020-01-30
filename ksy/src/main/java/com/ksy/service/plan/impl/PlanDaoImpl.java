@@ -51,11 +51,15 @@ public class PlanDaoImpl implements PlanDao {
 		
 		sqlSession.insert("PlanMapper.addPlanPartyKing", plan.getPlanMaster().getUserId());
 		
-		sqlSession.insert("PlanMapper.addDefaultTodos", "디폴트 투두 01");
-		sqlSession.insert("PlanMapper.addDefaultTodos", "디폴트 투두 02");
+		String[] defaultTodos = {"항공권 예약하기", "여행루트 짜기", "일정표 작성하기", "환전하기"};
+		for (String string : defaultTodos) {
+			sqlSession.insert("PlanMapper.addDefaultTodos", string);
+		}
 		
-		sqlSession.insert("PlanSubMapper.addDefaultStuffs", "디폴트 준비물 01");
-		sqlSession.insert("PlanSubMapper.addDefaultStuffs", "디폴트 준비물 02");
+		String[] deafultStuffs = {"여권", "신분증", "신용카드", "비상약"};
+		for (String string : deafultStuffs) {
+			sqlSession.insert("PlanSubMapper.addDefaultStuffs", string);
+		}
 	}
 
 	public void updatePlan(Plan plan) throws Exception {
