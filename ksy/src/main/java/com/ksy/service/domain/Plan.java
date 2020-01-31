@@ -1,6 +1,7 @@
 package com.ksy.service.domain;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public class Plan {
@@ -31,6 +32,25 @@ public class Plan {
 	private List<Memo> memoList;		//메모 리스트
 	
 	
+	private List<City> cityList;		//시티 리스트
+	private List<Daily> budgetOverviewList;	//예산미리보기 리스트
+	
+	public List<City> getCityList() {
+		return cityList;
+	}
+	public void setCityList(List<City> cityList) {
+		this.cityList = cityList;
+	}
+
+	public List<Daily> getBudgetOverviewList() {
+		return budgetOverviewList;
+	}
+	public void setBudgetOverviewList(List<Daily> budgetOverviewList) {
+		this.budgetOverviewList = budgetOverviewList;
+	}
+
+
+
 	public Plan() {
 		super();
 	}
@@ -86,6 +106,11 @@ public class Plan {
 	}
 	public void setStartDate(Timestamp startDate) {
 		this.startDate = startDate;
+		
+		if(startDate != null) {
+			Date dateForDay = new Date(startDate.getTime());		//요일을 위한 dateForDay
+			this.startDateString = startDate.toString().substring(0,10) + " : "+dateForDay.toString().substring(0,3);
+		}
 	}
 
 	public String getStartDateString() {
@@ -173,17 +198,17 @@ public class Plan {
 	public void setMemoList(List<Memo> memoList) {
 		this.memoList = memoList;
 	}
-
-
-
+	
+	
 	@Override
 	public String toString() {
 		return "Plan [planId=" + planId + ", planMaster=" + planMaster + ", planTitle=" + planTitle + ", planImg="
 				+ planImg + ", planType=" + planType + ", planRegDate=" + planRegDate + ", startDate=" + startDate
 				+ ", startDateString=" + startDateString + ", planStatus=" + planStatus + ", endDate=" + endDate
-				+ ", planTotalDays=" + planTotalDays + ", planDday=" + planDday + ", planPartyList=" + planPartyList
-				+ ", planPartySize=" + planPartySize + ", todoList=" + todoList + ", dayList=" + dayList
-				+ ", dailyList=" + dailyList + ", stuffList=" + stuffList + ", memoList=" + memoList + "]";
+				+ ", planTotalDays=" + planTotalDays + ", planDday=" + planDday + ", \n planPartyList=" + planPartyList
+				+ ", planPartySize=" + planPartySize + ", \n todoList=" + todoList + ", \n dayList=" + dayList
+				+ ", \n dailyList=" + dailyList + ", \n stuffList=" + stuffList + ", \n memoList=" + memoList + ", \n cityList="
+				+ cityList + ", \n budgetOverviewList=" + budgetOverviewList + "]";
 	}
 	
 

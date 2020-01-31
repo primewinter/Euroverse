@@ -19,14 +19,13 @@ public class City {
 	private String cityInfo;	//도시정보
 	private String cityImg;		//도시 이미지
 	
-	//private List<Bucket> bucketList;	// 버킷리스트
+	//private List<Bucket> bucketList;	//버킷리스트
 	
 	
 	public City() {
 		super();
 	}
 
-	
 	
 	public String getPlanId() {
 		return planId;
@@ -115,7 +114,7 @@ public class City {
 
 	@Override
 	public String toString() {
-		return "City [planId=" + planId + ", cityId=" + cityId + ", cityName=" + cityName + ", visitOrder=" + visitOrder
+		return "\nCity [planId=" + planId + ", cityId=" + cityId + ", cityName=" + cityName + ", visitOrder=" + visitOrder
 				+ ", cityDuration=" + cityDuration + ", tranType=" + tranType + ", tranDuration=" + tranDuration
 				+ ", cityLat=" + cityLat + ", cityLng=" + cityLng + ", country=" + country + ", cityInfo=" + cityInfo
 				+ ", cityImg=" + cityImg + "]";
