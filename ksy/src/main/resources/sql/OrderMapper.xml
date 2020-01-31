@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="OrderMapper">
+	
+	<resultMap type="order" id="orderSelectMap">
+	
+		<result property="orderId" 			column="ORDER_ID" 		/>
+  		<result property="buyer.userId" 	column="BUYER_ID" 		jdbcType="VARCHAR"	/>
+  		<result property="buyerName"		column="BUYER_NAME"		jdbcType="VARCHAR"	/>
+  		<result property="buyerPhone" 		column="BUYER_PHONE"	jdbcType="VARCHAR"/>
+  		<result property="buyerEmail"		column="BUYER_EMAIL" 	jdbcType="VARCHAR"/>
+  		<result property="orderDate" 		column="ORDER_DATE" 	jdbcType="TIMESTAMP"/>
+  		<result property="orderStatus" 		column="ORDER_STATUS"	jdbcType="CHAR"/>
+  		<result property="payOpt" 			column="PAY_OPT" 		jdbcType="CHAR"/>
+  		<result property="payDate" 			column="PAY_DATE" 		jdbcType="TIMESTAMP"/>
+  		<result property="payInstal" 		column="PAY_INSTAL" 	jdbcType="NUMBER"/>
+  		<result property="cardNo" 			column="CARD_NO" 		jdbcType="VARCHAR"/>  		 
+  		<result property="totalAmount" 		column="TOTAL_AMOUNT"	jdbcType="NUMBER"/>
+  		<result property="actualAmount"		column="ACTUAL_AMOUNT"	jdbcType="NUMBER"/>
+  		<result property="payPoint"			column="PAY_POINT"      jdbcType="NUMBER" />
+  		<result property="refundDate" 		column="REFUND_DATE" 	jdbcType="TIMESTAMP" />
+		<result property="flightId"			column="FLIGHT_ID"      jdbcType="VARCHAR" />
+  		<result property="roomId" 			column="ROOM_ID" 		jdbcType="VARCHAR" />
+	
+  	</resultMap>
+  	
+  		<insert id="addFlightOrder" parameterType="order">
+		INSERT 
+		INTO order(ORDER_ID, BUYER_ID, BUYER_NAME, BUYER_PHONE, BUYER_EMAIL, ORDER_DATE, ORDER_STATUS, PAY_OPT,PAY_DATE, PAY_INSTAL, CARD_NO, TOTAL_AMOUNT , ACTUAL_AMOUNT , PAY_POINT, REFUND_DATE , FLIGHT_ID)
+		VALUES (
+					seq_transaction_order_id.NEXTVAL,
+					#{orderId},
+					#{buyer.userId:VARCHAR},
+					#{buyerName:VARCHAR},
+					#{buyerPhone:VARCHAR},
+					#{buyerEmail:VARCHAR},
+					#{orderDate:TIMESTAMP},
+					#{orderStatus:CHAR},
+					#{payOpt:CHAR},
+					#{payDate:TIMESTAMP},
+					#{payInstal:NUMBER},
+					#{cardNo:VARCHAR},
+					#{totalAmount:NUMBER}
+					#{actualAmount:NUMBER}
+					#{payPoint:NUMBER}
+					#{refundDate:TIMESTAMP}
+					#{flightId:VARCHAR}
+					
+					)
+	</insert>
+	
+	<insert id="addRoomOrder" parameterType="order">
+		INSERT 
+		INTO order(ORDER_ID, BUYER_ID, BUYER_NAME, BUYER_PHONE, BUYER_EMAIL, ORDER_DATE, ORDER_STATUS, PAY_OPT,PAY_DATE, PAY_INSTAL, CARD_NO, TOTAL_AMOUNT , ACTUAL_AMOUNT , PAY_POINT, REFUND_DATE , ROOM_ID)
+		VALUES (
+					seq_transaction_order_id.NEXTVAL,
+					#{orderId},
+					#{buyer.userId:VARCHAR},
+					#{buyerName:VARCHAR},
+					#{buyerPhone:VARCHAR},
+					#{buyerEmail:VARCHAR},
+					#{orderDate:TIMESTAMP},
+					#{orderStatus:CHAR},
+					#{payOpt:CHAR},
+					#{payDate:TIMESTAMP},
+					#{payInstal:NUMBER},
+					#{cardNo:VARCHAR},
+					#{totalAmount:NUMBER}
+					#{actualAmount:NUMBER}
+					#{payPoint:NUMBER}
+					#{refundDate:TIMESTAMP}
+					#{roomId:VARCHAR}
+					)
+	</insert>
+	
+	
+  	
+  	<select id="getFlightOrder" parameterType="String" resultMap="orderSelectMap">
+  		SELECT 
+		f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stopover  , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.card_no 
+		FROM order o , flight f
+		WHERE order_id = #{orderId}
+					AND f.flight_id(+)=o.flight_id
+					AND room_id IS NULL
+					
+  	</select>
+  	
+  	<select id="getRoomOrder" parameterType="String" resultMap="orderSelectMap">
+  		SELECT 
+		r.room_id , r.room_name , r.price, r.check_in , r.check_out , r.room_num , r.adult_num , r.child_num , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.card_no 
+		FROM order o , room r
+		WHERE order_id = #{orderId}
+					AND r.room_id(+)=o.room_id
+				    AND flight_id IS NOT NULL
+					
+  	</select>
+  	
+	
+	<select id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap">
+  		SELECT *
+  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+  						FROM ( SELECT t.tran_no, p.prod_no, t.buyer_id, t.payment_option, t.receiver_name, t.receiver_phone, t.DEMAILADDR, t.dlvy_request, t.count,t.tran_status_code, t.order_data, t.dlvy_date ,  p.prod_name , t.imp_uid , t.merchant_uid 
+										FROM transaction t, product p, users u 
+										WHERE t.prod_no = p.prod_no 
+										AND t.buyer_id = u.user_id 
+										AND u.user_id = #{buyerId}
+										ORDER BY tran_no  ) inner_table
+  						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
+  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
+  		AND #{search.currentPage}*#{search.pageSize}
+</select>
+
+	 
+	 <select  id="getSaleList"  parameterType="search"	resultMap="purchaseSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq  
+	  					FROM		(	SELECT t.prod_no, t.buyer_id, t.payment_option, t.receiver_name, t.receiver_phone, t.DEMAILADDR, t.dlvy_request, t.count,t.dlvy_date, t.order_data, t.tran_status_code, t.tran_no , p.prod_name , t.imp_uid , t.merchant_uid
+											FROM transaction t , product p
+											<if test="searchCondition != null">
+												<trim prefix="WHERE" prefixOverrides="AND | OR">
+													<if test=" searchCondition == 0 and searchKeyword !='' ">
+										 				 t.prod_no = #{searchKeyword}
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				 t.buyer_id = #{searchKeyword}
+													</if>
+													<if test=" searchCondition == 2 and searchKeyword !='' ">
+														t.receiver_name = #{searchKeyword}
+													</if>
+													<if test="searchCondition != null ">
+													
+													AND t.prod_no=p.prod_no
+												
+													</if>
+												</trim>
+											</if>
+											<if test="searchCondition == null">
+												<where>
+													t.prod_no=p.prod_no
+												</where>
+											</if>
+											ORDER BY t.prod_no) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+  	
+  	
+  	 <update id="updateStatus"	parameterType="order"   >
+	   	UPDATE order
+	   	<set>
+			ORDER_STATUS = #{orderStatus}
+	   	</set>
+	   	
+	   	WHERE order_id = #{orderId} 
+	 </update>
+
+	 
+	   <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+		FROM ( SELECT prod_no, buyer_id, payment_option, receiver_name, receiver_phone, DEMAILADDR, dlvy_request,count, dlvy_date, order_data, tran_status_code, tran_no 
+					FROM transaction
+						<if test="searchCondition != null">
+							<trim prefix="WHERE" prefixOverrides="AND | OR">
+							
+								<if test=" searchCondition == 0 and searchKeyword !='' ">
+									prod_no = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+									buyer_id = #{searchKeyword}
+								</if>
+								<if test=" searchCondition == 2 and searchKeyword !='' ">
+									receiver_name = #{searchKeyword}
+								</if>
+							</trim>
+						</if> ) countTable						
+	 </select>
+  	
+</mapper>
