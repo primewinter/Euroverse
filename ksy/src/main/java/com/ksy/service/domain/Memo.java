@@ -60,12 +60,9 @@ public class Memo {
 	}
 	@Override
 	public String toString() {
-		return "Memo [planId=" + planId + ", memoId=" + memoId + ", memoDetail=" + memoDetail + ", memoRegDate="
+		return "\nMemo [planId=" + planId + ", memoId=" + memoId + ", memoDetail=" + memoDetail + ", memoRegDate="
 				+ memoRegDate + ", memoRegUser=" + memoRegUser + ", regUserNickname=" + regUserNickname + "]";
 	}
-
-
-
 	
 
 }

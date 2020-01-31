@@ -48,10 +48,9 @@ public class Todo {
 
 	@Override
 	public String toString() {
-		return "Todo [planId=" + planId + ", todoId=" + todoId + ", todoName=" + todoName + ", todoCheck=" + todoCheck
+		return "\nTodo [planId=" + planId + ", todoId=" + todoId + ", todoName=" + todoName + ", todoCheck=" + todoCheck
 				+ "]";
 	}
 
-	
 
 }

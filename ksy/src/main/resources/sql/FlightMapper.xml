@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FlightMapper">
+	
+	<resultMap type="flight" id="flightSelectMap">
+	
+		<result property="flightId" 	column="FLIGHT_ID" 		jdbcType="VARCHAR"/>
+  		<result property="airline" 		column="AIRLINE" 		jdbcType="VARCHAR"/>
+  		<result property="price"		column="PRICE"			jdbcType="NUMBER"/>
+  		<result property="tripCourse" 	column="TRIP_COURSE"	jdbcType="CHAR"/>
+  		<result property="depCity"		column="DEP_CITY" 		jdbcType="VARCHAR"/>
+  		<result property="arrCity" 		column="ARR_CITY" 		jdbcType="VARCHAR"/>
+  		<result property="depDate" 		column="DEP_DATE_TIME"	jdbcType="TIMESTAMP"/>
+  		<result property="arrDate" 		column="ARR_DATE_TIME" 	jdbcType="TIMESTAMP"/>
+  		<result property="seatGrade" 	column="SEAT_GRADE" 	jdbcType="CHAR"/>
+  		<result property="adultNum" 	column="ADULT_NUM" 		jdbcType="NUMBER"/>
+  		<result property="childNum" 	column="CHILD_NUM" 		jdbcType="NUMBER"/>  		 
+  		<result property="infantNum"	column="INFANT_NUM"     jdbcType="NUMBER" />
+  		<result property="leadTime" 	column="LEAD_TIME"		jdbcType="VARCHAR"/>
+  		<result property="stopOver"		column="STOPOVER"		jdbcType="VARCHAR"/>
+	
+  	</resultMap>
+  	
+  	<insert id="addFlight" parameterType="flight">
+		INSERT 
+		INTO flight(FLIGHT_ID,AIRLINE,PRICE,TRIP_COURSE,DEP_CITY,ARR_CITY,DEP_DATE_TIME,ARR_DATE_TIME,SEAT_GRADE,ADULT_NUM,CHILD_NUM,INFANT_NUM,LEAD_TIME,STOPOVER )
+		VALUES (
+					seq_order_FLIGHT_ID.NEXTVAL,
+					#{airline:VARCHAR},
+					#{price:NUMBER},
+					#{tripCourse:CHAR},
+					#{depCity:VARCHAR},
+					#{arrCity:VARCHAR},
+					#{depDate:TIMESTAMP},
+					#{arrDate:TIMESTAMP},
+					#{seatGrade:CHAR},
+					#{adultNum:NUMBER},
+					#{childNum:NUMBER},
+					#{infantNum:NUMBER},
+					#{leadTime:VARCHAR}
+					#{stopOver:VARCHAR}
+					
+					)
+	</insert>
+  	
+  	
+  	<select id="getFlight" parameterType="String" resultMap="orderSelectMap">
+  		SELECT 
+		flight_id , airline, dep_city , arr_city , dep_date, arr_date, lead_time , stopover 
+		FROM  flight f
+		WHERE flight_id = #{flightId}
+					
+  	</select>
+  	
+</mapper>
