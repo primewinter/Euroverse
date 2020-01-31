@@ -14,7 +14,7 @@ public class User {
 	private String userName; //user_name
 	private String nickname; //nickname
 	private String pwd; //pwd
-	private String role; //role     비인증(G) , 인증(Q) , 탈퇴(X) , 관리자(A) ,동행마스터(L leader)  , 멤버(M)
+	private String role; //role     비인증(G general) , 인증(Q qualified ) , 탈퇴(X) , 관리자(A) ,동행마스터(L leader)  , 멤버(M)
 	
 	private String email; //email
 	private String phone;  //phone

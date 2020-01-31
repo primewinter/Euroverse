@@ -48,7 +48,7 @@ public class PlanControllerTest {
 	
 	
 	//******** 		Controller Å×½ºÆ®		  ********//
-	@Test
+	//@Test
 	public void testGetPlanController() throws Exception {
 		Model model = new Model() {
 			
@@ -140,6 +140,13 @@ public class PlanControllerTest {
 	
 	
 	
+	@Test
+	public void testTest() throws Exception {
+		
+		
 	
+		
+		
+	}
 	
 }
