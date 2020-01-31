@@ -54,7 +54,6 @@ public class PlanController {
 	public String getPlan (	@RequestParam("planId") String planId, Model model	) throws Exception {
 	
 		Plan plan = planService.getPlan(planId);
-		//plan_id, plan_title, plan_img, plan_type, start_date, plan_status, (cr.sum - (cr.cnt-1)) plan_total_days, pt.plan_party_size 
 		
 		List<User> planPartyList = planService.getPlanPartyList(planId);	//planPartyList
 		plan.setPlanPartyList(planPartyList);
@@ -70,12 +69,7 @@ public class PlanController {
 		plan.setMemoList(memoList);
 		
 		
-		Calendar calendar = Calendar.getInstance();
-		int year = calendar.get(calendar.YEAR);
-		int month = calendar.get(calendar.MONTH);
-		int day = calendar.get(calendar.DAY_OF_MONTH);
-		
-		
+
 		
 		
 		
