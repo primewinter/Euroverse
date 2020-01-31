@@ -99,5 +99,34 @@
 		
 	</bean>
 	
+	<!-- javax.mail인 mail-1.4.7.jar lib에 저장 -->
+	<!--메일 발송을 위한 JavaMailSenderImpl 생성 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		
+		<!-- 메일 발송을 보낼 계정의 사이트의 SMTP URL 입력
+			 구글의 경우 SMTP URL은 smtp.gmail.com 이다.-->
+		
+		<property name="host" value="smtp.gmail.com" />
+		
+		<!-- 구글의 STMP Port 번호는 587 -->
+		<property name="port" value="587" />
+		
+		<!-- 메일 발송을 보낼  계정의 아이디 / 비밀번호 입력 -->
+		<property name="username" value="jiseong4577@gmail.com" />
+		<property name="password" value="qkrwltjd1" />
+		
+		
+		<property name="javaMailProperties">
+			<props>
+				<!-- 구글의 경우 인증에 TLS을 사용하기 때문에 TLS 인증 설정 
+					  단 이 경우 보안 수준이  낮은 앱에 엑세스했다는 경고 메일이 구글 계정으로 오면서 메일 발송이 제대로 되지 않는다
+					  이 경우 구글 계정의 설정을 보안 수준이 낮은 앱에서 엑세스하도록 하용을 해야 한다 -->
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
 	
 </beans>
