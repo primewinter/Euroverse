@@ -40,7 +40,8 @@
 		<result jdbcType="VARCHAR"		column="memo_id"			property="memoId"/>
 		<result jdbcType="VARCHAR"		column="memo_detail"		property="memoDetail"/>
 		<result jdbcType="TIMESTAMP"	column="memo_reg_date"		property="memoRegDate"/>
-		<result jdbcType="VARCHAR"		column="memo_reg_user"		property="memoRegUser"/>
+		<result jdbcType="VARCHAR"		column="user_id"		property="memoRegUser"/>
+		<result jdbcType="VARCHAR"		column="nickname"		property="regUserNickname"/>
 	</resultMap>
 	
 	
@@ -49,7 +50,7 @@
 	<!-- 		Daily SQL		 -->
 	
 	<!--  resultType map..??? -->
-	<select id="getBudgetOverview"	parameterType="string"	resultType="daily">
+	<select id="getBudgetOverview"	parameterType="string"	resultMap="dailySelectMap">
 		SELECT 	SUM(b.won) budget_amount, b.daily_cate  
 		FROM 	( SELECT daily_cate, 
 						DECODE(budget_currency, 'K', budget_amount, 'E', budget_amount*1300, 'G', budget_amount*1500, budget_amount) AS won 
@@ -57,7 +58,7 @@
 		GROUP BY b.daily_cate
 	</select>
 	
-	<select id="getBudgetList"	parameterType="string"	resultMap="daily">
+	<select id="getBudgetList"	parameterType="string"	resultMap="dailySelectMap">
 		SELECT 	d.daily_id, d.daily_cate, d.daily_detail, d.budget_amount, d.budget_currency 
 		FROM 	daily d 
 		WHERE 	d.plan_id = #{planId} 
@@ -65,14 +66,14 @@
 	</select>
 	
 	
-	<select id="getDailyList"	parameterType="string"	resultMap="daily">
+	<select id="getDailyList"	parameterType="string"	resultMap="dailySelectMap">
 		SELECT 	d.daily_id, d.daily_cate, d.daily_detail, d.day_no, d.day_time, d.budget_amount, d.budget_currency 
 		FROM 	daily d 
 		WHERE 	d.plan_id = #{planId} 
 		ORDER BY 	day_no, day_time
 	</select>
 	
-	<select id="getDaily"	parameterType="string"	resultMap="daily">
+	<select id="getDaily"	parameterType="string"	resultMap="dailySelectMap">
 		SELECT 	d.daily_id, d.daily_cate, d.daily_detail, d.day_no, d.day_time, d.budget_amount, d.budget_currency 
 		FROM 	daily d 
 		WHERE 	d.daily_id = #{dailyId}
@@ -103,7 +104,7 @@
 	
 	<!-- 		City_route SQL		 -->
 	
-	<select id="getCityRouteList"	parameterType="string"	resultMap="city">
+	<select id="getCityRouteList"	parameterType="string"	resultMap="citySelectMap">
 		SELECT 	cr.city_id, cr.city_name, cr.visit_order, cr.city_duration, cr.tran_type 
 		FROM 	city_route cr 
 		WHERE 	cr.plan_id = #{planId} 
@@ -113,7 +114,7 @@
 	<insert id="addCityRoute"	parameterType="city">
 		INSERT 
 		INTO 	city_route ( city_id, plan_id, city_name, visit_order, city_duration, tran_type ) 
-		VALUES 		( TO_CHAR(seq_city_route_city_id.NEXTVAL), #{planId}, #{cityName}, #{visitOrder}, #{cityDuration}, NULL )
+		VALUES 		( TO_CHAR(seq_city_route_city_id.NEXTVAL), #{planId}, #{cityName}, #{visitOrder}, 1, NULL )
 	</insert>
 	
 	<delete id="deleteCityRoute"	parameterType="string">
@@ -122,8 +123,8 @@
 		WHERE 	city_id = #{cityId}
 	</delete>
 	
-	<select id="getCityRoute"	parameterType="string">
-		SELECT 	cr.city_id, cr.city_name, cr.city_duration, cr.tran_type 
+	<select id="getCityRoute"	parameterType="string"	resultMap="citySelectMap">
+		SELECT 	cr.city_id, cr.city_name, cr.visit_order, cr.city_duration, cr.tran_type 
 		FROM 	city_route cr 
 		WHERE 	cr.city_id = #{cityId}
 	</select>
@@ -145,16 +146,11 @@
 	
 	<!-- 		Stuff SQL		 -->
 	
-	<insert id="addDefaultStuffs">
-		INSERT 
-		INTO 	stuff ( plan_id, stuff_id, stuff_name, stuff_check ) 
-		VALUES 		( TO_CHAR(seq_plan_plan_id.CURRVAL), TO_CHAR(seq_stuff_stuff_id.NEXTVAL), #{stuffName}, 'F' )
-	</insert>
-	
 	<select id="getStuffList"	parameterType="string"	resultMap="stuffSelectMap">
 		SELECT 	s.stuff_id, s.stuff_name, s.stuff_check 
 		FROM 	stuff s 
 		WHERE 	s.plan_id = #{planId}
+		ORDER BY s.stuff_id
 	</select>
 	
 	<update id="checkStuff"	parameterType="stuff">
@@ -192,12 +188,12 @@
 	
 	
 	<!-- 		Memo SQL		 -->
-	<select id="getMemoList"	parameterType="string">
+	<select id="getMemoList"	parameterType="string" resultMap="memoSelectMap">
 		SELECT 	m.memo_id, m.memo_detail, m.memo_reg_date, u.nickname, u.user_id 
 		FROM 	userss u, memo m 
 		WHERE 	m.memo_reg_user = u.user_id 
 			AND m.plan_id = #{planId} 
-		ORDER BY 	m.memo_reg_date DESC;
+		ORDER BY 	m.memo_reg_date DESC
 	</select>
 	
 	<insert id="addMemo"	parameterType="memo">
@@ -217,7 +213,6 @@
 		FROM 	memo 
 		WHERE 	memo_id = #{memoId}
 	</delete>
-
 
 
 </mapper>

@@ -47,7 +47,7 @@ public class Stuff {
 
 	@Override
 	public String toString() {
-		return "Stuff [planId=" + planId + ", stuffId=" + stuffId + ", stuffName=" + stuffName + ", stuffCheck="
+		return "\nStuff [planId=" + planId + ", stuffId=" + stuffId + ", stuffName=" + stuffName + ", stuffCheck="
 				+ stuffCheck + "]";
 	}
 

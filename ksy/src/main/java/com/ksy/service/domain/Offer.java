@@ -82,8 +82,5 @@ public class Offer {
 				+ ", offerDate=" + offerDate + "]";
 	}
 
-
-	
-	
 	
 }

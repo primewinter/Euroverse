@@ -68,7 +68,5 @@ public class Party {
 				+ refId + ", partyRole=" + partyRole + ", partyUserNickname=" + partyUserNickname + "]";
 	}
 
-
-
 	
 }
