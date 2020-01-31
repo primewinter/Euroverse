@@ -1,1 +1,217 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="UserMapper">
+
+
+<resultMap id="userSelectMap" type="user">
+	<result property="userId"		column="user_id"			jdbcType="VARCHAR"/>
+	<result property="userName"	column="user_name"		jdbcType="VARCHAR"/>
+	<result property="nickname"	column="nickname"		jdbcType="VARCHAR"/>
+	<result property="pwd"			column="pwd"			jdbcType="VARCHAR"/>
+	<result property="role"			column="role"			jdbcType="CHAR"/>
+	<result property="email"		column="email"			jdbcType="VARCHAR"/>
+	<result property="phone"		column="phone"			jdbcType="VARCHAR"/>
+	<result property="userImg"		column="user_img"		jdbcType="VARCHAR"/>
+	<result property="sex"			column="sex"				jdbcType="CHAR"/>
+	<result property="birth"		column="birth"			jdbcType="VARCHAR"/>
+	<result property="slot"			column="slot"				jdbcType="NUMERIC"/>
+	<result property="totalPoint"	column="total_point"		jdbcType="NUMERIC"/>
+	<result property="pushAgree"	column="push_agree"		jdbcType="CHAR"/>
+	<result property="regDate"		column="reg_date"		jdbcType="TIMESTAMP"/>
+	<result property="unRegDate"	column="unreg_date"		jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+
+ <resultMap id="pointSelectMap" type="point">
+	<result property="pointId"		column="point_id"			jdbcType="VARCHAR"/>
+	<result property="userId"		column="user_id"			jdbcType="VARCHAR"/>
+	<result property="refId"		column="ref_id"			jdbcType="VARCHAR"/>
+	<result property="usedType"		column="used_type"			jdbcType="CHAR"/>
+	<result property="usedPoint"		column="used_point"			jdbcType="NUMERIC"/>
+	<result property="usedDate"		column="used_date"			jdbcType="TIMESTAMP"/>
+</resultMap>	
+	
+
+<!-- 
+<resultMap id="statsSelectMap" type="stats">
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+</resultMap>
+
+
+
+<resultMap id="" type="">
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+</resultMap>
+
+
+<resultMap id="" type="">
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+</resultMap>
+
+ -->
+
+
+
+
+
+
+
+
+
+<!-- ===회원가입===
+
+회원가입 -->
+<insert id="addUser" parameterType="user">
+INSERT INTO USERS
+( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot , total_point , push_agree , reg_date, unreg_date) 
+VALUES(#{userId} , #{userName} , #{nickname} , #{pwd} , #{role} , #{email} , #{phone} , #{userImg} , #{sex} , #{birth} , #{slot} , #{totlaPoint} , #{pushAgree} , #{regDate} , #{unRegDate})
+</insert>
+
+
+<!-- 
+============
+
+
+===아이디찾기====
+
+ -->
+
+<!-- 아이디로 유저정보 가져오기 -->
+<select id = "getUser" parameterType="String" resultType="userSelectMap">
+SELECT  
+user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot , total_point , push_agree , reg_date, unreg_date
+FROM USERS
+WHERE user_id = #{value}
+</select>
+
+
+
+
+
+<!-- 핸드폰번호로 아이디찾기 -->
+<select id="getPhoneUserId" parameterType="user" resultType="String">
+SELECT 
+user_id 
+FROM USERS 
+WHERE user_name = #{userName} AND cell_phone = #{phone} AND  role != 'x' 
+</select>
+
+
+
+
+
+
+
+<!-- 이메일로 아이디찾기 -->
+<select id="getEmailUserId" parameterType="user" resultType="String">
+SELECT 
+user_id 
+FROM USERS 
+WHERE user_name = #{userName} AND email = #{email}  AND  role != 'x' 
+</select>
+
+
+
+
+
+<!-- 비밀번호 변경 -->
+<update id="updatePwd" parameterType="user">
+UPDATE 
+USERS SET pwd = #{pwd} 
+WHERE user_id = #{userId}
+</update>
+
+
+
+
+
+<!-- 회원정보 수정 -->
+<update id="updateUser" parameterType="user">
+UPDATE
+USERS SET  nickname = #{nickname} ,  email = #{email} , phone = #{phone} , user_img = #{userImg} , sex = #{sex} , birth = #{birth}  , push_agree = #{pushAgree}
+WHERE user_id = #{userId}
+</update>
+
+
+
+
+
+
+<!-- 회원인증 -->
+<update id = "updateRole" parameterType="String">
+UPDATE
+USERS SET role = 'Q'
+WHERE user_id = #{value}
+</update>
+
+
+
+
+
+
+
+
+<!-- 회원탈퇴 -->
+<update id = "unRegister" parameterType="String">
+UPDATE
+USERS SET role = 'X' AND nickname =  null
+WHERE user_id = #{value}
+</update>
+
+
+<!-- 
+이름과휴대폰으로 아이디찾기
+<select id="checkPhoneId" parameterType="user" resultType="String">
+SELECT
+user_id
+
+
+</select>
+ -->
+
+
+<!-- 핸드폰번호로 아이디찾기 -->
+<select id="getPhoneUserId" parameterType="user" resultType="String">
+SELECT 
+user_id 
+FROM USERS 
+WHERE user_name = #{userName} AND cell_phone = #{phone} AND  role != 'x' 
+</select>
+
+
+
+
+
+
+
+<!-- 이메일로 아이디찾기 -->
+<select id="getEmailUserId" parameterType="user" resultType="String">
+SELECT 
+user_id 
+FROM USERS 
+WHERE user_name = #{userName} AND email = #{email}  AND  role != 'x' 
+</select>
+
+</mapper>
