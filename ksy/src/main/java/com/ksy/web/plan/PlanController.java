@@ -42,6 +42,8 @@ public class PlanController {
 	@RequestMapping( value = "getPlanList", method = RequestMethod.GET )
 	public String getPlanList (	@RequestParam("userId") String userId, Model model, HttpSession session	) throws Exception {
 		
+		System.out.println("getPlanList! ");
+		
 		User user = (User)session.getAttribute("user");
 		//test용 if문 : 회원아이디 셋팅
 		if(user == null) {
@@ -52,7 +54,7 @@ public class PlanController {
 		
 		model.addAttribute("list", listPlan);
 		
-		return "forward:/plan/getPlanList.jsp";
+		return "forward:/view/plan/getPlanList.jsp";
 	}
 	
 	
