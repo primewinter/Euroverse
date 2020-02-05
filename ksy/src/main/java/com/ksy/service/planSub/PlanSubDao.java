@@ -15,11 +15,13 @@ public interface PlanSubDao {
 
 	public List<Daily> getDailyList(String planId) throws Exception;
 
-	public Daily getDaily(String dailyId) throws Exception;
+	public Daily getDaily(Daily daily) throws Exception;
 	
 	public void addDaily(Daily daily) throws Exception;
 	
 	public void updateDaily(Daily daily) throws Exception;
+	
+	public void deleteDaily(String dailyId) throws Exception;
 	
 	
 	

@@ -4,14 +4,14 @@ import java.sql.Timestamp;
 
 public class Order {
 	private String orderId; //order_id
-	private String buyerId; //buyer_id
+	private User buyerId; //buyer_id
 	private String buyerName; //buyer_name
 	private String buyerPhone; //buyer_phone
 	private String buyerEmail; //buyer_email
 	private Timestamp orderDate; //order_date
 	private String orderStatus; //order_status
-	private String flightId; //flight_id
-	private String roomId; //room_id
+	private Flight flightId; //flight_id
+	private Room roomId; //room_id
 	private Timestamp payDate; //pay_date
 	private int payOpt; //pay_opt
 	private int payInstal; //pay_instal
@@ -26,11 +26,11 @@ public class Order {
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
-	public String getBuyerId() {
+	public User getBuyerId() {
 		return buyerId;
 	}
-	public void setBuyerId(String buyerId) {
-		this.buyerId = buyerId;
+	public void setBuyerId(User userId) {
+		this.buyerId = userId;
 	}
 	public String getBuyerName() {
 		return buyerName;
@@ -62,16 +62,16 @@ public class Order {
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
-	public String getFlightId() {
+	public Flight getFlightId() {
 		return flightId;
 	}
-	public void setFlightId(String flightId) {
+	public void setFlightId(Flight flightId) {
 		this.flightId = flightId;
 	}
-	public String getRoomId() {
+	public Room getRoomId() {
 		return roomId;
 	}
-	public void setRoomId(String roomId) {
+	public void setRoomId(Room roomId) {
 		this.roomId = roomId;
 	}
 	public int getPayOpt() {

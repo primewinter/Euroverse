@@ -15,6 +15,7 @@ public class Comment {
 	private String secret; //secret
 	private String cmtImg;  
 	private String deleted; //deleted
+	private String postWriterId;
 	
 	public Comment() {
 		
@@ -69,6 +70,15 @@ public class Comment {
 	}
 
 	public String getCmtLikeFlag() {
+		
+		if(cmtLikeFlag == null || cmtLikeFlag.equals("")) {
+			return "F";
+		}else if(cmtLikeFlag == "F") {
+			return "F";
+		}else if(cmtLikeFlag == "T") {
+			return "T";
+		}
+		
 		return cmtLikeFlag;
 	}
 
@@ -108,12 +118,20 @@ public class Comment {
 		this.deleted = deleted;
 	}
 
+	public String getPostWriterId() {
+		return postWriterId;
+	}
+
+	public void setPostWriterId(String postWriterId) {
+		this.postWriterId = postWriterId;
+	}
+
 	@Override
 	public String toString() {
 		return "Comment [postId=" + postId + ", cmtId=" + cmtId + ", cmtWriterId=" + cmtWriterId + ", cmtContent="
 				+ cmtContent + ", cmtDate=" + cmtDate + ", blocked=" + blocked + ", cmtLikeFlag=" + cmtLikeFlag
 				+ ", cmtLikeCount=" + cmtLikeCount + ", secret=" + secret + ", cmtImg=" + cmtImg + ", deleted="
-				+ deleted + "]";
+				+ deleted + ", postWriterId=" + postWriterId + "]";
 	}
 
 }
