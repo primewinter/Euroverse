@@ -48,7 +48,7 @@ public class PlanControllerTest {
 	
 	
 	//******** 		Controller Å×½ºÆ®		  ********//
-	//@Test
+	@Test
 	public void testGetPlanController() throws Exception {
 		Model model = new Model() {
 			
@@ -135,12 +135,12 @@ public class PlanControllerTest {
 		System.out.println("\n\n- - - - - - - - - - - - plan - - - - - - - - - - \n");
 		System.out.println(plan);
 		
-		String returnString = "forward:/plan/getPlan.jsp";
+		//String returnString = "forward:/plan/getPlan.jsp";
 	}
 	
 	
 	
-	@Test
+	//@Test
 	public void testTest() throws Exception {
 		
 		

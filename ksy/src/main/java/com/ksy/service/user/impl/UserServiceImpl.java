@@ -1,5 +1,76 @@
 package com.ksy.service.user.impl;
 
-public class UserServiceImpl {
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import com.ksy.service.domain.User;
+import com.ksy.service.user.UserDao;
+import com.ksy.service.user.UserService;
+
+@Service("userServiceImpl")
+public class UserServiceImpl implements UserService {
+
+	@Autowired
+	@Qualifier("userDaoImpl")
+	private UserDao userDao;
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+	
+	
+	public UserServiceImpl() {
+		super();
+	}
+
+
+	@Override
+	public void addUser(User user) throws Exception {
+		System.out.println(this.getClass()+"addUser");
+		userDao.addUser(user);
+	}
+
+
+	@Override
+	public void updateUser(User user) throws Exception {
+		System.out.println(this.getClass()+"updateUser");
+		userDao.updateUser(user);
+	}
+
+
+	@Override
+	public void updatePwd(User user) throws Exception {
+		System.out.println(this.getClass()+"updatePwd");
+		userDao.updatePwd(user);
+	}
+
+
+	@Override
+	public void updateRole(String userId) throws Exception {
+		System.out.println(this.getClass()+"updateRole");
+		userDao.updateRole(userId);
+	}
+
+
+	@Override
+	public void unRegister(String userId) throws Exception {
+		System.out.println(this.getClass()+"unRegister");
+		userDao.unRegister(userId);
+	}
+
+
+	@Override
+	public User getUser(String userId) throws Exception {
+		System.out.println(this.getClass()+"getUser");
+		return userDao.getUser(userId);
+	}
+
+
+	@Override
+	public List<String> getUserIdList(User user) throws Exception {
+		System.out.println(this.getClass()+"getUserIdList");
+		return userDao.getUserIdList(user);
+	}
 }

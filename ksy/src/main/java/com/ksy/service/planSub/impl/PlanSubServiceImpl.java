@@ -45,8 +45,8 @@ public class PlanSubServiceImpl implements PlanSubService {
 	}
 
 	@Override
-	public Daily getDaily(String dailyId) throws Exception {
-		return planSubDao.getDaily(dailyId);
+	public Daily getDaily(Daily daily) throws Exception {
+		return planSubDao.getDaily(daily);
 	}
 
 	@Override
@@ -58,6 +58,13 @@ public class PlanSubServiceImpl implements PlanSubService {
 	public void updateDaily(Daily daily) throws Exception {
 		planSubDao.updateDaily(daily);
 	}
+	
+	@Override
+	public void deleteDaily(String dailyId) throws Exception {
+		planSubDao.deleteDaily(dailyId);
+	}
+	
+	
 
 	@Override
 	public List<City> getCityRouteList(String planId) throws Exception {
@@ -133,6 +140,8 @@ public class PlanSubServiceImpl implements PlanSubService {
 	public void deleteMemo(String memoId) throws Exception {
 		planSubDao.deleteMemo(memoId);
 	}
+
+
 	
 	
 

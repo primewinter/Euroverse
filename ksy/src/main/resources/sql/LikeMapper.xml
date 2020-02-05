@@ -15,7 +15,7 @@
 	</resultMap>
 	
 	<update id="like_check" parameterType="like">
-	    UPDATE "LIKE"
+	    UPDATE likes
 	    <set>
 	    	like_check = 'T'
 	    </set> 
@@ -23,7 +23,7 @@
 	</update>
 	
 	<update id="like_check_cancel" parameterType="like">
-		UPDATE "LIKE"
+		UPDATE likes
 		<set>
 			like_check = 'F'
 		</set>
@@ -32,19 +32,19 @@
 	
 	<select id="countByLike" parameterType="like" resultType="int">
 	    SELECT COUNT(like_id)
-	    FROM "LIKE"
+	    FROM likes
 	    WHERE like_user_id = #{likeUserId} AND ref_id = #{refId}
 	</select>
 
 	<select 	id="getLike"	parameterType="like"	resultMap="likeSelectMap">
 		SELECT
 		like_id , like_type , ref_id , like_user_id , like_check
-		FROM "LIKE"
+		FROM likes
 		WHERE like_user_id = #{likeUserId} AND ref_id = #{refId}
 	</select>
 	 
 	<insert id="addLike" parameterType="like">
-		INSERT INTO "LIKE"(like_id , like_type , ref_id , like_user_id , like_check) 
+		INSERT INTO likes(like_id , like_type , ref_id , like_user_id , like_check) 
 		VALUES ( SEQ_like_like_id.NEXTVAL , 'C' , #{refId} , #{likeUserId} , 'F' )
     </insert>
 

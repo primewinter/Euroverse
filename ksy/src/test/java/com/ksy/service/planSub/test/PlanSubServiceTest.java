@@ -66,8 +66,8 @@ public class PlanSubServiceTest {
 	public void testGetDaily() throws Exception {
 		
 		String dailyId = "10001";
-		Daily daily = planSubService.getDaily(dailyId);
-		System.out.println("	daily :: "+ daily);
+		//Daily daily = planSubService.getDaily(dailyId);
+		//System.out.println("	daily :: "+ daily);
 	}
 	
 	//@Test
