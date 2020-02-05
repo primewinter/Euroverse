@@ -12,7 +12,7 @@ public class Recomment {
 	private Timestamp rcmtDate; //cmt_date
 	private String blocked; //blocked
 	private String rcmtLikeFlag; 
-	private int rcmtLikeCount; 
+	private int rcmtLikeCount; //cmt_like_count
 	private String secret; //secret
 	private String rcmtImg; 
 	private String deleted; //deleted

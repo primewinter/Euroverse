@@ -73,10 +73,12 @@
 		ORDER BY 	day_no, day_time
 	</select>
 	
-	<select id="getDaily"	parameterType="string"	resultMap="dailySelectMap">
+	<select id="getDaily"	parameterType="daily"	resultMap="dailySelectMap">
 		SELECT 	d.daily_id, d.daily_cate, d.daily_detail, d.day_no, d.day_time, d.budget_amount, d.budget_currency 
 		FROM 	daily d 
-		WHERE 	d.daily_id = #{dailyId}
+		WHERE 	d.plan_id = #{planId}
+			AND d.day_no = #{dayNo} 
+			AND d.day_time = #{dayTime}
 	</select>
 	
 	<insert id="addDaily"	parameterType="daily">
@@ -88,16 +90,21 @@
 	<update id="updateDaily"	parameterType="daily">
 		UPDATE 	daily 
 		<set>
-			daily_cate = #{dailyCate}, 
-			daily_detail = #{dailyDetail}, 
-			day_no = #{dayNo}, 
-			day_time = #{dayTime}, 
-			budget_amount = #{budgetAmount}, 
-			budget_currency = #{budgetCurrency}
+			daily_cate = #{dailyCate:VARCHAR}, 
+			daily_detail = #{dailyDetail:VARCHAR}, 
+			day_no = #{dayNo:VARCHAR}, 
+			day_time = #{dayTime:VARCHAR}, 
+			budget_amount = #{budgetAmount:NUMERIC}, 
+			budget_currency = #{budgetCurrency:VARCHAR}
 		</set> 
-		WHERE daily_id = #{dailyId}
+		WHERE daily_id = #{dailyId:VARCHAR}
 	</update>
 	
+	<delete id="deleteDaily"	parameterType="string">
+		DELETE 
+		FROM 	daily
+		WHERE 	daily_id = #{dailyId}
+	</delete>
 	
 	
 	
