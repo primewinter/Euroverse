@@ -45,17 +45,23 @@
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->
-	<mappers>
+		
+		
+		<mappers>
 		<mapper resource="sql/PlanMapper.xml"/>
 		<mapper resource="sql/PlanSubMapper.xml"/>
 		
-		
-		<!-- 
 		<mapper resource="sql/UserMapper.xml"/>
+		
 		<mapper resource="sql/PushMapper.xml"/>
-		<mapper resource="sql/OrderMapper.xml"/>
-		<mapper resource="sql/PostMapper.xml"/>
+
+		<!-- <mapper resource="sql/OrderMapper.xml"/>
+		<mapper resource="sql/FlightMapper.xml"/>
+		 <mapper resource="sql/RoomMapper.xml"/> 
 		 -->
+		
+		<!-- <mapper resource="sql/CommunityMapper.xml"/>
+		<mapper resource="sql/LikeMapper.xml"/>  -->
 	</mappers>
 
 </configuration>
