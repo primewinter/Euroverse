@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import com.ksy.common.util.Util;
+
 public class Plan {
 	
 	private String planId;				// plan_id (VARCHAR2) 
@@ -110,6 +112,7 @@ public class Plan {
 		if(startDate != null) {
 			Date dateForDay = new Date(startDate.getTime());		//요일을 위한 dateForDay
 			this.startDateString = startDate.toString().substring(0,10) + " : "+dateForDay.toString().substring(0,3);
+			this.planDday = Util.getDday(startDate);
 		}
 	}
 
@@ -141,6 +144,10 @@ public class Plan {
 	}
 	public void setPlanTotalDays(int planTotalDays) {
 		this.planTotalDays = planTotalDays;
+		
+		if(planTotalDays != 0) {
+			this.endDate = Util.getEndDate(startDate, planTotalDays);
+		}
 	}
 
 	public int getPlanDday() {

@@ -16,7 +16,7 @@
 		<result property="read" 					column="read" 					jdbcType="CHAR"/>
 		<result property="cmtCount" 			column="cmt_count" 		jdbcType="INTEGER"/>
 		
-		<result property="title"						column="title"						jdbcType="VARCHAR"/>
+		<result property="title"						column="post_title"			jdbcType="VARCHAR"/>
 		<result property="title"						column="cmt_content"		jdbcType="VARCHAR"/>
 		
 	</resultMap>
@@ -28,10 +28,11 @@
 	</insert>
 	
 	<sql id="select-pushList">
-		SELECT  p.push_id, p.push_type, p.ref_id, p.push_date, p.read, p.cmt_Count, b.title
-		FROM push p, board b
-		WHERE p.ref_id = b.board_no
-						AND receiver_id = #{receiverId} AND deleted = 'F'
+		SELECT  p.push_id, p.push_type, p.ref_id, p.push_date, p.read, p.cmt_Count, b.post_title, c.cmt_content
+		FROM push p, post b, comments c
+		WHERE p.ref_id = b.post_id
+						AND p.ref_id = c.cmt_id
+						AND p.receiver_id = #{receiverId} AND p.deleted = 'F'
 		ORDER BY push_date DESC
 	</sql>
 	
