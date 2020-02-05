@@ -41,8 +41,8 @@ public class PlanSubDaoImpl implements PlanSubDao {
 		return sqlSession.selectList("PlanSubMapper.getDailyList", planId);
 	}
 
-	public Daily getDaily(String dailyId) throws Exception {
-		return sqlSession.selectOne("PlanSubMapper.getDaily", dailyId);
+	public Daily getDaily(Daily daily) throws Exception {
+		return sqlSession.selectOne("PlanSubMapper.getDaily", daily);
 	}
 
 	public void addDaily(Daily daily) throws Exception {
@@ -52,6 +52,12 @@ public class PlanSubDaoImpl implements PlanSubDao {
 	public void updateDaily(Daily daily) throws Exception {
 		sqlSession.update("PlanSubMapper.updateDaily", daily);
 	}
+	
+	@Override
+	public void deleteDaily(String dailyId) throws Exception {
+		sqlSession.delete("PlanSubMapper.deleteDaily",dailyId);
+	}
+	
 
 
 	public List<City> getCityRouteList(String planId) throws Exception {
@@ -115,6 +121,8 @@ public class PlanSubDaoImpl implements PlanSubDao {
 	public void deleteMemo(String memoId) throws Exception {
 		sqlSession.delete("PlanSubMapper.deleteMemo", memoId);
 	}
+
+	
 	
 	
 

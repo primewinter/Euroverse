@@ -83,7 +83,7 @@
 				( SELECT ref_id, COUNT(*) plan_party_size FROM party WHERE party_type = 'P' GROUP BY ref_id ) pt 
 		WHERE 	p.plan_id = cr.plan_id(+) AND pt.ref_id = p.plan_id AND p.deleted = 'F' 
 			AND p.plan_id IN ( SELECT ref_id FROM party WHERE party_user_id = #{userId} AND party_type = 'P' ) 
-		ORDER BY 	p.plan_id
+		ORDER BY 	p.plan_id DESC
 	</select>
 	
 	<update id="updatePlan"	parameterType="plan">

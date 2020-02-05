@@ -1,5 +1,6 @@
 package com.ksy.web.planSub;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,32 +45,54 @@ public class PlanSubRestController {
 		return dailyList;
 	}
 	
+	
+	@RequestMapping( value = "json/getDaily", method = RequestMethod.POST )
+	public Daily getDaily( @RequestBody Daily daily ) throws Exception {
+		
+		Daily returnDaily = new Daily();
+		returnDaily = planSubService.getDaily(daily);
+		
+		return returnDaily;
+	}
+	
 	@RequestMapping( value = "json/addDaily", method = RequestMethod.POST )
 	public List<Daily> addDaily( @RequestBody Daily daily ) throws Exception {
+		
+		System.out.println("\n\n\n\n /planSub/json/addDaily 실행");
+		System.out.println(" daily = "+daily +"\n\n\n");
 		
 		planSubService.addDaily(daily);
 		
 		List<Daily> dailyList = planSubService.getDailyList(daily.getPlanId());
-		
 		return dailyList;
 	}
 	
-	@RequestMapping( value = "json/updateDaily/{dailyId}", method = RequestMethod.GET )
-	public Daily updateDaily( @PathVariable String dailyId ) throws Exception {
-		
-		Daily daily = planSubService.getDaily(dailyId);
-		
-		return daily;
-	}
+	/*
+	 * @RequestMapping( value = "json/updateDaily/{dailyId}", method =
+	 * RequestMethod.GET ) public Daily updateDaily( @PathVariable String dailyId )
+	 * throws Exception {
+	 * 
+	 * 
+	 * //Daily daily = planSubService.getDaily(dailyId);
+	 * 
+	 * return daily; }
+	 */
 	@RequestMapping( value = "json/updateDaily", method = RequestMethod.POST )
 	public List<Daily> updateDaily( @RequestBody Daily daily ) throws Exception {
 		
 		planSubService.updateDaily(daily);
 		
 		List<Daily> dailyList = planSubService.getDailyList(daily.getPlanId());		//planId 어디서 갖고올지?
-		
 		return dailyList;
 	}
+	
+	@RequestMapping( value = "json/deleteDaily/{dailyId}", method = RequestMethod.GET )
+	public void deleteDaily( @PathVariable String dailyId ) throws Exception {
+		
+		planSubService.deleteDaily(dailyId);
+	}
+	
+	
 	
 	
 	@RequestMapping( value = "json/getCityRouteList/{planId}", method = RequestMethod.GET )
@@ -162,16 +185,13 @@ public class PlanSubRestController {
 		planSubService.updateStuffName(stuff);
 	}
 	
-	@RequestMapping( value = "json/addStuff/{stuffName}/{planId}", method = RequestMethod.GET )
-	public List<Stuff> addStuff( @PathVariable String stuffName, @PathVariable String planId ) throws Exception {
-		
-		Stuff stuff = new Stuff();
-		stuff.setStuffName(stuffName);
-		stuff.setPlanId(planId);
+	//GET으로 했더니 stuffName 한글 입력하면 깨져 들어와서 POST로 변경!!!
+	@RequestMapping( value = "json/addStuff", method = RequestMethod.POST )
+	public List<Stuff> addStuff( @RequestBody Stuff stuff ) throws Exception {
 		
 		planSubService.addStuff(stuff);
 		
-		List<Stuff> stuffList = planSubService.getStuffList(planId);
+		List<Stuff> stuffList = planSubService.getStuffList(stuff.getPlanId());
 		return stuffList;
 	}
 	
