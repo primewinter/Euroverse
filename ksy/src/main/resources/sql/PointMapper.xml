@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PointMapper">
+	
+	<resultMap type="point" id="pointSelectMap">
+	
+		<result property="buyer.userId" 	column="user_id" 	jdbcType="VARCHAR"	/>
+  		<result property="pointId" 			column="point_id" 	jdbcType="VARCHAR"	/>
+  		<result property="refId"			column="ref_id"		jdbcType="VARCHAR"	/>
+  		<result property="usedType" 		column="used_type"	jdbcType="CHAR"/>
+  		<result property="usedPoint"		column="used_point" jdbcType="NUMERIC"/>
+  		<result property="usedDate" 		column="used_date" 	jdbcType="TIMESTAMP"/>
+	
+  	</resultMap>
+  	
+  		<insert id="addPoint" parameterType="point">
+		INSERT 
+		INTO point(user_id, point_id, ref_id, used_type, used_point, used_date)
+		VALUES (
+					#{buyer.userId:VARCHAR},
+					seq_point_point_id.NEXTVAL,
+					#{refId:VARCHAR},
+					#{usedType:CHAR},
+					#{usedPoint:VARCHAR},
+					SYSDATE
+					
+					)
+	</insert>
+	
+	
+	 
+	   <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+		FROM ( SELECT prod_no, buyer_id, payment_option, receiver_name, receiver_phone, DEMAILADDR, dlvy_request,count, dlvy_date, order_data, tran_status_code, tran_no 
+					FROM orders
+						<if test="searchCondition != null">
+							<trim prefix="WHERE" prefixOverrides="AND | OR">
+							
+								<if test=" searchCondition == 0 and searchKeyword !='' ">
+									prod_no = #{searchKeyword}
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+									buyer_id = #{searchKeyword}
+								</if>
+								<if test=" searchCondition == 2 and searchKeyword !='' ">
+									receiver_name = #{searchKeyword}
+								</if>
+							</trim>
+						</if> ) countTable						
+	 </select>
+  	
+</mapper>

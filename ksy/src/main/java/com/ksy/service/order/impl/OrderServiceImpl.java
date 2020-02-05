@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ksy.common.Search;
 import com.ksy.service.domain.Order;
+import com.ksy.service.domain.Point;
 import com.ksy.service.order.OrderDao;
 import com.ksy.service.order.OrderService;
 
@@ -32,6 +33,9 @@ public class OrderServiceImpl implements OrderService{
 	
 	public void addRoomOrder(Order order) throws Exception {
 		orderDao.addRoomOrder(order);
+	}
+	public void addPoint(Point point) throws Exception {
+		orderDao.addPoint(point);
 	}
 	public Order getFlightOrder (String orderId) throws Exception {
 		return orderDao.getFlightOrder(orderId);

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ksy.common.Search;
 import com.ksy.service.domain.Order;
+import com.ksy.service.domain.Point;
 import com.ksy.service.order.OrderDao;
 
 @Repository("orderDaoImpl")
@@ -29,7 +30,9 @@ public class OrderDaoImpl implements OrderDao {
 	public void addRoomOrder(Order order) throws Exception {
 		sqlSession.insert("OrderMapper.addRoomOrder", order);
 	}
-	
+	public void addPoint(Point point) throws Exception{
+		sqlSession.insert("PointMapper.addPoint", point);
+	}
 	public Order getFlightOrder(String orderId) throws Exception{
 		return sqlSession.selectOne("OrderMapper.getFlightOrder", orderId);
 	}

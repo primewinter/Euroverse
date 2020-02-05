@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ksy.common.Search;
 import com.ksy.service.domain.Order;
+import com.ksy.service.domain.Point;
 
 
 public interface OrderDao {
@@ -12,6 +13,8 @@ public interface OrderDao {
 		public void addFlightOrder(Order order) throws Exception;
 		
 		public void addRoomOrder(Order order) throws Exception;
+		
+		public void addPoint(Point point) throws Exception;
 		
 		public Order getFlightOrder(String orderId) throws Exception;
 		
