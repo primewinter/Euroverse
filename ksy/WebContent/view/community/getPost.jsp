@@ -16,15 +16,17 @@
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
 	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+    <link href="/css/animate.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
    
     <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
@@ -53,6 +55,7 @@
 					self.location = "/community/deletePost?postId=${post.postId}"
 			 });
 		});
+		
 		//좋아요 구현
 		function like(){
 			console.log($('#likeform').serialize());
@@ -77,6 +80,12 @@
 		function login_need(){
 			alert("로그인 후 이용 가능")
 		}
+
+		function reportshow(refId, repTar){ 
+	    	$("#refId").attr('value',''+refId+'');
+	    	$("#reportTarget").attr('value',''+repTar+'');
+	        $("#dialog-add").dialog("open");     
+	    };
 		
 		$(function(){
 
@@ -107,10 +116,6 @@
 		        ]
 		    });
 
-		    $(".glyphicon.glyphicon-remove").click(function(){       
-		        $("#dialog-add").dialog("open");     
-		    });
-		    
 		    $('#reportReason').change(function() {
 				if($('#reportReason option:selected').val() == 'E'){
 					$('.layer').show();
@@ -120,6 +125,30 @@
 			});
 		});
 		
+		function addBookMark(postId){
+
+			$.ajax({
+				url : '/community/json/addBookMark/'+postId ,
+				type : "GET" ,
+				cache : false ,
+				dataType : "json" ,
+				success : function(data) {
+					var msg = '';
+					msg += data.msg;
+					alert(msg);
+					
+					if(data.likeCheck == 'F'){
+					  $(".glyphicon.glyphicon-star").attr('class','glyphicon glyphicon-star-empty');
+					}else{
+					  $(".glyphicon.glyphicon-star-empty").attr('class','glyphicon glyphicon-star');
+					}      
+				},
+				error: function(request, status, error){
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
+		}
+
 	</script>
 	
 </head>
@@ -140,8 +169,8 @@
 	      <option value="E">기타</option>
 	    </select>
 	    <div class="layer"><input type="text" id="reportContent" name="reportContent" placeholder="기타 내용을 입력하세요."/></div>
-	      <input type="hidden" id="refId" name="refId" value="${post.postId}">
-	      <input type="hidden" id="reportTarget" name="reportTarget" value="P">
+	      <input type="hidden" id="refId" name="refId" value="">
+	      <input type="hidden" id="reportTarget" name="reportTarget" value="">
 	  </form>	
 	</div>
 	
@@ -159,8 +188,14 @@
 			<input type="hidden" name="postId" value="${post.postId}">
 			<input type="button" value="좋아요!" onclick="return like()"> 
 			<span id="like_result">${post.postLikeCount}</span> 
-	  &nbsp;<i class="glyphicon glyphicon-remove"></i>
+	  &nbsp;<i onclick="reportshow('${post.postId}','P')" class="glyphicon glyphicon-remove"></i>
 		</form>
+		  <c:if test="${post.postLikeFlag == 'F' || post.postLikeFlag == null}">
+			<i onclick="addBookMark(${post.postId})" class="glyphicon glyphicon-star-empty"></i>
+		  </c:if>
+		  <c:if test="${post.postLikeFlag == 'T' }">
+		    <i onclick="addBookMark(${post.postId})" class="glyphicon glyphicon-star"></i>
+		  </c:if>
 		</div>
 		
 		<hr/>
@@ -175,6 +210,19 @@
 			<div class="col-xs-8 col-md-4">${post.postContent}</div>
 		</div>
 		
+		<hr/>
+		
+		<div class="row">
+			<div class="col-xs-8 col-md-4">
+			태그
+			<c:set var="i" value="0"/>
+			<c:forEach var="tag" items="${tag}">
+			<c:set var="i" value="${ i+1 }"/>
+			<a href="">${tag.tagContent}</a>
+			</c:forEach>
+			</div>
+		</div>
+	
 		<hr/>
 		
 		<c:if test="${user.userId == post.postWriterId.userId}">

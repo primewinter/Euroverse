@@ -53,9 +53,7 @@
 		 $(function() {
 			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( "button.btn.btn-default" ).on("click" , function() {
-				 if (event.keyCode == 13) {   	 
-				 	fncGetUserList(1);
-				 }
+			 	fncGetUserList(1);
 			 });
 		 });
 		
@@ -98,7 +96,27 @@
 	<div class="container">
 	
 		<div class="page-header text-info">
-	       <h3>자유게시판</h3>
+		<c:if test="${param.boardName=='A'}">
+			<h3>자유게시판</h3>
+		</c:if>
+		<c:if test="${param.boardName=='B'}">
+			<h3>정보공유</h3>
+		</c:if>
+		<c:if test="${param.boardName=='C'}">
+			<h3>인기글게시판</h3>
+		</c:if>
+		<c:if test="${param.boardName=='D'}">
+			<h3>동행찾기</h3>
+		</c:if>
+		<c:if test="${param.boardName=='E'}">
+			<h3>플래너공유</h3>
+		</c:if>
+		<c:if test="${param.boardName=='F'}">
+			<h3>여행후기</h3>
+		</c:if>
+		<c:if test="${param.boardName=='G'}">
+			<h3>QnA</h3>
+		</c:if>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -112,12 +130,12 @@
 		    
 		    <div class="col-md-6 text-right">
 			    <form class="form-inline" name="detailForm">
-			    
+			      <input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>제목</option>
 						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>닉네임</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>태그</option>
+						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>태그</option>
 					</select>
 				  </div>
 				  
@@ -169,7 +187,6 @@
 			  <td align="left">${post.views}</td>
 			  <td align="left">${post.postLikeCount}</td>
 			</tr>
-			  <input type="hidden" id="boardName" name="boardName" value="${post.boardName}"/>
           </c:forEach>
         
         </tbody>

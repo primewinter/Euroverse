@@ -85,6 +85,7 @@
 				}else{
 					output += "<a onclick='login_need();'><input type='text' value='♡'></a><span id='"+JSONData.list[i].cmtId+"count'>"+JSONData.list[i].cmtLikeCount+"</span>"
 				}
+					output += "&nbsp;<i onclick='reportshow("+JSONData.list[i].cmtId+",\"C\");' class='glyphicon glyphicon-remove'></i>";
 				if(JSONData.list[i].secret == "T"){
 				if(JSONData.userId == JSONData.list[i].cmtWriterId.userId || JSONData.userId == JSONData.list[i].postWriterId){
 					output += "<h5 class='old' id='"+JSONData.list[i].cmtId+"old'>"+JSONData.list[i].cmtContent+"<font color=orange> *비밀댓글입니다.*</font></h5>"
@@ -167,11 +168,7 @@
 		}
 		
 		function like_func(cmtId){
-			
-			/* var frm_read = $('#frm_read');
-		  	var cmtId = $("#"+cmtId+"ddddd", frm_read).val(); */
 
-			console.log("fgsfgs : "+cmtId);  
 			$.ajax({
 				url : '/community/json/like/'+cmtId ,
 				type : "GET" ,
@@ -197,7 +194,7 @@
 				}
 			});
 		}
-		
+	
 	</script>
     
 </head>
