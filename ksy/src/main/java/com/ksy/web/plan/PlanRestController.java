@@ -2,6 +2,8 @@ package com.ksy.web.plan;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,32 +68,50 @@ public class PlanRestController {
 	
 	/* findUser...? Plan컨트롤러에 위치하는게 맞는가 */
 	@RequestMapping( value = "json/findUser/{planId}/{userId}", method = RequestMethod.GET )
-	public String findUser( @PathVariable String planId, @PathVariable String userId ) throws Exception {
+	public String[] findUser( @PathVariable String planId, @PathVariable String userId ) throws Exception {
 		
-		String findUserId = planService.findUserId(userId);
+		String findUserId[] = new String[2];
+		
+		findUserId[0] = "A";
+		findUserId[1] = planService.findUserId(userId);
 		
 		Party party = new Party();
 		party.setRefId(planId);
 		party.setPartyUserId(userId);
 		
-		if( findUserId != null ) {	//DB에 등록된 회원(가입회원)
+		if( findUserId[1] != null ) {	//DB에 등록된 회원(가입회원)
 			String checkUserId = planService.checkUserFromParty(party);
 			if( checkUserId != null ) {	//플래너 파티 멤버목록에 있음
-				findUserId += " 님은 이미 플래너에 참여중인 멤버입니다.";
+				findUserId[1] += " 님은 이미 플래너에 참여중인 멤버입니다.";
+				findUserId[0] = "X";
 			}
 			// else => 플래너에 미참여중인 회원임 :: 초대할 수 있음 !
 			// return findUserId(회원아이디)
 		}else {						//DB에 없음(미가입)
-			findUserId = "회원을 찾을 수 없습니다.";
+			findUserId[1] = userId+" 님을 찾을 수 없습니다.";
+			findUserId[0] = "X";
 		}
 		
 		return findUserId;
 	}
 	
 	@RequestMapping( value = "json/addOffer", method = RequestMethod.POST )
-	public void addOffer( @RequestBody Offer offer ) throws Exception {
+	public String addOffer( @RequestBody Offer offer, HttpSession session ) throws Exception {
 		
-		planService.addOffer(offer);
+		User user = (User)session.getAttribute("user");
+		//test용 if문 : 회원아이디 셋팅
+		if(user == null) {
+			user = new User();
+			user.setUserId("admin");
+		}
+		
+		String fromUserId = user.getUserId();
+		offer.setFromUserId(fromUserId);
+		
+		System.out.println("\n\nOffer :: "+offer);
+		//planService.addOffer(offer);
+		
+		return offer.getToUserId();
 	}
 	
 	@RequestMapping( value = "json/getTodoList/{planId}", method = RequestMethod.GET )
