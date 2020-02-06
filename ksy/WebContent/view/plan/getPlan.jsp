@@ -28,6 +28,7 @@
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
+	
 	<link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
 	
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -100,13 +101,51 @@
       	margin: 4px;
       	padding: 10px;
       	border-radius: 7px;
-      	box-shadow:2px 1px 2px #898989;
+      	box-shadow:1px 3px 2px #ACC1CB;
       }
       
+      
+      .list-group-item{
+      	height: 33px;
+      	padding: 7px;
+      	font-size: 13px;
+      }
+      
+      .party-member-img{
+      	height: 40px;
+      }
+      .plan-party-list-box{
+      	border-radius: 6px;
+      	border-style: solid; 
+      	border-color: gray;
+      	border-width: thin;
+      	padding:13px; 
+      	background-color: white; 
+      	display:scroll; 
+      	position:fixed; 
+      	top:300px; 
+      	left:20px; 
+      	margin: 15px; 
+      	width: 165px;
+      }
+      
+      /* 글자 */
+      .stuffItem{
+      	/* display:inline-block; */
+		position:relative;
+      }
+      .stuffName{
+      	bottom:0;
+      	margin-left: 7px;
+		position:absolute;
+      }
+     
 	</style>
 
 
 	<script type="text/javascript">
+	
+
 	
 		var planId = ${plan.planId};
 		
@@ -413,8 +452,13 @@
 			});
 		} //checkStuff(stuffId) END
 		
+		
+		
 		function getStuffList(planId, mode){
 			console.log("getStuffList("+planId+", "+mode+") 실행 ");
+			
+			var stuffCheckedCnt = 0;
+			var stuffUncheckedCnt = 0;
 			
 			$.ajax({
 				url: "/planSub/json/getStuffList/"+planId ,
@@ -423,7 +467,8 @@
 				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
 				success: function(JSONData, status){
 					
-					var stuffItemsHtml = '<div class="stuffItems">';
+					//var stuffItemsHtml = '<div class="stuffItems">';
+					var stuffItemsHtml = '';
 					var addStuffHtml = '<div class="addStuff"><i class="fas fa-pencil-alt" style="margin: 7px;"></i><input type="text" class="form-control" name="stuffName" style="margin-left:5px; margin-top:5px; width: 200px; display:inline-block;" placeholder="새로운 항목 입력"> <button style="margin-bottom: 5px; margin-left: 5px;" type="button" class="btn btn-primary" onclick="addStuff()">추가</button> </div>';
 					
 					if( JSONData==null || JSONData=="" ){ 	
@@ -431,24 +476,31 @@
 						stuffItemsHtml += addStuffHtml;
 						
 					}else{ 		//alert("리턴데이터 있음1! => JSONData = "+JSON.stringify(JSONData));	
+
 						if(mode == 'List Mode'){
 							for( var i in JSONData){
 								if( JSONData[i].stuffCheck == 'T' ){
+									stuffCheckedCnt += 1;
 									stuffItemsHtml += '<div class="stuffItem" style="margin: 7px;"> <input type="checkbox" name="stuff_'+JSONData[i].stuffId+'" checked value="T" onchange="checkStuff('+JSONData[i].stuffId+')"><span style="margin-left: 10px;"> '+JSONData[i].stuffName+'</span> </div>';
 								}else if( JSONData[i].stuffCheck == 'F' ){
+									stuffUncheckedCnt += 1;
 									stuffItemsHtml += '<div class="stuffItem" style="margin: 7px;"> <input type="checkbox" name="stuff_'+JSONData[i].stuffId+'" value="F" onchange="checkStuff('+JSONData[i].stuffId+')"><span style="margin-left: 10px;"> '+JSONData[i].stuffName+'</span> </div>';
 								}
 							}
+							$('#stuffCount').text( "( "+stuffCheckedCnt+" / "+(stuffUncheckedCnt+stuffCheckedCnt)+" )");
+							$('#stuffCount').show();
+							
 						}else if(mode == 'Edit Mode'){
 							for( var i in JSONData){ 	// html 이벤트걸어서 기존꺼 바꾸는 경우는 $(~).on("click") 이벤트가 적용되지 않음.... 그래서 태그 안에 onClick="실행함수" 를 넣어줘야 함수호출이 가능해짐
-								stuffItemsHtml += '<div class="stuffItem" style="margin: 7px;"> <i class="fas fa-minus-circle" onClick="deleteStuff('+JSONData[i].stuffId+')"></i> <span id="stuff_'+JSONData[i].stuffId+'" style="margin-left: 7px;"> '+JSONData[i].stuffName+'</span> </div>';
+								stuffItemsHtml += '<div class="stuffItem" style="margin: 7px;"> <i class="fas fa-minus-circle" onClick="deleteStuff('+JSONData[i].stuffId+')" style="margin-right:5px;" ></i> <span class="stuffName" id="stuff_'+JSONData[i].stuffId+'">'+JSONData[i].stuffName+'</span> </div>';
 							}
 							stuffItemsHtml += addStuffHtml;
+							$('#stuffCount').hide();
 						}
 					}
-					
-					stuffItemsHtml += '</div>';
-					$(".stuffItems").replaceWith(stuffItemsHtml);
+					//stuffItemsHtml += '</div>';
+					//$(".stuffItems").replaceWith(stuffItemsHtml);
+					$(".stuffItems").html(stuffItemsHtml);
 				},
 				error:function(request,status,error){
 			        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -527,77 +579,235 @@
 		
 		function changeTodoMode(mode){
 			alert("changeTodoMode(mode) 실행");
-		}
+		} //changeTodoMode 끝
 		
 		function checkTodo(todoId){
 			alert("checkTodo(todoId) 실행");
-		}
+		}	//checkTodo 끝
 		
 		function getTodoList(planId, mode){
 			alert("getTodoList(planId, mode) 실행");
-		}
+		}	//getTodoList 끝
 		
 		function deleteTodo(todoId){
 			alert("deleteTodo(todoId) 실행");
-		}
+		}	//deleteTodo 끝
 		
 		function addTodo(){
 			alert("addTodo() 실행");
-		}
-		
-		
-		/* ------------------------------------------------------------------------------------------------------ */
-		
-		
-		
+		}	//addTodo 끝
 		
 		/* ------------------------------------------------------------------------------------------------------ */
+		
+		
 		/* ---------------------------------	CityRoute List 관련 함수들		--------------------------------- */
 		
+		$(function(){
+			
+		});
 		
 		/* ------------------------------------------------------------------------------------------------------ */
 		
 		
 		
+		/* ---------------------------------	PlanPartyMember 관련 함수들		--------------------------------- */
+		
+		$(function(){
+			
+			$('#findUser').on('click', function(){
+				console.log("#findUser(검색) 클릭 => findUser("+$('#findUserId').val()+") 실행");
+				findUser($('#findUserId').val());
+			});
+			
+			$('#addOffer').on('click', function(){
+				addOffer();
+			});
+
+		});
+		
+		function inviteUser() {
+			console.log("inviteUser() 실행");
+			$('#offerMsgForm').hide();
+			$('#addOffer').hide();
+			$('.findUserResult').text('');
+			$("#inviteUser").show()
+		}
+		
+		function findUser(findUserId) {
+			console.log("findUser("+findUserId+") 실행");
+			if(findUserId == ''){
+				alert("검색할 회원의 아이디를 입력해주세요");
+				return false;
+			}
+			
+			$.ajax({
+				url: "/plan/json/findUser/"+planId+"/"+findUserId ,
+				method: "GET",
+				dataType: "json",
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				success: function(JSONData, status){
+					if( JSONData==null || JSONData=="" ){
+						console.log("리턴데이터 없음");		//왠지 모르겠는데 안뜸..ㅠ...
+					}else{
+						console.log("리턴데이터 있음! +> JSONData = "+JSON.stringify(JSONData));	
+						
+						if(JSONData[0] == 'X'){	//초대 불가능
+							$('.findUserResult').text(JSONData[1]);
+							$('#offerMsgForm').hide();
+							$('#addOffer').hide();
+							$("input[name='findUserId']").val('');
+						}else if(JSONData[0] == 'A'){	//초대 가능
+							$('.findUserResult').text(JSONData[1]);
+							$('#offerMsgForm').show();
+							$('#addOffer').show();
+						}
+					}
+				},
+				error:function(request,status,error){
+			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			    } 
+			});
+		}	//findUser 끝
+		
+		function addOffer() {	
+			
+			var toUserId = $($('.findUserResult')[0]).text();
+			var offerMsg = $("input[name='offerMsg']").val();
+			
+			if(offerMsg == ''){
+				alert("offerMsg를 입력해주세요");
+				return false;
+			}
+			
+			console.log("toUserId="+toUserId+", offerMsg="+offerMsg);
+			
+			$.ajax({
+				url: "/plan/json/addOffer" ,
+				method: "POST",
+				dataType: "json",
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				data: JSON.stringify({
+					refId: planId,
+					toUserId: toUserId,
+					offerMsg: offerMsg
+				}),
+				success: function(JSONData, status){
+					//String만 와서 여기는 거치지 않음..
+				},
+				error:function(request,status,error){
+			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+			        closeModal('inviteUser');
+			        alert(request.responseText+" 님에게 초대 메시지를 보냈습니다.");
+			    } 
+			});
+		}	//addOffer 끝
+		
+		/* ------------------------------------------------------------------------------------------------------ */
 		
 	</script>
 	
 	<script>
-		
+	
 		function closeModal(modalName) {
 			console.log("closeModal : modalName="+modalName);
 			$("."+modalName)[0].reset();		//form에 모달 이름과 같은 클래스명 주기
 			$("#"+modalName).hide();
 		}
 		
+		/* 글자 흔들기 */
+		function helloworld(){
+			var rnd  = Math.round(Math.random() * 4);
+			$('.stuffItem .stuffName').css({ 'bottom':rnd}); // 글자 흔들기
+		}
+		setInterval(helloworld, 45);
+		
+		/* 스크롤 부드럽게 */
+		jQuery(document).ready(function($) { 
+			$(".scroll").click(function(event){ 
+				event.preventDefault(); 
+				$('html,body').animate({
+					scrollTop:$(this.hash).offset().top
+					}, 500); 
+			}); 
+		}); 
+
 	</script>
 
 </head>
 <body>
 	
-	<div class="album py-4 bg-white text-center">
+	<div class="album py-4 bg-white text-center" id="top">
 		~~~ 원래는 Top ToolBar 있어야 할 자리 ~~~
 	</div>
 	
 	<!-- navigation-list  -->
-	<div class="navigation-list" style="padding:10px; background-color: white; display:scroll; position:fixed; top:100px; left:20px; margin: 15px; width: 150px;">
-		<a href="/index.jsp">메인으로</a><br/><br/>
-		<h6><a href="#gotoTodoList">Todo 리스트</a></h6>
-		<h6><a href="#gotoCityRouteList">여행루트</a></h6>
-		<h6><a href="#gotoDailyList">일정표</a></h6>
-		<h6><a href="#gotoBudgetOverviewList">예산</a></h6>
-		<h6><a href="#gotoStuffList">준비물</a></h6>
-		<h6><a href="#gotoMemoList">메모</a></h6>
+	<div class="list-group navigation-list" style="display:scroll; position:fixed; top:50px; left:20px; margin: 15px; width: 165px;">
+	  <a href="/index.jsp" class="list-group-item list-group-item-action">메인으로</a>
+	  <a href="#gotoTodoList" class="list-group-item list-group-item-action list-group-item-primary scroll">Todo 리스트</a>
+	  <a href="#gotoCityRouteList" class="list-group-item list-group-item-action list-group-item-secondary scroll">여행루트</a>
+	  <a href="#gotoDailyList" class="list-group-item list-group-item-action list-group-item-success scroll">일정표</a>
+	  <a href="#gotoBudgetOverviewList" class="list-group-item list-group-item-action list-group-item-danger scroll">예산</a>
+	  <a href="#gotoStuffList" class="list-group-item list-group-item-action list-group-item-warning scroll">준비물</a>
+	  <a href="#gotoMemoList" class="list-group-item list-group-item-action list-group-item-info scroll">메모</a>
+	</div>
+	
+	
+	
+	<!-- plan-party-list  -->
+	<div class="plan-party-list-box">
+		<div style="font-weight: bolder;">members</div>
+
+		<ul class="list-unstyled plan-party-list">
+			<c:forEach var="member" items="${plan.planPartyList}">
+				<li class="media party-member" style="margin-top: 10px;">
+				    <img src="https://pngimage.net/wp-content/uploads/2018/06/user-image-png-5.png" class="align-self-center mr-2 party-member-img" alt="...">
+				    <div class="media-body">
+				      <h6 class="mt-0 mb-1">${member.userId}</h6>
+				      ${member.nickname}
+				    </div>
+				</li>
+			</c:forEach>
+			
+			<li class="media add-party-member" style="margin-top: 17px;">
+				<i class="fas fa-user-plus" style="font-size: 30px; margin-left: 5px;" onclick="inviteUser()"></i>
+			</li>
+		</ul>
+		
 	</div>
 
 	<!-- Top 버튼 -->
-	<a style="background-color:lime; padding:5px; display:scroll;position:fixed;bottom:50px;right:140px; margin: 15px; font-weight: bolder; font-size: x-large;" href="#" title="top">TOP</a>
+	<a style="border-radius:10px; background-color:#D2D6FC; padding:8px; display:scroll; position:fixed;bottom:50px;right:130px; margin: 15px; font-weight: bolder; font-size: x-large;" href="#top" title="top" class="scroll">TOP</a>
+	
+	
+	
+	<!--	 Plan Infomation	 	-->
+	<div class="album py-5 bg-light">
+		<div class="container">
+			<h5>Plan Infomation</h5>
+			<div class="row" style="background-color: #FFE86A; width: 100%; padding: 20px;">
+			
+				<img src="https://omakare.com/wp-content/uploads/2018/11/Travel.jpg" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="margin: 5px; border-width: 1px; border-color: gray; border-style: solid; width: 100px; height: 100px;">
+			    <div class="media-body" style="margin-left: 25px; margin-top: 30px;">
+			      <div><div style="font-weight: bolder; font-size: 20px; display: inline-block;">${plan.planTitle} </div> ${plan.planPartySize} 명</div>
+			      ${plan.startDateString} ~ ${plan.endDate} ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; D-${plan.planDday}
+			    </div>
+				
+				<div>
+				<button type="button" class="btn btn-primary" style="margin-left: 10px;">플래너 수정</button> 
+				<button type="button" class="btn btn-primary" style="margin-left: 10px;">플래너 삭제</button> 
+				<button type="button" class="btn btn-primary" style="margin-left: 10px;">여행완료 확정</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br/>
+	
 	
 	
 	<!--	 Todo List : 투두 리스트	 	-->
 	<div class="album py-5 bg-light"  id="gotoTodoList">
 		<div class="container">
-			<h3>Todo List : 투두 리스트</h3>
+			<h4>Todo List : 투두 리스트</h4>
 			<div class="row">
 				
 				
@@ -610,7 +820,7 @@
 	<!-- 	CityRoute List : 여행루트 	-->
 	<div class="album py-5 bg-light" id="gotoCityRouteList">
 		<div class="container">
-			<h3>CityRoute List : 여행루트</h3>
+			<h4>CityRoute List : 여행루트</h4>
 			<div class="row">
 			
 				<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;height:480px;float:left;width:60%"></div>
@@ -623,7 +833,7 @@
 	<!--	 BudgetOverview List : 예산 간략 리스트	 	-->
 	<div class="album py-5 bg-light"  id="gotoBudgetOverviewList">
 		<div class="container">
-			<h3>BudgetOverview List : 예산 간략 리스트</h3>
+			<h4>BudgetOverview List : 예산 간략 리스트</h4>
 			<div class="row">
 				
 				
@@ -636,7 +846,7 @@
 	<!--	 Daily List : 일정표 	-->
 	<div class="album py-5 bg-light" id="gotoDailyList">
 		<div class="container">
-			<h3>Daily List : 일정표</h3>
+			<h4>Daily List : 일정표</h4>
 			<div class="row">
 				
 				<div class="swiper-container">
@@ -654,7 +864,7 @@
 									<div style="margin-top: 10px;">
 										<c:forEach var="i" begin="9" end="20">
 											
-											<div style="border-top:1px solid #efefef; height:30px;font-size:8pt;color:#c0c0c0;padding-left:10px; padding: 5px;" ondblclick="openDailyEdit( '${day.cityNames}', '${day.dateString}' ,${day.dayNo},${i},${plan.planId});">
+											<div class="dailys" style="border-top:1px solid #efefef; height:30px;font-size:8pt;color:#c0c0c0;padding-left:10px; padding: 5px;" onclick="openDailyEdit( '${day.cityNames}', '${day.dateString}' ,${day.dayNo},${i},${plan.planId});">
 												${i} <div style=" margin-left:10px; background-color: white; font-size:10pt; display:inline-block;" id="daily_${day.dayNo}_${i}"></div></div>
 										</c:forEach>
 									</div>
@@ -679,11 +889,11 @@
 	<!--	 Stuff List : 준비물 체크리스트 	-->
 	<div class="album py-5 bg-light"  id="gotoStuffList">
 		<div class="container">
-			<h3>Stuff List : 준비물 체크리스트</h3>
+			<h4>Stuff List : 준비물 체크리스트</h4> <div class="text-right" style="font-weight: bolder; font-size: 25px;" id="stuffMode">Edit Mode</div>
 			<div class="row">
 				
-				<div style="border:dashed thin ; border-radius:8px; padding:25px; padding-bottom:5px; background-color: white; width: 100%; ">
-					<span id="stuff_icon"><i class="fas fa-tasks" style="font-size: 25px; margin-right: 6px; margin-bottom: 15px;"></i></span> <span style="margin-left:10px; font-size:large; font-weight:bolder;"> 준비물 리스트</span> <br/>
+				<div style="border:dashed thin ; border-radius:8px; padding:25px; background-color: white; width: 100%; ">
+					<span id="stuff_icon"><i class="fas fa-tasks" style="font-size: 25px; margin-right: 6px; margin-bottom: 15px;"></i></span> <span style="margin-left:10px; font-size:large; font-weight:bolder;"> 준비물 리스트</span> <span id="stuffCount" style="margin-left: 15px;"></span> <br/>
 					
 					<div class="stuffItems">
 					<!-- 빈 div 만든 후 getStuffList() 바로 호출해서 세팅하기 -->
@@ -706,7 +916,6 @@
 						</c:if> --%>
 					</div> 
 					
-					<p class="text-right" style="font-weight: bolder;" id="stuffMode">Edit Mode</p>
 				</div>
 				
 			</div>
@@ -718,14 +927,14 @@
 	<!--	 Memo List : 메모 	-->
 	<div class="album py-5 bg-light"  id="gotoMemoList">
 		<div class="container">
-			<h3>Memo List : 메모</h3>
+			<h4>Memo List : 메모</h4>
 			<div class="row">
 				
 				<br/><br/>
 				<c:if test="${plan.memoList.size()!=0}">
 					<c:forEach var="memo" items="${plan.memoList}">
 					
-						<div style="font-size:small;  background-color:#FAFF5F;padding: 18px;margin: 10px;height: 300px;width: 300px;border: medium;border-color: navy;box-shadow:3px 2px 4px #898989;">
+						<div style="font-size:small;  background-color:#FFF38B;padding: 18px;margin: 10px;height: 300px;width: 300px;border: medium;border-color: navy;box-shadow:3px 2px 4px #898989;">
 							메모 등록일자 : &nbsp; ${memo.memoRegDate}<br/>
 							등록자 : &nbsp; ${memo.regUserNickname}<br/><br/>
 							${memo.memoDetail}<br/>
@@ -739,9 +948,10 @@
 			
 	
 	
-	<!--	 Medal : dailyEdit	 	-->
+	<!--				 Medal : dailyEdit				-->	
 	<div class="modal" id="dailyEdit" >
 	  <div class="modal-dialog">
+	  <h4 style="color: #FFFFFF; margin-top: 100px;">일정 등록</h4>
 	    <div class="modal-content">
 	    
 	      <div class="modal-header">
@@ -783,7 +993,7 @@
 				
 				
 				<div class="form-group" style="margin-top: 15px; margin-bottom: 20px; width: 440px;">
-				    <label for=dailyDetail class="control-label" style="font-weight: bold; margin-bottom: 5px;" >일정 내용</label><br/>
+				    <label for="dailyDetail" class="control-label" style="font-weight: bold; margin-bottom: 5px;" >일정 내용</label><br/>
 				    <input type="text" class="form-control" id="dailyDetail" name="dailyDetail" placeholder="일정 내용을 작성해주세요" style="width:100%; height: 100px;">
 				</div>
 				
@@ -810,7 +1020,61 @@
 	    </div>
 	  </div>
 	</div>
+	<!--				 Medal : dailyEdit	끝			-->	
 	
+	
+	<!--				 Medal : inviteUser				-->	
+	<div class="modal" id="inviteUser">
+	  <div class="modal-dialog" >
+	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너에 친구 초대하기</h4>
+	  
+	    <div class="modal-content">
+	    
+	      <div class="modal-header">
+	        <div class="modal-title">
+	        	<h6 style="align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
+	        </div>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('inviteUser')">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      
+	      <div class="modal-body">
+	        
+	        <form class="inviteUser" style="margin: 10px;">
+	        	<!-- <input type="hidden" class="form-control" id="planId" name="planId" value="${plan.planId}">  -->
+	        	
+		        <div class="input-group flex-nowrap" style="margin: 0 auto; width: 80%;">
+				  <div class="input-group-prepend">
+				    <span class="input-group-text" id="addon-wrapping">@</span>
+				  </div>
+				  <input type="text" class="form-control" name="findUserId" id="findUserId" placeholder="아이디를 입력하세요" aria-label="findUserId" aria-describedby="addon-wrapping">
+					 &nbsp; &nbsp;<button type="button" class="btn btn-primary" id="findUser">검색</button>
+				</div>
+	        
+	        	<br/>
+				<div class="findUserResult" style="text-align: center;"></div>
+				
+				<div class="form-group" id="offerMsgForm" style="margin: 30px 10px 10px 10px; width:auto;">
+				    <label for="offerMsg" class="control-label" style="font-weight: bold; margin-bottom: 7px;" ><span class="findUserResult"></span> 님에게 전송할 초대 메시지</label><br/>
+				    <input type="text" class="form-control" id="offerMsg" name="offerMsg" placeholder="초대 메시지를 입력하세요" style="width:100%; height: 100px;">
+				</div>
+				
+	        </form>
+	        
+	      </div>
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('inviteUser')">Close</button>
+	        <button type="button" class="btn btn-primary" id="addOffer">초대하기</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!--				 Medal : inviteUser	끝			-->	
+	
+	
+	
+	<!-- Footer -->
 	<div class="album py-5 bg-white text-center" style="font-weight: bolder;">
 		~~~ 여기는 Footer가 있어야 할 자리 ~~~
 	</div>
@@ -839,7 +1103,7 @@
 		var paris = {lat: 48.856667, lng: 2.350833};
 		var korea = {lat:37.497957 , lng:127.027780};
 	
-		function initMap() {
+		function initMap(){
 			console.log("initMap 실행");
 			
 			geocoder = new google.maps.Geocoder();
@@ -858,7 +1122,7 @@
 		    	 position: paris, 
 		    	 map: map,
 		    	 title: 'marker Title!!'
-		    	 });
+	    	 });
 		};
 	
 	</script>
