@@ -7,8 +7,10 @@ public class Flight {
 	private String tripCourse; //trip_course
 	private String depCity; //dep_city
 	private String depDate; //dep_date
+	private String depTime;
 	private String arrCity; //arr_city
 	private String arrDate; //arr_date
+	private String arrTime;
 	private String seatGrade; //seat_grade
 	private int adultNum; //adult_num
 	private int childNum; //child_num
@@ -99,11 +101,25 @@ public class Flight {
 	public void setStopOver(String stopOver) {
 		this.stopOver = stopOver;
 	}
+	public String getDepTime() {
+		return depTime;
+	}
+	public void setDepTime(String depTime) {
+		this.depTime = depTime;
+	}
+	public String getArrTime() {
+		return arrTime;
+	}
+	public void setArrTime(String arrTime) {
+		this.arrTime = arrTime;
+	}
 	@Override
 	public String toString() {
 		return "Flight [flightId=" + flightId + ", airline=" + airline + ", price=" + price + ", tripCourse="
-				+ tripCourse + ", depCity=" + depCity + ", depDate=" + depDate + ", arrCity=" + arrCity + ", arrDate="
-				+ arrDate + ", seatGrade=" + seatGrade + ", adultNum=" + adultNum + ", childNum=" + childNum
-				+ ", infantNum=" + infantNum + ", leadTime=" + leadTime + ", stopOver=" + stopOver + "]";
+				+ tripCourse + ", depCity=" + depCity + ", depDate=" + depDate + ", depTime=" + depTime + ", arrCity="
+				+ arrCity + ", arrDate=" + arrDate + ", arrTime=" + arrTime + ", seatGrade=" + seatGrade + ", adultNum="
+				+ adultNum + ", childNum=" + childNum + ", infantNum=" + infantNum + ", leadTime=" + leadTime
+				+ ", stopOver=" + stopOver + "]";
 	}
+	
 }

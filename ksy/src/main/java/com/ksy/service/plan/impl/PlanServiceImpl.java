@@ -119,4 +119,30 @@ public class PlanServiceImpl implements PlanService {
 	public String findUserId(String userId) throws Exception {
 		return planDao.findUserId(userId);
 	}
+	
+	
+	
+	// 미완료 todo 리스트 개수 check
+	public int getUndoneCount(String userId) throws Exception {
+		return planDao.getUndoneCount(userId);
+	}
+	
+	// 안한 todo 리스트 조회
+	public List<Plan> getUndoneList(String userId) throws Exception {
+		List<Plan> planList = planDao.getUndonePlanId(userId);
+		for(Plan plan : planList) {
+			plan.setTodoList(planDao.getUndoneTodo(plan.getPlanId()));
+		}
+		return planList;
+	}
+
+	// D-nn 인 플랜(todo+User) 리스트 조회
+	public List<Plan> getSoonPlan(int leftDay) throws Exception {
+		List<Plan> planList = planDao.getSoonPlanId(leftDay);
+		for(Plan plan : planList) {
+			plan.setTodoList(planDao.getSoonTodo(plan.getPlanId()));
+			plan.setPlanPartyList(planDao.getPushPhoneList(plan.getPlanId()));
+		}
+		return planList;
+	}
 }

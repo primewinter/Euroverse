@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class Order {
 	private String orderId; //order_id
-	private User buyerId; //buyer_id
+	private User buyer; //buyer_id
 	private String buyerName; //buyer_name
 	private String buyerPhone; //buyer_phone
 	private String buyerEmail; //buyer_email
@@ -17,6 +17,7 @@ public class Order {
 	private int payInstal; //pay_instal
 	private int totalAmount; //total_amount
 	private int actualAmount; //actual_amount
+	private int payPoint; //pay_point
 	private String cardNo; //card_no
 	private Timestamp refundDate; //refund_date
 	
@@ -26,11 +27,11 @@ public class Order {
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
-	public User getBuyerId() {
-		return buyerId;
+	public User getBuyer() {
+		return buyer;
 	}
-	public void setBuyerId(User userId) {
-		this.buyerId = userId;
+	public void setBuyer(User buyer) {
+		this.buyer = buyer;
 	}
 	public String getBuyerName() {
 		return buyerName;
@@ -116,13 +117,20 @@ public class Order {
 	public void setPayDate(Timestamp payDate) {
 		this.payDate = payDate;
 	}
+	public int getPayPoint() {
+		return payPoint;
+	}
+	public void setPayPoint(int payPoint) {
+		this.payPoint = payPoint;
+	}
 	@Override
 	public String toString() {
-		return "Order [orderId=" + orderId + ", buyerId=" + buyerId + ", buyerName=" + buyerName + ", buyerPhone="
+		return "Order [orderId=" + orderId + ", buyer=" + buyer + ", buyerName=" + buyerName + ", buyerPhone="
 				+ buyerPhone + ", buyerEmail=" + buyerEmail + ", orderDate=" + orderDate + ", orderStatus="
 				+ orderStatus + ", flightId=" + flightId + ", roomId=" + roomId + ", payDate=" + payDate + ", payOpt="
 				+ payOpt + ", payInstal=" + payInstal + ", totalAmount=" + totalAmount + ", actualAmount="
-				+ actualAmount + ", cardNo=" + cardNo + ", refundDate=" + refundDate + "]";
+				+ actualAmount + ", payPoint=" + payPoint + ", cardNo=" + cardNo + ", refundDate=" + refundDate + "]";
 	}
+
 	
 }
