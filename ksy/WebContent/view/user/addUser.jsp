@@ -91,6 +91,17 @@
 	margin: 10px;
 }
 
+ .custom-file-input ~ .custom-file-label::after {
+    content: "프로필사진 등록";
+}
+
+ 
+
+#preview img{
+	border: 100px;
+	border-color: #E6E6E6;
+}
+
 </style>
 
 
@@ -111,6 +122,7 @@ $( function() {
 
 $(document).ready(function () {
 	  bsCustomFileInput.init()
+	  
 	})
 	
 	
@@ -130,9 +142,9 @@ $(function(){
 		$("input[name='phone']").val($("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val());
 		var phone = $("input[name='phone']");
 		var userImg = $("input[name='userImg']");
-		var dreamCity = $("input[name='dreamCity']");
+	/* 	var dreamCity = $("input[name='dreamCity']");
 		var tripStyle = $("input[name='tripStyle']");
-		
+		 */
 		alert("      userId="+userId.val()
 				+"   pwd="+pwd.val()
 				+"   pwdConfirm="+pwdConfirm.val()
@@ -142,12 +154,32 @@ $(function(){
 				+"   birth="+birth.val()
 				+"   sex="+sex.val()
 				+"   phone="+phone.val()
-				+"   userImg="+userImg.val()
-				+"   dreamCity="+dreamCity.val()
+				+"   userImg="+userImg.val());
+/* 				+"   dreamCity="+dreamCity.val()
 				+"   tripStyle="+tripStyle.val());
+ */		
+		 
+		 
+		 
+		 
+		for(var i=1;i<=$("input:checkbox[name=dreamCity]").length;i++){
+			
+			 if($("input:checkbox[id=dreamCity"+i+"]").is(":checked") == true) {
+				  //작업
+				  alert("하하!체크된 도시는!"+i+"번 도시!");
+				
+			} 
+		 
+		}/* for End */	 
 		
-		alert("${cityList}");
-		
+		for(var i=1;i<=$("input:checkbox[name=tripStyle]").length;i++){
+			
+			if($("input:checkbox[id=tripStyle"+i+"]").is(":checked")==true){
+				
+				alert("하하!체크된 여행스타일은!!"+i+"번 도시!");
+			}
+			
+		}/* for End(tripStyle) */
 		
 	});/* btn-primary End */
 });/* function End */
@@ -160,17 +192,85 @@ $(function(){
 
 $(function(){
 	
-	
 	$("input[name='dreamCity']").on("click",function(){
-		console.log(this)
-		alert(this.value);	
-	
-	
-	
+		alert($(this).prev().val());
+/* 		alert($("input:checkbox[name=dreamCity]").length);
+		alert($("input:checkbox[name=dreamCity]:checked").length); */
+		if($("input:checkbox[name=dreamCity]:checked").length > 5){
+			alert("5개까지만 선택 가능합니다.");
+			$("input:checkbox[id=dreamCity"+$(this).prev().val()+"]").prop("checked",false);
+		}
 	})
+	
+	$("input[name='tripStyle']").on("click",function(){
+		alert($(this).prev().val());
+		if($("input:checkbox[name=tripStyle]:checked").length > 3){
+			alert("3개까지만 선택 가능합니다.");
+			$("input:checkbox[id=tripStyle"+$(this).prev().val()+"]").prop("checked",false);
+		}
+	})
+	
+ 
+	$(".custom-file-input").on("change",function(){
+		  var fileSize = this.files[0].size;
+		    var maxSize = 360 * 360;
+		    if(fileSize > maxSize) {
+		        alert("파일용량을 초과하였습니다.");
+		        $(".custom-file label").html("<i class='fas fa-camera-retro'>size 360x360</i>");
+		        $("#preview").html("");
+		        return;
+		    }else{
+				readImg(this);
+		    }
+		
+	});
 	
 	
 })
+
+function readImg(input){
+	
+	var width = 360;
+	var height = 360;
+	
+	if(input.files && input.files[0]){
+		var render = new FileReader();
+		render.onload = function(e){
+			//console.log(e);
+			//console.log(e.target);
+			//console.log(e.target.readyState);
+			//console.log(e.target.result);
+			//preview(e);
+			
+			
+			 var image = $('#preview').attr('src',e.target.result);
+			 console.log(image);
+			 /* 	 if(image.width() > width || image.height() > height){               
+	                alert('지정된 크기와 맞지 않습니다.('+width + 'x'+ height +')');
+			 		alert(image.width() +'x'+  image.height());
+ 					$(".custom-file label").html("");
+ 					return; */
+			//}else{
+				 
+				 $("#preview").html("<img src="+e.target.result+" style='border-color: #E6E6E6; border: 10px;'>");
+			//}
+	}
+		 render.readAsDataURL(input.files[0]);  
+		
+}
+}
+function preview(src){
+	 console.log(src);
+	 console.log(src.target);
+	 console.log(src.target.result);
+	/* $("#preview").html("<img src="+src+">"); */
+	/* $("#preview").html("<img src='"+src.targer.result+"'>"); */
+}
+
+
+
+
+
 
 </script>
 
@@ -190,7 +290,7 @@ $(function(){
 		<div class="col-6 mx-auto">
 			<div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-user"></i></span>
-				<input type="text" class="form-control" placeholder="userId" name="userId">
+				<input type="text" class="form-control" placeholder="userId" name="userId" >
 			</div>
 		</div>
 	</div>
@@ -293,9 +393,12 @@ $(function(){
  	  <div class="form-group">
 	 	<div class="col-6 mx-auto">
 			<div class="custom-file">
-			  <input type="file" class="custom-file-input" id="customFile" name="userImg">
-			  <label class="custom-file-label" for="customFile">Choose file</label>
+			  <input type="file" class="custom-file-input" id="userImg" name="userImg" accept="image/*">
+			  <label class="custom-file-label" for="customFile" ><i class="fas fa-camera-retro">size 360x360</i> </label>  
 			  <!-- 프로필 이미지 미리보기 만들기! 사이즈제한 걸어두기!~~~ -->
+			</div>
+			<div id="preview">
+				
 			</div>
 		</div>
 	</div>
@@ -305,7 +408,7 @@ $(function(){
 	 		<h5><b>가고싶은 도시</b>(최대 5개)</h5>
 				<div class="swiper-container s1">
     				<div class="swiper-wrapper">
-     	 				 <c:forEach var="city" items="${cityList}" varStatus="status">
+     	 				 <c:forEach var="dreamCity" items="${cityList}" varStatus="status">
 							<c:if test="${status.index%8 eq 0 && status.index ne 0}">
 								</div><!-- row row-cols-1 row-cols-md-5 -->
 								</div><!-- swiper-slide -->
@@ -317,8 +420,9 @@ $(function(){
 							<div class="card">
 							    <img alt="" src="http://ipsumimage.appspot.com/50x60">
 					 			<p class="card-text"> 
-					   	 			<input  type="checkbox" id="city${status.count}" value="${city}" name="dreamCity">
-					   	 	 		<label  for="city${status.count}">${city}</label>
+					 				<input type="hidden" value="${status.count}">
+					   	 			<input  type="checkbox" id="dreamCity${status.count}" value="${dreamCity}" name="dreamCity">
+					   	 	 		<label  for="dreamCity${status.count}">${dreamCity}</label>
 		  						</p>
 							</div> 
 					
@@ -348,6 +452,7 @@ $(function(){
 								<div class="card">
 						    		<img alt="" src="http://ipsumimage.appspot.com/50x60">
 				 						<p class="card-text"> 
+				 							<input type="hidden" value="${status.count}">
 								   	 		<input  type="checkbox" id="tripStyle${status.count}" value="${style}" name="tripStyle">
 								   	 	 	<label  for="tripStyle${status.count}">${style}</label>
 				  						</p>
@@ -368,41 +473,15 @@ $(function(){
 	
 	
 	
+	<input type="hidden" name="dreamCity">
+	<input type="hidden" name="tripStyle">
+	
+	
+	
 	</form>
 
 
-
-
-   
-   
-   
-
-
-
-
-
-
  <script>
-/*  $(document).ready(function () {
-	  //initialize swiper when document ready
-	  var mySwiper = new Swiper ('.swiper1', {
-	    navigation:{
-	    nextEl : '.swiper-button-next', // 다음 버튼 클래스명
-		prevEl : '.swiper-button-prev' // 이번 버튼 클래스명
-	    } 
-	  })
-	});
- 
-
- $(document).ready(function () {
-	  //initialize swiper when document ready
-	  var mySwiper = new Swiper ('.swiper2', {
-	    navigation:{
-	    nextEl : '.swiper-button-next', // 다음 버튼 클래스명
-		prevEl : '.swiper-button-prev' // 이번 버튼 클래스명
-	    } 
-	  })
-	}); */
 	
 	$(".swiper-container").each(function(index, element){
 	    var $this = $(this);

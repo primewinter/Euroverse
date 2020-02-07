@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
+
 import com.ksy.service.domain.City;
 import com.ksy.service.domain.Day;
 
@@ -150,6 +153,11 @@ public class Util {
 		this.dateString = cal.get(cal.YEAR)+"-"+month+"-"+day;
 	}
 	*/
+	
+	public static Object getBean(String beanName) {
+        WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
+        return context.getBean(beanName);
+    }
 	
 	
 }
