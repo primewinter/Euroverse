@@ -8,7 +8,7 @@
  	
 	<resultMap id="postSelectMap" type="post">
 		<result property="postId" 			column="post_id" 			jdbcType="VARCHAR"/>
-		<result property="postWriterId.userId"	column="post_writer_id" 		jdbcType="VARCHAR" />
+		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
 		<result property="boardName" 	column="board_name" 		jdbcType="CHAR" />
 		<result property="postGrade" 				column="post_grade" 					jdbcType="CHAR" />
 		<result property="postTitle" 				column="post_title" 					jdbcType="VARCHAR" />
@@ -63,7 +63,7 @@
 	<insert 	id="addPost"		parameterType="post" >
 		INSERT
 		INTO post( post_id , post_writer_id , board_name , post_grade , post_title , post_content , post_date , views , blocked , deleted , post_like_count ) 
-		VALUES	 ( SEQ_post_post_id.NEXTVAL , #{postWriterId.userId:VARCHAR} , #{boardName:CHAR} , #{postGrade:CHAR} , 
+		VALUES	 ( SEQ_post_post_id.NEXTVAL , #{postWriterId:VARCHAR} , #{boardName:CHAR} , #{postGrade:CHAR} , 
 							#{postTitle:VARCHAR} , #{postContent:VARCHAR} , SYSDATE , #{views:NUMERIC} , #{blocked:CHAR} , 'F' , #{postLikeCount:NUMERIC} )
 	</insert>
 	
@@ -251,7 +251,7 @@
 	<insert  id="addComment"		parameterType="comment">
 		INSERT
 		INTO comments( post_id , parent_cmt_id , writer_id , cmt_date , cmt_content , secret , blocked , deleted , cmt_like_count )
-		VALUES	 ( #{postId:VARCHAR} , SEQ_comment_parent_cmt_id.NEXTVAL , #{cmtWriterId.userId:VARCHAR} , SYSDATE , 
+		VALUES	 ( #{postId:VARCHAR} , SEQ_comment_parent_cmt_id.NEXTVAL , #{cmtWriterId:VARCHAR} , SYSDATE , 
 							#{cmtContent:VARCHAR} , #{secret:CHAR} , 'F' , 'F' , 0 )
 	</insert>
 	

@@ -13,7 +13,6 @@
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-theme.min.css" >
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
@@ -78,8 +77,8 @@
 					console.log(JSONData.list[i].cmtId);
 				if(JSONData.list[i].deleted == "F"){
 					output += "<tr>"
-					+"<td>"+JSONData.list[i].cmtWriterId.userId+"&nbsp;&nbsp;"+JSONData.list[i].cmtDate
-				if(JSONData.list[i].cmtWriterId.userId == JSONData.userId){
+					+"<td>"+JSONData.list[i].cmtWriterId+"&nbsp;&nbsp;"+JSONData.list[i].cmtDate
+				if(JSONData.list[i].cmtWriterId == JSONData.userId){
 					output += "&nbsp;<a onclick='showUpdate("+JSONData.list[i].cmtId+");'>수정</a><a onclick='deleteComment("+JSONData.list[i].cmtId+");'>삭제</a>"
 				}
 				if(JSONData.userId != null){

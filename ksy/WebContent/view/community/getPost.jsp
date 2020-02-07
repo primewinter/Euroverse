@@ -15,7 +15,6 @@
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-theme.min.css" >
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -203,7 +202,7 @@
 		<hr/>
 		
 		<div class="row">
-			<div class="col-xs-8 col-md-4">${post.postWriterId.userId} || ${post.postDate}</div>
+			<div class="col-xs-8 col-md-4">${post.postWriterId} || ${post.postDate}</div>
 		</div>
 		
 		<hr/>
@@ -227,7 +226,7 @@
 	
 		<hr/>
 		
-		<c:if test="${user.userId == post.postWriterId.userId}">
+		<c:if test="${user.userId == post.postWriterId}">
 		<div class="row">
 	  		<div class="col-md-12 text-center ">
 	  			<button type="button" class="btn btn-primary">¼öÁ¤</button>

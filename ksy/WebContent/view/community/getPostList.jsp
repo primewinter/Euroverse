@@ -16,7 +16,6 @@
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 	
@@ -182,7 +181,7 @@
 			  <td align="left">${ i }</td>
 			  <td align="left">
 			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>${post.postTitle}</td>
-			  <td align="left">${post.postWriterId.userId}</td>
+			  <td align="left">${post.postWriterId}</td>
 			  <td align="left">${post.postDate}</td>
 			  <td align="left">${post.comments}</td>
 			  <td align="left">${post.views}</td>

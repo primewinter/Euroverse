@@ -276,7 +276,6 @@ public class CommunityRestController {
 		
 		Search search = new Search();
 		User user=(User)session.getAttribute("user");
-		String userId=user.getUserId();
 	
 		if(search.getCurrentPage()==0) {
 			search.setCurrentPage(1);
@@ -285,13 +284,13 @@ public class CommunityRestController {
 		search.setPageSize(pageSize);
 		System.out.println("currentPage : "+currentPage+" pageSize : "+pageSize);
 
-		Map<String, Object> map = communityService.getCommentList(search, postId, userId);
+		Map<String, Object> map = communityService.getCommentList(search, postId, user.getUserId());
 		System.out.println(map.get("list"));
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("resultPage : "+resultPage);
 		map.put("resultPage", resultPage);
 		map.put("search", search);
-		map.put("userId", userId);
+		map.put("userId", user.getUserId());
 		
 		return map;
 	}
@@ -302,14 +301,13 @@ public class CommunityRestController {
 		System.out.println("/community/json/getCommentList : POST");
 		
 		User user=(User)session.getAttribute("user");
-		String userId=user.getUserId();
 		
 		if(search.getCurrentPage()==0) {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
 		
-		Map<String, Object> map=communityService.getCommentList(search, postId, userId);
+		Map<String, Object> map=communityService.getCommentList(search, postId, user.getUserId());
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);

@@ -10,7 +10,7 @@ public class Post {
 	private String postNo; //post_no
 	private String postContent; //post_content
 	private String postTitle; //post_title
-	private User postWriterId; //writer_id
+	private String postWriterId; //writer_id
 	private Timestamp postDate; //post_date
 	private int accCount; 
 	private int accPerson; //acc_person 
@@ -20,10 +20,10 @@ public class Post {
 	private int views; //views
 	private int comments; 
 	private String blocked; //blocked
-	private Tag tags; //tags
+	private String tags; //tags
 	private String postLikeFlag; 
 	private String deleted; //deleted
-	private Plan planId; //plan_id;
+	private String planId; //plan_id;
 	private String qnaFirstCate; //qna_first_cate
 	private String qnaSecondCate; //qna_second_cate
 	
@@ -79,11 +79,11 @@ public class Post {
 		this.postTitle = postTitle;
 	}
 
-	public User getPostWriterId() {
+	public String getPostWriterId() {
 		return postWriterId;
 	}
 
-	public void setPostWriterId(User postWriterId) {
+	public void setPostWriterId(String postWriterId) {
 		this.postWriterId = postWriterId;
 	}
 
@@ -159,11 +159,11 @@ public class Post {
 		this.blocked = blocked;
 	}
 
-	public Tag getTags() {
+	public String getTags() {
 		return tags;
 	}
 
-	public void setTags(Tag tags) {
+	public void setTags(String tags) {
 		this.tags = tags;
 	}
 
@@ -183,11 +183,11 @@ public class Post {
 		this.deleted = deleted;
 	}
 
-	public Plan getPlanId() {
+	public String getPlanId() {
 		return planId;
 	}
 
-	public void setPlanId(Plan planId) {
+	public void setPlanId(String planId) {
 		this.planId = planId;
 	}
 

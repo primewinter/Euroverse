@@ -102,7 +102,7 @@ public class CommunityController {
 		System.out.println("/community/addPost : POST");
 	
 		User user = (User)session.getAttribute("user");
-		post.setPostWriterId(user);
+		post.setPostWriterId(user.getUserId());
 
 		communityService.addPost(post);
 	
