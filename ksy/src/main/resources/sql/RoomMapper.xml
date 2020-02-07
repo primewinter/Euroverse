@@ -10,14 +10,14 @@
 	
 		<result property="roomId" 		column="ROOM_ID" 		jdbcType="VARCHAR"/>
   		<result property="roomName" 	column="ROOM_NAME" 		jdbcType="VARCHAR"/>
-  		<result property="price"		column="PRICE"			jdbcType="NUMBER"/>
+  		<result property="price"		column="PRICE"			jdbcType="NUMERIC"/>
   		<result property="roomCity" 	column="ROOM_CITY"		jdbcType="VARCHAR"/>
   		<result property="checkIn"		column="CHECK_IN" 		jdbcType="TIMESTAMP"/>
   		<result property="checkOut" 	column="CHECK_OUT" 		jdbcType="TIMESTAMP"/>
   		<result property="detailLink" 	column="DETAIL_LINK"	jdbcType="VARCHAR"/>
-  		<result property="adultNum" 	column="ADULT_NUM" 		jdbcType="NUMBER"/>
-  		<result property="childNum" 	column="CHILD_NUM" 		jdbcType="NUMBER"/>  
-  		<result property="roomNum" 		column="ROOM_NUM" 		jdbcType="NUMBER"/>
+  		<result property="adultNum" 	column="ADULT_NUM" 		jdbcType="NUMERIC"/>
+  		<result property="childNum" 	column="CHILD_NUM" 		jdbcType="NUMERIC"/>  
+  		<result property="roomNum" 		column="ROOM_NUM" 		jdbcType="NUMERIC"/>
   		<result property="roomImg" 		column="ROOM_IMG" 		jdbcType="VARCHAR"/>  		 
   		<result property="mainService" 	column="MAIN_SERVICE"	jdbcType="VARCHAR"/>
 		<result property="familyService" column="FAMILY_SERVICE"	jdbcType="VARCHAR"/>
@@ -33,14 +33,14 @@
 		VALUES (
 					seq_room_ROOM_ID.NEXTVAL,
 					#{roomName:VARCHAR},
-					#{price:NUMBER},
+					#{price:NUMERIC},
 					#{roomCity:VARCHAR},
 					#{checkIn:TIMESTAMP},
 					#{checkOut:TIMESTAMP},
 					#{detailLink:VARCHAR},
-					#{adultNum:NUMBER},
-					#{childNum:NUMBER},
-					#{roomNum:NUMBER},
+					#{adultNum:NUMERIC},
+					#{childNum:NUMERIC},
+					#{roomNum:NUMERIC},
 					#{roomImg:VARCHAR},
 					#{mainService:VARCHAR},
 					#{familyService:VARCHAR},
@@ -51,7 +51,7 @@
 					)
 	</insert>
   	
-  	<select id="getRoom" parameterType="int" resultMap="orderSelectMap">
+  	<select id="getRoom" parameterType="String" resultMap="roomSelectMap">
   		SELECT 
 		room_id , room_name , price, roomImg, mainService, familyService ,sights,hotelInfo,roomInfo
 		FROM room r

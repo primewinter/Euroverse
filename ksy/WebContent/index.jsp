@@ -31,7 +31,7 @@
 	<a href="/view/myPage/page.jsp">/view/myPage/page.jsp </a><br/>
 	<a href="/view/community/page.jsp">/view/community/page.jsp </a> : 이주하<br/>
 	<a href="/view/order/page.jsp">/view/user/page.jsp </a> : 김유경<br/>
-	<a href="/view/tripInfo/page.jsp">/view/tripInfo/page.jsp </a> : 이승환<br/>
+	<a href="/view/tripInfo/page.jsp">192.168.0.54/api/infinityClick </a> : 이승환<br/>
 	<a href="/toolbar/toolBar.jsp">/toolbar/toolBar.jsp </a> : 차소영<br/>
 </body>
 

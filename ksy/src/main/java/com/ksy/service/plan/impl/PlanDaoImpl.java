@@ -115,5 +115,31 @@ public class PlanDaoImpl implements PlanDao {
 	public String findUserId(String userId) throws Exception {
 		return sqlSession.selectOne("PlanMapper.findUserId", userId);
 	}
+	
+	
+	
+	public int getUndoneCount(String userId) throws Exception {
+		return sqlSession.selectOne("PlanMapper.getUndoneCount", userId);
+	}
+	
+	public List<Plan> getUndonePlanId(String userId) throws Exception {
+		return sqlSession.selectList("PlanMapper.getPlanIdList", userId);
+	}
+	
+	public List<Todo> getUndoneTodo(String planId) throws Exception {
+		return sqlSession.selectList("PlanMapper.getUndoneList", planId);
+	}
+	
+	public List<Plan> getSoonPlanId(int leftDay) throws Exception {
+		return sqlSession.selectList("PlanMapper.getSoonPlanId", leftDay);
+	}
+	
+	public List<Todo> getSoonTodo(String planId) throws Exception {
+		return sqlSession.selectList("PlanMapper.getSoonTodo", planId);
+	}
+
+	public List<User> getPushPhoneList(String planId) throws Exception {
+		return sqlSession.selectList("PlanMapper.getPushPhoneList", planId);
+	}
 
 }

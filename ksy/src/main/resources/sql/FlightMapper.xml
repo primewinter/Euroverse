@@ -10,49 +10,55 @@
 	
 		<result property="flightId" 	column="FLIGHT_ID" 		jdbcType="VARCHAR"/>
   		<result property="airline" 		column="AIRLINE" 		jdbcType="VARCHAR"/>
-  		<result property="price"		column="PRICE"			jdbcType="NUMBER"/>
+  		<result property="price"		column="PRICE"			jdbcType="NUMERIC"/>
   		<result property="tripCourse" 	column="TRIP_COURSE"	jdbcType="CHAR"/>
   		<result property="depCity"		column="DEP_CITY" 		jdbcType="VARCHAR"/>
   		<result property="arrCity" 		column="ARR_CITY" 		jdbcType="VARCHAR"/>
-  		<result property="depDate" 		column="DEP_DATE_TIME"	jdbcType="TIMESTAMP"/>
-  		<result property="arrDate" 		column="ARR_DATE_TIME" 	jdbcType="TIMESTAMP"/>
+  		<result property="depDate" 		column="dep_date"		jdbcType="VARCHAR"/>
+  		<result property="arrDate" 		column="arr_date" 		jdbcType="VARCHAR"/>
+  		<result property="depTime"		column="DEP_TIME"		jdbcType="VARCHAR"/>
+  		<result property="arrTime"		column="ARR_TIME"		jdbcType="VARCHAR"/>
   		<result property="seatGrade" 	column="SEAT_GRADE" 	jdbcType="CHAR"/>
-  		<result property="adultNum" 	column="ADULT_NUM" 		jdbcType="NUMBER"/>
-  		<result property="childNum" 	column="CHILD_NUM" 		jdbcType="NUMBER"/>  		 
-  		<result property="infantNum"	column="INFANT_NUM"     jdbcType="NUMBER" />
+  		<result property="adultNum" 	column="ADULT_NUM" 		jdbcType="NUMERIC"/>
+  		<result property="childNum" 	column="CHILD_NUM" 		jdbcType="NUMERIC"/>  		 
+  		<result property="infantNum"	column="INFANT_NUM"     jdbcType="NUMERIC" />
   		<result property="leadTime" 	column="LEAD_TIME"		jdbcType="VARCHAR"/>
-  		<result property="stopOver"		column="STOPOVER"		jdbcType="VARCHAR"/>
+  		<result property="stopOver"		column="stop_over"		jdbcType="VARCHAR"/>
 	
   	</resultMap>
   	
   	<insert id="addFlight" parameterType="flight">
 		INSERT 
-		INTO flight(FLIGHT_ID,AIRLINE,PRICE,TRIP_COURSE,DEP_CITY,ARR_CITY,DEP_DATE_TIME,ARR_DATE_TIME,SEAT_GRADE,ADULT_NUM,CHILD_NUM,INFANT_NUM,LEAD_TIME,STOPOVER )
+		INTO flight(FLIGHT_ID,AIRLINE,PRICE,TRIP_COURSE,DEP_CITY,ARR_CITY
+		,DEP_DATE,arr_date,SEAT_GRADE,ADULT_NUM,CHILD_NUM,INFANT_NUM,LEAD_TIME,stop_over
+		,DEP_TIME,ARR_TIME )
 		VALUES (
-					seq_order_FLIGHT_ID.NEXTVAL,
+					seq_flight_FLIGHT_ID.NEXTVAL,
 					#{airline:VARCHAR},
-					#{price:NUMBER},
+					#{price:NUMERIC},
 					#{tripCourse:CHAR},
 					#{depCity:VARCHAR},
 					#{arrCity:VARCHAR},
-					#{depDate:TIMESTAMP},
-					#{arrDate:TIMESTAMP},
+					#{depDate:VARCHAR},
+					#{arrDate:VARCHAR},
 					#{seatGrade:CHAR},
-					#{adultNum:NUMBER},
-					#{childNum:NUMBER},
-					#{infantNum:NUMBER},
-					#{leadTime:VARCHAR}
-					#{stopOver:VARCHAR}
+					#{adultNum:NUMERIC},
+					#{childNum:NUMERIC},
+					#{infantNum:NUMERIC},
+					#{leadTime:VARCHAR},
+					#{stopOver:VARCHAR},
+					#{depTime:VARCHAR},
+					#{arrTime:VARCHAR}
 					
 					)
 	</insert>
   	
   	
-  	<select id="getFlight" parameterType="String" resultMap="orderSelectMap">
+  	<select id="getFlight" parameterType="String" resultMap="flightSelectMap">
   		SELECT 
-		flight_id , airline, dep_city , arr_city , dep_date, arr_date, lead_time , stopover 
+		flight_id , airline, dep_city , arr_city , dep_date, arr_date, lead_time , stop_over ,DEP_TIME,ARR_TIME
 		FROM  flight f
-		WHERE flight_id = #{flightId}
+		WHERE flight_id = ${flightId}
 					
   	</select>
   	
