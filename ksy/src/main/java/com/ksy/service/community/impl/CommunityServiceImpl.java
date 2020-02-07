@@ -14,6 +14,7 @@ import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.Report;
+import com.ksy.service.domain.Tag;
 
 @Service("communityServiceImpl")
 public class CommunityServiceImpl implements CommunityService{
@@ -29,13 +30,36 @@ public class CommunityServiceImpl implements CommunityService{
 	public CommunityServiceImpl() {
 		System.out.println(this.getClass());
 	}
-	
+
 	public void addPost(Post post) throws Exception {
 		communityDao.addPost(post);
 	}
 	
-	public Post getPost(String postId) throws Exception {
-		return communityDao.getPost(postId);
+	public void addTag(String tagContent, String postId) throws Exception {
+		communityDao.addTag(tagContent, postId);
+	}
+	
+	public void updatePost(Post post) throws Exception {
+		communityDao.updatePost(post);
+	}
+	
+	public void updateTag(Tag tag) throws Exception {
+		communityDao.updateTag(tag);
+	}
+	
+	public void deleteTag(String postId) throws Exception {
+		communityDao.deleteTag(postId);
+	}
+	
+	public Post getPost(String postId, String userId) throws Exception {
+		return communityDao.getPost(postId, userId);
+	}
+	
+	public List<Tag> getTagList(String postId) throws Exception {
+		
+		List<Tag> list = communityDao.getTagList(postId);
+		
+		return list;
 	}
 
 	public Map<String , Object > getPostList(Search search, String boardName) throws Exception {
@@ -100,6 +124,18 @@ public class CommunityServiceImpl implements CommunityService{
 	
 	public void addReport(Report report) throws Exception {
 		communityDao.addReport(report);
+	}
+	
+	public void dayBestReset() throws Exception {
+		communityDao.dayBestReset();
+	}
+	
+	public void weekBestReset() throws Exception {
+		communityDao.weekBestReset();
+	}
+	
+	public void monthBestReset() throws Exception {
+		communityDao.monthBestReset();
 	}
 
 }
