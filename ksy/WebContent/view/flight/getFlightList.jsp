@@ -154,7 +154,6 @@ $(function() {
 		</div>
 </div>
 
-	<jsp:include page="../common/pageNavigator_new.jsp"/>			 
 
 </body>
 </html>

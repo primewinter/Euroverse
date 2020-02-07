@@ -53,28 +53,9 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 <script type="text/javascript">
 
-
 $(function() {
 	 $( 'button' ).on("click" , function() {
-		 
-	        
-	        //$("#merchant_uid").val()
-		 var url = $(this).val();
-	     var price = $(this).next().val();
-	     var roomCity = $(this).next().next().val();
-	     var roomNum = $(this).next().next().next().val();
-	     var checkIn = $(this).next().next().next().next().val();
-	     var adultNum = $("#adultNum").val();
-	     var childNum = $("#childNum").val();
-	     var checkOut = $("#checkOut").val();
-	     
-	     $("#checkIn").val(checkIn);
-	     
-		 alert(url+"price"+price+"room : "+roomCity+"checkIn : "+checkIn);
-		 self.location ="/room/getRoom?detailLink="+url+"&price="+price+"&roomCity="+roomCity+"&checkIn="+checkIn
-				 +"&roomNum="+roomNum+"&adultNum="+adultNum+"&childNum="+childNum+"&checkOut="+checkOut;
-	  //$("form").attr("method" , "POST").attr("action" , "/room/getRoom").submit();
-
+	  $("form").attr("method" , "GET").attr("action" , "/order/addRoomOrder").submit();
 	});
 });	
 
@@ -103,37 +84,37 @@ $(function() {
 <form>
 	<div class="container">
 		<div class="page-header">
-		<h3 align="center"> 숙소 </h3>
-		<h5 align="center"> 도착지역 ${room.roomCity }</h5>
-		<h5 align="center"> 출발시간 ${room.checkIn }</h5>
-		<h5 align="center"> 도착시간 ${room.checkOut }</h5>
-		<c:forEach var="room" items = "${roomList}" >
-		
-    	<h5 align="center"> ${room.roomName}</h5>
-    	
-    	<h5 align="center"><img src = "/images/uploadFiles/${room.roomImg}" id="imgControll" name="imgControll" width="80" height="80" />
-    	<h5 align="center"> ${room.price }
-    	<button type="button" value="${room.detailLink}" >상세보기</button>
-    	<input type="hidden" name="price" value=" ${room.price}">
-    	<input type="hidden" name="roomCity" value=" ${room.roomCity}">
+			<h3>Selenium</h3>
+		<h3 align="center"> 숙소 상세정보 </h3>
+		<p>${room.roomCity }</p>
+		<p>${room.checkIn }</p>
+    	<h2 align="center"> ${room.roomName}</h2>
+    	<p>${room.mainService }</p>
+    	<p>${room.familyService } </p>
+    	<p>${room.sights } </p>
+    	<p>${room.hotelInfo } </p>
+    	<p>${room.roomInfo } </p>
+    	<p>${room.price }</p>
+    	<img src = "/images/uploadFiles/${room.roomImg}" id="imgControll" name="imgControll" width="800" height="700" />
+		<button type="button" value="${room.roomCity}">구매하기</button>
+		<input type="hidden" name="roomCity" value=" ${room.roomCity}">
+    	<input type="hidden" name="roomName" value=" ${room.roomName}">
     	<input type="hidden" name="roomNum" value=" ${room.roomNum}">
+    	<input type="hidden" name="adultNum" value=" ${room.adultNum}">
+    	<input type="hidden" name="childNum" value=" ${room.childNum}">
+		<input type="hidden" name="mainService" value=" ${room.mainService}">
+    	<input type="hidden" name="familyService" value=" ${room.familyService}">
+    	<input type="hidden" name="sights" value=" ${room.sights}">
+    	<input type="hidden" name="hotelInfo" value=" ${room.hotelInfo}">
+		<input type="hidden" name="roomInfo" value=" ${room.roomInfo}">
+    	<input type="hidden" name="price" value=" ${room.price}">
     	<input type="hidden" name="checkIn" value=" ${room.checkIn}">
-    	<input type="hidden" name="adultNum" value=" ${room.adultNum}" id="adultNum">
-    	<input type="hidden" name="childNum" value=" ${room.childNum}" id="childNum">
-    	<input type="hidden" name="checkOut" value=" ${room.checkOut}" id="checkOut">
-    	</h5>
-    	
-    	<input type="hidden" name="detailLink" value="${room.detailLink}">
-    <%-- 	<input href="${purchase.merchant_uid }" type="button" value="상세보기" /> --%>
-    	</c:forEach>
-		
-		
-		
-		
+    	<input type="hidden" name="checkOut" value=" ${room.checkOut}">
+    	<input type="hidden" name="detailLink" value=" ${room.detailLink}">
+    	<input type="hidden" name="roomImg" value=" ${room.roomImg}">
 		</div>
 </div>
 </form>
-	<jsp:include page="../common/pageNavigator_new.jsp"/>			 
 
 </body>
 </html>
