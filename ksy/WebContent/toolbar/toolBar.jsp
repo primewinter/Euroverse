@@ -16,7 +16,6 @@
 				    <script type="text/javascript">
 				        var pushAddr = "ws://192.168.0.82:8080/websocket/${user.userId}";
 				        var webSocket = new WebSocket(pushAddr);
-				        if( userId != null && userId != '' ) {
 				        
 				        var userId = '${user.userId}';
 				        //웹 소켓이 연결되었을 때 호출되는 이벤트
