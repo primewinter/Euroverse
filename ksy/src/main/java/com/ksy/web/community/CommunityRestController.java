@@ -48,12 +48,12 @@ public class CommunityRestController {
 		System.out.println(this.getClass());
 	}
 	
-	@Value("#{commonProperties['pageUnit']}")
+	@Value("#{commonProperties['postPageUnit']}")
 	int pageUnit;
 	
-	@Value("#{commonProperties['pageSize']}")
+	@Value("#{commonProperties['postPageSize']}")
 	int pageSize;
-	
+
 	@RequestMapping(value="/json/addReport", method=RequestMethod.POST)
 	public void addReport(Report report, HttpServletResponse response, HttpSession session) throws Exception {
 		
@@ -123,6 +123,7 @@ public class CommunityRestController {
 		User user=(User)session.getAttribute("user");
 	    like.setLikeUserId(user.getUserId());
 	    like.setRefId(cmtId);
+	    like.setLikeType("C");
 	    
 	    if(likeService.countByLike(like)==0){
 	    	likeService.addLike(like);
@@ -162,6 +163,46 @@ public class CommunityRestController {
 		out.println(obj);
 	}
 	
+	@RequestMapping(value="/json/addBookMark/{postId}", method=RequestMethod.GET )
+	public void addBookMark(@PathVariable String postId, HttpSession session, HttpServletResponse response ) throws Exception {
+	  
+		System.out.println("/community/json/addBookMark : GET");
+	
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		 
+		Like like = new Like();
+		User user=(User)session.getAttribute("user");
+	    like.setLikeUserId(user.getUserId());
+	    like.setRefId(postId);
+	    like.setLikeType("B");
+	    
+	    if(likeService.countByLike(like)==0){
+	    	likeService.addLike(like);
+	    }
+	    like=likeService.getLike(like);
+
+		String likeCheck = like.getLikeCheck(); //좋아요 체크 값
+		List<String> msgs = new ArrayList<String>();
+
+		if(likeCheck.equals("F")) {
+		  msgs.add("좋아요!");
+		  likeService.like_check(like);
+		  likeCheck="T";
+		}else{
+		  msgs.add("좋아요 취소");
+		  likeService.like_check_cancel(like);
+		  likeCheck="F";
+
+		}
+		JSONObject obj = new JSONObject();
+		obj.put("postId", like.getRefId());
+		obj.put("likeCheck", likeCheck);
+		obj.put("msg", msgs);
+		
+		out.println(obj);
+	}
+	
 	@RequestMapping( value="json/likeUpdate", method=RequestMethod.POST )
 	public void likeUpdate( String postId, HttpServletResponse response ) throws Exception {
 	
@@ -179,12 +220,12 @@ public class CommunityRestController {
 	}
 	
 	@RequestMapping( value="json/addFile", method=RequestMethod.POST )
-	public void profileUpload(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void addFile(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		// 업로드할 폴더 경로
-		String realFolder = "C:\\Users\\User\\git\\repository2\\11.Model2MVCShop\\WebContent\\images\\uploadFiles\\";
+		String realFolder = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\";
 		UUID uuid = UUID.randomUUID();
 
 		// 업로드할 파일 이름
@@ -202,8 +243,8 @@ public class CommunityRestController {
 			f.mkdirs();
 		}
 		file.transferTo(f);
-		Thread.sleep(3000);
-		out.println("../images/uploadFiles/" + str_filename);
+		Thread.sleep(5000);
+		out.println("../../resources/images/" + str_filename);
 		out.close();
 	}
 	
