@@ -1,4 +1,4 @@
-package com.ksy.service.tripInfo.impl;
+package com.ksy.service.tripInfo;
 
 public interface TripInfoService {
 
