@@ -50,6 +50,16 @@ public interface PlanService {
 	public void updateUserSlot(String userId) throws Exception;
 		
 	public String findUserId(String userId) throws Exception;
+	
+	
+	// 미완료 todo 리스트 있는지 체크
+	public int getUndoneCount(String userId) throws Exception;
+	
+	// 안한 todo 리스트 조회
+	public List<Plan> getUndoneList(String userId) throws Exception;
+	
+	// D-nn 인 플랜(todo+User) 리스트 조회
+	public List<Plan> getSoonPlan(int leftDay) throws Exception;
 
 	
 }

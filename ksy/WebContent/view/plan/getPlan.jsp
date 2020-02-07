@@ -111,19 +111,30 @@
       	font-size: 13px;
       }
       
+      
       .party-member-img{
-      	height: 40px;
+      	height: 37px;
+      	width: 37px;
+      	border-style: solid;
+      	border-width: thin;
+      }
+      .party-member-img.K{
+      	border-width: 2px;
+      	border-color: #F23000;
+      }
+      .party-member-img.M{
+      	border-color: #C6C6C6;
       }
       .plan-party-list-box{
-      	border-radius: 6px;
+      	border-radius: 5px;
       	border-style: solid; 
-      	border-color: gray;
+      	border-color: #DDDDDD;
       	border-width: thin;
-      	padding:13px; 
+      	padding: 5px 12px; 
       	background-color: white; 
       	display:scroll; 
       	position:fixed; 
-      	top:300px; 
+      	top:280px; 
       	left:20px; 
       	margin: 15px; 
       	width: 165px;
@@ -139,13 +150,11 @@
       	margin-left: 7px;
 		position:absolute;
       }
-     
+      
 	</style>
 
 
 	<script type="text/javascript">
-	
-
 	
 		var planId = ${plan.planId};
 		
@@ -163,8 +172,7 @@
 				}),
 				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
 				success: function(JSONData, status){
-					if( JSONData==null || JSONData=="" ){
-						//alert("리턴데이터 없음");		//왠지 모르겠는데 안뜸..ㅠ...
+					if( JSONData==null || JSONData=="" ){ //alert("리턴데이터 없음");		//왠지 모르겠는데 안뜸..ㅠ...
 					}else{
 						//alert("리턴데이터 있음1! => "+JSONData.dailyCate);	
 						
@@ -397,12 +405,12 @@
 		
 		getDailyList(planId);	//페이지 로드 후 ajax로 일정 리스트 가져와서 만들어진 일정표에 심어주기
 		
-		
-		
-		
 		/* ------------------------------------------------------------------------------------------------------ */
-		/* ---------------------------------		Stuff List 관련 함수들		--------------------------------- */
 		
+		
+		
+		
+		/* ---------------------------------		Stuff List 관련 함수들		--------------------------------- */
 		$(function(){
 			
 			$('#stuffMode').on('click', function(){
@@ -565,7 +573,8 @@
 		/* ------------------------------------------------------------------------------------------------------ */
 		
 		
-		/* ------------------------------------------------------------------------------------------------------ */
+		
+		
 		/* ---------------------------------		Todo List 관련 함수들			--------------------------------- */
 		
 		$(function(){
@@ -598,6 +607,7 @@
 		}	//addTodo 끝
 		
 		/* ------------------------------------------------------------------------------------------------------ */
+		
 		
 		
 		/* ---------------------------------	CityRoute List 관련 함수들		--------------------------------- */
@@ -655,12 +665,12 @@
 							$('.findUserResult').text(JSONData[1]);
 							$('#offerMsgForm').hide();
 							$('#addOffer').hide();
-							$("input[name='findUserId']").val('');
 						}else if(JSONData[0] == 'A'){	//초대 가능
 							$('.findUserResult').text(JSONData[1]);
 							$('#offerMsgForm').show();
 							$('#addOffer').show();
 						}
+						$("input[name='findUserId']").val('');
 					}
 				},
 				error:function(request,status,error){
@@ -698,11 +708,37 @@
 			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
 			        closeModal('inviteUser');
 			        alert(request.responseText+" 님에게 초대 메시지를 보냈습니다.");
+			        
+			      	//초대 받는 사람에게 push 하기
+					var receiverId = toUserId;
+					var pushType = 'I';
+					sendPush(receiverId, pushType);
 			    } 
 			});
 		}	//addOffer 끝
 		
 		/* ------------------------------------------------------------------------------------------------------ */
+		
+		
+		
+		/* ---------------------------------	Plan Information 관련 함수		--------------------------------- */
+		$(function(){
+			$('#updatePlanButton').on('click',function(){
+				$("#editPlan").show();
+			});		
+			
+			$('#updatePlan').on('click', function(){
+				alert("updatePlan 버튼 클릭 => updatePlan 함수 실행")
+			});
+			
+			$('#planCompleteButton').on("click", function(){
+				//$("#completePlan").show();
+				alert("여행완료 확정 버튼 클릭 => 여행완료 확정 창 띄우기")
+			});
+		})
+		
+		/* ------------------------------------------------------------------------------------------------------ */
+	
 		
 	</script>
 	
@@ -735,24 +771,24 @@
 
 </head>
 <body>
+	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	
 	<div class="album py-4 bg-white text-center" id="top">
 		~~~ 원래는 Top ToolBar 있어야 할 자리 ~~~
 	</div>
 	
 	<!-- navigation-list  -->
-	<div class="list-group navigation-list" style="display:scroll; position:fixed; top:50px; left:20px; margin: 15px; width: 165px;">
+	<div class="list-group navigation-list" style="display:scroll; position:fixed; top:40px; left:20px; margin: 15px; width: 165px;">
 	  <a href="/index.jsp" class="list-group-item list-group-item-action">메인으로</a>
-	  <a href="#gotoTodoList" class="list-group-item list-group-item-action list-group-item-primary scroll">Todo 리스트</a>
-	  <a href="#gotoCityRouteList" class="list-group-item list-group-item-action list-group-item-secondary scroll">여행루트</a>
-	  <a href="#gotoDailyList" class="list-group-item list-group-item-action list-group-item-success scroll">일정표</a>
-	  <a href="#gotoBudgetOverviewList" class="list-group-item list-group-item-action list-group-item-danger scroll">예산</a>
-	  <a href="#gotoStuffList" class="list-group-item list-group-item-action list-group-item-warning scroll">준비물</a>
-	  <a href="#gotoMemoList" class="list-group-item list-group-item-action list-group-item-info scroll">메모</a>
+	  <a href="#gotoTodoList" class="list-group-item list-group-item-action scroll">Todo 리스트</a>
+	  <a href="#gotoCityRouteList" class="list-group-item list-group-item-action scroll">여행루트</a>
+	  <a href="#gotoBudgetOverviewList" class="list-group-item list-group-item-action  scroll">예산</a>
+	  <a href="#gotoDailyList" class="list-group-item list-group-item-action  scroll">일정표</a>
+	  <a href="#gotoStuffList" class="list-group-item list-group-item-action  scroll">준비물</a>
+	  <a href="#gotoMemoList" class="list-group-item list-group-item-action  scroll">메모</a>
 	</div>
 	
-	
-	
+
 	<!-- plan-party-list  -->
 	<div class="plan-party-list-box">
 		<div style="font-weight: bolder;">members</div>
@@ -760,42 +796,47 @@
 		<ul class="list-unstyled plan-party-list">
 			<c:forEach var="member" items="${plan.planPartyList}">
 				<li class="media party-member" style="margin-top: 10px;">
-				    <img src="https://pngimage.net/wp-content/uploads/2018/06/user-image-png-5.png" class="align-self-center mr-2 party-member-img" alt="...">
-				    <div class="media-body">
+					<img src="https://pds.joins.com/news/component/htmlphoto_mmdata/201903/01/faf54c9e-e268-440d-995c-eea6834d559a.jpg" class="rounded-circle align-self-center mr-2 party-member-img ${member.role}" alt="...">
+				    
+				    <div class="media-body" style="font-size:12px;">
 				      <h6 class="mt-0 mb-1">${member.userId}</h6>
 				      ${member.nickname}
 				    </div>
 				</li>
 			</c:forEach>
 			
-			<li class="media add-party-member" style="margin-top: 17px;">
-				<i class="fas fa-user-plus" style="font-size: 30px; margin-left: 5px;" onclick="inviteUser()"></i>
+			<li class="media add-party-member" style="margin-top: 15px;">
+				<i class="fas fa-user-plus" style="font-size: 22px; margin-left: 5px;" onclick="inviteUser()"></i>
 			</li>
 		</ul>
-		
 	</div>
 
 	<!-- Top 버튼 -->
-	<a style="border-radius:10px; background-color:#D2D6FC; padding:8px; display:scroll; position:fixed;bottom:50px;right:130px; margin: 15px; font-weight: bolder; font-size: x-large;" href="#top" title="top" class="scroll">TOP</a>
+	<a style="border-radius:10px; background-color:#D2D6FC; padding:8px; display:scroll; position:fixed;bottom:20px;right:130px; margin: 15px; font-weight: bolder; font-size: x-large;" href="#top" title="top" class="scroll">TOP</a>
 	
 	
 	
-	<!--	 Plan Infomation	 	-->
+	
+	<!--	 Plan Information	 	-->
 	<div class="album py-5 bg-light">
 		<div class="container">
-			<h5>Plan Infomation</h5>
-			<div class="row" style="background-color: #FFE86A; width: 100%; padding: 20px;">
+			<h5>Plan Information</h5>
+			<div class="row" style="background-color: #FFE86A; width: 100%; padding: 20px; border-radius: 5px; ">
 			
 				<img src="https://omakare.com/wp-content/uploads/2018/11/Travel.jpg" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="margin: 5px; border-width: 1px; border-color: gray; border-style: solid; width: 100px; height: 100px;">
 			    <div class="media-body" style="margin-left: 25px; margin-top: 30px;">
 			      <div><div style="font-weight: bolder; font-size: 20px; display: inline-block;">${plan.planTitle} </div> ${plan.planPartySize} 명</div>
-			      ${plan.startDateString} ~ ${plan.endDate} ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; D-${plan.planDday}
+			      ${plan.startDateString} ~ ${plan.endDate} ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
+			      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
+			      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
 			    </div>
 				
 				<div>
-				<button type="button" class="btn btn-primary" style="margin-left: 10px;">플래너 수정</button> 
-				<button type="button" class="btn btn-primary" style="margin-left: 10px;">플래너 삭제</button> 
-				<button type="button" class="btn btn-primary" style="margin-left: 10px;">여행완료 확정</button>
+				<button type="button" class="btn btn-primary" id="updatePlanButton" style="margin-left: 10px;">플래너 수정</button> 
+				<c:if test="${ user.userId == plan.planMaster.userId }">
+					<button type="button" class="btn btn-primary" style="margin-left: 10px;">플래너 삭제</button> 
+				</c:if>
+				<button type="button" class="btn btn-primary" id="planCompleteButton" style="margin-left: 10px;">여행완료 확정</button>
 				</div>
 			</div>
 		</div>
@@ -892,7 +933,7 @@
 			<h4>Stuff List : 준비물 체크리스트</h4> <div class="text-right" style="font-weight: bolder; font-size: 25px;" id="stuffMode">Edit Mode</div>
 			<div class="row">
 				
-				<div style="border:dashed thin ; border-radius:8px; padding:25px; background-color: white; width: 100%; ">
+				<div style="border:dashed thin #A7A7A7 ; border-radius:8px; padding:25px; background-color: white; width: 100%; ">
 					<span id="stuff_icon"><i class="fas fa-tasks" style="font-size: 25px; margin-right: 6px; margin-bottom: 15px;"></i></span> <span style="margin-left:10px; font-size:large; font-weight:bolder;"> 준비물 리스트</span> <span id="stuffCount" style="margin-left: 15px;"></span> <br/>
 					
 					<div class="stuffItems">
@@ -948,6 +989,68 @@
 			
 	
 	
+	
+	<!--				 Medal : editPlan				-->	
+	<div class="modal" id="editPlan">
+	  <div class="modal-dialog" >
+	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 수정</h4>
+	  
+	    <div class="modal-content">
+	    
+	      <div class="modal-header">
+	        <div class="modal-title">
+	        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>플래너를 수정합니다</h6>
+	        </div>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('editPlan')">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      
+	      <div class="modal-body">
+	        
+	        <form class="form-horizontal editPlan" style="margin: 10px;">
+	        	
+				<div class="form-group">
+				    <label for="planTitle" class="col-sm-offset-3 col-sm-5 control-label">플래너 제목	</label>
+				    <div class="col-sm-5">
+				      <input type="text" class="form-control" id="planTitle" name="planTitle" placeholder="플래너 제목" value="${plan.planTitle}">
+				    </div>
+				</div>
+				
+				<div class="form-group">
+				    <label for="planImg" class="col-sm-offset-3 col-sm-5 control-label">플래너 이미지</label>
+				    <div class="col-sm-5">
+				      <input type="text" class="form-control" id="planImg" name="planImg" placeholder="플래너 이미지" value="${plan.planImg}">
+				    </div>
+				</div>
+				
+				<div class="form-group">
+				    <label for="planType" class="col-sm-offset-3 col-sm-5 control-label">플래너 타입</label>
+				    <div class="col-sm-5">
+				      <input type="text" class="form-control" id="planType" name="planType" placeholder="플래너 타입" value="${plan.planType}">
+				    </div>
+				</div>
+				
+				<div class="form-group">
+				    <label for="startDateString" class="col-sm-offset-3 col-sm-5 control-label">여행 시작일</label>
+				    <div class="col-sm-5">
+				      <input type="text" class="form-control" id="startDateString" name="startDateString" placeholder="여행 시작일" value="${plan.startDateString}">
+				    </div>
+				</div>
+				
+	        </form>
+	        
+	      </div>
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('editPlan')">Close</button>
+	        <button type="button" class="btn btn-primary" id="updatePlan">수정</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!--				 Medal : editPlan	끝			-->	
+	
+	
 	<!--				 Medal : dailyEdit				-->	
 	<div class="modal" id="dailyEdit" >
 	  <div class="modal-dialog">
@@ -991,7 +1094,6 @@
 					</select>
 				</div>
 				
-				
 				<div class="form-group" style="margin-top: 15px; margin-bottom: 20px; width: 440px;">
 				    <label for="dailyDetail" class="control-label" style="font-weight: bold; margin-bottom: 5px;" >일정 내용</label><br/>
 				    <input type="text" class="form-control" id="dailyDetail" name="dailyDetail" placeholder="일정 내용을 작성해주세요" style="width:100%; height: 100px;">
@@ -1032,7 +1134,7 @@
 	    
 	      <div class="modal-header">
 	        <div class="modal-title">
-	        	<h6 style="align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
+	        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
 	        </div>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('inviteUser')">
 	          <span aria-hidden="true">&times;</span>
@@ -1059,7 +1161,6 @@
 				    <label for="offerMsg" class="control-label" style="font-weight: bold; margin-bottom: 7px;" ><span class="findUserResult"></span> 님에게 전송할 초대 메시지</label><br/>
 				    <input type="text" class="form-control" id="offerMsg" name="offerMsg" placeholder="초대 메시지를 입력하세요" style="width:100%; height: 100px;">
 				</div>
-				
 	        </form>
 	        
 	      </div>
@@ -1125,6 +1226,30 @@
 	    	 });
 		};
 	
+		
+		/* ---------------------------------	Plan Information 여행완료 버튼  관련 함수		--------------------------------- */
+		var now = new Date();
+		var planEndDate = "${plan.endDate}";
+		var newPlanEndDate = new Date(planEndDate);
+		console.log("now="+now+" / endDate="+newPlanEndDate);
+		
+		if(now > newPlanEndDate){
+			console.log("여행완료 확정 버튼")
+			$('#planCompleteButton').show();
+		}else{
+			console.log("여행완료 확정 버튼 없음!!!!!");
+			$('#planCompleteButton').hide();
+		}
+		/* ------------------------------------------------------------------------------------------------------ */
+		
+		$( ".dailys" ).hover(
+		  function() {
+		    $( this ).css("background", "#D4EFFA");
+		  }, function() {
+		    $( this ).css("background", "none");
+		  }
+		 );
+		
 	</script>
 	
 	
