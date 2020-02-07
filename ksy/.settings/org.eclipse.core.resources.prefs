@@ -1,2 +1,4 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/ksy/web/order/OrderController.java=UTF-8
+encoding//src/main/java/com/ksy/web/tripInfo/TripInfoController.java=EUC-KR
+encoding//src/main/java/com/ksy/web/tripInfo/TripInfoRestController.java=EUC-KR

@@ -1,4 +1,4 @@
-package com.ksy.infinityClick;
+package com.ksy.web.tripInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +50,7 @@ public class InfinityClick {
 
 	public Map<Integer,String> imgCrawl() throws Exception {
 
+
 		System.out.println("crawling start!!!!");
 		//크롤링 해올 url 가져오기
 		driver.get(base_url);
@@ -87,10 +88,12 @@ public class InfinityClick {
 				
 				urlMap.put(i,url);
 			}
+			
 		}
 		
 		//디버깅용
 		System.out.println("urlMap==>"+urlMap);
+		
 		return urlMap;
 	}
 	
