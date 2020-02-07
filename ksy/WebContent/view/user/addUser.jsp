@@ -217,6 +217,7 @@ $(function(){
 		    if(fileSize > maxSize) {
 		        alert("파일용량을 초과하였습니다.");
 		        $(".custom-file label").html("<i class='fas fa-camera-retro'>size 360x360</i>");
+		        $("#preview").html("");
 		        return;
 		    }else{
 				readImg(this);
@@ -392,7 +393,7 @@ function preview(src){
  	  <div class="form-group">
 	 	<div class="col-6 mx-auto">
 			<div class="custom-file">
-			  <input type="file" class="custom-file-input" id="userImg" name="userImg">
+			  <input type="file" class="custom-file-input" id="userImg" name="userImg" accept="image/*">
 			  <label class="custom-file-label" for="customFile" ><i class="fas fa-camera-retro">size 360x360</i> </label>  
 			  <!-- 프로필 이미지 미리보기 만들기! 사이즈제한 걸어두기!~~~ -->
 			</div>
