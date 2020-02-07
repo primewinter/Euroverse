@@ -25,13 +25,14 @@
 		<result property="comments" 				column="comments" />
 		<result property="blocked" 				column="blocked" 					jdbcType="CHAR" />
 		<result property="deleted" 				column="deleted" 					jdbcType="CHAR" />
+		<result property="postLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
 	</resultMap>
 	
 	<resultMap id="commentSelectMap" type="comment">
 		<result property="rcmtId" 			column="cmt_id" 			jdbcType="VARCHAR"/>
 		<result property="postId"	column="post_id" 		jdbcType="VARCHAR" />
 		<result property="cmtId" 	column="parent_cmt_id" 		jdbcType="VARCHAR" />
-		<result property="cmtWriterId.userId" 				column="writer_id" 					jdbcType="VARCHAR" />
+		<result property="cmtWriterId" 				column="writer_id" 					jdbcType="VARCHAR" />
 		<result property="cmtContent" 				column="cmt_content" 					jdbcType="VARCHAR" />
 		<result property="cmtDate" 			column="cmt_date" 		jdbcType="TIMESTAMP" />
 		<result property="secret" 				column="secret" 					jdbcType="CHAR" />
@@ -66,6 +67,40 @@
 							#{postTitle:VARCHAR} , #{postContent:VARCHAR} , SYSDATE , #{views:NUMERIC} , #{blocked:CHAR} , 'F' , #{postLikeCount:NUMERIC} )
 	</insert>
 	
+	<insert id="addTag" parameterType="list">
+		INSERT
+		INTO tag( tag_id , post_id , tag_content )
+		<if test="postId == null">
+		VALUES	( SEQ_tag_tag_id.NEXTVAL , SEQ_post_post_id.CURRVAL , #{tagContent:VARCHAR} )
+		</if>
+		<if test="postId != null">
+		VALUES	( SEQ_tag_tag_id.NEXTVAL , #{postId} , #{tagContent:VARCHAR} )
+		</if>
+	</insert>
+	
+	<update id="updatePost" parameterType="post">
+	 	UPDATE post
+	 	<set>
+	 		post_title   = #{postTitle},
+	 		post_content = #{postContent}
+	 	</set>
+		WHERE post_id = #{postId}
+	</update>
+	
+	<update id="updateTag" parameterType="string">
+	 	UPDATE tag
+	 	<set>
+	 		tag_content = #{tagContent}
+	 	</set>
+		WHERE tag_id = #{tagId}
+	</update>
+	
+	<delete id="deleteTag" parameterType="string">
+		DELETE
+		FROM tag
+		WHERE post_id = #{postId}
+	</delete>
+	
 	<update id="update_postLike" parameterType="string">
 	 	UPDATE post
 	 	<set>
@@ -80,6 +115,37 @@
 	 		views = views + 1
 	 	</set>
 		WHERE post_id = #{postId}
+	</update>
+	
+	<update id="updateBestPost" parameterType="string">
+	 	UPDATE post
+	 	<set>
+	 		day_best   = day_best + 1,
+	 		week_best  = week_best + 1,
+	 		month_best = month_best + 1
+	 	</set>
+		WHERE post_id = #{postId}
+	</update>
+	
+	<update id="dayBestReset">
+	 	UPDATE post
+	 	<set>
+	 		day_best = 0
+	 	</set>
+	</update>
+	
+	<update id="weekBestReset">
+	 	UPDATE post
+	 	<set>
+	 		week_best = 0
+	 	</set>
+	</update>
+	
+	<update id="monthBestReset">
+	 	UPDATE post
+	 	<set>
+	 		month_best = 0
+	 	</set>
 	</update>
 	
 	<update id="update_Like" parameterType="comment">
@@ -105,10 +171,17 @@
 		WHERE post_id = #{postId}
 	</select>
 	
-	<select 	id="getPost"	parameterType="string"	resultMap="postSelectMap">
+	<select 	id="getPost"	parameterType="map"	resultMap="postSelectMap">
 		SELECT
-		post_id , post_writer_id , board_name , post_grade , post_title , post_content , post_date , views , blocked , deleted , post_like_count
-		FROM post
+		p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , l.like_check
+		FROM post p, likes l
+		WHERE p.post_id = l.ref_id(+) AND p.post_id = #{postId} AND l.like_user_id(+) = #{userId}
+	</select>
+	
+	<select  id="getTagList" 	parameterType="string"		resultMap="tagSelectMap">
+		SELECT
+		tag_id , post_id , tag_content
+		FROM tag
 		WHERE post_id = #{value}
 	</select>
 	
@@ -116,30 +189,29 @@
 	  	SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
   						FROM ( SELECT p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , count(c.parent_cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
-										FROM post p, comments c
-										WHERE p.post_id = c.post_id(+) AND p.board_name = #{boardName}
-										GROUP BY p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count
-										<if test="searchCondition != null">
+										FROM post p, comments c, tag t
+										<if test="search.searchCondition != null">
 										  <trim prefix="WHERE" prefixOverrides="AND | OR">
-											<if test="searchCondition == 0 and searchKeyword !='' ">
-										 		post_title LIKE '%${searchKeyword}%'
+											<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+										 		p.post_title LIKE '%${search.searchKeyword}%'
 											</if>
-											<if test="searchCondition == 1 and searchKeyword !='' ">
-										 		writer_id LIKE '%${searchKeyword}%'
+											<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+										 		p.post_writer_id LIKE '%${search.searchKeyword}%'
 											</if>
-											<!-- <if test="searchCondition == 2 and searchKeyword !='' ">
-										 		tag_content LIKE '%${searchKeyword}%'
+											<if test="search.searchCondition == 2 and search.searchKeyword !='' ">
+										 		t.tag_content LIKE '%${search.searchKeyword}%'
 											</if>
-											<if test="searchCondition != null">
-												AND p.prod_no=t.prod_no(+)
-											</if> -->
+											<if test="search.searchCondition != null">
+												AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.board_name = #{boardName}
+											</if> 
 										  </trim>
 										</if>
-										<!-- <if test="searchCondition == null">
+										<if test="search.searchCondition == null">
 										  <where>
-											  p.prod_no=t.prod_no(+)
+											  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.board_name = #{boardName}
 										  </where>
-										</if> -->	
+										</if> 
+										GROUP BY p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count
 										ORDER BY p.post_date desc ) inner_table
   						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
   		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
@@ -149,23 +221,31 @@
 	<!-- SQL : SELECT ROW Count -->	 
 	<select  id="getPostTotalCount"  parameterType="map"	 resultType="int">
 		SELECT COUNT(*)
-	  	FROM(	SELECT	post_id , post_writer_id , board_name , post_grade , post_title , post_content , post_date , acc_person , acc_start_date , acc_end_date , qna_first_cate , qna_second_cate , views , blocked , deleted , post_like_count
-				FROM post
-						<if test="searchCondition != null">
-							<where>
-								<if test="searchCondition == 0 and searchKeyword !='' ">
-					 			post_title LIKE '%${searchKeyword}%'
-								</if>
-								<if test="searchCondition == 1 and searchKeyword !='' ">
-					 			writer_id LIKE '%${searchKeyword}%'
-								</if>
-								<if test="searchCondition == 2 and searchKeyword !='' ">
-					 			tag_content LIKE '%${searchKeyword}%'
-								</if>
-								WHERE board_name = #{boardName}
-							</where>
+	  	FROM(	SELECT p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , count(c.parent_cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
+				FROM post p, comments c, tag t
+						<if test="search.searchCondition != null">
+						  <trim prefix="WHERE" prefixOverrides="AND | OR">
+							<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+						 		p.post_title LIKE '%${search.searchKeyword}%'
+							</if>
+							<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+						 		p.post_writer_id LIKE '%${search.searchKeyword}%'
+							</if>
+							<if test="search.searchCondition == 2 and search.searchKeyword !='' ">
+						 		t.tag_content LIKE '%${search.searchKeyword}%'
+							</if>
+							<if test="search.searchCondition != null">
+								AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.board_name = #{boardName}
+							</if> 
+						  </trim>
 						</if>
-				WHERE board_name = #{boardName} ) countTable						
+						<if test="search.searchCondition == null">
+						  <where>
+							  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.board_name = #{boardName}
+						  </where>
+						</if>
+						GROUP BY p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count
+						ORDER BY p.post_date desc ) countTable						
 	</select>
 
 	<insert  id="addComment"		parameterType="comment">

@@ -14,6 +14,7 @@ import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.Report;
+import com.ksy.service.domain.Tag;
 
 @Repository("communityDaoImpl")
 public class CommunityDaoImpl implements CommunityDao{
@@ -27,13 +28,46 @@ public class CommunityDaoImpl implements CommunityDao{
 		System.out.println(this.getClass());
 	}
 	
+
 	public void addPost(Post post) throws Exception {
 		sqlSession.insert("CommunityMapper.addPost", post);
 	}
+	
+	public void addTag(String tagContent, String postId) throws Exception {
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		map.put("tagContent", tagContent);
+		map.put("postId", postId);
+		
+		sqlSession.insert("CommunityMapper.addTag", map);
+	}
+	
+	public void updatePost(Post post) throws Exception {
+		sqlSession.update("CommunityMapper.updatePost", post);
+	}
+	
+	public void updateTag(Tag tag) throws Exception {
+		sqlSession.update("CommunityMapper.updateTag", tag);
+	}
 
-	public Post getPost(String postId) throws Exception {
+	public void deleteTag(String postId) throws Exception {
+		sqlSession.delete("CommunityMapper.deleteTag", postId);
+	}
+	
+	public Post getPost(String postId, String userId) throws Exception {
 		sqlSession.update("CommunityMapper.updateViews", postId);
-		return sqlSession.selectOne("CommunityMapper.getPost", postId);
+		sqlSession.update("CommunityMapper.updateBestPost", postId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("postId", postId);
+		map.put("userId", userId);
+		
+		return sqlSession.selectOne("CommunityMapper.getPost", map);
+	}
+	
+	public List<Tag> getTagList(String postId) throws Exception {
+		return sqlSession.selectList("CommunityMapper.getTagList", postId);
 	}
 	
 	public List<Post> getPostList(Search search, String boardName) throws Exception {
@@ -111,6 +145,18 @@ public class CommunityDaoImpl implements CommunityDao{
 	
 	public void addReport(Report report) throws Exception {
 		sqlSession.insert("CommunityMapper.addReport", report);
+	}
+	
+	public void dayBestReset() throws Exception {
+		sqlSession.update("CommunityMapper.dayBestReset");
+	}
+	
+	public void weekBestReset() throws Exception {
+		sqlSession.update("CommunityMapper.weekBestReset");
+	}
+	
+	public void monthBestReset() throws Exception {
+		sqlSession.update("CommunityMapper.monthBestReset");
 	}
 
 }

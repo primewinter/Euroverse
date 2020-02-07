@@ -21,8 +21,9 @@ public class FlightServiceImpl implements FlightService{
 	public FlightServiceImpl() {
 		System.out.println(this.getClass());
 	}
-	public void addFlight(Flight flight) throws Exception{
+	public Flight addFlight(Flight flight) throws Exception{
 		flightDao.addFlight(flight);
+		return flight;
 	}
 	
 	public Flight getFlight (String flightId) throws Exception {

@@ -1,5 +1,8 @@
 package com.ksy.web.community;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +25,7 @@ import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.User;
 import com.ksy.service.like.LikeService;
+import com.ksy.service.domain.Tag;
 
 @Controller
 @RequestMapping("/community/*")
@@ -38,54 +43,148 @@ public class CommunityController {
 		System.out.println(this.getClass());
 	}
 	
-	@Value("#{commonProperties['pageUnit']}")
+	@Value("#{commonProperties['postPageUnit']}")
 	int pageUnit;
 	
-	@Value("#{commonProperties['pageSize']}")
+	@Value("#{commonProperties['postPageSize']}")
 	int pageSize;
 
+	@Scheduled(cron="0 0 10 * * ?") 
+	public void dayBest() throws Exception {
+
+		Calendar calendar = Calendar.getInstance();
+	
+		communityService.dayBestReset();
+		 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+		System.out.println("일간 인기글 초기화 : "+dateFormat.format(calendar.getTime()));
+	}
+	
+	@Scheduled(cron="0 0 10 ? * MON") 
+	public void weekBest() throws Exception {
+
+		Calendar calendar = Calendar.getInstance();
+	
+		communityService.weekBestReset();
+		 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+		System.out.println("주간 인기글 초기화 : "+dateFormat.format(calendar.getTime()));
+	}
+	
+	@Scheduled(cron="0 0 10 1 * ?") 
+	public void monthBest() throws Exception {
+
+		Calendar calendar = Calendar.getInstance();
+		 
+		communityService.monthBestReset();
+	
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+		System.out.println("월간 인기글 초기화 : "+dateFormat.format(calendar.getTime()));
+	}
+
 	@RequestMapping( value="addPost", method=RequestMethod.GET )
-	public String addPost( @RequestParam("boardName") String boardName, Model model ) throws Exception {
+	public String addPost( @RequestParam("boardName") String boardName ) throws Exception {
 		
 		System.out.println("/community/addPost : GET");
-		System.out.println("보드네임 : "+boardName);
-		model.addAttribute("boardName", boardName);
 		
+		if( boardName.equals("D") ) {
+			return "forward:/community/addFindAccPostView.jsp";
+		}
 		return "forward:/view/community/addPostView.jsp";
 	}
 	
 	@RequestMapping( value="addPost", method=RequestMethod.POST )
-	public String addPost( @ModelAttribute Post post, Model model, HttpSession session ) throws Exception {
+	public String addPost( @ModelAttribute Post post, @RequestParam("tagContent") String[] tagContent, Model model, HttpSession session ) throws Exception {
 		
 		System.out.println("/community/addPost : POST");
-
+	
 		User user = (User)session.getAttribute("user");
 		post.setPostWriterId(user);
-		
+
 		communityService.addPost(post);
+	
+		for(int i=0; i<tagContent.length; i++) {
+			communityService.addTag(tagContent[i], post.getPostId());
+		}
 		
 		model.addAttribute("post", post);
+		model.addAttribute("tagContent", tagContent);
+		
+		return "forward:/view/community/getPost.jsp";
+	}
+	
+	@RequestMapping( value="updatePost", method=RequestMethod.GET )
+	public String updatePost( @RequestParam("postId") String postId, Model model, HttpSession session ) throws Exception {
+		
+		System.out.println("/community/updatePost : GET");
+		
+		User user=(User)session.getAttribute("user");
+		
+		Post post = communityService.getPost(postId, user.getUserId());
+		List<Tag> tag = communityService.getTagList(postId);
+		
+		model.addAttribute("post", post);
+		model.addAttribute("tag", tag);
+		
+		communityService.deleteTag(postId);
+	
+		return "forward:/view/community/updatePostView.jsp";
+	}
+	
+	@RequestMapping( value="updatePost", method=RequestMethod.POST )
+	public String updatePost( @ModelAttribute Post post, @RequestParam("tagContent") String[] tagContent, Model model, HttpSession session ) throws Exception {
+		
+		System.out.println("/community/updatePost : POST");
+		User user=(User)session.getAttribute("user");
+		
+		communityService.updatePost(post);
+		
+		System.out.println("/community/updateTag : POST");
+		for(int i = 0; i < tagContent.length; i++) {
+			communityService.addTag(tagContent[i], post.getPostId());
+		}
+	
+		post = communityService.getPost(post.getPostId(), user.getUserId());
+		List<Tag> tag = communityService.getTagList(post.getPostId());
+		
+		model.addAttribute("post", post);
+		model.addAttribute("tag", tag);
 		
 		return "forward:/view/community/getPost.jsp";
 	}
 	
 	@RequestMapping( value="getPost", method=RequestMethod.GET )
-	public String getUser( @RequestParam("postId") String postId , Model model, HttpSession session ) throws Exception {
+	public String getPost( @RequestParam("postId") String postId , Model model, HttpSession session ) throws Exception {
 		
 		System.out.println("/community/getPost : GET");
+		User user=(User)session.getAttribute("user");
+		
 		//Business Logic
-		Post post = communityService.getPost(postId);
+		Post post = communityService.getPost(postId, user.getUserId());
+		List<Tag> tag = communityService.getTagList(postId);
+		
 		// Model 과 View 연결
 		model.addAttribute("post", post);
+		model.addAttribute("tag", tag);
 		
 		return "forward:/view/community/getPost.jsp";
 	}
 	
 	@RequestMapping( value="getPostList" )
-	public String getPostList( @RequestParam("boardName") String boardName, @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
+	public String getPostList( @RequestParam("boardName") String boardName, @ModelAttribute("search") Search search, Model model, HttpSession session ) throws Exception{
 		
 		System.out.println("/community/getPostList : GET / POST");
-
+		////////취합되면 지워야할 부분////////
+		User user = new User();
+		user.setUserName("주하");
+		user.setUserId("admin");
+		session.setAttribute("user", user);
+		///////////////////////////////
+		System.out.println("boardName : "+boardName);
+		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
@@ -105,5 +204,4 @@ public class CommunityController {
 		
 		return "forward:/view/community/getPostList.jsp";
 	}
-	
 }

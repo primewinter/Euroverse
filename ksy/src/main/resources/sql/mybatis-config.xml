@@ -60,8 +60,8 @@
 		 <mapper resource="sql/RoomMapper.xml"/> 
 		 -->
 		
-		<!-- <mapper resource="sql/CommunityMapper.xml"/>
-		<mapper resource="sql/LikeMapper.xml"/>  -->
+		<mapper resource="sql/CommunityMapper.xml"/>
+		<mapper resource="sql/LikeMapper.xml"/> 
 	</mappers>
 
 </configuration>
