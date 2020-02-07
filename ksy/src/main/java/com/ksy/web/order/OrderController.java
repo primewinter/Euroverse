@@ -235,10 +235,12 @@ public class OrderController {
 	IamportClient client;
 
 	public void setup() throws Exception {
-		String api_key = "1083818024539221";
-		String api_secret = "gzVUKM3QNUfC53Ciu8FsqXEwv0Z0NZQ4yLZiy29mWpY1sBkXJZqaW4Gs4GtSFjXd5WvDZF0V4YXxzhuj";
+		
+		//api_key 가져오기
+		//api_secret 가져오기
+		
 
-		client = new IamportClient(api_key, api_secret);
+		//client = new IamportClient(api_key, api_secret);
 	}
 
 	public void testGetToken() throws Exception {

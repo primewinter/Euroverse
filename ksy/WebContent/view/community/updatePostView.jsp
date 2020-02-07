@@ -30,9 +30,9 @@
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 
 	<link href="https://github.com/summernote/summernote/tree/master/lang/summernote-ko-KR.js">
-	<link href="/summernote/summernote.css" rel="stylesheet">
-	<script src="/summernote/summernote.min.js"></script>
-	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link href="/resources/summernote/summernote.css" rel="stylesheet">
+	<script src="/resources/summernote/summernote.min.js"></script>
+	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
@@ -125,7 +125,7 @@
 			var count = $( 'dd' ).length;
 			var output = $('#appendTag').val();
 			
-			if(output.search(/\s/) != -1) { 
+			if(output.trim() == 0 || output.search(/\s/gi, "") != -1) { 
 				alert("공백은 입력이 불가합니다.");
 				return true;
 			}else{
@@ -174,7 +174,7 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<div class="navbar  navbar-default">
         <div class="container">
-        	<a class="navbar-brand" href="/index.jsp">SHOW YOURSELF</a>
+        	<a class="navbar-brand" href="/view/community/page.jsp">EUROVERSE</a>
    		</div>
    	</div>
    	<!-- ToolBar End /////////////////////////////////////-->

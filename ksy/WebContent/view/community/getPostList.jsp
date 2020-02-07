@@ -17,15 +17,9 @@
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-	
-	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
+
    <!-- jQuery UI toolTip 사용 CSS-->
    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
    <!-- jQuery UI toolTip 사용 JS-->
@@ -43,35 +37,27 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 	
-		//=============    검색 / page 두가지 경우 모두  Event  처리 =============	
 		function fncGetUserList(currentPage) {
 			$("#currentPage").val(currentPage)
 			$("form").attr("method" , "POST").attr("action" , "/community/getPostList").submit();
 		}
 		
-		//============= "검색"  Event  처리 =============	
 		 $(function() {
-			 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( "button.btn.btn-default" ).on("click" , function() {
 			 	fncGetUserList(1);
 			 });
 		 });
 		
-		//============= userId 에 회원정보보기  Event  처리(Click) =============	
 		 $(function() {
 		
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$( "td:nth-child(2)" ).on("click" , function() {
 			     var postId = $(this).find($("input[name='postId']")).val();	
 				 self.location ="/community/getPost?postId="+postId;
 			});
 						
-			//==> userId LINK Event End User 에게 보일수 있도록 
 			$( "td:nth-child(2)" ).css("color" , "indianred");
 			
 		});	
-		
-		//============= userId 에 회원정보보기  Event  처리 (double Click)=============
 	
 		$(function(){
 			

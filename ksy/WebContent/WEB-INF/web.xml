@@ -4,7 +4,7 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener	</listener-class>
   </listener>
   	<listener>
-	 	   <listener-class>com.ksy.common.util.LoginUserPlanPush</listener-class>
+	 	   <listener-class>com.ksy.common.listener.LoginSessionListener</listener-class>
 	</listener>
   <context-param>
     <param-name>contextConfigLocation</param-name>
