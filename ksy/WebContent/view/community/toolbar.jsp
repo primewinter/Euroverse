@@ -5,68 +5,27 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- ToolBar Start /////////////////////////////////////-->
-<div class="navbar  navbar-default">
+	<ul class="nav nav-tabs">
+	  <li class="nav-item">
+	    <a class="nav-link active" href="/view/community/page.jsp">EUROVERSE</a>
+	  </li>
+	  <li class="nav-item dropdown">
+	    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">커뮤니티</a>
+	    <div class="dropdown-menu">
+	      <a class="dropdown-item" href="#">인기글게시판</a>
+	      <a class="dropdown-item" href="#">플래너공유</a>
+	      <a class="dropdown-item" href="#">동행찾기</a>
+	      <a class="dropdown-item" href="#">여행후기</a>
+	      <a class="dropdown-item" href="#">정보공유</a>
+	      <a class="dropdown-item" href="#">QnA</a>
+	      <a class="dropdown-item" href="#">자유게시판</a>
+	    </div>
+	  </li>
+	</ul>
 	
-	<div class="container">
-	       
-		<a class="navbar-brand" href="/index.jsp">SHOW YOURSELF</a>
-		
-		<!-- toolBar Button Start //////////////////////// -->
-		<div class="navbar-header">
-		    <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#target">
-		        <span class="sr-only">Toggle navigation</span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		    </button>
-		</div>
-		<!-- toolBar Button End //////////////////////// -->
-		
-	    <!--  dropdown hover Start -->
-		<div class="collapse navbar-collapse" id="target" 
-	       			data-hover="dropdown" data-animations="fadeInDownNew fadeInRightNew fadeInUpNew fadeInLeftNew">
-	         
-	         	<!-- Tool Bar 를 다양하게 사용하면.... -->
-	             <ul class="nav navbar-nav">
-  
-	              <li class="dropdown">
-	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-	                         <span >게시판</span>
-	                         <span class="caret"></span>
-	                     </a>
-	                     <ul class="dropdown-menu">
-		                         <li><a href="#">인기글게시판</a></li>
-		                         <li><a href="#">플래너공유</a></li>
-		                         <li><a href="#">동행찾기</a></li>
-		                         <li><a href="#">여행후기</a></li>
-		                         <li><a href="#">정보공유</a></li>
-		                         <li><a href="#">QnA</a></li>
-		                         <li><a href="#">자유게시판</a></li>
-		                     </ul>
-	                 </li>
-	             </ul>
-	             
-	             <ul class="nav navbar-nav navbar-right">
-	                <li><a href="#">로그아웃</a></li>
-	            </ul>
-		</div>
-		<!-- dropdown hover END -->	       
-	    
-	</div>
-</div>
 		<!-- ToolBar End /////////////////////////////////////-->
-
    	<script type="text/javascript">
-	
-		//============= logout Event  처리 =============	
-		$(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("a:contains('로그아웃')").on("click" , function() {
-				$(self.location).attr("href","/user/logout");
-				//self.location = "/user/logout"
-			}); 
-		});
-	
+ 
 	 	$( "a:contains('자유게시판')" ).on("click" , function() {
 	 		$(self.location).attr("href","/community/getPostList?boardName=A");
 		});
@@ -94,5 +53,5 @@
 	 	$( "a:contains('QnA')" ).on("click" , function() {
 	 		$(self.location).attr("href","/community/getPostList?boardName=G");
 		}); 
-
+	 	
 	</script>  

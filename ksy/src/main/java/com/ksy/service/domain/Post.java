@@ -11,6 +11,7 @@ public class Post {
 	private String postContent; //post_content
 	private String postTitle; //post_title
 	private String postWriterId; //writer_id
+	private String nickName;
 	private Timestamp postDate; //post_date
 	private int accCount; 
 	private int accPerson; //acc_person 
@@ -85,6 +86,14 @@ public class Post {
 
 	public void setPostWriterId(String postWriterId) {
 		this.postWriterId = postWriterId;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
 	public Timestamp getPostDate() {
@@ -211,11 +220,11 @@ public class Post {
 	public String toString() {
 		return "Post [boardName=" + boardName + ", postId=" + postId + ", postGrade=" + postGrade + ", postNo=" + postNo
 				+ ", postContent=" + postContent + ", postTitle=" + postTitle + ", postWriterId=" + postWriterId
-				+ ", postDate=" + postDate + ", accCount=" + accCount + ", accPerson=" + accPerson + ", accStartDate="
-				+ accStartDate + ", accEcdDate=" + accEcdDate + ", postLikeCount=" + postLikeCount + ", views=" + views
-				+ ", comments=" + comments + ", blocked=" + blocked + ", tags=" + tags + ", postLikeFlag="
-				+ postLikeFlag + ", deleted=" + deleted + ", planId=" + planId + ", qnaFirstCate=" + qnaFirstCate
-				+ ", qnaSecondCate=" + qnaSecondCate + "]";
+				+ ", nickName=" + nickName + ", postDate=" + postDate + ", accCount=" + accCount + ", accPerson="
+				+ accPerson + ", accStartDate=" + accStartDate + ", accEcdDate=" + accEcdDate + ", postLikeCount="
+				+ postLikeCount + ", views=" + views + ", comments=" + comments + ", blocked=" + blocked + ", tags="
+				+ tags + ", postLikeFlag=" + postLikeFlag + ", deleted=" + deleted + ", planId=" + planId
+				+ ", qnaFirstCate=" + qnaFirstCate + ", qnaSecondCate=" + qnaSecondCate + "]";
 	}
-	
+
 }
