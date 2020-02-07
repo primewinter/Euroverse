@@ -2,7 +2,8 @@ package com.ksy.service.tripInfo;
 
 import java.util.List;
 
-import com.model2.mvc.service.domain.Click;
+import com.ksy.service.domain.Click;
+
 
 
 public interface ClickDao {

@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.model2.mvc.service.domain.Click;
-import com.model2.mvc.service.user.ClickDao;
-import com.model2.mvc.service.user.ClickService;;
+import com.ksy.service.domain.Click;
+import com.ksy.service.tripInfo.ClickDao;
+import com.ksy.service.tripInfo.ClickService;
 
 
 
@@ -26,11 +26,11 @@ public class ClickServiceImpl implements ClickService{
 		System.out.println(this.getClass());
 	}
 
-	@Override
+	//@Override
 	public void addUrl(Click click) throws Exception {
 		clickDao.insertUrl(click);
 	}
-	@Override
+	//@Override
 	public Click getUrl(int id) throws Exception {
 		return clickDao.getUrl(id);
 	}

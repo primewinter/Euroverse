@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.model2.mvc.service.domain.Click;
-import com.model2.mvc.service.user.ClickService;
+import com.ksy.infinityClick.InfinityClick;
+import com.ksy.service.domain.Click;
+import com.ksy.service.tripInfo.ClickService;
 
-import api.war.InfinityClick;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 

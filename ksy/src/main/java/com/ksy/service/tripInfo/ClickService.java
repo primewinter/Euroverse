@@ -1,8 +1,6 @@
 package com.ksy.service.tripInfo;
 
-import com.model2.mvc.service.domain.Click;
-
-
+import com.ksy.service.domain.Click;
 
 public interface ClickService {
 	

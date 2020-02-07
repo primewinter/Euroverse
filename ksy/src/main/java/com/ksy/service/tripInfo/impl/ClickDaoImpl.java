@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.model2.mvc.service.domain.Click;
-import com.model2.mvc.service.user.ClickDao;
+import com.ksy.service.domain.Click;
+import com.ksy.service.tripInfo.ClickDao;
 
 @Repository("clickDaoImpl")
 public class ClickDaoImpl implements ClickDao {
