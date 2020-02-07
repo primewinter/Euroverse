@@ -1,35 +1,8 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 
-<!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<html lang="ko">
-	
-<head>
-	<meta charset="EUC-KR">
-	
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-	
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-
-	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
-
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-
-	<style></style>
-    
-    <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 
 	jQuery(document).ready(function($){
@@ -83,14 +56,14 @@
 				}
 				if(JSONData.userId != null){
 				if(JSONData.list[i].cmtLikeFlag == "F"){ 
-				output += "<a onclick='like_func("+JSONData.list[i].cmtId+");'><input type='text' value='♡' id='"+JSONData.list[i].cmtId+"zz'></a><span id='"+JSONData.list[i].cmtId+"count'>"+JSONData.list[i].cmtLikeCount+"</span>"
+				output += "<i onclick='like_func("+JSONData.list[i].cmtId+");' id='"+JSONData.list[i].cmtId+"zz' class='far fa-thumbs-up'>"+JSONData.list[i].cmtLikeCount+"</i>"
 				}else{
-			 	output += "<a onclick='like_func("+JSONData.list[i].cmtId+");'><input type='text' value='♥' id='"+JSONData.list[i].cmtId+"zz'></a><span id='"+JSONData.list[i].cmtId+"count'>"+JSONData.list[i].cmtLikeCount+"</span>"	 
+			 	output += "<i onclick='like_func("+JSONData.list[i].cmtId+");' id='"+JSONData.list[i].cmtId+"zz' class='fas fa-thumbs-up'>"+JSONData.list[i].cmtLikeCount+"</i>"	 
 				} 
 				}else{
-					output += "<a onclick='login_need();'><input type='text' value='♡'></a><span id='"+JSONData.list[i].cmtId+"count'>"+JSONData.list[i].cmtLikeCount+"</span>"
+					output += "<i onclick='login_need();' id='"+JSONData.list[i].cmtId+"zz' class='far fa-thumbs-up'>"+JSONData.list[i].cmtLikeCount+"</i>"
 				}
-					output += "&nbsp;<i onclick='reportshow("+JSONData.list[i].cmtId+",\"C\");' class='glyphicon glyphicon-remove'></i>";
+					output += "&nbsp;<i onclick='reportshow("+JSONData.list[i].cmtId+",\"C\");' class='fas fa-concierge-bell'></i>";
 				if(JSONData.list[i].secret == "T"){
 				if(JSONData.userId == JSONData.list[i].cmtWriterId.userId || JSONData.userId == JSONData.list[i].postWriterId){
 					output += "<h5 class='old' id='"+JSONData.list[i].cmtId+"old'>"+JSONData.list[i].cmtContent+"<font color=orange> *비밀댓글입니다.*</font></h5>"
@@ -181,18 +154,16 @@
 				dataType : "json" ,
 				success : function(data) {
 					var msg = '';
-					var like_img = '';
 					msg += data.msg;
+					
 					alert(msg);
 					
 					if(data.likeCheck == 'F'){
-					  like_img = "♡";
+					  $("#"+cmtId+"zz").attr('class','far fa-thumbs-up');
 					}else{
-					  like_img = "♥";
+					  $("#"+cmtId+"zz").attr('class','fas fa-thumbs-up');
 					}      
-					$("#"+cmtId+"zz").val(like_img);
-					$("#"+cmtId+"count").html(data.cmtLikeCount);
-					$('#like_check').html(data.likeCheck);
+					  $("#"+cmtId+"zz").html(data.cmtLikeCount);
 				},
 				error: function(request, status, error){
 					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -201,11 +172,7 @@
 		}
 	
 	</script>
-    
-</head>
-
-<body>
-
+	
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
@@ -223,6 +190,3 @@
 		<div id="getCommentList"></div>
 
 	</div>
-	
-</body>
-</html>

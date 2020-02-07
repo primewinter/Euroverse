@@ -29,10 +29,10 @@
 	</resultMap>
 	
 	<resultMap id="commentSelectMap" type="comment">
-		<result property="rcmtId" 			column="cmt_id" 			jdbcType="VARCHAR"/>
+		<result property="cmtId" 			column="cmt_id" 			jdbcType="VARCHAR"/>
 		<result property="postId"	column="post_id" 		jdbcType="VARCHAR" />
-		<result property="cmtId" 	column="parent_cmt_id" 		jdbcType="VARCHAR" />
 		<result property="cmtWriterId" 				column="writer_id" 					jdbcType="VARCHAR" />
+		<result property="nickName"			column="nickname"					jdbcType="VARCHAR" />
 		<result property="cmtContent" 				column="cmt_content" 					jdbcType="VARCHAR" />
 		<result property="cmtDate" 			column="cmt_date" 		jdbcType="TIMESTAMP" />
 		<result property="secret" 				column="secret" 					jdbcType="CHAR" />
@@ -250,17 +250,17 @@
 
 	<insert  id="addComment"		parameterType="comment">
 		INSERT
-		INTO comments( post_id , parent_cmt_id , writer_id , cmt_date , cmt_content , secret , blocked , deleted , cmt_like_count )
-		VALUES	 ( #{postId:VARCHAR} , SEQ_comment_parent_cmt_id.NEXTVAL , #{cmtWriterId:VARCHAR} , SYSDATE , 
+		INTO comments( post_id , cmt_id , writer_id , cmt_date , cmt_content , secret , blocked , deleted , cmt_like_count )
+		VALUES	 ( #{postId:VARCHAR} , SEQ_comments_cmt_id.NEXTVAL , #{cmtWriterId:VARCHAR} , SYSDATE , 
 							#{cmtContent:VARCHAR} , #{secret:CHAR} , 'F' , 'F' , 0 )
 	</insert>
 	
 	<select id="getCommentList" parameterType="map" resultMap="commentSelectMap">
   		SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT c.post_id , c.parent_cmt_id , c.writer_id , p.post_writer_id , c.cmt_date , c.cmt_content , c.secret , c.deleted , c.blocked , c.cmt_like_count , l.like_check 
+  						FROM ( SELECT c.post_id , c.cmt_id , c.writer_id , p.post_writer_id , c.cmt_date , c.cmt_content , c.secret , c.deleted , c.blocked , c.cmt_like_count , l.like_check 
 										FROM comments c, likes l, post p
-										WHERE p.post_id = c.post_id AND c.parent_cmt_id = l.ref_id(+) AND l.like_user_id(+) = #{userId} AND c.post_id = #{postId}
+										WHERE p.post_id = c.post_id AND c.cmt_id = l.ref_id(+) AND l.like_user_id(+) = #{userId} AND c.post_id = #{postId}
 										ORDER BY c.cmt_date DESC ) inner_table
   						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
   		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
@@ -269,16 +269,16 @@
 	
 	<select  id="getCommentTotalCount"  parameterType="map"	 resultType="int">
 		SELECT COUNT(*)
-	  	FROM(	SELECT	post_id , parent_cmt_id , writer_id , cmt_date , cmt_content , secret , deleted , blocked
+	  	FROM(	SELECT	post_id , cmt_id , writer_id , cmt_date , cmt_content , secret , deleted , blocked
 				FROM comments
 				WHERE post_Id = #{postId} ) countTable						
 	</select>
 	
 	<select 	id="getComment"	parameterType="string"	resultMap="commentSelectMap">
 		SELECT
-		post_id , parent_cmt_id , writer_id , cmt_date , cmt_content , secret , deleted , blocked , cmt_like_count
+		post_id , cmt_id , writer_id , cmt_date , cmt_content , secret , deleted , blocked , cmt_like_count
 		FROM comments
-		WHERE parent_cmt_id = #{cmtId}
+		WHERE cmt_id = #{cmtId}
 	</select>
 	
 	<update id="updateComment" parameterType="comment">
@@ -287,7 +287,7 @@
 				cmt_content = #{cmtContent:VARCHAR},
 				secret      = #{secret:CHAR}
 			</set>
-		WHERE parent_cmt_id = #{cmtId}
+		WHERE cmt_id = #{cmtId}
 	</update>
 	
 	<update id="deleteComment" parameterType="string">
@@ -295,7 +295,7 @@
 			<set>
 				deleted = 'T'
 			</set>
-		WHERE parent_cmt_id = #{cmtId}
+		WHERE cmt_id = #{cmtId}
 	</update>
 	
 	<insert id="addReport"	parameterType="report">

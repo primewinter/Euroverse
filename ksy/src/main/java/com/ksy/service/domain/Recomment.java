@@ -5,8 +5,8 @@ import java.sql.Timestamp;
 public class Recomment {
 	
 	private String postId; //post_id
-	private String cmtId; //parent_cmt_id
 	private String rcmtId; //cmt_id
+	private String parentCmtId; //parent_cmt_id
 	private String rcmtWriterId; //writer_id
 	private String rcmtContent; //cmt_content
 	private Timestamp rcmtDate; //cmt_date
@@ -29,20 +29,20 @@ public class Recomment {
 		this.postId = postId;
 	}
 
-	public String getCmtId() {
-		return cmtId;
-	}
-
-	public void setCmtId(String cmtId) {
-		this.cmtId = cmtId;
-	}
-
 	public String getRcmtId() {
 		return rcmtId;
 	}
 
 	public void setRcmtId(String rcmtId) {
 		this.rcmtId = rcmtId;
+	}
+
+	public String getParentCmtId() {
+		return parentCmtId;
+	}
+
+	public void setParentCmtId(String parentCmtId) {
+		this.parentCmtId = parentCmtId;
 	}
 
 	public String getRcmtWriterId() {
@@ -119,7 +119,7 @@ public class Recomment {
 
 	@Override
 	public String toString() {
-		return "Recomment [postId=" + postId + ", cmtId=" + cmtId + ", rcmtId=" + rcmtId + ", rcmtWriterId="
+		return "Recomment [postId=" + postId + ", rcmtId=" + rcmtId + ", parentCmtId=" + parentCmtId + ", rcmtWriterId="
 				+ rcmtWriterId + ", rcmtContent=" + rcmtContent + ", rcmtDate=" + rcmtDate + ", blocked=" + blocked
 				+ ", rcmtLikeFlag=" + rcmtLikeFlag + ", rcmtLikeCount=" + rcmtLikeCount + ", secret=" + secret
 				+ ", rcmtImg=" + rcmtImg + ", deleted=" + deleted + "]";

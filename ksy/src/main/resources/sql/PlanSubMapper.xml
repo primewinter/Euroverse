@@ -197,7 +197,7 @@
 	<!-- 		Memo SQL		 -->
 	<select id="getMemoList"	parameterType="string" resultMap="memoSelectMap">
 		SELECT 	m.memo_id, m.memo_detail, m.memo_reg_date, u.nickname, u.user_id 
-		FROM 	userss u, memo m 
+		FROM 	users u, memo m 
 		WHERE 	m.memo_reg_user = u.user_id 
 			AND m.plan_id = #{planId} 
 		ORDER BY 	m.memo_reg_date DESC

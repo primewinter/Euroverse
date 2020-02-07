@@ -142,7 +142,7 @@
 	<!-- user mapper 필요? -->
 	<select id="getPlanPartyList"	parameterType="string"	resultMap="userSelectMap">
 		SELECT 	u.user_id, u.nickname, u.user_img, u.phone, pt.party_role role
-		FROM 	userss u, party pt 
+		FROM 	users u, party pt 
 		WHERE 	u.user_id = pt.party_user_id 
 			AND pt.ref_id = #{planId} 
 			AND pt.party_type = 'P'
@@ -205,14 +205,14 @@
 	
 	<!-- 	User Mapper에 가야하는 SQL.... 테스트용으로 여기서 만들어 씀	 -->
 	<update id="updateUserSlot"	parameterType="string">
-		UPDATE 	userss 
+		UPDATE 	users 
 		SET 	slot = slot + 1 
 		WHERE 	user_id = #{userId}
 	</update>
 	
 	<select id="findUserId"	parameterType="string" resultType="string">
 		SELECT 	user_id 
-		FROM 	userss 
+		FROM 	users 
 		WHERE 	user_id = #{userId}
 	</select>
 	

@@ -41,6 +41,7 @@
 		<typeAlias alias="tag" 		type="com.ksy.service.domain.Tag" />
 		<typeAlias alias="todo" 	type="com.ksy.service.domain.Todo" />
 		<typeAlias alias="user" 	type="com.ksy.service.domain.User" />
+		<typeAlias alias="tripInfo" type="com.ksy.service.domain.TripInfo" />
 		
 	</typeAliases>
 	
@@ -55,6 +56,8 @@
 		
 		<mapper resource="sql/PushMapper.xml"/>
 
+		<mapper resource="sql/TripInfoMapper.xml"/>
+		
 		<!-- <mapper resource="sql/OrderMapper.xml"/>
 		<mapper resource="sql/FlightMapper.xml"/>
 		 <mapper resource="sql/RoomMapper.xml"/> 
