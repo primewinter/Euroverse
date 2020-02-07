@@ -52,4 +52,21 @@ public interface PlanDao {
 	public String findUserId(String userId) throws Exception;
 
 	
+	// 미완료 todo 리스트 개수 check
+	public int getUndoneCount(String userId) throws Exception;
+	
+	// 마스터/멤버로 참여중인 플래너 중 플랜 상태가 'R'이면서 아직 여행 시작 전인 plan ID 목록 조회
+	public List<Plan> getUndonePlanId(String userId) throws Exception;
+	
+	//  plan_id 로 미완료된 todo 목록 조회
+	public List<Todo> getUndoneTodo(String planId) throws Exception;
+	
+	//모든 플래너 중에서 플랜 상태가 'R'이면서 D-30 인 plan 목록(플랜id, 제목) 조회
+	public List<Plan> getSoonPlanId(int leftDay) throws Exception;
+	
+	// 플랜 id 당 미완료된 todo 목록
+	public List<Todo> getSoonTodo(String planId) throws Exception;
+
+	// 플랜 id 당 문자 수신 동의한 회원 핸드폰 번호 목록
+	public List<User> getPushPhoneList(String planId) throws Exception;
 }

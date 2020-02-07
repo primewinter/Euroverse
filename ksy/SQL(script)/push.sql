@@ -1,3 +1,7 @@
+DROP table push;
+DROP SEQUENCE seq_push_id;
+
+
 CREATE TABLE push (
 push_id varchar2(20),
 push_type char(10),
@@ -11,4 +15,5 @@ constraint FK_push foreign key(receiver_id)
 references users(user_id)
 );
 
-CREATE SEQUENCE seq_push_id	INCREMENT BY 1 START WITH 10000 NOCACHE;
+
+CREATE SEQUENCE seq_push_id		INCREMENT BY 1 START WITH 10000 NOCACHE;

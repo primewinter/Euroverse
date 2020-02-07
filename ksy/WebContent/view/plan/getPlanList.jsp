@@ -209,13 +209,7 @@
 	      <div class="modal-body">
 	        
 	        <form class="form-horizontal">
-	        	<div class="form-group">
-				    <label for="userId" class="col-sm-offset-3 col-sm-5 control-label">유저 아이디</label>
-				    <div class="col-sm-5">
-				      <input type="text" class="form-control" id="userId" name="userId" placeholder="유저 아이디 입력">
-				    </div>
-				</div>
-				
+	        
 				<div class="form-group">
 				    <label for="planTitle" class="col-sm-offset-3 col-sm-5 control-label">플래너 제목	</label>
 				    <div class="col-sm-5">
