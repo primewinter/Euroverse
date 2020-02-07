@@ -8,10 +8,8 @@
 <head>
 	<meta charset="EUC-KR">
 	
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	
@@ -23,14 +21,13 @@
 	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
 
-	<!-- include summernote css/js-->
 	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 
 	<link href="https://github.com/summernote/summernote/tree/master/lang/summernote-ko-KR.js">
-	<link href="/summernote/summernote.css" rel="stylesheet">
-	<script src="/summernote/summernote.min.js"></script>
-	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link href="/resources/summernote/summernote.css" rel="stylesheet">
+	<script src="/resources/summernote/summernote.min.js"></script>
+	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
@@ -172,7 +169,7 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<div class="navbar  navbar-default">
         <div class="container">
-        	<a class="navbar-brand" href="/index.jsp">SHOW YOURSELF</a>
+        	<a class="navbar-brand" href="/view/community/page.jsp">EUROVERSE</a>
    		</div>
    	</div>
    	<!-- ToolBar End /////////////////////////////////////-->

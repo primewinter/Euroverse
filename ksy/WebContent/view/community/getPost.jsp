@@ -15,18 +15,13 @@
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 	
-	<!-- Bootstrap Dropdown Hover CSS -->
-    <link href="/css/animate.min.css" rel="stylesheet">
-    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-   
-    <!-- Bootstrap Dropdown Hover JS -->
-    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
@@ -45,14 +40,14 @@
 		//============= 회원정보수정 Event  처리 =============	
 		$(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "button" ).on("click" , function() {
+			 $( ".btn.btn-primary" ).on("click" , function() {
 					self.location = "/community/updatePost?postId=${post.postId}"
 			 });
 		});
 		
 		$(function() {
 				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "span[href='#']" ).on("click" , function() {
+			 $( "#delbutton" ).on("click" , function() {
 					self.location = "/community/deletePost?postId=${post.postId}"
 			 });
 		});
@@ -69,17 +64,13 @@
 				success:
 				function(data){ //ajax통신 성공시 넘어오는 데이터 통째 이름 =data
 					alert("'좋아요'가 반영되었습니다!") ; // data중 put한 것의 이름 like
-					$("#like_result").html(data.like); //id값이 like_result인 html을 찾아서 data.like값으로 바꿔준다.
+					$(".fas.fa-grin-hearts").html(data.like); //id값이 like_result인 html을 찾아서 data.like값으로 바꿔준다.
 				},
 				error:
 				function (request, status, error){
 					alert("ajax실패")
 				}
 			});
-		}
-	 	
-		function login_need(){
-			alert("로그인 후 이용 가능")
 		}
 
 		function reportshow(refId, repTar){ 
@@ -96,6 +87,17 @@
 		            {
 		                text: "신고",
 		                click: function(){
+		                	
+		                	if($('#reportReason option:selected').val() == 'E'){
+		                		
+			                	var reportContent = $("input[name='reportContent']").val();
+			                	
+			            		if(reportContent == null || reportContent.length<1){
+			            			alert("내용은 반드시 입력하세요.");
+			            			return;
+			            		}
+		                	}
+		                	
 		                    $.ajax({
 		                    	url : '/community/json/addReport' ,
 		                    	type : "POST" ,
@@ -106,12 +108,6 @@
 		                    		$("#dialog-add").dialog("close");
 		                    	}
 		                    });
-		                }
-		            },
-		            {
-		                text: "취소",
-		                click: function(){
-		                    $(this).dialog("close");
 		                }
 		            }
 		        ]
@@ -139,9 +135,9 @@
 					alert(msg);
 					
 					if(data.likeCheck == 'F'){
-					  $(".glyphicon.glyphicon-star").attr('class','glyphicon glyphicon-star-empty');
+					  $(".fas.fa-bookmark").attr('class','far fa-bookmark');
 					}else{
-					  $(".glyphicon.glyphicon-star-empty").attr('class','glyphicon glyphicon-star');
+					  $(".far.fa-bookmark").attr('class','fas fa-bookmark');
 					}      
 				},
 				error: function(request, status, error){
@@ -187,15 +183,14 @@
 		
 	    <form id="likeform">
 			<input type="hidden" name="postId" value="${post.postId}">
-			<input type="button" value="좋아요!" onclick="return like()"> 
-			<span id="like_result">${post.postLikeCount}</span> 
-	  &nbsp;<i onclick="reportshow('${post.postId}','P')" class="glyphicon glyphicon-remove"></i>
+			<i onclick="like()" class="fas fa-grin-hearts">&nbsp;${post.postLikeCount}</i> 
+	  &nbsp;<i onclick="reportshow('${post.postId}','P')" class="fas fa-concierge-bell"></i>
 		</form>
 		  <c:if test="${post.postLikeFlag == 'F' || post.postLikeFlag == null}">
-			<i onclick="addBookMark(${post.postId})" class="glyphicon glyphicon-star-empty"></i>
+		  &nbsp;<i onclick="addBookMark(${post.postId})" class="far fa-bookmark"></i>
 		  </c:if>
 		  <c:if test="${post.postLikeFlag == 'T' }">
-		    <i onclick="addBookMark(${post.postId})" class="glyphicon glyphicon-star"></i>
+		  &nbsp;<i onclick="addBookMark(${post.postId})" class="fas fa-bookmark"></i>
 		  </c:if>
 		</div>
 		
@@ -230,7 +225,7 @@
 		<div class="row">
 	  		<div class="col-md-12 text-center ">
 	  			<button type="button" class="btn btn-primary">수정</button>
-	  	  &nbsp;<span class="btn btn-primary btn" href="#" role="button">삭제</span>
+	  	  &nbsp;<a id="delbutton" class="btn btn-primary btn" href="#" role="button">삭제</a>
 	  		</div>
 		</div>
 		</c:if>

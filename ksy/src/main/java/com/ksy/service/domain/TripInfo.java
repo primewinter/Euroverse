@@ -1,9 +1,7 @@
 package com.ksy.service.domain;
 
-import java.util.List;
-
 //==>회원정보를 모델링(추상화/캡슐화)한 Bean
-public class Click {
+public class TripInfo {
 
 	/// Field
 	private String url;
@@ -25,11 +23,11 @@ public class Click {
 		//info 정보가 가,나,다,라, 형태로 되어있어서 split함
 		if(info != null && info.length() !=0) {
 			String[] arrayInfo = info.split(",");
-			info1 = "#"+arrayInfo[0];
-			info2 = "#"+arrayInfo[1];
-			info3 = "#"+arrayInfo[2];
-			info4 = "#"+arrayInfo[3];
-			info5 = "#"+arrayInfo[4];
+			info1 = "#"+arrayInfo[0].trim();
+			info2 = "#"+arrayInfo[1].trim();
+			info3 = "#"+arrayInfo[2].trim();
+			info4 = "#"+arrayInfo[3].trim();
+			info5 = "#"+arrayInfo[4].trim();
 		}
 	}
 	
@@ -92,7 +90,7 @@ public class Click {
 	
 	@Override
 	public String toString() {
-		return "Click [url=" + url + ", id=" + id + ", info=" + info + ", info1=" + info1 + ", info2=" + info2
+		return "TripInfo [url=" + url + ", id=" + id + ", info=" + info + ", info1=" + info1 + ", info2=" + info2
 				+ ", info3=" + info3 + ", info4=" + info4 + ", info5=" + info5 + "]";
 	}
 

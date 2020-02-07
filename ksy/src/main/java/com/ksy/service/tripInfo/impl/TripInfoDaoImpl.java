@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.ksy.service.domain.Click;
-import com.ksy.service.tripInfo.ClickDao;
+import com.ksy.service.domain.TripInfo;
+import com.ksy.service.tripInfo.TripInfoDao;
 
-@Repository("clickDaoImpl")
-public class ClickDaoImpl implements ClickDao {
+@Repository("tripInfoDaoImpl")
+public class TripInfoDaoImpl implements TripInfoDao {
 
 	/// Field
 	@Autowired
@@ -21,18 +21,18 @@ public class ClickDaoImpl implements ClickDao {
 	}
 
 	/// Constructor
-	public ClickDaoImpl() {
+	public TripInfoDaoImpl() {
 		System.out.println(this.getClass());
 
 	}
 
-	public void insertUrl(Click click) {
-		sqlSession.insert("ClickMapper.insertUrl", click);
+	public void insertUrl(TripInfo tripInfo) {
+		sqlSession.insert("TripInfoMapper.insertUrl", tripInfo);
 	}
 
-	public Click getUrl(int id) {
+	public TripInfo getUrl(int id) {
 
-		return sqlSession.selectOne("ClickMapper.getUrl",id);
+		return sqlSession.selectOne("TripInfoMapper.getUrl", id);
 
 	}
 }

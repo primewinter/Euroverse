@@ -28,9 +28,11 @@ import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Like;
 import com.ksy.service.domain.Post;
+import com.ksy.service.domain.Push;
 import com.ksy.service.domain.Report;
 import com.ksy.service.domain.User;
 import com.ksy.service.like.LikeService;
+import com.ksy.service.push.PushService;
 
 @RestController
 @RequestMapping("/community/*")
@@ -43,6 +45,10 @@ public class CommunityRestController {
 	@Autowired
 	@Qualifier("likeServiceImpl")
 	private LikeService likeService; 
+	
+	@Autowired
+	@Qualifier("pushServiceImpl")
+	private PushService pushService;
 	
 	public CommunityRestController() {
 		System.out.println(this.getClass());
@@ -186,11 +192,11 @@ public class CommunityRestController {
 		List<String> msgs = new ArrayList<String>();
 
 		if(likeCheck.equals("F")) {
-		  msgs.add("좋아요!");
+		  msgs.add("북마크에 추가되었습니다.");
 		  likeService.like_check(like);
 		  likeCheck="T";
 		}else{
-		  msgs.add("좋아요 취소");
+		  msgs.add("북마크 취소!");
 		  likeService.like_check_cancel(like);
 		  likeCheck="F";
 
@@ -264,8 +270,17 @@ public class CommunityRestController {
 		}
 		communityService.addComment(comment);
 		
+		if( !comment.getPostWriterId().equals(comment.getCmtWriterId())) {
+			System.out.println("글 작성자 =/= 댓글 작성자");
+			Push push = new Push();
+			push.setRefId(comment.getPostId()+"");
+			push.setPushType("R");
+			push.setReceiverId(comment.getPostWriterId());
+			pushService.addPush(push);
+		}
+		
 		JSONObject obj = new JSONObject();
-		obj.put("OK", comment.getCmtId());
+		obj.put("ok", comment);
 		out.println(obj);
 	}
 	

@@ -5,8 +5,9 @@ import java.sql.Timestamp;
 public class Comment {
 	
 	private String postId; //post_id
-	private String cmtId; //parent_cmt_id
+	private String cmtId; //cmt_id
 	private String cmtWriterId; //writer_id
+	private String nickName;
 	private String cmtContent; //cmt_content
 	private Timestamp cmtDate; //cmt_date
 	private String blocked; //blocked
@@ -43,6 +44,14 @@ public class Comment {
 
 	public void setCmtWriterId(String cmtWriterId) {
 		this.cmtWriterId = cmtWriterId;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
 	public String getCmtContent() {
@@ -128,10 +137,9 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return "Comment [postId=" + postId + ", cmtId=" + cmtId + ", cmtWriterId=" + cmtWriterId + ", cmtContent="
-				+ cmtContent + ", cmtDate=" + cmtDate + ", blocked=" + blocked + ", cmtLikeFlag=" + cmtLikeFlag
-				+ ", cmtLikeCount=" + cmtLikeCount + ", secret=" + secret + ", cmtImg=" + cmtImg + ", deleted="
-				+ deleted + ", postWriterId=" + postWriterId + "]";
+		return "Comment [postId=" + postId + ", cmtId=" + cmtId + ", cmtWriterId=" + cmtWriterId + ", nickName="
+				+ nickName + ", cmtContent=" + cmtContent + ", cmtDate=" + cmtDate + ", blocked=" + blocked
+				+ ", cmtLikeFlag=" + cmtLikeFlag + ", cmtLikeCount=" + cmtLikeCount + ", secret=" + secret + ", cmtImg="
+				+ cmtImg + ", deleted=" + deleted + ", postWriterId=" + postWriterId + "]";
 	}
-
 }
