@@ -4,7 +4,7 @@
     
     <div class="footerBar">
  		<div class="pushToast">
- 		ㅋㅋㅋ
+ 		ㅋㅋㅋ<i class="far fa-trash-alt"></i>
  		</div>
  		<div class="footerBar-content">
  			 
@@ -14,57 +14,62 @@
 				    <br />
 				    
 				    <script type="text/javascript">
-				        var pushAddr = "ws://192.168.0.82:8080/websocket/${user.userId}";
-				        var webSocket = new WebSocket(pushAddr);
-				        
+				        var pushAddr = "ws://192.168.0.82:8080/websocket/";
+				        var webSocket;
 				        var userId = '${user.userId}';
-				        //웹 소켓이 연결되었을 때 호출되는 이벤트
-				        webSocket.onopen = function(message){
-				              console.log('[push] : connection opened.')
-				          	  //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
-					          webSocket.onmessage = function(message){
-				            	  console.log("push 왔다 ::: "+message.data)
-				            	  var obj = JSON.parse(message.data);
-				            	  var pushType = obj.pushType;
-				            	  console.log("pushType :: "+pushType);
-				            	  if(pushType=='P') {
-				            		  var pushMsg = obj.pushMsg+" 잊지 않으셨나요?";
-				            		  console.log(pushMsg);
-				            		  console.log(obj.refId)
-				            		  /* var html = '<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">';
-				            		  html += '<div class="toast-header">';
-				            		  html += '!';
-				            		  //<img src="..." class="rounded mr-2" alt="...">
-				            		  html += '<strong class="mr-auto">Bootstrap</strong>';
-				            		  html += '<small>'+obj.pushTime+'</small>';
-				            		  html += '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">';
-				            		  html += '<span aria-hidden="true">모지?</span>';
-				            		  html += '</button>';
-				            		  html += '</div>';
-				            		  html += '<div class="toast-body">';
-				            		  html += obj.pushMsg
-				            		  html += '</div>';
-				            		  html += '</div>';  */
-				            		  $('.pushToast').html(pushMsg);
-				            		  //$('.pushToast').html(html);
-				            		  
-				            	  } else {
-				            		
-					        	  	getPushList(userId);
-					        	  	getUnreadCount(userId);
-				            	  }
-					        };
-				            
-				        };
-				        //웹 소켓이 닫혔을 때 호출되는 이벤트
-				        webSocket.onclose = function(message){
-				            console.log("push 접속이 끊어졌습니다.\n");
-				        };
-				        //웹 소켓이 에러가 났을 때 호출되는 이벤트
-				        webSocket.onerror = function(message){
-				            console.log("push 에러가 발생했습니다.\n");
-				        };
 				        
+				        if( userId != null && userId != '' ) { // 로그인 했을 때만 웹소켓 연결
+					        	pushAddr += userId;
+					        	webSocket = new WebSocket(pushAddr);
+					        	
+						        //웹 소켓이 연결되었을 때 호출되는 이벤트
+						        webSocket.onopen = function(message){
+						              console.log('[push] : connection opened.')
+						          	  //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
+							          webSocket.onmessage = function(message){
+						            	  console.log("push 왔다 ::: "+message.data)
+						            	  var obj = JSON.parse(message.data);
+						            	  var pushType = obj.pushType;
+						            	  console.log("pushType :: "+pushType);
+						            	  if(pushType=='P') {
+						            		  var pushMsg = obj.pushMsg+" 잊지 않으셨나요?";
+						            		  console.log(pushMsg);
+						            		  console.log(obj.refId)
+						            		  /* var html = '<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">';
+						            		  html += '<div class="toast-header">';
+						            		  html += '!';
+						            		  //<img src="..." class="rounded mr-2" alt="...">
+						            		  html += '<strong class="mr-auto">Bootstrap</strong>';
+						            		  html += '<small>'+obj.pushTime+'</small>';
+						            		  html += '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">';
+						            		  html += '<span aria-hidden="true">모지?</span>';
+						            		  html += '</button>';
+						            		  html += '</div>';
+						            		  html += '<div class="toast-body">';
+						            		  html += obj.pushMsg
+						            		  html += '</div>';
+						            		  html += '</div>';  */
+						            		  $('.pushToast').html(pushMsg);
+						            		  //$('.pushToast').html(html);
+						            		  
+						            	  } else {
+						            		
+							        	  	getPushList(userId);
+							        	  	getUnreadCount(userId);
+						            	  }
+							        };
+						            
+						        };
+					        
+						        //웹 소켓이 닫혔을 때 호출되는 이벤트
+						        webSocket.onclose = function(message){
+						            console.log("push 접속이 끊어졌습니다.\n");
+						        };
+						        //웹 소켓이 에러가 났을 때 호출되는 이벤트
+						        webSocket.onerror = function(message){
+						            console.log("push 에러가 발생했습니다.\n");
+						        };
+				        }
 				        //웹소켓 종료
 				        function disconnect(){
 				            webSocket.close();
@@ -81,11 +86,11 @@
 				        
 				    </script>
  		</div>
- 		<h4>알림 내역</h4>
+ 		<i class="fas fa-bell fa-2x"></i>
  	</div>
  	
- 		<script type="text/javascript">
-    var userId = '${user.userId}';
+ 	<script type="text/javascript">
+     var userId = '${user.userId}';
      function getPushList(userId) {
 			 $.ajax({
 				 url : "/push/json/getPushList/"+userId,
@@ -103,7 +108,8 @@
 					 console.log("list.size : "+list.size);
 					 
 					 var tag = "<div class='chkPushList'>"
-					 tag += "<a href='javascript:deletePush()'>삭제</a><hr>";
+					 tag += "<a href='javascript:deletePush()'><i class=\"far fa-trash-alt\"></i></a><hr>";
+					 
 					 for(var i = 0 in list) {
 					 	tag += "<input type='checkbox' name='chk' id='"+list[i].pushId+"' value='"+list[i].pushId+"'>";
 					 	tag += "<a href='/board/getBoard?boardNo="+list[i].refId+"'>";
@@ -269,7 +275,8 @@
 		 }
 		 
 		  jQuery(document).ready(function($) {
-			
+			  console.log("현재 로그인한 회원 : "+userId);
+			 
 			  if(userId != null && userId != '' ) {
 			  	getPushList(userId);
 			  	getUnreadCount(userId);
@@ -279,13 +286,16 @@
 	            $(".footerBar-content").hide();
 
 	            // when .menuBtn is clicked, do this
-	            $(".footerBar h4").click(function() {
-
-	            	readPush(userId);
-					setTimeout(() => getUnreadCount(userId), 50);
-					
+	            $(".footerBar .fa-bell").click(function() {
+	            	// 로그인 했을 때만 실행
+	            	if(userId != null && userId != '' ) {
+	            		readPush(userId);
+						setTimeout(() => getUnreadCount(userId), 50);
+	            	}
 	                // open the menu with slide effect
 	                $(".footerBar-content").slideToggle(300);
+	                
+	            	
 
 	            });
 

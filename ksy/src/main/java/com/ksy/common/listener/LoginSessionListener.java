@@ -1,4 +1,4 @@
-package com.ksy.common.util;
+package com.ksy.common.listener;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import com.ksy.common.util.Util;
+import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.Push;
 import com.ksy.service.domain.Todo;
 import com.ksy.service.domain.User;
@@ -21,13 +23,13 @@ import com.ksy.web.push.util.WebSocket;
 
 
 //@WebListener
-public class LoginUserPlanPush implements HttpSessionListener, HttpSessionAttributeListener {
+public class LoginSessionListener implements HttpSessionListener, HttpSessionAttributeListener {
 
 	//Field
 	private static Map<String, TimerTask> checkMap = Collections.synchronizedMap(new HashMap<String, TimerTask>());
 	private static Map<String, User> userMap = Collections.synchronizedMap(new HashMap<String, User>());
 	
-	public LoginUserPlanPush() {
+	public LoginSessionListener() {
 		System.out.println(this.getClass());
 	}
 
@@ -61,7 +63,7 @@ public class LoginUserPlanPush implements HttpSessionListener, HttpSessionAttrib
 			String userId = sessionUser.getUserId();
 			userMap.put(se.getSession().getId(), sessionUser);
 			System.out.println("session에서 가져온 User : "+sessionUser+" || userId : "+userId);
-			/*
+			
 			try {
 				PlanService planService = (PlanService)Util.getBean("planServiceImpl");
 				System.out.println("\n\ncount ::::: "+planService.getUndoneCount(userId)+"\n\n");
@@ -90,7 +92,7 @@ public class LoginUserPlanPush implements HttpSessionListener, HttpSessionAttrib
 								push.setPushType("P"); 
 								push.setRefId(todo.getPlanId());
 								push.setPushMsg(todo.getTodoName()); 
-								System.out.println("\n\n"+userId+"에게 보내는 PUSH ::: "+push); 
+								System.out.println("\n"+userId+"에게 보내는 PUSH ::: "+push); 
 								try {
 									webSocket.sendPush(userId, push);
 								} catch (Exception e) {
@@ -102,7 +104,7 @@ public class LoginUserPlanPush implements HttpSessionListener, HttpSessionAttrib
 							Timer timer = new Timer(true); 
 							//timer.scheduleAtFixedRate(runTask, 0, 10*1000); // 10초마다 할 task 
 							timer.scheduleAtFixedRate(runTask, 0, 6*10*1000);  // 1분마다 할 task 
-							//timer.scheduleAtFixedRate(task, 0, 30*60*1000); //30분마다 할 task
+							//timer.scheduleAtFixedRate(task, 0, 20*60*1000); //20분마다 할 task
 							
 					}
 					checkMap.put(userId, runTask);
@@ -110,7 +112,7 @@ public class LoginUserPlanPush implements HttpSessionListener, HttpSessionAttrib
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			*/
+			
 			
 		}	 
 		

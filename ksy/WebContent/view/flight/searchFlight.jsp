@@ -56,12 +56,13 @@
 $(function() {
 	 $( '.form-group:contains("검")' ).on("click" , function() {
 		 	//alert("검색")
-			$("form").attr("method" , "POST").attr("action" , "/room/searchRoom").submit();
+			$("form").attr("method" , "POST").attr("action" , "/flight/searchFlight").submit();
 
 	});
 });	
 
-////////////////////////
+
+////////////////////////////////
 
 var rangeDate = 500; // set limit day
 var setSdate, setEdate;
@@ -119,7 +120,7 @@ $(function() {
     } */
 	});
 });
-
+/////////////////////////////////
 	
 </script>
 
@@ -151,38 +152,47 @@ $(function() {
 
 	
 	<div class="form-group">
-		<label for="roomCity" class="col-sm-offset-1 col-sm-3 control-label">도착 도시</label>
+		<label for="depCity" class="col-sm-offset-1 col-sm-3 control-label">출발도시</label>
 		<div class="col-sm-4">
-		<input	type="text" name="roomCity" id="roomCity" class="form-control">
+		<input	type="text" name="depCity" id="depCity" class="form-control">
 		</div>
-	</div>
-
-	<div class="wrap">
-	<h4 align="center">기간 선택</h4>
-	 <label for="checkIn" class="col-sm-offset-1  control-label">출발일자</label>
-	  <div>
-	      <input type="text" id="from" name="checkIn">
-	  </div>
-	 <label for="checkOut" class="col-sm-offset-1control-label">도착일자</label>
-	  <div>
-	      <input type="text" id="to" name="checkOut">
-	  </div>  
 	</div>
 
 	<div class="form-group">
-		<label for="roomNum" class="col-sm-offset-1 col-sm-3 control-label">객실</label>
+		<label for="arrCity" class="col-sm-offset-1 col-sm-3 control-label">도착도시</label>
 		<div class="col-sm-4">
-			<select class="form-control" id="roomNum" name="roomNum" >
-				<c:set var="i" value="0" />
-				<c:forEach  begin="0" end="3">
-				<c:set var="i" value="${i+1}"/>
-				<option>${i}</option>
-				</c:forEach>
-			</select>
+		<input	type="text" name="arrCity" id="arrCity" class="form-control">
 		</div>
 	</div>
+
 	
-		<div class="form-group">
+	<div class="wrap">
+	<h4 align="center">기간 선택</h4>
+	 <label for="depDate" class="col-sm-offset-1 col-sm-3 control-label">출발일자</label>
+	  <div>
+	      <input type="text" id="from" name="depDate">
+	  </div>
+	 <label for="arrDate" class="col-sm-offset-1 col-sm-3 control-label">도착일자</label>
+	  <div>
+	      <input type="text" id="to" name="arrDate">
+	  </div>  
+	</div>
+	
+	
+	
+	<div class="form-group">
+		<label for="seatGrade" class="col-sm-offset-1 col-sm-3 control-label">좌석</label>
+		<div class="col-sm-4">
+		<select 	name="seatGrade" class="ct_input_g" style="width:100px; color:royalblue;" >
+			<option value="0">일반석</option>
+			<option value="1">프리미엄 일반석</option>
+			<option value="2">비즈니스석</option>
+			<option value="3">일등석</option>
+		</select>
+	</div>
+	</div>
+	
+			<div class="form-group">
 		<label for="adultNum" class="col-sm-offset-1 col-sm-3 control-label">성인수</label>
 		<div class="col-sm-4">
 			<select class="form-control" id="adultNum" name="adultNum" >
@@ -195,7 +205,20 @@ $(function() {
 		</div>
 	</div>
 	
-	<div class="form-group">
+			<div class="form-group">
+		<label for="infantNum" class="col-sm-offset-1 col-sm-3 control-label">소아수</label>
+		<div class="col-sm-4">
+			<select class="form-control" id="infantNum" name="infantNum" >
+				<c:set var="i" value="0" />
+				<c:forEach  begin="0" end="8">
+				<option>${i}</option>
+				<c:set var="i" value="${i+1}"/>
+				</c:forEach>
+			</select>
+		</div>
+	</div>
+	
+			<div class="form-group">
 		<label for="childNum" class="col-sm-offset-1 col-sm-3 control-label">유아수</label>
 		<div class="col-sm-4">
 			<select class="form-control" id="childNum" name="childNum" >
@@ -208,6 +231,10 @@ $(function() {
 		</div>
 	</div>
 
+
+
+	
+
 	<div class="form-group">
    	 <div class="col-sm-offset-4  col-sm-4 text-center">
       <button type="button" class="btn btn-primary"  >검&nbsp;색</button>
@@ -218,7 +245,6 @@ $(function() {
 </form>
 </div>
 
-	<jsp:include page="../common/pageNavigator_new.jsp"/>			 
 
 </body>
 </html>
