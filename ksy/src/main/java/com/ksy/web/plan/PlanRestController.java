@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Party;
+import com.ksy.service.domain.Push;
 import com.ksy.service.domain.Todo;
 import com.ksy.service.domain.User;
 import com.ksy.service.plan.PlanService;
 import com.ksy.service.planSub.PlanSubService;
+import com.ksy.service.push.PushService;
 
 @RestController
 @RequestMapping("/plan/*")
@@ -31,9 +33,14 @@ public class PlanRestController {
 	@Qualifier("planSubServiceImpl")
 	private PlanSubService planSubService;
 	
+	@Autowired
+	@Qualifier("pushServiceImpl")
+	private PushService pushService;
+	
 	public PlanRestController() {
 		System.out.println(this.getClass());
 	}
+	
 	
 	
 	
@@ -109,7 +116,14 @@ public class PlanRestController {
 		offer.setFromUserId(fromUserId);
 		
 		System.out.println("\n\nOffer :: "+offer);
-		//planService.addOffer(offer);
+		planService.addOffer(offer);
+		
+		//플래너 초대 push 하기 method
+		Push push = new Push();
+		push.setPushType("I");
+		push.setRefId(offer.getRefId());
+		push.setReceiverId(offer.getToUserId());
+		pushService.addPush(push);
 		
 		return offer.getToUserId();
 	}
