@@ -48,10 +48,10 @@ public class CommunityRestController {
 		System.out.println(this.getClass());
 	}
 	
-	@Value("#{commonProperties['pageUnit']}")
+	@Value("#{commonProperties['postPageUnit']}")
 	int pageUnit;
 	
-	@Value("#{commonProperties['pageSize']}")
+	@Value("#{commonProperties['postPageSize']}")
 	int pageSize;
 
 	@RequestMapping(value="/json/addReport", method=RequestMethod.POST)
@@ -225,7 +225,7 @@ public class CommunityRestController {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		// 업로드할 폴더 경로
-		String realFolder = "C:\\Users\\User\\git\\repository2\\11.Model2MVCShop\\WebContent\\images\\uploadFiles\\";
+		String realFolder = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\";
 		UUID uuid = UUID.randomUUID();
 
 		// 업로드할 파일 이름
@@ -244,7 +244,7 @@ public class CommunityRestController {
 		}
 		file.transferTo(f);
 		Thread.sleep(5000);
-		out.println("../images/uploadFiles/" + str_filename);
+		out.println("../../resources/images/" + str_filename);
 		out.close();
 	}
 	

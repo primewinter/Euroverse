@@ -14,12 +14,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-theme.min.css" >
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 	
 	<!-- Bootstrap Dropdown Hover CSS -->
     <link href="/css/animate.min.css" rel="stylesheet">
@@ -27,6 +27,8 @@
    
     <!-- Bootstrap Dropdown Hover JS -->
     <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
@@ -51,7 +53,7 @@
 		
 		$(function() {
 				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $( "a[href='#']" ).on("click" , function() {
+			 $( "span[href='#']" ).on("click" , function() {
 					self.location = "/community/deletePost?postId=${post.postId}"
 			 });
 		});
@@ -156,7 +158,7 @@
 <body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/toolbar/toolBar.jsp" />
+	<jsp:include page="/view/community/toolbar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
    	
 	<div id="dialog-add" title="신고 작성">
@@ -229,7 +231,7 @@
 		<div class="row">
 	  		<div class="col-md-12 text-center ">
 	  			<button type="button" class="btn btn-primary">수정</button>
-	  	  &nbsp;<a class="btn btn-primary btn" href="#" role="button">삭제</a>
+	  	  &nbsp;<span class="btn btn-primary btn" href="#" role="button">삭제</span>
 	  		</div>
 		</div>
 		</c:if>

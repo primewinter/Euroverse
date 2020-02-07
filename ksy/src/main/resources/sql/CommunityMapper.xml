@@ -32,7 +32,7 @@
 		<result property="rcmtId" 			column="cmt_id" 			jdbcType="VARCHAR"/>
 		<result property="postId"	column="post_id" 		jdbcType="VARCHAR" />
 		<result property="cmtId" 	column="parent_cmt_id" 		jdbcType="VARCHAR" />
-		<result property="cmtWriterId.userId" 				column="writer_id" 					jdbcType="VARCHAR" />
+		<result property="cmtWriterId" 				column="writer_id" 					jdbcType="VARCHAR" />
 		<result property="cmtContent" 				column="cmt_content" 					jdbcType="VARCHAR" />
 		<result property="cmtDate" 			column="cmt_date" 		jdbcType="TIMESTAMP" />
 		<result property="secret" 				column="secret" 					jdbcType="CHAR" />

@@ -43,10 +43,10 @@ public class CommunityController {
 		System.out.println(this.getClass());
 	}
 	
-	@Value("#{commonProperties['pageUnit']}")
+	@Value("#{commonProperties['postPageUnit']}")
 	int pageUnit;
 	
-	@Value("#{commonProperties['pageSize']}")
+	@Value("#{commonProperties['postPageSize']}")
 	int pageSize;
 
 	@Scheduled(cron="0 0 10 * * ?") 
@@ -93,7 +93,7 @@ public class CommunityController {
 		if( boardName.equals("D") ) {
 			return "forward:/community/addFindAccPostView.jsp";
 		}
-		return "forward:/community/addPostView.jsp";
+		return "forward:/view/community/addPostView.jsp";
 	}
 	
 	@RequestMapping( value="addPost", method=RequestMethod.POST )
@@ -113,7 +113,7 @@ public class CommunityController {
 		model.addAttribute("post", post);
 		model.addAttribute("tagContent", tagContent);
 		
-		return "forward:/community/getPost.jsp";
+		return "forward:/view/community/getPost.jsp";
 	}
 	
 	@RequestMapping( value="updatePost", method=RequestMethod.GET )
@@ -131,7 +131,7 @@ public class CommunityController {
 		
 		communityService.deleteTag(postId);
 	
-		return "forward:/community/updatePostView.jsp";
+		return "forward:/view/community/updatePostView.jsp";
 	}
 	
 	@RequestMapping( value="updatePost", method=RequestMethod.POST )
@@ -153,7 +153,7 @@ public class CommunityController {
 		model.addAttribute("post", post);
 		model.addAttribute("tag", tag);
 		
-		return "forward:/community/getPost.jsp";
+		return "forward:/view/community/getPost.jsp";
 	}
 	
 	@RequestMapping( value="getPost", method=RequestMethod.GET )
@@ -170,14 +170,21 @@ public class CommunityController {
 		model.addAttribute("post", post);
 		model.addAttribute("tag", tag);
 		
-		return "forward:/community/getPost.jsp";
+		return "forward:/view/community/getPost.jsp";
 	}
 	
 	@RequestMapping( value="getPostList" )
-	public String getPostList( @RequestParam("boardName") String boardName, @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
+	public String getPostList( @RequestParam("boardName") String boardName, @ModelAttribute("search") Search search, Model model, HttpSession session ) throws Exception{
 		
 		System.out.println("/community/getPostList : GET / POST");
+		////////취합되면 지워야할 부분////////
+		User user = new User();
+		user.setUserName("주하");
+		user.setUserId("admin");
+		session.setAttribute("user", user);
+		///////////////////////////////
 		System.out.println("boardName : "+boardName);
+		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
@@ -195,6 +202,6 @@ public class CommunityController {
 		model.addAttribute("search", search);
 		model.addAttribute("boardName", boardName);
 		
-		return "forward:/community/getPostList.jsp";
+		return "forward:/view/community/getPostList.jsp";
 	}
 }
