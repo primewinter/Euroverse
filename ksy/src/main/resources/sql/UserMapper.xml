@@ -85,8 +85,8 @@
 회원가입 -->
 <insert id="addUser" parameterType="user">
 INSERT INTO USERS
-( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot , total_point , push_agree , reg_date, unreg_date) 
-VALUES(#{userId} , #{userName} , #{nickname} , #{pwd} , #{role} , #{email} , #{phone} , #{userImg} , #{sex} , #{birth} , #{slot} , #{totlaPoint} , #{pushAgree} , #{regDate} , #{unRegDate})
+( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot ,  push_agree , reg_date) 
+VALUES(#{userId} , #{userName} , #{nickname} , #{pwd} , 'G' , #{email} , #{phone} , #{userImg} , #{sex} , #{birth} , 3 , #{pushAgree,jdbcType=CHAR} , systimestamp )
 </insert>
 
 

@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 public class User {
 	
 	
@@ -23,11 +26,11 @@ public class User {
 	private String phone2;
 	private String phone3;
 	
-	private String userImg; //user_img
+	//private String userImg; //user_img
 	private String sex; //sex 남자(M) , 여자(F)
 	private String birth; //birth
-	private int slot;//slot
-	private int totalPoint;//total_point 
+	private Integer slot;//slot
+	private Integer totalPoint;//total_point 
 	private String pushAgree; //push_agree  T , F
 	
 	private Timestamp regDate; //reg_date
@@ -36,14 +39,15 @@ public class User {
 	private List<String> dreamCity; // TABLE trip_survey 에서  type 이 dreamCity인것
 	private List<String> tripStyle; // TABLE trip_survey 에서  type 이 tripStyle인것
 	
-	
+	private MultipartFile image;
+	private String userImg;
 	
 	
 	
 	public User() {
 		
 	}
-
+	
 
 	public String getUserId() {
 		return userId;
@@ -115,11 +119,11 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 		/////////////// EL 적용 위해 추가 ///////////
-		if(phone != null && phone.length() !=0 ){
-			phone1 = phone.split("-")[0];
-			phone2 = phone.split("-")[1];
-			phone3 = phone.split("-")[2];
-		}
+		//if(phone != null && phone.length() !=0 ){
+		//	phone1 = phone.split("-")[0];
+		//	phone2 = phone.split("-")[1];
+		//	phone3 = phone.split("-")[2];
+		//}
 	}
 	
 	
@@ -154,12 +158,12 @@ public class User {
 	
 	
 
-	public String getUserImg() {
-		return userImg;
-	}
-	public void setUserImg(String userImg) {
-		this.userImg = userImg;
-	}
+//	public String getUserImg() {
+//		return userImg;
+//	}
+//	public void setUserImg(String userImg) {
+//		this.userImg = userImg;
+//	}
 
 
 
@@ -261,14 +265,35 @@ public class User {
 	}
 
 
+	
+	
 
+	public MultipartFile getImage() {
+		return image;
+	}
+
+
+	public void setImage(MultipartFile image) {
+		this.image = image;
+	}
+	
+	public String getUserImage() {
+		return userImg;
+	}
+	
+	public void setUserImage(String userImg) {
+		this.userImg = userImg;
+	}
+
+	
+	
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", nickname=" + nickname + ", pwd=" + pwd
 				+ ", role=" + role + ", email=" + email + ", phone=" + phone + ", userImg=" + userImg + ", sex=" + sex
 				+ ", birth=" + birth + ", slot=" + slot + ", totalPoint=" + totalPoint + ", pushAgree=" + pushAgree
 				+ ", regDate=" + regDate + ", unRegDate=" + unRegDate + ", dreamCity=" + dreamCity + ", tripStyle="
-				+ tripStyle + "]";
+				+ tripStyle +",   image="  + image+  "]";
 	}
 	
 	

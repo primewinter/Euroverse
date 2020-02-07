@@ -125,6 +125,137 @@ $(document).ready(function () {
 	  
 	})
 	
+
+
+$(function(){
+	
+
+	
+var userId = $("input[name='userId'");
+var pwd = $("input[name='pwd']");
+var pwdConfirm = $("#pwdConfirm");
+var userName = $("input[name='userName']");
+var nickname = $("input[name='nickname']");
+$("input[name='email']").val($("#emailId").val()+"@"+$("#choiceEmail").val());
+var email =  $("input[name='email']");
+var birth = $("input[name='birth']");
+var sex = $("input[name='sex']");
+$("input[name='phone']").val($("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val());
+var phone = $("input[name='phone']");
+var image = $("input[name='image']");
+
+
+
+var h6 = document.getElementsByTagName('h6');
+
+
+
+
+	$(document).on('keyup', '#userId', function() {
+		if(userId.val().length <4 || userId.val().length > 12 ){
+			h6[0].innerHTML ="아이디는 4~12자 입니다.";
+		}else{
+			h6[0].innerHTML ="";
+		}
+		h6[2].innerHTML ="";
+	});
+	
+	$(document).on('keyup','#pwd',function(){
+		if(pwd.val().length <6  || pwd.val().length >20 ){
+			h6[1].innerHTML = "비밀번호는 6~20자 입니다.";
+		}else{
+			h6[1].innerHTML = "";
+		}
+		if(pwd.val() != pwdConfirm.val()){
+			h6[2].innerHTML = "비밀번호가 일치하지 않습니다.";
+		}else{
+			h6[2].innerHTML = "";
+		}
+		h6[2].innerHTML ="";
+	});
+	
+	$(document).on('keyup','#pwdConfirm',function(){
+		if(pwd.val() != pwdConfirm.val()){
+			h6[2].innerHTML = "비밀번호가 일치하지 않습니다.";
+		}else{
+			h6[2].innerHTML = "<i class='fas fa-check'></i>";
+		}
+	});
+	
+	$(document).on('keyup','#userName' , function(){
+		
+		
+		
+	});
+	
+	
+	
+	$("button:contains('Submit')").on("click",function(){
+		
+		
+		if(userId.val().length <4 || userId.val().length > 12 ){
+				//alert("아이디를 확인해주세요.")
+				h6[2].innerHTML ="아이디를 확인해주세요.";
+			return;
+		}else if(pwd.val().length <6  || pwd.val().length >20 ){
+				//alert("비밀번호를 확인해주세요.");
+				h6[2].innerHTML ="비밀번호를 확인해주세요.";
+			return;
+		}else if(pwd.val()){
+			
+			
+		}
+		
+		
+		
+		
+		
+		
+		else{
+			
+		
+		/* $.ajax({
+			url : "/user/json/login",
+			method : "post",
+			dataType : "json",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			data : JSON.stringify({
+				userId : userId.val(),
+				pwd : pwd.val()
+			}),
+			success : function(JSONData){
+				console.log(JSONData);
+				if(JSONData.result == 'ok'){
+					$("form").attr("method","get").attr("action","/user/login").submit();
+				}else if(JSONData.result =='errorId'){
+					//alert("존재하지 않는 아이디입니다.");
+					h6[2].innerHTML = "존재하지 않는 아이디입니다.";
+				}else if(JSONData.result =='errorPwd'){
+					//alert("비밀번호가 틀렸습니다.");
+					h6[2].innerHTML = "비밀번호가 틀렸습니다.";
+				}else{
+					alert("띠용");
+				}
+				
+			}//success
+		})//ajax */
+		
+		}//else
+		
+		
+	});
+	
+
+
+})
+
+	
+	
+	
+	
 	
 	
 $(function(){
@@ -141,11 +272,19 @@ $(function(){
 		var sex = $("input[name='sex']");
 		$("input[name='phone']").val($("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val());
 		var phone = $("input[name='phone']");
-		var userImg = $("input[name='userImg']");
-	/* 	var dreamCity = $("input[name='dreamCity']");
-		var tripStyle = $("input[name='tripStyle']");
-		 */
-		alert("      userId="+userId.val()
+		var image = $("input[name='image']");
+		
+		var h6Tag = document.getElementsByTagName("h6");
+		
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 alert("      userId="+userId.val()
 				+"   pwd="+pwd.val()
 				+"   pwdConfirm="+pwdConfirm.val()
 				+"   userName="+userName.val() 
@@ -154,7 +293,7 @@ $(function(){
 				+"   birth="+birth.val()
 				+"   sex="+sex.val()
 				+"   phone="+phone.val()
-				+"   userImg="+userImg.val());
+				+"   image="+image.val());
 /* 				+"   dreamCity="+dreamCity.val()
 				+"   tripStyle="+tripStyle.val());
  */		
@@ -162,24 +301,32 @@ $(function(){
 		 
 		 
 		 
-		for(var i=1;i<=$("input:checkbox[name=dreamCity]").length;i++){
-			
+		for(var i=1;i<=$("input:checkbox[class=dreamCity]").length;i++){
 			 if($("input:checkbox[id=dreamCity"+i+"]").is(":checked") == true) {
-				  //작업
-				  alert("하하!체크된 도시는!"+i+"번 도시!");
+				 
+				  var value = $("input:checkbox[id=dreamCity"+i+"]").val();
+				  alert(value);
+				  $("#checkDreamCity").append("<input type='hidden' name='dreamCity' value='"+value+"'>");
 				
 			} 
 		 
 		}/* for End */	 
 		
-		for(var i=1;i<=$("input:checkbox[name=tripStyle]").length;i++){
+		for(var i=1;i<=$("input:checkbox[class=tripStyle]").length;i++){
 			
 			if($("input:checkbox[id=tripStyle"+i+"]").is(":checked")==true){
 				
-				alert("하하!체크된 여행스타일은!!"+i+"번 도시!");
+				var value = $("input:checkbox[id=tripStyle"+i+"]").val();
+				alert(value);
+				 $("#checkTripStyle").append("<input type='hidden' name='tripStyle' value='"+value+"'>");
 			}
 			
 		}/* for End(tripStyle) */
+		
+		alert( $("#checkDreamCity").html());
+		alert( $("#checkTripStyle").html());
+		
+		$("form").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
 		
 	});/* btn-primary End */
 });/* function End */
@@ -192,19 +339,19 @@ $(function(){
 
 $(function(){
 	
-	$("input[name='dreamCity']").on("click",function(){
-		alert($(this).prev().val());
+	
+	
+	$("input[class='dreamCity']").on("click",function(){
 /* 		alert($("input:checkbox[name=dreamCity]").length);
 		alert($("input:checkbox[name=dreamCity]:checked").length); */
-		if($("input:checkbox[name=dreamCity]:checked").length > 5){
+		if($("input:checkbox[class=dreamCity]:checked").length > 5){
 			alert("5개까지만 선택 가능합니다.");
 			$("input:checkbox[id=dreamCity"+$(this).prev().val()+"]").prop("checked",false);
 		}
 	})
 	
-	$("input[name='tripStyle']").on("click",function(){
-		alert($(this).prev().val());
-		if($("input:checkbox[name=tripStyle]:checked").length > 3){
+	$("input[class='tripStyle']").on("click",function(){
+		if($("input:checkbox[class=tripStyle]:checked").length > 3){
 			alert("3개까지만 선택 가능합니다.");
 			$("input:checkbox[id=tripStyle"+$(this).prev().val()+"]").prop("checked",false);
 		}
@@ -290,8 +437,9 @@ function preview(src){
 		<div class="col-6 mx-auto">
 			<div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-user"></i></span>
-				<input type="text" class="form-control" placeholder="userId" name="userId" >
+				<input type="text" class="form-control" placeholder="userId" id="userId" name="userId" >
 			</div>
+			<h6></h6>
 		</div>
 	</div>
 	
@@ -299,8 +447,9 @@ function preview(src){
 		<div class="col-6 mx-auto">
 			<div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-lock"></i></span>
-				<input type="password" class="form-control" placeholder="password" name="pwd">
+				<input type="password" class="form-control" placeholder="password" id="pwd" name="pwd">
 			</div>
+			<h6></h6>
 		</div>
 	</div>
 	
@@ -310,6 +459,7 @@ function preview(src){
 				<span class="input-group-text"><i class="fas fa-lock"></i></span>
 				<input type="password" class="form-control" placeholder="password Confirm" id="pwdConfirm">
 			</div>
+			<h6></h6>
 		</div>
 	</div>
 	
@@ -319,6 +469,7 @@ function preview(src){
 				<span class="input-group-text"><i class="fas fa-user"></i></span>
 				<input type="text" class="form-control" placeholder="Name" name="userName">
 			</div>
+			<h6></h6>
 		</div>
 	</div>
 	
@@ -328,6 +479,7 @@ function preview(src){
 				<span class="input-group-text"><i class="fas fa-user"></i></span>
 				<input type="text" class="form-control" placeholder="Nickname" name="nickname">
 			</div>
+			<h6></h6>
 		</div>
 	</div>
 	
@@ -346,6 +498,7 @@ function preview(src){
 			 	</select>
 			 	<input type="hidden" name="email">
 			</div>
+			<h6></h6>
 		</div>
 	</div>
 	
@@ -355,6 +508,7 @@ function preview(src){
 				<span class="input-group-text"><i class="fas fa-baby"></i></span>
 				<span class="input-group-append"><input type="text" class="form-control" placeholder="birth" name="birth" readonly="readonly" id="datepicker"></span>
 			</div>
+			<h6></h6>
 				
 		</div>
 	</div>
@@ -366,14 +520,15 @@ function preview(src){
 					&nbsp;
 					&nbsp;
 					<div class="form-check form-check-inline">
-					  <input class="form-check-input" type="radio" name="sex" id="male" value="male">
+					  <input class="form-check-input" type="radio" name="sex" id="male" value="M">
 					  <label class="form-check-label" for="inlineRadio1">Male<i class="fas fa-male"></i></label>
 					</div>
 					<div class="form-check form-check-inline">
-					  <input class="form-check-input" type="radio" name="sex" id="female" value="female">
+					  <input class="form-check-input" type="radio" name="sex" id="female" value="F">
 					  <label class="form-check-label" for="inlineRadio2">Female<i class="fas fa-female"></i></label>
 					</div>
 			</div>
+			<h6></h6>
 		</div>
 	</div>
 	
@@ -387,16 +542,18 @@ function preview(src){
 		      <input type="text" class="form-control" id="phone3" >
 		      <input type="hidden" name="phone"> 
 		    </div>
+		    <h6></h6>
 		</div>
  	 </div>
  	 
  	  <div class="form-group">
 	 	<div class="col-6 mx-auto">
 			<div class="custom-file">
-			  <input type="file" class="custom-file-input" id="userImg" name="userImg" accept="image/*">
+			  <input type="file" class="custom-file-input" id="image" name="image" accept="image/*">
 			  <label class="custom-file-label" for="customFile" ><i class="fas fa-camera-retro">size 360x360</i> </label>  
 			  <!-- 프로필 이미지 미리보기 만들기! 사이즈제한 걸어두기!~~~ -->
 			</div>
+			<h6></h6>
 			<div id="preview">
 				
 			</div>
@@ -421,12 +578,14 @@ function preview(src){
 							    <img alt="" src="http://ipsumimage.appspot.com/50x60">
 					 			<p class="card-text"> 
 					 				<input type="hidden" value="${status.count}">
-					   	 			<input  type="checkbox" id="dreamCity${status.count}" value="${dreamCity}" name="dreamCity">
+					   	 			<input  type="checkbox" id="dreamCity${status.count}" value="${dreamCity}" class="dreamCity">
 					   	 	 		<label  for="dreamCity${status.count}">${dreamCity}</label>
 		  						</p>
 							</div> 
 					
 						</c:forEach> 
+						<div id="checkDreamCity"></div>
+						<h6></h6>
 					</div><!-- wrapper -->
 				</div><!-- s1 -->
    			 </div><!-- 가고싶은 도시 col-6 mx-auto  -->
@@ -453,11 +612,13 @@ function preview(src){
 						    		<img alt="" src="http://ipsumimage.appspot.com/50x60">
 				 						<p class="card-text"> 
 				 							<input type="hidden" value="${status.count}">
-								   	 		<input  type="checkbox" id="tripStyle${status.count}" value="${style}" name="tripStyle">
+								   	 		<input  type="checkbox" id="tripStyle${status.count}" value="${style}" class="tripStyle">
 								   	 	 	<label  for="tripStyle${status.count}">${style}</label>
 				  						</p>
 								</div> 
 							</c:forEach> 
+							<div id="checkTripStyle"></div>
+							<h6></h6>
 						</div><!-- wrapper -->
 					</div><!-- s2 -->
    				 </div><!--여행스타일 col-6 mx-auto End -->

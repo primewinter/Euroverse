@@ -1,5 +1,6 @@
 
 
+
 DROP TABLE users;
 DROP TABLE point;
 DROP TABLE trip_survey;
@@ -33,7 +34,7 @@ CREATE TABLE users(
 	unreg_date			TIMESTAMP,
 	push_agree			CHAR(1),
 	total_point			NUMBER,
-	PRIMARY KEY(user_id,nickname,user_name)
+	PRIMARY KEY(user_id)
 );
 
 
@@ -47,18 +48,6 @@ CREATE TABLE point(
 	used_date			TIMESTAMP,
 	PRIMARY KEY(point_id)
 );
-/////////////////////////////////////////////////////////////////////////////////¿À´õ°¡ ¾ø¾î¼­ ·¹ÆÛ·±½º¿¡ »¯À½ ¹Ø¿¡²¨·Î ÀÏ´Ü ¸¸µé±â
-
-CREATE TABLE point(
-	user_id				VARCHAR2(30)		REFERENCES users(user_id),
-	point_id			VARCHAR2(10)		NOT NULL,
-	ref_id				VARCHAR2(10),
-	used_type			CHAR(1),
-	used_point			NUMBER,
-	used_date			TIMESTAMP,
-	PRIMARY KEY(point_id)
-);
-
 
 
 CREATE TABLE trip_survey(
@@ -91,11 +80,36 @@ CREATE TABLE report(
 	ref_id				VARCHAR2(10),
 	report_reason 		CHAR(1),
 	report_content		VARCHAR2(300),
-	reprot_date			TIMESTAMP,
+	report_date			TIMESTAMP,
 	report_user_id		VARCHAR2(30)		REFERENCES users(user_id),
 	PRIMARY KEY(report_id)
 );
 
+
+INSERT INTO USERS
+( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot , total_point , push_agree , reg_date) 
+VALUES('admin' , '°ü¸®ÀÚ' , '¾È³ç¾È³ç' , '000000' , 'A' , 'te@te.com' , '010-1234-4577' , '' , 'F' , '1999-09-09' , 3 , 500, 'T' , systimestamp);
+
+
+INSERT INTO USERS
+( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot , total_point , push_agree , reg_date) 
+VALUES('user01' , 'À¯Àú01' , '¾È³ç¾È³ç' , '000000' , 'G' , 'te@te.com' , '010-1234-4577' , '' , 'F' , '1999-09-09' , 3 , 500, 'T' , systimestamp);
+
+INSERT INTO USERS
+( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot , total_point , push_agree , reg_date) 
+VALUES('user02' , 'À¯Àú02' , '¾È³ç¾È³ç' , '000000' , 'G' , 'te@te.com' , '010-1234-4577' , '' , 'F' , '1999-09-09' , 3 , 500, 'T' , systimestamp);
+
+INSERT INTO USERS
+( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot , total_point , push_agree , reg_date) 
+VALUES('user03' , 'À¯Àú03' , '¾È³ç¾È³ç' , '000000' , 'G' , 'te@te.com' , '010-1234-4577' , '' , 'F' , '1999-09-09' , 3 , 500, 'T' , systimestamp);
+
+INSERT INTO USERS
+( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot , total_point , push_agree , reg_date) 
+VALUES('user04' , 'À¯Àú04' , '¾È³ç¾È³ç' , '000000' , 'G' , 'te@te.com' , '010-1234-4577' , '' , 'F' , '1999-09-09' , 3 , 500, 'T' , systimestamp);
+
+INSERT INTO USERS
+( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot , total_point , push_agree , reg_date) 
+VALUES('user05' , 'À¯Àú05' , '¾È³ç¾È³ç' , '000000' , 'G' , 'te@te.com' , '010-1234-4577' , '' , 'F' , '1999-09-09' , 3 , 500, 'T' , systimestamp);
 
 
 

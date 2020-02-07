@@ -1,5 +1,8 @@
 package com.ksy.web.user;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ksy.service.domain.User;
 import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.user.UserService;
 
@@ -58,7 +64,9 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping(value="addUser")
+	
+	
+	@RequestMapping(value="addUser" , method = RequestMethod.GET)
 	public String addUser(Model model)throws Exception{
 		System.out.println(this.getClass()+"addUser");
 		List cityList = new ArrayList();
@@ -93,6 +101,36 @@ public class UserController {
 		
 	
 		return "forward:/view/user/addUser.jsp";
+	}
+	
+	@RequestMapping(value = "addUser" , method=RequestMethod.POST)
+	public String addUser(@ModelAttribute("user")User user ,Model model) throws Exception {
+		System.out.println("addUser POST Start");
+		System.out.println(user);
+		System.out.println(user.getDreamCity());
+		System.out.println(user.getTripStyle());
+		//드림시티랑 트립스타일도 따로 테이블? 로 관리하기 유저아이디랑 조인
+		
+		
+		
+		MultipartFile mhsr = (MultipartFile)user.getImage();
+		String path = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages";
+//		//String imgPath ="";
+		String originalName = "";
+		originalName = new String(mhsr.getOriginalFilename().getBytes("8859_1"),"UTF-8");
+		System.out.println(originalName);
+		//		
+		user.setUserImage("\\resources\\images\\userImages\\"+originalName);
+		System.out.println("유저이미지"+user.getUserImage());
+		userService.addUser(user);
+		File serverFile = new File(path+File.separator + originalName);
+		mhsr.transferTo(serverFile);
+
+		
+		System.out.println("하하하! 무사히 회원가입 성공~");
+		
+		
+		return "";
 	}
 	
 	

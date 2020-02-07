@@ -11,7 +11,23 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 
-	<link href='/css/core/main.css' rel='stylesheet' />
+
+	<!-- FullCalendar CDN -->
+	<link href='https://unpkg.com/@fullcalendar/core@4.3.1/main.min.css' rel='stylesheet' />
+  	<link href='https://unpkg.com/@fullcalendar/daygrid@4.3.0/main.min.css' rel='stylesheet' />
+  	<link href='https://unpkg.com/@fullcalendar/timegrid@4.3.0/main.min.css' rel='stylesheet' />
+	<link href='https://unpkg.com/@fullcalendar/list@4.3.0/main.min.css' rel='stylesheet' />
+	
+	<script src='https://unpkg.com/@fullcalendar/core@4.3.1/main.min.js'></script>
+	<script src='https://unpkg.com/@fullcalendar/daygrid@4.3.0/main.min.js'></script>
+	<script src='https://unpkg.com/@fullcalendar/interaction@4.3.0/main.min.js'></script>
+	<script src='https://unpkg.com/@fullcalendar/timegrid@4.3.0/main.min.js'></script>
+	<script src='https://unpkg.com/@fullcalendar/list@4.3.0/main.min.js'></script>
+	
+
+
+
+<!-- 	<link href='/css/core/main.css' rel='stylesheet' />
     <link href='/css/daygrid/main.css' rel='stylesheet' />
     <link href='/css/list/main.css' rel='stylesheet' />
     <link href='/css/timegrid/main.css' rel='stylesheet' />
@@ -21,7 +37,9 @@
     <script src='/javascript/daygrid/main.js'></script>
 	<script src='/javascript/list/main.js'></script>
 	<script src='/javascript/interaction/main.js'></script>
-	<script src='/javascript/timegrid/main.js'></script>
+	<script src='/javascript/timegrid/main.js'></script> -->
+	
+	
 <script type="text/javascript">
 
 $(function(){
