@@ -1,6 +1,9 @@
 package com.ksy.service.domain;
 
 import java.sql.Timestamp;
+import java.util.Date;
+
+import com.ksy.common.util.Util;
 
 public class Post {
 	
@@ -16,7 +19,11 @@ public class Post {
 	private int accCount; 
 	private int accPerson; //acc_person 
 	private Timestamp accStartDate; //acc_start_date
-	private Timestamp accEcdDate; //acc_end_date
+	private Timestamp accEndDate; //acc_end_date
+	
+	private String accStartDateStr;
+	private String accEndDateStr;
+	
 	private int postLikeCount; 
 	private int views; //views
 	private int comments; 
@@ -126,14 +133,41 @@ public class Post {
 
 	public void setAccStartDate(Timestamp accStartDate) {
 		this.accStartDate = accStartDate;
+		System.out.println("여기까지 찍히니? getTime() : "+accStartDate.getTime());
+		if(accStartDate != null) {
+			Date dateForDay = new Date(accStartDate.getTime());		
+			System.out.println("여기도? toString() : "+accStartDate.toString().substring(0,10) + " : "+dateForDay.toString().substring(0,3));
+			this.accStartDateStr = accStartDate.toString().substring(0,10) + " : "+dateForDay.toString().substring(0,3);
+		}
 	}
 
-	public Timestamp getAccEcdDate() {
-		return accEcdDate;
+	public Timestamp getAccEndDate() {
+		return accEndDate;
 	}
 
-	public void setAccEcdDate(Timestamp accEcdDate) {
-		this.accEcdDate = accEcdDate;
+	public void setAccEndDate(Timestamp accEndDate) {
+		this.accEndDate = accEndDate;
+		
+		if(accEndDate != null) {
+			Date dateForDay = new Date(accEndDate.getTime());		
+			this.accEndDateStr = accEndDate.toString().substring(0,10) + " : "+dateForDay.toString().substring(0,3);
+		}
+	}
+	
+	public String getAccStartDateStr() {
+		return accStartDateStr;
+	}
+
+	public void setAccStartDateStr(String accStartDateStr) {
+		this.accStartDateStr = accStartDateStr;
+	}
+
+	public String getAccEndDateStr() {
+		return accEndDateStr;
+	}
+
+	public void setAccEndDateStr(String accEndDateStr) {
+		this.accEndDateStr = accEndDateStr;
 	}
 
 	public int getPostLikeCount() {
@@ -221,10 +255,11 @@ public class Post {
 		return "Post [boardName=" + boardName + ", postId=" + postId + ", postGrade=" + postGrade + ", postNo=" + postNo
 				+ ", postContent=" + postContent + ", postTitle=" + postTitle + ", postWriterId=" + postWriterId
 				+ ", nickName=" + nickName + ", postDate=" + postDate + ", accCount=" + accCount + ", accPerson="
-				+ accPerson + ", accStartDate=" + accStartDate + ", accEcdDate=" + accEcdDate + ", postLikeCount="
-				+ postLikeCount + ", views=" + views + ", comments=" + comments + ", blocked=" + blocked + ", tags="
-				+ tags + ", postLikeFlag=" + postLikeFlag + ", deleted=" + deleted + ", planId=" + planId
-				+ ", qnaFirstCate=" + qnaFirstCate + ", qnaSecondCate=" + qnaSecondCate + "]";
+				+ accPerson + ", accStartDate=" + accStartDate + ", accEndDate=" + accEndDate + ", accStartDateStr="
+				+ accStartDateStr + ", accEndDateStr=" + accEndDateStr + ", postLikeCount=" + postLikeCount + ", views="
+				+ views + ", comments=" + comments + ", blocked=" + blocked + ", tags=" + tags + ", postLikeFlag="
+				+ postLikeFlag + ", deleted=" + deleted + ", planId=" + planId + ", qnaFirstCate=" + qnaFirstCate
+				+ ", qnaSecondCate=" + qnaSecondCate + "]";
 	}
 
 }

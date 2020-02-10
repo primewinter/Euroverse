@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 
 <html lang="ko">
@@ -160,6 +162,31 @@
 			}
 		}
 		
+		 $(function() {
+             //시작일.
+             $('#startDate').datepicker({
+                 dateFormat: "yy-mm-dd",             // 날짜의 형식
+                 changeMonth: true,                  // 월을 이동하기 위한 선택상자 표시여부
+                 minDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이전 날짜 선택 불가)
+                 onClose: function( selectedDate ) {    
+                     // 시작일(fromDate) datepicker가 닫힐때
+                     // 종료일(toDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
+                     $("#endDate").datepicker( "option", "minDate", selectedDate );
+                 }                
+             });
+             //종료일
+             $('#endDate').datepicker({
+                 dateFormat: "yy-mm-dd",
+                 changeMonth: true,
+                 minDate: 0, // 오늘 이전 날짜 선택 불가
+                 onClose: function( selectedDate ) {
+                     // 종료일(toDate) datepicker가 닫힐때
+                     // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
+                     $("#startDate").datepicker( "option", "maxDate", selectedDate );
+                 }                
+             });
+         });
+		
 	</script>
     
 </head>
@@ -185,21 +212,39 @@
 		<form class="form-horizontal">
 			<input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>		
 		  <div class="form-group">
-		    <label for="postTitle" class="col-sm-offset-1 col-sm-1 control-label">제목</label>
-		    <div class="col-sm-8">
+		    <label for="postTitle" class="col-sm-1 control-label">제목</label>
+		    <div class="col-sm-6">
 		      <input type="text" class="form-control" id="postTitle" name="postTitle" placeholder="제목을 입력하세요.">
+		    </div>
+		    <label for="accPerson" class="col-sm-1 control-label">인원</label>
+		    <div class="col-sm-3">
+		      <select class="form-control" id="accPerson" name="accPerson">
+			    <c:forEach var="i" begin="1" end="30" >
+			      <option value="${i}">${i}</option>
+			    </c:forEach>
+		      </select>
+		    </div>
+		   </div>
+	
+		<div class="form-group">
+		    <label for="accDate" class="col-sm-1 control-label">동행날짜</label>
+		    <div class="col-sm-5">
+		      <input type="text" class="form-control" id="startDate" name="accStartDateStr" placeholder="동행 시작날짜를 입력하세요.">
+		    </div>
+		     <div class="col-sm-5">
+		      <input type="text" class="form-control" id="endDate" name="accEndDateStr" placeholder="동행 종료날짜를 입력하세요.">
 		    </div>
 		  </div>
 		
 		<div class="form-group">
-		    <label for="postContent" class="col-sm-offset-1 col-sm-1 control-label">내용</label>
-		    <div class="col-sm-8">
+		    <label for="postContent" class="col-sm-1 control-label">내용</label>
+		    <div class="col-sm-10">
 		      <textarea class="form-control" id="summernote" name="postContent"></textarea>
 		    </div>
 		  </div>
 	
 		<div class="form-group">
-		    <label for="tagContent" class="col-sm-offset-1 col-sm-1 control-label">태그등록</label>
+		    <label for="tagContent" class="col-sm-1 control-label">태그등록</label>
 		    <div class="col-sm-3">
 		      <input type="text" class="form-control" id="appendTag" value="">
 		      <button type="button" class="tag" onclick="addTag()">등록하기</button>

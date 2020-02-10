@@ -29,6 +29,7 @@ import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Like;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.Push;
+import com.ksy.service.domain.Recomment;
 import com.ksy.service.domain.Report;
 import com.ksy.service.domain.User;
 import com.ksy.service.like.LikeService;
@@ -148,17 +149,15 @@ public class CommunityRestController {
 		  likeService.like_check(like);
 		  likeCheck="T";
 		  cmtLikeCount++;
-		  comment.setCmtLikeCount(cmtLikeCount);
 		  System.out.println("들어간 후 댓글 추천수 : "+cmtLikeCount);
-		  communityService.update_Like(comment);   //좋아요 갯수 증가
+		  communityService.updateLike(cmtId);   //좋아요 갯수 증가
 		}else{
 		  msgs.add("좋아요 취소");
 		  likeService.like_check_cancel(like);
 		  likeCheck="F";
 		  cmtLikeCount--;
-		  comment.setCmtLikeCount(cmtLikeCount);
 		  System.out.println("들어간 후 댓글 추천수 : "+cmtLikeCount);
-		  communityService.update_Unlike(comment);   //좋아요 갯수 감소
+		  communityService.updateUnlike(cmtId);   //좋아요 갯수 감소
 		}
 		JSONObject obj = new JSONObject();
 		obj.put("cmtId", like.getRefId());
@@ -215,9 +214,9 @@ public class CommunityRestController {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 	
-		communityService.update_postLike(postId);
+		communityService.updatePostLike(postId);
 		System.out.println("??????");
-		int like=communityService.select_Like(postId);
+		int like=communityService.selectLike(postId);
 		System.out.println("?????? : "+like);
 		JSONObject obj = new JSONObject();
 		System.out.println(like);
@@ -264,23 +263,62 @@ public class CommunityRestController {
 		
 		User user = (User)session.getAttribute("user");
 		comment.setCmtWriterId(user.getUserId());
+		comment.setNickName(user.getNickname());
 		
 		if(comment.getSecret() == null) {
 			comment.setSecret("F");
 		}
 		communityService.addComment(comment);
 		
-		if( !comment.getPostWriterId().equals(comment.getCmtWriterId())) {
+		Post post = communityService.getPost(comment.getPostId(), user.getUserId());
+		String postWriterId = post.getPostWriterId();
+		
+		if( !postWriterId.equals(comment.getCmtWriterId()) ) {
 			System.out.println("글 작성자 =/= 댓글 작성자");
 			Push push = new Push();
 			push.setRefId(comment.getPostId()+"");
 			push.setPushType("R");
-			push.setReceiverId(comment.getPostWriterId());
+			push.setReceiverId(postWriterId);
 			pushService.addPush(push);
 		}
 		
 		JSONObject obj = new JSONObject();
-		obj.put("ok", comment);
+		obj.put("postWriterId", postWriterId);
+		out.println(obj);
+	}
+	
+	@RequestMapping( value="json/addRecomment", method=RequestMethod.POST )
+	public void addRecomment( Recomment recomment, HttpSession session, HttpServletResponse response ) throws Exception {
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter(); 
+		
+		System.out.println("/community/addRecomment : POST");
+		
+		User user = (User)session.getAttribute("user");
+		recomment.setRcmtWriterId(user.getUserId());
+		recomment.setNickName(user.getNickname());
+		
+		if(recomment.getSecret() == null) {
+			recomment.setSecret("F");
+		}
+		communityService.addRecomment(recomment);
+		
+		Post post = communityService.getPost(recomment.getPostId(), user.getUserId());
+		String postWriterId = post.getPostWriterId();
+		
+		if( !postWriterId.equals(recomment.getRcmtWriterId()) ) {
+			System.out.println("글 작성자 =/= 댓글 작성자");
+			Push push = new Push();
+			push.setRefId(recomment.getPostId()+"");
+			push.setPushType("R");
+			push.setReceiverId(postWriterId);
+			pushService.addPush(push);
+		}
+		
+		JSONObject obj = new JSONObject();
+		obj.put("parentCmtId", recomment.getParentCmtId());
+		obj.put("postWriterId", postWriterId);
 		out.println(obj);
 	}
 	

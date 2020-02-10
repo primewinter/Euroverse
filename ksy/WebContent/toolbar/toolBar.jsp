@@ -9,7 +9,11 @@
  		<div class="footerBar-content">
  			 
 				    <!-- 결과 메시지 보여주는 창 -->
-				    <div class="pushList" style="overflow-y:auto; width:200px; height:220px;">
+				     <div class="deletePush">
+				    내 소식 알림
+				    <a href='javascript:deletePush()'><i class="far fa-trash-alt"></i></a><hr>
+				    	<div class="pushList" style="overflow-y:auto; width:300px; height:350px;">
+				    	</div>
 				    </div>
 				    <br />
 				    
@@ -25,7 +29,7 @@
 						        //웹 소켓이 연결되었을 때 호출되는 이벤트
 						        webSocket.onopen = function(message){
 						              console.log('[push] : connection opened.')
-						          	  //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
+						          	  //웹 소켓에서 메시지가 날아 왔을 때 호출되는 이벤트
 							          webSocket.onmessage = function(message){
 						            	  console.log("push 왔다 ::: "+message.data)
 						            	  var obj = JSON.parse(message.data);
@@ -109,14 +113,54 @@
 					 
 					 var tag = "<div class='chkPushList'>"
 					 tag += "<a href='javascript:deletePush()'><i class=\"far fa-trash-alt\"></i></a><hr>";
-					 
 					 for(var i = 0 in list) {
-					 	tag += "<input type='checkbox' name='chk' id='"+list[i].pushId+"' value='"+list[i].pushId+"'>";
-					 	tag += "<a href='/board/getBoard?boardNo="+list[i].refId+"'>";
-					 	tag += list[i].pushMsg+"</a><br>";
+						tag += "<table width=95%>"
+					 	tag += "<tr>"
+					 	tag += "<td style='margin:auto;text-align:center' width='20%'>"
+						tag += "<input type='checkbox'  class='custom-control-input' name='chk' id='"+list[i].pushId+"' value='"+list[i].pushId+"'>"; // style='display:none;'
+					 	/* tag += "<a href='/board/getBoard?boardNo="+list[i].refId+"'>";
+					 	tag += list[i].pushMsg+"</a><br>"; */
+					 	if(list[i].pushType.trim()=='R') {
+					 		tag += "<img src='/images/icon/push_reply9.png'>";
+					 		tag += "</td>"
+				 			tag += "<td style='text-align:left;'>"
+			 				tag += "<label  class='custom-control-label' for='"+list[i].pushId+"' ><font size='2' font color='black'><a href='/board/getBoard?boardNo="+list[i].refId+"'>";
+					 	} else if (list[i].pushType.trim() == 'I' ) {
+					 		tag += "<img src='/images/icon/push_invite.png'>";
+					 		//tag += "<font size='3' font color='black'><a href='/myPage' >"; // 초대 목록 리스트 링크
+					 	} else if (list[i].pushType.trim() == 'A') {
+					 		tag += "<img src='/images/icon/push_acc.png'>";
+					 		//tag += "<font size='3' font color='black'><a href='/myPage/' >" // 동행 신청 목록 리스트 링크
+					 	}
+					 		tag += list[i].pushMsg+"</font></label></td>";
+					 		tag += "<tr>";
+					 		tag += "<td></td><td>";
+					 		tag += "<label  class='custom-control-label' for='"+list[i].pushId+"'><font size='1' font color='gray'>"+list[i].pushTime+"</font></a></label>";
+					 		tag += "</td>";
+					 		tag += "</tr>";
 					 }
-					 
+					 tag += "</table>"
 					 tag += "</div>"
+					  tag += "<style>"
+					  +"label { font-weight: normal; font-color: white; }"
+						/*+ "input[type=\"checkbox\"] {"
+						 +    "display:none;"
+						 +"}"
+						 +"input[type=\"checkbox\"] + label span {"
+						     +"display: inline-block;"
+						     +"width: 24px;"
+						     +"height: 24px;"
+						     +"margin: -2px 10px 0 0;"
+						     +"vertical-align: middle;"
+						     +"background: url(checkbox.svg) left top no-repeat;"
+						     +"cursor: pointer;"
+						     +"background-size: cover;"
+						 +"}"
+						 +"input[type=\"checkbox\"]:checked + label span {"
+						     +"background:url(checkbox.svg)  -26px top no-repeat;"
+						      +"background-size: cover;"
+						 +"}"*/
+						 +"</style>";  
 					 
 					 $('.pushList').html(tag);
 					 console.log("resultPage : "+resultPage);
@@ -193,9 +237,30 @@
 		 // 리스트 호출 시 작동할 function : 리스트 화면에 출력
 		 function showList(vo) {
 			 var tag = "";
-			 tag += "<input type='checkbox' name='chk' id='"+vo.pushId+"' value='"+vo.pushId+"'>";
-			 tag+= "<a href='/board/getBoard?boardNo="+vo.refId+"'>";
-			 tag +=vo.pushMsg+"</a><br>";
+				tag += "<table width=95%>"
+			 	tag += "<tr>"
+			 	tag += "<td style='margin:auto;text-align:center' width='20%'>"
+				tag += "<input type='checkbox'  class='custom-control-input' name='chk' id='"+vo.pushId+"' value='"+vo.pushId+"'>"; // style='display:none;'
+			 	if(vo.pushType.trim()=='R') {
+			 		tag += "<img src='/images/icon/push_reply9.png'>";
+			 		tag += "</td>"
+		 			tag += "<td style='text-align:left;'>"
+	 				tag += "<label  class='custom-control-label' for='"+vo.pushId+"' ><font size='2' font color='black'><a href='/board/getBoard?boardNo="+vo.refId+"'>";
+			 	} else if (vo.pushType.trim() == 'I' ) {
+			 		tag += "<img src='/images/icon/push_invite.png'>";
+			 		//tag += "<font size='3' font color='black'><a href='/myPage' >"; // 초대 목록 리스트 링크
+			 	} else if (vo.pushType.trim() == 'A') {
+			 		tag += "<img src='/images/icon/push_acc.png'>";
+			 		//tag += "<font size='3' font color='black'><a href='/myPage/' >" // 동행 신청 목록 리스트 링크
+			 	}
+		 		tag += vo.pushMsg+"</font></label></td>";
+		 		tag += "<tr>";
+		 		tag += "<td></td><td>";
+		 		tag += "<label  class='custom-control-label' for='"+vo.pushId+"'><font size='1' font color='gray'>"+vo.pushTime+"</font></a></label>";
+		 		tag += "</td>";
+		 		tag += "</tr>";
+				tag += "</table>"
+				tag += "</div>"
 		  	 $(".chkPushList").append(tag);
 		 }
 		 
@@ -313,7 +378,7 @@
         }
         
         .footerBar-content {
-        	background-color: lightpink;
+        	background-color: white;
         }
         
 

@@ -13,6 +13,7 @@ import com.ksy.service.community.CommunityDao;
 import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Post;
+import com.ksy.service.domain.Recomment;
 import com.ksy.service.domain.Report;
 import com.ksy.service.domain.Tag;
 
@@ -27,10 +28,17 @@ public class CommunityDaoImpl implements CommunityDao{
 	public CommunityDaoImpl() {
 		System.out.println(this.getClass());
 	}
-	
 
 	public void addPost(Post post) throws Exception {
-		sqlSession.insert("CommunityMapper.addPost", post);
+		if( post.getBoardName().equals("D")) {
+			sqlSession.insert("CommunityMapper.addAccFindPost", post);
+		}else {
+			sqlSession.insert("CommunityMapper.addPost", post);
+		}
+	}
+	
+	public void addRecomment(Recomment recomment) throws Exception {
+		sqlSession.insert("CommunityMapper.addRecomment", recomment);
 	}
 	
 	public void addTag(String tagContent, String postId) throws Exception {
@@ -58,6 +66,7 @@ public class CommunityDaoImpl implements CommunityDao{
 	public Post getPost(String postId, String userId) throws Exception {
 		sqlSession.update("CommunityMapper.updateViews", postId);
 		sqlSession.update("CommunityMapper.updateBestPost", postId);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("postId", postId);
@@ -115,20 +124,20 @@ public class CommunityDaoImpl implements CommunityDao{
 		sqlSession.insert("CommunityMapper.addComment", comment);
 	}
 	
-	public void update_Like(Comment comment) throws Exception {
-		sqlSession.update("CommunityMapper.update_Like", comment);
+	public void updateLike(String cmtId) throws Exception {
+		sqlSession.update("CommunityMapper.updateLike", cmtId);
 	}
 	
-	public void update_postLike(String postId) throws Exception {
-		sqlSession.update("CommunityMapper.update_postLike", postId);
+	public void updatePostLike(String postId) throws Exception {
+		sqlSession.update("CommunityMapper.updatePostLike", postId);
 	}
 	
-	public void update_Unlike(Comment comment) throws Exception {
-		sqlSession.update("CommunityMapper.update_Unlike", comment);
+	public void updateUnlike(String cmtId) throws Exception {
+		sqlSession.update("CommunityMapper.updateUnlike", cmtId);
 	}
 	
-	public int select_Like(String postId) throws Exception {
-		return sqlSession.selectOne("CommunityMapper.select_Like", postId);
+	public int selectLike(String postId) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.selectLike", postId);
 	}
 	
 	public Comment getComment(String cmtId) throws Exception {
@@ -144,6 +153,11 @@ public class CommunityDaoImpl implements CommunityDao{
 	}
 	
 	public void addReport(Report report) throws Exception {
+		if(report.getReportTarget().equals("P")) {
+			sqlSession.update("CommunityMapper.postBlocked", report.getRefId());
+		}else if(report.getReportTarget().equals("C")) {
+			sqlSession.update("CommunityMapper.cmtBlocked", report.getRefId());	
+		}
 		sqlSession.insert("CommunityMapper.addReport", report);
 	}
 	
