@@ -22,13 +22,33 @@
 					$('#cmtContent').val('');
 					
 					//글 작성자에게 push 하기
-					var receiverId = '${post.postWriterId}';
+					var receiverId = data.postWriterId;
 					var pushType = 'R';
 					sendPush(receiverId, pushType);
 				}
 			});
 		});
 	});
+	
+	function addRecomment() {
+			alert("???");
+			$.ajax({
+				url : '/community/json/addRecomment' ,
+				type : "POST" ,
+				cache : false ,  
+				dataType : "json" ,
+				data : $('#addRcmt').serialize() ,
+				success : function(data) {
+					getRecommentList(1);
+					$('#rcmtContent').val('');
+					
+					//글 작성자에게 push 하기
+					var receiverId = data.postWriterId;
+					var pushType = 'R';
+					sendPush(receiverId, pushType);
+				}
+			});
+		}
 	
 	function getCommentList(currentPage){
 		
@@ -50,7 +70,7 @@
 					console.log(JSONData.list[i].cmtId);
 				if(JSONData.list[i].deleted == "F"){
 					output += "<tr>"
-					+"<td>"+JSONData.list[i].cmtWriterId+"&nbsp;&nbsp;"+JSONData.list[i].cmtDate
+					+"<td>"+JSONData.list[i].nickName+"&nbsp;&nbsp;"+JSONData.list[i].cmtDate
 				if(JSONData.list[i].cmtWriterId == JSONData.userId){
 					output += "&nbsp;<a onclick='showUpdate("+JSONData.list[i].cmtId+");'>수정</a><a onclick='deleteComment("+JSONData.list[i].cmtId+");'>삭제</a>"
 				}
@@ -63,7 +83,8 @@
 				}else{
 					output += "<i onclick='login_need();' id='"+JSONData.list[i].cmtId+"zz' class='far fa-thumbs-up'>"+JSONData.list[i].cmtLikeCount+"</i>"
 				}
-					output += "&nbsp;<i onclick='reportshow("+JSONData.list[i].cmtId+",\"C\");' class='fas fa-concierge-bell'></i>";
+					output += "&nbsp;<i onclick='reportshow("+JSONData.list[i].cmtId+",\"C\");' class='fas fa-concierge-bell'></i>"
+					+ "<i class='fas fa-reply-all' onclick='showrcmt("+JSONData.list[i].cmtId+")'></i>"
 				if(JSONData.list[i].secret == "T"){
 				if(JSONData.userId == JSONData.list[i].cmtWriterId.userId || JSONData.userId == JSONData.list[i].postWriterId){
 					output += "<h5 class='old' id='"+JSONData.list[i].cmtId+"old'>"+JSONData.list[i].cmtContent+"<font color=orange> *비밀댓글입니다.*</font></h5>"
@@ -78,6 +99,17 @@
 					output += "checked"
 				}
 					output += ">비밀댓글</label><a onclick='cancel("+JSONData.list[i].cmtId+");'>취소</a><a onclick='updateComment("+JSONData.list[i].cmtId+");'>등록</a></div></form>"
+					+"<div  class='container'>"
+					+"<form class='form-horizontal' id='addRcmt'>"
+					+"<div style='display: none;' class='form-group' id='"+JSONData.list[i].cmtId+"rcmt'>"
+					+"<input type='text' id='rcmtContent' name='rcmtContent'>"
+					+"<span onclick='addRecomment()' id='addRecomment'>등록</span>"
+					+"&nbsp;<label><input type='checkbox' id='secret' name='secret' value='T'>비밀댓글</label>"
+					+"</div>"
+					+"<input type='hidden' id='parentCmtId' name='parentCmtId' value='"+JSONData.list[i].cmtId+"'/><input type='hidden' id='postId' name='postId' value='"+JSONData.list[i].postId+"'/>"
+					+"</form>"
+					+"<div id='getRecommentList'></div>"
+					+"</div>"
 					+"</td><tr>"
 				}
 				}
@@ -169,6 +201,10 @@
 					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 				}
 			});
+		}
+		
+		function showrcmt(cmtId){
+			$("#"+cmtId+"rcmt").toggle();
 		}
 	
 	</script>
