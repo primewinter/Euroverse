@@ -1,17 +1,225 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 
+
+<script>
+
+$(function(){
+	
+
+	
+var userId = $('#userId');
+var pwd = $('#pwd');
+var h6 = document.getElementsByTagName('h6');
+
+
+
+
+	$(document).on('keyup', '#userId', function() {
+		if(userId.val().length <4 || userId.val().length > 12 ){
+			h6[0].innerHTML ="아이디는 4~12자 입니다.";
+		}else{
+			h6[0].innerHTML ="";
+		}
+		h6[2].innerHTML ="";
+		
+		
+				
+	});
+	
+	$(document).on('keyup','#pwd',function(){
+		if(pwd.val().length <6  || pwd.val().length >20 ){
+			h6[1].innerHTML = "비밀번호는 6~20자 입니다.";
+		}else{
+			h6[1].innerHTML = "";
+		}
+		h6[2].innerHTML ="";
+	
+	
+	});
+	
+	$("button:contains('Submit')").on("click",function(){
+		
+		
+		if(userId.val().length <4 || userId.val().length > 12 ){
+				//alert("아이디를 확인해주세요.")
+				h6[2].innerHTML ="아이디를 확인해주세요.";
+			return;
+		}else if(pwd.val().length <6  || pwd.val().length >20 ){
+				//alert("비밀번호를 확인해주세요.");
+				h6[2].innerHTML ="비밀번호를 확인해주세요.";
+			return;
+		}else{
+			
+		
+		$.ajax({
+			url : "/user/json/login",
+			method : "post",
+			dataType : "json",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			data : JSON.stringify({
+				userId : userId.val(),
+				pwd : pwd.val()
+			}),
+			success : function(JSONData){
+				console.log(JSONData);
+				if(JSONData.result == 'ok'){
+					$("form").attr("method","get").attr("action","/user/login").submit();
+				}else if(JSONData.result =='errorId'){
+					//alert("존재하지 않는 아이디입니다.");
+					h6[2].innerHTML = "존재하지 않는 아이디입니다.";
+				}else if(JSONData.result =='errorPwd'){
+					//alert("비밀번호가 틀렸습니다.");
+					h6[2].innerHTML = "비밀번호가 틀렸습니다.";
+				}else{
+					alert("띠용");
+				}
+				
+			}//success
+		})//ajax
+		
+		}//else
+		
+		
+	});
+	
+
+
+})
+
+
+</script>
+
+<a class="nav-link active" href="/plan/getPlanList">
+	<span data-feather="home"></span>
+		플랜 리스트로
+	<span class="sr-only">(current)</span>
+</a>
+<br/>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">
+로그인모달
+</button>
+<input type="button" value="로그아웃">
+<br/>
+<a href="../view/flight/searchFlight.jsp">항공권 검색</a>
+<br/>
+<a href="../view/room/searchRoom.jsp">숙소 검색</a>
+<br/>
+<a href="/order/getOrderList">주문 목록</a>
+
+<ul class="nav nav-tabs">
+	  <li class="nav-item dropdown">
+	    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">커뮤니티</a>
+	    <div class="dropdown-menu">
+	      <a class="dropdown-item" href="#">인기글게시판</a>
+	      <a class="dropdown-item" href="#">플래너공유</a>
+	      <a class="dropdown-item" href="#">동행찾기</a>
+	      <a class="dropdown-item" href="#">여행후기</a>
+	      <a class="dropdown-item" href="#">정보공유</a>
+	      <a class="dropdown-item" href="#">QnA</a>
+	      <a class="dropdown-item" href="#">자유게시판</a>
+	    </div>
+	  </li>
+	</ul>
+	
+		<!-- ToolBar End /////////////////////////////////////-->
+   	<script type="text/javascript">
+ 		$("input:contains('로그아웃')").on("click",function(){
+   			alert("로그아웃")
+   			location.href="/user/logout";
+   		});
+ 
+	 	$( "a:contains('자유게시판')" ).on("click" , function() {
+	 		$(self.location).attr("href","/community/getPostList?boardName=A");
+		});
+	 	
+	 	$( "a:contains('정보공유')" ).on("click" , function() {
+	 		$(self.location).attr("href","/community/getPostList?boardName=B");
+		}); 
+	 	
+	 	$( "a:contains('인기글게시판')" ).on("click" , function() {
+	 		$(self.location).attr("href","/community/getPostList?boardName=C");
+		}); 
+	 	
+	 	$( "a:contains('동행찾기')" ).on("click" , function() {
+	 		$(self.location).attr("href","/community/getPostList?boardName=D");
+		}); 
+	 	
+	 	$( "a:contains('플래너공유')" ).on("click" , function() {
+	 		$(self.location).attr("href","/community/getPostList?boardName=E");
+		}); 
+	 	
+	 	$( "a:contains('여행후기')" ).on("click" , function() {
+	 		$(self.location).attr("href","/community/getPostList?boardName=F");
+		}); 
+	 	
+	 	$( "a:contains('QnA')" ).on("click" , function() {
+	 		$(self.location).attr("href","/community/getPostList?boardName=G");
+		}); 
+	 	
+	</script>  
+
+
+<div class="modal fade " id="myModal">
+	  <!-- <div class="modal-dialog modal-lg"> -->
+	  <div class="modal-dialog ">
+	  	<h2 style="color : #FFFFFF">Sign In</h2>
+	  
+		<div class="modal-content">
+			 <!-- 	<div class="modal-header">
+				</div>modal header End 
+ 			-->
+				 
+				
+			
+		<div class="modal-body">
+			<form>
+					<div class="form-group">
+						<label for="id">Id</label> 
+						<input type="text"	class="form-control" placeholder="Enter Id" id="userId" name="userId">
+						<h6 style="color: #F00"></h6>
+					</div>
+					<div class="form-group">
+						<label for="pwd">Password</label>
+						 <input type="password"	class="form-control" placeholder="Enter password" id="pwd" name="pwd">
+						<h6 style="color: #F00"></h6>
+					</div>
+						<h6 style="color: #F00"></h6>
+					<div class="form-group form-check">
+						<label class="form-check-label">
+						<input class="form-check-input" type="checkbox"> Remember me
+						</label>
+					</div>
+					<h6></h6>
+					
+					<button type="button" class="btn btn-primary">Submit</button>
+	      			<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			</form>
+
+
+			<!-- 	<div class="modal-footer">
+				</div>modal footer End  -->
+
+				</div><!--modal body End  -->
+
+			</div><!--modal content End  --> 
+	  </div><!--modal dialog End  -->
+
+</div><!--myModal End  -->
     
     <div class="footerBar">
  		<div class="pushToast">
- 		ㅋㅋㅋ<i class="far fa-trash-alt"></i>
+ 		pushToast 자리
  		</div>
  		<div class="footerBar-content">
  			 
 				    <!-- 결과 메시지 보여주는 창 -->
-				     <div class="deletePush">
-				    내 소식 알림
-				    <a href='javascript:deletePush()'><i class="far fa-trash-alt"></i></a><hr>
+				     <div class="deletePush" >
+				    <span class = "totalCount" style="float:center;">내 소식 알림</span>
+				    <a href='javascript:deletePush()'><i class="far fa-trash-alt" style="float:right;"></i></a><hr>
 				    	<div class="pushList" style="overflow-y:auto; width:300px; height:350px;">
 				    	</div>
 				    </div>
@@ -90,7 +298,7 @@
 				        
 				    </script>
  		</div>
- 		<i class="fas fa-bell fa-2x"></i>
+ 		<i class="fas fa-bell fa-2x"></i><span class="unreadCount" style="display:table-col;vertical-align:top;"></span>
  	</div>
  	
  	<script type="text/javascript">
@@ -109,62 +317,17 @@
 					 var list = result.list;
 					 var resultPage = result.resultPage;
 					 var search = result.search;
+					 var totalCount = result.totalCount;
+					 $(".totalCount").append(totalCount);
+					 console.log("totalCount : "+totalCount);
 					 console.log("list.size : "+list.size);
-					 
-					 var tag = "<div class='chkPushList'>"
-					 tag += "<a href='javascript:deletePush()'><i class=\"far fa-trash-alt\"></i></a><hr>";
-					 for(var i = 0 in list) {
-						tag += "<table width=95%>"
-					 	tag += "<tr>"
-					 	tag += "<td style='margin:auto;text-align:center' width='20%'>"
-						tag += "<input type='checkbox'  class='custom-control-input' name='chk' id='"+list[i].pushId+"' value='"+list[i].pushId+"'>"; // style='display:none;'
-					 	/* tag += "<a href='/board/getBoard?boardNo="+list[i].refId+"'>";
-					 	tag += list[i].pushMsg+"</a><br>"; */
-					 	if(list[i].pushType.trim()=='R') {
-					 		tag += "<img src='/images/icon/push_reply9.png'>";
-					 		tag += "</td>"
-				 			tag += "<td style='text-align:left;'>"
-			 				tag += "<label  class='custom-control-label' for='"+list[i].pushId+"' ><font size='2' font color='black'><a href='/board/getBoard?boardNo="+list[i].refId+"'>";
-					 	} else if (list[i].pushType.trim() == 'I' ) {
-					 		tag += "<img src='/images/icon/push_invite.png'>";
-					 		//tag += "<font size='3' font color='black'><a href='/myPage' >"; // 초대 목록 리스트 링크
-					 	} else if (list[i].pushType.trim() == 'A') {
-					 		tag += "<img src='/images/icon/push_acc.png'>";
-					 		//tag += "<font size='3' font color='black'><a href='/myPage/' >" // 동행 신청 목록 리스트 링크
-					 	}
-					 		tag += list[i].pushMsg+"</font></label></td>";
-					 		tag += "<tr>";
-					 		tag += "<td></td><td>";
-					 		tag += "<label  class='custom-control-label' for='"+list[i].pushId+"'><font size='1' font color='gray'>"+list[i].pushTime+"</font></a></label>";
-					 		tag += "</td>";
-					 		tag += "</tr>";
-					 }
-					 tag += "</table>"
-					 tag += "</div>"
-					  tag += "<style>"
-					  +"label { font-weight: normal; font-color: white; }"
-						/*+ "input[type=\"checkbox\"] {"
-						 +    "display:none;"
-						 +"}"
-						 +"input[type=\"checkbox\"] + label span {"
-						     +"display: inline-block;"
-						     +"width: 24px;"
-						     +"height: 24px;"
-						     +"margin: -2px 10px 0 0;"
-						     +"vertical-align: middle;"
-						     +"background: url(checkbox.svg) left top no-repeat;"
-						     +"cursor: pointer;"
-						     +"background-size: cover;"
-						 +"}"
-						 +"input[type=\"checkbox\"]:checked + label span {"
-						     +"background:url(checkbox.svg)  -26px top no-repeat;"
-						      +"background-size: cover;"
-						 +"}"*/
-						 +"</style>";  
-					 
-					 $('.pushList').html(tag);
-					 console.log("resultPage : "+resultPage);
-					 console.log("search : "+search);
+					 $(".pushList").html("");
+					 $.each(list, function(index, vo){
+						showList(vo, 0);
+					 })
+					
+					console.log("resultPage : "+resultPage);
+					console.log("search : "+search);
 				 },
 				 error : function(error) {
 					 console.log("알림 내역 출력 실패");
@@ -210,7 +373,7 @@
 					"Content-Type" : "application/json"
 				},
 				success : function(list) {
-					 console.log(list);
+					console.log(list);
 					
 					var length = list.length;
 					console.log("받아온 data의 길이 : "+length);
@@ -235,33 +398,47 @@
 		 }
 		 
 		 // 리스트 호출 시 작동할 function : 리스트 화면에 출력
-		 function showList(vo) {
+		 function showList(vo, type) {
 			 var tag = "";
 				tag += "<table width=95%>"
 			 	tag += "<tr>"
-			 	tag += "<td style='margin:auto;text-align:center' width='20%'>"
-				tag += "<input type='checkbox'  class='custom-control-input' name='chk' id='"+vo.pushId+"' value='"+vo.pushId+"'>"; // style='display:none;'
-			 	if(vo.pushType.trim()=='R') {
-			 		tag += "<img src='/images/icon/push_reply9.png'>";
+			 	tag += "<td style='margin:auto;text-align:center' width='10%'>"
+				tag += "<input type='checkbox' name='chk' id='"+vo.pushId+"' value='"+vo.pushId+"'>"; // style='display:none;'
+				tag += "</td>"
+				tag += "<td style='margin:auto;text-align:center' width='10%'>"
+				if(vo.pushType.trim()=='C' || vo.pushType.trim()=='R') {
+			 		tag += "<img src='/resources/images/icon/push_reply9.png'>";
 			 		tag += "</td>"
-		 			tag += "<td style='text-align:left;'>"
-	 				tag += "<label  class='custom-control-label' for='"+vo.pushId+"' ><font size='2' font color='black'><a href='/board/getBoard?boardNo="+vo.refId+"'>";
+		 			tag += "<td style='text-align:left;margin-left:10'>"
+	 				tag += "<font size='2'  font color='black'>"
+	 				tag += "<a href='/board/getBoard?boardNo="+vo.refId+"'>";
 			 	} else if (vo.pushType.trim() == 'I' ) {
-			 		tag += "<img src='/images/icon/push_invite.png'>";
-			 		//tag += "<font size='3' font color='black'><a href='/myPage' >"; // 초대 목록 리스트 링크
+			 		tag += "<img src='/resources/images/icon/push_invite.png'>";
+			 		tag += "</td>";
+			 		tag += "<td style='text-align:left;margin-left:10'>"
+	 				tag += "<font size='2'  font color='black'>"
+			 		tag += "<a href='/myPage' >"; // 초대 목록 리스트 링크
 			 	} else if (vo.pushType.trim() == 'A') {
-			 		tag += "<img src='/images/icon/push_acc.png'>";
-			 		//tag += "<font size='3' font color='black'><a href='/myPage/' >" // 동행 신청 목록 리스트 링크
+			 		tag += "<img src='/resources/images/icon/push_acc.png'>";
+			 		tag += "</td>";
+			 		tag += "<td style='text-align:left;margin-left:10'>"
+	 				tag += "<font size='2'  font color='black'>"
+			 		tag += "<a href='/myPage/' >" // 동행 신청 목록 리스트 링크
 			 	}
-		 		tag += vo.pushMsg+"</font></label></td>";
-		 		tag += "<tr>";
-		 		tag += "<td></td><td>";
-		 		tag += "<label  class='custom-control-label' for='"+vo.pushId+"'><font size='1' font color='gray'>"+vo.pushTime+"</font></a></label>";
-		 		tag += "</td>";
-		 		tag += "</tr>";
-				tag += "</table>"
-				tag += "</div>"
-		  	 $(".chkPushList").append(tag);
+			 		tag += vo.pushMsg+"</font>";
+			 		tag += "</td>";
+			 		tag += "<tr>";
+			 		tag += "<td></td><td></td><td style='vertical-align: middle;'>";
+			 		tag += "<font size='1' font color='gray'>"+vo.pushTime+"</font></a>";
+			 		tag += "</td>";
+			 		tag += "</tr>";
+			 
+			  tag += "</table>"
+			  tag += "<style>"
+			  tag += "label { font-weight: normal; font-color: white; }"
+			  tag += "</style>";  
+			  
+			  $(".pushList").append(tag);
 		 }
 		 
 		// ----------------------------------------------------------------------------------------- 무한스크롤>
@@ -277,8 +454,8 @@
 				 },
 				 success : function(result) {
 					 console.log("안 읽은 알림 개수 출력 성공 : "+result+"개")
-					 var h = "<h4>알림 내역<font color='red'>"+result+"</font></h4>";
-					 $(".footerBar h4").html(h);
+					 var h = "<font color='red'>"+result+"</font>";
+					 $(".unreadCount").html(h);
 				 },
 				 error : function(error) {
 					 console.log("안 읽은 알림 개수 출력 실패");

@@ -71,13 +71,15 @@ public class Push {
 		if(refId == null || refId.equals("")) {
 			return pushMsg;
 		} else {
-			if(pushType.trim().equals("R")) {
+			if(pushType.trim().equals("R") || pushType.trim().equals("C")) {
 				String brief = (title.length()>12)?title.substring(0, 12)+"...":title;
-				return  "["+brief+"]에 댓글이 ("+cmtCount+")개 달렸습니다. ";
+				return  "["+brief+"]에 댓글이 ("+cmtCount+")개 달렸습니다.";
 			} else if(pushType.trim().equals("I")) {
-				return  " "+ refId+"번 플래너에 초대되었습니다. ";
+				String brief = (title.length()>12)?title.substring(0, 12)+"...":title;
+				return "["+brief+"] 플래너에 초대되었습니다.";
 			} else if(pushType.trim().equals("A")) {
-				return  " "+ refId+"번 동행에 신청이 들어왔습니다. ";
+				String brief = (title.length()>12)?title.substring(0, 12)+"...":title;
+				return "["+brief+"]동행에 신청이 들어왔습니다.";
 			} else if(pushType.trim().equals("P")){
 				return pushMsg;
 			} else {
@@ -131,8 +133,9 @@ public class Push {
 	public String toString() {
 		return "Push [pushId=" + pushId + ", pushType=" + pushType + ", refId=" + refId + ", pushDate=" + pushDate
 				+ ", receiverId=" + receiverId + ", read=" + read + ", cmtCount=" + cmtCount + ", unread=" + unread
-				+ ", pushMsg=" + pushMsg + ", pushTime=" + pushTime + "]";
+				+ ", pushMsg=" + pushMsg + ", pushTime=" + pushTime + ", title=" + title + "]";
 	}
+
 	
 
 }
