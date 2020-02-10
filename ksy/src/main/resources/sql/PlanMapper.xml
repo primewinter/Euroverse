@@ -206,7 +206,8 @@
 	<!-- 	User Mapper에 가야하는 SQL.... 테스트용으로 여기서 만들어 씀	 -->
 	<update id="updateUserSlot"	parameterType="string">
 		UPDATE 	users 
-		SET 	slot = slot + 1 
+		SET 	slot = slot + 1,
+				total_point = total_point - 500
 		WHERE 	user_id = #{userId}
 	</update>
 	

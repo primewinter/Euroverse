@@ -67,10 +67,12 @@
 	<style>
 		
 		#calendar {
-		  max-width: 900px;
-		  width: auto;
-		  height: auto;
+			border-style: solid;
+			border-width: thin;
+			border-color: #E0E0E0;
+			padding: 10px;
 		}
+		
 	</style>
 
 	<style>
@@ -750,6 +752,18 @@
 			$('#addOffer').on('click', function(){
 				addOffer();
 			});
+			
+			$('#deletePlanParty').on('click', function(){
+				deletePlanParty('F');
+			});
+			
+			$('#exitPlanButton').on('click', function(){
+				$('#exitPlanAlert').show();
+			})
+			
+			$('#exitPlan').on('click', function(){
+				deletePlanParty('S');
+			});
 		});
 		
 		function inviteUser() {
@@ -760,6 +774,27 @@
 			$("#inviteUser").show()
 		}
 		
+		function deletePlanPartyAlert(partyUserId, partyUserNickname){
+			$('#planMemberId').text(partyUserId);
+			$("#deletePlanPartyAlert").show();
+		}
+		
+		function deletePlanParty(condition){
+			var partyUserId;
+			
+			if( condition=='F'){
+				partyUserId = $('#planMemberId').text();
+				console.log("deletePlanParty("+condition+") 실행 ==> "+partyUserId+" 강퇴시키기" );
+			}else if( condition=='S'){
+				partyUserId = '${user.userId}';
+				console.log("deletePlanParty("+condition+") 실행 ==> "+partyUserId+" 셀프 탈퇴" );
+			}
+			
+			$('#partyUserId').val(partyUserId);
+			$('input[name="partyRole"]').val(condition);		//멤버의 셀프탈퇴:S, 마스터의 강퇴:F
+			$('form.deleteMember').attr('method', 'POST').attr('action', '/plan/deletePlanParty').submit();
+		}
+
 		
 		function findUser(findUserId) {
 			console.log("findUser("+findUserId+") 실행");
@@ -838,16 +873,37 @@
 			$('#updatePlanButton').on('click',function(){
 				$("#editPlan").show();
 			});		
-			
 			$('#updatePlan').on('click', function(){
-				alert("updatePlan 버튼 클릭 => updatePlan 함수 실행")
+				updatePlan();
+			});
+			
+			$('#deletePlanButton').on('click',function(){
+				$("#deletePlanAlert").show();
+			});	
+			$('#deletePlan').on('click', function(){
+				deletePlan();
 			});
 			
 			$('#planCompleteButton').on("click", function(){
-				//$("#completePlan").show();
-				alert("여행완료 확정 버튼 클릭 => 여행완료 확정 창 띄우기")
+				$("#planCompleteAlert").show();
+			});
+			$('#planComplete').on('click', function(){
+				planComplete();
 			});
 		})
+		
+		function updatePlan(){		//플래너 수정
+			alert("updatePlan() 실행!");
+		}
+		
+		function deletePlan(){		//플래너 삭제
+			$('form.editPlan').attr('method', 'POST').attr('action', '/plan/deletePlan').submit();
+		}
+		
+		function planComplete(){	//여행완료 확정
+			$("input[name='planStatus']").val('C');
+			$('form.editPlan').attr('method', 'POST').attr('action', '/plan/updatePlanStatus').submit();
+		}
 		
 		/* ------------------------------------------------------------------------------------------------------ */
 		
@@ -855,9 +911,12 @@
 	
 	<script>
 	
+		/* 모달창 닫기 */
 		function closeModal(modalName) {
 			console.log("closeModal : modalName="+modalName);
-			$("."+modalName)[0].reset();		//form에 모달 이름과 같은 클래스명 주기
+			if( typeof $("."+modalName)[0] != "undefined" ){
+				$("."+modalName)[0].reset();		//form에 모달 이름과 같은 클래스명 주기
+			}
 			$("#"+modalName).hide();
 		}
 		
@@ -880,68 +939,44 @@
 
 	</script>
 	
+	<!-- 캘린더 생성 -->
 	<script type="text/javascript">
 	
 		document.addEventListener('DOMContentLoaded', function() {
 		  var calendarEl = document.getElementById('calendar');
 		  //var draggebleEl = document.getElementById('draggable');
-		  var containerEl = document.getElementById('external-events');
-		  var checkbox = document.getElementById('drop-remove');
+		  //var containerEl = document.getElementById('external-events');
+		  //var checkbox = document.getElementById('drop-remove');
 		  
 		  var Calendar = FullCalendar.Calendar;
-		  var Draggable = FullCalendarInteraction.Draggable;
+		  //var Draggable = FullCalendarInteraction.Draggable;
 		  
-		 
 		  var calendar = new FullCalendar.Calendar(calendarEl, {
 		    plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
 		    defaultView: 'dayGridMonth',
 		    defaultDate: new Date(),
 		    header: {
-		      left: 'prev,next today addEventButton',
+		      left: 'prev, today',
 		      center: 'title',
-		      right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+		      right: 'next'
 		    },
-		    customButtons: {
-		        addEventButton: {
-		          text: '이벤트 추가',
-		          click: function() {
-		            var dateStr = prompt('YYYY-MM-DD 형식으로 날짜 입력');
-		            var date = new Date(dateStr + 'T00:00:00'); // will be in local time
-		            var titleStr = prompt('이벤트 title 입력');
-		            
-		            if (!isNaN(date.valueOf())) { // valid?
-		              calendar.addEvent({
-		                title: titleStr,
-		                start: date,
-		                allDay: true
-		              });
-		              alert('Great. Now, update your database...');
-		            } else {
-		              alert('Invalid date.');
-		            }
-		          }
-		        }
-		      },
-		    editable: true,
-		    droppable: true, // this allows things to be dropped onto the calendar
+		    height: 420,	// 캘린더 크기... 높이 지정!
+		    editable: false,
+		    droppable: false, // this allows things to be dropped onto the calendar
 		    locale: 'ko',
 		    events:[
 		    	{
-		    		title: '이벤트 입력',
-		    		start: '2019-12-31'
+		    		title: '존나세 생일',
+		    		start: '2020-02-10'
 		    	}
 		    ]
 		  });
 		  
 		  calendar.render();
-		  
-		  
 		}); 
 	
 	</script>
 	
-	
-
 
 </head>
 <body>
@@ -961,14 +996,14 @@
 		
 		
 			<!-- 좌측 Plan 툴바 구성 Start /////////////////////////////////////////////////////////// -->
-			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+			<nav class="col-md-2 d-none d-md-block bg-light sidebar" style="padding-left:7px;">
 		      <div class="sidebar-sticky">
 		      
 		        <ul class="nav flex-column">
 		          <li class="nav-item">
-		            <a class="nav-link active" href="/index.jsp">
+		            <a class="nav-link active" href="/plan/getPlanList">
 		              <span data-feather="home"></span>
-		              	메인으로 <span class="sr-only">(current)</span>
+		              	플랜 리스트로 <span class="sr-only">(current)</span>
 		            </a>
 		          </li>
 		          <li class="nav-item">
@@ -1029,6 +1064,9 @@
 							    <h6 class="mt-0 mb-1">${member.userId}</h6>
 							      ${member.nickname}
 						    </div>
+						    <c:if test="${ user.userId == plan.planMaster.userId && member.role=='M' }">
+						    	<span data-feather="user-minus" onclick="deletePlanPartyAlert('${member.userId}','${member.nickname}')"></span>
+						    </c:if>
 					</li>
 					</c:forEach>
 		        </ul>
@@ -1082,10 +1120,10 @@
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 					<div class="container">
 						<h5>Plan Information</h5>
-						<div class="row" style="background-color: #FFED94; width: 100%; padding: 15px; border-radius: 5px; ">
+						<div class="row" style="background-color: #E7F4F4; width: 100%; padding: 15px; border-radius: 5px; ">
 						
-							<img src="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="margin: 5px; border-width: 1px; border-color: gray; border-style: solid; width: 100px; height: 100px;">
-						    <div class="media-body" style="margin-left: 25px; margin-top: 30px;">
+							<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border-width: 1px; border-color: #D1D1D1; border-style: solid; width: 130px; height: 100px;">
+						    <div class="media-body" style="margin-left: 20px; margin-top: 30px;">
 						      <div><div style="font-weight: bolder; font-size: 20px; display: inline-block;">${plan.planTitle} </div> ${plan.planPartySize} 명</div>
 						      ${plan.startDateString} ~ ${plan.endDate} ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
 						      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
@@ -1095,9 +1133,12 @@
 							<div>
 							<button type="button" class="btn btn-primary" id="updatePlanButton" style="margin-left: 10px;">플래너 수정</button> 
 							<c:if test="${ user.userId == plan.planMaster.userId }">
-								<button type="button" class="btn btn-primary" style="margin-left: 10px;">플래너 삭제</button> 
+								<button type="button" class="btn btn-danger" id="deletePlanButton" style="margin-left: 10px;">플래너 삭제</button> 
 							</c:if>
-							<button type="button" class="btn btn-primary" id="planCompleteButton" style="margin-left: 10px;">여행완료 확정</button>
+							<c:if test="${ user.userId != plan.planMaster.userId }">
+								<button type="button" class="btn btn-secondary" id="exitPlanButton" style="margin-left: 10px;">플래너 탈퇴</button> 
+							</c:if>
+							<button type="button" class="btn btn-info" id="planCompleteButton" style="margin-left: 10px;">여행완료 확정</button>
 							</div>
 						</div>
 					</div>
@@ -1141,7 +1182,7 @@
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoTodoList">
 				
 					<div class="container">
-						<h4>Todo List : 투두 리스트</h4>
+						<h5>Todo List : 투두 리스트</h5>
 						<div class="row">
 							
 							
@@ -1156,13 +1197,13 @@
 				<!-- <div class="album py-5 bg-light" id="gotoCityRouteList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoCityRouteList">
 					<div class="container">
-						<h4>CityRoute List : 여행루트</h4>
+						<h5>CityRoute List : 여행루트</h5>
 						<div class="row">
 						
-							<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;height:480px;float:left;width:50%; float: left;"></div>
-							<!-- <div id='calendar-container'> -->
-							  <div id='calendar' style="float:right;width:45%; margin: 10px;"></div>
-							<!-- </div> -->
+							<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;height:450px;float:left;width:50%; float: left;"></div>
+							<div id='calendar-container' style="float:right;width:45%; margin: 5px 10px;max-width: 900px;">
+							  <div id='calendar'></div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -1175,9 +1216,13 @@
 				<!-- <div class="album py-5 bg-light"  id="gotoBudgetOverviewList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"  id="gotoBudgetOverviewList">
 					<div class="container">
-						<h4>BudgetOverview List : 예산 리스트</h4>
+						<h5>BudgetOverview List : 예산 리스트</h5>
 						<div class="row">
 							
+							
+							<c:forEach var="budget" items="${plan.budgetOverviewList}">
+								<div>${budget.dailyCate} ---- ${budget.budgetAmount} 원</div>
+							</c:forEach>
 							
 						</div>
 					</div>
@@ -1191,7 +1236,7 @@
 				<!-- <div class="album py-5 bg-light" id="gotoDailyList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoDailyList">
 					<div class="container">
-						<h4>Daily List : 일정표</h4>
+						<h5>일정표</h5>
 						<div class="row">
 							
 							<div class="swiper-container">
@@ -1236,7 +1281,7 @@
 				<!-- <div class="album py-5 bg-light"  id="gotoStuffList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoStuffList">
 					<div class="container">
-						<h4>Stuff List : 준비물 체크리스트</h4> <div class="text-right" style="font-weight: bolder; font-size: 25px;" id="stuffMode">Edit Mode</div>
+						<h5>준비물 체크리스트</h5> <div class="text-right" style="font-weight: bolder; font-size: 25px;" id="stuffMode">Edit Mode</div>
 						<div class="row">
 							
 							<div style="border:dashed thin #A7A7A7 ; border-radius:8px; padding:25px; background-color: white; width: 100%; ">
@@ -1276,7 +1321,7 @@
 				<!-- <div class="album py-5 bg-light"  id="gotoMemoList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoMemoList">
 					<div class="container">
-						<h4>Memo List : 메모</h4>
+						<h5>메모</h5>
 						<div class="row">
 							
 							<br/><br/>
@@ -1304,7 +1349,7 @@
 			
 			
 				<!-- //////////////////////////////////////// 모달모달 모음  //////////////////////////////////////// -->
-				<!-- /////////////////////	Medal : editPlan 	///////////////////// -->
+				<!-- /////////////////////	Modal : editPlan 	///////////////////// -->
 				<div class="modal" id="editPlan">
 				  <div class="modal-dialog" >
 				  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 수정</h4>
@@ -1352,6 +1397,10 @@
 							    </div>
 							</div>
 							
+							<!-- 여행완료 확정 폼제출을 위한 히든 값 -->
+							<input type="hidden" class="form-control" id="planStatus" name="planStatus" value="${plan.planStatus}">
+							<input type="hidden" class="form-control" id="planId2" name="planId" value="${plan.planId}">
+				        	
 				        </form>
 				        
 				      </div>
@@ -1362,9 +1411,9 @@
 				    </div>
 				  </div>
 				</div>
-				<!-- /////////////////////	Medal : editPlan 끝	///////////////////// -->
+				<!-- /////////////////////	Modal : editPlan 끝	///////////////////// -->
 				
-				<!-- /////////////////////	Medal : dailyEdit 	///////////////////// -->
+				<!-- /////////////////////	Modal : dailyEdit 	///////////////////// -->
 				<div class="modal" id="dailyEdit" >
 				  <div class="modal-dialog">
 				  <h4 style="color: #FFFFFF; margin-top: 100px;">일정 등록</h4>
@@ -1384,7 +1433,7 @@
 				        
 				        <form class="form-inline dailyEdit" style="margin: 10px;">
 				        	<input type="hidden" class="form-control" id="dayNo" name="dayNo" value="">
-				        	<input type="hidden" class="form-control" id="planId" name="planId" value="${plan.planId}">
+				        	<input type="hidden" class="form-control" id="planId1" name="planId" value="${plan.planId}">
 				        	<input type="hidden" class="form-control" id="dailyId" name="dailyId" value="">
 				        	
 							<div class="form-group" >
@@ -1435,12 +1484,12 @@
 				    </div>
 				  </div>
 				</div>
-				<!-- /////////////////////	Medal : dailyEdit 끝	///////////////////// -->
+				<!-- /////////////////////	Modal : dailyEdit 끝	///////////////////// -->
 				
 				
-				<!-- /////////////////////	Medal : inviteUser	///////////////////// -->	
+				<!-- /////////////////////	Modal : inviteUser	///////////////////// -->	
 				<div class="modal" id="inviteUser">
-				  <div class="modal-dialog" >
+				  <div class="modal-dialog modal-lg" >
 				  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너에 친구 초대하기</h4>
 				  
 				    <div class="modal-content">
@@ -1458,8 +1507,7 @@
 				        
 				        <form class="inviteUser" style="margin: 10px;">
 				        	<!-- <input type="hidden" class="form-control" id="planId" name="planId" value="${plan.planId}">  -->
-				        	
-					        <div class="input-group flex-nowrap" style="margin: 0 auto; width: 80%;">
+					        <div class="input-group flex-nowrap" style="margin: 0 auto; width: 40%;">
 							  <div class="input-group-prepend">
 							    <span class="input-group-text" id="addon-wrapping">@</span>
 							  </div>
@@ -1468,6 +1516,7 @@
 							</div>
 				        
 				        	<br/>
+				        	
 							<div class="findUserResult" style="text-align: center;"></div>
 							
 							<div class="form-group" id="offerMsgForm" style="margin: 30px 10px 10px 10px; width:auto;">
@@ -1484,7 +1533,149 @@
 				    </div>
 				  </div>
 				</div>
-				<!-- /////////////////////	Medal : inviteUser 끝	///////////////////// -->	
+				<!-- /////////////////////	Modal : inviteUser 끝	///////////////////// -->	
+				
+				
+				<!-- /////////////////////	Alert Modal : 플래너 삭제 	///////////////////// -->	
+				<div class="modal" id="deletePlanAlert">
+				  <div class="modal-dialog" >
+				  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 삭제</h4>
+				  
+				    <div class="modal-content">
+				    
+				      <div class="modal-header">
+				        <!-- <div class="modal-title">
+				        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
+				        </div> -->
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('deletePlanAlert')">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      
+				      <div class="modal-body text-center">
+				        <br/><span style="font-size:20px; color:#00AACC; font-weight:bold;">${plan.planTitle}</span> <br/>
+				        <span style="font-size:17px;"> 플래너를 삭제하시겠습니까?</span>
+				        <br/><br/>
+				      </div>
+				      
+				      <div class="modal-footer">
+				      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('deletePlanAlert')">아니오</button>
+				        <button type="button" class="btn btn-primary" id="deletePlan">예</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				<!-- /////////////////////	Alert Modal : 플래너 삭제 끝	///////////////////// -->
+				
+				
+				<!-- /////////////////////	Alert Modal : 여행완료 확정	///////////////////// -->	
+				<div class="modal" id="planCompleteAlert">
+				  <div class="modal-dialog modal-lg" >
+				  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 여행완료 확정</h4>
+				  
+				    <div class="modal-content">
+				    
+				      <div class="modal-header">
+				        <!-- <div class="modal-title">
+				        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
+				        </div> -->
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('planCompleteAlert')">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      
+				      <div class="modal-body text-center">
+				        ${plan.startDateString} 부터 ${plan.endDate} 까지
+				        <br/>
+				        <span style="font-size:20px; color:#00AACC; font-weight:bold;">${plan.planTitle}</span> <span style="font-size:17px;"> 즐겁게 다녀오셨나요?</span>
+				        <br/><br/><br/>
+				        
+				        <span style="font-weight:bold;">여행완료 확정</span> 시 <br/>
+				        	내 여행정보 통계에 플래너 정보가 등록됩니다.
+				      </div>
+				      
+				      <div class="modal-footer">
+				      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('planCompleteAlert')">Close</button>
+				        <button type="button" class="btn btn-primary" id="planComplete">여행완료 확정</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				<!-- /////////////////////	Alert Modal : 여행완료 확정 끝	///////////////////// -->	
+				
+				
+				<!-- /////////////////////	Alert Modal : 플래너 멤버 강퇴	///////////////////// -->	
+				<div class="modal" id="deletePlanPartyAlert">
+				  <div class="modal-dialog" >
+				  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 멤버 강퇴</h4>
+				  
+				    <div class="modal-content">
+				    
+				      <div class="modal-header">
+				        <!-- <div class="modal-title">
+				        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
+				        </div> -->
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('deletePlanPartyAlert')">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      
+				      <div class="modal-body text-center">
+				        <br/><span id="planMemberId" style="font-size:17px;font-weight:bold; color:#00AACC; "></span>
+				        <span style="font-size:17px;"> 님을</span> <br/> <span style="font-size:17px;">플래너 참여자에서 제외시키시겠습니까? </span>
+				        <br/><br/>
+				        
+				        <!-- 플래너 멤버 삭제용 제출 폼 -->
+				        <form class="form-inline deleteMember">
+				        	<input type="hidden" class="form-control" id="planId4" name="refId" value="${plan.planId}">
+				        	<input type="hidden" class="form-control" id="partyUserId" name="partyUserId" value="">
+				        	<input type="hidden" class="form-control" id="partyRole" name="partyRole" value="">
+				        </form>
+				        
+				      </div>
+				      
+				      <div class="modal-footer">
+				      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('deletePlanPartyAlert')">아니오</button>
+				        <button type="button" class="btn btn-primary" id="deletePlanParty">예</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				<!-- /////////////////////	Alert Modal : 플래너 멤버 강퇴 끝	///////////////////// -->	
+
+
+				<!-- /////////////////////	Alert Modal : 플래너 탈퇴 	///////////////////// -->	
+				<div class="modal" id="exitPlanAlert">
+				  <div class="modal-dialog" >
+				  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 탈퇴</h4>
+				  
+				    <div class="modal-content">
+				    
+				      <div class="modal-header">
+				        <!-- <div class="modal-title">
+				        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
+				        </div> -->
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('exitPlanAlert')">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      
+				      <div class="modal-body text-center">
+				        <br/><span style="font-size:20px; color:#00AACC; font-weight:bold;">${plan.planTitle}</span> <br/>
+				        <span style="font-size:17px;"> 플래너를 탈퇴하시겠습니까?</span>
+				        <br/><br/>
+				      </div>
+				      
+				      <div class="modal-footer">
+				      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('exitPlanAlert')">아니오</button>
+				        <button type="button" class="btn btn-primary" id="exitPlan">예</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				<!-- /////////////////////	Alert Modal : 플래너 탈퇴 끝	///////////////////// -->
+
+
 				<!-- //////////////////////////////////////// 모달 모음 끝  //////////////////////////////////////// -->
 				
 			</main>
@@ -1538,8 +1729,9 @@
 		var planEndDate = "${plan.endDate}";
 		var newPlanEndDate = new Date(planEndDate);
 		console.log("now="+now+" / endDate="+newPlanEndDate);
+		var planStatus = '${plan.planStatus}';
 		
-		if(now > newPlanEndDate){
+		if(now > newPlanEndDate && planStatus == 'R'){
 			$('#planCompleteButton').show();
 		}else{
 			$('#planCompleteButton').hide();

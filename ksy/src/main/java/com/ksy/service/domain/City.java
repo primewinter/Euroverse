@@ -1,6 +1,5 @@
 package com.ksy.service.domain;
 
-import java.util.List;
 
 public class City {
 	
@@ -20,6 +19,10 @@ public class City {
 	private String cityImg;		//도시 이미지
 	
 	//private List<Bucket> bucketList;	//버킷리스트
+	
+	//이거 맞나... 
+	//private String startDateStr;
+	//private String endDateStr;
 	
 	
 	public City() {

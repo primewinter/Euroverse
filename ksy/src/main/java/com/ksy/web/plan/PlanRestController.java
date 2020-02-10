@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Party;
+import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.Push;
 import com.ksy.service.domain.Todo;
 import com.ksy.service.domain.User;
@@ -42,6 +43,18 @@ public class PlanRestController {
 	}
 	
 	
+	
+	@RequestMapping( value = "json/getPlan/{planId}", method = RequestMethod.GET )
+	public Plan getPlan( @PathVariable String planId ) throws Exception {
+		
+		Plan plan = planService.getPlan(planId);
+		//지성아.............뒤질래..?
+		User planMaster = new User();
+		planMaster.setUserId(plan.getPlanMaster().getUserId());
+		planMaster.setSlot(3);
+		plan.setPlanMaster(planMaster);
+		return plan;
+	}
 	
 	
 	@RequestMapping( value = "json/updateUserSlot/{userId}", method = RequestMethod.GET )

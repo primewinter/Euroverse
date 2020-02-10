@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ import com.ksy.service.domain.City;
 import com.ksy.service.domain.Daily;
 import com.ksy.service.domain.Day;
 import com.ksy.service.domain.Memo;
+import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.Stuff;
 import com.ksy.service.domain.Todo;
@@ -42,7 +44,7 @@ public class PlanController {
 	}
 	
 	@RequestMapping( value = "getPlanList", method = RequestMethod.GET )
-	public String getPlanList (	@RequestParam("userId") String userId, Model model, HttpSession session	) throws Exception {
+	public String getPlanList (	/*@RequestParam("userId") String userId, */ Model model, HttpSession session	) throws Exception {
 		
 		User user = (User)session.getAttribute("user");
 		//test용 if문 : 회원아이디 셋팅
@@ -139,21 +141,73 @@ public class PlanController {
 	public String updatePlanStatus (	@ModelAttribute("plan") Plan plan, Model model	) throws Exception {
 	
 		planService.updatePlanStatus(plan);
+		
+		System.out.println("\n\n\n\n\n updatePlanStatus ::: "+ plan);
 	
-		//plan = planService.getPlan(plan.getPlanId());	<- 이 과정이 굳이 필요한가..?
+		//plan = planService.getPlan(plan.getPlanId());	//<- 이 과정이 굳이 필요한가..? <- 필요하다!!! <-아닌거같음.. 필요없음!!!!!!
 		//model.addAttribute("plan", plan);		
 		
-		return "forward:/plan/getPlan.jsp";
+		return "redirect:/plan/getPlan?planId="+plan.getPlanId();
 	}
 	
 	@RequestMapping( value = "deletePlan", method = RequestMethod.POST )
-	public String deletePlan (	@RequestParam("planId") String planId, Model model	) throws Exception {
+	public String deletePlan (	@RequestParam("planId") String planId, Model model, HttpSession session	) throws Exception {
 	
 		planService.deletePlan(planId);
 		
-		return "forward:/plan/getPlanList.jsp";
+		//페이지 네비게이션 어케..?
+		User user = (User)session.getAttribute("user");
+		//test용 if문 : 회원아이디 셋팅
+		if(user == null) {
+			user = new User();
+			user.setUserId("admin");
+		}
+		
+		return "redirect:/plan/getPlanList?userId="+user.getUserId();
 	}
 	
 	
+	
+	//deletePlanParty 레스트에 있던거 옮겨옴!!!!!!
+	@RequestMapping( value = "deletePlanParty", method = RequestMethod.POST )
+	public String deletePlanParty (	@ModelAttribute("party") Party party, Model model, HttpSession session	) throws Exception {
+	
+		System.out.println("\n\n\n\n deletePlanParty ::: "+ party);
+		
+		planService.deletePlanParty(party);
+		
+		User user = (User)session.getAttribute("user");
+		//test용 if문 : 회원아이디 셋팅
+		if(user == null) {
+			user = new User();
+			user.setUserId("admin");
+		}
+		
+		if( party.getPartyRole().equals("S")) {		//셀프탈퇴
+			return "redirect:/plan/getPlanList?userId="+user.getUserId();		//내가 탈퇴하는 경우
+		}else { // if( party.getPartyRole().equals("F")) {	//마스터의 강퇴
+			return "redirect:/plan/getPlan?planId="+party.getRefId();		//마스터가 강퇴시키는 경우
+		}
+	}
+	
+	//레ㅔ스트에 있던거 가져옴
+	@RequestMapping( value = "updateUserSlot", method = RequestMethod.GET )
+	public String updateUserSlot( @RequestParam("userId") String userId, HttpSession session ) throws Exception {
+		
+		
+		System.out.println("\n\n\n\n\n\n\n updateUserSlot "+userId);
+		
+		planService.updateUserSlot(userId);
+		
+		//페이지 네비게이션 어케..?
+		/*
+		 * User user = (User)session.getAttribute("user"); //test용 if문 : 회원아이디 셋팅
+		 * if(user == null) { user = new User(); user.setUserId("admin"); }
+		 */
+		
+		//USER의 정보들(슬롯, 포인트)이 수정되기 때문에 업데이트 후 다시 세션에 박는것처럼 처리해주어야 함!!!!!!!!!!!!!!!!!!
+		
+		return "redirect:/plan/getPlanList?userId="+userId;
+	}
 	
 }
