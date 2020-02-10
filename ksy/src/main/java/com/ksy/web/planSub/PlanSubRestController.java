@@ -235,4 +235,14 @@ public class PlanSubRestController {
 	}
 	
 	
+	
+	
+	@RequestMapping( value = "json/getBudgetOverviewList/{planId}", method = RequestMethod.GET )
+	public List<Daily> getBudgetOverviewList( @PathVariable String planId ) throws Exception {
+		
+		List<Daily> budgetOverviewList = planSubService.getBudgetOverview(planId);
+		return budgetOverviewList;
+	}
+	
+	
 }

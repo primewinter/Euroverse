@@ -64,6 +64,16 @@
 	<script src='https://unpkg.com/@fullcalendar/timegrid@4.3.0/main.min.js'></script>
 	<script src='https://unpkg.com/@fullcalendar/list@4.3.0/main.min.js'></script>
 	
+	
+	<!-- jquery Ui 링크 (datePicker)  -->
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<!--datePicker CDN  -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	
+	<!-- boot strap File upload CDN  -->
+	<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+	
+	
 	<style>
 		
 		#calendar {
@@ -696,6 +706,57 @@
 		
 		
 		
+		/* ---------------------------------		BudgetOverview 관련 함수들		--------------------------------- */
+		
+		function getBudgetOverviewList(planId){
+			console.log("getBudgetOverviewList("+planId+") 실행 ");
+			
+			$.ajax({
+				url: "/planSub/json/getBudgetOverviewList/"+planId ,
+				method: "GET",
+				dataType: "json",
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				success: function(JSONData, status){
+					//var budgetOverviewHtml = '';
+					if( JSONData==null || JSONData=="" ){ 	
+						console.log("리턴데이터 없음");	
+					}else{ 		
+						console.log("리턴데이터 있음1! => JSONData = "+JSON.stringify(JSONData));	
+
+						for( var i in JSONData ){
+							switch ( JSONData[i].dailyCate ) {
+						        case 'D': $('#budget_D').text(JSONData[i].budgetAmount+" 원");	//관광
+						          break;
+						        case 'T': $('#budget_T').text(JSONData[i].budgetAmount+" 원");	//교통
+						          break;
+						        case 'V': $('#budget_V').text(JSONData[i].budgetAmount+" 원");	//투어
+						          break;
+						        case 'R': $('#budget_R').text(JSONData[i].budgetAmount+" 원");	//숙소
+						          break;
+						        case 'F': $('#budget_F').text(JSONData[i].budgetAmount+" 원");	//식사
+						          break;
+						        case 'S': $('#budget_S').text(JSONData[i].budgetAmount+" 원");	//쇼핑
+						          break;
+						        case 'E': $('#budget_E').text(JSONData[i].budgetAmount+" 원");	//기타
+						          break;
+						        default:
+						          var d = 'default';
+						    } //switch
+						}
+					} //if-else
+					//$(".budgetOverview").html(budgetOverviewHtml);
+				},
+				error:function(request,status,error){
+			        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			    } 
+			});
+		} //getBudgetOverviewList(planId) END
+		
+		getBudgetOverviewList(planId);
+		
+		/* ------------------------------------------------------------------------------------------------------ */
+		
+		
 		
 		/* ---------------------------------		Todo List 관련 함수들			--------------------------------- */
 		
@@ -890,10 +951,86 @@
 			$('#planComplete').on('click', function(){
 				planComplete();
 			});
+			
+			
+			$( "#startDateString" ).datepicker({
+			      showOptions: { direction: "up" },
+				  defaultDate : '1995-02-10',
+			      changeYear : true ,
+			      changeMonth : true ,
+			      //buttonImage: "/resources/images/userImages/CalendarICON.png",
+			      dateFormat : "yy-mm-dd",
+			      showAnim : "bounce",
+			      autoclose: true
+			});
+			
+			/* 모달 뒤에 데이트피커가 가려지는 현상... 어거지로 해결 */
+			$('#startDateString').on('click', function(){
+				 $('#ui-datepicker-div').appendTo($('#editPlan'));
+				 $(this).datepicker();
+				 $(this).datepicker("show");
+			});
+			
+			//지성이꺼 갖다씀 - 파일용량 체크
+			$(".custom-file-input").on("change",function(){
+				  var fileSize = this.files[0].size;
+				    var maxSize = 360 * 360;
+				    if(fileSize > maxSize) {
+				        $(".custom-file-label").html("<i class='fas fa-camera-retro'> size 360x360</i>");
+				        alert("파일용량을 초과하였습니다.");
+				        //$("#preview").html("");
+				        return;
+				    }else{
+						//readImg(this);
+				    }
+			});
+			
+			$(document).ready(function() {
+				  bsCustomFileInput.init();
+			});
+			
+			
+			//alert-danger에서 x 클릭시 창 닫기
+			$(".alert-danger button").on("click",function(){
+				$(".alert-danger").prop("style","display:none");			
+			})
+			$(document).on('keyup','#planTitle',function(){
+				if($('#planTitle').val().length > 0){
+					$(".alert-danger").prop("style","display:none");	
+				}
+			});
+			$(document).on('change','#startDateString',function(){
+				if($('#startDateString').val().length > 0){
+					$(".alert-danger").prop("style","display:none");	
+				}
+			});
+			
 		})
 		
 		function updatePlan(){		//플래너 수정
-			alert("updatePlan() 실행!");
+			console.log("updatePlan() 실행!");
+		
+			var submitAlert = $(".alert-danger");
+			var alertMessage = $(".alert-danger strong");
+			
+			var planTitle = $("input[name='planTitle']").val();
+			var planImg = $("input[name='planImg']").val();
+			var planType = $("input[name='planType']").val();
+			var startDateString = $("input[name='startDateString']").val();
+			
+			//유효성 체크
+			if ($.trim(planTitle)=="") {
+				submitAlert.prop("style","display : block");
+				alertMessage.html("플래너 제목은 필수입니다.");
+				return;
+			}
+			if ($.trim(startDateString)=="") {	//얜 필요없음..
+				submitAlert.prop("style","display : block");
+				alertMessage.html("여행 시작일을 지정해주세요.");
+				return;
+			}
+			
+			$('form.editPlan').attr('method', 'POST').attr("action" , "/plan/updatePlan").attr("enctype","multipart/form-data").submit();
 		}
 		
 		function deletePlan(){		//플래너 삭제
@@ -1123,8 +1260,12 @@
 						<div class="row" style="background-color: #E7F4F4; width: 100%; padding: 15px; border-radius: 5px; ">
 						
 							<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border-width: 1px; border-color: #D1D1D1; border-style: solid; width: 130px; height: 100px;">
-						    <div class="media-body" style="margin-left: 20px; margin-top: 30px;">
-						      <div><div style="font-weight: bolder; font-size: 20px; display: inline-block;">${plan.planTitle} </div> ${plan.planPartySize} 명</div>
+						    <div class="media-body" style="margin-left: 13px; margin-top: 30px;">
+						      <div style="margin: 3px 0;"><div style="font-weight: bolder; font-size: 21px; display: inline-block;">${plan.planTitle} </div> &emsp;
+						      			<c:if test="${plan.planPartySize > 1}"><span data-feather="users"></span></c:if>
+						                <c:if test="${plan.planPartySize == 1}"><span data-feather="user"></span></c:if>
+						                 ${plan.planPartySize}
+						      </div>
 						      ${plan.startDateString} ~ ${plan.endDate} ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
 						      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
 						      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
@@ -1200,7 +1341,7 @@
 						<h5>CityRoute List : 여행루트</h5>
 						<div class="row">
 						
-							<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;height:450px;float:left;width:50%; float: left;"></div>
+							<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;height:445px;float:left;width:50%;"></div>
 							<div id='calendar-container' style="float:right;width:45%; margin: 5px 10px;max-width: 900px;">
 							  <div id='calendar'></div>
 							</div>
@@ -1219,10 +1360,42 @@
 						<h5>BudgetOverview List : 예산 리스트</h5>
 						<div class="row">
 							
-							
+							<!-- 이게 아니라 일정표처럼 페이지 로딩 후 리스트 가져와서 셋해주는게 나을거같음 -->
 							<c:forEach var="budget" items="${plan.budgetOverviewList}">
-								<div>${budget.dailyCate} ---- ${budget.budgetAmount} 원</div>
+								<div>
+									<c:choose>
+										<c:when test="${budget.dailyCate == 'D'}">관광</c:when>
+										<c:when test="${budget.dailyCate == 'T'}">교통</c:when>
+										<c:when test="${budget.dailyCate == 'V'}">투어</c:when>
+										<c:when test="${budget.dailyCate == 'R'}">숙소</c:when>
+										<c:when test="${budget.dailyCate == 'F'}">식사</c:when>
+										<c:when test="${budget.dailyCate == 'S'}">쇼핑</c:when>
+										<c:when test="${budget.dailyCate == 'E'}">기타</c:when>
+									</c:choose>
+									- ${budget.budgetAmount} 원
+								</div>
 							</c:forEach>
+							
+							
+							
+							<div style="border:dashed thin #A7A7A7 ; border-radius:8px; padding:25px; background-color: white; width: 50%; ">
+								<!-- 만들어두고 스크립트에서 포문돌려 셋팅하기 -->
+								<div class="budgetOverview" style="padding: 30px;">
+									<div style="float:left;width:50%;">
+										<div style="margin: 3px 0;"> <i class="fas fa-walking" style="font-size: 20px;"></i>관광 : <span id="budget_D">0 원</span></div>
+										<div style="margin: 3px 0;"> <i class="fas fa-bus" style="font-size: 20px;"></i>교통 : <span id="budget_T">0 원</span></div>
+										<div style="margin: 3px 0;"> <i class="fas fa-ticket-alt" style="font-size: 20px;"></i>투어 : <span id="budget_V">0 원</span></div>
+										<div style="margin: 3px 0;"> <i class="fas fa-ellipsis-h" style="font-size: 20px;"></i>기타 : <span id="budget_E">0 원</span></div>
+									</div>
+									<div style="float:right;width:50%;">
+										<div style="margin: 3px 0;"> <i class="fas fa-bed" style="font-size: 20px;"></i>숙소 : <span id="budget_R">0 원</span></div>
+										<div style="margin: 3px 0;"> <i class="fas fa-utensils" style="font-size: 20px;"></i>식사 : <span id="budget_F">0 원</span></div>
+										<div style="margin: 3px 0;"> <i class="fas fa-shopping-cart" style="font-size: 20px;"></i>쇼핑 : <span id="budget_S">0 원</span></div>
+									</div>
+									
+									
+								</div>
+							</div>
 							
 						</div>
 					</div>
@@ -1368,39 +1541,75 @@
 				      <div class="modal-body">
 				        
 				        <form class="form-horizontal editPlan" style="margin: 10px;">
-				        	
-							<div class="form-group">
-							    <label for="planTitle" class="col-sm-offset-3 col-sm-5 control-label">플래너 제목	</label>
-							    <div class="col-sm-5">
+				        	<br/>
+							<div class="form-group row">
+							    <label for="planTitle" style="text-align: right;" class="col-sm-4 col-form-label ">플래너 제목</label>
+							    <div class="col-sm-7">
 							      <input type="text" class="form-control" id="planTitle" name="planTitle" placeholder="플래너 제목" value="${plan.planTitle}">
 							    </div>
 							</div>
+				        	
+				        	<div class="form-group row">
+								<label for="planType" style="text-align: right;" class="col-sm-4 col-form-label ">여행 타입</label>
+							    <div class="col-sm-7">
+								    <select class="form-control" id="planType" name="planType"  value="${plan.planType}">
+										<option value="A">여자혼자</option>
+										<option value="B">남자혼자</option>
+										<option value="C">여자끼리</option>
+										<option value="D">남자끼리</option>
+										<option value="E">단체</option>
+										<option value="F">부모님과</option>
+										<option value="G">커플</option>
+									</select>
+								</div>
+							</div>
 							
-							<div class="form-group">
+							<div class="form-group row">
+							    <label for="planImgFile" style="text-align: right;" class="col-sm-4 col-form-label ">플래너 이미지</label>
+							    <div class="col-sm-7 custom-file">
+							    	<div class="input-group mb-2">
+							    		<input type="file" class="form-control custom-file-input" id="planImgFile" name="planImgFile" placeholder="플래너 이미지" accept="image/*">
+							      		<label class="custom-file-label" for="customFile"><i class="fas fa-camera-retro"> size 360x360</i></label>  
+							    		
+							    	</div>
+							    </div>
+							</div>
+							
+							<%-- <div class="form-group">
 							    <label for="planImg" class="col-sm-offset-3 col-sm-5 control-label">플래너 이미지</label>
 							    <div class="col-sm-5">
 							      <input type="text" class="form-control" id="planImg" name="planImg" placeholder="플래너 이미지" value="${plan.planImg}">
 							    </div>
-							</div>
+							</div> --%>
 							
-							<div class="form-group">
-							    <label for="planType" class="col-sm-offset-3 col-sm-5 control-label">플래너 타입</label>
-							    <div class="col-sm-5">
-							      <input type="text" class="form-control" id="planType" name="planType" placeholder="플래너 타입" value="${plan.planType}">
+							<div class="form-group row">
+							    <label for="startDateString" style="text-align: right;" class="col-sm-4 col-form-label ">여행 시작일</label>
+							    
+							    <div class="col-sm-7">
+								    <div class="input-group mb-2">
+								      <input type="text" class="form-control" id="startDateString" name="startDateString" placeholder="여행 시작일" readonly="readonly"  value="${plan.startDateString.substring(0,10)}">
+								      <div class="input-group-append">
+								      	<div class="input-group-text"><span data-feather="calendar"></span></div>
+								      </div>
+								    </div>
 							    </div>
 							</div>
-							
-							<div class="form-group">
+						
+							<%-- <div class="form-group">
 							    <label for="startDateString" class="col-sm-offset-3 col-sm-5 control-label">여행 시작일</label>
 							    <div class="col-sm-5">
 							      <input type="text" class="form-control" id="startDateString" name="startDateString" placeholder="여행 시작일" value="${plan.startDateString}">
 							    </div>
-							</div>
+							</div> --%>
 							
 							<!-- 여행완료 확정 폼제출을 위한 히든 값 -->
 							<input type="hidden" class="form-control" id="planStatus" name="planStatus" value="${plan.planStatus}">
 							<input type="hidden" class="form-control" id="planId2" name="planId" value="${plan.planId}">
 				        	
+				        	<div class="alert alert-danger alert-dismissable" style="display: none;" >
+							    <button type="button" class="close" >×</button>
+							    <strong></strong><br/>수정 후 다시 시도해주세요.
+							</div>
 				        </form>
 				        
 				      </div>

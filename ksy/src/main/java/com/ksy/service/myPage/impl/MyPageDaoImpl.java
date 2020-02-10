@@ -44,5 +44,10 @@ public class MyPageDaoImpl implements MyPageDao{
 		System.out.println("MyPageDao getChoolCheckList");
 		return sqlSession.selectList("UserMapper.getChoolCheckList",userId);
 	}
+	
+	public void updateTotalPoint(Point point)throws Exception {
+		System.out.println("MyPageDao updateTotalPoint");
+		sqlSession.update("UserMapper.updateTotalPoint",point);
+	}
 
 }

@@ -48,24 +48,6 @@ public class UserRestController {
 		System.out.println(this.getClass() + "default Constructor");
 	}
 
-	
-	
-	@RequestMapping(value = "json/test")
-	public Map test(@RequestBody Map jsonMap) throws JsonGenerationException, JsonMappingException, IOException {
-		System.out.println("레스트 테스트용 매핑");
-		System.out.println(jsonMap);
-		
-		
-		ObjectMapper objMap = new ObjectMapper();
-		String mapString = objMap.writeValueAsString(jsonMap);
-		JSONObject jsonObj = (JSONObject)JSONValue.parse(mapString);
-		System.out.println(jsonObj);
-		
-		
-		return null;
-	}
-	
-	
 	@RequestMapping(value = "json/login" , method = RequestMethod.POST )
 	public Map login(@RequestBody User user , HttpSession session )throws Exception {
 //		System.out.println("로그인 레스트 컨트롤러!");
@@ -130,6 +112,43 @@ public class UserRestController {
 			
 		}
 		return returnMap;
+	}
+	
+	
+	@RequestMapping(value = "json/getUserId")
+	public List<String> getUserId(@RequestBody Map jsonMap) throws Exception{
+		System.out.println("userIdList==========================================================");
+		System.out.println(jsonMap);
+		ObjectMapper objectMapper = new ObjectMapper();
+		String mapString = objectMapper.writeValueAsString(jsonMap);
+		System.out.println(mapString);
+		JSONObject jsonObject = (JSONObject)JSONValue.parse(mapString);
+		System.out.println("jsonObject~!=="+jsonObject);
+		Map<String, String> profileMap = objectMapper.readValue(jsonObject.toString(), new TypeReference<Map<String, String>>(){});
+
+		List<String> idList = new ArrayList<String>();
+
+		User settingUser = new User();
+		settingUser.setUserName(profileMap.get("userName"));
+		if(profileMap.get("email") == null||profileMap.get("email").equals(" @ ") || profileMap.get("email").equals("@") || profileMap.get("email").equals("") ){//<< 이거 원래 null 체크를 맨 뒤에서 했는데 앞에부터 체크하니깐 ㅈㄴ 빡쳐서 바꿧더니 됬음 주의하셈
+			System.out.println("핸드폰으로 리스트 뽑기");
+			settingUser.setPhone(profileMap.get("phone"));
+			idList = userService.getUserIdList(settingUser);
+		}else if(profileMap.get("phone") == null || profileMap.get("phone").equals("--") ||profileMap.get("phone").equals(" - - ") || profileMap.get("phone").equals("") ) {
+			System.out.println("이메일로 리스트 뽑기");
+			settingUser.setEmail(profileMap.get("email"));
+			idList = userService.getUserIdList(settingUser);
+		}else {
+			System.out.println("띠용....");
+		}
+		
+		if(idList.size()==0) {
+			System.out.println("아무것도 없습니다!!");
+			idList.add("error");
+		}
+		System.out.println("아이디 리스트~="+idList);
+		
+		return idList;
 	}
 	
 	
