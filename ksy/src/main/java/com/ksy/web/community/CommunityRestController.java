@@ -3,6 +3,7 @@ package com.ksy.web.community;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -277,47 +279,12 @@ public class CommunityRestController {
 			System.out.println("글 작성자 =/= 댓글 작성자");
 			Push push = new Push();
 			push.setRefId(comment.getPostId()+"");
-			push.setPushType("R");
+			push.setPushType("C");
 			push.setReceiverId(postWriterId);
 			pushService.addPush(push);
 		}
 		
 		JSONObject obj = new JSONObject();
-		obj.put("postWriterId", postWriterId);
-		out.println(obj);
-	}
-	
-	@RequestMapping( value="json/addRecomment", method=RequestMethod.POST )
-	public void addRecomment( Recomment recomment, HttpSession session, HttpServletResponse response ) throws Exception {
-		
-		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out = response.getWriter(); 
-		
-		System.out.println("/community/addRecomment : POST");
-		
-		User user = (User)session.getAttribute("user");
-		recomment.setRcmtWriterId(user.getUserId());
-		recomment.setNickName(user.getNickname());
-		
-		if(recomment.getSecret() == null) {
-			recomment.setSecret("F");
-		}
-		communityService.addRecomment(recomment);
-		
-		Post post = communityService.getPost(recomment.getPostId(), user.getUserId());
-		String postWriterId = post.getPostWriterId();
-		
-		if( !postWriterId.equals(recomment.getRcmtWriterId()) ) {
-			System.out.println("글 작성자 =/= 댓글 작성자");
-			Push push = new Push();
-			push.setRefId(recomment.getPostId()+"");
-			push.setPushType("R");
-			push.setReceiverId(postWriterId);
-			pushService.addPush(push);
-		}
-		
-		JSONObject obj = new JSONObject();
-		obj.put("parentCmtId", recomment.getParentCmtId());
 		obj.put("postWriterId", postWriterId);
 		out.println(obj);
 	}
@@ -343,6 +310,22 @@ public class CommunityRestController {
 		System.out.println("resultPage : "+resultPage);
 		map.put("resultPage", resultPage);
 		map.put("search", search);
+		map.put("userId", user.getUserId());
+		
+		return map;
+	}
+	
+	@RequestMapping( value="json/getRcmtList/{postId}", method=RequestMethod.GET )
+	public Map<String, Object> getRcmtList( @PathVariable String postId, HttpServletResponse response, HttpSession session ) throws Exception{
+		
+		System.out.println("/community/json/getRcmtList : GET");
+	
+		User user = (User)session.getAttribute("user");
+		
+		List<Comment> list = communityService.rcmtNum(postId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("list", list);
 		map.put("userId", user.getUserId());
 		
 		return map;

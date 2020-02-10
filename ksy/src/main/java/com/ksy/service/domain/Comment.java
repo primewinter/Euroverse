@@ -6,6 +6,7 @@ public class Comment {
 	
 	private String postId; //post_id
 	private String cmtId; //cmt_id
+	private String parentCmtId;
 	private String cmtWriterId; //writer_id
 	private String nickName;
 	private String cmtContent; //cmt_content
@@ -134,12 +135,22 @@ public class Comment {
 	public void setPostWriterId(String postWriterId) {
 		this.postWriterId = postWriterId;
 	}
+	
+	public String getParentCmtId() {
+		return parentCmtId;
+	}
+
+	public void setParentCmtId(String parentCmtId) {
+		this.parentCmtId = parentCmtId;
+	}
 
 	@Override
 	public String toString() {
-		return "Comment [postId=" + postId + ", cmtId=" + cmtId + ", cmtWriterId=" + cmtWriterId + ", nickName="
-				+ nickName + ", cmtContent=" + cmtContent + ", cmtDate=" + cmtDate + ", blocked=" + blocked
-				+ ", cmtLikeFlag=" + cmtLikeFlag + ", cmtLikeCount=" + cmtLikeCount + ", secret=" + secret + ", cmtImg="
-				+ cmtImg + ", deleted=" + deleted + ", postWriterId=" + postWriterId + "]";
+		return "Comment [postId=" + postId + ", cmtId=" + cmtId + ", parentCmtId=" + parentCmtId + ", cmtWriterId="
+				+ cmtWriterId + ", nickName=" + nickName + ", cmtContent=" + cmtContent + ", cmtDate=" + cmtDate
+				+ ", blocked=" + blocked + ", cmtLikeFlag=" + cmtLikeFlag + ", cmtLikeCount=" + cmtLikeCount
+				+ ", secret=" + secret + ", cmtImg=" + cmtImg + ", deleted=" + deleted + ", postWriterId="
+				+ postWriterId + "]";
 	}
+
 }

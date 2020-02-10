@@ -13,7 +13,6 @@ import com.ksy.service.community.CommunityDao;
 import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Post;
-import com.ksy.service.domain.Recomment;
 import com.ksy.service.domain.Report;
 import com.ksy.service.domain.Tag;
 
@@ -36,10 +35,6 @@ public class CommunityServiceImpl implements CommunityService{
 		communityDao.addPost(post);
 	}
 	
-	public void addRecomment(Recomment recomment) throws Exception {
-		communityDao.addRecomment(recomment);
-	}
-	
 	public void addTag(String tagContent, String postId) throws Exception {
 		communityDao.addTag(tagContent, postId);
 	}
@@ -58,6 +53,12 @@ public class CommunityServiceImpl implements CommunityService{
 	
 	public Post getPost(String postId, String userId) throws Exception {
 		return communityDao.getPost(postId, userId);
+	}
+	
+	public List<Comment> rcmtNum(String postId) throws Exception {
+		List<Comment> list = communityDao.rcmtNum(postId);
+		
+		return list;
 	}
 	
 	public List<Tag> getTagList(String postId) throws Exception {

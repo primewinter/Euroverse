@@ -167,7 +167,7 @@
 			  <td align="left">${ i }</td>
 			  <td align="left">
 			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>${post.postTitle}</td>
-			  <td align="left">${post.postWriterId}</td>
+			  <td align="left">${post.nickName}</td>
 			  <td align="left">${post.postDate}</td>
 			  <td align="left">${post.comments}</td>
 			  <td align="left">${post.views}</td>

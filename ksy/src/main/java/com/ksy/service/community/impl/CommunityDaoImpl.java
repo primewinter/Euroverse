@@ -13,7 +13,6 @@ import com.ksy.service.community.CommunityDao;
 import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Post;
-import com.ksy.service.domain.Recomment;
 import com.ksy.service.domain.Report;
 import com.ksy.service.domain.Tag;
 
@@ -35,10 +34,6 @@ public class CommunityDaoImpl implements CommunityDao{
 		}else {
 			sqlSession.insert("CommunityMapper.addPost", post);
 		}
-	}
-	
-	public void addRecomment(Recomment recomment) throws Exception {
-		sqlSession.insert("CommunityMapper.addRecomment", recomment);
 	}
 	
 	public void addTag(String tagContent, String postId) throws Exception {
@@ -98,6 +93,10 @@ public class CommunityDaoImpl implements CommunityDao{
 		map.put("postId", postId);
 		
 		return sqlSession.selectList("CommunityMapper.getCommentList", map);
+	}
+	
+	public List<Comment> rcmtNum(String postId) throws Exception {
+		return sqlSession.selectList("CommunityMapper.rcmtNum", postId);
 	}
 
 	public int getPostTotalCount(Search search, String boardName) throws Exception {
