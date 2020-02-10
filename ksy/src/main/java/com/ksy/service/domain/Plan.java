@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ksy.common.util.Util;
 
 public class Plan {
@@ -12,6 +14,9 @@ public class Plan {
 	private User planMaster;			// plan_master_id (VARCHAR2) 
 	private String planTitle;			// plan_title
 	private String planImg;				// plan_img
+	private MultipartFile planImgFile;
+
+
 	private String planType;			// plan_type (CHAR) :: ¿©ÀÚÈ¥ÀÚ(A), ³²ÀÚÈ¥ÀÚ(B), ¿©ÀÚ³¢¸®(C), ³²ÀÚ³¢¸®(D), ´ÜÃ¼(E), ºÎ¸ð´Ô°ú(F), Ä¿ÇÃ(G)
 	
 	private Timestamp planRegDate;		// plan_reg_date (TIMESTAMP)
@@ -87,6 +92,15 @@ public class Plan {
 		this.planImg = planImg;
 	}
 
+	public MultipartFile getPlanImgFile() {
+		return planImgFile;
+	}
+	public void setPlanImgFile(MultipartFile planImgFile) {
+		this.planImgFile = planImgFile;
+	}
+
+	
+	
 	public String getPlanType() {
 		return planType;
 	}
@@ -206,17 +220,19 @@ public class Plan {
 		this.memoList = memoList;
 	}
 	
-	
 	@Override
 	public String toString() {
 		return "Plan [planId=" + planId + ", planMaster=" + planMaster + ", planTitle=" + planTitle + ", planImg="
-				+ planImg + ", planType=" + planType + ", planRegDate=" + planRegDate + ", startDate=" + startDate
-				+ ", startDateString=" + startDateString + ", planStatus=" + planStatus + ", endDate=" + endDate
-				+ ", planTotalDays=" + planTotalDays + ", planDday=" + planDday + ", \n planPartyList=" + planPartyList
-				+ ", planPartySize=" + planPartySize + ", \n todoList=" + todoList + ", \n dayList=" + dayList
-				+ ", \n dailyList=" + dailyList + ", \n stuffList=" + stuffList + ", \n memoList=" + memoList + ", \n cityList="
-				+ cityList + ", \n budgetOverviewList=" + budgetOverviewList + "]";
+				+ planImg + ", planImgFile=" + planImgFile + ", planType=" + planType + ", planRegDate=" + planRegDate
+				+ ", startDate=" + startDate + ", startDateString=" + startDateString + ", planStatus=" + planStatus
+				+ ", endDate=" + endDate + ", planTotalDays=" + planTotalDays + ", planDday=" + planDday
+				+ ", planPartyList=" + planPartyList + ", planPartySize=" + planPartySize + ", todoList=" + todoList
+				+ ", dayList=" + dayList + ", dailyList=" + dailyList + ", stuffList=" + stuffList + ", memoList="
+				+ memoList + ", cityList=" + cityList + ", budgetOverviewList=" + budgetOverviewList + "]";
 	}
+	
+	
+
 	
 
 }

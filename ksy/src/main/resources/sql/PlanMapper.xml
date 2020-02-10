@@ -64,8 +64,8 @@
 		INSERT 
 		INTO plan ( plan_id, plan_master_id, plan_title, plan_img, 	
 						plan_type, plan_reg_date, start_date, plan_status, deleted )
-		VALUES ( TO_CHAR(seq_plan_plan_id.NEXTVAL), #{planMaster.userId}, #{planTitle:VARCHAR}, #{planImg:VARCHAR}, 
-						#{planType}, SYSDATE, TO_DATE( #{startDateString:VARCHAR} , 'yyyymmdd'), 'R', 'F' )
+		VALUES ( TO_CHAR(seq_plan_plan_id.NEXTVAL), #{planMaster.userId:VARCHAR}, #{planTitle:VARCHAR}, #{planImg:VARCHAR}, 
+						#{planType}, SYSDATE, TO_DATE( #{startDateString:VARCHAR} , 'yyyy-mm-dd'), 'R', 'F' )
 	</insert>
 	
 	<select id="getPlan"	parameterType="string"	resultMap="planSelectMap">
@@ -90,9 +90,11 @@
 		UPDATE 	plan 
 		<set>
 			plan_title = #{planTitle}, 
-			plan_img = #{planImg}, 
+			<if test="planImg != null">
+				plan_img = #{planImg}, 
+			</if>
 			plan_type = #{planType}, 
-			start_date = TO_DATE( #{startDateString} , 'yyyymmdd')
+			start_date = TO_DATE( #{startDateString} , 'yyyy-mm-dd')
 		</set>
 		WHERE 	plan_id = #{planId}
 	</update>

@@ -119,9 +119,6 @@ $( function() {
       buttonText: "Select date",
       dateFormat : "yy-mm-dd",
       showAnim : "bounce"
-
-      /* ,
-      buttonImage : "/img/calendar.gif" */
     });
   } );
 

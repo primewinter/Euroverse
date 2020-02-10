@@ -53,5 +53,13 @@ public class MyPageServiceImpl implements MyPageService{
 		System.out.println("myPageService getChoolCheckList");
 		return myPageDao.getChoolCheckList(userId);
 	}
+	
+	public void updateTotalPoint(Point point)throws Exception {
+		System.out.println("myPageService updateTotalPoint");
+		myPageDao.updateTotalPoint(point);
+		
+	}
+
+	
 
 }

@@ -1,18 +1,27 @@
 package com.ksy.web.plan;
 
+import java.io.File;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ksy.common.util.Util;
 import com.ksy.service.domain.City;
@@ -38,6 +47,10 @@ public class PlanController {
 	@Autowired
 	@Qualifier("planSubServiceImpl")
 	private PlanSubService planSubService;
+	
+//	@Resource(name="uploadPath")
+//	String uploadPath;
+	String uploadPath = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\planImg";
 	
 	public PlanController() {
 		System.out.println(this.getClass());
@@ -108,33 +121,78 @@ public class PlanController {
 	public String addPlan (	@ModelAttribute("plan") Plan plan, Model model, HttpSession session	) throws Exception {
 		
 		User user = (User)session.getAttribute("user");		//음..
-		//test용 if문 : 회원아이디 셋팅
-		if(user == null) {
-			user = new User();
-			user.setUserId("admin");
+		
+		if(user != null) { 
+			plan.setPlanMaster(user); 
+		}else {
+			return "redirect:/index.jsp";
 		}
-		plan.setPlanMaster(user);
+		
+		MultipartFile mpFile = (MultipartFile)plan.getPlanImgFile();
+		if( mpFile.isEmpty() == false) {	//null 체크로 잡을 수 없음! 
+			//String path = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\planImg";
+			
+			/*
+			 * Calendar cal = Calendar.getInstance() ; SimpleDateFormat dateFormat = new
+			 * SimpleDateFormat("yyyyMMdd_HHmmSS"); String time =
+			 * dateFormat.format(cal.getTime()); String fileName =
+			 * mpFile.getOriginalFilename() + "_"+time;
+			 */
+			
+			String fileName = mpFile.getOriginalFilename();
+			fileName = uploadFile(fileName, mpFile.getBytes());
+			//mpFile.transferTo( new File(path, fileName) );
+			
+			plan.setPlanImg(fileName);
+			
+		}else {
+			plan.setPlanImg("defaultPlanImage.jpg");
+		}
 
 		planService.addPlan(plan);	
 		
-		List<Plan> listPlan = planService.getPlanList(plan.getPlanMaster().getUserId());
-		//혹은..... => planService.getPlanList(user.getUserId());
+//		List<Plan> listPlan = planService.getPlanList(plan.getPlanMaster().getUserId());
+//		//혹은..... => planService.getPlanList(user.getUserId());
+//		model.addAttribute("list", listPlan);
+		//return "forward:/view/plan/getPlanList.jsp";
 		
-		model.addAttribute("list", listPlan);
+		return "redirect:/plan/getPlanList?userId="+user.getUserId();
+	}
+	
+	//파일 이름 중복제거용 함수
+	private String uploadFile(String originalName, byte[] fileData) throws Exception{
+		//uuid 생성 (Universal Unique IDentifier, 범용 고유 식별자)
+		UUID uuid = UUID.randomUUID();
 		
-		return "forward:/view/plan/getPlanList.jsp";
+		String savedName = uuid.toString()+"_"+originalName;
+		File target = new File(uploadPath, savedName);
+		//임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
+		FileCopyUtils.copy(fileData, target);
+		
+		return savedName;
 	}
 	
 	
 	@RequestMapping( value = "updatePlan", method = RequestMethod.POST )
 	public String updatePlan (	@ModelAttribute("plan") Plan plan, Model model	) throws Exception {
 	
+		MultipartFile mpFile = (MultipartFile)plan.getPlanImgFile();
+		if( mpFile.isEmpty() == false) {	//null 체크로 잡을 수 없음! 
+			
+			String fileName = mpFile.getOriginalFilename();
+			fileName = uploadFile(fileName, mpFile.getBytes());
+			
+			plan.setPlanImg(fileName);
+		}else {
+			//plan.setPlanImg("defaultPlanImage.jpg");
+		}		
+		
 		planService.updatePlan(plan);
 		
 		//plan = planService.getPlan(plan.getPlanId());	<- 이 과정이 굳이 필요한가..?
 		//model.addAttribute("plan", plan);	
 		
-		return "forward:/plan/getPlan.jsp";
+		return "redirect:/plan/getPlan?planId="+plan.getPlanId();
 	}
 	
 	@RequestMapping( value = "updatePlanStatus", method = RequestMethod.POST )

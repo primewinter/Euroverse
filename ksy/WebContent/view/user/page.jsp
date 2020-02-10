@@ -37,7 +37,9 @@ $(function(){
  		location.href="/user/getUser";
  	});
  	
- 	
+ 	$("h5:contains('메인으로')").on("click",function(){
+ 		location.href="/";
+ 	});
  	
 /*
 	$("h1:contains('출석체크페이지로 이동')").on("click",function(){
@@ -58,9 +60,11 @@ $(function(){
 </head>
 <body>
 <%if(user != null){ %>
+<p>
 유저아이디 = ${user.userId}</br>
 유저이름 = ${user.userName}</br>
 유저닉네임 = ${user.nickname}</br>
+</p>
 <button type="button" class="btn btn-dark">로그아웃</button>
 <h1>출석체크페이지로 이동</h1>
 <h1>내정보조회</h1>
@@ -68,5 +72,6 @@ $(function(){
 <button type="button" class="btn btn-dark">로그인</button>
 <%} %>
 <h1>회원가입</h1>
+<h5>메인으로</h5>
 </body>
 </html>

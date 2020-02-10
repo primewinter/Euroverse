@@ -172,10 +172,6 @@ WHERE user_id = #{userId}
 </update>
 
 
-
-
-
-
 <!-- 회원인증 -->
 <update id = "updateRole" parameterType="String">
 UPDATE
@@ -222,6 +218,32 @@ FROM POINT
 WHERE user_id = #{value} AND used_type = 'C'
 </select>
 
+
+<update id="updateTotalPoint" parameterType="point">
+UPDATE
+USERS SET  total_point = 
+(select
+p.a - m.b
+FROM (
+		select
+		NVL(SUM(USED_POINT),0) a
+		FROM point 
+		WHERE user_id = #{userId} AND (used_type = 'C' OR used_type='F' OR used_type='R')
+		) p,
+	    (
+		select
+		NVL(SUM(USED_POINT),0) b
+		FROM point
+		WHERE user_id = #{userId} AND (used_type = 'U' OR used_type = 'S')
+		) m )
+WHERE user_id = #{userId}
+</update>
+
+<!-- <update id="updateSlot" parameterType="user">
+UPDATE
+USERS SET 
+WHERE 
+</update> -->
 <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 

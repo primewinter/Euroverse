@@ -151,6 +151,11 @@ events: function(start, callback) {
   출석체크
 </button>
 
+유저아이디 = ${user.userId}</br>
+유저이름 = ${user.userName}</br>
+유저닉네임 = ${user.nickname}</br>
+보유포인트 = ${user.totalPoint}
+
 
 <div class="modal fade" id="myModal">
 	  <div class="modal-dialog">
