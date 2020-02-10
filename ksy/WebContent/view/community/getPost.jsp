@@ -32,6 +32,9 @@
         .layer {
         	display: none;
         }
+        .recmt {
+        	text-indent: 2em;
+        }
      </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -155,6 +158,7 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/view/community/toolbar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
+   	<jsp:include page="/toolbar/toolBar.jsp" />
    	
 	<div id="dialog-add" title="신고 작성">
 	  <form id="reportform">
