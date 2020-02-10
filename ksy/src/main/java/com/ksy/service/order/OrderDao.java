@@ -20,7 +20,7 @@ public interface OrderDao {
 		
 		public Order getRoomOrder(String orderId) throws Exception;
 		
-		public List<Order> getOrderList(Search search) throws Exception;
+		public List<Order> getOrderList(Search search, String buyerId) throws Exception;
 		
 			
 		public int getTotalCount(Search search) throws Exception ;

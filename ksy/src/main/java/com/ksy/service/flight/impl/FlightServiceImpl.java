@@ -1,9 +1,14 @@
 package com.ksy.service.flight.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.ksy.common.Search;
 import com.ksy.service.domain.Flight;
 import com.ksy.service.flight.FlightDao;
 import com.ksy.service.flight.FlightService;
@@ -28,6 +33,17 @@ public class FlightServiceImpl implements FlightService{
 	
 	public Flight getFlight (String flightId) throws Exception {
 		return flightDao.getFlight(flightId);
+	}
+	
+	public Map<String,Object> getFlightList (Search search , String buyerId ) throws Exception {
+		List<Flight> list= (List<Flight>) flightDao.getFlightList(search, buyerId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int totalCount = flightDao.getTotalCount(search);
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		System.out.println(map);
+		return map;
 	}
 
 }

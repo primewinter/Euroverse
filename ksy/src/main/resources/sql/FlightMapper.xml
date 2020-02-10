@@ -24,6 +24,9 @@
   		<result property="infantNum"	column="INFANT_NUM"     jdbcType="NUMERIC" />
   		<result property="leadTime" 	column="LEAD_TIME"		jdbcType="VARCHAR"/>
   		<result property="stopOver"		column="stop_over"		jdbcType="VARCHAR"/>
+	  	
+  		<result property="orderDate" 		column="ORDER_DATE" 	jdbcType="TIMESTAMP"/>
+	  	<result property="orderStatus" 		column="ORDER_STATUS"	jdbcType="CHAR"/>
 	
   	</resultMap>
   	
@@ -61,5 +64,21 @@
 		WHERE flight_id = ${flightId}
 					
   	</select>
+  	
+  	 <select id="getFlightList" parameterType="map" resultMap="flightSelectMap">
+  		SELECT *
+  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+  						FROM (  SELECT f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.card_no 
+										FROM flight f, users u , orders o 
+										WHERE o.flight_id = f.flight_id(+)
+										AND o.buyer_id = u.user_id(+)
+										AND u.user_id = #{buyerId}
+										AND room_id IS NULL
+										ORDER BY order_id  ) inner_table
+  						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
+  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
+  		AND #{search.currentPage}*#{search.pageSize}
+	</select>
+  	
   	
 </mapper>

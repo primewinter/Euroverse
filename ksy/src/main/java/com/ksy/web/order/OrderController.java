@@ -5,6 +5,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -16,17 +17,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.ksy.common.Page;
+import com.ksy.common.Search;
 import com.ksy.service.domain.Flight;
 import com.ksy.service.domain.Order;
 import com.ksy.service.domain.Point;
@@ -210,6 +214,40 @@ public class OrderController {
 		return "forward:/order/addOrderConfirm.jsp";
 	}
 	
+	@RequestMapping(value = "getOrderList")
+	public ModelAndView getOrderList(@ModelAttribute("search") Search search, Model model, HttpServletRequest request,
+			HttpSession session) throws Exception {
+
+		System.out.println("/getOrderList : GET+POST");
+		User user = (User) session.getAttribute("user");
+		System.out.println(user);
+		String buyerId = user.getUserId();
+
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+
+		//Map<String, Object> map = orderService.getOrderList(search , buyerId);
+		Map<String, Object> map = flightService.getFlightList(search ,buyerId);
+		Map<String, Object> map2 = roomService.getRoomList(search, buyerId);
+		
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+				pageSize);
+		System.out.println("ListPurchaseAction ::" + resultPage);
+
+		List<Order> orderList = (List<Order>) map.get("list");
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("/order/getOrderList.jsp");
+		modelAndView.addObject("list", map.get("list"));
+		modelAndView.addObject("list2", map2.get("list"));
+		modelAndView.addObject("resultPage", resultPage);
+		modelAndView.addObject("search", search);
+		modelAndView.addObject("buyerId", buyerId);
+		return modelAndView;
+	}
+	
 	@RequestMapping(value = "getOrder", method = RequestMethod.GET)
 	public String getOrder(@RequestParam("orderId")String orderId , Model model) throws Exception {
 		System.out.println("/getPurchase : GET");
@@ -235,12 +273,10 @@ public class OrderController {
 	IamportClient client;
 
 	public void setup() throws Exception {
-		
-		//api_key 가져오기
-		//api_secret 가져오기
-		
+		String api_key = "1083818024539221";
+		String api_secret = "gzVUKM3QNUfC53Ciu8FsqXEwv0Z0NZQ4yLZiy29mWpY1sBkXJZqaW4Gs4GtSFjXd5WvDZF0V4YXxzhuj";
 
-		//client = new IamportClient(api_key, api_secret);
+		client = new IamportClient(api_key, api_secret);
 	}
 
 	public void testGetToken() throws Exception {

@@ -1,9 +1,14 @@
 package com.ksy.service.room.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.ksy.common.Search;
 import com.ksy.service.domain.Room;
 import com.ksy.service.room.RoomDao;
 import com.ksy.service.room.RoomService;
@@ -27,6 +32,16 @@ public class RoomServiceImpl implements RoomService{
 	
 	public Room getRoom (String roomId) throws Exception {
 		return roomDao.getRoom(roomId);
+	}
+	public Map<String,Object> getRoomList (Search search , String buyerId ) throws Exception {
+		List<Room> list= (List<Room>) roomDao.getRoomList(search, buyerId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int totalCount = roomDao.getTotalCount(search);
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		System.out.println(map);
+		return map;
 	}
 
 }
