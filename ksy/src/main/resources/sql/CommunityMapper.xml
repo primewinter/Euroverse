@@ -9,6 +9,7 @@
 	<resultMap id="postSelectMap" type="post">
 		<result property="postId" 			column="post_id" 			jdbcType="VARCHAR"/>
 		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
+		<result property="nickName" 				column="nickname" 					jdbcType="VARCHAR" />
 		<result property="boardName" 	column="board_name" 		jdbcType="CHAR" />
 		<result property="postGrade" 				column="post_grade" 					jdbcType="CHAR" />
 		<result property="postTitle" 				column="post_title" 					jdbcType="VARCHAR" />
@@ -43,6 +44,21 @@
 		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
 	</resultMap>
 	
+	<resultMap id="recommentSelectMap" type="recomment">
+		<result property="parentCmtId"		column="parent_cmt_id"		jdbcType="VARCHAR"/>
+		<result property="rcmtId" 			column="cmt_id" 			jdbcType="VARCHAR"/>
+		<result property="postId"	column="post_id" 		jdbcType="VARCHAR" />
+		<result property="rcmtWriterId" 				column="writer_id" 					jdbcType="VARCHAR" />
+		<result property="nickName"			column="nickname"					jdbcType="VARCHAR" />
+		<result property="rcmtContent" 				column="cmt_content" 					jdbcType="VARCHAR" />
+		<result property="rcmtDate" 			column="cmt_date" 		jdbcType="TIMESTAMP" />
+		<result property="secret" 				column="secret" 					jdbcType="CHAR" />
+		<result property="blocked" 				column="blocked" 					jdbcType="CHAR" />
+		<result property="deleted" 				column="deleted" 					jdbcType="CHAR" />
+		<result property="rcmtLikeCount" 				column="cmt_like_count" 					jdbcType="NUMERIC" />
+		<result property="rcmtLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
+	</resultMap>
+	
 	<resultMap id="reportSelectMap" type="report">
 		<result property="reportId" 			column="report_id" 			jdbcType="VARCHAR"/>
 		<result property="reportTarget" 			column="report_target" 			jdbcType="CHAR"/>
@@ -58,13 +74,19 @@
 		<result property="postId"	column="post_id"	jdbcType="VARCHAR"/>
 		<result property="tagContent" column="tag_content" jdbcType="VARCHAR"/>
 	</resultMap>
+
+	<insert 	id="addAccFindPost"		parameterType="post" >
+		INSERT
+		INTO post( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_content , post_date , acc_person , acc_start_date , acc_end_date , views , blocked , deleted , post_like_count , day_best , week_best , month_best ) 
+		VALUES	 ( SEQ_post_post_id.NEXTVAL , #{postWriterId:VARCHAR} , #{nickName:VARCHAR} , #{boardName:CHAR} , #{postGrade:CHAR} , 
+							#{postTitle:VARCHAR} , #{postContent:VARCHAR} , SYSDATE , #{accPerson:NUMERIC} , TO_DATE( #{accStartDateStr:VARCHAR} , 'yy/mm/dd') , TO_DATE( #{accEndDateStr:VARCHAR} , 'yy/mm/dd') , #{views:NUMERIC} , #{blocked:CHAR} , 'F' , #{postLikeCount:NUMERIC} , 0 , 0 , 0 )
+	</insert>
 	
-	<!-- SQL : INSERT -->
 	<insert 	id="addPost"		parameterType="post" >
 		INSERT
-		INTO post( post_id , post_writer_id , board_name , post_grade , post_title , post_content , post_date , views , blocked , deleted , post_like_count ) 
-		VALUES	 ( SEQ_post_post_id.NEXTVAL , #{postWriterId:VARCHAR} , #{boardName:CHAR} , #{postGrade:CHAR} , 
-							#{postTitle:VARCHAR} , #{postContent:VARCHAR} , SYSDATE , #{views:NUMERIC} , #{blocked:CHAR} , 'F' , #{postLikeCount:NUMERIC} )
+		INTO post( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_content , post_date , views , blocked , deleted , post_like_count , day_best , week_best , month_best ) 
+		VALUES	 ( SEQ_post_post_id.NEXTVAL , #{postWriterId:VARCHAR} , #{nickName:VARCHAR} , #{boardName:CHAR} , #{postGrade:CHAR} , 
+							#{postTitle:VARCHAR} , #{postContent:VARCHAR} , SYSDATE , #{views:NUMERIC} , #{blocked:CHAR} , 'F' , #{postLikeCount:NUMERIC} , 0 , 0 , 0 )
 	</insert>
 	
 	<insert id="addTag" parameterType="list">
@@ -100,15 +122,7 @@
 		FROM tag
 		WHERE post_id = #{postId}
 	</delete>
-	
-	<update id="update_postLike" parameterType="string">
-	 	UPDATE post
-	 	<set>
-	 		post_like_count = post_like_count + 1
-	 	</set>
-		WHERE post_id = #{postId}
-	</update>
-	
+
 	<update id="updateViews" parameterType="string">
 	 	UPDATE post
 	 	<set>
@@ -148,23 +162,31 @@
 	 	</set>
 	</update>
 	
-	<update id="update_Like" parameterType="comment">
+	<update id="updateLike" parameterType="string">
 	 	UPDATE comments
 	 	<set>
-	 		cmt_like_count = #{cmtLikeCount}
+	 		cmt_like_count = cmt_like_count + 1
 	 	</set>
-		WHERE parent_cmt_id = #{cmtId}
+		WHERE cmt_id = #{value}
+	</update>
+	
+	<update id="updatePostLike" parameterType="string">
+	 	UPDATE post
+	 	<set>
+	 		post_like_count = post_like_count + 1
+	 	</set>
+		WHERE post_id = #{value}
 	</update>
 	 
-	<update id="update_Unlike" parameterType="comment">
+	<update id="updateUnlike" parameterType="string">
 	 	UPDATE comments
 	 	<set>
-	 		cmt_like_count = #{cmtLikeCount}
+	 		cmt_like_count = cmt_like_count - 1
 	 	</set>
-	 	WHERE parent_cmt_id = #{cmtId} 
+	 	WHERE cmt_id = #{value} 
 	</update>
 	 
-	<select id="select_Like" parameterType="string" resultType="int">
+	<select id="selectLike" parameterType="string" resultType="int">
 	 	SELECT
 	 	post_like_count
 	 	FROM post
@@ -173,7 +195,7 @@
 	
 	<select 	id="getPost"	parameterType="map"	resultMap="postSelectMap">
 		SELECT
-		p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , l.like_check
+		p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , l.like_check
 		FROM post p, likes l
 		WHERE p.post_id = l.ref_id(+) AND p.post_id = #{postId} AND l.like_user_id(+) = #{userId}
 	</select>
@@ -188,7 +210,7 @@
 	<select  id="getPostList"  parameterType="map"	resultMap="postSelectMap">
 	  	SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , count(c.parent_cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
+  						FROM ( SELECT p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
 										FROM post p, comments c, tag t
 										<if test="search.searchCondition != null">
 										  <trim prefix="WHERE" prefixOverrides="AND | OR">
@@ -221,7 +243,7 @@
 	<!-- SQL : SELECT ROW Count -->	 
 	<select  id="getPostTotalCount"  parameterType="map"	 resultType="int">
 		SELECT COUNT(*)
-	  	FROM(	SELECT p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , count(c.parent_cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
+	  	FROM(	SELECT p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
 				FROM post p, comments c, tag t
 						<if test="search.searchCondition != null">
 						  <trim prefix="WHERE" prefixOverrides="AND | OR">
@@ -250,15 +272,22 @@
 
 	<insert  id="addComment"		parameterType="comment">
 		INSERT
-		INTO comments( post_id , cmt_id , writer_id , cmt_date , cmt_content , secret , blocked , deleted , cmt_like_count )
-		VALUES	 ( #{postId:VARCHAR} , SEQ_comments_cmt_id.NEXTVAL , #{cmtWriterId:VARCHAR} , SYSDATE , 
-							#{cmtContent:VARCHAR} , #{secret:CHAR} , 'F' , 'F' , 0 )
+		INTO comments( post_id , cmt_id , nickname , writer_id , cmt_date , cmt_content , secret , deleted , cmt_like_count )
+		VALUES	 ( #{postId:VARCHAR} , SEQ_comments_cmt_id.NEXTVAL , #{nickName:VARCHAR} , #{cmtWriterId:VARCHAR} , SYSDATE , 
+							#{cmtContent:VARCHAR} , #{secret:CHAR} , 'F' , 0 )
+	</insert>
+	
+	<insert  id="addRecomment"		parameterType="recomment">
+		INSERT
+		INTO comments( post_id , cmt_id , parent_cmt_id , nickname , writer_id , cmt_date , cmt_content , secret , deleted , cmt_like_count )
+		VALUES	 ( #{postId:VARCHAR} , SEQ_comments_cmt_id.NEXTVAL , #{parentCmtId:VARCHAR} , #{nickName:VARCHAR} , #{rcmtWriterId:VARCHAR} , SYSDATE , 
+							#{rcmtContent:VARCHAR} , #{secret:CHAR} , 'F' , 0 )
 	</insert>
 	
 	<select id="getCommentList" parameterType="map" resultMap="commentSelectMap">
   		SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT c.post_id , c.cmt_id , c.writer_id , p.post_writer_id , c.cmt_date , c.cmt_content , c.secret , c.deleted , c.blocked , c.cmt_like_count , l.like_check 
+  						FROM ( SELECT c.post_id , c.cmt_id , c.nickname , c.writer_id , p.post_writer_id , c.cmt_date , c.cmt_content , c.secret , c.deleted , c.blocked , c.cmt_like_count , l.like_check 
 										FROM comments c, likes l, post p
 										WHERE p.post_id = c.post_id AND c.cmt_id = l.ref_id(+) AND l.like_user_id(+) = #{userId} AND c.post_id = #{postId}
 										ORDER BY c.cmt_date DESC ) inner_table
@@ -276,7 +305,7 @@
 	
 	<select 	id="getComment"	parameterType="string"	resultMap="commentSelectMap">
 		SELECT
-		post_id , cmt_id , writer_id , cmt_date , cmt_content , secret , deleted , blocked , cmt_like_count
+		post_id , cmt_id , nickname , writer_id , cmt_date , cmt_content , secret , deleted , blocked , cmt_like_count
 		FROM comments
 		WHERE cmt_id = #{cmtId}
 	</select>
@@ -304,5 +333,21 @@
 	VALUES	( SEQ_report_report_id.NEXTVAL , #{reportTarget:CHAR} , #{refId:VARCHAR} , #{reportReason:CHAR} , 
 							#{reportContent:VARCHAR} , SYSDATE , #{reportUserId:VARCHAR} )
 	</insert>
-	 
+	
+	<update id="postBlocked" parameterType="string">
+		UPDATE post
+			<set>
+				blocked = 'F'
+			</set>
+		WHERE post_id = ${value}
+	</update>	
+	
+	<update id="cmtBlocked" parameterType="string">
+		UPDATE comments
+			<set>
+				blocked = 'F'
+			</set>
+		WHERE cmt_id = ${value}
+	</update>	 
+	
 </mapper> 

@@ -13,6 +13,7 @@ import com.ksy.service.community.CommunityDao;
 import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Post;
+import com.ksy.service.domain.Recomment;
 import com.ksy.service.domain.Report;
 import com.ksy.service.domain.Tag;
 
@@ -33,6 +34,10 @@ public class CommunityServiceImpl implements CommunityService{
 
 	public void addPost(Post post) throws Exception {
 		communityDao.addPost(post);
+	}
+	
+	public void addRecomment(Recomment recomment) throws Exception {
+		communityDao.addRecomment(recomment);
 	}
 	
 	public void addTag(String tagContent, String postId) throws Exception {
@@ -94,20 +99,20 @@ public class CommunityServiceImpl implements CommunityService{
 		communityDao.addComment(comment);
 	}
 	
-	public void update_Like(Comment comment) throws Exception {
-		communityDao.update_Like(comment);
+	public void updateLike(String cmtId) throws Exception {
+		communityDao.updateLike(cmtId);
 	}
 	
-	public void update_postLike(String postId) throws Exception {
-		communityDao.update_postLike(postId);
+	public void updatePostLike(String postId) throws Exception {
+		communityDao.updatePostLike(postId);
 	}
 	
-	public void update_Unlike(Comment comment) throws Exception {
-		communityDao.update_Unlike(comment);
+	public void updateUnlike(String cmtId) throws Exception {
+		communityDao.updateUnlike(cmtId);
 	}
 	
-	public int select_Like(String postId) throws Exception {
-		return communityDao.select_Like(postId);
+	public int selectLike(String postId) throws Exception {
+		return communityDao.selectLike(postId);
 	}
 	
 	public Comment getComment(String cmtId) throws Exception {

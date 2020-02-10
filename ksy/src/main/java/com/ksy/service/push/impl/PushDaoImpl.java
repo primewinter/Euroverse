@@ -38,6 +38,7 @@ public class PushDaoImpl implements PushDao {
 	}
 	@Override
 	public List<Push> getPushList(Map<String, Object> map) throws Exception {
+		//List<Push> pushType = sqlSession.selectList("PushMapper.getPushType", map.get("receiverId"));
 		return sqlSession.selectList("PushMapper.getPushList", map);
 	}
 	@Override

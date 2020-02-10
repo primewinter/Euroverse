@@ -197,7 +197,7 @@
 		<hr/>
 		
 		<div class="row">
-			<div class="col-xs-8 col-md-4">${post.postWriterId} || ${post.postDate}</div>
+			<div class="col-xs-8 col-md-4">${post.nickName} || ${post.postDate}</div>
 		</div>
 		
 		<hr/>

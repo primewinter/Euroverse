@@ -8,6 +8,7 @@ public class Recomment {
 	private String rcmtId; //cmt_id
 	private String parentCmtId; //parent_cmt_id
 	private String rcmtWriterId; //writer_id
+	private String nickName;
 	private String rcmtContent; //cmt_content
 	private Timestamp rcmtDate; //cmt_date
 	private String blocked; //blocked
@@ -117,12 +118,20 @@ public class Recomment {
 		this.deleted = deleted;
 	}
 
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
 	@Override
 	public String toString() {
 		return "Recomment [postId=" + postId + ", rcmtId=" + rcmtId + ", parentCmtId=" + parentCmtId + ", rcmtWriterId="
-				+ rcmtWriterId + ", rcmtContent=" + rcmtContent + ", rcmtDate=" + rcmtDate + ", blocked=" + blocked
-				+ ", rcmtLikeFlag=" + rcmtLikeFlag + ", rcmtLikeCount=" + rcmtLikeCount + ", secret=" + secret
-				+ ", rcmtImg=" + rcmtImg + ", deleted=" + deleted + "]";
+				+ rcmtWriterId + ", nickName=" + nickName + ", rcmtContent=" + rcmtContent + ", rcmtDate=" + rcmtDate
+				+ ", blocked=" + blocked + ", rcmtLikeFlag=" + rcmtLikeFlag + ", rcmtLikeCount=" + rcmtLikeCount
+				+ ", secret=" + secret + ", rcmtImg=" + rcmtImg + ", deleted=" + deleted + "]";
 	}
-	
+
 }
