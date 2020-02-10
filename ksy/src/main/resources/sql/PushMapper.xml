@@ -27,11 +27,18 @@
 		VALUES (seq_push_id.NEXTVAL, #{pushType}, #{refId}, SYSTIMESTAMP, 'F', #{receiverId}, 1, 'F' )
 	</insert>
 	
+	<select id="getPushType" parameterType="String" resultMap="pushSelectMap">
+		SELECT push_id, push_type
+		FROM push
+		WHERE receiver_id = #{receiverId} AND p.deleted='F'
+	</select>
+	
 	<sql id="select-pushList">
-		SELECT  p.push_id, p.push_type, p.ref_id, p.push_date, p.read, p.cmt_Count, b.post_title, c.cmt_content
-		FROM push p, post b, comments c
-		WHERE p.ref_id = b.post_id
+		SELECT  p.push_id, p.push_type, p.ref_id, p.push_date, p.read, p.cmt_Count, b.post_title, c.cmt_content, pl.plan_title
+		FROM push p, post b, comments c, plan pl
+		WHERE	 p.ref_id = b.post_id
 						AND p.ref_id = c.cmt_id
+						AND p.ref_id = pl.plan_id
 						AND p.receiver_id = #{receiverId} AND p.deleted = 'F'
 		ORDER BY push_date DESC
 	</sql>

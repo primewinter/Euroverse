@@ -91,7 +91,7 @@ public class CommunityController {
 		System.out.println("/community/addPost : GET");
 		
 		if( boardName.equals("D") ) {
-			return "forward:/community/addFindAccPostView.jsp";
+			return "forward:/view/community/addFindAccPostView.jsp";
 		}
 		return "forward:/view/community/addPostView.jsp";
 	}
@@ -103,7 +103,8 @@ public class CommunityController {
 	
 		User user = (User)session.getAttribute("user");
 		post.setPostWriterId(user.getUserId());
-
+		post.setNickName(user.getNickname());
+		
 		communityService.addPost(post);
 	
 		for(int i=0; i<tagContent.length; i++) {
@@ -177,14 +178,13 @@ public class CommunityController {
 	public String getPostList( @RequestParam("boardName") String boardName, @ModelAttribute("search") Search search, Model model, HttpSession session ) throws Exception{
 		
 		System.out.println("/community/getPostList : GET / POST");
-		////////취합되면 지워야할 부분////////
-		User user = new User();
-		user.setUserName("주하");
-		user.setUserId("admin");
-		session.setAttribute("user", user);
-		///////////////////////////////
 		System.out.println("boardName : "+boardName);
-		
+		/////////////////지워야할 부분//////////////////////////
+		User user = new User();
+		user.setUserId("admin");
+		user.setNickname("adminNickName");
+		session.setAttribute("user", user);
+		////////////////////////////////////////////////////
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}

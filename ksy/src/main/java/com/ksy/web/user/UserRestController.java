@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,48 @@ public class UserRestController {
 		}
 		return returnMap;
 	}
+	
+	@RequestMapping(value = "json/checkDuplicate")
+	public Map Checkduplicate(@RequestBody Map jsonMap) throws Exception {
+		ObjectMapper objMap = new ObjectMapper();
+		String mapString = objMap.writeValueAsString(jsonMap);
+		JSONObject jsonObj = (JSONObject)JSONValue.parse(mapString);
+		
+		
+		Map<String, String> checkMap = objMap.readValue(jsonObj.toString(), new TypeReference<Map<String, String>>(){});
+		Map<String, String> returnMap = new HashMap<String, String>();
+		
+		
+		if(checkMap.get("userId") != null) {
+				System.out.println("userId로 중복체크");
+				System.out.println(checkMap.get("userId"));
+				String dbUserId = userService.checkUserId(checkMap.get("userId"));
+				if(dbUserId == null) {
+					returnMap.put("result","ok");
+					return returnMap;
+				}else {
+					returnMap.put("result","error");
+					return returnMap;
+				}
+				
+		}
+		
+		if(checkMap.get("nickname") != null) {
+				System.out.println("nickname으로 중복체크");
+				System.out.println(checkMap.get("nickname"));
+				String dbNickname = userService.checkNickname(checkMap.get("nickname"));
+				if(dbNickname == null) {
+					returnMap.put("result","ok");
+					return returnMap;
+				}else {
+					returnMap.put("result","error");
+					return returnMap;
+				}
+			
+		}
+		return returnMap;
+	}
+	
 	
 	
 	

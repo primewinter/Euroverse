@@ -15,6 +15,9 @@ public void addUser(User user) throws Exception;
 	
 	public User getUser(String userId) throws Exception ;
 	
+	public String checkNickname(String nickname)throws Exception;
+	
+	public String checkUserId(String userId)throws Exception;
 	
 	public List<String> getUserIdList(User user) throws Exception;
 	

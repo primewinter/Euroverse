@@ -39,14 +39,6 @@ public class UserController {
 		System.out.println(this.getClass());
 	}
 	
-	
-	@RequestMapping(value="test" , method=RequestMethod.GET)
-	public String test() {
-		System.out.println("되나?");
-		return "redirect:/view/user/page.jsp";
-	
-	}
-	
 	@RequestMapping(value="login")
 	public String login() {
 		System.out.println(this.getClass()+"Login");
@@ -110,27 +102,35 @@ public class UserController {
 		System.out.println(user.getDreamCity());
 		System.out.println(user.getTripStyle());
 		//드림시티랑 트립스타일도 따로 테이블? 로 관리하기 유저아이디랑 조인
+		System.out.println("여기보세요!!!"+user.getImage().isEmpty());
 		
-		
-		
+		if(user.getImage().isEmpty()==false) {
 		MultipartFile mhsr = (MultipartFile)user.getImage();
 		String path = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages";
-//		//String imgPath ="";
 		String originalName = "";
 		originalName = new String(mhsr.getOriginalFilename().getBytes("8859_1"),"UTF-8");
 		System.out.println(originalName);
 		//		
-		user.setUserImage("\\resources\\images\\userImages\\"+originalName);
-		System.out.println("유저이미지"+user.getUserImage());
-		userService.addUser(user);
+		user.setUserImg("\\resources\\images\\userImages\\"+originalName);
+		System.out.println("유저이미지"+user.getUserImg());
 		File serverFile = new File(path+File.separator + originalName);
 		mhsr.transferTo(serverFile);
-
+		}else {
+			user.setUserImg("\\resources\\images\\userImages\\defaultUserImage.jpg");
+		}
+		userService.addUser(user);
 		
 		System.out.println("하하하! 무사히 회원가입 성공~");
 		
 		
-		return "";
+		return "redirect:/view/user/page.jsp";
+	}
+	
+	@RequestMapping(value = "getUser" , method=RequestMethod.GET)
+	public String getUser() {
+		System.out.println(this.getClass()+"getUser Start");
+		
+		return "redirect:/view/user/getUser.jsp";
 	}
 	
 	

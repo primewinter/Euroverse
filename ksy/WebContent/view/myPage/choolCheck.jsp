@@ -112,7 +112,7 @@ events: function(start, callback) {
     });
 }
 }],
-    editable: true,
+    editable: false,
     eventLimit : true,
     cache : false
   });

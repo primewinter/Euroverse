@@ -29,8 +29,8 @@ public class User {
 	//private String userImg; //user_img
 	private String sex; //sex 남자(M) , 여자(F)
 	private String birth; //birth
-	private Integer slot;//slot
-	private Integer totalPoint;//total_point 
+	private int slot;//slot
+	private int totalPoint;//total_point 
 	private String pushAgree; //push_agree  T , F
 	
 	private Timestamp regDate; //reg_date
@@ -277,11 +277,12 @@ public class User {
 		this.image = image;
 	}
 	
-	public String getUserImage() {
+	
+	public String getUserImg() {
 		return userImg;
 	}
 	
-	public void setUserImage(String userImg) {
+	public void setUserImg(String userImg) {
 		this.userImg = userImg;
 	}
 

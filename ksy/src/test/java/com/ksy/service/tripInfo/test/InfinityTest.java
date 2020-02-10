@@ -34,15 +34,23 @@ public class InfinityTest {
 
 		System.out.println("infinityClickTest 시작!");
 		
-		//크롤링 생성자 생성 크롤링 시작
-		InfinityClick selTest = new InfinityClick();
+		Map<Integer, String> imgMap = null;
+		Map<Integer, String> infoMap = null;
 		
-		Map<Integer, String> imgMap = selTest.imgCrawl();//크롤링 이미지를  map에 put
-		Map<Integer, String> infoMap = selTest.infoCrawl();//크롤링 info map에 put
+//		for (int i = 1; i < 2; i++) {
+			
+			//크롤링 생성자 생성 크롤링 시작
+			InfinityClick selTest = new InfinityClick();//
+			
+			imgMap = selTest.imgCrawl();//크롤링 이미지를  map에 put
+			infoMap = selTest.infoCrawl();//크롤링 info map에 put
+			
+			//디버깅
+			System.out.println("imgMap 디버깅 ==>"+imgMap.size());
+			System.out.println("infoMap 디버깅 ==>"+infoMap.size());
+//		}
 		
-		//디버깅
-		System.out.println("imgMap 디버깅 ==>"+imgMap);
-		System.out.println("infoMap 디버깅 ==>"+infoMap);
+
 		
 		//비즈니스 로직과 연결 바인딩
 		for (int i = 0; i < imgMap.size(); i++) {

@@ -86,7 +86,7 @@ public class PushRestController {
 		System.out.println("json/getPushList :: @PathVariable : "+userId);
 		Search search = new Search();
 		search.setCurrentPage(1);
-		search.setPageSize(pageSize);
+		search.setPageSize(10);
 		Map<String , Object> map = pushService.getPushList(search, userId);
 		System.out.println(" :: pushServic.getPushList(search, userId) 완료");
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
@@ -110,7 +110,7 @@ public class PushRestController {
 		if(search.getCurrentPage()==0) {
 			search.setCurrentPage(1);
 		}
-		search.setPageSize(pageSize);
+		search.setPageSize(10);
 		Map<String , Object> map = pushService.getPushList(search, userId);
 		System.out.println(" :: pushService.getPushList(search, userId) 완료");
 		
@@ -205,7 +205,7 @@ public class PushRestController {
 			subject += plan.getPlanTitle();
 			System.out.println(" * * * 최종 문자 내용 * * * ");
 			System.out.println(subject+content+"\n\n");
-			
+			/*
 			try {
 	            HttpPost httpPostbefore = new HttpPost(urlbefore);
 	            httpPostbefore.setHeader("Content-type", "application/json; charset=utf-8");
@@ -240,7 +240,7 @@ public class PushRestController {
 	       } finally {
 	        	clientbefore.getConnectionManager().shutdown();
 	       }
-	            
+	            */
 		} // end of for문
 
 	}

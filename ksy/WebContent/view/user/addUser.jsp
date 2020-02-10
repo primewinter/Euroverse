@@ -35,16 +35,20 @@
 
 <script src="https://unpkg.com/swiper/js/swiper.js"></script>
 <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
-
+<!--========================= -->
 
 <!-- fontawesome CDN -->
 <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js" integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l" crossorigin="anonymous"></script>
 <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>
-
  -->
- 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <style>
+
+h6{
+	color: red;
+}
+
+
 .swiper-container{
     height: 300px;
     background-color:#E6E6E6;
@@ -56,7 +60,7 @@
 
 
 .s1 {
-    width: 510px;
+    width: 500px;
     height: 300px;
      padding-right: 30px;
       margin-right:30px;
@@ -65,7 +69,7 @@
 
 
 .s2 {
-    width: 510px;
+    width: 500px;
     height: 300px;
      padding-right: 30px;
       margin-right:30px;
@@ -73,9 +77,6 @@
 
 
 
-
-.swiper-wrapper{
-}
 
  .swiper-slide {
  
@@ -108,12 +109,17 @@
 <script>
 $( function() {
     $( "#datepicker" ).datepicker({
+      showOptions: { direction: "up" },
+	  defaultDate : '1996-05-31',
+      changeYear : true ,
+      changeMonth : true ,
       showOn: "button",
-      buttonImage: "https://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+      buttonImage: "/resources/images/userImages/CalendarICON.png",
       buttonImageOnly: true,
       buttonText: "Select date",
       dateFormat : "yy-mm-dd",
       showAnim : "bounce"
+
       /* ,
       buttonImage : "/img/calendar.gif" */
     });
@@ -138,33 +144,83 @@ var userName = $("input[name='userName']");
 var nickname = $("input[name='nickname']");
 $("input[name='email']").val($("#emailId").val()+"@"+$("#choiceEmail").val());
 var email =  $("input[name='email']");
+var emailId = $("#emailId");
+
 var birth = $("input[name='birth']");
 var sex = $("input[name='sex']");
 $("input[name='phone']").val($("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val());
 var phone = $("input[name='phone']");
+var phone1 = $("#phone1");
+var phone2 = $("#phone2");
+var phone3 = $("#phone3");
+
 var image = $("input[name='image']");
-
-
 
 var h6 = document.getElementsByTagName('h6');
 
-
-
-
-	$(document).on('keyup', '#userId', function() {
+	$(document).on('keyup', '#userId', function(event) {
+		
+		for(var i=0;i<userId.val().length;i++){
+			if(userId.val()[i] == " "){
+				userId.val(userId.val().replace(" ", ""));
+			}
+			userId.val(userId.val().replace(/[^\\!-z]/gi,""));
+			userId.val(userId.val().replace(/[~!@\]\[\#$%;,.\/^&*\()\-=+_'\\\"]/gi,""));
+		}
 		if(userId.val().length <4 || userId.val().length > 12 ){
 			h6[0].innerHTML ="아이디는 4~12자 입니다.";
 		}else{
-			h6[0].innerHTML ="";
+			if(/^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{4,12}$/.test(userId.val()) == false){
+				h6[0].innerHTML = "아이디는 최소 하나의 소문자,대문자 와 숫자가 포함되어야 합니다."
+			}else{
+				h6[0].innerHTML = "";
+			}
 		}
+		
+		if(userId.val().length >=4 && userId.val().length <= 12 ){
+		$.ajax({
+			url : "/user/json/checkDuplicate",
+			method : "post",
+			dataType : "json",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			data : JSON.stringify({
+				userId : userId.val()
+			}),
+			success : function(JSONData){
+				if(JSONData.result == 'ok'){
+					//h6[0].innerHTML ="";
+				}else{
+					h6[0].innerHTML ="중복된 아이디입니다.";
+				}
+			}//success
+		})//ajax
+		
+		}
+		
 		h6[2].innerHTML ="";
 	});
 	
 	$(document).on('keyup','#pwd',function(){
+		
+		for(var i=0;i<pwd.val().length;i++){
+			if(pwd.val()[i] == " "){
+				pwd.val(pwd.val().replace(" ", ""));
+				return;
+			}
+		}
+		
 		if(pwd.val().length <6  || pwd.val().length >20 ){
 			h6[1].innerHTML = "비밀번호는 6~20자 입니다.";
-		}else{
-			h6[1].innerHTML = "";
+		}		
+		else{
+			if(/^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/.test(pwd.val()) == false){
+				h6[1].innerHTML = "비밀번호는 최소 하나의 소문자,대문자 와 숫자가 포함되어야 합니다."
+			}else{
+				h6[1].innerHTML = "";
+			}
 		}
 		if(pwd.val() != pwdConfirm.val()){
 			h6[2].innerHTML = "비밀번호가 일치하지 않습니다.";
@@ -175,47 +231,51 @@ var h6 = document.getElementsByTagName('h6');
 	});
 	
 	$(document).on('keyup','#pwdConfirm',function(){
+		for(var i=0;i<pwdConfirm.val().length;i++){
+			if(pwdConfirm.val()[i] == " "){
+				pwdConfirm.val(pwdConfirm.val().replace(" ", ""));
+				return;
+			}
+		}
 		if(pwd.val() != pwdConfirm.val()){
 			h6[2].innerHTML = "비밀번호가 일치하지 않습니다.";
 		}else{
-			h6[2].innerHTML = "<i class='fas fa-check'></i>";
+			h6[2].innerHTML = "";
 		}
 	});
+	
 	
 	$(document).on('keyup','#userName' , function(){
 		
-		
-		
+		for(var i=0;i<userName.val().length;i++){
+			if(userName.val()[i] == " "){
+				userName.val(userName.val().replace(" ", ""));
+			}
+			userName.val(userName.val().replace(/[~!@\]\[\#$%;,.\/^&*\()\-=+_'\\\"]/gi,""));
+		}
+		if(userName.val().length > 5){
+			h6[3].innerHTML = "외국사람인가요? 이름이 많이 길어서요..."
+		}else{
+			h6[3].innerHTML = "";
+		}
 	});
 	
-	
-	
-	$("button:contains('Submit')").on("click",function(){
-		
-		
-		if(userId.val().length <4 || userId.val().length > 12 ){
-				//alert("아이디를 확인해주세요.")
-				h6[2].innerHTML ="아이디를 확인해주세요.";
-			return;
-		}else if(pwd.val().length <6  || pwd.val().length >20 ){
-				//alert("비밀번호를 확인해주세요.");
-				h6[2].innerHTML ="비밀번호를 확인해주세요.";
-			return;
-		}else if(pwd.val()){
-			
-			
+	$(document).on('keyup','#nickname',function(){
+		for(var i=0;i<nickname.val().length;i++){
+			if(nickname.val()[i] == " "){
+				nickname.val(nickname.val().replace(" ", ""));
+			}
+		}
+		if(nickname.val().length <2 || nickname.val().length > 10){
+			h6[4].innerHTML = "닉네임은 2~10자 입니다.";
+		}else{
+			h6[4].innerHTML = "";
 		}
 		
-		
-		
-		
-		
-		
-		else{
-			
-		
-		/* $.ajax({
-			url : "/user/json/login",
+		if(nickname.val().length >=2 || nickname.val().length <= 10){
+
+		$.ajax({
+			url : "/user/json/checkDuplicate",
 			method : "post",
 			dataType : "json",
 			headers : {
@@ -223,44 +283,83 @@ var h6 = document.getElementsByTagName('h6');
 				"Content-Type" : "application/json"
 			},
 			data : JSON.stringify({
-				userId : userId.val(),
-				pwd : pwd.val()
+				nickname : nickname.val()
 			}),
 			success : function(JSONData){
-				console.log(JSONData);
 				if(JSONData.result == 'ok'){
-					$("form").attr("method","get").attr("action","/user/login").submit();
-				}else if(JSONData.result =='errorId'){
-					//alert("존재하지 않는 아이디입니다.");
-					h6[2].innerHTML = "존재하지 않는 아이디입니다.";
-				}else if(JSONData.result =='errorPwd'){
-					//alert("비밀번호가 틀렸습니다.");
-					h6[2].innerHTML = "비밀번호가 틀렸습니다.";
+					//h6[4].innerHTML ="";
 				}else{
-					alert("띠용");
+					h6[4].innerHTML ="중복된 닉네임입니다.";
 				}
-				
 			}//success
-		})//ajax */
+		})//ajax
 		
-		}//else
-		
-		
-	});
+		}
+	})
 	
-
-
+	$(document).on('keyup' , '#emailId' , function(){
+		for(var i=0;i<emailId.val().length;i++){
+			if(emailId.val()[i] == " "){
+				emailId.val(emailId.val().replace(" ", ""));
+			}
+			emailId.val(emailId.val().replace(/[^\\!-z]/gi,""));
+			emailId.val(emailId.val().replace(/[~!@\]\[\#$%;,.\/^&*\()\-=+_'\\\"]/gi,""));
+		}
+	})
+	
+	$(document).on('keyup','#phone1',function(){
+		if(phone1.val().length > 3){
+			h6[8].innerHTML="핸드폰 번호를 확인해주세요.";
+		}else{
+			h6[8].innerHTML="";
+		}
+		for(var i=0;i<phone1.val().length;i++){
+			if(phone1.val()[i] == " "){
+				phone1.val(phone1.val().replace(" ", ""));
+				return;
+			}
+		}
+		
+	})
+	
+	$(document).on('keyup','#phone2',function(){
+		if(phone2.val().length > 4){
+			h6[8].innerHTML="핸드폰 번호를 확인해주세요.";
+		}else{
+			h6[8].innerHTML="";
+		}
+		for(var i=0;i<phone2.val().length;i++){
+			if(phone2.val()[i] == " "){
+				phone2.val(phone2.val().replace(" ", ""));
+				return;
+			}
+		}
+	})
+	
+	$(document).on('keyup','#phone3',function(){
+		if(phone3.val().length > 4){
+			h6[8].innerHTML="핸드폰 번호를 확인해주세요.";
+		}else{
+			h6[8].innerHTML="";
+		}
+		for(var i=0;i<phone3.val().length;i++){
+			if(phone3.val()[i] == " "){
+				phone3.val(phone3.val().replace(" ", ""));
+				return;
+			}
+		}
+	})
+	
+	
+	
+	
 })
-
-	
-	
-	
-	
 	
 	
 $(function(){
 	$(".btn-primary").on("click",function(){
-		alert("하이");
+		
+		
 		var userId = $("input[name='userId']");
 		var pwd = $("input[name='pwd']");
 		var pwdConfirm = $("#pwdConfirm");
@@ -273,17 +372,135 @@ $(function(){
 		$("input[name='phone']").val($("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val());
 		var phone = $("input[name='phone']");
 		var image = $("input[name='image']");
+		var dreamCity = $("input[name='dreamCity']");
+		var tripStyle = $("input[name='tripStyle']");
 		
-		var h6Tag = document.getElementsByTagName("h6");
+		var submitAlert = $(".alert-danger");
+		var alertMessage = $(".alert-danger strong");
 		
+		var h6 = document.getElementsByTagName('h6');
+	
 		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
+		for(var i=1;i<=$("input:checkbox[class=dreamCity]").length;i++){
+			 if($("input:checkbox[id=dreamCity"+i+"]").is(":checked") == true) {
+				  var value = $("input:checkbox[id=dreamCity"+i+"]").val();
+				  $("#checkDreamCity").append("<input type='hidden' name='dreamCity' value='"+value+"'>");
+			} 
+		}/* for End */	 
+		
+		for(var i=1;i<=$("input:checkbox[class=tripStyle]").length;i++){
+			if($("input:checkbox[id=tripStyle"+i+"]").is(":checked")==true){
+				var value = $("input:checkbox[id=tripStyle"+i+"]").val();
+				 $("#checkTripStyle").append("<input type='hidden' name='tripStyle' value='"+value+"'>");
+			}
+		}/* for End(tripStyle) */
+		
+		
+		for(var i=0 ; i<h6.length ; i++){
+			if(h6[i].innerHTML != ""){
+				submitAlert.prop("style","display : block");
+				alertMessage.html(h6[i].innerHTML);
+				return;
+			}
+		}
+		
+		
+		if($.trim(userId.val())==""){
+			submitAlert.prop("style","display : block");
+			alertMessage.html("아이디를 확인해주세요.");
+			return;
+			
+			
+			
+		}else if($.trim(userId.val()) != userId.val()){
+			submitAlert.prop("style","display : block");
+			alertMessage.html("아이디에 띄어쓰기는 사용할 수 없습니다.");
+			return;
+		}else{
+			
+			for(var i=0;i<userId.val().length;i++){
+				if(userId.val()[i] == " "){
+					submitAlert.prop("style","display : block");
+					alertMessage.html("아이디에 띄어쓰기는 사용할 수 없다고 했잖아!!!!!!!!!!!!!!!!!!!!!!!!.");
+					return;
+				}
+			}
+			
+			
+		}
+		
+		if($.trim(pwd.val())==""){
+			submitAlert.prop("style","display : block");
+			alertMessage.html("비밀번호를 확인해주세요.");
+			return;
+		}else if($.trim(pwd.val()) != pwd.val()){
+			submitAlert.prop("style","display : block");
+			alertMessage.html("비밀번호에 띄어쓰기는 사용할 수 없습니다.");
+			return;
+		}
+		
+		if($.trim(pwdConfirm.val()) ==""){
+			submitAlert.prop("style","display : block");
+			alertMessage.html("비밀번호를 확인해주세요.");
+			return;
+		}
+		
+		if($.trim(userName.val())==""){
+			submitAlert.prop("style","display : block");
+			alertMessage.html("이름을 확인해주세요.");
+			return;
+		}else if($.trim(userName.val()) != userName.val()){
+			submitAlert.prop("style","display : block");
+			alertMessage.html("이름에 띄어쓰기는 사용할 수 없습니다.");
+			return;
+		}
+		
+		if($.trim(nickname.val()) ==""){
+			submitAlert.prop("style","display : block");
+			alertMessage.html("닉네임을 확인해주세요.");
+			return;
+		}else if($.trim(nickname.val()) != nickname.val()){
+			submitAlert.prop("style","display : block");
+			alertMessage.html("닉네임에 띄어쓰기는 사용할 수 없습니다.");
+			return;
+		}
+		
+		if($.trim(birth.val())==""){
+			submitAlert.prop("style","display : block");
+			alertMessage.html("생일을 확인해주세요.");
+			return;
+		}
+		
+		if($.trim(email.val())=="@"+null){
+			submitAlert.prop("style","display : block");
+			alertMessage.html("이메일을 확인해주세요.");
+			return;
+		}else if ($.trim(email.val()) != "" && (email.val().indexOf('@') < 1 || email.val().indexOf('.') == -1)) {
+			submitAlert.prop("style","display : block");
+			alertMessage.html("이메일 형식이 아닙니다.");
+			return;
+		}else if($.trim(email.val()) != email.val()){
+			submitAlert.prop("style","display : block");
+			alertMessage.html("이메일에 띄어쓰기는 사용할 수 없습니다.");
+			return;
+		} 
+		
+		if($.trim(phone.val()).length <10){
+			submitAlert.prop("style","display : block");
+			alertMessage.html("휴대폰 번호를 확인해주세요.");
+			return;
+		} 
+		
+		
+		if($("input:radio[name='sex']").is(":checked") == false){
+			submitAlert.prop("style","display : block");
+			alertMessage.html("성별을 선택해주세요.");
+			return;
+		}
+		
+		
+		
+	/* 	
 		 alert("      userId="+userId.val()
 				+"   pwd="+pwd.val()
 				+"   pwdConfirm="+pwdConfirm.val()
@@ -293,40 +510,14 @@ $(function(){
 				+"   birth="+birth.val()
 				+"   sex="+sex.val()
 				+"   phone="+phone.val()
-				+"   image="+image.val());
-/* 				+"   dreamCity="+dreamCity.val()
-				+"   tripStyle="+tripStyle.val());
- */		
-		 
-		 
-		 
-		 
-		for(var i=1;i<=$("input:checkbox[class=dreamCity]").length;i++){
-			 if($("input:checkbox[id=dreamCity"+i+"]").is(":checked") == true) {
-				 
-				  var value = $("input:checkbox[id=dreamCity"+i+"]").val();
-				  alert(value);
-				  $("#checkDreamCity").append("<input type='hidden' name='dreamCity' value='"+value+"'>");
-				
-			} 
-		 
-		}/* for End */	 
+				+"   image="+image.val()
+ 				+"   dreamCity="+dreamCity.val()
+				+"   tripStyle="+tripStyle.val()); */
+		 $("#myModal").modal({keyboard: false,backdrop: 'static'});
+		 $("#myModal").modal("show");
+		//$("form").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
+		//h6태그 length구하고 포문돌려서 다 "" 값인지 확인하고 서밋보내고 하나라도 널스트링 아니라면 빠꾸먹이기
 		
-		for(var i=1;i<=$("input:checkbox[class=tripStyle]").length;i++){
-			
-			if($("input:checkbox[id=tripStyle"+i+"]").is(":checked")==true){
-				
-				var value = $("input:checkbox[id=tripStyle"+i+"]").val();
-				alert(value);
-				 $("#checkTripStyle").append("<input type='hidden' name='tripStyle' value='"+value+"'>");
-			}
-			
-		}/* for End(tripStyle) */
-		
-		alert( $("#checkDreamCity").html());
-		alert( $("#checkTripStyle").html());
-		
-		$("form").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
 		
 	});/* btn-primary End */
 });/* function End */
@@ -338,12 +529,21 @@ $(function(){
 
 
 $(function(){
+
+	$("input[name='pushAgree']").on("click",function(){
+		$("form").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
+	})
 	
+	$(".alert-danger button").on("click",function(){
+		$(".alert-danger").prop("style","display:none");			
+	})
+	
+	$(".btn-secondary:contains('취소')").on("click",function(){
+		$(location).attr("href","/view/user/page.jsp");		
+	})
 	
 	
 	$("input[class='dreamCity']").on("click",function(){
-/* 		alert($("input:checkbox[name=dreamCity]").length);
-		alert($("input:checkbox[name=dreamCity]:checked").length); */
 		if($("input:checkbox[class=dreamCity]:checked").length > 5){
 			alert("5개까지만 선택 가능합니다.");
 			$("input:checkbox[id=dreamCity"+$(this).prev().val()+"]").prop("checked",false);
@@ -369,10 +569,7 @@ $(function(){
 		    }else{
 				readImg(this);
 		    }
-		
 	});
-	
-	
 })
 
 function readImg(input){
@@ -383,36 +580,15 @@ function readImg(input){
 	if(input.files && input.files[0]){
 		var render = new FileReader();
 		render.onload = function(e){
-			//console.log(e);
-			//console.log(e.target);
-			//console.log(e.target.readyState);
-			//console.log(e.target.result);
-			//preview(e);
-			
-			
 			 var image = $('#preview').attr('src',e.target.result);
-			 console.log(image);
-			 /* 	 if(image.width() > width || image.height() > height){               
-	                alert('지정된 크기와 맞지 않습니다.('+width + 'x'+ height +')');
-			 		alert(image.width() +'x'+  image.height());
- 					$(".custom-file label").html("");
- 					return; */
-			//}else{
-				 
 				 $("#preview").html("<img src="+e.target.result+" style='border-color: #E6E6E6; border: 10px;'>");
-			//}
+		}
+		 render.readAsDataURL(input.files[0]);
 	}
-		 render.readAsDataURL(input.files[0]);  
-		
 }
-}
-function preview(src){
-	 console.log(src);
-	 console.log(src.target);
-	 console.log(src.target.result);
-	/* $("#preview").html("<img src="+src+">"); */
-	/* $("#preview").html("<img src='"+src.targer.result+"'>"); */
-}
+
+
+
 
 
 
@@ -433,11 +609,14 @@ function preview(src){
 <form>
 
 
+
+
 	<div class="form-group">
 		<div class="col-6 mx-auto">
+			<b>Id</b>
 			<div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-user"></i></span>
-				<input type="text" class="form-control" placeholder="userId" id="userId" name="userId" >
+				<input type="text" class="form-control" placeholder="userId" id="userId" name="userId" style="ime-mode:inactive;">
 			</div>
 			<h6></h6>
 		</div>
@@ -445,6 +624,7 @@ function preview(src){
 	
 	<div class="form-group">
 		<div class="col-6 mx-auto">
+			<b>Password</b>
 			<div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-lock"></i></span>
 				<input type="password" class="form-control" placeholder="password" id="pwd" name="pwd">
@@ -455,6 +635,7 @@ function preview(src){
 	
 	<div class="form-group">
 		<div class="col-6 mx-auto">
+			<b>PasswordConfirm</b>
 			<div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-lock"></i></span>
 				<input type="password" class="form-control" placeholder="password Confirm" id="pwdConfirm">
@@ -463,11 +644,14 @@ function preview(src){
 		</div>
 	</div>
 	
+
+	
 	<div class="form-group">
 		<div class="col-6 mx-auto">
+			<b>Name</b>
 			<div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-user"></i></span>
-				<input type="text" class="form-control" placeholder="Name" name="userName">
+				<input type="text" class="form-control" placeholder="Only Korean" name="userName" id="userName" onkeypress="if(!(event.keyCode < 47 && event.keyCode > 58)) event.returnValue=false;">
 			</div>
 			<h6></h6>
 		</div>
@@ -475,9 +659,10 @@ function preview(src){
 	
 	<div class="form-group">
 		<div class="col-6 mx-auto">
+		<b>Nickname</b>
 			<div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-user"></i></span>
-				<input type="text" class="form-control" placeholder="Nickname" name="nickname">
+				<input type="text" class="form-control" placeholder="Nickname" name="nickname" id="nickname">
 			</div>
 			<h6></h6>
 		</div>
@@ -485,25 +670,7 @@ function preview(src){
 	
 	<div class="form-group">
 		<div class="col-6 mx-auto">
-			<div class="input-group-prepend">
-				<span class="input-group-text"><i class="fas fa-globe"></i></span>
-				<input type="text" class="form-control" placeholder="email" id="emailId">
-				<span class="input-group-append">&nbsp;<i class="fas fa-at"></i>&nbsp;</span>
-				<select class="custom-select" id="choiceEmail">
-				<option value="" disabled selected hidden>please choice....</option>
-			    <option value="google.com">google.com</option>
-			    <option value="naver.com">naver.com</option>
-			    <option value="daum.net">daum.net</option>
-			    <!--이메일 잘 정리하기 email잡은다음에 밸류에 +@+choiceEmail.val() 더하기  -->
-			 	</select>
-			 	<input type="hidden" name="email">
-			</div>
-			<h6></h6>
-		</div>
-	</div>
-	
-	<div class="form-group">
-		<div class="col-6 mx-auto">
+		<b>Birth</b>
 			<div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-baby"></i></span>
 				<span class="input-group-append"><input type="text" class="form-control" placeholder="birth" name="birth" readonly="readonly" id="datepicker"></span>
@@ -515,6 +682,29 @@ function preview(src){
 	
 	<div class="form-group">
 		<div class="col-6 mx-auto">
+		<b>Email</b>
+			<div class="input-group-prepend">
+				<span class="input-group-text"><i class="fas fa-globe"></i></span>
+				<input type="text" class="form-control" placeholder="email" id="emailId">
+				<span class="input-group-append">&nbsp;<i class="fas fa-at"></i>&nbsp;</span>
+				<select class="custom-select" id="choiceEmail">
+				<option value="" disabled selected hidden>please choice....</option>
+			    <option value="google.com">google.com</option>
+			    <option value="naver.com">naver.com</option>
+			    <option value="daum.net">daum.net</option>
+			    <!--이메일 잘 정리하기 email잡은다음에 밸류에 +@+choiceEmail.val() 더하기  -->
+			 	</select>
+			 	<input type="hidden" name="email" id="email">
+			</div>
+			<h6></h6>
+		</div>
+	</div>
+	
+	
+	
+	<div class="form-group">
+		<div class="col-6 mx-auto">
+		<b>Sex</b>
 			<div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-venus-mars"></i></span>
 					&nbsp;
@@ -533,13 +723,15 @@ function preview(src){
 	</div>
 	
 
+
 	 <div class="form-group">
 	 	<div class="col-6 mx-auto">
+	 		<b>Phone</b>
 	 		<div class="input-group-prepend">
 	 		  <span class="input-group-text"><i class="fas fa-phone"></i></span>
-		      <input type="text" class="form-control" id="phone1" > - 
-		      <input type="text" class="form-control" id="phone2"> - 
-		      <input type="text" class="form-control" id="phone3" >
+		      <input type="text" class="form-control" id="phone1" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"> - 
+		      <input type="text" class="form-control" id="phone2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"> - 
+		      <input type="text" class="form-control" id="phone3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4">
 		      <input type="hidden" name="phone"> 
 		    </div>
 		    <h6></h6>
@@ -548,6 +740,7 @@ function preview(src){
  	 
  	  <div class="form-group">
 	 	<div class="col-6 mx-auto">
+	 		<b>Profile Image</b>
 			<div class="custom-file">
 			  <input type="file" class="custom-file-input" id="image" name="image" accept="image/*">
 			  <label class="custom-file-label" for="customFile" ><i class="fas fa-camera-retro">size 360x360</i> </label>  
@@ -562,7 +755,7 @@ function preview(src){
 
 	 <div class="form-group">
 	 	<div class="col-6 mx-auto">
-	 		<h5><b>가고싶은 도시</b>(최대 5개)</h5>
+	 		<b>가고싶은 도시</b>(최대 5개)
 				<div class="swiper-container s1">
     				<div class="swiper-wrapper">
      	 				 <c:forEach var="dreamCity" items="${cityList}" varStatus="status">
@@ -596,7 +789,7 @@ function preview(src){
 
 	 	<div class="form-group">
 	 		<div class="col-6 mx-auto">
-	 			<h5><b>여행스타일</b>(최대 3개)</h5>
+	 			<b>여행스타일</b>(최대 3개)
 					<div class="swiper-container s2">
     					<div class="swiper-wrapper">
      	 					 <c:forEach var="style" items="${tripStyle}" varStatus="status">
@@ -626,10 +819,19 @@ function preview(src){
 	
 	<div class="form-group">
 	 		<div class="col-6 mx-auto ">
-				<button type="button" class="btn btn-primary">회원가입</button>
+				<!-- <button type="button" class="btn btn-primary">회원가입</button> -->
+				<button type="button" class="btn btn-primary"  data-backdrop="static" data-keyboard="false">회원가입</button>
 				<button type="button" class="btn btn-secondary">취소</button>
+	
+			</div>
+			<div class="alert alert-danger alert-dismissable" style="display: none;" >
+			    <button type="button" class="close" >×</button>
+			    <strong></strong>&nbsp; 수정 후 다시 시도해주세요.
+			</div>
 	</div>
-	</div>
+	
+	
+	
 	
 	
 	
@@ -638,8 +840,37 @@ function preview(src){
 	<input type="hidden" name="tripStyle">
 	
 	
+<!-- Modal -->
+	<div class="modal fade" id="myModal" >
+	  <div class="modal-dialog" role="document">
+			<h2 style="color: white;"><b>알림수신여부체크</b></h2>
+	    <div class="modal-content">
+	      <div class="modal-body">
+	      	<p>
+	      	<b>Euroverse</b>는 정보제공을 위한 알림 서비스를 제공하고있습니다.
+	      	알림 서비스를 이용하시겠습니까?
+			</p>      	
+	
+			<input type="radio" name="pushAgree" id="pushAgreeTrue" value="T">
+			<label for="pushAgreeTrue">동의하겠습니다.</label>
+			
+			<input type="radio" name="pushAgree" id="pushAgreeFalse" value="F">
+			<label for="pushAgreeFalse">거절하겠습니다.</label>		
+			
+	      </div>
+	     <!--  <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary">Save changes</button>
+	      </div> -->
+	    </div>
+	  </div>
+	</div>
 	
 	</form>
+	
+
+	
+	
 
 
  <script>
