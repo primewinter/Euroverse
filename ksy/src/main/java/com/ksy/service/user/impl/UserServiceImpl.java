@@ -73,4 +73,15 @@ public class UserServiceImpl implements UserService {
 		System.out.println(this.getClass()+"getUserIdList");
 		return userDao.getUserIdList(user);
 	}
+	
+	public String checkNickname(String nickname)throws Exception{
+		System.out.println(this.getClass()+"checkNickname");
+		return userDao.checkNickname(nickname);
+	}
+	
+	public String checkUserId(String userId)throws Exception{
+		System.out.println(this.getClass()+"checkUserId");
+		return userDao.checkUserId(userId);
+	}
+	
 }

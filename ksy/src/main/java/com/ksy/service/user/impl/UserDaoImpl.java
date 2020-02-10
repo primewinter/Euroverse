@@ -26,43 +26,56 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public void addUser(User user) throws Exception {
-		System.out.println("UserdaoImpl addUser");
+		System.out.println("UserDaoImpl addUser");
 		sqlSession.insert("UserMapper.addUser",user);
 	}
 
 	@Override
 	public void updateUser(User user) throws Exception {
-		System.out.println("UserdaoImpl updateUser");
+		System.out.println("UserDaoImpl updateUser");
 		sqlSession.update("UserMapper.updateUser",user);
 	}
 
 	@Override
 	public void updatePwd(User user) throws Exception {
-		System.out.println("UserdaoImpl updatePwd");
+		System.out.println("UserDaoImpl updatePwd");
 		sqlSession.update("UserMapper.updatePwd",user);
 	}
 
 	@Override
 	public void updateRole(String userId) throws Exception {
-		System.out.println("UserdaoImpl updateRole");
+		System.out.println("UserDaoImpl updateRole");
 		sqlSession.update("UserMapper.updateRole",userId);
 	}
 
 	@Override
 	public void unRegister(String userId) throws Exception {
-		System.out.println("UserdaoImpl unRegister");
+		System.out.println("UserDaoImpl unRegister");
 		sqlSession.update("UserMapper.unRegister",userId);
 	}
 
 	@Override
 	public User getUser(String userId) throws Exception {
-		System.out.println("UserdaoImpl getUser");
+		System.out.println("UserDaoImpl getUser");
 		return sqlSession.selectOne("UserMapper.getUser", userId);
 	}
 
 	@Override
 	public List<String> getUserIdList(User user) throws Exception {
-		System.out.println("UserdaoImpl getUserIdList");
+		System.out.println("UserDaoImpl getUserIdList");
 		return sqlSession.selectList("UserMapper.getUserIdList",user);
 	}
+	
+	
+	public String checkNickname(String nickname) throws Exception{
+		System.out.println("UserDaoImpl checkNickname");
+		return sqlSession.selectOne("UserMapper.checkNickname",nickname);
+	}
+	
+	public String checkUserId(String userId)throws Exception{
+		System.out.println("UserDaoImpl checkUserId");
+		return sqlSession.selectOne("UserMapper.checkUserId",userId);
+	}
+	
+	
 }

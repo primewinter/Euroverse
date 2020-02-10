@@ -86,7 +86,7 @@
 <insert id="addUser" parameterType="user">
 INSERT INTO USERS
 ( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot ,  push_agree , reg_date) 
-VALUES(#{userId} , #{userName} , #{nickname} , #{pwd} , 'G' , #{email} , #{phone} , #{userImg} , #{sex} , #{birth} , 3 , #{pushAgree,jdbcType=CHAR} , systimestamp )
+VALUES(#{userId} , #{userName} , #{nickname} , #{pwd} , 'G' , #{email} , #{phone} , #{userImg,jdbcType=VARCHAR} , #{sex} , #{birth} , 3 , #{pushAgree,jdbcType=CHAR} , systimestamp )
 </insert>
 
 
@@ -106,33 +106,50 @@ FROM USERS
 WHERE user_id = #{value}
 </select>
 
+<select id = "checkNickname" parameterType="String" resultType="String">
+SELECT  
+nickname 
+FROM USERS
+WHERE nickname = #{value} AND role != 'x'
+</select>
 
+<select id = "checkUserId" parameterType="String" resultType="String">
+SELECT  
+user_id 
+FROM USERS
+WHERE user_id = #{value} AND role != 'x'
+</select>
 
 
 
 <!-- 핸드폰번호로 아이디찾기 -->
-<select id="getPhoneUserId" parameterType="user" resultType="String">
+<!-- <select id="getPhoneUserId" parameterType="user" resultType="String">
 SELECT 
 user_id 
 FROM USERS 
 WHERE user_name = #{userName} AND cell_phone = #{phone} AND  role != 'x' 
-</select>
-
-
-
-
-
-
+</select> -->
 
 <!-- 이메일로 아이디찾기 -->
-<select id="getEmailUserId" parameterType="user" resultType="String">
+<!-- <select id="getEmailUserId" parameterType="user" resultType="String">
 SELECT 
 user_id 
 FROM USERS 
 WHERE user_name = #{userName} AND email = #{email}  AND  role != 'x' 
+</select> -->
+
+<select id="getUserId" parameterType="user" resultType="String">
+SELECT 
+user_id 
+FROM USERS 
+WHERE user_name = #{userName}  AND  role != 'x' 
+<if test="phone == null and email != null">
+	AND email = #{email}
+</if>
+<if test="email == null and phone != null">
+	AND phone = #{phone}
+</if>
 </select>
-
-
 
 
 

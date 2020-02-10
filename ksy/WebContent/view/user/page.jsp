@@ -25,21 +25,17 @@ $(function(){
 	});
 	
 	$("h1:contains('출석체크페이지로 이동')").on("click",function(){
-		if('${user}'!=""){
 			location.href="/view/myPage/choolCheck.jsp";
-		}else{
-			alert("로그인부터 하세요");
-		}
 	});
 	
-	$("h1:contains('로그인페이지로 이동')").on("click",function(){
-		location.href="/view/user/loginTest.jsp";
-	});
-
 	
- 	$("h1:contains('마이페이지')").on("click",function(){
+ 	$("h1:contains('회원가입')").on("click",function(){
 		location.href="/user/addUser";
 	});
+ 	
+ 	$("h1:contains('내정보조회')").on("click",function(){
+ 		location.href="/user/getUser";
+ 	});
  	
  	
  	
@@ -66,12 +62,11 @@ $(function(){
 유저이름 = ${user.userName}</br>
 유저닉네임 = ${user.nickname}</br>
 <button type="button" class="btn btn-dark">로그아웃</button>
+<h1>출석체크페이지로 이동</h1>
+<h1>내정보조회</h1>
 <%}else{%>
 <button type="button" class="btn btn-dark">로그인</button>
-
 <%} %>
-<h1>출석체크페이지로 이동</h1>
-<h1>로그인페이지로 이동</h1>
-<h1>마이페이지</h1>
+<h1>회원가입</h1>
 </body>
 </html>
