@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ClickMapper">
+ 	
+ 	
+	<resultMap id="clickSelectMap" type="click">
+		<result property="id" 			column="id" 			jdbcType="NUMERIC"/>
+		<result property="url"			column="url" 			jdbcType="VARCHAR" />
+		<result property="info"			column="info" 			jdbcType="VARCHAR" />
+		<result property="info1"		column="info1" 			jdbcType="VARCHAR" />
+		<result property="info2"		column="info2" 			jdbcType="VARCHAR" />
+		<result property="info3"		column="info3" 			jdbcType="VARCHAR" />
+		<result property="info4"		column="info4" 			jdbcType="VARCHAR" />
+		<result property="info5"		column="info5" 			jdbcType="VARCHAR" />
+		
+	</resultMap>
+	
+	<!-- SQL : INSERT -->
+	<insert 	id="insertUrl"		parameterType="click" >
+	 	INSERT
+		INTO INFINITYCLICK( id, url, info, info1, info2, info3, info4, info5 ) 
+		VALUES	 (	seq_INFINITYCLICK_id.nextval , #{url:VARCHAR},#{info:VARCHAR}, #{info1:VARCHAR}, 
+		#{info2:VARCHAR}, #{info3:VARCHAR}, #{info4:VARCHAR}, #{info5:VARCHAR} )
+	 </insert>
+	 
+	<select 	id="getUrl"	 parameterType="int" resultMap="clickSelectMap" >
+	 	SELECT 
+	 	id, url, info, info1, info2, info3, info4, info5
+		FROM INFINITYCLICK
+		WHERE ID = ${value}
+	 </select>
+</mapper>
