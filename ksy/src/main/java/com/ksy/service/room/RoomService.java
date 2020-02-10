@@ -1,5 +1,8 @@
 package com.ksy.service.room;
 
+import java.util.Map;
+
+import com.ksy.common.Search;
 import com.ksy.service.domain.Room;
 
 
@@ -9,4 +12,6 @@ public interface RoomService {
 	
 	public Room getRoom(String roomId) throws Exception;
 	
+	public Map<String,Object> getRoomList(Search search,String buyerId) throws Exception;
+
 }

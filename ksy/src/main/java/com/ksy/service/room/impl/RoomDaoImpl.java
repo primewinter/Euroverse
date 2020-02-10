@@ -1,5 +1,9 @@
 package com.ksy.service.room.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,8 +32,15 @@ public class RoomDaoImpl implements RoomDao{
 	public Room getRoom(String roomId) throws Exception{
 		return sqlSession.selectOne("RoomMapper.getRoom", roomId);
 	}
+	public List<Room> getRoomList(Search search ,String buyerId ) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("buyerId",buyerId);
+		return sqlSession.selectList("RoomMapper.getRoomList", map);
+	}
+
 	public int getTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
+		return sqlSession.selectOne("OrderMapper.getTotalCount", search);
 
 	}
 	

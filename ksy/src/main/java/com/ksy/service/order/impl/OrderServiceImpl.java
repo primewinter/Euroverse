@@ -44,14 +44,15 @@ public class OrderServiceImpl implements OrderService{
 		return orderDao.getRoomOrder(orderId);
 	}
 	
-	public Map<String,Object> getOrderList(Search search) throws Exception {
-		List<Order> list= (List<Order>) orderDao.getOrderList(search);
-		int totalCount = orderDao.getTotalCount(search);
+	public Map<String,Object> getOrderList(Search search,String buyerId) throws Exception {
 		
+		List<Order> list= (List<Order>) orderDao.getOrderList(search, buyerId);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list );
-		map.put("totalCount", new Integer(totalCount));
 		
+		int totalCount = orderDao.getTotalCount(search);
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		System.out.println(map);
 		return map;
 	}
 

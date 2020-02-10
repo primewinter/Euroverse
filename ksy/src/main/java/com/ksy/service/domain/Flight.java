@@ -17,6 +17,9 @@ public class Flight {
 	private int infantNum; //infant_num
 	private String leadTime; //lead_time
 	private String stopOver; //stop_over
+	private String orderStatus;
+	private String orderDate;
+	
 	public String getFlightId() {
 		return flightId;
 	}
@@ -113,13 +116,27 @@ public class Flight {
 	public void setArrTime(String arrTime) {
 		this.arrTime = arrTime;
 	}
+	
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+	public String getOrderDate() {
+		return orderDate;
+	}
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
+	}
 	@Override
 	public String toString() {
 		return "Flight [flightId=" + flightId + ", airline=" + airline + ", price=" + price + ", tripCourse="
 				+ tripCourse + ", depCity=" + depCity + ", depDate=" + depDate + ", depTime=" + depTime + ", arrCity="
 				+ arrCity + ", arrDate=" + arrDate + ", arrTime=" + arrTime + ", seatGrade=" + seatGrade + ", adultNum="
 				+ adultNum + ", childNum=" + childNum + ", infantNum=" + infantNum + ", leadTime=" + leadTime
-				+ ", stopOver=" + stopOver + "]";
+				+ ", stopOver=" + stopOver + ", orderStatus=" + orderStatus + ", orderDate=" + orderDate + "]";
 	}
+	
 	
 }

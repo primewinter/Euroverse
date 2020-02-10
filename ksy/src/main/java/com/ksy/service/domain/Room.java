@@ -20,6 +20,8 @@ public class Room {
 	private String sights; //sights
 	private String hotelInfo; //hotel_info
 	private String roomInfo; //room_info
+	private String orderStatus;
+	private String OrderDate;
 	
 	public String getRoomId() { 
 		return roomId;
@@ -123,12 +125,28 @@ public class Room {
 	public void setRoomImg(String roomImg) {
 		this.roomImg = roomImg;
 	}
+	
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+	public String getOrderDate() {
+		return OrderDate;
+	}
+	public void setOrderDate(String orderDate) {
+		OrderDate = orderDate;
+	}
 	@Override
 	public String toString() {
 		return "Room [roomId=" + roomId + ", roomName=" + roomName + ", roomAddr=" + roomAddr + ", price=" + price
 				+ ", roomCity=" + roomCity + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", detailLink="
 				+ detailLink + ", adultNum=" + adultNum + ", childNum=" + childNum + ", roomNum=" + roomNum
 				+ ", roomImg=" + roomImg + ", mainService=" + mainService + ", familyService=" + familyService
-				+ ", sights=" + sights + ", hotelInfo=" + hotelInfo + ", roomInfo=" + roomInfo + "]";
+				+ ", sights=" + sights + ", hotelInfo=" + hotelInfo + ", roomInfo=" + roomInfo + ", orderStatus="
+				+ orderStatus + ", OrderDate=" + OrderDate + "]";
 	}
+	
+	
 }

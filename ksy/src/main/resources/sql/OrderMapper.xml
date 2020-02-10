@@ -24,7 +24,7 @@
   		<result property="refundDate" 		column="REFUND_DATE" 	jdbcType="TIMESTAMP" />
 		<result property="flightId"			column="FLIGHT_ID"      jdbcType="VARCHAR" />
   		<result property="roomId" 			column="ROOM_ID" 		jdbcType="VARCHAR" />
-	
+		
   	</resultMap>
   	
   		<insert id="addFlightOrder" parameterType="order">
@@ -74,7 +74,7 @@
   	
   	<select id="getFlightOrder" parameterType="String" resultMap="orderSelectMap">
   		SELECT 
-		f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stopover  , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.card_no 
+		f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over  , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.card_no 
 		FROM orders o , flight f
 		WHERE order_id = #{orderId}
 					AND f.flight_id(+)=o.flight_id
@@ -102,10 +102,27 @@
 	   	WHERE order_id = #{orderId} 
 	 </update>
 
+	 <select id="getOrderList" parameterType="map" resultMap="orderSelectMap">
+  		SELECT *
+  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+  						FROM (  SELECT f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over  ,  r.room_id , r.room_name , r.price, r.check_in , r.check_out , r.room_num , r.adult_num , r.child_num , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.card_no 
+										FROM flight f, room r,  users u , orders o 
+										WHERE o.room_id  = r.room_id(+)
+										AND o.flight_id = f.flight_id(+)
+										AND o.buyer_id = u.user_id(+)
+										AND u.user_id = #{buyerId}
+										ORDER BY order_id  ) inner_table
+  						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
+  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
+  		AND #{search.currentPage}*#{search.pageSize}
+</select>
+	 
+	 
+	 
 	 
 	   <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
-		FROM ( SELECT prod_no, buyer_id, payment_option, receiver_name, receiver_phone, DEMAILADDR, dlvy_request,count, dlvy_date, order_data, tran_status_code, tran_no 
+		FROM ( SELECT ORDER_ID, BUYER_ID, BUYER_NAME, BUYER_PHONE, BUYER_EMAIL, ORDER_DATE, ORDER_STATUS, PAY_OPT, PAY_INSTAL, CARD_NO, TOTAL_AMOUNT , ACTUAL_AMOUNT , PAY_POINT , ROOM_ID , FLIGHT_ID
 					FROM orders
 						<if test="searchCondition != null">
 							<trim prefix="WHERE" prefixOverrides="AND | OR">

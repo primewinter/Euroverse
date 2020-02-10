@@ -19,7 +19,7 @@ public interface OrderService {
 	
 	public Order getRoomOrder(String orderId) throws Exception;
 	
-	public Map<String,Object> getOrderList(Search search) throws Exception;
+	public Map<String,Object> getOrderList(Search search,String buyerId) throws Exception;
 	
 	
 }

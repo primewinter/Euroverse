@@ -35,6 +35,19 @@
 
 
 
+	<!-- boot strap File upload CDN  -->
+	<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
+	<!-- FontAwesome CDN -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+	
+	<!-- jquery Ui 링크 (datePicker)  -->
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<!--datePicker CDN  -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	
+
+
 	<!-- ICON 사용을 위한 스크립트 임포트 -->
 	<!-- https://feathericons.com/ -->
 	<script src="https://unpkg.com/feather-icons"></script>
@@ -73,6 +86,18 @@
 	    background-color: rgb(0,0,0); /* Fallback color */
 		background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
       }
+      
+      .modal .ui-datepicker{
+      	z-index: 2147483647!important
+      }
+      
+      
+      
+       .custom-file-input ~ .custom-file-label::after {
+		    content: "image";
+		}
+		
+		      
 	</style>
 
 
@@ -101,10 +126,68 @@
 				var string = "/plan/getPlan?planId="+planId;
 				$(self.location).attr("href", string);
 			});
+			
+			
+			$( "#startDateString" ).datepicker({
+			      showOptions: { direction: "up" },
+				  defaultDate : '1995-02-10',
+			      changeYear : true ,
+			      changeMonth : true ,
+			      //buttonImage: "/resources/images/userImages/CalendarICON.png",
+			      dateFormat : "yy-mm-dd",
+			      showAnim : "bounce",
+			      autoclose: true
+			});
+			
+			/* 모달 뒤에 데이트피커가 가려지는 현상... 어거지로 해결 */
+			$('#startDateString').on('click', function(){
+				 $('#ui-datepicker-div').appendTo($('#addPlanModal'));
+				 $(this).datepicker();
+				 $(this).datepicker("show");
+			});
+
+
+			//지성이꺼 갖다씀 - 파일용량 체크
+			$(".custom-file-input").on("change",function(){
+				  var fileSize = this.files[0].size;
+				    var maxSize = 360 * 360;
+				    if(fileSize > maxSize) {
+				        $(".custom-file-label").html("<i class='fas fa-camera-retro'> size 360x360</i>");
+				        alert("파일용량을 초과하였습니다.");
+				        //$("#preview").html("");
+				        return;
+				    }else{
+						//readImg(this);
+				    }
+			});
+			
+			$(document).ready(function() {
+				  bsCustomFileInput.init();
+			});
+			
+			//alert-danger에서 x 클릭시 창 닫기
+			$(".alert-danger button").on("click",function(){
+				$(".alert-danger").prop("style","display:none");			
+			})
+			
+			$(document).on('keyup','#planTitle',function(){
+				if($('#planTitle').val().length > 0){
+					$(".alert-danger").prop("style","display:none");	
+				}
+			});
+			$(document).on('change','#startDateString',function(){
+				if($('#startDateString').val().length > 0){
+					$(".alert-danger").prop("style","display:none");	
+				}
+			});
+			
 		});
 			
 		function addPlan(){
 			console.log("addPlan 실행");
+			
+			var submitAlert = $(".alert-danger");
+			var alertMessage = $(".alert-danger strong");
 			
 			var userId = $("input[name='userId']").val();
 			var planTitle = $("input[name='planTitle']").val();
@@ -112,7 +195,19 @@
 			var planType = $("input[name='planType']").val();
 			var startDateString = $("input[name='startDateString']").val();
 			
-			$('form.addPlanModal').attr('method', 'POST').attr("action" , "/plan/addPlan").submit();
+			//유효성 체크
+			if ($.trim(planTitle)=="") {
+				submitAlert.prop("style","display : block");
+				alertMessage.html("플래너 제목은 필수입니다.");
+				return;
+			}
+			if ($.trim(startDateString)=="") {
+				submitAlert.prop("style","display : block");
+				alertMessage.html("여행 시작일을 지정해주세요.");
+				return;
+			}
+			
+			$('form.addPlanModal').attr('method', 'POST').attr("action" , "/plan/addPlan").attr("enctype","multipart/form-data").submit();
 		}
 		
 		
@@ -203,15 +298,15 @@
 					            <div class="card-text">
 					            	<div style="font-weight: bolder; font-size: large; margin: 15px 3px;"> ${plan.planTitle}</div>
 						            <div>${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate} </c:if></div>
-						            <div>
-						            	<c:if test="${plan.planTotalDays!=0}"> ${plan.planTotalDays-1} 박 ${plan.planTotalDays} 일 </c:if>
+						            <div> 
+						            	 <c:if test="${plan.planTotalDays!=0}"> ${plan.planTotalDays-1} 박 ${plan.planTotalDays} 일 </c:if>&nbsp;
 						            </div>
 						            <br/>
 						        </div>
 				              
 					            <div class="d-flex justify-content-between align-items-center">
 					              	<div class="btn-group">
-					                	<button type="button" class="btn btn-sm btn-outline-secondary" onClick="showEditPlan('${list.indexOf(plan)}')">Edit</button>
+					                	<%-- <button type="button" class="btn btn-sm btn-outline-secondary" onClick="showEditPlan('${list.indexOf(plan)}')">Edit</button> --%>
 					                </div>
 					                <div>
 						                <c:if test="${plan.planPartySize > 1}"><span data-feather="users"></span></c:if>
@@ -228,7 +323,7 @@
 				</c:if>
 			
 				<!-- 플래너 등록 버튼 -->
-				<%-- <c:if test="${user.slot > 0 }"> --%>
+				<c:if test="${!empty user.slot }">
 					<c:forEach var="i" begin="1" end="${user.slot - list.size()}">
 						<div class="col-md-4">
 				          <div class="card mb-4 shadow-sm showAddPlanModal">
@@ -240,7 +335,7 @@
 				          </div>
 						</div>
 					</c:forEach>
-				<%-- </c:if> --%>
+				</c:if>
 				
 			
 				<!-- 슬롯 추가 버튼 -->
@@ -274,33 +369,60 @@
 	      <div class="modal-body">
 	        
 	        <form class="form-horizontal addPlanModal">
-				<div class="form-group">
-				    <label for="planTitle" class="col-sm-offset-3 col-sm-5 control-label">플래너 제목</label>
-				    <div class="col-sm-5">
+	        	<br/>
+				<div class="form-group row">
+				    <label for="planTitle" style="text-align: right;" class="col-sm-4 col-form-label ">플래너 제목</label>
+				    <div class="col-sm-7">
 				      <input type="text" class="form-control" id="planTitle" name="planTitle" placeholder="플래너 제목">
 				    </div>
 				</div>
 				
-				<div class="form-group">
-				    <label for="planImg" class="col-sm-offset-3 col-sm-5 control-label">플래너 이미지</label>
-				    <div class="col-sm-5">
-				      <input type="text" class="form-control" id="planImg" name="planImg" placeholder="플래너 이미지">
+				<div class="form-group row">
+					<label for="planType" style="text-align: right;" class="col-sm-4 col-form-label ">여행 타입</label>
+				    <div class="col-sm-7">
+					    <select class="form-control" id="planType" name="planType">
+							<option value="A">여자혼자</option>
+							<option value="B">남자혼자</option>
+							<option value="C">여자끼리</option>
+							<option value="D">남자끼리</option>
+							<option value="E">단체</option>
+							<option value="F">부모님과</option>
+							<option value="G">커플</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+				    <label for="planImgFile" style="text-align: right;" class="col-sm-4 col-form-label ">플래너 이미지</label>
+				    <div class="col-sm-7 custom-file">
+				    	<div class="input-group mb-2">
+				    		<input type="file" class="form-control custom-file-input" id="planImgFile" name="planImgFile" placeholder="플래너 이미지" accept="image/*">
+				      		<label class="custom-file-label" for="customFile"><i class="fas fa-camera-retro"> size 360x360</i></label>  
+				    		<div class="input-group-append">
+						      	<div class="input-group-text"><i class="fas fa-camera-retro"></i></div>
+						    </div>
+				    	</div>
 				    </div>
 				</div>
 				
-				<div class="form-group">
-				    <label for="planType" class="col-sm-offset-3 col-sm-5 control-label">플래너 타입</label>
-				    <div class="col-sm-5">
-				      <input type="text" class="form-control" id="planType" name="planType" placeholder="플래너 타입">
+				<div class="form-group row">
+				    <label for="startDateString" style="text-align: right;" class="col-sm-4 col-form-label ">여행 시작일</label>
+				    
+				    <div class="col-sm-7">
+					    <div class="input-group mb-2">
+					      <input type="text" class="form-control" id="startDateString" name="startDateString" placeholder="여행 시작일" readonly="readonly">
+					      <div class="input-group-append">
+					      	<div class="input-group-text"><span data-feather="calendar"></span></div>
+					      </div>
+					    </div>
 				    </div>
 				</div>
 				
-				<div class="form-group">
-				    <label for="startDateString" class="col-sm-offset-3 col-sm-5 control-label">여행 시작일</label>
-				    <div class="col-sm-5">
-				      <input type="text" class="form-control" id="startDateString" name="startDateString" placeholder="여행 시작일">
-				    </div>
+				<div class="alert alert-danger alert-dismissable" style="display: none;" >
+				    <button type="button" class="close" >×</button>
+				    <strong></strong><br/>수정 후 다시 시도해주세요.
 				</div>
+				
 	        </form>
 	        
 	      </div>
@@ -316,6 +438,7 @@
 	<!-- /////////////////////	Modal : addPlan	///////////////////// -->
 	
 	<!-- /////////////////////	Modal : editPlan 	///////////////////// -->
+	<!-- 
 	<div class="modal" id="editPlan">
 	  <div class="modal-dialog" >
 	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 수정</h4>
@@ -335,38 +458,7 @@
 	        
 	        <form class="form-horizontal editPlan" style="margin: 10px;">
 	        	
-				<div class="form-group">
-				    <label for="planTitle" class="col-sm-offset-3 col-sm-5 control-label">플래너 제목	</label>
-				    <div class="col-sm-5">
-				      <input type="text" class="form-control" id="planTitle" name="planTitle" placeholder="플래너 제목" value="${plan.planTitle}">
-				    </div>
-				</div>
 				
-				<div class="form-group">
-				    <label for="planImg" class="col-sm-offset-3 col-sm-5 control-label">플래너 이미지</label>
-				    <div class="col-sm-5">
-				      <input type="text" class="form-control" id="planImg" name="planImg" placeholder="플래너 이미지" value="${plan.planImg}">
-				    </div>
-				</div>
-				
-				<div class="form-group">
-				    <label for="planType" class="col-sm-offset-3 col-sm-5 control-label">플래너 타입</label>
-				    <div class="col-sm-5">
-				      <input type="text" class="form-control" id="planType" name="planType" placeholder="플래너 타입" value="${plan.planType}">
-				    </div>
-				</div>
-				
-				<div class="form-group">
-				    <label for="startDateString" class="col-sm-offset-3 col-sm-5 control-label">여행 시작일</label>
-				    <div class="col-sm-5">
-				      <input type="text" class="form-control" id="startDateString" name="startDateString" placeholder="여행 시작일" value="${plan.startDateString}">
-				    </div>
-				</div>
-				
-				<!-- 여행완료 확정 폼제출을 위한 히든 값 -->
-				<input type="hidden" class="form-control" id="planStatus" name="planStatus" value="${plan.planStatus}">
-				<input type="hidden" class="form-control" id="planId2" name="planId" value="${plan.planId}">
-	        	
 	        </form>
 	        
 	      </div>
@@ -377,6 +469,7 @@
 	    </div>
 	  </div>
 	</div>
+	-->
 	<!-- /////////////////////	Modal : editPlan 끝	///////////////////// -->
 	
 	<!-- /////////////////////	Modal : 슬롯 늘리기 	///////////////////// -->	

@@ -1,6 +1,8 @@
 package com.ksy.service.order.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +42,15 @@ public class OrderDaoImpl implements OrderDao {
 		return sqlSession.selectOne("OrderMapper.getRoomOrder", orderId);
 	}
 		
-	public List<Order> getOrderList(Search search) throws Exception {
-		return sqlSession.selectList("OrderMapper.getOrderList", search);
-
+	public List<Order> getOrderList(Search search ,String buyerId ) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("buyerId",buyerId);
+		return sqlSession.selectList("OrderMapper.getOrderList", map);
 	}
-		
+
 	public int getTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
+		return sqlSession.selectOne("OrderMapper.getTotalCount", search);
 
 	}
 	

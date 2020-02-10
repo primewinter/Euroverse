@@ -8,4 +8,7 @@ public interface MyPageDao {
 	public void addPoint(Point point) throws Exception;
 	public List getPointList(String userId) throws Exception;
 	public List getChoolCheckList(String userId)throws Exception;
+	
+	public void updateTotalPoint(Point point)throws Exception;
+	
 }

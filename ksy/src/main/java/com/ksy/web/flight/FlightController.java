@@ -182,18 +182,35 @@ public class FlightController {
 			}
 			// depCity 검색창 선택
 			webElement = driver.findElement(By.xpath("//*[@id=\"dep_name\"]"));
+			webElement.click();
 			webElement.clear();
 			synchronized (driver) {
-				driver.wait(300);
+				driver.wait(500);
 			}
 			webElement.sendKeys(depCity);
+			synchronized (driver) {
+				driver.wait(500);
+			}
+			driver.findElement(By.xpath("//*[@id=\"depCitySearch\"]/div[2]/div/ul/li/a")).click();
+			synchronized (driver) {
+				driver.wait(500);
+			}
 			// arrCity 검색창 선택
 			webElement = driver.findElement(By.xpath("//*[@id=\"arr_name\"]"));
+			webElement.click();
 			webElement.clear();
 			synchronized (driver) {
-				driver.wait(300);
+				driver.wait(500);
 			}
 			webElement.sendKeys(arrCity);
+			synchronized (driver) {
+				driver.wait(500);
+			}
+			driver.findElement(By.xpath("//*[@id=\"arrCitySearch\"]/div[2]/div/ul/li/a")).click();
+
+			synchronized (driver) {
+				driver.wait(500);
+			}
 			// 달력 아이콘 선택
 			driver.findElement(By.xpath("//*[@id=\"depDateArrDate\"]")).click();
 			synchronized (driver) {
@@ -374,7 +391,10 @@ public class FlightController {
 					//System.out.println("flightList2 : " + flightList);
 				}
 			}
-			Thread.sleep(30000);
+			synchronized (driver) {
+				driver.wait(10000);
+
+			}
 		} catch (IndexOutOfBoundsException ie) {
 			System.out.println("IndexOutOfBounds");
 			ie.printStackTrace();

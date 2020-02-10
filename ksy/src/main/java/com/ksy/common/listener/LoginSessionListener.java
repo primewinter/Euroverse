@@ -63,7 +63,7 @@ public class LoginSessionListener implements HttpSessionListener, HttpSessionAtt
 			String userId = sessionUser.getUserId();
 			userMap.put(se.getSession().getId(), sessionUser);
 			System.out.println("session에서 가져온 User : "+sessionUser+" || userId : "+userId);
-			
+		/*	
 			try {
 				PlanService planService = (PlanService)Util.getBean("planServiceImpl");
 				System.out.println("\n\ncount ::::: "+planService.getUndoneCount(userId)+"\n\n");
@@ -114,7 +114,7 @@ public class LoginSessionListener implements HttpSessionListener, HttpSessionAtt
 				e1.printStackTrace();
 			}
 			
-			
+			*/
 		}	 
 		
 	}
