@@ -59,7 +59,16 @@ public class MyPageRestController {
 				}
 			}
 		}
+		
+		System.out.println("차차아아아아아아앙아!!!!!!!!!!!!!!!!!");
 		myPageService.addPoint(point);
+		myPageService.updateTotalPoint(point);
+		User reloadUser = userService.getUser(user.getUserId());
+		System.out.println("현재포인트는?!?!?!?!?!?"+reloadUser.getTotalPoint());
+		session.setAttribute("user", reloadUser);
+		System.out.println("차차아아아아아아앙아@@@@@@@@@@@@@@@@@@@@@@");
+		
+		
 		returnMap.put("title", "출석체크요~");
 		returnMap.put("start",date.format(today));
 		System.out.println(returnMap);

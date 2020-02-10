@@ -63,7 +63,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public List<String> getUserIdList(User user) throws Exception {
 		System.out.println("UserDaoImpl getUserIdList");
-		return sqlSession.selectList("UserMapper.getUserIdList",user);
+		return sqlSession.selectList("UserMapper.getUserId",user);
 	}
 	
 	

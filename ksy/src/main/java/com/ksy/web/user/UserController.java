@@ -105,22 +105,20 @@ public class UserController {
 		System.out.println("여기보세요!!!"+user.getImage().isEmpty());
 		
 		if(user.getImage().isEmpty()==false) {
-		MultipartFile mhsr = (MultipartFile)user.getImage();
-		String path = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages";
-		String originalName = "";
-		originalName = new String(mhsr.getOriginalFilename().getBytes("8859_1"),"UTF-8");
-		System.out.println(originalName);
-		//		
-		user.setUserImg("\\resources\\images\\userImages\\"+originalName);
-		System.out.println("유저이미지"+user.getUserImg());
-		File serverFile = new File(path+File.separator + originalName);
-		mhsr.transferTo(serverFile);
+			MultipartFile mhsr = (MultipartFile)user.getImage();
+			String path = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages";
+			String originalName = "";
+			originalName = new String(mhsr.getOriginalFilename().getBytes("8859_1"),"UTF-8");
+			System.out.println(originalName);
+			user.setUserImg("\\resources\\images\\userImages\\"+originalName);
+			System.out.println("유저이미지"+user.getUserImg());
+			File serverFile = new File(path+File.separator + originalName);
+			mhsr.transferTo(serverFile);
 		}else {
 			user.setUserImg("\\resources\\images\\userImages\\defaultUserImage.jpg");
 		}
 		userService.addUser(user);
 		
-		System.out.println("하하하! 무사히 회원가입 성공~");
 		
 		
 		return "redirect:/view/user/page.jsp";
@@ -132,6 +130,71 @@ public class UserController {
 		
 		return "redirect:/view/user/getUser.jsp";
 	}
+	
+	
+	@RequestMapping(value = "searchId",method=RequestMethod.GET)
+	public String searchUserId() {
+		System.out.println("UserController GET searchUserId!");
+		
+		return"redirect:/view/user/searchId.jsp";
+	}
+	
+	@RequestMapping(value="searchId",method=RequestMethod.POST)
+	public String searchUserId(@ModelAttribute("user") User user , Model model) throws Exception {
+		System.out.println("UserController POST searchUserId");
+		List<String> idList = new ArrayList<String>();
+		
+		String authType="";
+		
+		User settingUser = new User();
+		if(user.getPhone().equals("") || user.getPhone().equals("--") || user.getPhone().equals(" - - ")||user.getPhone()==null) {
+			settingUser.setUserName(user.getUserName());
+			settingUser.setEmail(user.getEmail());
+			//이거 통합된 메소드 사용하자
+			idList = userService.getUserIdList(settingUser);
+			authType = "email";
+		}else if(user.getEmail().equals("") || user.getEmail().equals(" @ ") || user.getEmail().equals("@") || user.getEmail()==null) {
+			settingUser.setUserName(user.getUserName());
+			settingUser.setPhone(user.getPhone());
+			//통합된 메소드 사용하기
+			idList = userService.getUserIdList(settingUser);
+			authType = "phone";
+		}
+		
+		List<String> starIdList = new ArrayList<String>();
+		for(int i=0;i<idList.size();i++) {
+			System.out.print("이거 써서 별표 달면 될듯!=="+idList.get(i).substring(0, 3));
+			String star="";
+			for(int j=0;j<idList.get(i).length()-3;j++) {
+				System.out.print("*");
+				star+="*";
+			}
+			starIdList.add(idList.get(i).substring(0,3)+star);
+			System.out.println();
+			
+			System.out.println("아이디는!!!!!!!===="+starIdList.get(i));
+		}
+		
+		
+		
+//		if(starIdList==null||starIdList.size()==0) {
+//			starIdList.add("일치하는 아이디가 없습니다.");
+//			authType = "일치하는 아이디가 없습니다.";
+//		}
+//		
+//		
+		
+		
+		System.out.println(starIdList);
+		
+		model.addAttribute("authType",authType);
+		model.addAttribute("starIdList" , starIdList);
+		model.addAttribute("user",user);
+		
+		
+		return"forward:/view/user/searchIdConfirm.jsp";
+	}
+	
 	
 	
 }
