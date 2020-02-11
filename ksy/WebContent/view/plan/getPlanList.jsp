@@ -293,7 +293,17 @@
 							            <c:if test="${plan.planDday == 0}"> D-Day </c:if>
 										<c:if test="${plan.planDday > 0}"> D-${plan.planDday} </c:if>
 						            </div>
-									<div>${plan.planType}</div>
+									<div class="plan_type">
+										<c:choose>
+											<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
+											<c:when test="${plan.planType == 'B'}">남자혼자</c:when>
+											<c:when test="${plan.planType == 'C'}">여자끼리</c:when>
+											<c:when test="${plan.planType == 'D'}">남자끼리</c:when>
+											<c:when test="${plan.planType == 'E'}">단체</c:when>
+											<c:when test="${plan.planType == 'F'}">부모님과</c:when>
+											<c:when test="${plan.planType == 'G'}">커플</c:when>
+										</c:choose>
+									</div>
 				              	</div>
 					            <div class="card-text">
 					            	<div style="font-weight: bolder; font-size: large; margin: 15px 3px;"> ${plan.planTitle}</div>

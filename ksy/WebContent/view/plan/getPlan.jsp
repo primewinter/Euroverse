@@ -129,11 +129,15 @@
       }
       .swiper-slide {
       	height: 480px;
+      	width: 40px;
       	background-color: white;
       	margin: 4px;
       	padding: 10px;
-      	border-radius: 7px;
+      	border-radius: 4px;
       	box-shadow:1px 3px 2px #ACC1CB;
+      	border-color: #DDDDDD;
+      	border-style: solid;
+      	border-width: 1px;
       }
       
       
@@ -182,6 +186,14 @@
       	margin-left: 7px;
 		position:absolute;
       }
+      
+      
+      
+      /* fullCalendar 스크롤 없애기 */
+      .fc-scroller {
+		   overflow-y: hidden !important;
+		}
+      
 	</style>
 	
 	
@@ -723,28 +735,32 @@
 					}else{ 		
 						console.log("리턴데이터 있음1! => JSONData = "+JSON.stringify(JSONData));	
 
+						var budget_total = 0;
+						
 						for( var i in JSONData ){
+							budget_total = budget_total + JSONData[i].budgetAmount;
 							switch ( JSONData[i].dailyCate ) {
-						        case 'D': $('#budget_D').text(JSONData[i].budgetAmount+" 원");	//관광
+						        case 'D': $('#budget_D').text(JSONData[i].budgetAmount);	//관광
 						          break;
-						        case 'T': $('#budget_T').text(JSONData[i].budgetAmount+" 원");	//교통
+						        case 'T': $('#budget_T').text(JSONData[i].budgetAmount);	//교통
 						          break;
-						        case 'V': $('#budget_V').text(JSONData[i].budgetAmount+" 원");	//투어
+						        case 'V': $('#budget_V').text(JSONData[i].budgetAmount);	//투어
 						          break;
-						        case 'R': $('#budget_R').text(JSONData[i].budgetAmount+" 원");	//숙소
+						        case 'R': $('#budget_R').text(JSONData[i].budgetAmount);	//숙소
 						          break;
-						        case 'F': $('#budget_F').text(JSONData[i].budgetAmount+" 원");	//식사
+						        case 'F': $('#budget_F').text(JSONData[i].budgetAmount);	//식사
 						          break;
-						        case 'S': $('#budget_S').text(JSONData[i].budgetAmount+" 원");	//쇼핑
+						        case 'S': $('#budget_S').text(JSONData[i].budgetAmount);	//쇼핑
 						          break;
-						        case 'E': $('#budget_E').text(JSONData[i].budgetAmount+" 원");	//기타
+						        case 'E': $('#budget_E').text(JSONData[i].budgetAmount);	//기타
 						          break;
 						        default:
 						          var d = 'default';
 						    } //switch
 						}
 					} //if-else
-					//$(".budgetOverview").html(budgetOverviewHtml);
+					$('#budget_total').text(budget_total);
+					
 				},
 				error:function(request,status,error){
 			        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -1079,6 +1095,7 @@
 	<!-- 캘린더 생성 -->
 	<script type="text/javascript">
 	
+		
 		document.addEventListener('DOMContentLoaded', function() {
 		  var calendarEl = document.getElementById('calendar');
 		  //var draggebleEl = document.getElementById('draggable');
@@ -1088,29 +1105,60 @@
 		  var Calendar = FullCalendar.Calendar;
 		  //var Draggable = FullCalendarInteraction.Draggable;
 		  
+		  
+		  var cityEventList = ${cityEventList};
+			//alert("  cityEventList[0] = "+cityEventList[0].title);	
+			
+		  var defaultDate = new Date();
+		  if( cityEventList[0] != null ){
+			  defaultDate = cityEventList[0].start;
+		  }
+		  
+		  //var eventString = cityEventList[0]+", "+cityEventList[1];
+		  
 		  var calendar = new FullCalendar.Calendar(calendarEl, {
 		    plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
 		    defaultView: 'dayGridMonth',
-		    defaultDate: new Date(),
+		    defaultDate: defaultDate,
 		    header: {
-		      left: 'prev, today',
+		      //left: 'prev, today',
+		      left: 'prev',
 		      center: 'title',
 		      right: 'next'
 		    },
 		    height: 420,	// 캘린더 크기... 높이 지정!
 		    editable: false,
 		    droppable: false, // this allows things to be dropped onto the calendar
-		    locale: 'ko',
+		    //locale: 'ko',
+		    buttonIcons: true, // show the prev/next text
 		    events:[
-		    	{
-		    		title: '존나세 생일',
-		    		start: '2020-02-10'
-		    	}
+		    	/* { title: '존나세 생일', start: '2020-02-10' } */
+		    	//eventString
 		    ]
+		    //,eventRender:function(event, eventElement) {
+            //    if(event.imageurl) {
+            //        eventElement.find("span.fc-title").prepend("<img src='" + event.imageurl + "'>");
+            //    }
+            //}
+
 		  });
 		  
+		  
+		  for( var i in cityEventList ){
+			  console.log("    "+JSON.stringify(cityEventList[i]) );
+				calendar.addEvent( cityEventList[i] );
+			}
+		  
 		  calendar.render();
+		  
 		}); 
+		
+		
+		
+		
+		
+		
+		
 	
 	</script>
 	
@@ -1118,10 +1166,9 @@
 </head>
 <body>
 	<!-- ToolBar 시작 -->
-	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
+	<%-- <jsp:include page="/toolbar/toolBar.jsp"></jsp:include> --%>
 	
-	<div hidden="hidden"></div>
-	<div class="navbar fixed-top py-4 bg-light text-center"> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~````~ 원래는 Top ToolBar 있어야 할 자리 ~~~~~~~~~~~~~~~~~~1~~~~~~~~~~ </div>
+	<!-- <div class="navbar fixed-top py-4 bg-light text-center"> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~````~ 원래는 Top ToolBar 있어야 할 자리 ~~~~~~~~~~~~~~~~~~1~~~~~~~~~~ </div> -->
 	<!-- ToolBar 끝 -->
 	
 	
@@ -1250,23 +1297,31 @@
 			<!-- Main 화면 구성 Start ///////////////////////////////////////////////////////////////////////////////////////// -->
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 container">
 				
-				<br/>
-				
 				<!--	 Plan Information START	//////////////////////// 	-->
-				
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
 					<div class="container">
 						<h5>Plan Information</h5>
-						<div class="row" style="background-color: #E7F4F4; width: 100%; padding: 15px; border-radius: 5px; ">
+						<div class="row" style="background-color: #F3F7F6; width: 100%; padding: 15px; border-radius: 5px; ">
 						
 							<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border-width: 1px; border-color: #D1D1D1; border-style: solid; width: 130px; height: 100px;">
-						    <div class="media-body" style="margin-left: 13px; margin-top: 30px;">
+						    <div class="media-body" style="margin-left: 13px; margin-top: 25px;">
+						    	<div class="plan_type">
+									<c:choose>
+										<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
+										<c:when test="${plan.planType == 'B'}">남자혼자</c:when>
+										<c:when test="${plan.planType == 'C'}">여자끼리</c:when>
+										<c:when test="${plan.planType == 'D'}">남자끼리</c:when>
+										<c:when test="${plan.planType == 'E'}">단체</c:when>
+										<c:when test="${plan.planType == 'F'}">부모님과</c:when>
+										<c:when test="${plan.planType == 'G'}">커플</c:when>
+									</c:choose>
+								</div>
 						      <div style="margin: 3px 0;"><div style="font-weight: bolder; font-size: 21px; display: inline-block;">${plan.planTitle} </div> &emsp;
 						      			<c:if test="${plan.planPartySize > 1}"><span data-feather="users"></span></c:if>
 						                <c:if test="${plan.planPartySize == 1}"><span data-feather="user"></span></c:if>
 						                 ${plan.planPartySize}
 						      </div>
-						      ${plan.startDateString} ~ ${plan.endDate} ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
+						      ${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate}</c:if> ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
 						      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
 						      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
 						    </div>
@@ -1285,38 +1340,8 @@
 					</div>
 				</div>
 				<!--	 Plan Information START	//////////////////////// 	-->
+				
 				<br/>
-				
-				
-				<!--	 Plan Information START	//////////////////////// 	-->
-				<%-- <div class="album py-5 bg-light">
-					<div class="container">
-						<h5>Plan Information</h5>
-						<div class="row" style="background-color: #FFE86A; width: 100%; padding: 20px; border-radius: 5px; ">
-						
-							<img src="https://omakare.com/wp-content/uploads/2018/11/Travel.jpg" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="margin: 5px; border-width: 1px; border-color: gray; border-style: solid; width: 100px; height: 100px;">
-						    <div class="media-body" style="margin-left: 25px; margin-top: 30px;">
-						      <div><div style="font-weight: bolder; font-size: 20px; display: inline-block;">${plan.planTitle} </div> ${plan.planPartySize} 명</div>
-						      ${plan.startDateString} ~ ${plan.endDate} ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
-						      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
-						      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
-						    </div>
-							
-							<div>
-							<button type="button" class="btn btn-primary" id="updatePlanButton" style="margin-left: 10px;">플래너 수정</button> 
-							<c:if test="${ user.userId == plan.planMaster.userId }">
-								<button type="button" class="btn btn-primary" style="margin-left: 10px;">플래너 삭제</button> 
-							</c:if>
-							<button type="button" class="btn btn-primary" id="planCompleteButton" style="margin-left: 10px;">여행완료 확정</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!--	 Plan Information START	//////////////////////// 	-->
-				<br/> --%>
-				
-				
-				
 				
 				<!--	 Todo List : 투두 리스트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light"  id="gotoTodoList"> -->
@@ -1349,7 +1374,7 @@
 					</div>
 				</div>
 				<!--	 CityRoute List : 여행루트 END	//////////////////////// 	-->
-				<br/>
+			
 				
 				
 				
@@ -1357,43 +1382,24 @@
 				<!-- <div class="album py-5 bg-light"  id="gotoBudgetOverviewList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"  id="gotoBudgetOverviewList">
 					<div class="container">
-						<h5>BudgetOverview List : 예산 리스트</h5>
+						<h6>예산 정보</h6>
 						<div class="row">
 							
-							<!-- 이게 아니라 일정표처럼 페이지 로딩 후 리스트 가져와서 셋해주는게 나을거같음 -->
-							<c:forEach var="budget" items="${plan.budgetOverviewList}">
-								<div>
-									<c:choose>
-										<c:when test="${budget.dailyCate == 'D'}">관광</c:when>
-										<c:when test="${budget.dailyCate == 'T'}">교통</c:when>
-										<c:when test="${budget.dailyCate == 'V'}">투어</c:when>
-										<c:when test="${budget.dailyCate == 'R'}">숙소</c:when>
-										<c:when test="${budget.dailyCate == 'F'}">식사</c:when>
-										<c:when test="${budget.dailyCate == 'S'}">쇼핑</c:when>
-										<c:when test="${budget.dailyCate == 'E'}">기타</c:when>
-									</c:choose>
-									- ${budget.budgetAmount} 원
-								</div>
-							</c:forEach>
-							
-							
-							
-							<div style="border:dashed thin #A7A7A7 ; border-radius:8px; padding:25px; background-color: white; width: 50%; ">
+							<div class="text-center" style="border:solid thin #DDDDDD ; border-radius:5px; padding: 5px 10px; background-color: white; width: 50%; ">
 								<!-- 만들어두고 스크립트에서 포문돌려 셋팅하기 -->
-								<div class="budgetOverview" style="padding: 30px;">
-									<div style="float:left;width:50%;">
-										<div style="margin: 3px 0;"> <i class="fas fa-walking" style="font-size: 20px;"></i>관광 : <span id="budget_D">0 원</span></div>
-										<div style="margin: 3px 0;"> <i class="fas fa-bus" style="font-size: 20px;"></i>교통 : <span id="budget_T">0 원</span></div>
-										<div style="margin: 3px 0;"> <i class="fas fa-ticket-alt" style="font-size: 20px;"></i>투어 : <span id="budget_V">0 원</span></div>
-										<div style="margin: 3px 0;"> <i class="fas fa-ellipsis-h" style="font-size: 20px;"></i>기타 : <span id="budget_E">0 원</span></div>
+								<div class="budgetOverview" style="padding: 5px;">
+									<div style="float:left;width:45%;">
+										<div style="margin: 4px 0;"> <i class="fas fa-walking" 		style="width:40px; font-size: 20px;"></i>관광  <div class="budget_amount" id="budget_D" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+										<div style="margin: 4px 0;"> <i class="fas fa-bus" 			style="width:40px; font-size: 20px;"></i>교통  <div class="budget_amount" id="budget_T" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+										<div style="margin: 4px 0;"> <i class="fas fa-ticket-alt" 	style="width:40px; font-size: 20px;"></i>투어  <div class="budget_amount" id="budget_V" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+										<div style="margin: 4px 0;"> <i class="fas fa-ellipsis-h" 	style="width:40px; font-size: 20px;"></i>기타  <div class="budget_amount" id="budget_E" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
 									</div>
-									<div style="float:right;width:50%;">
-										<div style="margin: 3px 0;"> <i class="fas fa-bed" style="font-size: 20px;"></i>숙소 : <span id="budget_R">0 원</span></div>
-										<div style="margin: 3px 0;"> <i class="fas fa-utensils" style="font-size: 20px;"></i>식사 : <span id="budget_F">0 원</span></div>
-										<div style="margin: 3px 0;"> <i class="fas fa-shopping-cart" style="font-size: 20px;"></i>쇼핑 : <span id="budget_S">0 원</span></div>
+									<div style="float:right;width:45%;">
+										<div style="margin: 4px 0;"> <i class="fas fa-bed" 			style="width:40px; font-size: 20px;"></i>숙소  <div class="budget_amount" id="budget_R" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+										<div style="margin: 4px 0;"> <i class="fas fa-utensils" 	style="width:40px; font-size: 20px;"></i>식사  <div class="budget_amount" id="budget_F" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+										<div style="margin: 4px 0;"> <i class="fas fa-shopping-cart" style="width:40px; font-size:20px;"></i>쇼핑  <div class="budget_amount" id="budget_S" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+										<div style="margin: 5px 0;text-align: right; color:#32D0BF;"> 총  <div id="budget_total" style="font-size:23px; display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
 									</div>
-									
-									
 								</div>
 							</div>
 							
@@ -1401,7 +1407,6 @@
 					</div>
 				</div>
 				<!--	 BudgetOverview List : 예산 간략 리스트 END	//////////////////////// 	-->
-				<br/>
 				
 				
 
@@ -1411,17 +1416,17 @@
 					<div class="container">
 						<h5>일정표</h5>
 						<div class="row">
-							
-							<div class="swiper-container">
-							    <div class="swiper-wrapper">
+						
+							<c:if test="${plan.dayList.size() != 0}">
+								<div class="swiper-container">
+								    <div class="swiper-wrapper">
 							    
-							    	<c:if test="${plan.dayList.size() != 0}">
 							    		<c:forEach var="day" items="${plan.dayList}">
-							    			<div class="swiper-slide" style="width: 40px;">
+							    			<div class="swiper-slide">
 							    			<div>
-							    				<div class="dayInfo" style="padding-top:10px;padding-left:10px;text-align:left;padding-left:8px;font-size:14pt;color:#696969;">
+							    				<div class="dayInfo" style="padding-top:10px;padding-left:10px;text-align:left;padding-left:8px;font-size:14pt;color:#696969; font-weight: bold;">
 													${day.dateString}  <br/>
-													<span style="font-size:11pt;color:#c0c0c0"> ${day.cityNames} &nbsp;&nbsp; ( ${day.dayNo} 일차 )</span>
+													<span style="font-size:11pt;color:#32D0BF"> ${day.cityNames} &nbsp;&nbsp; ( ${day.dayNo} 일차 )</span>
 												</div>
 												
 												<div style="margin-top: 10px;">
@@ -1434,34 +1439,35 @@
 											</div>
 							    			</div>
 							    		</c:forEach>
-							    	</c:if>
-							    	
-							    </div>
-							    
-							    <div class="swiper-button-prev" ></div>
-							    <div class="swiper-button-next"></div>
-								<!-- <div class="swiper-pagination"> -->
-							    <!-- <div class="swiper-scrollbar"></div> -->
-							</div>
+								    	
+								    </div>
+								    
+								    <div class="swiper-button-prev" ></div>
+								    <div class="swiper-button-next"></div>
+									<!-- <div class="swiper-pagination"> -->
+								    <!-- <div class="swiper-scrollbar"></div> -->
+								</div>
+							</c:if>
+							
 						</div>
 					</div>
 				</div>
 				<!--	 Daily List : 일정표 END	//////////////////////// 	-->
-				<br/>
+
 				
 				
 				<!--	 Stuff List : 준비물 체크리스트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light"  id="gotoStuffList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoStuffList">
 					<div class="container">
-						<h5>준비물 체크리스트</h5> <div class="text-right" style="font-weight: bolder; font-size: 25px;" id="stuffMode">Edit Mode</div>
+						<!-- <h5>준비물 체크리스트</h5>  -->
+						<div class="text-right" style="font-weight: bolder; font-size: 18px;" id="stuffMode">Edit Mode</div>
 						<div class="row">
 							
-							<div style="border:dashed thin #A7A7A7 ; border-radius:8px; padding:25px; background-color: white; width: 100%; ">
-								<span id="stuff_icon"><i class="fas fa-tasks" style="font-size: 25px; margin-right: 6px; margin-bottom: 15px;"></i></span> <span style="margin-left:10px; font-size:large; font-weight:bolder;"> 준비물 리스트</span> <span id="stuffCount" style="margin-left: 15px;"></span> <br/>
+							<div style="border:solid thin #DDDDDD ; border-radius:5px; padding:20px; background-color: white; width: 100%; ">
+								<span id="stuff_icon"><i class="fas fa-tasks" style="font-size: 25px; margin-right: 6px; margin-bottom: 15px;"></i></span> <span style="margin-left:10px; font-size:large; font-weight:bolder;"> 준비물 체크리스트</span> <span id="stuffCount" style="margin-left: 15px;"></span> <br/>
 								
-								<div class="stuffItems">
-								<!-- 빈 div 만든 후 getStuffList() 바로 호출해서 세팅하기 -->
+								<div class="stuffItems"> <!-- 빈 div 만든 후 getStuffList() 바로 호출해서 세팅하기 -->
 									<%-- <c:forEach var="stuff" items="${plan.stuffList}">
 										<div class="stuffItem" style="margin: 7px;">
 											<c:if test="${stuff.stuffCheck=='T'}">
@@ -1479,15 +1485,14 @@
 											<button style="margin-bottom: 5px; margin-left: 5px;" type="button" class="btn btn-primary" onclick="addStuff()">추가</button> 
 										</div>
 									</c:if> --%>
-								</div> 
-								
+								</div> 	
 							</div>
 							
 						</div>
 					</div>
 				</div>
 				<!--	 Stuff List : 준비물 체크리스트 END	//////////////////////// 	-->
-				<br/>
+
 				
 				
 				<!--	 Memo List : 메모 START	//////////////////////// 	-->
@@ -1929,9 +1934,44 @@
 		    	 map: map,
 		    	 title: 'marker Title!!'
 	    	 });
+		    
+		    
+		    
+		    /* GoogleMap 에 뿌릴 것들  */
+			
+			function initMapItems(){
+				
+			}
+			console.log("initMapItems() 실행");
+			
+			//console.log(${cityMarkerList});
+			var cityMarkerList = ${cityMarkerList};
+			for( var i in cityMarkerList){
+				var cityMarkerListStr = JSON.stringify(cityMarkerList[i]);
+				
+				marker[i] = new google.maps.Marker({
+						position: {lat: 48.856667, lng: 2.350833},
+						map: map,
+						title: 'ppp'
+				});
+			}
+		    
+		    
 		};
 		/* ------------------------------------ Google Map Script ------------------------------------ */
 		
+		
+		
+		
+		
+		
+		
+		//initMapItems();
+		
+		var cityMarkerList = ${cityMarkerList};
+		
+		map.setCenter(cityMarkerList[0].position);
+		map.setZoom(5);
 		
 		/* Plan Information 여행완료 버튼  관련 함수 */
 		var now = new Date();

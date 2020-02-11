@@ -11,6 +11,10 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -82,6 +86,9 @@ public class PlanController {
 		Plan plan = planService.getPlan(planId);
 		//plan_id, plan_title, plan_img, plan_type, start_date, plan_status, (cr.sum - (cr.cnt-1)) plan_total_days, pt.plan_party_size 
 		
+		System.out.println("\n\n\n\n Plan ===== "+plan);
+		
+		
 		List<User> planPartyList = planService.getPlanPartyList(planId);	//planPartyList
 		plan.setPlanPartyList(planPartyList);
 		
@@ -94,22 +101,88 @@ public class PlanController {
 		plan.setStuffList(stuffList);
 		plan.setMemoList(memoList);
 		
-		List<City> listCity = planSubService.getCityRouteList(planId);	
-		plan.setCityList(listCity);
-		//model.addAttribute("listCity", listCity);	//Plan 필드에 CityList 없어서 모델에 심어줌... :: 추후 변경?
 		
 		List<Daily> budgetOverviewList = planSubService.getBudgetOverview(planId);
 		plan.setBudgetOverviewList(budgetOverviewList);
 		//model.addAttribute("budgetOverviewList", budgetOverviewList);
 		
-		List<Day> dayList = Util.cityListToDayList(listCity);
+		List<City> listCity = planSubService.getCityRouteList(planId);
+		plan.setCityList(listCity);
+		//model.addAttribute("listCity", listCity);	//Plan 필드에 CityList 없어서 모델에 심어줌... :: 추후 변경?
+		
+		List<Day> dayList = Util.cityListToDayList(listCity, plan.getStartDate() );
 		plan.setDayList(dayList);
 		
+		
+		
+		/* FullCalendar addEvent 위한 JSON 만들기.. */
+		//JSONObject jsonObj = new JSONObject();
+		JSONArray cityArray = new JSONArray();
+		
+		for (City cityItem : listCity) {
+			JSONObject cityEvent = new JSONObject();
+			
+//			ObjectMapper objMapper = new ObjectMapper();
+//			String cityJson = objMapper.writeValueAsString(cityItem);
+			
+			cityEvent.put("title", cityItem.getCityName());
+			cityEvent.put("start", cityItem.getStartDateStr());
+			cityEvent.put("end", cityItem.getEndDateStr());
+			if( cityItem.getCountry() != null ) {
+				if( cityItem.getCountry().equals("영국") ) {
+					cityEvent.put("color", "#F9A081");
+				}else if(cityItem.getCountry().equals("스위스") ) {
+					cityEvent.put("color", "#98E657");
+				}else if(cityItem.getCountry().equals("프랑스") ) {
+					cityEvent.put("color", "#8886F4");
+				}else if(cityItem.getCountry().equals("이탈리아") ) {
+					cityEvent.put("color", "#76A0F3");
+				}
+			}else {
+				cityEvent.put("color", "#51bec9");
+			}
+			
+			//cityEvent.put("imageurl", "https://www.crwflags.com/fotw/images/g/gb!sq.gif");
+			 
+			//cityEvent.put("allDay", false);
+			cityArray.add(cityEvent);
+		}
+		//jsonObj.put("cityEventList", cityArray);
+		
+		
+		
+		
+		/* GoogleMap API를 위한 JSON 만들기.. */
+		JSONArray markerArray = new JSONArray();
+		for (City cityItem : listCity) {
+			JSONObject cityMarker = new JSONObject();
+			
+			JSONObject position = new JSONObject();
+			position.put("lat", cityItem.getCityLat());
+			position.put("lng", cityItem.getCityLng());
+			
+			//cityMarker.put("map", "map");
+			cityMarker.put("position", position);
+			//cityMarker.put("icon", "");
+			//cityMarker.put("zIndex", 10000);
+			cityMarker.put("title", cityItem.getCityName());
+			
+			markerArray.add(cityMarker);
+		}
+		
+		
+		
+		
+		
+		
 		plan.setPlanDday( Util.getDday(plan.getStartDate()));		//여행 D-Day
-		plan.setEndDate( Util.getEndDate(plan.getStartDate(), plan.getPlanTotalDays()) );	//여행종료일자
+		if( plan.getPlanTotalDays() != 0) {
+			plan.setEndDate( Util.getEndDate(plan.getStartDate(), plan.getPlanTotalDays()) );	//여행종료일자
+		}
 		
 		model.addAttribute("plan", plan);
-		
+		model.addAttribute("cityEventList", cityArray);
+		model.addAttribute("cityMarkerList", markerArray);
 		
 		System.out.println("\n\n\n\n\n\n\n PLAN ::: "+ plan);
 		

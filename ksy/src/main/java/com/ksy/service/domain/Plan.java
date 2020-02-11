@@ -126,7 +126,7 @@ public class Plan {
 		if(startDate != null) {
 			Date dateForDay = new Date(startDate.getTime());		//요일을 위한 dateForDay
 			this.startDateString = startDate.toString().substring(0,10) + " : "+dateForDay.toString().substring(0,3);
-			this.planDday = Util.getDday(startDate);
+			//this.planDday = Util.getDday(startDate);
 		}
 	}
 
@@ -159,9 +159,9 @@ public class Plan {
 	public void setPlanTotalDays(int planTotalDays) {
 		this.planTotalDays = planTotalDays;
 		
-		if(planTotalDays != 0) {
-			this.endDate = Util.getEndDate(startDate, planTotalDays);
-		}
+//		if(planTotalDays != 0) {
+//			this.endDate = Util.getEndDate(startDate, planTotalDays);
+//		}
 	}
 
 	public int getPlanDday() {

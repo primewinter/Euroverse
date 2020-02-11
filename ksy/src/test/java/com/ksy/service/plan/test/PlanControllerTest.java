@@ -122,8 +122,8 @@ public class PlanControllerTest {
 		/* */plan.setBudgetOverviewList(budgetOverviewList);
 		//model.addAttribute("budgetOverviewList", budgetOverviewList);
 		
-		List<Day> dayList = Util.cityListToDayList(listCity);
-		plan.setDayList(dayList);
+		//List<Day> dayList = Util.cityListToDayList(listCity);
+		//plan.setDayList(dayList);
 		
 		plan.setPlanDday( Util.getDday(plan.getStartDate()));		//여행 D-Day
 		plan.setEndDate( Util.getEndDate(plan.getStartDate(), plan.getPlanTotalDays()) );	//여행종료일자

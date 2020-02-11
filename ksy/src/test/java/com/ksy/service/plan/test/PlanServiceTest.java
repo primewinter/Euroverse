@@ -155,8 +155,8 @@ public class PlanServiceTest {
 		/* */plan.setCityList(listCity);
 		model.addAttribute("listCity", listCity);	//Plan 필드에 CityList 없어서 모델에 심어줌... :: 추후 변경?
 		
-		List<Day> dayList = Util.cityListToDayList(listCity);
-		plan.setDayList(dayList);
+		//List<Day> dayList = Util.cityListToDayList(listCity);
+		//lan.setDayList(dayList);
 		
 		plan.setPlanDday( Util.getDday(plan.getStartDate()));		//여행 D-Day
 		plan.setEndDate( Util.getEndDate(plan.getStartDate(), plan.getPlanTotalDays()) );	//여행종료일자
