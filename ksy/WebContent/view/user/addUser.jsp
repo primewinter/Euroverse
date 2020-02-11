@@ -415,14 +415,14 @@ $(function(){
 			return;
 		}else{
 			
-			for(var i=0;i<userId.val().length;i++){
+			/* for(var i=0;i<userId.val().length;i++){
 				if(userId.val()[i] == " "){
 					submitAlert.prop("style","display : block");
 					alertMessage.html("아이디에 띄어쓰기는 사용할 수 없다고 했잖아!!!!!!!!!!!!!!!!!!!!!!!!.");
 					return;
 				}
 			}
-			
+			 */
 			
 		}
 		
@@ -577,7 +577,8 @@ function readImg(input){
 	if(input.files && input.files[0]){
 		var render = new FileReader();
 		render.onload = function(e){
-			 var image = $('#preview').attr('src',e.target.result);
+			 var image = $('#preview').attr('src',e.target.result).attr('width','300px').attr('height','300px');
+			 console.log(e.target.result);
 				 $("#preview").html("<img src="+e.target.result+" style='border-color: #E6E6E6; border: 10px;'>");
 		}
 		 render.readAsDataURL(input.files[0]);
@@ -739,7 +740,7 @@ function readImg(input){
 	 	<div class="col-6 mx-auto">
 	 		<b>Profile Image</b>
 			<div class="custom-file">
-			  <input type="file" class="custom-file-input" id="image" name="image" accept="image/*">
+			  <input type="file" class="custom-file-input" id="image" name="image" accept="image/*" >
 			  <label class="custom-file-label" for="customFile" ><i class="fas fa-camera-retro">size 360x360</i> </label>  
 			  <!-- 프로필 이미지 미리보기 만들기! 사이즈제한 걸어두기!~~~ -->
 			</div>
