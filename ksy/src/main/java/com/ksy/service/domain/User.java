@@ -20,6 +20,9 @@ public class User {
 	private String role; //role     비인증(G general) , 인증(Q qualified ) , 탈퇴(X) , 관리자(A) ,동행마스터(L leader)  , 멤버(M)
 	
 	private String email; //email
+	private String emailId; // <<이메일 앞부분 편하게 사용하기위해서
+	private String choiceEmail; // <<이메일 뒷부분 편하게 사용하기 위해서
+	
 	private String phone;  //phone
 	
 	private String phone1;
@@ -108,6 +111,24 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+		if(email!=null&&email.length()!=0) {
+			emailId = email.split("@")[0];
+			choiceEmail = email.split("@")[1];
+		}
+	}
+	
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+	public String getEmailId() {
+		return emailId;
+	}
+	public void setChoiceEmail(String choiceEmail) {
+		this.choiceEmail = choiceEmail;
+	}
+	
+	public String getChoiceEmail() {
+		return choiceEmail;
 	}
 
 
@@ -119,11 +140,11 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 		/////////////// EL 적용 위해 추가 ///////////
-		//if(phone != null && phone.length() !=0 ){
-		//	phone1 = phone.split("-")[0];
-		//	phone2 = phone.split("-")[1];
-		//	phone3 = phone.split("-")[2];
-		//}
+		if(phone != null && phone.length() !=0 ){
+			phone1 = phone.split("-")[0];
+			phone2 = phone.split("-")[1];
+			phone3 = phone.split("-")[2];
+		}
 	}
 	
 	
