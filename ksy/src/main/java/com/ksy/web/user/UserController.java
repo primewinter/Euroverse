@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +35,8 @@ public class UserController {
 	@Autowired
 	@Qualifier("myPageServiceImpl")
 	private MyPageService myPageService;
+
+	String uploadPath = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages";
 	
 	
 	public UserController() {
@@ -42,17 +46,19 @@ public class UserController {
 	@RequestMapping(value="login")
 	public String login() {
 		System.out.println(this.getClass()+"Login");
-		return "redirect:/view/user/page.jsp";
+		return "redirect:/user/getUser";
 	}
 	
 	@RequestMapping( value="logout", method=RequestMethod.GET )
 	public String logout(HttpSession session ) throws Exception{
-		
+		System.out.println("로그아웃 됬습니다!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		System.out.println(this.getClass()+"logout");
 		
+		
+		session.removeAttribute("user");
 		session.invalidate();
 		
-		return "redirect:/view/user/page.jsp";
+		return "redirect:/";
 	}
 	
 	
@@ -104,24 +110,45 @@ public class UserController {
 		//드림시티랑 트립스타일도 따로 테이블? 로 관리하기 유저아이디랑 조인
 		System.out.println("여기보세요!!!"+user.getImage().isEmpty());
 		
-		if(user.getImage().isEmpty()==false) {
-			MultipartFile mhsr = (MultipartFile)user.getImage();
-			String path = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages";
-			String originalName = "";
-			originalName = new String(mhsr.getOriginalFilename().getBytes("8859_1"),"UTF-8");
-			System.out.println(originalName);
-			user.setUserImg("\\resources\\images\\userImages\\"+originalName);
-			System.out.println("유저이미지"+user.getUserImg());
-			File serverFile = new File(path+File.separator + originalName);
-			mhsr.transferTo(serverFile);
+//		if(user.getImage().isEmpty()==false) {
+//			MultipartFile mhsr = (MultipartFile)user.getImage();
+//			String path = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages";
+//			String originalName = "";
+//			originalName = new String(mhsr.getOriginalFilename().getBytes("8859_1"),"UTF-8");
+//			System.out.println(originalName);
+//			user.setUserImg("\\resources\\images\\userImages\\"+originalName);
+//			System.out.println("유저이미지"+user.getUserImg());
+//			File serverFile = new File(path+File.separator + originalName);
+//			mhsr.transferTo(serverFile);
+//		}else {
+//			user.setUserImg("\\resources\\images\\userImages\\defaultUserImage.jpg");
+//		}
+		MultipartFile mhsr = (MultipartFile)user.getImage();
+		if( mhsr.isEmpty() == false) {	//null 체크로 잡을 수 없음! 
+			//String path = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\planImg";
+			
+			/*
+			 * Calendar cal = Calendar.getInstance() ; SimpleDateFormat dateFormat = new
+			 * SimpleDateFormat("yyyyMMdd_HHmmSS"); String time =
+			 * dateFormat.format(cal.getTime()); String fileName =
+			 * mpFile.getOriginalFilename() + "_"+time;
+			 */
+			
+			String fileName = mhsr.getOriginalFilename();
+			fileName = uploadFile(fileName, mhsr.getBytes());
+			//mpFile.transferTo( new File(path, fileName) );
+			
+			user.setUserImg(fileName);
+			
 		}else {
-			user.setUserImg("\\resources\\images\\userImages\\defaultUserImage.jpg");
+			user.setUserImg("defaultPlanImage.jpg");
 		}
+		
 		userService.addUser(user);
 		
 		
 		
-		return "redirect:/view/user/page.jsp";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "getUser" , method=RequestMethod.GET)
@@ -193,6 +220,61 @@ public class UserController {
 		
 		
 		return"forward:/view/user/searchIdConfirm.jsp";
+	}
+	
+	@RequestMapping(value="updateUser" , method = RequestMethod.GET)
+	public String updateUser() {
+		System.out.println("userController updateUser GET");
+		return"redirect:/view/user/updateUser.jsp";
+	}
+	
+	
+	@RequestMapping(value="updateUser",method=RequestMethod.POST)
+	public String updateUser(@ModelAttribute("user") User user ,HttpSession session, Model model) throws Exception {
+		System.out.println("userController updateUser POST");
+		System.out.println(user);
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		//닉네임 , 이메일 , 폰 , 이미지 , pushagree
+		User currentUser = (User)session.getAttribute("user");
+		currentUser.setNickname(user.getNickname());
+		currentUser.setEmail(user.getEmail());
+		currentUser.setPhone(user.getPhone());
+		currentUser.setPushAgree(user.getPushAgree());
+		
+		
+		
+		MultipartFile mhsr = (MultipartFile)user.getImage();
+		if( mhsr.isEmpty() == false) {	//null 체크로 잡을 수 없음! 
+			
+			String fileName = mhsr.getOriginalFilename();
+			fileName = uploadFile(fileName, mhsr.getBytes());
+			
+			currentUser.setUserImg(fileName);
+			
+		}else {
+			currentUser.setUserImg("defaultUserImage.jpg");
+		}
+		userService.updateUser(currentUser);
+		
+		
+		User reloadUser = userService.getUser(currentUser.getUserId());
+		session.setAttribute("user", reloadUser);
+		
+		
+		return "redirect:/view/user/getUser.jsp";
+	}
+	
+	
+	private String uploadFile(String originalName, byte[] fileData) throws Exception{
+		//uuid 생성 (Universal Unique IDentifier, 범용 고유 식별자)
+		UUID uuid = UUID.randomUUID();
+		
+		String savedName = uuid.toString()+"_"+originalName;
+		File target = new File(uploadPath, savedName);
+		//임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
+		FileCopyUtils.copy(fileData, target);
+		
+		return savedName;
 	}
 	
 	

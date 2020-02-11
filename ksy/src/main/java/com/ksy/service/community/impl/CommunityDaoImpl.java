@@ -28,9 +28,11 @@ public class CommunityDaoImpl implements CommunityDao{
 		System.out.println(this.getClass());
 	}
 
-	public void addPost(Post post) throws Exception {
+	synchronized public void addPost(Post post) throws Exception {
 		if( post.getBoardName().equals("D")) {
 			sqlSession.insert("CommunityMapper.addAccFindPost", post);
+			
+			sqlSession.insert("CommunityMapper.addParty", post.getPostWriterId());
 		}else {
 			sqlSession.insert("CommunityMapper.addPost", post);
 		}
@@ -82,6 +84,16 @@ public class CommunityDaoImpl implements CommunityDao{
 		map.put("boardName", boardName);
 		
 		return sqlSession.selectList("CommunityMapper.getPostList", map);
+	}
+	
+	public List<Post> getBestPostList(Search search, String boardName) throws Exception {
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("boardName", boardName);
+		
+		return sqlSession.selectList("CommunityMapper.getBestPostList", map);
 	}
 	
 	public List<Comment> getCommentList(Search search, String postId, String userId) throws Exception {

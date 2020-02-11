@@ -92,11 +92,23 @@
 		     });
 		});
 		
+		var count=0;
+		var countt=0;
+		
 		function sendFile(file, el) {
 			
-		      var form_data = new FormData();
-		      form_data.append('file', file);
-		      
+		    var form_data = new FormData();
+		    form_data.append('file', file);
+		   
+	  		var render = new FileReader();
+	  		render.onload = function(e){
+		  		$(el).summernote('editor.insertImage', e.target.result, function($image){
+		  			$image.attr('data-filename', 'retriever'+count+'');
+		  			count++;
+		  		});
+		  	}
+		  	render.readAsDataURL(file);  
+		  	
 		      $.ajax({
 		        data: form_data,
 		        type: "POST",
@@ -106,10 +118,11 @@
 		        enctype: 'multipart/form-data',
 		        processData: false,
 		        success: function(img_name) {
-		        	
-		          $(el).summernote('editor.insertImage', img_name);
+		        	$("img[data-filename='retriever"+countt+"']").attr('src',img_name);
+		        	countt++;
+		        	console.log(countt);
 		        }
-		      });
+		    }); 
 		}
 
 		$(document).ready(function() {

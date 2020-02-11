@@ -15,15 +15,15 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 
-@ServerEndpoint("/chatSocket/{planId}/{userId}")
-public class ChatSocket {
+@ServerEndpoint("/planSocket/{planId}/{userId}")
+public class PlanSocket {
 
 			private static Map<String, List<Session>> slMap = Collections.synchronizedMap(new HashMap<>());
 		
 			// 웹 소켓이 연결되면 호출되는 이벤트
 			@OnOpen
 			public void handleOpen(@PathParam("planId") String planId, @PathParam("userId") String userId, Session session) throws Exception {
-						System.out.println("CHATSOCKET ::: [" + planId + "] client is now connected...");
+						System.out.println("PLANSOCKET ::: [" + planId + "] client is now connected...");
 				
 						List<Session> mapList = slMap.get(planId); // 같은 userId의 session 리스트 호출
 						if (mapList == null || mapList.size() == 0) { // 없다면 생성
@@ -42,7 +42,7 @@ public class ChatSocket {
 			public void handleMessage(@PathParam("planId") String planId, @PathParam("userId") String userId, String message, Session session)
 					throws Exception {
 						// process booking from the given guest here
-						System.out.println("CHATSOCKET [client to client] " + message);
+						System.out.println("PLANSOCKET [client to client] " + message);
 						sendToClient(planId, message, session);
 	
 			}
@@ -50,7 +50,7 @@ public class ChatSocket {
 			// 웹 소켓이 닫히면 호출되는 이벤트
 			@OnClose
 			public void handleClose(@PathParam("planId") String planId, @PathParam("userId") String userId, Session session) throws Exception {
-						System.out.println("client is now disconnected...");
+						System.out.println("[PLANSOCKET] client is now disconnected...");
 						String message = userId + "님이 퇴장하셨습니다."; 
 						sendToClient(planId, message, session);
 			}

@@ -2,6 +2,7 @@ package com.ksy.web.community;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -158,7 +159,7 @@ public class CommunityController {
 	}
 	
 	@RequestMapping( value="getPost", method=RequestMethod.GET )
-	public String getPost( @RequestParam("postId") String postId , Model model, HttpSession session ) throws Exception {
+	public String getPost( @RequestParam("postId") String postId, @RequestParam("boardName") String boardName, Model model, HttpSession session ) throws Exception {
 		
 		System.out.println("/community/getPost : GET");
 		User user=(User)session.getAttribute("user");
@@ -171,28 +172,33 @@ public class CommunityController {
 		model.addAttribute("post", post);
 		model.addAttribute("tag", tag);
 		
+		if( boardName.equals("D") ) {
+			return "forward:/view/community/getAccFindPost.jsp";
+		}
 		return "forward:/view/community/getPost.jsp";
 	}
 	
 	@RequestMapping( value="getPostList" )
-	public String getPostList( @RequestParam("boardName") String boardName, @ModelAttribute("search") Search search, Model model, HttpSession session ) throws Exception{
+	public String getPostList( @RequestParam("boardName") String boardName, @ModelAttribute("search") Search search, Model model, HttpServletRequest request ) throws Exception{
 		
 		System.out.println("/community/getPostList : GET / POST");
 		System.out.println("boardName : "+boardName);
-		/////////////////瘤况具且 何盒//////////////////////////
-		User user = new User();
-		user.setUserId("admin");
-		user.setNickname("adminNickName");
-		session.setAttribute("user", user);
-		////////////////////////////////////////////////////
+		
+		String bestPost = request.getParameter("bestPost");
+		System.out.println(bestPost);
+		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
 		
-		// Business logic 荐青
-		Map<String , Object> map=communityService.getPostList(search, boardName);
+		Map<String , Object> map = new HashMap<String, Object>();
 		
+		if( boardName.equals("C") ) {
+			map = communityService.getBestPostList(search, boardName);
+		}else {
+			map = communityService.getPostList(search, boardName);
+		}
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
@@ -202,6 +208,10 @@ public class CommunityController {
 		model.addAttribute("search", search);
 		model.addAttribute("boardName", boardName);
 		
-		return "forward:/view/community/getPostList.jsp";
+		if( boardName.equals("C") ) {
+			return "forward:/view/community/getBestPostList.jsp";
+		}else {
+			return "forward:/view/community/getPostList.jsp";
+		}
 	}
 }
