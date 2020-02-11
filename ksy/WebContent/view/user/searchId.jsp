@@ -209,11 +209,32 @@ h6{
 
 </head>
 <body>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchId" data-backdrop="static" data-keyboard="false">
+로그인모달
+</button>
+
 <div class="container">
-		<div class="row justify-content-center">
-			<div class="col-md-3">
-				<h1>아이디찾기</h1>
-			</div>
+<div class="modal fade " id="searchId">
+	  <!-- <div class="modal-dialog modal-lg"> -->
+	  <div class="modal-dialog" style="max-width: 100%; width: 50%; display: table;">
+	  	<!-- <h2 style="color : #FFFFFF">아이디찾기</h2> -->
+	  
+		<div class="modal-content">
+			 <!-- 	<div class="modal-header">
+				</div>modal header End 
+ 			-->
+				 
+				
+			
+		<div class="modal-body">
+
+
+		<!-- <div class="row justify-content-center"> -->
+		<div class="row">
+			 <div class="col-md-7"> 
+				<h1 class="text-center">아이디찾기</h1>
+			 </div> 
 		</div>
 <form id="form" method="post" action="/user/searchId">
 
@@ -316,14 +337,19 @@ h6{
 	<input type="hidden" name="email" id="email">	
 	
 	<input type="button" onclick="javascript:next()" value="아이디찾기"> -->
-	</div>
-</div>	
-</form>
+			</div>
+			</div>
+			</div>
 			<div class="alert alert-danger alert-dismissable" style="display: none;" >
 			    <button type="button" class="close" >×</button>
 			    <strong></strong>&nbsp; 수정 후 다시 시도해주세요.
 			</div>
+			</div>
 	
+	
+	</div>
+</div>	
+</form>
 </div>	
 
 

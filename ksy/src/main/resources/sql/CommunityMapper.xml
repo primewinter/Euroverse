@@ -13,7 +13,7 @@
 		<result property="boardName" 	column="board_name" 		jdbcType="CHAR" />
 		<result property="postGrade" 				column="post_grade" 					jdbcType="CHAR" />
 		<result property="postTitle" 				column="post_title" 					jdbcType="VARCHAR" />
-		<result property="postContent" 			column="post_content" 		jdbcType="VARCHAR" />
+		<result property="postContent" 			column="post_content" 		jdbcType="CLOB" />
 		<result property="postDate" 				column="post_date" 					jdbcType="TIMESTAMP" />
 		<result property="accPerson" 				column="acc_person" 					jdbcType="NUMERIC" />
 		<result property="accStartDate" 				column="acc_start_date" 					jdbcType="TIMESTAMP" />
@@ -75,19 +75,35 @@
 		<result property="postId"	column="post_id"	jdbcType="VARCHAR"/>
 		<result property="tagContent" column="tag_content" jdbcType="VARCHAR"/>
 	</resultMap>
+	
+	<resultMap type="party" id="partySelectMap">
+		<result	jdbcType="VARCHAR"		column="party_id"		property="partyId"/>
+		<result	jdbcType="VARCHAR"		column="party_user_id"	property="partyUserId"/>
+		<result	jdbcType="CHAR"			column="party_type"		property="partyType"/>
+		<result	jdbcType="VARCHAR"		column="ref_id"			property="refId"/>
+		<result	jdbcType="CHAR"			column="party_role"		property="partyRole"/>
+		
+		<result	jdbcType="VARCHAR"		column="party_user_nickname"		property="partyUserNickname"/>
+	</resultMap>
+
+	<insert id="addParty" parameterType="string">
+		INSERT 
+		INTO party ( party_id, party_user_id, party_type, ref_id, party_role ) 
+		VALUES ( TO_CHAR(seq_party_party_id.NEXTVAL), #{partyUserId}, 'A', TO_CHAR(seq_post_post_id.CURRVAL), 'K' )
+	</insert>
 
 	<insert 	id="addAccFindPost"		parameterType="post" >
 		INSERT
 		INTO post( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_content , post_date , acc_person , acc_start_date , acc_end_date , views , blocked , deleted , post_like_count , day_best , week_best , month_best ) 
 		VALUES	 ( SEQ_post_post_id.NEXTVAL , #{postWriterId:VARCHAR} , #{nickName:VARCHAR} , #{boardName:CHAR} , #{postGrade:CHAR} , 
-							#{postTitle:VARCHAR} , #{postContent:VARCHAR} , SYSDATE , #{accPerson:NUMERIC} , TO_DATE( #{accStartDateStr:VARCHAR} , 'yy/mm/dd') , TO_DATE( #{accEndDateStr:VARCHAR} , 'yy/mm/dd') , #{views:NUMERIC} , #{blocked:CHAR} , 'F' , #{postLikeCount:NUMERIC} , 0 , 0 , 0 )
+							#{postTitle:VARCHAR} , #{postContent:CLOB} , SYSDATE , #{accPerson:NUMERIC} , TO_DATE( #{accStartDateStr:VARCHAR} , 'yy/mm/dd') , TO_DATE( #{accEndDateStr:VARCHAR} , 'yy/mm/dd') , #{views:NUMERIC} , #{blocked:CHAR} , 'F' , #{postLikeCount:NUMERIC} , 0 , 0 , 0 )
 	</insert>
 	
 	<insert 	id="addPost"		parameterType="post" >
 		INSERT
 		INTO post( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_content , post_date , views , blocked , deleted , post_like_count , day_best , week_best , month_best ) 
 		VALUES	 ( SEQ_post_post_id.NEXTVAL , #{postWriterId:VARCHAR} , #{nickName:VARCHAR} , #{boardName:CHAR} , #{postGrade:CHAR} , 
-							#{postTitle:VARCHAR} , #{postContent:VARCHAR} , SYSDATE , #{views:NUMERIC} , #{blocked:CHAR} , 'F' , #{postLikeCount:NUMERIC} , 0 , 0 , 0 )
+							#{postTitle:VARCHAR} , #{postContent:CLOB} , SYSDATE , #{views:NUMERIC} , #{blocked:CHAR} , 'F' , #{postLikeCount:NUMERIC} , 0 , 0 , 0 )
 	</insert>
 	
 	<insert id="addTag" parameterType="list">
@@ -196,7 +212,7 @@
 	
 	<select 	id="getPost"	parameterType="map"	resultMap="postSelectMap">
 		SELECT
-		p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , l.like_check
+		p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , l.like_check
 		FROM post p, likes l
 		WHERE p.post_id = l.ref_id(+) AND p.post_id = #{postId} AND l.like_user_id(+) = #{userId}
 	</select>
@@ -211,7 +227,7 @@
 	<select  id="getPostList"  parameterType="map"	resultMap="postSelectMap">
 	  	SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
+  						FROM ( SELECT p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
 										FROM post p, comments c, tag t
 										<if test="search.searchCondition != null">
 										  <trim prefix="WHERE" prefixOverrides="AND | OR">
@@ -234,8 +250,41 @@
 											  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.board_name = #{boardName}
 										  </where>
 										</if> 
-										GROUP BY p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count
+										GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count
 										ORDER BY p.post_date desc ) inner_table
+  						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
+  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
+  		AND #{search.currentPage}*#{search.pageSize}
+	</select>
+	
+	<select  id="getBestPostList"  parameterType="map"	resultMap="postSelectMap">
+	  	SELECT *
+  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+  						FROM ( SELECT p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count , p.day_best
+										FROM post p, comments c, tag t
+										<if test="search.searchCondition != null">
+										  <trim prefix="WHERE" prefixOverrides="AND | OR">
+											<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+										 		p.post_title LIKE '%${search.searchKeyword}%'
+											</if>
+											<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+										 		p.post_writer_id LIKE '%${search.searchKeyword}%'
+											</if>
+											<if test="search.searchCondition == 2 and search.searchKeyword !='' ">
+										 		t.tag_content LIKE '%${search.searchKeyword}%'
+											</if>
+											<if test="search.searchCondition != null">
+												AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.day_best IS NOT NULL
+											</if> 
+										  </trim>
+										</if>
+										<if test="search.searchCondition == null">
+										  <where>
+											  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.day_best IS NOT NULL
+										  </where>
+										</if>
+										GROUP BY p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , p.day_best
+										ORDER BY p.day_best desc ) inner_table
   						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
   		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
   		AND #{search.currentPage}*#{search.pageSize}
@@ -244,7 +293,7 @@
 	<!-- SQL : SELECT ROW Count -->	 
 	<select  id="getPostTotalCount"  parameterType="map"	 resultType="int">
 		SELECT COUNT(*)
-	  	FROM(	SELECT p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
+	  	FROM(	SELECT p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
 				FROM post p, comments c, tag t
 						<if test="search.searchCondition != null">
 						  <trim prefix="WHERE" prefixOverrides="AND | OR">
@@ -267,7 +316,7 @@
 							  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.board_name = #{boardName}
 						  </where>
 						</if>
-						GROUP BY p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count
+						GROUP BY p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count
 						ORDER BY p.post_date desc ) countTable						
 	</select>
 

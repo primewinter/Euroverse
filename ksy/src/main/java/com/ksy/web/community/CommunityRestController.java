@@ -232,7 +232,7 @@ public class CommunityRestController {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		// 업로드할 폴더 경로
-		String realFolder = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\";
+		String realFolder = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\commImg\\";
 		UUID uuid = UUID.randomUUID();
 
 		// 업로드할 파일 이름
@@ -250,8 +250,8 @@ public class CommunityRestController {
 			f.mkdirs();
 		}
 		file.transferTo(f);
-		Thread.sleep(5000);
-		out.println("../../resources/images/" + str_filename);
+		Thread.sleep(3000);
+		out.println("../../resources/images/commImg/" + str_filename);
 		out.close();
 	}
 	

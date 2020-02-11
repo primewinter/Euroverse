@@ -164,10 +164,10 @@ var h6 = document.getElementsByTagName('h6');
 </head>
 <body>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">
 로그인모달
 </button>
-
+ -->
 
 <div class="modal fade " id="myModal">
 	  <!-- <div class="modal-dialog modal-lg"> -->
