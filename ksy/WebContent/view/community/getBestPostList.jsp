@@ -49,27 +49,16 @@
 		 });
 		
 		 $(function() {
-			 
-			var boardName = $("#boardName").val();
 		
-			$( "td:nth-child(2)" ).on("click" , function() {
+			$( "td:nth-child(3)" ).on("click" , function() {
 			     var postId = $(this).find($("input[name='postId']")).val();	
-				 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
+				 self.location ="/community/getPost?postId="+postId;
 			});
 						
-			$( "td:nth-child(2)" ).css("color" , "indianred");
+			$( "td:nth-child(3)" ).css("color" , "indianred");
 			
 		});	
 	
-		$(function(){
-			
-			var boardName = $("#boardName").val();
-			
-			$(".btn.btn-primary").on("click" , function() {
-				self.location = "/community/addPost?boardName="+boardName;
-			});
-		});
-		
 	</script>
 	
 </head>
@@ -84,27 +73,9 @@
 	<div class="container">
 	
 		<div class="page-header text-info">
-		<c:if test="${param.boardName=='A'}">
-			<h3>자유게시판</h3>
-		</c:if>
-		<c:if test="${param.boardName=='B'}">
-			<h3>정보공유</h3>
-		</c:if>
-		<c:if test="${param.boardName=='C'}">
+		
 			<h3>인기글게시판</h3>
-		</c:if>
-		<c:if test="${param.boardName=='D'}">
-			<h3>동행찾기</h3>
-		</c:if>
-		<c:if test="${param.boardName=='E'}">
-			<h3>플래너공유</h3>
-		</c:if>
-		<c:if test="${param.boardName=='F'}">
-			<h3>여행후기</h3>
-		</c:if>
-		<c:if test="${param.boardName=='G'}">
-			<h3>QnA</h3>
-		</c:if>
+		
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -151,6 +122,7 @@
         <thead>
           <tr>
             <th align="center">게시글번호</th>
+            <th align="left" >게시판이름</th>
             <th align="left" >제목</th>
             <th align="left">닉네임</th>
             <th align="left">작성일</th>
@@ -168,6 +140,26 @@
 			<tr>
 			  <td align="left">${ i }</td>
 			  <td align="left">
+				<c:if test="${post.boardName=='A'}">
+					자유게시판
+				</c:if>
+				<c:if test="${post.boardName=='B'}">
+					정보공유
+				</c:if>
+				<c:if test="${post.boardName=='D'}">
+					동행찾기
+				</c:if>
+				<c:if test="${post.boardName=='E'}">
+					플래너공유
+				</c:if>
+				<c:if test="${post.boardName=='F'}">
+					여행후기
+				</c:if>
+				<c:if test="${post.boardName=='G'}">
+					QnA
+				</c:if>
+			  </td>
+			  <td align="left">
 			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>${post.postTitle}</td>
 			  <td align="left">${post.nickName}</td>
 			  <td align="left">${post.postDate}</td>
@@ -180,9 +172,7 @@
         </tbody>
       
       </table>
-	  <!--  table End /////////////////////////////////////-->
-	  <button type="button" class="btn btn-primary">작성하기</button>
-	  
+	
  	</div>
  	<!--  화면구성 div End /////////////////////////////////////-->
  	

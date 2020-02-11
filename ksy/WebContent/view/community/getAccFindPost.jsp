@@ -179,11 +179,9 @@
 	
 		<div class="page-header">
 	       <h3 class=" text-info">게시글조회</h3>
+	       <div class="col-xs-8 col-md-4">조회수 ${post.views} | 댓글수 ${post.comments}</div>
 	    </div>
-	
-		<div class="row">
-			<div class="col-xs-8 col-md-4">${post.postTitle}</div>
-		
+	    <div class="row">
 	    <form id="likeform">
 			<input type="hidden" name="postId" value="${post.postId}">
 			<i onclick="like()" class="fas fa-grin-hearts">&nbsp;${post.postLikeCount}</i> 
@@ -195,7 +193,16 @@
 		  <c:if test="${post.postLikeFlag == 'T' }">
 		  &nbsp;<i onclick="addBookMark(${post.postId})" class="fas fa-bookmark"></i>
 		  </c:if>
+		  </div>
+	
+		<div class="row">
+			<div class="col-xs-8 col-md-4">${post.postTitle}</div>
+	    
+			<div class="col-xs-8 col-md-4">${post.accStartDate} ~ ${post.accEndDate}</div>
+			<div class="col-xs-8 col-md-4">${post.accPerson} / ${post.accPerson}</div>
 		</div>
+			
+		
 		
 		<hr/>
 		
@@ -209,7 +216,14 @@
 			<div class="col-xs-8 col-md-4">${post.postContent}</div>
 		</div>
 		
+		<button type="button" class="btn btn-info">동행참여신청하기</button>
+		
+		
 		<hr/>
+		
+		<div class="row">
+			<div class="col-xs-8 col-md-4">${post.accPerson} / ${post.accPerson}</div>
+		</div>
 		
 		<div class="row">
 			<div class="col-xs-8 col-md-4">
