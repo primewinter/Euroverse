@@ -43,8 +43,13 @@
 <script type="text/javascript">
 
 $(function(){
-	
 var wait = document.getElementById("wait");
+/* 아래쪽에 있었는데 자꾸 setimeout이 안되고 잘 안나와서 위로 올림 */
+wait.style.display = 'block';
+setTimeout(function() {
+	calendar.render(); 
+	wait.style.display = 'none';
+		}, 3000);	 
 
 var Calendar = FullCalendar.Calendar;
 var Draggable = FullCalendarInteraction.Draggable;
@@ -116,13 +121,7 @@ events: function(start, callback) {
     cache : true,
     locale: 'ko'
   });
-  wait.style.display = 'block';
- setTimeout(function() {
-	 
-  calendar.render();
-  wait.style.display = 'none';
-	}, 4000);
- 
+
 })
 
 

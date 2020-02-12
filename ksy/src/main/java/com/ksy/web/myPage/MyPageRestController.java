@@ -69,7 +69,7 @@ public class MyPageRestController {
 		System.out.println("차차아아아아아아앙아@@@@@@@@@@@@@@@@@@@@@@");
 		
 		
-		returnMap.put("title", "출석체크요~");
+		returnMap.put("title", "출석체크");
 		returnMap.put("start",date.format(today));
 		System.out.println(returnMap);
 		return returnMap;

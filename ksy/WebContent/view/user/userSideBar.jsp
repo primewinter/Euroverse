@@ -22,8 +22,8 @@
 		});
 		
 		$(".nav-link:contains('포인트 사용 목록')").on("click" ,function(){
-			alert("구현중");
-			//$(self.location).attr("href","/user/getUser");
+			
+			$(self.location).attr("href","/myPage/pointList");
 		});
 		
 		$(".nav-link:contains('내 게시글 및 댓글')").on("click" ,function(){

@@ -8,6 +8,76 @@
 
 <script>
 
+$( function() {
+	// 네이버 아이디로 로그인 이미지 클릭 시 
+	$("#naverLogin").on("click", function(){
+		// 새로 팝업창에서 네이버 로그인을 진행하기 위해 아무 의미없는 jsp로 연결
+		/* $(self.location).attr("href","/naver/openWindow.jsp"); */
+		$.ajax(
+				{
+					
+					url : "/user/json/naverLoginUrlMake" , 
+					method : "get" ,
+					dataType : "json" ,
+					headers : { 
+						"Accept" : "application/json" , 
+						"Content-Type" : "application/json"
+					} , 
+					success : function( JSONData ) { 
+						self.location = JSONData.url; 	
+					}
+				}
+		)
+		
+		/* window.open("/naver/openWindow.jsp",
+				"popWin",
+				"left=700, top=90, width=537, height=750, marginwidth=0, marginheight=0, fullscreen=no, scrollbars=yes, scrolling=yes, menubar=no, resizable=no"); */
+	})
+	
+	$("#googleLogin").on("click",function(){
+		/* function openopen() {
+			window.open("https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/analytics.readonly&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=http://localhost:8080/user/googleLoginLogic&response_type=code&client_id=474522905430-f6nkrljp2qocnq1mop0ve2oc5ng91q38.apps.googleusercontent.com",
+					"popWin",
+					"left=700, top=90 , width=537 , height=750 , marginwidth=0,marginheight=0, fullscreen=no , scrollbars=yes, scrolling=yes, menubar=no, resizable=no");
+		} */
+		$(self.location).attr("href","https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/analytics.readonly&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=http://localhost:8080/user/googleLoginLogic&response_type=code&client_id=474522905430-f6nkrljp2qocnq1mop0ve2oc5ng91q38.apps.googleusercontent.com");
+	})
+	
+	$("#kakaoLogin").on("click", function(){
+				// 새로 팝업창에서 카카오 로그인을 진행하기 위해 아무 의미없는 jsp로 연결
+				/* window.open("/kakao/openWindow.jsp",
+						"popWin",
+						"left=700, top=90, width=537, height=750, marginwidth=0, marginheight=0, fullscreen=no, scrollbars=yes, scrolling=yes, menubar=no, resizable=no"); */
+						$.ajax(
+								{
+									
+									url : "/user/json/kakaoLoginUrlMake" ,  // 단순 URL을 만들기 위한 UserController 
+									method : "get" , // 넘겨 줄 Data가 없으므로 get
+									dataType : "json" , // 받아 올 data의 Type을 json으로 설정 
+									headers : { // dataType이 json이므로 받을 때(Accept)와 보낼 때(Content-Type)을 모두 application/json으로 설정  
+										"Accept" : "application/json" , 
+										"Content-Type" : "application/json"
+									} , 
+									success : function( JSONData ) { // success 시, 
+																	 // HTTP 200 OK일 시 
+																	 // UserController에서 return한 값을 JSONData로 받음 
+										
+										self.location = JSONData.url; 	// json/kakaoLoginUrlMake에서 return을 Map<String, String>으로 했으며
+																		// map.put("url", kakaoLoginUrl); 으로 map에 넣었으므로 
+																		// JSONData.url로 naverLoginUrl 접근이 가능하다 
+																		// self.location으로 return한 URL로 이동 
+																		// 이동 시 카카오 아이디로 로그인하라는 창으로 이동하며 로그인 뒤에 
+																		// 로그인 Redirect URL으로 자동 redirect, 이동한다.
+																		// redirect 시 URL은 {redirect_uri}?code={authorize_code}
+																		// 현재는 http://192.168.0.76:8080/user/kakaoLoginLogic?code={authorize_code}
+																		// query string으로 반환된 code는 접근 토큰 요청할 때 사용되므로 @RequestParam으로 받아와야한다.
+
+									}
+								}
+						)
+			})
+})
+
 $(document).ready(function(){
     var userInputId = getCookie("userInputId");//저장된 쿠기값 가져오기
     $("input[name='userId']").val(userInputId); 
@@ -69,7 +139,7 @@ $(function(){
 	
 var userId = $('#userId');
 var pwd = $('#pwd');
-var h6 = document.getElementsByTagName('h6');
+var h6 = document.getElementsByClassName('loginH6');
 
 
 
@@ -177,29 +247,38 @@ var h6 = document.getElementsByTagName('h6');
 					<div class="form-group">
 						<label for="id">Id</label> 
 						<input type="text"	class="form-control" placeholder="Enter Id" id="userId" name="userId">
-						<h6 style="color: #F00"></h6>
+						<h6 class="loginH6" style="color: #F00"></h6>
 					</div>
 					<div class="form-group">
 						<label for="pwd">Password</label>
 						 <input type="password"	class="form-control" placeholder="Enter password" id="pwd" name="pwd">
-						<h6 style="color: #F00"></h6>
+						<h6 class="loginH6" style="color: #F00"></h6>
 					</div>
-						<h6 style="color: #F00"></h6>
+						<h6 class="loginH6" style="color: #F00"></h6>
 						
 						
 							<div class="form-group form-check" >
 								<label class="form-check-label">
 									<input class="form-check-input" type="checkbox" id="idSaveCheck"> Remember me
 								</label>
+								<a href="/user/addUser" class="badge badge-pill badge-primary pull-right">회원가입</a>
 								<a href="/user/searchId" class="badge badge-pill badge-primary pull-right">아이디찾기</a>
 								<a href="/user/findPwd" class="badge badge-pill badge-primary pull-right">비밀번호찾기</a>
+								<img id="kakaoLogin" src="/resources/images/userImages/kakaoImage.png" width="30" height="30" /> 
+								<img id="naverLogin" src="/resources/images/userImages/naverImage.PNG" width="30" height="30" /> 
+								<img id="googleLogin" src="/resources/images/userImages/googleImage.png" width="30" height="30">
 							</div>
 							
-						
-						
-						
-						
-					<h6></h6>
+				<!-- 		<div name="naverLogin">
+							네이버 아이디로 로그인 이미지
+						</div>
+						<div name="googleLogin">
+						</div>
+						<div name="kakaoLogin">
+							카카오 아이디로 로그인 이미지
+						</div>	
+						 -->
+					<h6 class="loginH6"></h6>
 					
 					<button type="button" class="btn btn-primary">Submit</button>
 	      			<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -215,6 +294,6 @@ var h6 = document.getElementsByTagName('h6');
 	  </div><!--modal dialog End  -->
 
 </div><!--myModal End  -->
-
+ <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 </body>
 </html>
