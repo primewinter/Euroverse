@@ -35,11 +35,32 @@
         .recmt {
         	text-indent: 2em;
         }
+        .imgFile {
+		    width: 100px;
+		    height: 144px;
+		}
+		.bd-placeholder-img {
+			text-align: center;		
+		}
+		.col-auto.d-none.d-lg-block {
+			height: 80px;
+			width: 100px;
+		}
+		#profile_box {
+			float: left;
+		}
+		#profile {
+			height: 144px;
+		}
+
      </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 		
+		var postId = ${post.postId};
+		var boardName = '${post.boardName}';
+	
 		//============= 회원정보수정 Event  처리 =============	
 		$(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -148,7 +169,68 @@
 				}
 			});
 		}
-
+		
+		function inviteUser() {
+			$('#accOffer').modal({
+				backdrop: 'static'
+			});
+			$("#accOffer").show()
+		}
+		
+		$(function(){
+			$('#addOffer').on('click', function(){
+				addOffer();
+			});
+		});
+		
+		function addOffer() {	
+	
+			var offerMsg = $("input[name='offerMsg']").val();
+			var postWriterId = $("input[name='postWriterId']").val();
+			
+			if(offerMsg == ''){
+				alert("offerMsg를 입력해주세요");
+				return false;
+			}
+			console.log("toUserId="+postWriterId+", offerMsg="+offerMsg);
+			
+			$.ajax({
+				url: "/community/json/addOffer" ,
+				method: "POST",
+				dataType: "json",
+				headers: { 
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				data: JSON.stringify({
+					refId: postId,
+					toUserId: postWriterId,
+					offerMsg: offerMsg
+				}),
+				success: function(data){
+					closeModal('accOffer');
+			        alert(data.toUserId+" 님에게 메시지를 보냈습니다.");
+			        
+			     	//글 작성자에게 push 하기
+					var receiverId = data.toUserId;
+					var pushType = 'A';
+					sendPush(receiverId, pushType);
+			    } 
+			});
+		}
+		
+		function closeModal(modalName) {
+			
+			if( typeof $("."+modalName)[0] != "undefined" ){
+				$("."+modalName)[0].reset();	
+			}
+			$("#"+modalName).hide();
+		}
+		
+		function getPost(postId) {
+			self.location = "/community/getPost?postId="+postId+"&boardName="+boardName;
+		}
+		
 	</script>
 	
 </head>
@@ -178,9 +260,10 @@
 	<div class="container">
 	
 		<div class="page-header">
-	       <h3 class=" text-info">게시글조회</h3>
+	       <h3 class="text-primary">동행찾기</h3>
 	       <div class="col-xs-8 col-md-4">조회수 ${post.views} | 댓글수 ${post.comments}</div>
 	    </div>
+	    
 	    <div class="row">
 	    <form id="likeform">
 			<input type="hidden" name="postId" value="${post.postId}">
@@ -193,16 +276,13 @@
 		  <c:if test="${post.postLikeFlag == 'T' }">
 		  &nbsp;<i onclick="addBookMark(${post.postId})" class="fas fa-bookmark"></i>
 		  </c:if>
-		  </div>
+		</div>
 	
 		<div class="row">
 			<div class="col-xs-8 col-md-4">${post.postTitle}</div>
-	    
 			<div class="col-xs-8 col-md-4">${post.accStartDate} ~ ${post.accEndDate}</div>
-			<div class="col-xs-8 col-md-4">${post.accPerson} / ${post.accPerson}</div>
+			<div class="col-xs-8 col-md-4">${post.accCount} / ${post.accPerson}</div>
 		</div>
-			
-		
 		
 		<hr/>
 		
@@ -216,13 +296,42 @@
 			<div class="col-xs-8 col-md-4">${post.postContent}</div>
 		</div>
 		
-		<button type="button" class="btn btn-info">동행참여신청하기</button>
-		
+		<div class="col-md-12 text-center">
+			<button type="button" class="btn btn-info" onclick="inviteUser()">동행참여신청하기</button>
+		</div>
 		
 		<hr/>
 		
 		<div class="row">
-			<div class="col-xs-8 col-md-4">${post.accPerson} / ${post.accPerson}</div>
+		  <div class="col-xs-8 col-md-4">${post.accCount} / ${post.accPerson}</div>
+			<div class="col-md-12 text-left">
+			  <c:set var="i" value="0"/>
+			  <c:forEach var="userList" items="${userList}">
+			    <c:forEach var="party"	items="${party}">
+			  	  <c:if test="${userList.userId == party.partyUserId}">
+			 	  <c:set var="i" value="${ i+1 }"/>
+					<div id="profile_box" class="row mb-12">
+					  <div class="col-md-10">
+					    <div id="profile" class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+					      <div class="col-auto d-none d-lg-block">
+					        <svg class="bd-placeholder-img" width="0" height="0" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><img class="imgFile" src="/resources/images/userImages/${userList.userImg}"><rect width="50%" height="5%" fill="#55595c"/></svg>
+					      </div>
+					      <div class="col p-4 d-flex flex-column position-static">
+					      <c:if test="${party.partyRole == 'K'}">
+					        <i class="fas fa-crown"><br>${userList.nickname}</i>
+					      </c:if>
+					      <c:if test="${party.partyRole == 'M'}">
+					      	<i class="fas fa-user"><br>${userList.nickname}</i>
+					      </c:if>
+					        <p class="mb-auto">${userList.totalPoint}</p>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+			  	  </c:if>
+			    </c:forEach>
+			  </c:forEach>
+			</div>
 		</div>
 		
 		<div class="row">
@@ -246,10 +355,46 @@
 	  		</div>
 		</div>
 		</c:if>
-		
-		<br/>
-		
+	  		
+		이전글<i class="fas fa-angle-double-right" onclick="getPost('${post.prevId}')">${post.prevTitle}</i><br>
+		다음글<i class="fas fa-angle-double-right" onclick="getPost('${post.nextId}')">${post.nextTitle}</i>
+	  		
  	</div>
+ 	
+	<div class="modal" id="accOffer">
+	  <div class="modal-dialog modal-lg" >
+	  	<h4 style="color: #FFFFFF; margin-top: 100px;">동행신청</h4>
+	  
+	    <div class="modal-content">
+	
+	      <div class="modal-header">
+	        <div class="modal-title">
+	        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>동행 신청 메세지를 입력하세요.</h6>
+	        </div>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('accOffer')">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      
+	      <div class="modal-body">
+	        
+	        <form class="accOffer" style="margin: 10px;">
+				<div class="form-group" id="offerMsgForm" style="margin: 30px 10px 10px 10px; width:auto;">
+				    <label for="offerMsg" class="control-label" style="font-weight: bold; margin-bottom: 7px;" >${post.nickName} 님에게 전송할 메시지</label><br/>
+				    <input type="text" class="form-control" id="offerMsg" name="offerMsg" placeholder="동행신청 메세지를 입력하세요." style="width:100%; height: 100px;">
+				    <input type="hidden" id="postWriterId" name="postWriterId" value="${post.postWriterId}"/>
+				</div>
+	        </form>
+	        
+	      </div>
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('accOffer')">Close</button>
+	        <button type="button" class="btn btn-success" id="addOffer">신청하기</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
  	<!--  화면구성 div Start /////////////////////////////////////-->
 	<jsp:include page="/view/community/comment.jsp"/>
 	

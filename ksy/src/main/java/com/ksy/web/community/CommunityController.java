@@ -1,6 +1,7 @@
 package com.ksy.web.community;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -23,9 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ksy.common.Page;
 import com.ksy.common.Search;
 import com.ksy.service.community.CommunityService;
+import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.User;
 import com.ksy.service.like.LikeService;
+import com.ksy.service.user.UserService;
 import com.ksy.service.domain.Tag;
 
 @Controller
@@ -39,6 +42,10 @@ public class CommunityController {
 	@Autowired
 	@Qualifier("likeServiceImpl")
 	private LikeService likeService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
 	
 	public CommunityController() {
 		System.out.println(this.getClass());
@@ -119,13 +126,13 @@ public class CommunityController {
 	}
 	
 	@RequestMapping( value="updatePost", method=RequestMethod.GET )
-	public String updatePost( @RequestParam("postId") String postId, Model model, HttpSession session ) throws Exception {
+	public String updatePost( @RequestParam("postId") String postId, @RequestParam("boardName") String boardName, Model model, HttpSession session ) throws Exception {
 		
 		System.out.println("/community/updatePost : GET");
 		
 		User user=(User)session.getAttribute("user");
 		
-		Post post = communityService.getPost(postId, user.getUserId());
+		Post post = communityService.getPost(postId, user.getUserId(), boardName);
 		List<Tag> tag = communityService.getTagList(postId);
 		
 		model.addAttribute("post", post);
@@ -149,7 +156,7 @@ public class CommunityController {
 			communityService.addTag(tagContent[i], post.getPostId());
 		}
 	
-		post = communityService.getPost(post.getPostId(), user.getUserId());
+		post = communityService.getPost(post.getPostId(), user.getUserId(), post.getBoardName());
 		List<Tag> tag = communityService.getTagList(post.getPostId());
 		
 		model.addAttribute("post", post);
@@ -162,17 +169,30 @@ public class CommunityController {
 	public String getPost( @RequestParam("postId") String postId, @RequestParam("boardName") String boardName, Model model, HttpSession session ) throws Exception {
 		
 		System.out.println("/community/getPost : GET");
+		
 		User user=(User)session.getAttribute("user");
-		
-		//Business Logic
-		Post post = communityService.getPost(postId, user.getUserId());
+
+		Post post = communityService.getPost(postId, user.getUserId(), boardName);
 		List<Tag> tag = communityService.getTagList(postId);
-		
-		// Model °ú View ¿¬°á
+
 		model.addAttribute("post", post);
 		model.addAttribute("tag", tag);
 		
+		List<User> userList = new ArrayList<User>();
+		
 		if( boardName.equals("D") ) {
+			
+			List<Party> party = communityService.getParty(postId);
+		
+			for(int i=0; i<party.size(); i++) {
+				User partyUser = userService.getUser(party.get(i).getPartyUserId());
+				userList.add(partyUser);
+			}
+			System.out.println("userList : "+userList);
+			
+			model.addAttribute("userList", userList);
+			model.addAttribute("party", party);
+			
 			return "forward:/view/community/getAccFindPost.jsp";
 		}
 		return "forward:/view/community/getPost.jsp";
