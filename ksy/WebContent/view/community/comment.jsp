@@ -12,6 +12,10 @@
 	
 	$(function(){
 		$("#addComment").on("click" , function() {
+			
+			var form_data = new FormData();
+			form_date.append('boardName', boardName);
+			
 			$.ajax({
 				url : '/community/json/addComment' ,
 				type : "POST" ,
@@ -32,6 +36,9 @@
 	});
 	
 	function addRecomment(cmtId) {
+		
+			var form_data = new FormData();
+			form_date.append('boardName', boardName);
 		
 			$.ajax({
 				url : '/community/json/addComment' ,

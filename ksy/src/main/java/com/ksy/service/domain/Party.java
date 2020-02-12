@@ -9,13 +9,10 @@ public class Party {
 	private String partyRole;		//party_role (CHAR) :: K(¡÷¿Œ¿Â), M(∏‚πˆ)
 	
 	private String partyUserNickname;
-	
-	
+
 	public Party() {
 		super();
 	}
-	
-
 
 	public String getPartyId() {
 		return partyId;
@@ -59,14 +56,10 @@ public class Party {
 		this.partyUserNickname = partyUserNickname;
 	}
 
-
-
-
 	@Override
 	public String toString() {
 		return "Party [partyId=" + partyId + ", partyUserId=" + partyUserId + ", partyType=" + partyType + ", refId="
 				+ refId + ", partyRole=" + partyRole + ", partyUserNickname=" + partyUserNickname + "]";
 	}
-
 	
 }

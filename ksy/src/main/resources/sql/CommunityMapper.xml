@@ -15,6 +15,7 @@
 		<result property="postTitle" 				column="post_title" 					jdbcType="VARCHAR" />
 		<result property="postContent" 			column="post_content" 		jdbcType="CLOB" />
 		<result property="postDate" 				column="post_date" 					jdbcType="TIMESTAMP" />
+		<result property="accCount"					column="acc_count"				jdbcType="NUMERIC"	/>
 		<result property="accPerson" 				column="acc_person" 					jdbcType="NUMERIC" />
 		<result property="accStartDate" 				column="acc_start_date" 					jdbcType="TIMESTAMP" />
 		<result property="accEndDate" 				column="acc_end_date" 					jdbcType="TIMESTAMP" />
@@ -23,10 +24,14 @@
 		<result property="qnaFirstCate" 				column="qna_first_cate" 					jdbcType="CHAR" />
 		<result property="qnaSecondCate" 				column="qna_second_cate" 					jdbcType="CHAR" />
 		<result property="views" 				column="views" 					jdbcType="NUMERIC" />
-		<result property="comments" 				column="comments" />
+		<result property="comments" 				column="comments" 		jdbcType="NUMERIC"/>
 		<result property="blocked" 				column="blocked" 					jdbcType="CHAR" />
 		<result property="deleted" 				column="deleted" 					jdbcType="CHAR" />
 		<result property="postLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
+		<result property="nextId" 				column="next_id" 		jdbcType="VARCHAR"/>
+		<result property="nextTitle" 				column="next_title" 					jdbcType="VARCHAR" />
+		<result property="prevId" 				column="prev_id" 					jdbcType="VARCHAR" />
+		<result property="prevTitle" 				column="prev_title" 					jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<resultMap id="commentSelectMap" type="comment">
@@ -44,21 +49,6 @@
 		<result property="cmtLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
 		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
 	</resultMap>
-	
-	<!-- <resultMap id="recommentSelectMap" type="recomment">
-		<result property="parentCmtId"		column="parent_cmt_id"		jdbcType="VARCHAR"/>
-		<result property="rcmtId" 			column="cmt_id" 			jdbcType="VARCHAR"/>
-		<result property="postId"	column="post_id" 		jdbcType="VARCHAR" />
-		<result property="rcmtWriterId" 				column="writer_id" 					jdbcType="VARCHAR" />
-		<result property="nickName"			column="nickname"					jdbcType="VARCHAR" />
-		<result property="rcmtContent" 				column="cmt_content" 					jdbcType="VARCHAR" />
-		<result property="rcmtDate" 			column="cmt_date" 		jdbcType="TIMESTAMP" />
-		<result property="secret" 				column="secret" 					jdbcType="CHAR" />
-		<result property="blocked" 				column="blocked" 					jdbcType="CHAR" />
-		<result property="deleted" 				column="deleted" 					jdbcType="CHAR" />
-		<result property="rcmtLikeCount" 				column="cmt_like_count" 					jdbcType="NUMERIC" />
-		<result property="rcmtLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
-	</resultMap> -->
 	
 	<resultMap id="reportSelectMap" type="report">
 		<result property="reportId" 			column="report_id" 			jdbcType="VARCHAR"/>
@@ -82,13 +72,19 @@
 		<result	jdbcType="CHAR"			column="party_type"		property="partyType"/>
 		<result	jdbcType="VARCHAR"		column="ref_id"			property="refId"/>
 		<result	jdbcType="CHAR"			column="party_role"		property="partyRole"/>
-		
+	
 		<result	jdbcType="VARCHAR"		column="party_user_nickname"		property="partyUserNickname"/>
 	</resultMap>
 
+	<insert id="addOffer"	parameterType="offer">
+		INSERT 
+		INTO offer( offer_id, offer_type, ref_id, offer_msg, offer_status, from_user_id, to_user_id, offer_date ) 
+		VALUES 		( TO_CHAR(seq_offer_offer_id.NEXTVAL), 'A', #{refId}, #{offerMsg}, 'S', #{fromUserId}, #{toUserId}, SYSDATE )
+	</insert>
+
 	<insert id="addParty" parameterType="string">
 		INSERT 
-		INTO party ( party_id, party_user_id, party_type, ref_id, party_role ) 
+		INTO party( party_id, party_user_id, party_type, ref_id, party_role ) 
 		VALUES ( TO_CHAR(seq_party_party_id.NEXTVAL), #{partyUserId}, 'A', TO_CHAR(seq_post_post_id.CURRVAL), 'K' )
 	</insert>
 
@@ -212,9 +208,15 @@
 	
 	<select 	id="getPost"	parameterType="map"	resultMap="postSelectMap">
 		SELECT
-		p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_content , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , l.like_check
-		FROM post p, likes l
-		WHERE p.post_id = l.ref_id(+) AND p.post_id = #{postId} AND l.like_user_id(+) = #{userId}
+		count(t.party_user_id) acc_count , p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , TO_CHAR(p.post_content) , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , l.like_check , next_id , next_title , prev_id , prev_title
+		FROM post p, likes l, party t,
+			( 	SELECT
+        		post_id , post_title , board_name , LEAD(post_id, 1) OVER (ORDER BY post_id DESC) next_id , LEAD(post_TITLE, 1, '다음글이 없습니다') OVER (ORDER BY post_id DESC) next_title ,
+													LAG(post_id, 1) OVER (ORDER BY post_id DESC) prev_id , LAG(post_TITLE, 1, '이전글이 없습니다') OVER (ORDER BY post_id DESC) prev_title
+		   		FROM post
+				WHERE board_name = #{boardName} ) inner_table
+		WHERE p.post_id = l.ref_id(+) AND p.post_id = t.ref_id(+) AND p.post_id = #{postId} AND l.like_user_id(+) = #{userId} AND t.party_type(+) = 'A' AND inner_table.post_id = #{postId}
+		GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , TO_CHAR(p.post_content) , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , l.like_check , next_id , next_title , prev_id , prev_title
 	</select>
 	
 	<select  id="getTagList" 	parameterType="string"		resultMap="tagSelectMap">
@@ -222,6 +224,13 @@
 		tag_id , post_id , tag_content
 		FROM tag
 		WHERE post_id = #{value}
+	</select>
+	
+	<select id="getParty"	parameterType="string"	resultMap="partySelectMap">
+		SELECT
+		party_id , party_role , party_type , party_user_id , ref_id
+		FROM party
+		WHERE ref_id = #{postId} AND party_type = 'A'
 	</select>
 	
 	<select  id="getPostList"  parameterType="map"	resultMap="postSelectMap">
@@ -334,11 +343,11 @@
                 </choose> )
 	</insert>
 	
-	<select id="rcmtNum" parameterType="string" resultMap="commentSelectMap">
+	<select id="rcmtNum" parameterType="map" resultMap="commentSelectMap">
 		SELECT
 		row_number() over(partition by c.parent_cmt_id order by c.parent_cmt_id , c.cmt_id) num , p.post_writer_id , l.like_check , c.*
 		FROM comments c, post p, likes l
-		WHERE c.cmt_id = l.ref_id(+) AND c.post_id = p.post_id AND c.post_id = #{value} AND c.parent_cmt_id IS NOT NULL
+		WHERE c.cmt_id = l.ref_id(+) AND c.post_id = p.post_id AND c.post_id = #{postId} AND l.like_user_id = #{userId} AND c.parent_cmt_id IS NOT NULL
 		ORDER BY c.parent_cmt_id , c.cmt_id
 	</select>
 	

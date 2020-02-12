@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
+import com.ksy.service.domain.Offer;
+import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.Report;
 import com.ksy.service.domain.Tag;
@@ -12,6 +14,8 @@ import com.ksy.service.domain.Tag;
 public interface CommunityService {
 	
 	public void addPost(Post post) throws Exception ;
+	
+	public void addOffer(Offer offer) throws Exception ;
 	
 	public void addTag(String tagContent, String postId) throws Exception ;
 	
@@ -21,11 +25,13 @@ public interface CommunityService {
 	
 	public void deleteTag(String postId) throws Exception ;
 	
-	public Post getPost(String postId, String userId) throws Exception ;
+	public Post getPost(String postId, String userId, String boardName) throws Exception ;
 	
 	public List<Tag> getTagList(String postId) throws Exception ;
 	
-	public List<Comment> rcmtNum(String postId) throws Exception ;
+	public List<Party> getParty(String postId) throws Exception ;
+	
+	public List<Comment> rcmtNum(String postId, String userId) throws Exception ;
 
 	public Map<String,Object> getPostList(Search search, String boardName) throws Exception;
 	
