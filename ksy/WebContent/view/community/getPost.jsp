@@ -26,6 +26,68 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
+		.view_content_wrap {
+		    font-family: '굴림',Gulim;
+		    font-size: 13px;
+		    color: #333;
+		}
+		.visit_history .tit {
+		    float: left;
+		    font-size: 12px;
+		    color: #3c4790;
+		}
+		
+		.issue_wrap {
+		    position: relative;
+		    border-top: 2px solid #3c4790;
+		    padding-bottom: 37px;
+		    z-index: 13;
+		}
+		.page_head {
+		    height: 37px;
+		    margin-bottom: 3px;
+		    padding-top: 4px;
+		}
+		.page-header h3 a {
+		    color: #3c4790;
+		}
+		.page-header h3 {
+		    font-size: 24px;
+		    font-family: 'Nanum Gothic', sans-serif;
+		    letter-spacing: -1px;
+		    margin: 2px 10px 0 3px;
+		}
+	
+		html, body, div, span, iframe, h1, h2, h3, h4, h5, h6, p, a, em, img, strong, b, u, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, embed, figure, figcaption, footer, header, nav, section, summary, audio, video, button {
+		    margin: 0;
+		    padding: 0;
+		    border: 0;
+		    vertical-align: baseline;
+		    background: transparent;
+		    font-style: normal;
+		}
+		div {
+		    display: block;
+		}
+		body, button, input, select, table, textarea {
+		    font-size: 12px;
+		    font-family: Dotum,'돋움',Helvetica,"Apple SD Gothic Neo",sans-serif;
+		}
+		html {
+		    color: -internal-root-color;
+		}
+	
+		.visit_history {
+		    position: absolute;
+		    overflow: hidden;
+		    width: 1134px;
+		    height: 36px;
+		    line-height: 36px;
+		    padding: 0 12px;
+		    background: #f3f3f3;
+		    border: 1px solid #d5d5d5;
+		    border-width: 0 1px 1px 1px;
+		}
  		body {
             padding-top : 30px;
         }
@@ -39,12 +101,14 @@
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
+	
+		var boardName = '${post.boardName}';
 		
 		//============= 회원정보수정 Event  처리 =============	
 		$(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( ".btn.btn-primary" ).on("click" , function() {
-					self.location = "/community/updatePost?postId=${post.postId}"
+					self.location = "/community/updatePost?postId=${post.postId}&boardName="+boardName;
 			 });
 		});
 		
@@ -107,7 +171,7 @@
 		                    	data : $("#reportform").serialize() ,
 		                    	dataType : "json" ,
 		                    	success : function(JSONData , status){
-		                    		alert("신고 완료!");
+		                    		alert(JSONData.msg);
 		                    		$("#dialog-add").dialog("close");
 		                    	}
 		                    });
@@ -148,6 +212,10 @@
 				}
 			});
 		}
+		
+		function getPost(postId) {
+			self.location = "/community/getPost?postId="+postId+"&boardName="+boardName;
+		}
 
 	</script>
 	
@@ -176,10 +244,38 @@
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
-	
+	  <div class="page_head clear">
 		<div class="page-header">
-	       <h3 class=" text-info">게시글조회</h3>
+	     <c:if test="${param.boardName=='A'}">
+		   <h3><a>자유게시판</a></h3>
+		 </c:if>
+		 <c:if test="${param.boardName=='B'}">
+		   <h3><a>정보공유</a></h3>
+		 </c:if>
+		 <c:if test="${param.boardName=='C'}">
+		   <h3><a>인기글게시판</a></h3>
+		 </c:if>
+		 <c:if test="${param.boardName=='E'}">
+		   <h3><a>플래너공유</a></h3>
+		 </c:if>
+		 <c:if test="${param.boardName=='F'}">
+		   <h3><a>여행후기</a></h3>
+		 </c:if>
+		 <c:if test="${param.boardName=='G'}">
+		   <h3><a>QnA</a></h3>
+		 </c:if>
 	    </div>
+	  </div>
+	  
+	  <div class="issue_wrap">  
+	    <div id="visit_history" class="visit_history">
+	      <h3 class="tit">이전글 다음글</h3>
+	    </div>
+	  </div>
+	  
+	  <div class="view_content_wrap">
+	  
+	  </div>
 	
 		<div class="row">
 			<div class="col-xs-8 col-md-4">${post.postTitle}</div>
@@ -232,9 +328,10 @@
 	  		</div>
 		</div>
 		</c:if>
-		
-		<br/>
-		
+	
+		이전글<i class="fas fa-angle-double-right" onclick="getPost('${post.prevId}')">${post.prevTitle}</i><br>
+		다음글<i class="fas fa-angle-double-right" onclick="getPost('${post.nextId}')">${post.nextTitle}</i>
+
  	</div>
  	<!--  화면구성 div Start /////////////////////////////////////-->
 	<jsp:include page="/view/community/comment.jsp"/>

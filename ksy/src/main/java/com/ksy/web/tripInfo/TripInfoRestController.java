@@ -92,17 +92,17 @@ public class TripInfoRestController {
 	}
 	
 	@RequestMapping( value="json/exchange", method=RequestMethod.GET )
-	public void exchange() throws Exception{
+	public Map<String,Object> exchange() throws Exception{
 		
 		System.out.println("json/exchage :: GET");
 		
 		HttpClient httpClient = new DefaultHttpClient();
 		
-		String addr = " http://apis.data.go.kr/1262000/CountryBasicService/getCountryBasicList?ServiceKey=";
+		String addr = "http://apis.data.go.kr/1262000/CountryBasicService/getCountryBasicList?ServiceKey=";
 		String serviceKey="FZiC%2BGu2IHC5gmO3z1BLlSTFhEUKOdGmXwctgo8iuycxvGX8dSswTxpjzBcwxwAhuNDyrQCj%2BEdi4VSsu1XxIA%3D%3D";
 		String parameter = "";
 		String conName = "";
-		parameter = parameter +"&"+"isoCode1="+conName;
+		parameter = parameter +"&"+"countryName="+"¿µ±¹";
 		String url = addr+serviceKey+parameter; 
 		HttpGet httpGet = new HttpGet(url);
 		httpGet.setHeader("Accept", "application/json");
@@ -123,7 +123,7 @@ public class TripInfoRestController {
 		Map<String, Object> map = (Map<String,Object>)jsonObject;
 		System.out.println("map===>"+map);
 		
-//		return tr;
+		return map;
 		
 	}
 	
