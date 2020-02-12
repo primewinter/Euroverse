@@ -1055,11 +1055,23 @@
 		
 		function planComplete(){	//여행완료 확정
 			$("input[name='planStatus']").val('C');
-			$('form.editPlan').attr('method', 'POST').attr('action', '/plan/updatePlanStatus').submit();
+			$('form.editPlan').attr('method', 'POST').attr('action', '/plan/updatePlanStatus').attr("enctype","multipart/form-data").submit();
 		}
 		
 		/* ------------------------------------------------------------------------------------------------------ */
 		
+		
+		
+		
+		
+		/* GoogleMap control 버튼 클릭 */
+		function controlClick(){
+			console.log("controlClick() 실행")
+			
+			var string = "/plan/editRoute?planId="+planId;
+			$(self.location).attr("href", string);
+		}
+
 	</script>
 	
 	<script>
@@ -1089,13 +1101,12 @@
 					}, 500); 
 			}); 
 		}); 
-
+		
 	</script>
 	
 	<!-- 캘린더 생성 -->
 	<script type="text/javascript">
 	
-		
 		document.addEventListener('DOMContentLoaded', function() {
 		  var calendarEl = document.getElementById('calendar');
 		  //var draggebleEl = document.getElementById('draggable');
@@ -1143,7 +1154,6 @@
 
 		  });
 		  
-		  
 		  for( var i in cityEventList ){
 			  console.log("    "+JSON.stringify(cityEventList[i]) );
 				calendar.addEvent( cityEventList[i] );
@@ -1152,13 +1162,6 @@
 		  calendar.render();
 		  
 		}); 
-		
-		
-		
-		
-		
-		
-		
 	
 	</script>
 	
@@ -1300,11 +1303,12 @@
 				<!--	 Plan Information START	//////////////////////// 	-->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
 					<div class="container">
-						<h5>Plan Information</h5>
+						<!-- <h5>Plan Information</h5> -->
 						<div class="row" style="background-color: #F3F7F6; width: 100%; padding: 15px; border-radius: 5px; ">
 						
 							<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border-width: 1px; border-color: #D1D1D1; border-style: solid; width: 130px; height: 100px;">
-						    <div class="media-body" style="margin-left: 13px; margin-top: 25px;">
+						    <div class="media-body" style="margin-left: 13px; margin-top: 25px; height: 100px;">
+						    	<span style="color: #EE0D0D; font-weight: bolder;"><c:if test="${plan.planStatus == 'C'}">여행완료!</c:if></span>
 						    	<div class="plan_type">
 									<c:choose>
 										<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
@@ -1316,14 +1320,14 @@
 										<c:when test="${plan.planType == 'G'}">커플</c:when>
 									</c:choose>
 								</div>
-						      <div style="margin: 3px 0;"><div style="font-weight: bolder; font-size: 21px; display: inline-block;">${plan.planTitle} </div> &emsp;
-						      			<c:if test="${plan.planPartySize > 1}"><span data-feather="users"></span></c:if>
-						                <c:if test="${plan.planPartySize == 1}"><span data-feather="user"></span></c:if>
-						                 ${plan.planPartySize}
-						      </div>
-						      ${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate}</c:if> ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
-						      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
-						      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
+							      <div style="margin: 3px 0;"><div style="font-weight: bolder; font-size: 21px; display: inline-block;">${plan.planTitle} </div> &emsp;
+							      			<c:if test="${plan.planPartySize > 1}"><span data-feather="users"></span></c:if>
+							                <c:if test="${plan.planPartySize == 1}"><span data-feather="user"></span></c:if>
+							                 ${plan.planPartySize}
+							      </div>
+							      ${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate}</c:if> ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
+							      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
+							      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
 						    </div>
 							
 							<div>
@@ -1348,7 +1352,7 @@
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoTodoList">
 				
 					<div class="container">
-						<h5>Todo List : 투두 리스트</h5>
+						<h5>Todo List</h5>
 						<div class="row">
 							
 							
@@ -1363,7 +1367,7 @@
 				<!-- <div class="album py-5 bg-light" id="gotoCityRouteList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoCityRouteList">
 					<div class="container">
-						<h5>CityRoute List : 여행루트</h5>
+						<h5>여행루트</h5>
 						<div class="row">
 						
 							<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;height:445px;float:left;width:50%;"></div>
@@ -1924,38 +1928,196 @@
 			geocoder = new google.maps.Geocoder();
 		    map = new google.maps.Map(document.getElementById('map'), {
 		        center: paris,
-		        zoom: 3,
-		        /* zoom: 1:World, 5:Landmass/continent, 10:City, 15:Streets, 20:Buildings */
-		        mapTypeId :'terrain' 
+		        zoom: 3,			/* zoom: 1:World, 5:Landmass/continent, 10:City, 15:Streets, 20:Buildings */
+		        //mapTypeId :'terrain',
+		        styles: [
+		        	/* {
+		        	    "elementType": "geometry",
+		        	    "stylers": [
+		        	      {
+		        	        "color": "#ffffff"
+		        	      }
+		        	    ]
+		        	  }, */
+		        	  {
+		        	    "elementType": "labels.icon",
+		        	    "stylers": [
+		        	      {
+		        	        "color": "#e5e5e5"
+		        	      },
+		        	      {
+		        	        "visibility": "off"
+		        	      }
+		        	    ]
+		        	  },
+		        	  {
+		        	    "elementType": "labels.text.fill",
+		        	    "stylers": [
+		        	      {
+		        	        "color": "#c3c3c3"
+		        	      }
+		        	    ]
+		        	  },
+		        	  {
+		        	    "featureType": "administrative",
+		        	    "elementType": "geometry",
+		        	    "stylers": [
+		        	      {
+		        	        "visibility": "off"
+		        	      }
+		        	    ]
+		        	  },
+		        	  /* {
+		        	    "featureType": "administrative.land_parcel",
+		        	    "stylers": [
+		        	      {
+		        	        "visibility": "off"
+		        	      }
+		        	    ]
+		        	  }, */
+		        	  {
+		        	    "featureType": "administrative.locality",
+		        	    "stylers": [
+		        	      {
+		        	        "visibility": "simplified"
+		        	      }
+		        	    ]
+		        	  },
+		        	  {
+		        	    "featureType": "administrative.neighborhood",
+		        	    "stylers": [
+		        	      {
+		        	        "visibility": "off"
+		        	      }
+		        	    ]
+		        	  },
+		        	  /* {
+		        	    "featureType": "poi",
+		        	    "stylers": [
+		        	      {
+		        	        "visibility": "off"
+		        	      }
+		        	    ]
+		        	  }, */
+		        	  /* {
+		        	    "featureType": "road",
+		        	    "stylers": [
+		        	      {
+		        	        "visibility": "off"
+		        	      }
+		        	    ]
+		        	  }, */
+		        	  {
+		        	    "featureType": "transit",
+		        	    "stylers": [
+		        	      {
+		        	        "visibility": "off"
+		        	      }
+		        	    ]
+		        	  },
+		        	  {
+		        	    "featureType": "water",
+		        	    "elementType": "geometry",
+		        	    "stylers": [
+		        	      {
+		        	        "color": "#B5F8FF"
+		        	      }
+		        	    ]
+		        	  },
+		        	  /* {
+		        	    "featureType": "water",
+		        	    "elementType": "labels.text",
+		        	    "stylers": [
+		        	      {
+		        	        "visibility": "off"
+		        	      }
+		        	    ]
+		        	  } */
+		        ]
 		    });
-		     
-		    marker = new google.maps.Marker({
+		    /* marker = new google.maps.Marker({
 		    	 position: paris, 
 		    	 map: map,
 		    	 title: 'marker Title!!'
-	    	 });
+	    	 }); */
 		    
-		    
-		    
+	    	 
+	    	/* 도구모음! */
+	    	var shape = {
+		    			coords: [1, 1, 1, 12, 12, 12, 12, 1],
+		    	        type: 'poly'
+	    	        };
+		 	var lineSymbol_TRAIN_RL = {
+		 			    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
+		 			    fillColor: '#696969',
+		 			    fillOpacity: 1,
+		 			    strokeWeight: 1,
+		 			    scale: 1
+		 			}
+		 	var lineSymbol_TRAIN_LR = {
+		 			    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
+		 			    fillColor: '#696969',
+		 			    fillOpacity: 1,
+		 			    strokeWeight: 1,
+		 			    scale: 1,
+		 				rotation: 0,
+		 				anchor: new google.maps.Point(0,0)
+		 			}
+	    	 
 		    /* GoogleMap 에 뿌릴 것들  */
-			
 			function initMapItems(){
+				console.log("initMapItems() 실행");
 				
-			}
-			console.log("initMapItems() 실행");
+				var bounds = new google.maps.LatLngBounds();
+				
+				var cityMarkerList = ${cityMarkerList};
+				
+				for( var i in cityMarkerList ){
+					console.log("cityMarkerList[i] = "+cityMarkerList[i])
+					marker[i] = new google.maps.Marker({
+							position: cityMarkerList[i].position,
+							map: map,
+							//icon: icon,
+							shape: shape,
+							title: cityMarkerList[i].title
+					});
+					
+					if( i > 0 ){
+						var path = [ marker[i-1].getPosition() , marker[i].getPosition() ];
+						routelines[i-1] = new google.maps.Polyline({
+							map: map,
+							strokeColor: '#696969',
+					        strokeOpacity: 1.0,
+					        strokeWeight:1,
+					        geodesic: false,
+					        icons: [{
+					            icon: lineSymbol_TRAIN_LR,
+					            offset: '95%'
+					        }]
+						});
+						routelines[i-1].setPath(path);
+					}
+					
+					bounds.extend(marker[i].getPosition());
+					
+					/* marker[i].addListener('click', function() {
+						alert(" 마커 클릭 => cityName="+cityMarkerList[i].title);
+					}); */
+				}
+				map.fitBounds(bounds);
+				
+			} //initMapItems 끝
 			
-			//console.log(${cityMarkerList});
-			var cityMarkerList = ${cityMarkerList};
-			for( var i in cityMarkerList){
-				var cityMarkerListStr = JSON.stringify(cityMarkerList[i]);
-				
-				marker[i] = new google.maps.Marker({
-						position: {lat: 48.856667, lng: 2.350833},
-						map: map,
-						title: 'ppp'
-				});
-			}
+			initMapItems();
+			
+			//map.setCenter(cityMarkerList[0].position);
+			//map.setZoom(5);
 		    
+			/* 지도 내에 버튼 만들기 */ 
+			var leftControlDiv = document.createElement('div');
+			var thtml = '<div class="text-center" style="margin-bottom:5px;margin-left:10px;font-weight:bold; color:#395E62; font-size:10pt;border:solid thin #DDDDDD ; border-radius:5px; padding:10px; background-color: white;" onClick="controlClick()"><div style="margin:5px 0;"><i class="fas fa-globe-europe" style="font-size: 30px;"></i></div><div>여행루트 수정</div></div>';
+			leftControlDiv.innerHTML = thtml;
+			map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(leftControlDiv);
 		    
 		};
 		/* ------------------------------------ Google Map Script ------------------------------------ */
@@ -1966,12 +2128,8 @@
 		
 		
 		
-		//initMapItems();
 		
-		var cityMarkerList = ${cityMarkerList};
 		
-		map.setCenter(cityMarkerList[0].position);
-		map.setZoom(5);
 		
 		/* Plan Information 여행완료 버튼  관련 함수 */
 		var now = new Date();
@@ -2000,10 +2158,7 @@
 		/* https://github.com/feathericons/feather#feather 참고 */
 		feather.replace();
 		
-	</script>
-	
-	<!-- Swiper를 위한 스크립트 -->
-	<script>
+		/* Swiper를 위한 스크립트 */
 		new Swiper ('.swiper-container', {
 		    //direction: 'vertical',
 		    //loop: true
@@ -2012,6 +2167,7 @@
 				prevEl : '.swiper-button-prev', // 이번 버튼 클래스명
 			}
 		  });
+		
 	</script>
 	
 	

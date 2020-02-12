@@ -280,11 +280,14 @@
 				          
 				          <div class="card mb-4 shadow-sm">
 				          
-				            <svg class="bd-placeholder-img card-img-top" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+				            <%-- <svg class="bd-placeholder-img card-img-top" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
 					            <rect width="100%" height="100%" fill="#99E1FF"/>
 					            <image xlink:href="/resources/images/planImg/${plan.planImg}" x="0" y="0" height="230" width="100%"/>
 					            <text x="50%" y="50%" fill="#eceeef" dy=".3em">${plan.planTitle}</text>
-					        </svg>
+					        </svg> --%>
+					        
+					        <img style="border-top-right-radius:3px;border-top-left-radius:3px;" width="100%" height="200px" src="/resources/images/planImg/${plan.planImg}"/>
+					        
 				            
 				            <div class="card-body">
 				              	<div class="d-flex justify-content-between align-items-center">
@@ -292,7 +295,10 @@
 						              	<c:if test="${plan.planDday < 0}"> &nbsp; </c:if>
 							            <c:if test="${plan.planDday == 0}"> D-Day </c:if>
 										<c:if test="${plan.planDday > 0}"> D-${plan.planDday} </c:if>
+										<c:if test="${plan.planStatus == 'C'}"><span style="color: #EE0D0D; font-weight: bolder;">여행완료!</span></c:if>
 						            </div>
+						            
+						            
 									<div class="plan_type">
 										<c:choose>
 											<c:when test="${plan.planType == 'A'}">여자혼자</c:when>

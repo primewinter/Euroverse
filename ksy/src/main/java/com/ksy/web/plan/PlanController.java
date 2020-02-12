@@ -60,6 +60,50 @@ public class PlanController {
 		System.out.println(this.getClass());
 	}
 	
+	
+	
+	
+	@RequestMapping( value = "editRoute", method = RequestMethod.GET )
+	public String editRoute (	@RequestParam("planId") String planId, Model model, HttpSession session	) throws Exception {
+		
+		//User user = (User)session.getAttribute("user");
+		
+		Plan plan = planService.getPlan(planId);
+		
+		List<City> listCity = planSubService.getCityRouteList(planId);
+		plan.setCityList(listCity);
+		
+		
+		List<Day> dayList = Util.cityListToDayList(listCity, plan.getStartDate() );
+		plan.setDayList(dayList);
+		
+		/* GoogleMap API를 위한 JSON 만들기.. */
+		JSONArray markerArray = new JSONArray();
+		for (City cityItem : listCity) {
+			JSONObject cityMarker = new JSONObject();
+			
+			JSONObject position = new JSONObject();
+			position.put("lat", Double.parseDouble( cityItem.getCityLat() ));
+			position.put("lng", Double.parseDouble( cityItem.getCityLng() ));
+			
+			cityMarker.put("position", position);
+			//cityMarker.put("icon", "");
+			//cityMarker.put("zIndex", 10000);
+			cityMarker.put("title", cityItem.getCityName());
+			
+			markerArray.add(cityMarker);
+		}
+		
+		model.addAttribute("plan", plan);
+		model.addAttribute("cityMarkerList", markerArray);
+		//model.addAttribute("listCity", listCity);
+		
+		return "forward:/view/plan/editRoute.jsp";
+	}
+	
+	
+	
+	
 	@RequestMapping( value = "getPlanList", method = RequestMethod.GET )
 	public String getPlanList (	/*@RequestParam("userId") String userId, */ Model model, HttpSession session	) throws Exception {
 		
@@ -121,7 +165,6 @@ public class PlanController {
 		
 		for (City cityItem : listCity) {
 			JSONObject cityEvent = new JSONObject();
-			
 //			ObjectMapper objMapper = new ObjectMapper();
 //			String cityJson = objMapper.writeValueAsString(cityItem);
 			
@@ -141,14 +184,11 @@ public class PlanController {
 			}else {
 				cityEvent.put("color", "#51bec9");
 			}
-			
 			//cityEvent.put("imageurl", "https://www.crwflags.com/fotw/images/g/gb!sq.gif");
-			 
-			//cityEvent.put("allDay", false);
+			
 			cityArray.add(cityEvent);
 		}
 		//jsonObj.put("cityEventList", cityArray);
-		
 		
 		
 		
@@ -158,10 +198,9 @@ public class PlanController {
 			JSONObject cityMarker = new JSONObject();
 			
 			JSONObject position = new JSONObject();
-			position.put("lat", cityItem.getCityLat());
-			position.put("lng", cityItem.getCityLng());
+			position.put("lat", Double.parseDouble( cityItem.getCityLat() ));
+			position.put("lng", Double.parseDouble( cityItem.getCityLng() ));
 			
-			//cityMarker.put("map", "map");
 			cityMarker.put("position", position);
 			//cityMarker.put("icon", "");
 			//cityMarker.put("zIndex", 10000);
@@ -169,10 +208,6 @@ public class PlanController {
 			
 			markerArray.add(cityMarker);
 		}
-		
-		
-		
-		
 		
 		
 		plan.setPlanDday( Util.getDday(plan.getStartDate()));		//여행 D-Day

@@ -35,6 +35,11 @@ public class Post {
 	private String qnaFirstCate; //qna_first_cate
 	private String qnaSecondCate; //qna_second_cate
 	
+	private String nextId;
+	private String nextTitle;
+	private String prevId;
+	private String prevTitle;
+	
 	public Post() {
 		
 	}
@@ -249,6 +254,38 @@ public class Post {
 	public void setQnaSecondCate(String qnaSecondCate) {
 		this.qnaSecondCate = qnaSecondCate;
 	}
+	
+	public String getNextId() {
+		return nextId;
+	}
+
+	public void setNextId(String nextId) {
+		this.nextId = nextId;
+	}
+
+	public String getNextTitle() {
+		return nextTitle;
+	}
+
+	public void setNextTitle(String nextTitle) {
+		this.nextTitle = nextTitle;
+	}
+
+	public String getPrevId() {
+		return prevId;
+	}
+
+	public void setPrevId(String prevId) {
+		this.prevId = prevId;
+	}
+
+	public String getPrevTitle() {
+		return prevTitle;
+	}
+
+	public void setPrevTitle(String prevTitle) {
+		this.prevTitle = prevTitle;
+	}
 
 	@Override
 	public String toString() {
@@ -259,7 +296,8 @@ public class Post {
 				+ accStartDateStr + ", accEndDateStr=" + accEndDateStr + ", postLikeCount=" + postLikeCount + ", views="
 				+ views + ", comments=" + comments + ", blocked=" + blocked + ", tags=" + tags + ", postLikeFlag="
 				+ postLikeFlag + ", deleted=" + deleted + ", planId=" + planId + ", qnaFirstCate=" + qnaFirstCate
-				+ ", qnaSecondCate=" + qnaSecondCate + "]";
+				+ ", qnaSecondCate=" + qnaSecondCate + ", nextId=" + nextId + ", nextTitle=" + nextTitle + ", prevId="
+				+ prevId + ", prevTitle=" + prevTitle + "]";
 	}
 
 }

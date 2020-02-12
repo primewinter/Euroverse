@@ -141,6 +141,14 @@ public class PlanSubServiceImpl implements PlanSubService {
 		planSubDao.deleteMemo(memoId);
 	}
 
+	
+	
+	//city_info 관련 메소드
+	@Override
+	public List<City> getCityListByScroll(int zoomLevel) throws Exception {
+		return planSubDao.getCityListByScroll(zoomLevel);
+	}
+
 
 	
 	

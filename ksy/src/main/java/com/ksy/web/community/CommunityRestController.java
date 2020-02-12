@@ -29,6 +29,7 @@ import com.ksy.common.Search;
 import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Like;
+import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.Push;
 import com.ksy.service.domain.Recomment;
@@ -62,6 +63,31 @@ public class CommunityRestController {
 	
 	@Value("#{commonProperties['postPageSize']}")
 	int pageSize;
+
+	@RequestMapping(value="json/addOffer", method = RequestMethod.POST)
+	public void addOffer( @RequestBody Offer offer, HttpSession session, HttpServletResponse response ) throws Exception {
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		User user = (User)session.getAttribute("user");
+		
+		String fromUserId = user.getUserId();
+		offer.setFromUserId(fromUserId);
+		
+		communityService.addOffer(offer);
+
+		//플래너 초대 push 하기 method
+		Push push = new Push();
+		push.setPushType("A");
+		push.setRefId(offer.getRefId());
+		push.setReceiverId(offer.getToUserId());
+		pushService.addPush(push);
+		
+		JSONObject obj = new JSONObject();
+		obj.put("toUserId", offer.getToUserId());
+		out.println(obj);
+	}
 
 	@RequestMapping(value="/json/addReport", method=RequestMethod.POST)
 	public void addReport(Report report, HttpServletResponse response, HttpSession session) throws Exception {
@@ -256,7 +282,7 @@ public class CommunityRestController {
 	}
 	
 	@RequestMapping( value="json/addComment", method=RequestMethod.POST )
-	public void addComment( Comment comment, HttpSession session, HttpServletResponse response ) throws Exception {
+	public void addComment( Comment comment, String boardName, HttpSession session, HttpServletResponse response ) throws Exception {
 		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter(); 
@@ -272,14 +298,19 @@ public class CommunityRestController {
 		}
 		communityService.addComment(comment);
 		
-		Post post = communityService.getPost(comment.getPostId(), user.getUserId());
+		Post post = communityService.getPost(comment.getPostId(), user.getUserId(), boardName);
 		String postWriterId = post.getPostWriterId();
 		
 		if( !postWriterId.equals(comment.getCmtWriterId()) ) {
 			System.out.println("글 작성자 =/= 댓글 작성자");
 			Push push = new Push();
 			push.setRefId(comment.getPostId()+"");
-			push.setPushType("C");
+			
+			if( comment.getParentCmtId().equals(null)) {
+				push.setPushType("C");
+			}else {
+				push.setPushType("R");
+			}
 			push.setReceiverId(postWriterId);
 			pushService.addPush(push);
 		}
@@ -322,7 +353,7 @@ public class CommunityRestController {
 	
 		User user = (User)session.getAttribute("user");
 		
-		List<Comment> list = communityService.rcmtNum(postId);
+		List<Comment> list = communityService.rcmtNum(postId, user.getUserId());
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("list", list);
