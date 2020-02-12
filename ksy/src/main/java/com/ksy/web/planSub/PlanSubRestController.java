@@ -103,6 +103,21 @@ public class PlanSubRestController {
 		return cityList;
 	}
 	
+	
+	//스크롤 레벨로 city_info 리스트 가져오기
+	@RequestMapping( value = "json/getCityListByScroll/{zoomLevel}", method = RequestMethod.GET )
+	public List<City> getCityListByScroll( @PathVariable int zoomLevel ) throws Exception {
+		
+		
+		List<City> cityInfoList = planSubService.getCityListByScroll(zoomLevel);
+		//List<City> cityList = planSubService.getCityRouteList(zoomLevel);
+		
+		return cityInfoList;
+	}
+	
+	
+	
+	
 	@RequestMapping( value = "json/addCityRoute", method = RequestMethod.POST )
 	public List<City> addCityRoute( @RequestBody City city ) throws Exception {
 		

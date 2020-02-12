@@ -20,11 +20,51 @@ public class City {
 	
 	//private List<Bucket> bucketList;	//버킷리스트
 	
-	//이거 맞나... 
-	//private String startDateStr;
-	//private String endDateStr;
+	//FullCalendar에 뿌려주기 위함!!
+	private String startDateStr;
+	private String endDateStr;
 	
 	
+	private long lat;
+	private long lng;
+	
+//	private String countryColor;		//국가별 색
+//	
+//	public String getCountryColor() {
+//		return countryColor;
+//	}
+//	public void setCountryColor(String countryColor) {
+//		this.countryColor = countryColor;
+//	}
+	
+	
+	public long getLat() {
+		return lat;
+	}
+	public void setLat(long lat) {
+		this.lat = lat;
+	}
+	public long getLng() {
+		return lng;
+	}
+	public void setLng(long lng) {
+		this.lng = lng;
+	}
+	public String getStartDateStr() {
+		return startDateStr;
+	}
+	public void setStartDateStr(String startDateStr) {
+		this.startDateStr = startDateStr;
+	}
+
+	public String getEndDateStr() {
+		return endDateStr;
+	}
+	public void setEndDateStr(String endDateStr) {
+		this.endDateStr = endDateStr;
+	}
+
+
 	public City() {
 		super();
 	}
@@ -113,15 +153,15 @@ public class City {
 	public void setCityImg(String cityImg) {
 		this.cityImg = cityImg;
 	}
-
-
 	@Override
 	public String toString() {
 		return "\nCity [planId=" + planId + ", cityId=" + cityId + ", cityName=" + cityName + ", visitOrder=" + visitOrder
 				+ ", cityDuration=" + cityDuration + ", tranType=" + tranType + ", tranDuration=" + tranDuration
 				+ ", cityLat=" + cityLat + ", cityLng=" + cityLng + ", country=" + country + ", cityInfo=" + cityInfo
-				+ ", cityImg=" + cityImg + "]";
+				+ ", cityImg=" + cityImg + ", startDateStr=" + startDateStr + ", endDateStr=" + endDateStr + ", lat="
+				+ lat + ", lng=" + lng + "]";
 	}
+
 	
 	
 }

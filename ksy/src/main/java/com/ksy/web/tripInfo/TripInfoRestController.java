@@ -83,11 +83,47 @@ public class TripInfoRestController {
 		System.out.println("infinityClick rest Controller Start");
 		
 		Random random = new Random();
-		int id = random.nextInt(16);
+		int id = random.nextInt(67);
 		TripInfo tripInfo = tripInfoService.getUrl(id);
 		System.out.println("tripInfo µð¹ö±ë ==>"+tripInfo);
 		
 		return tripInfo;
+		
+	}
+	
+	@RequestMapping( value="json/exchange", method=RequestMethod.GET )
+	public Map<String,Object> exchange() throws Exception{
+		
+		System.out.println("json/exchage :: GET");
+		
+		HttpClient httpClient = new DefaultHttpClient();
+		
+		String addr = "http://apis.data.go.kr/1262000/CountryBasicService/getCountryBasicList?ServiceKey=";
+		String serviceKey="FZiC%2BGu2IHC5gmO3z1BLlSTFhEUKOdGmXwctgo8iuycxvGX8dSswTxpjzBcwxwAhuNDyrQCj%2BEdi4VSsu1XxIA%3D%3D";
+		String parameter = "";
+		String conName = "";
+		parameter = parameter +"&"+"countryName="+"¿µ±¹";
+		String url = addr+serviceKey+parameter; 
+		HttpGet httpGet = new HttpGet(url);
+		httpGet.setHeader("Accept", "application/json");
+		httpGet.setHeader("Content-Type", "application/json");
+		HttpResponse httpResponse = httpClient.execute(httpGet);
+		
+		System.out.println("=================================================================");
+		System.out.println("httpResponse  ===>"+httpResponse);
+		
+		HttpEntity httpEntity = httpResponse.getEntity();
+		
+		System.out.println("httpEntity ====>"+httpEntity);
+		InputStream is = httpEntity.getContent();
+		BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+		
+		JSONObject jsonObject = (JSONObject)JSONValue.parse(br);
+		System.out.println(jsonObject);
+		Map<String, Object> map = (Map<String,Object>)jsonObject;
+		System.out.println("map===>"+map);
+		
+		return map;
 		
 	}
 	

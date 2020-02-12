@@ -24,6 +24,15 @@
 		<result jdbcType="NUMERIC"		column="visit_order"		property="visitOrder"/>
 		<result jdbcType="NUMERIC"		column="city_duration"		property="cityDuration"/>
 		<result jdbcType="CHAR"			column="tran_type"			property="tranType"/>
+		
+		<result jdbcType="NUMERIC"		column="lat"				property="lat"/>
+		<result jdbcType="NUMERIC"		column="lng"				property="lng"/>
+		
+		<result jdbcType="VARCHAR"		column="lat_str"			property="cityLat"/>
+		<result jdbcType="VARCHAR"		column="lng_str"			property="cityLng"/>
+		
+		<result jdbcType="VARCHAR"		column="country"			property="country"/>
+		<result jdbcType="VARCHAR"		column="city_content"		property="cityInfo"/>
 	</resultMap>
 	
 	
@@ -107,14 +116,33 @@
 	</delete>
 	
 	
+	<!--		city_info SQL		-->
+	
+	
+	<select id="getCityListByScroll"	parameterType="int"	resultMap="citySelectMap">
+		SELECT 	ci.lat, ci.lng, ci.country, ci.city_content, ci.city_name,
+				TO_CHAR(ci.lat, 'fm90.0000000') lat_str, TO_CHAR(ci.lng, 'fm90.0000000') lng_str 
+		FROM 	city_info ci 
+		WHERE 	ci.scroll_scale &lt;= #{zoomLevel} 
+	</select>
 	
 	
 	<!-- 		City_route SQL		 -->
 	
-	<select id="getCityRouteList"	parameterType="string"	resultMap="citySelectMap">
+	<!-- <select id="getCityRouteList"	parameterType="string"	resultMap="citySelectMap">
 		SELECT 	cr.city_id, cr.city_name, cr.visit_order, cr.city_duration, cr.tran_type 
 		FROM 	city_route cr 
 		WHERE 	cr.plan_id = #{planId} 
+		ORDER BY 	cr.visit_order
+	</select> -->
+	
+	<select id="getCityRouteList"	parameterType="string"	resultMap="citySelectMap">
+		SELECT 	cr.city_id, cr.city_name, cr.visit_order, cr.city_duration, cr.tran_type 
+				, ci.lat, ci. lng, ci.country, ci.city_content
+				,  TO_CHAR(ci.lat, 'fm90.0000000') lat_str, TO_CHAR(ci.lng, 'fm90.0000000') lng_str
+		FROM 	city_route cr , city_info ci 
+		WHERE 	cr.plan_id = #{planId} 
+		AND		cr.city_name = ci.city_name(+) 
 		ORDER BY 	cr.visit_order
 	</select>
 	

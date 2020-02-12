@@ -12,8 +12,9 @@ import com.ksy.common.Search;
 import com.ksy.service.community.CommunityDao;
 import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Comment;
+import com.ksy.service.domain.Offer;
+import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Post;
-import com.ksy.service.domain.Recomment;
 import com.ksy.service.domain.Report;
 import com.ksy.service.domain.Tag;
 
@@ -35,9 +36,9 @@ public class CommunityServiceImpl implements CommunityService{
 	public void addPost(Post post) throws Exception {
 		communityDao.addPost(post);
 	}
-	
-	public void addRecomment(Recomment recomment) throws Exception {
-		communityDao.addRecomment(recomment);
+
+	public void addOffer(Offer offer) throws Exception {
+		communityDao.addOffer(offer);
 	}
 	
 	public void addTag(String tagContent, String postId) throws Exception {
@@ -56,13 +57,26 @@ public class CommunityServiceImpl implements CommunityService{
 		communityDao.deleteTag(postId);
 	}
 	
-	public Post getPost(String postId, String userId) throws Exception {
-		return communityDao.getPost(postId, userId);
+	public Post getPost(String postId, String userId, String boardName) throws Exception {
+		return communityDao.getPost(postId, userId, boardName);
+	}
+	
+	public List<Comment> rcmtNum(String postId, String userId) throws Exception {
+		List<Comment> list = communityDao.rcmtNum(postId, userId);
+		
+		return list;
 	}
 	
 	public List<Tag> getTagList(String postId) throws Exception {
 		
 		List<Tag> list = communityDao.getTagList(postId);
+		
+		return list;
+	}
+	
+	public List<Party> getParty(String postId) throws Exception {
+		
+		List<Party> list = communityDao.getParty(postId);
 		
 		return list;
 	}
@@ -75,9 +89,19 @@ public class CommunityServiceImpl implements CommunityService{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );
 		map.put("totalCount", new Integer(totalCount));
+	
+		return map;
+	}
+	
+	public Map<String , Object > getBestPostList(Search search, String boardName) throws Exception {
 		
-		System.out.println(list);
+		List<Post> list= communityDao.getBestPostList(search, boardName);
+		int totalCount = communityDao.getPostTotalCount(search, boardName);
 		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("totalCount", new Integer(totalCount));
+	
 		return map;
 	}
 	

@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.ksy.service.community.CommunityDao;
+import com.ksy.service.domain.Party;
 import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
+import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Post;
-import com.ksy.service.domain.Recomment;
 import com.ksy.service.domain.Report;
 import com.ksy.service.domain.Tag;
 
@@ -29,16 +30,18 @@ public class CommunityDaoImpl implements CommunityDao{
 		System.out.println(this.getClass());
 	}
 
-	public void addPost(Post post) throws Exception {
+	synchronized public void addPost(Post post) throws Exception {
 		if( post.getBoardName().equals("D")) {
 			sqlSession.insert("CommunityMapper.addAccFindPost", post);
+			
+			sqlSession.insert("CommunityMapper.addParty", post.getPostWriterId());
 		}else {
 			sqlSession.insert("CommunityMapper.addPost", post);
 		}
 	}
 	
-	public void addRecomment(Recomment recomment) throws Exception {
-		sqlSession.insert("CommunityMapper.addRecomment", recomment);
+	public void addOffer(Offer offer) throws Exception {
+		sqlSession.insert("CommunityMapper.addOffer", offer);
 	}
 	
 	public void addTag(String tagContent, String postId) throws Exception {
@@ -63,7 +66,7 @@ public class CommunityDaoImpl implements CommunityDao{
 		sqlSession.delete("CommunityMapper.deleteTag", postId);
 	}
 	
-	public Post getPost(String postId, String userId) throws Exception {
+	public Post getPost(String postId, String userId, String boardName) throws Exception {
 		sqlSession.update("CommunityMapper.updateViews", postId);
 		sqlSession.update("CommunityMapper.updateBestPost", postId);
 		
@@ -71,12 +74,17 @@ public class CommunityDaoImpl implements CommunityDao{
 		
 		map.put("postId", postId);
 		map.put("userId", userId);
+		map.put("boardName", boardName);
 		
 		return sqlSession.selectOne("CommunityMapper.getPost", map);
 	}
 	
 	public List<Tag> getTagList(String postId) throws Exception {
 		return sqlSession.selectList("CommunityMapper.getTagList", postId);
+	}
+	
+	public List<Party> getParty(String postId) throws Exception {
+		return sqlSession.selectList("CommunityMapper.getParty", postId);
 	}
 	
 	public List<Post> getPostList(Search search, String boardName) throws Exception {
@@ -89,6 +97,16 @@ public class CommunityDaoImpl implements CommunityDao{
 		return sqlSession.selectList("CommunityMapper.getPostList", map);
 	}
 	
+	public List<Post> getBestPostList(Search search, String boardName) throws Exception {
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("boardName", boardName);
+		
+		return sqlSession.selectList("CommunityMapper.getBestPostList", map);
+	}
+	
 	public List<Comment> getCommentList(Search search, String postId, String userId) throws Exception {
 		
 		Map<String, Object> map=new HashMap<String, Object>();
@@ -98,6 +116,16 @@ public class CommunityDaoImpl implements CommunityDao{
 		map.put("postId", postId);
 		
 		return sqlSession.selectList("CommunityMapper.getCommentList", map);
+	}
+	
+	public List<Comment> rcmtNum(String postId, String userId) throws Exception {
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		map.put("userId", userId);
+		map.put("postId", postId);
+		
+		return sqlSession.selectList("CommunityMapper.rcmtNum", map);
 	}
 
 	public int getPostTotalCount(Search search, String boardName) throws Exception {

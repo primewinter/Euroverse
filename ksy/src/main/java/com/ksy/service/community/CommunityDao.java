@@ -4,8 +4,9 @@ import java.util.List;
 
 import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
+import com.ksy.service.domain.Offer;
+import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Post;
-import com.ksy.service.domain.Recomment;
 import com.ksy.service.domain.Report;
 import com.ksy.service.domain.Tag;
 
@@ -13,7 +14,7 @@ public interface CommunityDao {
 	
 	public void addPost(Post post) throws Exception ;
 	
-	public void addRecomment(Recomment recomment) throws Exception ;
+	public void addOffer(Offer offer) throws Exception ;
 	
 	public void addTag(String tagContent, String postId) throws Exception ;
 	
@@ -23,13 +24,19 @@ public interface CommunityDao {
 	
 	public void deleteTag(String postId) throws Exception ;
 	
-	public Post getPost(String postId, String userId) throws Exception ;
+	public Post getPost(String postId, String userId, String boardName) throws Exception ;
 	
 	public List<Tag> getTagList(String postId) throws Exception ;
+	
+	public List<Party> getParty(String postId) throws Exception ;
 
 	public List<Post> getPostList(Search search, String boardName) throws Exception ;
 	
+	public List<Post> getBestPostList(Search search, String boardName) throws Exception ;
+	
 	public List<Comment> getCommentList(Search search, String postId, String userId) throws Exception ;
+	
+	public List<Comment> rcmtNum(String postId, String userId) throws Exception ;
 	
 	public int getPostTotalCount(Search search, String boardName) throws Exception ;
 	

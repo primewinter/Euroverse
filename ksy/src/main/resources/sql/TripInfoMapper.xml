@@ -8,15 +8,16 @@
  	
  	
 	<resultMap id="tripInfoSelectMap" type="tripInfo">
-		<result property="id" 			column="id" 			jdbcType="NUMERIC"/>
-		<result property="url"			column="url" 			jdbcType="VARCHAR" />
-		<result property="info"			column="info" 			jdbcType="VARCHAR" />
-		<result property="info1"		column="info1" 			jdbcType="VARCHAR" />
-		<result property="info2"		column="info2" 			jdbcType="VARCHAR" />
-		<result property="info3"		column="info3" 			jdbcType="VARCHAR" />
-		<result property="info4"		column="info4" 			jdbcType="VARCHAR" />
-		<result property="info5"		column="info5" 			jdbcType="VARCHAR" />
-		
+		<result property="id" 			column="id" 				jdbcType="NUMERIC"/>
+		<result property="url"			column="url" 				jdbcType="VARCHAR" />
+		<result property="info"			column="info" 				jdbcType="VARCHAR" />
+		<result property="info1"		column="info1" 				jdbcType="VARCHAR" />
+		<result property="info2"		column="info2" 				jdbcType="VARCHAR" />
+		<result property="info3"		column="info3" 				jdbcType="VARCHAR" />
+		<result property="info4"		column="info4" 				jdbcType="VARCHAR" />
+		<result property="info5"		column="info5" 				jdbcType="VARCHAR" />
+		<result property="conName"		column="exchange_conname" 	jdbcType="VARCHAR" />
+		<result property="conIso"		column="exchange_iso" 		jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
@@ -30,6 +31,13 @@
 	<select 	id="getUrl"	 parameterType="int" resultMap="tripInfoSelectMap" >
 	 	SELECT 
 	 	id, url, info, info1, info2, info3, info4, info5
+		FROM INFINITYCLICK
+		WHERE ID = ${value}
+	 </select>
+	 
+	 <select 	id="getconName"	 parameterType="String" resultMap="tripInfoSelectMap" >
+	 	SELECT 
+	 	conName
 		FROM INFINITYCLICK
 		WHERE ID = ${value}
 	 </select>

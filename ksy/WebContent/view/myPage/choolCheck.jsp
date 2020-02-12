@@ -43,8 +43,13 @@
 <script type="text/javascript">
 
 $(function(){
-	
 var wait = document.getElementById("wait");
+/* 아래쪽에 있었는데 자꾸 setimeout이 안되고 잘 안나와서 위로 올림 */
+wait.style.display = 'block';
+setTimeout(function() {
+	calendar.render(); 
+	wait.style.display = 'none';
+		}, 3000);	 
 
 var Calendar = FullCalendar.Calendar;
 var Draggable = FullCalendarInteraction.Draggable;
@@ -93,8 +98,7 @@ var calendar = new Calendar(calendarEl, {
       },
     header: {
       left: 'title',
-      center: 'choolCheck',
-      right : 'prev,next today'
+      right : 'choolCheck'
     },
 			eventSources: [{
 
@@ -114,15 +118,10 @@ events: function(start, callback) {
 }],
     editable: false,
     eventLimit : true,
-    cache : false
+    cache : true,
+    locale: 'ko'
   });
-  wait.style.display = 'block';
- setTimeout(function() {
-	 
-  calendar.render();
-  wait.style.display = 'none';
-	}, 3000);
- 
+
 })
 
 
@@ -147,17 +146,12 @@ events: function(start, callback) {
 
 </head>
 <body>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
   출석체크
-</button>
-
-유저아이디 = ${user.userId}</br>
-유저이름 = ${user.userName}</br>
-유저닉네임 = ${user.nickname}</br>
-보유포인트 = ${user.totalPoint}
+</button> -->
 
 
-<div class="modal fade" id="myModal">
+<div class="modal fade" id="choolCheckModal">
 	  <div class="modal-dialog">
 		<div class="modal-content">
 

@@ -132,7 +132,7 @@ body {
 
 	 $(function() {
 		 
-		$("#LSH").on("click", function() {
+		$("#infinityclick").on("click", function() {
 	 		$.ajax({
 
 	 		url : "/api/json/infinityClick",
@@ -144,7 +144,12 @@ body {
 	 		},
 
 	 			success : function(JSONData, status) {
-	 				$("#LSH").attr("src", JSONData.url);
+	 				/* $("#infinityclick").attr("src", JSONData.url); */
+	 				$("#infinityclick").css({
+	 					'background-image' : 'url(' + JSONData.url + ')'
+	 				});
+	 				
+	 				
 	 				
 					$(".dialog__title").text(JSONData.info1+JSONData.info2+JSONData.info3+JSONData.info4+JSONData.info5);
 					
@@ -203,11 +208,12 @@ body {
 	#infinityclick {
 		position: relative;
 		height: 300px;
-		width : 1400px;
+		width : 1600px;
+		
+		background-repeat: repeat;
 	}
 	#infinityclick img {
-		height: 300px;
-		width: 1400px;
+		
 	}
 	#infinityclick i{
 	position : absolute;
@@ -220,8 +226,8 @@ body {
 <body>
 
 	<h3>infinityClick</h3>
-	<div id="infinityclick" style="background-color:red">
-		<img id="LSH" alt="" src="${tripInfo.url}">
+	<div id="infinityclick" style="background-image:url(${tripInfo.url})">
+		<%-- <img id="LSH" alt="" src="${tripInfo.url}"> --%>
 		 <i class="far fa-question-circle"></i>
 		<!-- <button class="dialog__trigger">상세정보</button> -->
 	</div>

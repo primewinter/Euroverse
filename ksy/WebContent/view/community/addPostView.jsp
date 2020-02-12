@@ -69,7 +69,7 @@
 		});
 			
 		$(function() {
-			$( "a[href='#']" ).on("click" , function() {
+			$( "#cancel" ).on("click" , function() {
 					
 				$("form")[0].reset();
 			});
@@ -93,11 +93,23 @@
 		     });
 		});
 		
+		var count=0;
+		var countt=0;
+		
 		function sendFile(file, el) {
 			
-		      var form_data = new FormData();
-		      form_data.append('file', file);
-		      
+		    var form_data = new FormData();
+		    form_data.append('file', file);
+		   
+	  		var render = new FileReader();
+	  		render.onload = function(e){
+		  		$(el).summernote('editor.insertImage', e.target.result, function($image){
+		  			$image.attr('data-filename', 'retriever'+count+'');
+		  			count++;
+		  		});
+		  	}
+		  	render.readAsDataURL(file);  
+		  	
 		      $.ajax({
 		        data: form_data,
 		        type: "POST",
@@ -107,12 +119,13 @@
 		        enctype: 'multipart/form-data',
 		        processData: false,
 		        success: function(img_name) {
-		        	
-		          $(el).summernote('editor.insertImage', img_name);
+		        	$("img[data-filename='retriever"+countt+"']").attr('src',img_name);
+		        	countt++;
+		        	console.log(countt);
 		        }
-		      });
+		    }); 
 		}
-
+		
 		$(document).ready(function() {
 			$('#summernote').summernote();
 			$('.dropdown-toggle').dropdown();
@@ -213,7 +226,7 @@
 		<div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 		      <button type="button" class="btn btn-primary"  >등 &nbsp;록</button>
-			  <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+			  <a id="cancel" class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
 		    </div>
 		  </div>
 		</form>

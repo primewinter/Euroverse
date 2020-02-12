@@ -20,14 +20,13 @@ public class Util {
 	///Constructor
 		
 	///Method
-	public static List<Day> cityListToDayList(List<City> cityList) {
+	public static List<Day> cityListToDayList(List<City> cityList, Timestamp startDateOrigin) {
 		
 		List<Day> dayList = new ArrayList<Day>();
+		City[] cityArray = cityList.toArray(new City[cityList.size()]);		//리스트로 받은 City 목록을 Array로 변환
 		
-		City[] cityArray = cityList.toArray(new City[cityList.size()]);
-		
-		Date today = new Date();
-		Timestamp todayStamp = new Timestamp(today.getTime());
+		Timestamp startDate = (Timestamp)startDateOrigin.clone();
+		System.out.println("\n\n\n\n   cityListToDayList Start => startDate = "+startDate);
 		
 		int dayNoo = 0;
 		Day day = new Day();
@@ -35,14 +34,46 @@ public class Util {
 		for(int i=0; i<cityArray.length; i++) {
 			for(int j=0; j<cityArray[i].getCityDuration(); j++) {
 				
-				if(j == cityArray[i].getCityDuration()-1 ) {	//해당 도시의 마지막 체류일자인 경우 (첫번째 도시 포함)
-					if(cityArray[i].getCityDuration() == 1) {	//== if(j==0) //해당도시의 마지막 체류일자 && 체류일수=1  =>>  무박인 경우(첫번째체류일자=마지막체류일자)
+				
+				// 해당 도시의 첫번째 체류일자이면서 체류일수가 1보다 큰 경우 = 무박이 아닌 경우	
+				if( j==0 && cityArray[i].getCityDuration() != 1 ) {	
+					if( i==0 ) {	//첫번째 도시인 경우 
+						day.setCityNames(cityArray[i].getCityName());
+						
+						
+
+					}else {		//첫번째 도시가 아닌 경우
+						day.setCityNames(day.getCityNames()+", "+cityArray[i].getCityName());	
+						
+					}
+					//원래 cityList의 시작일자 세팅
+					cityList.get(i).setStartDateStr(startDate.toString().substring(0,10));
+					
+					day.setDate((Timestamp)startDate.clone());
+					startDate.setTime(startDate.getTime() + (1000*60*60*24));
+					dayNoo++;
+					day.setDayNo(dayNoo);
+					
+					dayList.add(day);
+					day = new Day();
+					day.setCityNames(cityArray[i].getCityName());	//다음 도시에게 현재 도시이름 넘겨주기 위해....세팅
+				}
+				
+				// 해당 도시의 마지막 체류일자인 경우 (첫번째 도시 포함)
+				else if(j == cityArray[i].getCityDuration()-1 ) {	
+					
+					//해당도시의 마지막 체류일자 && 체류일수=1  =>>  무박인 경우(첫번째체류일자=마지막체류일자)
+					if(cityArray[i].getCityDuration() == 1) {	//== if(j==0) 
 						
 						if( i==0 ) {	//첫번째 도시인 경우
 							day.setCityNames(cityArray[i].getCityName());
 						}else {			//첫번째가 아닌 도시의 첫번째 체류일인 경우 = 앞에 도시 하나 더 있음!
 							day.setCityNames(day.getCityNames()+", "+cityArray[i].getCityName());
 						}
+						
+						//원래 cityList의 시작일자 세팅
+						cityList.get(i).setStartDateStr(startDate.toString().substring(0,10));
+						
 					}else {		//해당도시의 마지막 체류일자 && 체류일수!=1  =>  무박이 아닌 경우
 						
 						if(i+1 < cityArray.length) {	//뒤에 도시가 남은 경우
@@ -50,38 +81,25 @@ public class Util {
 							
 						}else if( i+1 == cityArray.length){	//도시 끝인 경우
 							//day.setCityNameList(cityNames);
-							day.setDate((Timestamp)todayStamp.clone());
+							day.setDate((Timestamp)startDate.clone());
 							dayNoo++;
-							todayStamp.setTime(todayStamp.getTime() + (1000*60*60*24));
+							//startDate.setTime(startDate.getTime() + (1000*60*60*24));
 							day.setDayNo(dayNoo);
 							dayList.add(day);
 							day = new Day();
 						}
 					}
-					
-				}else if( j < cityArray[i].getCityDuration()-1 && j!=0 ) {	//해당 도시의 마지막 체류일 전.....이면서 첫번째 체류일이 아닌 경우
+					//원래 cityList의 종료일자 세팅 :: fullCalendar의 마지막 일자는 달력에 표시가 안돼서 실제 종료일자 + 1 해서 셋팅!
+					cityList.get(i).setEndDateStr(  new Timestamp( ((Timestamp)startDate.clone()).getTime() + (1000*60*60*24) ).toString().substring(0,10) );
+				}
+				
+				// 해당 도시의 마지막 체류일 전.....이면서 첫번째 체류일이 아닌 경우
+				else if( j < cityArray[i].getCityDuration()-1 && j!=0 ) {	
 					//cityNames = cityArray[i].getCityName();
 					day.setCityNames(cityArray[i].getCityName());
-					day.setDate((Timestamp)todayStamp.clone());
+					day.setDate((Timestamp)startDate.clone());
 					dayNoo++;
-					todayStamp.setTime(todayStamp.getTime() + (1000*60*60*24));
-					day.setDayNo(dayNoo);
-					dayList.add(day);
-					day = new Day();
-					day.setCityNames(cityArray[i].getCityName());	//다음 도시에게 현재 도시이름 넘겨주기 위해....세팅
-				
-					
-				}else if( j==0 && cityArray[i].getCityDuration() != 1 ) {	//해당 도시의 첫번째 체류일자이면서 체류일수가 1보다 큰 경우=무박이 아닌 경우
-					if( i==0 ) {	//첫번째 도시인 경우 
-						day.setCityNames(cityArray[i].getCityName());
-
-					}else {		//첫번째 도시가 아닌 경우
-						day.setCityNames(day.getCityNames()+", "+cityArray[i].getCityName());	
-						
-					}
-					day.setDate((Timestamp)todayStamp.clone());
-					dayNoo++;
-					todayStamp.setTime(todayStamp.getTime() + (1000*60*60*24));
+					startDate.setTime(startDate.getTime() + (1000*60*60*24));
 					day.setDayNo(dayNoo);
 					dayList.add(day);
 					day = new Day();
@@ -92,6 +110,79 @@ public class Util {
 
 		return dayList;
 	}
+	
+	
+//public static List<Day> cityListToDayList(List<City> cityList, Timestamp startDate) {
+//		
+//		List<Day> dayList = new ArrayList<Day>();
+//		City[] cityArray = cityList.toArray(new City[cityList.size()]);		//리스트로 받은 City 목록을 Array로 변환
+//		
+////		Date today = new Date();
+////		Timestamp todayStamp = new Timestamp(today.getTime());
+//		
+//		int dayNoo = 0;
+//		Day day = new Day();
+//		
+//		for(int i=0; i<cityArray.length; i++) {
+//			for(int j=0; j<cityArray[i].getCityDuration(); j++) {
+//				
+//				if(j == cityArray[i].getCityDuration()-1 ) {	//해당 도시의 마지막 체류일자인 경우 (첫번째 도시 포함)
+//					if(cityArray[i].getCityDuration() == 1) {	//== if(j==0) //해당도시의 마지막 체류일자 && 체류일수=1  =>>  무박인 경우(첫번째체류일자=마지막체류일자)
+//						
+//						if( i==0 ) {	//첫번째 도시인 경우
+//							day.setCityNames(cityArray[i].getCityName());
+//						}else {			//첫번째가 아닌 도시의 첫번째 체류일인 경우 = 앞에 도시 하나 더 있음!
+//							day.setCityNames(day.getCityNames()+", "+cityArray[i].getCityName());
+//						}
+//					}else {		//해당도시의 마지막 체류일자 && 체류일수!=1  =>  무박이 아닌 경우
+//						
+//						if(i+1 < cityArray.length) {	//뒤에 도시가 남은 경우
+//							day.setCityNames(cityArray[i].getCityName());
+//							
+//						}else if( i+1 == cityArray.length){	//도시 끝인 경우
+//							//day.setCityNameList(cityNames);
+//							day.setDate((Timestamp)todayStamp.clone());
+//							dayNoo++;
+//							todayStamp.setTime(todayStamp.getTime() + (1000*60*60*24));
+//							day.setDayNo(dayNoo);
+//							dayList.add(day);
+//							day = new Day();
+//						}
+//					}
+//					
+//				}else if( j < cityArray[i].getCityDuration()-1 && j!=0 ) {	//해당 도시의 마지막 체류일 전.....이면서 첫번째 체류일이 아닌 경우
+//					//cityNames = cityArray[i].getCityName();
+//					day.setCityNames(cityArray[i].getCityName());
+//					day.setDate((Timestamp)todayStamp.clone());
+//					dayNoo++;
+//					todayStamp.setTime(todayStamp.getTime() + (1000*60*60*24));
+//					day.setDayNo(dayNoo);
+//					dayList.add(day);
+//					day = new Day();
+//					day.setCityNames(cityArray[i].getCityName());	//다음 도시에게 현재 도시이름 넘겨주기 위해....세팅
+//				
+//					
+//				}else if( j==0 && cityArray[i].getCityDuration() != 1 ) {	//해당 도시의 첫번째 체류일자이면서 체류일수가 1보다 큰 경우=무박이 아닌 경우
+//					if( i==0 ) {	//첫번째 도시인 경우 
+//						day.setCityNames(cityArray[i].getCityName());
+//
+//					}else {		//첫번째 도시가 아닌 경우
+//						day.setCityNames(day.getCityNames()+", "+cityArray[i].getCityName());	
+//						
+//					}
+//					day.setDate((Timestamp)todayStamp.clone());
+//					dayNoo++;
+//					todayStamp.setTime(todayStamp.getTime() + (1000*60*60*24));
+//					day.setDayNo(dayNoo);
+//					dayList.add(day);
+//					day = new Day();
+//					day.setCityNames(cityArray[i].getCityName());	//다음 도시에게 현재 도시이름 넘겨주기 위해....세팅
+//				}
+//			}
+//		}
+//
+//		return dayList;
+//	}
 	
 	public static int getDday(Timestamp startDate) {
 		
@@ -105,9 +196,10 @@ public class Util {
 	
 	public static String getEndDate(Timestamp startDate, int planTotalDays) {
 		
-		startDate.setTime(startDate.getTime() + (1000*60*60*24*(planTotalDays-1)) );	//여행 종료일자 = 여행시작일자  + (총여행일수-1)
+		Timestamp endDate = (Timestamp)startDate.clone();
+		endDate.setTime(startDate.getTime() + (1000*60*60*24*(planTotalDays-1)) );	//여행 종료일자 = 여행시작일자  + (총여행일수-1)
 		
-		return toDateStr(startDate);
+		return toDateStr(endDate);
 	}
 	
 	

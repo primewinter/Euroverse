@@ -12,8 +12,24 @@ public class TripInfo {
 	private String info3;
 	private String info4;
 	private String info5;
+	private String conName;
+	private String conIso;
 	
 	
+	
+	public String getConName() {
+		return conName;
+	}
+	public void setConName(String conName) {
+		this.conName = conName;
+	}
+	public String getConIso() {
+		return conIso;
+	}
+	public void setConIso(String conIso) {
+		this.conIso = conIso;
+	}
+
 	public String getInfo() {
 		return info;
 	}

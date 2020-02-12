@@ -49,10 +49,12 @@
 		 });
 		
 		 $(function() {
+			 
+			var boardName = $("#boardName").val();
 		
 			$( "td:nth-child(2)" ).on("click" , function() {
 			     var postId = $(this).find($("input[name='postId']")).val();	
-				 self.location ="/community/getPost?postId="+postId;
+				 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
 			});
 						
 			$( "td:nth-child(2)" ).css("color" , "indianred");
@@ -75,7 +77,7 @@
 <body>
 	
 	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/view/community/toolbar.jsp" />
+	<jsp:include page="/toolbar/toolBar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -167,7 +169,7 @@
 			  <td align="left">${ i }</td>
 			  <td align="left">
 			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>${post.postTitle}</td>
-			  <td align="left">${post.postWriterId}</td>
+			  <td align="left">${post.nickName}</td>
 			  <td align="left">${post.postDate}</td>
 			  <td align="left">${post.comments}</td>
 			  <td align="left">${post.views}</td>
