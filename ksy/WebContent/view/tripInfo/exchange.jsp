@@ -128,8 +128,10 @@
 
 .list-group img {
 
-	size : 20px;
+	width : 40px;
+	vertical-align: sub;
 }
+
 </style>
 <!-- <span class='exchan' cur='EUR'></span>
 <span class='exchan' cur='EUR'></span>
