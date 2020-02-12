@@ -12,8 +12,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>	
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	 <!-- asome icon CDN -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
@@ -52,16 +57,15 @@
 
 	  th{
 	  	text-align: center;
-	  	 width: 50px;
+	  	 width: 70px;
   		 height: 100px;
    		line-height: 100px;
    		     
 	  }
 	  td{
 	  font-size:13px;
-	  }
-	  #arrDate,#depDate{
-	  position:fixed;
+	  text-align: center;
+	  width : 80px;
 	  }
 	  #domestic ,  #europe  {
 	  	z-index: 3;
@@ -70,10 +74,25 @@
 	  	z-index: 1;
 	  }
 	  table {
+	   text-ailgn : center;
 	   background-color: white;
-		 border-collapse: separate; 
-		border:40px solid white;
+		/*  border-collapse: separate;  */
+		border:5px solid white;
 	  }
+	  .container{
+	    position: relative; 
+	  }
+	  .container:after {
+		background-color: #646464;
+		font-size: 13px;
+		font-family: "Nanum Gothic", malgun Gothic, dotum;
+		/* letter-spacing: -.3px;
+		padding: 25px 30px 23px 50px; */
+		box-sizing: border-box;
+		opacity: 80%;
+	   }
+	  
+	  
 
 	  
 	  /* 이미지 배경 css */
@@ -81,12 +100,13 @@
 		   position: relative; /* #wrapper에 투명도를 주면 컨텐츠도 같이 투명해지기 때문에.. */
 		}
 		.wrapper:after {
+		
 		    content : "";
 		    display: block;
 		    position: absolute;
 		    top: 0;
 		    left: 0;
-		    background-image: url('/images/AA.14077862.1.jpg'); 
+		    background-image: url('/resources/images/orderImg/AA.14077862.1.jpg'); 
 		    width: 100%;
 		    height: 460px;
 		    opacity : 0.7;
@@ -171,7 +191,7 @@ $(function() {
 	        console.log(setEdate)
 	    }
 	});
-	$('.btn').on('click', function(e){
+	/* $('.btn').on('click', function(e){
 	    if($('input#from').val() == ''){
 	        alert('시작일을 선택해주세요.');
 	        $('input#from').focus();
@@ -181,18 +201,9 @@ $(function() {
 	        $('input#to').focus();
 	        return false;
 	    }
-
-   /*  var t1 = $('input#from').val().split("-");
-    var t2 = $('input#to').val().split("-");
-    var t1date = new Date(t1[0], t1[1], t1[2]);
-    var t2date = new Date(t2[0], t2[1], t2[2]);
-    var diff = t2date - t1date;
-    var currDay = 24 * 60 * 60 * 1000;
-    if(parseInt(diff/currDay) > rangeDate){
-        alert('로그 조회 기간은 ' + rangeDate + '일을 초과할 수 없습니다.');        
-        return false;
-    } */
-	});
+	 });
+ */
+	
 });
 /////////////////////////////
 /* function doShow() { 
@@ -220,11 +231,13 @@ function Show() {
 function doShow() { 
 		if ($('#domestic').css("display","none")) { 
 			$("#domestic").css("display","block");
+			$("#europe").css("display", "none");
 		}
 }
 function Show() { 
 	if ($('#europe').css("display","none")) { 
 		$("#europe").css("display","block");
+		$("#domestic").css("display","none");
 	}
 }
 
@@ -271,7 +284,7 @@ function europe(obj) {
 <br/>
 <br/>
 		
-			<div class="container">
+			<div class="container" >
 			  <div class="row">
 			    <div class="col">
 			    	 <input type="text" class="form-control" placeholder="출발지역을 입력하세요"  name="depCity" id="depCity" 
@@ -280,8 +293,8 @@ function europe(obj) {
 					  <span class="input-group-text" id="basic-addon2"><i class="fas fa-plane" id="iconf" style="font-size:15px;" ></i></span>
 			   			
 			  		</div>
-			  		<table  id="domestic" class="table table-bordered table-hover text-center" style="width:300px;display:none;">
-						<tbody>	
+			  		<table class="table" id="domestic"  style="width:300px;display:none;" >
+					 <tbody>	
 						<tr>
 						<th rowspan="5" align="center">국내</th>
 						</tr>			
@@ -311,7 +324,7 @@ function europe(obj) {
 					 <div class="input-group-append">
 					  <span class="input-group-text" id="basic-addon2"><i class="fas fa-plane" id="iconf" style="font-size:15px;" ></i></span>
 		  			 </div>
-		  			  <table  id="europe" class="table table-bordered table-hover text-center" style="width:350px;display: none;"" >
+		  			  <table  id="europe" class="table" style="width:350px;display: none;" >
 						<tbody>	
 						<tr>
 						<th rowspan="9" align="center" >유럽</th>
@@ -357,7 +370,7 @@ function europe(obj) {
 								<td onclick="javascript:europe($(this).closest('td').text());">베오그라드</td>
 							</tr>
 						</tbody>
-					</table>
+						</table>
 		  			 </div> 
 			    </div>
 			    
@@ -409,31 +422,31 @@ function europe(obj) {
 		
 <br /><br /><br />
 
-	<!-- Button trigger modal -->
-	<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-	  Launch demo modal
-	</button>
+		<button class="btn btn-default" data-target="#layerpop" data-toggle="modal">모달출력버튼</button><br/>
+		<div class="modal fade" id="layerpop" >
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <!-- header -->
+		      <div class="modal-header">
+		        <!-- 닫기(x) 버튼 -->
+		        <button type="button" class="close" data-dismiss="modal">×</button>
+		        <!-- header title -->
+		        <h4 class="modal-title">Header</h4>
+		      </div>
+		      <!-- body -->
+		      <div class="modal-body">
+		            Body 
+		      </div>
+		      <!-- Footer -->
+		      <div class="modal-footer">
+		        Footer
+		        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 
-	Modal
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	        ...
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary">Save changes</button>
-	      </div>
-	    </div>
-	  </div>
-	</div> -->
+
 
 </div>	
 
