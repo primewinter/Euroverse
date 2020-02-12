@@ -597,6 +597,7 @@ function readImg(input){
 
 </head>
 <body>
+<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <div class="col-4 mx-auto">
 		<h1 class="display-1">회원가입</h1>
 
@@ -660,7 +661,16 @@ function readImg(input){
 		<b>Nickname</b>
 			<div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-user"></i></span>
-				<input type="text" class="form-control" placeholder="Nickname" name="nickname" id="nickname">
+				<c:if test="${loginType!='sns'}">
+					<input type="text" class="form-control" placeholder="Nickname" name="nickname" id="nickname">
+				</c:if>
+				<c:if test="${loginType=='sns'}">
+					<input type="text" class="form-control" value="${snsUser.nickname}" name="nickname" id="nickname">
+				</c:if>
+				
+				
+				
+				
 			</div>
 			<h6></h6>
 		</div>
@@ -683,15 +693,43 @@ function readImg(input){
 		<b>Email</b>
 			<div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-globe"></i></span>
+				<c:if test="${loginType != 'sns' }">
 				<input type="text" class="form-control" placeholder="email" id="emailId">
 				<span class="input-group-append">&nbsp;<i class="fas fa-at"></i>&nbsp;</span>
 				<select class="custom-select" id="choiceEmail">
 				<option value="" disabled selected hidden>please choice....</option>
-			    <option value="google.com">google.com</option>
+			    <option value="gmail.com">gmail.com</option>
 			    <option value="naver.com">naver.com</option>
 			    <option value="daum.net">daum.net</option>
 			    <!--이메일 잘 정리하기 email잡은다음에 밸류에 +@+choiceEmail.val() 더하기  -->
 			 	</select>
+				</c:if>
+				<c:if test="${loginType == 'sns' }">
+					<input type="text" class="form-control" value="${snsUser.emailId}" id="emailId">
+					<span class="input-group-append">&nbsp;<i class="fas fa-at"></i>&nbsp;</span>
+					<select class="custom-select" id="choiceEmail">
+				   		<c:if test="${snsUser.choiceEmail=='gmail.com'}">
+						    <option value="gmail.com">gmail.com</option>
+						    <option value="naver.com">naver.com</option>
+						    <option value="daum.net">daum.net</option>
+				   		</c:if> 
+						<c:if test="${snsUser.choiceEmail=='naver.com'}">
+						    <option value="gmail.com">naver.com</option>
+						    <option value="google.com">gmail.com</option>
+						    <option value="daum.net">daum.net</option>
+						</c:if>			    
+						<c:if test="${snsUser.choiceEmail=='daum.net'}">
+						    <option value="gmail.com">daum.net</option>
+						    <option value="google.com">gmail.com</option>
+						    <option value="naver.com">naver.com</option>
+						</c:if>
+				    <!--이메일 잘 정리하기 email잡은다음에 밸류에 +@+choiceEmail.val() 더하기  -->
+				 	</select>
+				
+				</c:if>
+			 	
+			 	
+			 	
 			 	<input type="hidden" name="email" id="email">
 			</div>
 			<h6></h6>
@@ -739,13 +777,19 @@ function readImg(input){
  	  <div class="form-group">
 	 	<div class="col-6 mx-auto">
 	 		<b>Profile Image</b>
+			<c:if test="${loginType!='sns'}">
 			<div class="custom-file">
 			  <input type="file" class="custom-file-input" id="image" name="image" accept="image/*" >
 			  <label class="custom-file-label" for="customFile" ><i class="fas fa-camera-retro">size 360x360</i> </label>  
 			  <!-- 프로필 이미지 미리보기 만들기! 사이즈제한 걸어두기!~~~ -->
 			</div>
 			<h6></h6>
+			</c:if>
 			<div id="preview">
+				<c:if test="${loginType=='sns'}">
+					<img alt="" src="${snsUser.userImg}">
+					<input type="hidden" name="userImg" value="${snsUser.userImg}">
+				</c:if>
 				
 			</div>
 		</div>

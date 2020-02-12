@@ -445,7 +445,7 @@ function readImg(input){
      				 
      				 <c:if test="${user.choiceEmail=='google.com'}">
 	     				<select class="custom-select" id="choiceEmail">
-						    <option value="google.com" selected="selected">google.com</option>
+						    <option value="gmail.com" selected="selected">gmail.com</option>
 						    <option value="naver.com" >naver.com</option>
 						    <option value="daum.net">daum.net</option>
 						    <!-- 셀렉트 된 값이 없으면 기본 값 집어넣기-->
@@ -454,7 +454,7 @@ function readImg(input){
 					 
 					 <c:if test="${user.choiceEmail=='naver.com'}">
 	     				<select class="custom-select" id="choiceEmail">
-						    <option value="google.com" >google.com</option>
+						    <option value="gmail.com" >gmail.com</option>
 						    <option value="naver.com" selected="selected">naver.com</option>
 						    <option value="daum.net">daum.net</option>
 						    <!-- 셀렉트 된 값이 없으면 기본 값 집어넣기-->
@@ -463,7 +463,7 @@ function readImg(input){
 					 
 					 <c:if test="${user.choiceEmail=='daum.net'}">
 	     				<select class="custom-select" id="choiceEmail">
-						    <option value="google.com" >google.com</option>
+						    <option value="gmail.com" >gmail.com</option>
 						    <option value="naver.com" >naver.com</option>
 						    <option value="daum.net" selected="selected">daum.net</option>
 						    <!-- 셀렉트 된 값이 없으면 기본 값 집어넣기-->
@@ -473,7 +473,7 @@ function readImg(input){
 					 <!--걍 유저일때 보이게....  -->
 					 <c:if test="${user.choiceEmail=='user.com'}">
 	     				<select class="custom-select" id="choiceEmail">
-						    <option value="google.com">google.com</option>
+						    <option value="gmail.com">gmail.com</option>
 						    <option value="naver.com" >naver.com</option>
 						    <option value="daum.net">daum.net</option>
 						    <!-- 셀렉트 된 값이 없으면 기본 값 집어넣기-->

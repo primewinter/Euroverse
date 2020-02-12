@@ -16,6 +16,11 @@ public class Point {
 	private int usedPoint; //used_point
 	private Timestamp usedDate; //used_date
 	
+	
+	private String usedData;
+	private String usedContent;
+	
+	
 	public String getPointId() {
 		return pointId;
 	}
@@ -39,6 +44,42 @@ public class Point {
 	}
 	public void setUsedType(String usedType) {
 		this.usedType = usedType;
+		
+		if(usedType !=null&&usedType.length()!=0) {
+			
+			switch(usedType) {
+				case "C":
+					usedData = "적립";
+					usedContent = "출석체크";
+					break;
+				case "F":
+					usedData = "적립";
+					usedContent = "항공권구매";
+					break;
+				case "R":
+					usedData = "적립";
+					usedContent = "숙소구매";
+					break;
+				case "S":
+					usedData = "차감";
+					usedContent = "슬롯구매";
+					break;
+				case "U":
+					usedData = "차감";
+					usedContent = "포인트사용";
+					break;
+			
+			}
+			// 출석체크(C) , 슬롯구매(S) , 항공권구매(F),숙소구매(R) , 포인트사용(U)
+			
+			
+			
+			
+			
+			
+		}
+		
+		
 	}
 	public int getUsedPoint() {
 		return usedPoint;
@@ -51,6 +92,22 @@ public class Point {
 	}
 	public void setUsedDate(Timestamp usedDate) {
 		this.usedDate = usedDate;
+	}
+	
+	
+	
+	
+	public String getUsedData() {
+		return usedData;
+	}
+	public void setUsedData(String usedData) {
+		this.usedData = usedData;
+	}
+	public String getUsedContent() {
+		return usedContent;
+	}
+	public void setUsedContent(String usedContent) {
+		this.usedContent = usedContent;
 	}
 	@Override
 	public String toString() {

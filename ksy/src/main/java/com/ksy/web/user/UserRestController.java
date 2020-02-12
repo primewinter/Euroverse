@@ -1,6 +1,10 @@
 package com.ksy.web.user;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.net.URLEncoder;
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -149,6 +153,79 @@ public class UserRestController {
 		System.out.println("아이디 리스트~="+idList);
 		
 		return idList;
+	}
+	
+	
+	
+	@RequestMapping(value = "json/googleLoginUrlMake")
+	public Map googleLogin(HttpSession session) throws UnsupportedEncodingException {
+		String clientId = "474522905430-f6nkrljp2qocnq1mop0ve2oc5ng91q38.apps.googleusercontent.com";
+		String redirectUrl = "http://localhost:8080/user/googleLoginLogic&";
+
+		StringBuffer googleLoginUrl = new StringBuffer();
+		googleLoginUrl.append("https://accounts.google.com/o/oauth2/v2/auth?");
+		googleLoginUrl.append("scope=https://www.googleapis.com/auth/analytics.readonly&");
+		googleLoginUrl.append("access_type=offline&");
+		googleLoginUrl.append("include_granted_scopes=true&");
+		googleLoginUrl.append("state=state_parameter_passthrough_value&");
+		googleLoginUrl.append("redirect_uri=");
+		googleLoginUrl.append(redirectUrl);
+		googleLoginUrl.append("response_type=code&");
+		googleLoginUrl.append("client_id=");
+		googleLoginUrl.append(clientId);
+		
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("url", googleLoginUrl.toString());
+		System.out.println(map.get("url"));
+		
+		return map;
+	}
+	
+	
+	@RequestMapping( value = "json/naverLoginUrlMake" )
+	public Map naverLogin( HttpSession session ) throws Exception {
+		SecureRandom random = new SecureRandom();
+		String state = new BigInteger(130, random).toString(32);
+		session.setAttribute("state", state); 
+		
+		String clientId = "zmMH7F27NTAzH6EBj4dk";
+		
+		String redirectUrl = URLEncoder.encode("http://localhost:8080/user/naverLoginLogic", "UTF-8");
+		
+		String naverLoginUrl = 	"https://nid.naver.com/oauth2.0/authorize?response_type=code" + 
+								"&client_id=" + clientId + 
+								"&redirect_uri=" + redirectUrl + 
+								"&state="+(String)session.getAttribute("state");
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("url", naverLoginUrl);
+		
+		return map;
+	}
+	
+	
+	
+	@RequestMapping( value = "json/kakaoLoginUrlMake" )
+	public Map loginKakao( HttpSession session ) throws Exception {
+		String clientId = "0813ef39292fbdbe6ad4d20b0a049724";
+
+		String redirectUrl = "http://localhost:8080/user/kakaoLoginLogic";
+		
+		String kakaoLoginUrl = 	"https://kauth.kakao.com/oauth/authorize?" + 
+								"client_id=" + clientId + 
+								"&redirect_uri=" + redirectUrl + 
+								"&response_type=code";
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("url", kakaoLoginUrl);
+		
+		return map;
+
+		
 	}
 	
 	

@@ -203,11 +203,38 @@ INSERT INTO POINT
 VALUES ( TO_CHAR(seq_point_point_id.nextval), #{userId} ,  #{usedType} , #{usedPoint} , sysDate)
 </insert>
 
-<select id = "getPointList" parameterType="String" resultMap="pointSelectMap">
-SELECT
-point_id , user_id , ref_id , used_type , used_point , used_date
-FROM POINT
-WHERE user_id = #{value}
+<select id = "getPointList"  parameterType="map" resultMap="pointSelectMap">
+SELECT  *
+from(
+	SELECT inner_table.*, ROWNUM AS row_seq
+	from(
+		SELECT
+		user_id , point_id , ref_id , used_type , used_point , used_date
+		from Point
+		WHERE user_id = #{userId}
+		<if test="search.searchKeyword == 'use'">
+			AND used_type = 'U' OR used_type = 'S'
+		</if>
+		<if test="search.searchKeyword == 'save'">
+			AND used_type = 'C' OR used_type = 'F' OR used_type = 'R'
+		</if>
+		order By used_date DESC) inner_table
+	WHERE rownum<![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} ) 
+WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1 AND #{search.currentPage}*#{search.pageSize}
+</select>
+
+
+<select id = "getPointListTotalCount"  parameterType="map" resultType="int">
+		SELECT
+		COUNT(*)
+		from Point
+		WHERE user_id = #{userId}
+		<if test="search.searchKeyword == 'use'">
+			AND used_type = 'U' OR used_type = 'S'
+		</if>
+		<if test="search.searchKeyword == 'save'">
+			AND used_type = 'C' OR used_type = 'F' OR used_type = 'R'
+		</if>
 </select>
 
 

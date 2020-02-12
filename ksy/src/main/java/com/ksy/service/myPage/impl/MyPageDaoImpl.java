@@ -1,12 +1,15 @@
 package com.ksy.service.myPage.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.ksy.common.Search;
 import com.ksy.service.domain.Point;
 import com.ksy.service.myPage.MyPageDao;
 import com.ksy.service.user.UserDao;
@@ -35,10 +38,29 @@ public class MyPageDaoImpl implements MyPageDao{
 	}
 
 	@Override
-	public List getPointList(String userId) throws Exception {
+	public List<Point> getPointList(Search search ,String userId) throws Exception {
 		System.out.println("MyPageDao getPointList");
-		return sqlSession.selectList("UserMapper.getPointList",userId);
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("userId",userId);
+		//map.put("boardName", boardName);
+		System.out.println(map);
+		
+		return sqlSession.selectList("UserMapper.getPointList",map);
 	}
+	
+	public int getPointListTotalCount(Search search ,String userId)throws Exception{
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("userId",userId);
+		
+		return sqlSession.selectOne("UserMapper.getPointListTotalCount",map);
+	}
+	
+	
 	
 	public List getChoolCheckList(String userId)throws Exception{
 		System.out.println("MyPageDao getChoolCheckList");

@@ -1,11 +1,14 @@
 package com.ksy.service.myPage.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.ksy.common.Search;
 import com.ksy.service.domain.Point;
 import com.ksy.service.myPage.MyPageDao;
 import com.ksy.service.myPage.MyPageService;
@@ -44,9 +47,22 @@ public class MyPageServiceImpl implements MyPageService{
 	}
 
 	@Override
-	public List getPointList(String userId) throws Exception {
+	public Map<String, Object> getPointList(Search search ,String userId) throws Exception {
 		System.out.println("myPageService getPointList");
-		return myPageDao.getPointList(userId);
+		
+		
+		List<Point> pointList = myPageDao.getPointList(search,userId);
+		int totalCount = myPageDao.getPointListTotalCount(search, userId);
+		
+		
+		
+		Map map = new HashMap(); 
+		
+		map.put("pointList", pointList);
+		map.put("totalCount",totalCount);
+		
+		
+		return map; 
 	}
 	
 	public List getChoolCheckList(String userId)throws Exception{
