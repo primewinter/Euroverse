@@ -23,7 +23,7 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-	
+	<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'> 
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 		.writing_view_box {
@@ -49,9 +49,6 @@
 		em {
 		    font-style: italic;
 		}
-		/* .fl {
-		    float: left;
-		} */
 		.gall_writer {
 		    position: relative;
 		    font-size: 13px;
@@ -79,12 +76,12 @@
 			padding-top: 10px;
 		    float: left;
 		    font-size: 12px;
-		    color: #3c4790;
+		    color: #083A41;
 		}
-		
 		.issue_wrap {
 		    position: relative;
-		    border-top: 2px solid #3c4790;
+		    width: 1134px;
+		    border-top: 3px solid #00A8C1;
 		    padding-bottom: 37px;
 		    z-index: 13;
 		}
@@ -94,15 +91,14 @@
 		    padding-top: 4px;
 		}
 		.page-header h3 a {
-		    color: #3c4790;
+		    color: #00A8C1;
 		}
 		.page-header h3 {
-		    font-size: 24px;
-		    font-family: 'Nanum Gothic', sans-serif;
+		    font-size: 26px;
+		    font-family: 'Jeju Hallasan', cursive;
 		    letter-spacing: -1px;
 		    margin: 2px 10px 0 3px;
 		}
-	
 		html, body, div, span, iframe, h1, h2, h3, h4, h5, h6, p, a, em, img, strong, b, u, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, embed, figure, figcaption, footer, header, nav, section, summary, audio, video, button {
 		    margin: 0;
 		    padding: 0;
@@ -121,7 +117,6 @@
 		html {
 		    color: -internal-root-color;
 		}
-	
 		.visit_history {
 		    position: absolute;
 		    overflow: hidden;
@@ -292,7 +287,7 @@
 		}
 		.comment_box {
 		    position: relative;
-		    border-top: 2px solid #525eaa;
+		    border-top: 2px solid #00A8C1;
 		}
 		ol, ul {
 		    list-style: none;
@@ -301,7 +296,7 @@
 		    border-top: none;
 		}
 		.view_comment .cmt_info {
-		    padding: 9px 3px 7px 3px;
+		    padding: 9px 3px 40px 3px;
 		}
 		.cmt_info {
 		    position: relative;
@@ -416,12 +411,12 @@
 		    font-weight: bold;
 		}
 		.view_comment .cmt_write_box {
-		    border-bottom: 2px solid #525eaa;
+		    border-bottom: 2px solid #00A8C1;
 		}
 		.cmt_write_box {
 		    padding: 12px 12px 12px;
 		    background: #fafafa;
-		    border-top: 2px solid #525eaa;
+		    border-top: 2px solid #00A8C1;
 		}
 		.user_info_input:first-child {
 		    margin-top: 0px;
@@ -435,7 +430,7 @@
 		}
 		.user_info_input input, .cmt_write_box .user_info_input.id > label {
 		    width: 126px;
-		    height: 29px;
+		    height: 25px;
 		    line-height: 29px;
 		    padding: 1px 7px 0;
 		    border: none;
@@ -465,7 +460,7 @@
 		    line-height: 18px;
 		}
 		.cmt_txt_cont textarea {
-		    width: 956px;
+		    width: 900px;
 		    height: 78px;
 		    padding: 13px;
 		    border: 1px solid #cecdce;
@@ -486,13 +481,13 @@
 		    font-weight: normal;
 		}
 		.btn_blue {
-		    background: #4a57a8;
+		    background: #00A8C1;
 		    border-color: #3c4790;
 		    text-shadow: 0px -1px #343d8e;
 		    color: #fff;
 		}
 		.btn_lightblue {
-		    background: #6c7bb4;
+		    background: #00A8C1;
 		    border-color: #525eaa;
 		    text-shadow: 0px -1px #4b559c;
 		    color: #fff;
@@ -507,29 +502,45 @@
 		    font-size: 12px;
 		    font-weight: bold;
 		}
-				
-		
-				
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
- 		body {
-            padding-top : 30px;
-        }
-        .layer {
-        	display: none;
-        }
-        .recmt {
-        	text-indent: 2em;
-        }
+		.clear:after {
+		    clear: both;
+		    display: block;
+		    visibility: hidden;
+		    content: "";
+		}
+		.fl {
+		    float: left;
+		}
+		.cmt_info p {
+		    line-height: 20px;
+		}
+		.usertxt {
+		    float: left;
+		    line-height: 20px;
+		    cursor: pointer;
+		    word-break: break-all;
+		    overflow: hidden;
+		}
+		.usertxt, .comment_wrap .comment_dccon {
+		    width: 820px;
+		    cursor: pointer;
+		}
+		.cmt_mdf_del button {
+		    color: #999;
+		}
+		.btn_cmt_delete {
+		    background: url(https://nstatic.dcinside.com/dc/w/images/sp/sp_img.png);
+		    background-position: -268px -200px;
+		    font-size: 0;
+		    line-height: 0;
+		    width: 13px;
+		    height: 13px;
+		    vertical-align: top;
+		}
+		.cmt_like {
+			clear: both;
+			float: left;
+		}
      </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
