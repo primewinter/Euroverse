@@ -58,7 +58,7 @@ public class TripInfoController {
 //		driver = new ChromeDriver();
 //		String dreamCity = "유럽";
 //		
-//		for (int no = 5; no < 10; no++) {
+//		for (int no = 6; no < 10; no++) {
 //		
 //		// pixabay 홈페이지에서 크롤링 검색정보는 다이나믹하게
 //		base_url = "https://pixabay.com/ko/images/search/" + dreamCity + "/?cat=buildings&pagi="+String.valueOf(no);
@@ -130,7 +130,7 @@ public class TripInfoController {
 			System.out.println("infinityClick 시작");
 			Random random = new Random();
 			
-			int id = random.nextInt(67);//랜덤 난수 발생 67번까지 사진이 67개여서
+			int id = random.nextInt(73);//랜덤 난수 발생 67번까지 사진이 67개여서
 			System.out.println("id 디버깅 ==>"+id);
 			
 			tripInfo = service.getUrl(id);//사진마다 부여된 id값을 이용해서 랜덤으로 호출하기
