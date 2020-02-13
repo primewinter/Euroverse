@@ -12,30 +12,23 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 	
-	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
-   <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+	<!-- asome icon CDN -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
 
-   <!-- jQuery UI toolTip 사용 CSS-->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip 사용 JS-->
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<!-- jQuery UI toolTip 사용 CSS-->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<!-- jQuery UI toolTip 사용 JS-->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	  body {
              padding-top : 50px;
-            background: linear-gradient(-100deg, mistyrose,pink, lightpink) fixed;
 
         }
         image {
@@ -54,7 +47,7 @@
 <script type="text/javascript">
 
 $(function() {
-	 $( 'button.btn.btn-warning' ).on("click" , function() {
+	 $( 'button.btn.btn-info' ).on("click" , function() {
 		 var airline = $(this).next().val();
 		 var depCity = $(this).next().next().val();
 		 var arrCity = $(this).next().next().next().val();
@@ -106,54 +99,52 @@ $(function() {
 <body>
 	
 	<div class="container">
-		<div class="page-header">
-			<h3>Selenium</h3>
-		
-		<form class="form-horizontal">
-		<h3 align="center"> 출발 / 도착</h3>
-		<c:forEach var="flight" items = "${flightList}" >
-		
-		
-		
-		
-		
-		
-    	<h5 align="center" name="airline"> 항공사${flight.airline} 
-    	출발지역 ${flight.depCity}
-    	도착지역 ${flight.arrCity} 
-    	출발일시 ${flight.depDate}
-    	도착일시${flight.arrDate}
-    	출발시간${flight.depTime }
-    	도착시간${flight.arrTime }
-    	경유 ${flight.stopOver} 
-    	소요시간 ${flight.leadTime} 
-    	가격${flight.price}
-    	<button type="button" class="btn btn-warning"  >예약하기</button>
-    	<input type="hidden" name="airline" id="airline" value="${flight.airline }" >
-		<input type="hidden" name="depCity" id="depCity" value="${flight.depCity }" >
-		<input type="hidden" name="arrCity" id="arrCity" value="${flight.arrCity }" >
-		<input type="hidden" name="price" id="price" value="${flight.price }" >
-		<input type="hidden" name="adultNum" id="adultNum" value="${flight.adultNum }" >
-		<input type="hidden" name="childNum" id="childNum" value="${flight.childNum }" >
-		<input type="hidden" name="infantNum" id="infantNum" value="${flight.infantNum }" >
-		<input type="hidden" name="depDate" id="depDate" value="${flight.depDate }" >
-		<input type="hidden" name="arrDate" id="arrDate" value="${flight.arrDate }" >
-		<input type="hidden" name="stopOver" id="stopOver" value="${flight.stopOver }" >
-		<input type="hidden" name="leadTime" id="leadTime" value="${flight.leadTime }" >
-		<input type="hidden" name="tripCourse" id="tripCourse" value="${flight.tripCourse }" >
-		<input type="hidden" name="seatGrade" id="seatGrade" value="${flight.seatGrade }" >
-		<input type="hidden" name="depTime" id="depTime" value="${flight.depTime }" >
-		<input type="hidden" name="arrTime" id="arrTime" value="${flight.arrTime }" >
-    	</h5>
-    	
-    	</c:forEach>
-		
-		
-		
-		</form>
+			<table class="table">
+			  <thead>
+			    <tr>
+			      <th scope="col">항공사</th>
+			      <th scope="col">출발시간</th>
+			      <th scope="col">도착시간</th>
+			      <th scope="col">경유</th>
+			      <th scope="col">소요시간</th>
+			      <th scope="col">가격</th>
+			      <th scope="col"></th>
+			      <th scope="col"></th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  <c:forEach var="flight" items = "${flightList}" >
+			    <tr>
+			      <th scope="row">${flight.airline}</th>
+			      <td>${flight.depTime}</td>
+			      <td>${flight.arrTime}</td>
+			      <td>${flight.stopOver}</td>
+			      <td>${flight.leadTime}</td>
+			      <td>${flight.price}원</td>
+			      <td><i class="far fa-heart" style="font-size:15px;"></i></td>
+			      <td><button type="button" class="btn btn-info" style="width:100px;">예약하기</button>
+			      	<input type="hidden" name="airline" id="airline" value="${flight.airline }" >
+					<input type="hidden" name="depCity" id="depCity" value="${flight.depCity }" >
+					<input type="hidden" name="arrCity" id="arrCity" value="${flight.arrCity }" >
+					<input type="hidden" name="price" id="price" value="${flight.price }" >
+					<input type="hidden" name="adultNum" id="adultNum" value="${flight.adultNum }" >
+					<input type="hidden" name="childNum" id="childNum" value="${flight.childNum }" >
+					<input type="hidden" name="infantNum" id="infantNum" value="${flight.infantNum }" >
+					<input type="hidden" name="depDate" id="depDate" value="${flight.depDate }" >
+					<input type="hidden" name="arrDate" id="arrDate" value="${flight.arrDate }" >
+					<input type="hidden" name="stopOver" id="stopOver" value="${flight.stopOver }" >
+					<input type="hidden" name="leadTime" id="leadTime" value="${flight.leadTime }" >
+					<input type="hidden" name="tripCourse" id="tripCourse" value="${flight.tripCourse }" >
+					<input type="hidden" name="seatGrade" id="seatGrade" value="${flight.seatGrade }" >
+					<input type="hidden" name="depTime" id="depTime" value="${flight.depTime }" >
+					<input type="hidden" name="arrTime" id="arrTime" value="${flight.arrTime }" >
+					</td>
+			    </tr>
+			  </c:forEach>
+			  </tbody>
+			  
+			</table>
 		</div>
-</div>
-
 
 </body>
 </html>

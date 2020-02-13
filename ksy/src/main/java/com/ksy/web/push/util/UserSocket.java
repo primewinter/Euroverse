@@ -3,6 +3,7 @@ package com.ksy.web.push.util;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.websocket.OnClose;
@@ -25,7 +26,7 @@ import com.ksy.service.domain.Push;
 // handshake 설정하기 위한 클래스를 지정한다.
 @ServerEndpoint(value = "/websocket/{userId}")
 
-public class WebSocket {
+public class UserSocket {
 	
 			private static Map<String, Session> slMap = Collections.synchronizedMap(new HashMap<>());
 		
@@ -96,6 +97,18 @@ public class WebSocket {
 					}
 				}
 				
+			}
+			
+			public void sendChat(List<String> users, Push push) throws Exception {
+				System.out.println("UserSocket :: sendChat ");
+				for(String userId : users ) {
+					for (Map.Entry<String, Session> entry : slMap.entrySet()) {
+						if (entry.getKey().equals(userId)) {
+							String result = new ObjectMapper().writeValueAsString(push);
+							entry.getValue().getBasicRemote().sendText(result);
+						}
+					}
+				}
 			}
 
 }

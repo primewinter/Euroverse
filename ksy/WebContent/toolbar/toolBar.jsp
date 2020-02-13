@@ -100,7 +100,7 @@ ${user.nickname}님 로그인중....
 				    <br />
 				    
 				    <script type="text/javascript">
-				        var pushAddr = "ws://192.168.0.82:8080/websocket/";
+				        var pushAddr = "ws://localhost:8080/websocket/";
 				        var webSocket;
 				        var userId = '${user.userId}';
 				        
