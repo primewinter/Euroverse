@@ -52,7 +52,7 @@
         <typeHandler handler="com.ksy.common.handler.ClobHandler" javaType="String" jdbcType="LONGVARCHAR"/>
     </typeHandlers> -->
 	<typeHandlers>
-        <typeHandler handler="com.test.study.handler.CLOBHandler" javaType="String" jdbcType="LONGVARCHAR"/>
+        <typeHandler handler="com.ksy.common.handler.ClobHandler" javaType="String" jdbcType="LONGVARCHAR"/>
     </typeHandlers>	
 		
 		<mappers>
