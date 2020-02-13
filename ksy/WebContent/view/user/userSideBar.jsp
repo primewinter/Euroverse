@@ -40,12 +40,6 @@
 			alert("구현중");
 			//$(self.location).attr("href","/user/getUser");
 		});
-		
-		$(".nav-link:contains('다녀온 여행지 정보')").on("click" ,function(){
-			alert("구현중");
-			//$(self.location).attr("href","/user/getUser");
-		});
-		
 		$(".nav-link:contains('찜한 상품 목록')").on("click" ,function(){
 			alert("구현중");
 			//$(self.location).attr("href","/user/getUser");
@@ -119,11 +113,6 @@
           <li class="nav-item">
             <a class="nav-link" href="#">
               	플래너 초대 및 동행신청 목록
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              	다녀온 여행지 정보
             </a>
           </li>
           <li class="nav-item">

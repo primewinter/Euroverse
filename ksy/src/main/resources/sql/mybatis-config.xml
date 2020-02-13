@@ -7,6 +7,7 @@
 <!--	mybatis-config.xml :: MyBatis Framework  MetaData -->
 <configuration>
 
+
 	<!-- 기타 설정정보 :: [MyBatis_Home]/mybatis-3.2.1.pdf 참조 -->
 	<settings>
 		<setting name="callSettersOnNulls" value="false"/>
@@ -42,10 +43,14 @@
 		<typeAlias alias="todo" 	type="com.ksy.service.domain.Todo" />
 		<typeAlias alias="user" 	type="com.ksy.service.domain.User" />
 		<typeAlias alias="tripInfo" type="com.ksy.service.domain.TripInfo" />
+		<typeAlias alias="tripSurvey" type="com.ksy.service.domain.TripSurvey"/>
 		
 	</typeAliases>
 	
 	 <!-- SQL Definition :: file include -->
+	<!-- <typeHandlers>
+        <typeHandler handler="com.ksy.common.handler.ClobHandler" javaType="String" jdbcType="LONGVARCHAR"/>
+    </typeHandlers> -->
 		
 		
 		<mappers>
@@ -66,5 +71,6 @@
 		<mapper resource="sql/CommunityMapper.xml"/>
 		<mapper resource="sql/LikeMapper.xml"/> 
 	</mappers>
+
 
 </configuration>

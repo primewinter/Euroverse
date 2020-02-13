@@ -39,8 +39,10 @@ public class User {
 	private Timestamp regDate; //reg_date
 	private Timestamp unRegDate;//unreg_date
 	
-	private List<String> dreamCity; // TABLE trip_survey 에서  type 이 dreamCity인것
+	private List<String> dreamCountry; // TABLE trip_survey 에서  type 이 dreamCountry인것
 	private List<String> tripStyle; // TABLE trip_survey 에서  type 이 tripStyle인것
+	private List<String> countryImg;
+	private List<String> styleImg;
 	
 	private MultipartFile image;
 	private String userImg;
@@ -267,11 +269,11 @@ public class User {
 
 
 
-	public List<String> getDreamCity() {
-		return dreamCity;
+	public List<String> getDreamCountry() {
+		return dreamCountry;
 	}
-	public void setDreamCity(List<String> dreamCity) {
-		this.dreamCity = dreamCity;
+	public void setDreamCountry(List<String> dreamCountry) {
+		this.dreamCountry = dreamCountry;
 	}
 
 
@@ -309,12 +311,34 @@ public class User {
 
 	
 	
+	
+	
+	public List<String> getCountryImg() {
+		return countryImg;
+	}
+
+
+	public void setCountryImg(List<String> countryImg) {
+		this.countryImg = countryImg;
+	}
+
+
+	public List<String> getStyleImg() {
+		return styleImg;
+	}
+
+
+	public void setStyleImg(List<String> styleImg) {
+		this.styleImg = styleImg;
+	}
+
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", nickname=" + nickname + ", pwd=" + pwd
 				+ ", role=" + role + ", email=" + email + ", phone=" + phone + ", userImg=" + userImg + ", sex=" + sex
 				+ ", birth=" + birth + ", slot=" + slot + ", totalPoint=" + totalPoint + ", pushAgree=" + pushAgree
-				+ ", regDate=" + regDate + ", unRegDate=" + unRegDate + ", dreamCity=" + dreamCity + ", tripStyle="
+				+ ", regDate=" + regDate + ", unRegDate=" + unRegDate + ", dreamCountry=" + dreamCountry + ", tripStyle="
 				+ tripStyle +",   image="  + image+  "]";
 	}
 	

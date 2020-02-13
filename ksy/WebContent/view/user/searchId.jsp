@@ -197,9 +197,15 @@ h6{
 	
 	
 	$(function(){
+		$(".nav-link:contains('아이디찾기')").addClass("disabled");
+		
+		
 		$(".alert-danger button").on("click",function(){
 			$(".alert-danger").prop("style","display:none");			
 		});
+		
+		
+				
 		
 	});
 	
@@ -210,46 +216,31 @@ h6{
 </head>
 <body>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchId" data-backdrop="static" data-keyboard="false">
-로그인모달
-</button>
-
+ <jsp:include page="/view/user/userToolBar.jsp"></jsp:include>
 <div class="container">
-<div class="modal fade " id="searchId">
-	  <!-- <div class="modal-dialog modal-lg"> -->
-	  <div class="modal-dialog" style="max-width: 100%; width: 50%; display: table;">
-	  	<!-- <h2 style="color : #FFFFFF">아이디찾기</h2> -->
-	  
-		<div class="modal-content">
-			 <!-- 	<div class="modal-header">
-				</div>modal header End 
- 			-->
-				 
-				
-			
-		<div class="modal-body">
 
 
 		<!-- <div class="row justify-content-center"> -->
 		<div class="row">
-			 <div class="col-md-7"> 
+			 <div class="col-md-7 mx-auto" > 
 				<h1 class="text-center">아이디찾기</h1>
 			 </div> 
 		</div>
 <form id="form" method="post" action="/user/searchId">
 
 <div class="form-group">
-	
+	<div class="col-md-7 mx-auto" > 
 <!-- <input type="radio" name="searchId" id="phoneCheck">핸드폰번호로 아이디찾기</br> -->
-	<div class="custom-control custom-radio">
+	<div class="custom-control custom-radio ">
 	
 	  <input type="radio" id="phoneCheck" name="searchId" class="custom-control-input">
 	  <label class="custom-control-label" for="phoneCheck"><h3>핸드폰번호로 아이디찾기</h3></label>
 	</div>
+	</div>
 	<div id="phoneDiv" style="display:none">
 		
 		<div class="form-group">
-			<div class="col-7">
+			<div class="col-7 mx-auto">
 				<b>Name</b>
 				<div class="input-group-prepend">
 					<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -260,7 +251,7 @@ h6{
 		</div>
 	
 		<div class="form-group">
-		 	<div class="col-7">
+		 	<div class="col-7 mx-auto">
 		 		<b>Phone</b>
 		 		<div class="input-group-prepend">
 		 		  <span class="input-group-text"><i class="fas fa-phone"></i></span>
@@ -287,15 +278,16 @@ h6{
 
 <div class="form-group">
 <!-- <input type="radio" name="searchId" id="emailCheck">이메일로 아이디찾기</br> -->
+	<div class="col-md-7 mx-auto" > 
 	<div class="custom-control custom-radio">
 	  <input type="radio" id="emailCheck" name="searchId" class="custom-control-input">
 	  <label class="custom-control-label" for="emailCheck"><h3>이메일로 아이디찾기</h3></label>
 	</div>
-
+	</div>
 	<div id="emailDiv" style="display:none">
 	
 		<div class="form-group">
-			<div class="col-7">
+			<div class="col-7 mx-auto">
 				<b>Name</b>
 				<div class="input-group-prepend">
 					<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -306,7 +298,7 @@ h6{
 		</div>
 		
 		<div class="form-group">
-		<div class="col-7">
+		<div class="col-7 mx-auto">
 		<b>Email</b>
 			<div class="input-group-prepend">
 				<span class="input-group-text"><i class="fas fa-globe"></i></span>
@@ -343,12 +335,6 @@ h6{
 			<div class="alert alert-danger alert-dismissable" style="display: none;" >
 			    <button type="button" class="close" >×</button>
 			    <strong></strong>&nbsp; 수정 후 다시 시도해주세요.
-			</div>
-			</div>
-	
-	
-	</div>
-</div>	
 </form>
 </div>	
 

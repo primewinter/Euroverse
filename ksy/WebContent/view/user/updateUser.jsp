@@ -254,10 +254,12 @@ $(function(){
 		
 		
 		
+		$(".btn-secondary:contains('취소')").on("click",function(){
+			$(self.location).attr("href","/user/getUser");
+		})
 		$(".btn-primary:contains('취소')").on("click",function(){
 			$(self.location).attr("href","/user/getUser");
 		})
-		
 		
 		$(".btn-primary:contains('비밀번호체크')").on("click",function(){
 		

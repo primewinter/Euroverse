@@ -40,107 +40,6 @@
 	<script src='/javascript/timegrid/main.js'></script> -->
 	
 	
-<script type="text/javascript">
-
-$(function(){
-var wait = document.getElementById("wait");
-/* 아래쪽에 있었는데 자꾸 setimeout이 안되고 잘 안나와서 위로 올림 */
-wait.style.display = 'block';
-setTimeout(function() {
-	calendar.render(); 
-	wait.style.display = 'none';
-		}, 3000);	 
-
-var Calendar = FullCalendar.Calendar;
-var Draggable = FullCalendarInteraction.Draggable;
-
-var containerEl = document.getElementById('external-events');
-var calendarEl = document.getElementById('calendar');
-var checkbox = document.getElementById('drop-remove');
-
-var calendar = new Calendar(calendarEl, {
-    plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
-    customButtons: {
-        choolCheck: {
-          text: '출석체크',
-          click: function() {
-			var date = new Date();
-          	var currentDate = date.getFullYear() + "-"+ (date.getMonth()+1) + "-" +date.getDate();
-          	var stringDate = date.getFullYear() +""+(date.getMonth()+1) +date.getDate();
-			$(function(){
-				$.ajax({
-					url : "/myPage/json/choolChecking",
-					method : "post",
-					dataType : "json",
-					headers : {
-						"Accept" : "application/json",
-						"Content-Type" : "application/json"
-					},
-					data : JSON.stringify({
-						currentDate : currentDate,
-						year : date.getFullYear(),
-						month : date.getMonth()+1,
-						day : date.getDate(),
-						stringDate : stringDate
-					}),
-					success : function(JSONData, Status) {
-								
-							if(JSONData.error == 'error'){
-								alert("이미 출석체크 하셨습니다.");
-							}else{
-								calendar.addEvent(JSONData);
-							}
-						}
-				})	
-			})
-          }
-        }
-      },
-    header: {
-      left: 'title',
-      right : 'choolCheck'
-    },
-			eventSources: [{
-
-events: function(start, callback) {
-    $.ajax({
-        url     : '/myPage/json/choolCheck',
-        type    : 'get',
-        dataType: 'json',
-        success : function(doc) {
-            
-           	callback(doc);
-            console.log("이게 되나;;");
-            console.log(doc);
-        }
-    });
-}
-}],
-    editable: false,
-    eventLimit : true,
-    cache : true,
-    locale: 'ko'
-  });
-
-})
-
-
-
-
-
-
-
-
-
-///////////////////////////////////////////////
- 
-
-
-
-
-
-
-</script>
 
 
 
@@ -225,4 +124,106 @@ events: function(start, callback) {
 </div><!--myModal End  -->
 
 </body>
+
+<script type="text/javascript">
+
+$(function(){
+var wait = document.getElementById("wait");
+/* 아래쪽에 있었는데 자꾸 setimeout이 안되고 잘 안나와서 위로 올림 */
+wait.style.display = 'block';
+setTimeout(function() {
+	calendar.render(); 
+	wait.style.display = 'none';
+		}, 3000);	 
+
+var Calendar = FullCalendar.Calendar;
+var Draggable = FullCalendarInteraction.Draggable;
+
+var containerEl = document.getElementById('external-events');
+var calendarEl = document.getElementById('calendar');
+var checkbox = document.getElementById('drop-remove');
+
+var calendar = new Calendar(calendarEl, {
+    plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+    customButtons: {
+        choolCheck: {
+          text: '출석체크',
+          click: function() {
+			var date = new Date();
+          	var currentDate = date.getFullYear() + "-"+ (date.getMonth()+1) + "-" +date.getDate();
+          	var stringDate = date.getFullYear() +""+(date.getMonth()+1) +date.getDate();
+			$(function(){
+				$.ajax({
+					url : "/myPage/json/choolChecking",
+					method : "post",
+					dataType : "json",
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					data : JSON.stringify({
+						currentDate : currentDate,
+						year : date.getFullYear(),
+						month : date.getMonth()+1,
+						day : date.getDate(),
+						stringDate : stringDate
+					}),
+					success : function(JSONData, Status) {
+								
+							if(JSONData.error == 'error'){
+								alert("이미 출석체크 하셨습니다.");
+							}else{
+								calendar.addEvent(JSONData);
+							}
+						}
+				})	
+			})
+          }
+        }
+      },
+    header: {
+      left: 'title',
+      right : 'choolCheck'
+    },
+			eventSources: [{
+
+events: function(start, callback) {
+    $.ajax({
+        url     : '/myPage/json/choolCheck',
+        type    : 'get',
+        dataType: 'json',
+        success : function(doc) {
+            
+           	callback(doc);
+        }
+    });
+}
+}],
+    editable: false,
+    eventLimit : true,
+    cache : true,
+    locale: 'ko'
+  });
+
+})
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////
+ 
+
+
+
+
+
+
+</script>
+
+
 </html>

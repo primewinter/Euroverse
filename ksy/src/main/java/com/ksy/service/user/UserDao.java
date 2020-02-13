@@ -2,11 +2,13 @@ package com.ksy.service.user;
 
 import java.util.List;
 
+import com.ksy.service.domain.Plan;
+import com.ksy.service.domain.TripSurvey;
 import com.ksy.service.domain.User;
 
 public interface UserDao {
 	
-public void addUser(User user) throws Exception;
+	public void addUser(User user) throws Exception;
 	
 	public void updateUser(User user) throws Exception;
 	public void updatePwd(User user)throws Exception;
@@ -24,11 +26,13 @@ public void addUser(User user) throws Exception;
 	
 	
 	
+
 	
 	
 	
-	
-	
+	///////////////////////////////여행완료인 플래너 목록///////////////////////////////////////////////
+	public List<Plan> getEndPlanList(String userId)throws Exception;
+	/////////////////////////////////////////////////////////////////////////////
 	
 	
 	////////////////////////////플래너에서 사용하는 메소드////////////////////////////////////

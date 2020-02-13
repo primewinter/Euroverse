@@ -37,7 +37,15 @@
 	<result property="usedPoint"		column="used_point"			jdbcType="NUMERIC"/>
 	<result property="usedDate"		column="used_date"			jdbcType="TIMESTAMP"/>
 </resultMap>	
-	
+
+<resultMap id="tripSurveySelectMap" type="tripSurvey">
+	<result property="userId"		column="user_id"			jdbcType="VARCHAR"/>
+	<result property="surveyId"		column="survey_id"			jdbcType="VARCHAR"/>
+	<result property="surveyType"		column="survey_type"			jdbcType="VARCHAR"/>
+	<result property="surveyChoice"		column="survey_choice"			jdbcType="VARCHAR"/>
+	<result property="surveyImg"		column="survey_img"			jdbcType="VARCHAR"/>
+</resultMap>	
+
 
 <!-- 
 <resultMap id="statsSelectMap" type="stats">
@@ -72,7 +80,19 @@
 
  -->
 
-
+<resultMap type="plan" id="planSelectMap">
+		<result	jdbcType="VARCHAR"		column="plan_id"		property="planId"/>
+		<result	jdbcType="VARCHAR"		column="plan_master_id"	property="planMaster.userId"/>
+		<result	jdbcType="VARCHAR"		column="plan_title"		property="planTitle"/>
+		<result	jdbcType="VARCHAR"		column="plan_img"		property="planImg"/>
+		<result	jdbcType="CHAR"			column="plan_type"		property="planType"/>
+		<result	jdbcType="TIMESTAMP"	column="plan_reg_date"	property="planRegDate"/>
+		<result	jdbcType="TIMESTAMP"	column="start_date"		property="startDate"/>
+		<result	jdbcType="VARCHAR"		column="plan_status"	property="planStatus"/>
+		
+		<result	jdbcType="NUMERIC"		column="plan_total_days"	property="planTotalDays"/>
+		<result	jdbcType="NUMERIC"		column="plan_party_size"	property="planPartySize"/>
+</resultMap>
 
 
 
@@ -84,9 +104,9 @@
 
 회원가입 -->
 <insert id="addUser" parameterType="user">
-INSERT INTO USERS
-( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot ,  push_agree , reg_date) 
-VALUES(#{userId} , #{userName} , #{nickname} , #{pwd} , 'G' , #{email} , #{phone} , #{userImg,jdbcType=VARCHAR} , #{sex} , #{birth} , 3 , #{pushAgree,jdbcType=CHAR} , systimestamp )
+	INSERT INTO USERS
+	( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot ,  push_agree , reg_date) 
+	VALUES(#{userId} , #{userName} , #{nickname} , #{pwd} , 'G' , #{email} , #{phone} , #{userImg,jdbcType=VARCHAR} , #{sex} , #{birth} , 3 , #{pushAgree,jdbcType=CHAR} , systimestamp )
 </insert>
 
 
@@ -276,11 +296,36 @@ WHERE
 
 
 
+<insert id="addTripSurvey" parameterType="tripSurvey">
+	INSERT INTO TRIP_SURVEY
+	(survey_id , survey_type , survey_choice , user_id , survey_img)
+	VALUES ( TO_CHAR(seq_trip_survey_survey_id.nextval),#{surveyType,jdbcType=VARCHAR} , #{surveyChoice,jdbcType=VARCHAR},  #{userId,jdbcType=VARCHAR} , #{surveyImg,jdbcType=VARCHAR})
+</insert>
+
+<select id = "getTripSurveyList" parameterType="String" resultMap="tripSurveySelectMap">
+	SELECT 
+	survey_id , user_id , survey_type , survey_choice , survey_img
+	FROM TRIP_SURVEY
+	WHERE user_id = #{value}
+</select>
 
 
 
 
 
+
+
+<select id="getEndPlanList" parameterType="string"	resultMap="planSelectMap">
+		SELECT p.plan_id, p.plan_title, p.start_date, count(*)
+		FROM plan p, todo t
+		WHERE p.deleted = 'F'
+			AND p.plan_id = t.plan_id 
+			AND p.plan_status = 'C'
+			AND p.plan_id IN ( SELECT ref_id FROM party WHERE party_user_id = #{userId} AND party_type = 'P' )
+		GROUP BY p.plan_id, p.plan_title, p.start_date
+		ORDER BY p.plan_id
+</select>
+	
 
 
 

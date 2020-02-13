@@ -6,7 +6,7 @@
 <a class="nav-link active" href="/">
 		<h6>메인</h6>
 </a>
-<jsp:include page="/view/user/loginTest.jsp"></jsp:include>
+<jsp:include page="/view/user/login.jsp"></jsp:include>
 
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">
 로그인모달
@@ -18,17 +18,16 @@ ${user.nickname}님 로그인중....
 </p>
 <button type="button" class="btn btn-dark">로그아웃</button>
 </c:if>
-
 <c:if test="${user.userId == null}">
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal" data-backdrop="static" data-keyboard="false">
 로그인
 </button>
 </c:if>
 
 <br/>
-<a href="../view/flight/searchFlight.jsp">항공권 검색</a>
+<a href="/view/flight/searchFlight.jsp">항공권 검색</a>
 <br/>
-<a href="../view/room/searchRoom.jsp">숙소 검색</a>
+<a href="/view/room/searchRoom.jsp">숙소 검색</a>
 <br/>
 <a href="/order/getOrderList">주문 목록</a>
 
@@ -100,7 +99,7 @@ ${user.nickname}님 로그인중....
 				    <br />
 				    
 				    <script type="text/javascript">
-				        var pushAddr = "ws://192.168.0.82:8080/websocket/";
+				        var pushAddr = "ws://localhost:8080/websocket/";
 				        var webSocket;
 				        var userId = '${user.userId}';
 				        
@@ -431,6 +430,7 @@ ${user.nickname}님 로그인중....
         .footerBar-content {
         	background-color: white;
         }
+        
         
 
 	</style>

@@ -44,7 +44,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <style>
 
-h6{
+.addH6{
 	color: red;
 }
 
@@ -131,16 +131,16 @@ $(document).ready(function () {
 
 
 $(function(){
-	
+	$(".nav-link:contains('회원가입')").addClass("disabled");
 
 	
-var userId = $("input[name='userId'");
-var pwd = $("input[name='pwd']");
+var userId = $("#userId");
+var pwd = $("#pwd");
 var pwdConfirm = $("#pwdConfirm");
-var userName = $("input[name='userName']");
-var nickname = $("input[name='nickname']");
+var userName = $("#userName");
+var nickname = $("#nickname");
 $("input[name='email']").val($("#emailId").val()+"@"+$("#choiceEmail").val());
-var email =  $("input[name='email']");
+var email =  $("#email");
 var emailId = $("#emailId");
 
 var birth = $("input[name='birth']");
@@ -153,7 +153,7 @@ var phone3 = $("#phone3");
 
 var image = $("input[name='image']");
 
-var h6 = document.getElementsByTagName('h6');
+var h6 = document.getElementsByClassName('addH6');
 
 	$(document).on('keyup', '#userId', function(event) {
 		
@@ -355,40 +355,44 @@ var h6 = document.getElementsByTagName('h6');
 	
 $(function(){
 	$(".btn-primary").on("click",function(){
-		
-		
-		var userId = $("input[name='userId']");
-		var pwd = $("input[name='pwd']");
+		var userId = $("#userId");
+		var pwd = $("#pwd");
 		var pwdConfirm = $("#pwdConfirm");
-		var userName = $("input[name='userName']");
-		var nickname = $("input[name='nickname']");
+		var userName = $("#userName");
+		var nickname = $("#nickname");
 		$("input[name='email']").val($("#emailId").val()+"@"+$("#choiceEmail").val());
-		var email =  $("input[name='email']");
+		var email =  $("#email");
 		var birth = $("input[name='birth']");
 		var sex = $("input[name='sex']");
 		$("input[name='phone']").val($("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val());
-		var phone = $("input[name='phone']");
+		var phone = $("#phone");
 		var image = $("input[name='image']");
-		var dreamCity = $("input[name='dreamCity']");
+		var dreamCountry = $("input[name='dreamCountry']");
 		var tripStyle = $("input[name='tripStyle']");
 		
 		var submitAlert = $(".alert-danger");
 		var alertMessage = $(".alert-danger strong");
 		
-		var h6 = document.getElementsByTagName('h6');
+		var h6 = document.getElementsByClassName('addH6');
 	
 		 
-		for(var i=1;i<=$("input:checkbox[class=dreamCity]").length;i++){
-			 if($("input:checkbox[id=dreamCity"+i+"]").is(":checked") == true) {
-				  var value = $("input:checkbox[id=dreamCity"+i+"]").val();
-				  $("#checkDreamCity").append("<input type='hidden' name='dreamCity' value='"+value+"'>");
+		for(var i=1;i<=$("input:checkbox[class=dreamCountry]").length;i++){
+			 if($("input:checkbox[id=dreamCountry"+i+"]").is(":checked") == true) {
+				  var value = $("input:checkbox[id=dreamCountry"+i+"]").val();
+				  var countryImg = $("#countryImg"+i).val();
+				  
+				  $("#checkDreamCountry").append("<input type='hidden' name='dreamCountry' value='"+value+"'>");
+				  $("#checkDreamCountry").append("<input type='hidden' name='countryImg' value='"+countryImg+"'>'")
 			} 
 		}/* for End */	 
 		
 		for(var i=1;i<=$("input:checkbox[class=tripStyle]").length;i++){
 			if($("input:checkbox[id=tripStyle"+i+"]").is(":checked")==true){
 				var value = $("input:checkbox[id=tripStyle"+i+"]").val();
+				var styleImg = $("styleImg"+i).val();
+				
 				 $("#checkTripStyle").append("<input type='hidden' name='tripStyle' value='"+value+"'>");
+				 $("#checkTripStyle").append("<input type='hidden' name='styleImg' value='"+styleImg+"'>");
 			}
 		}/* for End(tripStyle) */
 		
@@ -413,17 +417,6 @@ $(function(){
 			submitAlert.prop("style","display : block");
 			alertMessage.html("아이디에 띄어쓰기는 사용할 수 없습니다.");
 			return;
-		}else{
-			
-			/* for(var i=0;i<userId.val().length;i++){
-				if(userId.val()[i] == " "){
-					submitAlert.prop("style","display : block");
-					alertMessage.html("아이디에 띄어쓰기는 사용할 수 없다고 했잖아!!!!!!!!!!!!!!!!!!!!!!!!.");
-					return;
-				}
-			}
-			 */
-			
 		}
 		
 		if($.trim(pwd.val())==""){
@@ -495,27 +488,10 @@ $(function(){
 			return;
 		}
 		
-		
-		
-	/* 	
-		 alert("      userId="+userId.val()
-				+"   pwd="+pwd.val()
-				+"   pwdConfirm="+pwdConfirm.val()
-				+"   userName="+userName.val() 
-				+"   nickname="+nickname.val()
-				+"   email="+email.val()
-				+"   birth="+birth.val()
-				+"   sex="+sex.val()
-				+"   phone="+phone.val()
-				+"   image="+image.val()
- 				+"   dreamCity="+dreamCity.val()
-				+"   tripStyle="+tripStyle.val()); */
+
 		 $("#myModal").modal({keyboard: false,backdrop: 'static'});
 		 $("#myModal").modal("show");
-		//$("form").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
-		//h6태그 length구하고 포문돌려서 다 "" 값인지 확인하고 서밋보내고 하나라도 널스트링 아니라면 빠꾸먹이기
-		
-		
+	
 	});/* btn-primary End */
 });/* function End */
 
@@ -540,10 +516,10 @@ $(function(){
 	})
 	
 	
-	$("input[class='dreamCity']").on("click",function(){
-		if($("input:checkbox[class=dreamCity]:checked").length > 5){
+	$("input[class='dreamCountry']").on("click",function(){
+		if($("input:checkbox[class=dreamCountry]:checked").length > 5){
 			alert("5개까지만 선택 가능합니다.");
-			$("input:checkbox[id=dreamCity"+$(this).prev().val()+"]").prop("checked",false);
+			$("input:checkbox[id=dreamCountry"+$(this).prev().val()+"]").prop("checked",false);
 		}
 	})
 	
@@ -577,9 +553,9 @@ function readImg(input){
 	if(input.files && input.files[0]){
 		var render = new FileReader();
 		render.onload = function(e){
-			 var image = $('#preview').attr('src',e.target.result).attr('width','300px').attr('height','300px');
+			 var image = $('#preview').attr('src',e.target.result).attr('width','300px').attr('height','300px').css('overflow' , 'hidden');
 			 console.log(e.target.result);
-				 $("#preview").html("<img src="+e.target.result+" style='border-color: #E6E6E6; border: 10px;'>");
+				 $("#preview").html("<img src="+e.target.result+" style='border-color: #E6E6E6; border: 10px; overflow : hidden'>");
 		}
 		 render.readAsDataURL(input.files[0]);
 	}
@@ -597,11 +573,11 @@ function readImg(input){
 
 </head>
 <body>
-<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-<div class="col-4 mx-auto">
-		<h1 class="display-1">회원가입</h1>
-
-</div>
+<%-- <jsp:include page="/toolbar/toolBar.jsp"></jsp:include> --%>
+<jsp:include page="/view/user/userToolBar.jsp"></jsp:include>
+<div class="col-md-7 mx-auto" > 
+				<h1 class="text-center">회원가입</h1>
+</div> 
 
 <div class="container">
 
@@ -617,7 +593,7 @@ function readImg(input){
 				<span class="input-group-text"><i class="fas fa-user"></i></span>
 				<input type="text" class="form-control" placeholder="userId" id="userId" name="userId" style="ime-mode:inactive;">
 			</div>
-			<h6></h6>
+			<h6 class="addH6"></h6>
 		</div>
 	</div>
 	
@@ -628,7 +604,7 @@ function readImg(input){
 				<span class="input-group-text"><i class="fas fa-lock"></i></span>
 				<input type="password" class="form-control" placeholder="password" id="pwd" name="pwd">
 			</div>
-			<h6></h6>
+			<h6 class="addH6"></h6>
 		</div>
 	</div>
 	
@@ -639,7 +615,7 @@ function readImg(input){
 				<span class="input-group-text"><i class="fas fa-lock"></i></span>
 				<input type="password" class="form-control" placeholder="password Confirm" id="pwdConfirm">
 			</div>
-			<h6></h6>
+			<h6 class="addH6"></h6>
 		</div>
 	</div>
 	
@@ -652,7 +628,7 @@ function readImg(input){
 				<span class="input-group-text"><i class="fas fa-user"></i></span>
 				<input type="text" class="form-control" placeholder="Only Korean" name="userName" id="userName" onkeypress="if(!(event.keyCode < 47 && event.keyCode > 58)) event.returnValue=false;">
 			</div>
-			<h6></h6>
+			<h6 class="addH6"></h6>
 		</div>
 	</div>
 	
@@ -672,7 +648,7 @@ function readImg(input){
 				
 				
 			</div>
-			<h6></h6>
+			<h6 class="addH6"></h6>
 		</div>
 	</div>
 	
@@ -683,7 +659,7 @@ function readImg(input){
 				<span class="input-group-text"><i class="fas fa-baby"></i></span>
 				<span class="input-group-append"><input type="text" class="form-control" placeholder="birth" name="birth" readonly="readonly" id="datepicker"></span>
 			</div>
-			<h6></h6>
+			<h6 class="addH6"></h6>
 				
 		</div>
 	</div>
@@ -732,7 +708,7 @@ function readImg(input){
 			 	
 			 	<input type="hidden" name="email" id="email">
 			</div>
-			<h6></h6>
+			<h6 class="addH6"></h6>
 		</div>
 	</div>
 	
@@ -754,7 +730,7 @@ function readImg(input){
 					  <label class="form-check-label" for="inlineRadio2">Female<i class="fas fa-female"></i></label>
 					</div>
 			</div>
-			<h6></h6>
+			<h6 class="addH6"></h6>
 		</div>
 	</div>
 	
@@ -768,9 +744,9 @@ function readImg(input){
 		      <input type="text" class="form-control" id="phone1" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"> - 
 		      <input type="text" class="form-control" id="phone2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"> - 
 		      <input type="text" class="form-control" id="phone3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4">
-		      <input type="hidden" name="phone"> 
+		      <input type="hidden" name="phone" id="phone"> 
 		    </div>
-		    <h6></h6>
+		    <h6 class="addH6"></h6>
 		</div>
  	 </div>
  	 
@@ -783,7 +759,7 @@ function readImg(input){
 			  <label class="custom-file-label" for="customFile" ><i class="fas fa-camera-retro">size 360x360</i> </label>  
 			  <!-- 프로필 이미지 미리보기 만들기! 사이즈제한 걸어두기!~~~ -->
 			</div>
-			<h6></h6>
+			<h6 class="addH6"></h6>
 			</c:if>
 			<div id="preview">
 				<c:if test="${loginType=='sns'}">
@@ -797,10 +773,10 @@ function readImg(input){
 
 	 <div class="form-group">
 	 	<div class="col-6 mx-auto">
-	 		<b>가고싶은 도시</b>(최대 5개)
+	 		<b>가고싶은 나라</b>(최대 5개)
 				<div class="swiper-container s1">
     				<div class="swiper-wrapper">
-     	 				 <c:forEach var="dreamCity" items="${cityList}" varStatus="status">
+     	 				 <c:forEach var="dreamCountry" items="${countryList}" varStatus="status">
 							<c:if test="${status.index%8 eq 0 && status.index ne 0}">
 								</div><!-- row row-cols-1 row-cols-md-5 -->
 								</div><!-- swiper-slide -->
@@ -810,17 +786,18 @@ function readImg(input){
 			     	 			<div class="row row-cols-1 row-cols-md-5">
 							</c:if>
 							<div class="card">
-							    <img alt="" src="http://ipsumimage.appspot.com/50x60">
-					 			<p class="card-text"> 
+							    <img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="90px" style="overflow: hidden;">
+					 			<p class="card-text" style="font-size: x-small;"> 
 					 				<input type="hidden" value="${status.count}">
-					   	 			<input  type="checkbox" id="dreamCity${status.count}" value="${dreamCity}" class="dreamCity">
-					   	 	 		<label  for="dreamCity${status.count}">${dreamCity}</label>
+					   	 			<input  type="checkbox" id="dreamCountry${status.count}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
+					   	 	 		<input type="hidden" id="countryImg${status.count}" value="${dreamCountry.surveyImg}">
+					   	 	 		<label  for="dreamCountry${status.count}">${dreamCountry.surveyChoice}</label>
 		  						</p>
 							</div> 
 					
 						</c:forEach> 
-						<div id="checkDreamCity"></div>
-						<h6></h6>
+						<div id="checkDreamCountry"></div>
+						<h6 class="addH6"></h6>
 					</div><!-- wrapper -->
 				</div><!-- s1 -->
    			 </div><!-- 가고싶은 도시 col-6 mx-auto  -->
@@ -834,7 +811,7 @@ function readImg(input){
 	 			<b>여행스타일</b>(최대 3개)
 					<div class="swiper-container s2">
     					<div class="swiper-wrapper">
-     	 					 <c:forEach var="style" items="${tripStyle}" varStatus="status">
+     	 					 <c:forEach var="style" items="${tripStyleList}" varStatus="status">
 								<c:if test="${status.index%8 eq 0 && status.index ne 0}">
 									</div><!-- row row-cols-1 row-cols-md-5 -->
 									</div><!-- swiper-slide -->
@@ -847,13 +824,14 @@ function readImg(input){
 						    		<img alt="" src="http://ipsumimage.appspot.com/50x60">
 				 						<p class="card-text"> 
 				 							<input type="hidden" value="${status.count}">
-								   	 		<input  type="checkbox" id="tripStyle${status.count}" value="${style}" class="tripStyle">
-								   	 	 	<label  for="tripStyle${status.count}">${style}</label>
+								   	 		<input  type="checkbox" id="tripStyle${status.count}" value="${style.surveyChoice}" class="tripStyle">
+								   	 		<input type="hidden" id="styleImg${status.count}" value="${style.surveyImg}">
+								   	 	 	<label  for="tripStyle${status.count}">${style.surveyChoice}</label>
 				  						</p>
 								</div> 
 							</c:forEach> 
 							<div id="checkTripStyle"></div>
-							<h6></h6>
+							<h6 class="addH6"></h6>
 						</div><!-- wrapper -->
 					</div><!-- s2 -->
    				 </div><!--여행스타일 col-6 mx-auto End -->
@@ -878,7 +856,7 @@ function readImg(input){
 	
 	
 	
-	<input type="hidden" name="dreamCity">
+	<input type="hidden" name="dreamCountry">
 	<input type="hidden" name="tripStyle">
 	
 	

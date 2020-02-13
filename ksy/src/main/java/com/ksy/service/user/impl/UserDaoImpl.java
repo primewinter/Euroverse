@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.ksy.service.domain.Plan;
+import com.ksy.service.domain.TripSurvey;
 import com.ksy.service.domain.User;
 import com.ksy.service.user.UserDao;
 
@@ -77,5 +79,36 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectOne("UserMapper.checkUserId",userId);
 	}
 	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public List<Plan> getEndPlanList(String userId)throws Exception{
+		System.out.println("getEndPlanList Dao");
+		
+		return sqlSession.selectList("UserMapper.getEndPlanList",userId);
+	}
 	
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ksy.common.Search;
 import com.ksy.service.domain.Point;
+import com.ksy.service.domain.TripSurvey;
 import com.ksy.service.myPage.MyPageDao;
 import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.user.UserDao;
@@ -75,6 +76,26 @@ public class MyPageServiceImpl implements MyPageService{
 		myPageDao.updateTotalPoint(point);
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		///////////////////////survey//////////////////////
+	public void addTripSurvey(TripSurvey tripSurvey) throws Exception{
+		System.out.println("UserServiceImpl addTripSurvey");
+		myPageDao.addTripSurvey(tripSurvey);
+	}
+	public List<TripSurvey> getTripSurveyList(String userId) throws Exception{
+		System.out.println("UserDaoImpl getTripSurveyList");
+		return myPageDao.getTripSurveyList(userId);
+	}
+
+	
 
 	
 

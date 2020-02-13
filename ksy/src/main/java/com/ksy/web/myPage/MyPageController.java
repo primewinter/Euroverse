@@ -21,6 +21,7 @@ import com.ksy.common.Search;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.User;
 import com.ksy.service.myPage.MyPageService;
+import com.ksy.service.plan.PlanService;
 import com.ksy.service.user.UserService;
 
 @Controller
@@ -34,6 +35,10 @@ public class MyPageController {
 	@Autowired
 	@Qualifier("myPageServiceImpl")
 	private MyPageService myPageService;
+	
+	@Autowired
+	@Qualifier("planServiceImpl")
+	private PlanService planService;
 
 	 @Value("#{commonProperties['postPageUnit']}") int pageUnit;
 	

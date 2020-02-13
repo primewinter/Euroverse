@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.ksy.service.domain.Plan;
+import com.ksy.service.domain.TripSurvey;
 import com.ksy.service.domain.User;
 import com.ksy.service.user.UserDao;
 import com.ksy.service.user.UserService;
@@ -82,6 +84,39 @@ public class UserServiceImpl implements UserService {
 	public String checkUserId(String userId)throws Exception{
 		System.out.println(this.getClass()+"checkUserId");
 		return userDao.checkUserId(userId);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	////////////////////////////plan////////////////////////////////
+	public List<Plan> getEndPlanList(String userId)throws Exception{
+		System.out.println(this.getClass()+"getEndPlanList");
+		return userDao.getEndPlanList(userId);
 	}
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ksy.common.Search;
 import com.ksy.service.domain.Point;
+import com.ksy.service.domain.TripSurvey;
 
 public interface MyPageDao {
 	public void addPoint(Point point) throws Exception;
@@ -13,6 +14,16 @@ public interface MyPageDao {
 	
 	
 	
+	
+	
 	public void updateTotalPoint(Point point)throws Exception;
+	
+	
+	
+	
+	
+	/////////////////////survey/////////////////////////////////////////
+	public void addTripSurvey(TripSurvey tripSurvey) throws Exception;
+	public List<TripSurvey> getTripSurveyList(String userId) throws Exception;
 	
 }

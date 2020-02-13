@@ -136,6 +136,103 @@ $(function(){
                     </div>
 		</div><!--row -->
 		
+	<%-- <c:if test="${fn:length(tripSurveyList)> 0} "> --%>
+	
+	
+		
+		<hr class="one" style="height: 30" >
+		
+		
+		<div class="row">
+			<div class="col-md-5">
+			</div>
+			
+			<h3>가고싶은 나라 </h3>
+		</div>
+		<div class="row">
+			<div class="col-md-5"></div>
+ 				<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
+					<c:if test="${tripSurvey.surveyType=='D'}">
+						<div class="card" style="width: 100px;">
+						  <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" class="card-img-top" alt="...">
+						  <div class="card-body">
+						    <p class="card-text">${tripSurvey.surveyChoice}</p>
+						  </div>
+						</div>
+					
+					
+					
+					
+					</c:if>
+				</c:forEach> 
+		</div>
+		
+		
+		
+		<div class="row">
+			<div class="col-md-5">
+			</div>
+			
+			<h3>나의 여행 스타일 </h3>
+		</div>
+		<div class="row">
+			<div class="col-md-5"></div>
+				<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
+						<c:if test="${tripSurvey.surveyType=='T'}">
+						<div class="card" style="width: 100px;">
+						  <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" class="card-img-top" alt="...">
+						  <div class="card-body">
+						    <p class="card-text">${tripSurvey.surveyChoice}</p>
+						  </div>
+						</div>
+						
+						</c:if>
+				</c:forEach> 
+		
+			
+		</div>
+		
+		
+		
+<%-- </c:if>		
+		 --%>
+		
+		
+		
+		
+		
+		
+		
+		
+		<hr class="one" style="height: 30" >
+		
+		<div class="row">
+			<div class="col-md-5">
+			</div>
+			
+			<h3>유럽에 머문 시간 </h3>
+			
+		
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+			</div>
+			<div class="col-md-1">
+				${travelDate}일  
+			</div>
+			<div class="col-md-1">
+				${travelHour}시간
+			</div>
+			<div class="col-md-1">
+				${travelMin}분
+			</div>
+			
+		</div>
+		
+		<div class="row">
+		
+		</div>
+		
       
       
       

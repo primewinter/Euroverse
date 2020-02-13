@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ksy.common.Search;
 import com.ksy.service.domain.Point;
+import com.ksy.service.domain.TripSurvey;
 import com.ksy.service.myPage.MyPageDao;
 import com.ksy.service.user.UserDao;
 
@@ -71,5 +72,31 @@ public class MyPageDaoImpl implements MyPageDao{
 		System.out.println("MyPageDao updateTotalPoint");
 		sqlSession.update("UserMapper.updateTotalPoint",point);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void addTripSurvey(TripSurvey tripSurvey) throws Exception{
+		System.out.println("UserDaoImpl addTripSurvey");
+		sqlSession.insert("UserMapper.addTripSurvey",tripSurvey);
+	}
+	
+	
+	
+	public List<TripSurvey> getTripSurveyList(String userId) throws Exception{
+		System.out.println("UserDaoImpl getTripSurveyList");
+		return sqlSession.selectList("UserMapper.getTripSurveyList",userId);
+	}
+	
+	
+	
+	
 
 }

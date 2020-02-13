@@ -40,8 +40,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.net.HttpHeaders;
+import com.ksy.service.domain.Plan;
+import com.ksy.service.domain.TripSurvey;
 import com.ksy.service.domain.User;
 import com.ksy.service.myPage.MyPageService;
+import com.ksy.service.plan.PlanService;
 import com.ksy.service.user.UserService;
 
 @Controller
@@ -56,6 +59,10 @@ public class UserController {
 	@Autowired
 	@Qualifier("myPageServiceImpl")
 	private MyPageService myPageService;
+	
+	@Autowired
+	@Qualifier("planServiceImpl")
+	private PlanService planService;
 
 	String uploadPath = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages";
 	
@@ -88,46 +95,28 @@ public class UserController {
 	@RequestMapping(value="addUser" , method = RequestMethod.GET)
 	public String addUser(Model model)throws Exception{
 		System.out.println(this.getClass()+"addUser");
-		List cityList = new ArrayList();
-		cityList.add("도시1");
-		cityList.add("도시2");
-		cityList.add("도시3");
-		cityList.add("도시4");
-		cityList.add("도시5");
-		cityList.add("도시6");
-		cityList.add("도시7");
-		cityList.add("도시8");
-		cityList.add("도시9");
-		cityList.add("도시10");
-		cityList.add("도시11");
-		cityList.add("도시12");
-		cityList.add("도시13");
-		cityList.add("도시14");
-		cityList.add("도시15");
-		cityList.add("도시16");
-		cityList.add("도시17");
-		
-		List tripStyle = new ArrayList();
-		tripStyle.add("먹방");
-		tripStyle.add("배낭여행");
-		tripStyle.add("실연");
-		tripStyle.add("온천");
-		tripStyle.add("힐링");
-		
-		
-		model.addAttribute("cityList",cityList);
-		model.addAttribute("tripStyle",tripStyle);
-		
+//		List cityList = new ArrayList();
+//		List tripStyleList = new ArrayList();
+//		List cityImgList = new ArrayList();
+//		List tripStyleImgList = new ArrayList();
 	
+		List<TripSurvey> countryList = countryList();
+		List<TripSurvey> tripStyleList = tripStyleList();
+		
+		for(int i=1;i<47;i++) {
+			System.out.println(countryList.get(i));
+		}
+		
+		model.addAttribute("countryList",countryList);
+		model.addAttribute("tripStyleList",tripStyleList);
 		return "forward:/view/user/addUser.jsp";
 	}
 	
 	@RequestMapping(value = "addUser" , method=RequestMethod.POST)
-	public String addUser(@ModelAttribute("user")User user ,Model model) throws Exception {
+	public String addUser(@ModelAttribute("user")User user ,Model model , HttpSession session) throws Exception {
 		System.out.println("addUser POST Start");
 		System.out.println(user);
-		System.out.println(user.getDreamCity());
-		System.out.println(user.getTripStyle());
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		//드림시티랑 트립스타일도 따로 테이블? 로 관리하기 유저아이디랑 조인
 		
 //		if(user.getImage().isEmpty()==false) {
@@ -161,21 +150,74 @@ public class UserController {
 			user.setUserImg(fileName);
 			
 		}else {
-			user.setUserImg("defaultPlanImage.jpg");
+			user.setUserImg("defaultUserImage.jpg");
 		}
-		
+		System.out.println("일단 여기까지!!@@!@!@@! 1111111111");
 		userService.addUser(user);
 		
+		System.out.println(user);
+		System.out.println(user.getDreamCountry());
+		System.out.println(user.getCountryImg());
+		System.out.println(user.getStyleImg());
+		for(int i=0;i<(user.getDreamCountry().size())-1;i++) {
+			System.out.println(user.getDreamCountry().get(i));
+			TripSurvey tripSurvey = new TripSurvey();
+			tripSurvey.setUserId(user.getUserId());
+			tripSurvey.setSurveyChoice(user.getDreamCountry().get(i));
+			tripSurvey.setSurveyImg(user.getCountryImg().get(i));
+			tripSurvey.setSurveyType("D");
+			myPageService.addTripSurvey(tripSurvey);
+		}
+		
+		
+		System.out.println(user.getTripStyle());
+		for(int j=0;j<(user.getTripStyle().size())-1;j++) {
+			System.out.println(user.getTripStyle().get(j));
+			TripSurvey tripSurvey = new TripSurvey();
+			tripSurvey.setUserId(user.getUserId());
+			tripSurvey.setSurveyChoice(user.getTripStyle().get(j));
+			tripSurvey.setSurveyImg(user.getStyleImg().get(j));
+			tripSurvey.setSurveyType("T");
+			myPageService.addTripSurvey(tripSurvey);
+		}
+		System.out.println("일단 여기까지!!@@!@!@@! 22222222222222");
+		
+		User newUser = (User)userService.getUser(user.getUserId());
+		session.setAttribute("user", newUser);
 		
 		
 		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "getUser" , method=RequestMethod.GET)
-	public String getUser() {
+	public String getUser(HttpSession session , Model model) throws Exception {
 		System.out.println(this.getClass()+"getUser Start");
+		User user = (User)session.getAttribute("user");
+		List<Plan> planList = userService.getEndPlanList(user.getUserId());
+		List<Plan> endPlanList = new ArrayList<Plan>();
+		int travelDate =0;
 		
-		return "redirect:/view/user/getUser.jsp";
+		for(int i=0;i<planList.size();i++) {
+			System.out.println("으아아앙아!!!!!!!!");
+			System.out.println(planService.getPlan(planList.get(i).getPlanId()));
+			endPlanList.add(planService.getPlan(planList.get(i).getPlanId()));
+		}
+		
+		for(int j=0;j<endPlanList.size();j++) {
+			System.out.println(endPlanList.get(j).getPlanTotalDays());
+			travelDate += endPlanList.get(j).getPlanTotalDays();
+		}
+		
+		System.out.println(user.getUserId());
+		List<TripSurvey> tripSurveyList = myPageService.getTripSurveyList(user.getUserId());
+		
+		
+		model.addAttribute("travelDate",travelDate);
+		model.addAttribute("travelHour",travelDate*24);
+		model.addAttribute("travelMin",travelDate*24*60);
+		model.addAttribute("tripSurveyList",tripSurveyList);
+		
+		return "forward:/view/user/getUser.jsp";
 	}
 	
 	
@@ -670,6 +712,352 @@ public class UserController {
         model.addAttribute("loginType","sns");
 
 		return "forward:/user/addUser";
+	}
+	
+	
+	public List<TripSurvey> tripStyleList(){
+		List<TripSurvey> tripStyleList = new ArrayList<TripSurvey>();
+		
+		TripSurvey tripSurvey1 = new TripSurvey();
+		tripSurvey1.setSurveyChoice("술");
+		tripSurvey1.setSurveyImg("");
+		tripStyleList.add(tripSurvey1);
+		
+		TripSurvey tripSurvey2 = new TripSurvey();
+		tripSurvey2.setSurveyChoice("커피");
+		tripSurvey2.setSurveyImg("");
+		tripStyleList.add(tripSurvey2);
+		
+		TripSurvey tripSurvey3 = new TripSurvey();
+		tripSurvey3.setSurveyChoice("관광");
+		tripSurvey3.setSurveyImg("");
+		tripStyleList.add(tripSurvey3);
+		
+		TripSurvey tripSurvey4 = new TripSurvey();
+		tripSurvey4.setSurveyChoice("힐링");
+		tripSurvey4.setSurveyImg("");
+		tripStyleList.add(tripSurvey4);
+		
+		TripSurvey tripSurvey5 = new TripSurvey();
+		tripSurvey5.setSurveyChoice("먹방");
+		tripSurvey5.setSurveyImg("");
+		tripStyleList.add(tripSurvey5);
+		
+		TripSurvey tripSurvey6 = new TripSurvey();
+		tripSurvey6.setSurveyChoice("종교");
+		tripSurvey6.setSurveyImg("");
+		tripStyleList.add(tripSurvey6);
+		
+		TripSurvey tripSurvey7 = new TripSurvey();
+		tripSurvey7.setSurveyChoice("숙소");
+		tripSurvey7.setSurveyImg("");
+		tripStyleList.add(tripSurvey7);
+		
+		TripSurvey tripSurvey8 = new TripSurvey();
+		tripSurvey8.setSurveyChoice("렌트카");
+		tripSurvey8.setSurveyImg("");
+		tripStyleList.add(tripSurvey8);
+		
+		TripSurvey tripSurvey9 = new TripSurvey();
+		tripSurvey9.setSurveyChoice("스포츠");
+		tripSurvey9.setSurveyImg("");
+		tripStyleList.add(tripSurvey9);
+		
+		TripSurvey tripSurvey10 = new TripSurvey();
+		tripSurvey10.setSurveyChoice("쇼핑");
+		tripSurvey10.setSurveyImg("");
+		tripStyleList.add(tripSurvey10);
+		
+		TripSurvey tripSurvey11= new TripSurvey();
+		tripSurvey11.setSurveyChoice("와인");
+		tripSurvey11.setSurveyImg("");
+		tripStyleList.add(tripSurvey11);
+		
+		TripSurvey tripSurvey12 = new TripSurvey();
+		tripSurvey12.setSurveyChoice("디저트");
+		tripSurvey12.setSurveyImg("");
+		tripStyleList.add(tripSurvey12);
+		
+//		TripSurvey tripSurvey = new TripSurvey();
+//		tripSurvey.setSurveyChoice("");
+//		tripSurvey.setSurveyImg("");
+//		tripStyleList.add(tripSurvey);
+//		
+//		TripSurvey tripSurvey = new TripSurvey();
+//		tripSurvey.setSurveyChoice("");
+//		tripSurvey.setSurveyImg("");
+//		tripStyleList.add(tripSurvey);
+//		
+//		TripSurvey tripSurvey = new TripSurvey();
+//		tripSurvey.setSurveyChoice("");
+//		tripSurvey.setSurveyImg("");
+//		tripStyleList.add(tripSurvey);
+//		
+//		TripSurvey tripSurvey = new TripSurvey();
+//		tripSurvey.setSurveyChoice("");
+//		tripSurvey.setSurveyImg("");
+//		tripStyleList.add(tripSurvey);
+//		
+//		TripSurvey tripSurvey = new TripSurvey();
+//		tripSurvey.setSurveyChoice("");
+//		tripSurvey.setSurveyImg("");
+//		tripStyleList.add(tripSurvey);
+//		
+//		TripSurvey tripSurvey = new TripSurvey();
+//		tripSurvey.setSurveyChoice("");
+//		tripSurvey.setSurveyImg("");
+//		tripStyleList.add(tripSurvey);
+//		
+//		TripSurvey tripSurvey = new TripSurvey();
+//		tripSurvey.setSurveyChoice("");
+//		tripSurvey.setSurveyImg("");
+//		tripStyleList.add(tripSurvey);
+//		
+		
+		
+		return tripStyleList;
+	}
+	
+	
+	public List<TripSurvey> countryList(){
+	List<TripSurvey> dreamCountryList = new ArrayList<TripSurvey>();
+		
+		TripSurvey tripSurvey1 = new TripSurvey();
+		tripSurvey1.setSurveyChoice("그리스");
+		tripSurvey1.setSurveyImg("Greece.gif");
+		dreamCountryList.add(tripSurvey1);
+		
+		TripSurvey tripSurvey2 = new TripSurvey();
+		tripSurvey2.setSurveyChoice("네덜란드");
+		tripSurvey2.setSurveyImg("Netherlands.gif");
+		dreamCountryList.add(tripSurvey2);
+		
+		TripSurvey tripSurvey3 = new TripSurvey();
+		tripSurvey3.setSurveyChoice("노르웨이");
+		tripSurvey3.setSurveyImg("norway.gif");
+		dreamCountryList.add(tripSurvey3);
+		
+		TripSurvey tripSurvey4 = new TripSurvey();
+		tripSurvey4.setSurveyChoice("덴마크");
+		tripSurvey4.setSurveyImg("Denmark.gif");
+		dreamCountryList.add(tripSurvey4);
+		
+		TripSurvey tripSurvey5 = new TripSurvey();
+		tripSurvey5.setSurveyChoice("라트비아");
+		tripSurvey5.setSurveyImg("Latvia.gif");
+		dreamCountryList.add(tripSurvey5);
+
+		TripSurvey tripSurvey6 = new TripSurvey();
+		tripSurvey6.setSurveyChoice("독일");
+		tripSurvey6.setSurveyImg("Germany.gif");
+		dreamCountryList.add(tripSurvey6);
+		
+		TripSurvey tripSurvey7 = new TripSurvey();
+		tripSurvey7.setSurveyChoice("루마니아");
+		tripSurvey7.setSurveyImg("Romania.gif");
+		dreamCountryList.add(tripSurvey7);
+		
+		TripSurvey tripSurvey8 = new TripSurvey();
+		tripSurvey8.setSurveyChoice("룩셈부르크");
+		tripSurvey8.setSurveyImg("Luxembourg.gif");
+		dreamCountryList.add(tripSurvey8);
+		
+		TripSurvey tripSurvey9 = new TripSurvey();
+		tripSurvey9.setSurveyChoice("리투아니아");
+		tripSurvey9.setSurveyImg("Lithuania.gif");
+		dreamCountryList.add(tripSurvey9);
+		
+		TripSurvey tripSurvey10 = new TripSurvey();
+		tripSurvey10.setSurveyChoice("리히텐슈타인");
+		tripSurvey10.setSurveyImg("Liechtenstein.gif");
+		dreamCountryList.add(tripSurvey10);
+		
+		TripSurvey tripSurvey11 = new TripSurvey();
+		tripSurvey11.setSurveyChoice("모나코");
+		tripSurvey11.setSurveyImg("Monaco.gif");
+		dreamCountryList.add(tripSurvey11);
+
+		TripSurvey tripSurvey12 = new TripSurvey();
+		tripSurvey12.setSurveyChoice("몬테네그로");
+		tripSurvey12.setSurveyImg("Montenegro.gif");
+		dreamCountryList.add(tripSurvey12);
+		
+		TripSurvey tripSurvey13 = new TripSurvey();
+		tripSurvey13.setSurveyChoice("몰도바");
+		tripSurvey13.setSurveyImg("Moldova.gif");
+		dreamCountryList.add(tripSurvey13);
+		
+		TripSurvey tripSurvey14 = new TripSurvey();
+		tripSurvey14.setSurveyChoice("몰타");
+		tripSurvey14.setSurveyImg("Malta.gif");
+		dreamCountryList.add(tripSurvey14);
+		
+		TripSurvey tripSurvey15 = new TripSurvey();
+		tripSurvey15.setSurveyChoice("벨기에");
+		tripSurvey15.setSurveyImg("Belgium.gif");
+		dreamCountryList.add(tripSurvey15);
+		
+		TripSurvey tripSurvey16 = new TripSurvey();
+		tripSurvey16.setSurveyChoice("벨라루스");
+		tripSurvey16.setSurveyImg("Belarus.gif");
+		dreamCountryList.add(tripSurvey16);
+		
+		TripSurvey tripSurvey17 = new TripSurvey();
+		tripSurvey17.setSurveyChoice("보스니아");
+		tripSurvey17.setSurveyImg("BosniaHerzegovina.gif");
+		dreamCountryList.add(tripSurvey17);
+		
+		TripSurvey tripSurvey18 = new TripSurvey();
+		tripSurvey18.setSurveyChoice("북마케도니아");
+		tripSurvey18.setSurveyImg("Macedonia.gif");
+		dreamCountryList.add(tripSurvey18);
+		
+		TripSurvey tripSurvey19 = new TripSurvey();
+		tripSurvey19.setSurveyChoice("불가리아");
+		tripSurvey19.setSurveyImg("Bulgaria.gif");
+		dreamCountryList.add(tripSurvey19);
+		
+		TripSurvey tripSurvey20 = new TripSurvey();
+		tripSurvey20.setSurveyChoice("사이프러스");
+		tripSurvey20.setSurveyImg("Cyprus.gif");
+		dreamCountryList.add(tripSurvey20);
+		
+		TripSurvey tripSurvey21 = new TripSurvey();
+		tripSurvey21.setSurveyChoice("산마리노");
+		tripSurvey21.setSurveyImg("SanMarino.gif");
+		dreamCountryList.add(tripSurvey21);
+		
+		TripSurvey tripSurvey22 = new TripSurvey();
+		tripSurvey22.setSurveyChoice("세르비아");
+		tripSurvey22.setSurveyImg("Serbia.gif");
+		dreamCountryList.add(tripSurvey22);
+		
+		TripSurvey tripSurvey23 = new TripSurvey();
+		tripSurvey23.setSurveyChoice("스웨덴");
+		tripSurvey23.setSurveyImg("Sweden.gif");
+		dreamCountryList.add(tripSurvey23);
+		
+		TripSurvey tripSurvey24 = new TripSurvey();
+		tripSurvey24.setSurveyChoice("스위스");
+		tripSurvey24.setSurveyImg("Swiss.gif");
+		dreamCountryList.add(tripSurvey24);
+		
+		TripSurvey tripSurvey25 = new TripSurvey();
+		tripSurvey25.setSurveyChoice("스페인");
+		tripSurvey25.setSurveyImg("Spain.gif");
+		dreamCountryList.add(tripSurvey25);
+		
+		TripSurvey tripSurvey26 = new TripSurvey();
+		tripSurvey26.setSurveyChoice("슬로바키아");
+		tripSurvey26.setSurveyImg("Slovak.gif");
+		dreamCountryList.add(tripSurvey26);
+		
+		TripSurvey tripSurvey27 = new TripSurvey();
+		tripSurvey27.setSurveyChoice("슬로베니아");
+		tripSurvey27.setSurveyImg("Slovenia.jpeg");
+		dreamCountryList.add(tripSurvey27);
+		
+		TripSurvey tripSurvey28 = new TripSurvey();
+		tripSurvey28.setSurveyChoice("아르메니아");
+		tripSurvey28.setSurveyImg("Armenia.gif");
+		dreamCountryList.add(tripSurvey28);
+		
+		TripSurvey tripSurvey29 = new TripSurvey();
+		tripSurvey29.setSurveyChoice("아이슬란드");
+		tripSurvey29.setSurveyImg("Iceland.gif");
+		dreamCountryList.add(tripSurvey29);
+		
+		TripSurvey tripSurvey30 = new TripSurvey();
+		tripSurvey30.setSurveyChoice("아일랜드");
+		tripSurvey30.setSurveyImg("Ireland.gif");
+		dreamCountryList.add(tripSurvey30);
+		
+		TripSurvey tripSurvey31 = new TripSurvey();
+		tripSurvey31.setSurveyChoice("아제르바이잔");
+		tripSurvey31.setSurveyImg("Azerbaijan.gif");
+		dreamCountryList.add(tripSurvey31);
+		
+		TripSurvey tripSurvey32 = new TripSurvey();
+		tripSurvey32.setSurveyChoice("안도라");
+		tripSurvey32.setSurveyImg("Andorra.gif");
+		dreamCountryList.add(tripSurvey32);
+		
+		TripSurvey tripSurvey33 = new TripSurvey();
+		tripSurvey33.setSurveyChoice("알바니아");
+		tripSurvey33.setSurveyImg("Albania.gif");
+		dreamCountryList.add(tripSurvey33);
+		
+		TripSurvey tripSurvey34 = new TripSurvey();
+		tripSurvey34.setSurveyChoice("에스토니아");
+		tripSurvey34.setSurveyImg("Estonia.gif");
+		dreamCountryList.add(tripSurvey34);
+		
+		TripSurvey tripSurvey35 = new TripSurvey();
+		tripSurvey35.setSurveyChoice("영국");
+		tripSurvey35.setSurveyImg("England.gif");
+		dreamCountryList.add(tripSurvey35);
+		
+		TripSurvey tripSurvey36 = new TripSurvey();
+		tripSurvey36.setSurveyChoice("오스트리아");
+		tripSurvey36.setSurveyImg("Austria.gif");
+		dreamCountryList.add(tripSurvey36);
+		
+		TripSurvey tripSurvey37= new TripSurvey();
+		tripSurvey37.setSurveyChoice("우크라이나");
+		tripSurvey37.setSurveyImg("Ukraine.gif");
+		dreamCountryList.add(tripSurvey37);
+		
+		TripSurvey tripSurvey38 = new TripSurvey();
+		tripSurvey38.setSurveyChoice("이탈리아");
+		tripSurvey38.setSurveyImg("Italian.gif");
+		dreamCountryList.add(tripSurvey38);
+		
+		TripSurvey tripSurvey39 = new TripSurvey();
+		tripSurvey39.setSurveyChoice("조지아");
+		tripSurvey39.setSurveyImg("Georgia.gif");
+		dreamCountryList.add(tripSurvey39);
+		
+		TripSurvey tripSurvey40 = new TripSurvey();
+		tripSurvey40.setSurveyChoice("체코");
+		tripSurvey40.setSurveyImg("Czech.gif");
+		dreamCountryList.add(tripSurvey40);
+		
+		TripSurvey tripSurvey41 = new TripSurvey();
+		tripSurvey41.setSurveyChoice("크로아티아");
+		tripSurvey41.setSurveyImg("Croatia.gif");
+		dreamCountryList.add(tripSurvey41);
+		
+		TripSurvey tripSurvey42 = new TripSurvey();
+		tripSurvey42.setSurveyChoice("터키");
+		tripSurvey42.setSurveyImg("Turkey.gif");
+		dreamCountryList.add(tripSurvey42);
+		
+		TripSurvey tripSurvey43 = new TripSurvey();
+		tripSurvey43.setSurveyChoice("포르투갈");
+		tripSurvey43.setSurveyImg("Portugal.gif");
+		dreamCountryList.add(tripSurvey43);
+		
+		TripSurvey tripSurvey44 = new TripSurvey();
+		tripSurvey44.setSurveyChoice("폴란드");
+		tripSurvey44.setSurveyImg("Poland.png");
+		dreamCountryList.add(tripSurvey44);
+		
+		TripSurvey tripSurvey45 = new TripSurvey();
+		tripSurvey45.setSurveyChoice("프랑스");
+		tripSurvey45.setSurveyImg("France.gif");
+		dreamCountryList.add(tripSurvey45);
+		
+		TripSurvey tripSurvey46 = new TripSurvey();
+		tripSurvey46.setSurveyChoice("핀란드");
+		tripSurvey46.setSurveyImg("Finland.gif");
+		dreamCountryList.add(tripSurvey46);
+		
+		TripSurvey tripSurvey47 = new TripSurvey();
+		tripSurvey47.setSurveyChoice("헝가리");
+		tripSurvey47.setSurveyImg("Hungary.gif");
+		dreamCountryList.add(tripSurvey47);
+		
+		return dreamCountryList;
 	}
 	
 

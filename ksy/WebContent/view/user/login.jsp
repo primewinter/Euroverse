@@ -4,7 +4,6 @@
 <html>
 <head>
 
-<style></style>
 
 <script>
 
@@ -80,16 +79,16 @@ $( function() {
 
 $(document).ready(function(){
     var userInputId = getCookie("userInputId");//저장된 쿠기값 가져오기
-    $("input[name='userId']").val(userInputId); 
+    $("#loginUserId").val(userInputId); 
      
-    if($("input[name='userId']").val() != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩
+    if($("#loginUserId").val() != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩
                                            // 아이디 저장하기 체크되어있을 시,
         $("#idSaveCheck").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
     }
      
     $("#idSaveCheck").change(function(){ // 체크박스에 변화가 발생시
         if($("#idSaveCheck").is(":checked")){ // ID 저장하기 체크했을 때,
-            var userInputId = $("input[name='userId']").val();
+            var userInputId = $("#loginUserId").val();
             setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
         }else{ // ID 저장하기 체크 해제 시,
             deleteCookie("userInputId");
@@ -97,9 +96,9 @@ $(document).ready(function(){
     });
      
     // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
-    $("input[name='userId']").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
+    $("#loginUserId").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
         if($("#idSaveCheck").is(":checked")){ // ID 저장하기를 체크한 상태라면,
-            var userInputId = $("input[name='userId']").val();
+            var userInputId = $("#loginUserId").val();
             setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
         }
     });
@@ -137,14 +136,14 @@ $(function(){
 	
 
 	
-var userId = $('#userId');
-var pwd = $('#pwd');
+var userId = $('#loginUserId');
+var pwd = $('#loginPwd');
 var h6 = document.getElementsByClassName('loginH6');
 
 
 
 
-	$(document).on('keyup', '#userId', function() {
+	$(document).on('keyup', '#loginUserId', function() {
 		if(userId.val().length <4 || userId.val().length > 12 ){
 			h6[0].innerHTML ="아이디는 4~12자 입니다.";
 		}else{
@@ -156,7 +155,7 @@ var h6 = document.getElementsByClassName('loginH6');
 				
 	});
 	
-	$(document).on('keyup','#pwd',function(){
+	$(document).on('keyup','#loginPwd',function(){
 		if(pwd.val().length <6  || pwd.val().length >20 ){
 			h6[1].innerHTML = "비밀번호는 6~20자 입니다.";
 		}else{
@@ -230,7 +229,7 @@ var h6 = document.getElementsByClassName('loginH6');
 </button>
  -->
 
-<div class="modal fade " id="myModal">
+<div class="modal fade " id="loginModal">
 	  <!-- <div class="modal-dialog modal-lg"> -->
 	  <div class="modal-dialog ">
 	  	<h2 style="color : #FFFFFF">Sign In</h2>
@@ -246,12 +245,12 @@ var h6 = document.getElementsByClassName('loginH6');
 			<form>
 					<div class="form-group">
 						<label for="id">Id</label> 
-						<input type="text"	class="form-control" placeholder="Enter Id" id="userId" name="userId">
+						<input type="text"	class="form-control" placeholder="Enter Id" id="loginUserId" name="userId">
 						<h6 class="loginH6" style="color: #F00"></h6>
 					</div>
 					<div class="form-group">
 						<label for="pwd">Password</label>
-						 <input type="password"	class="form-control" placeholder="Enter password" id="pwd" name="pwd">
+						 <input type="password"	class="form-control" placeholder="Enter password" id="loginPwd" name="pwd">
 						<h6 class="loginH6" style="color: #F00"></h6>
 					</div>
 						<h6 class="loginH6" style="color: #F00"></h6>

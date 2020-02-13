@@ -2,6 +2,8 @@ package com.ksy.service.user;
 
 import java.util.List;
 
+import com.ksy.service.domain.Plan;
+import com.ksy.service.domain.TripSurvey;
 import com.ksy.service.domain.User;
 
 public interface UserService {
@@ -20,5 +22,12 @@ public void addUser(User user) throws Exception;
 	public String checkUserId(String userId)throws Exception;
 	
 	public List<String> getUserIdList(User user) throws Exception;
+	
+
+	
+	
+	
+	
+	public List<Plan> getEndPlanList(String userId)throws Exception;
 	
 }
