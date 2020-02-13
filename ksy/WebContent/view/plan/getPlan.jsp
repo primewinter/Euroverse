@@ -1305,40 +1305,42 @@
 					<div class="container">
 						<!-- <h5>Plan Information</h5> -->
 						<div class="row" style="background-color: #F3F7F6; width: 100%; padding: 15px; border-radius: 5px; ">
-						
-							<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border-width: 1px; border-color: #D1D1D1; border-style: solid; width: 130px; height: 100px;">
-						    <div class="media-body" style="margin-left: 13px; margin-top: 25px; height: 100px;">
-						    	<span style="color: #EE0D0D; font-weight: bolder;"><c:if test="${plan.planStatus == 'C'}">여행완료!</c:if></span>
-						    	<div class="plan_type">
-									<c:choose>
-										<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
-										<c:when test="${plan.planType == 'B'}">남자혼자</c:when>
-										<c:when test="${plan.planType == 'C'}">여자끼리</c:when>
-										<c:when test="${plan.planType == 'D'}">남자끼리</c:when>
-										<c:when test="${plan.planType == 'E'}">단체</c:when>
-										<c:when test="${plan.planType == 'F'}">부모님과</c:when>
-										<c:when test="${plan.planType == 'G'}">커플</c:when>
-									</c:choose>
-								</div>
-							      <div style="margin: 3px 0;"><div style="font-weight: bolder; font-size: 21px; display: inline-block;">${plan.planTitle} </div> &emsp;
-							      			<c:if test="${plan.planPartySize > 1}"><span data-feather="users"></span></c:if>
-							                <c:if test="${plan.planPartySize == 1}"><span data-feather="user"></span></c:if>
-							                 ${plan.planPartySize}
-							      </div>
-							      ${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate}</c:if> ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
-							      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
-							      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
-						    </div>
+							<div class="media">
 							
-							<div>
-							<button type="button" class="btn btn-primary" id="updatePlanButton" style="margin-left: 10px;">플래너 수정</button> 
-							<c:if test="${ user.userId == plan.planMaster.userId }">
-								<button type="button" class="btn btn-danger" id="deletePlanButton" style="margin-left: 10px;">플래너 삭제</button> 
-							</c:if>
-							<c:if test="${ user.userId != plan.planMaster.userId }">
-								<button type="button" class="btn btn-secondary" id="exitPlanButton" style="margin-left: 10px;">플래너 탈퇴</button> 
-							</c:if>
-							<button type="button" class="btn btn-info" id="planCompleteButton" style="margin-left: 10px;">여행완료 확정</button>
+								<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border-width: 1px; border-color: #D1D1D1; border-style: solid; width: 130px; height: 100px;">
+							    <div class="media-body" style="margin-left: 13px; margin-top: 25px; height: 100px;">
+							    	<span style="color: #EE0D0D; font-weight: bolder;"><c:if test="${plan.planStatus == 'C'}">여행완료!</c:if></span>
+							    	<div class="plan_type">
+										<c:choose>
+											<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
+											<c:when test="${plan.planType == 'B'}">남자혼자</c:when>
+											<c:when test="${plan.planType == 'C'}">여자끼리</c:when>
+											<c:when test="${plan.planType == 'D'}">남자끼리</c:when>
+											<c:when test="${plan.planType == 'E'}">단체</c:when>
+											<c:when test="${plan.planType == 'F'}">부모님과</c:when>
+											<c:when test="${plan.planType == 'G'}">커플</c:when>
+										</c:choose>
+									</div>
+								      <div style="margin: 3px 0;"><div style="font-weight: bolder; font-size: 21px; display: inline-block;">${plan.planTitle} </div> &emsp;
+								      			<c:if test="${plan.planPartySize > 1}"><span data-feather="users"></span></c:if>
+								                <c:if test="${plan.planPartySize == 1}"><span data-feather="user"></span></c:if>
+								                 ${plan.planPartySize}
+								      </div>
+								      ${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate}</c:if> ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
+								      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
+								      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
+							    </div>
+								
+								<div>
+								<button type="button" class="btn btn-primary" id="updatePlanButton" style="margin-left: 10px;">플래너 수정</button> 
+								<c:if test="${ user.userId == plan.planMaster.userId }">
+									<button type="button" class="btn btn-danger" id="deletePlanButton" style="margin-left: 10px;">플래너 삭제</button> 
+								</c:if>
+								<c:if test="${ user.userId != plan.planMaster.userId }">
+									<button type="button" class="btn btn-secondary" id="exitPlanButton" style="margin-left: 10px;">플래너 탈퇴</button> 
+								</c:if>
+								<button type="button" class="btn btn-info" id="planCompleteButton" style="margin-left: 10px;">여행완료 확정</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -1562,13 +1564,13 @@
 								<label for="planType" style="text-align: right;" class="col-sm-4 col-form-label ">여행 타입</label>
 							    <div class="col-sm-7">
 								    <select class="form-control" id="planType" name="planType"  value="${plan.planType}">
-										<option value="A">여자혼자</option>
-										<option value="B">남자혼자</option>
-										<option value="C">여자끼리</option>
-										<option value="D">남자끼리</option>
-										<option value="E">단체</option>
-										<option value="F">부모님과</option>
-										<option value="G">커플</option>
+										<option value="A" <c:if test="${plan.planType == 'A'}">selected </c:if> >여자혼자</option>
+										<option value="B" <c:if test="${plan.planType == 'B'}">selected </c:if> >남자혼자</option>
+										<option value="C" <c:if test="${plan.planType == 'C'}">selected </c:if>>여자끼리</option>
+										<option value="D" <c:if test="${plan.planType == 'D'}">selected </c:if>>남자끼리</option>
+										<option value="E" <c:if test="${plan.planType == 'E'}">selected </c:if>>단체</option>
+										<option value="F" <c:if test="${plan.planType == 'F'}">selected </c:if>>부모님과</option>
+										<option value="G" <c:if test="${plan.planType == 'G'}">selected </c:if>>커플</option>
 									</select>
 								</div>
 							</div>

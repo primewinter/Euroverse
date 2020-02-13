@@ -84,6 +84,13 @@ public class PlanSubDaoImpl implements PlanSubDao {
 		sqlSession.update("PlanSubMapper.updateTranType", city);
 	}
 
+	@Override
+	public void updateVisitOrder(City city) throws Exception {
+		sqlSession.update("PlanSubMapper.updateVisitOrder", city);
+	}
+	
+	
+	
 
 	public List<Stuff> getStuffList(String planId) throws Exception {
 		return sqlSession.selectList("PlanSubMapper.getStuffList", planId);
@@ -130,6 +137,8 @@ public class PlanSubDaoImpl implements PlanSubDao {
 	public List<City> getCityListByScroll(int zoomLevel) throws Exception {
 		return sqlSession.selectList("PlanSubMapper.getCityListByScroll", zoomLevel);
 	}
+
+	
 
 	
 	

@@ -38,6 +38,7 @@ public interface PlanSubService {
 	
 	public void updateTranType(City city) throws Exception;
 	
+	public void updateVisitOrder(City city) throws Exception;
 	
 	
 	public List<Stuff> getStuffList(String planId) throws Exception;

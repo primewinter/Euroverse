@@ -119,13 +119,15 @@ public class PlanSubRestController {
 	
 	
 	@RequestMapping( value = "json/addCityRoute", method = RequestMethod.POST )
-	public List<City> addCityRoute( @RequestBody City city ) throws Exception {
+	public City addCityRoute( @RequestBody City city ) throws Exception {
 		
 		planSubService.addCityRoute(city);
 		
 		List<City> cityList = planSubService.getCityRouteList(city.getPlanId());
 		
-		return cityList;
+		City newCity = cityList.get(cityList.size()-1);
+		
+		return newCity;
 	}
 	
 	@RequestMapping( value = "json/getCityRoute/{cityId}", method = RequestMethod.GET )
@@ -168,6 +170,17 @@ public class PlanSubRestController {
 		
 		return cityList;
 	}
+	
+	@RequestMapping( value = "json/updateVisitOrder", method = RequestMethod.POST )
+	public List<City> updateVisitOrder( @RequestBody City city ) throws Exception {
+		
+		planSubService.updateVisitOrder(city);
+		
+		//City returnCity = planSubService.getCityRoute(city.getCityId());
+		List<City> cityList = planSubService.getCityRouteList(city.getPlanId());
+		return cityList;
+	}
+	
 	
 	
 	
