@@ -1,14 +1,36 @@
 package com.ksy.service.domain;
 
-import java.sql.Timestamp;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import org.bson.types.ObjectId;
+
 
 public class Chat {
 	
+	private ObjectId _id;
 	private String chatId; //chat_id
 	private String chatRoomId; //chatRoom_id
+	private User user;
 	private String senderId; //sender_id
 	private String chatContent; //chat_content
-	private Timestamp chatDate; //chat_date
+	private Date chatDate; //chat_date
+	private String sendTime;
+	private List<String> readers;
+	
+	public ObjectId get_id() {
+		return _id;
+	}
+	public void set_id(ObjectId _id) {
+		this._id = _id;
+	}
+	public List<String> getReaders() {
+		return readers;
+	}
+	public void setReaders(List<String> readers) {
+		this.readers = readers;
+	}
 	public String getChatId() {
 		return chatId;
 	}
@@ -20,6 +42,12 @@ public class Chat {
 	}
 	public void setChatRoomId(String chatRoomId) {
 		this.chatRoomId = chatRoomId;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public String getSenderId() {
 		return senderId;
@@ -33,16 +61,24 @@ public class Chat {
 	public void setChatContent(String chatContent) {
 		this.chatContent = chatContent;
 	}
-	public Timestamp getChatDate() {
+	public Date getChatDate() {
 		return chatDate;
 	}
-	public void setChatDate(Timestamp chatDate) {
+	public void setChatDate(Date chatDate) {
 		this.chatDate = chatDate;
+	}
+	public String getSendTime() {
+		//SimpleDateFormat sdf = new SimpleDateFormat("a hh:mm");
+		//return sdf.format(chatDate);
+		return sendTime;
+	}
+	public void setSendTime(String sendTime) {
+		this.sendTime = sendTime;
 	}
 	@Override
 	public String toString() {
-		return "Chat [chatId=" + chatId + ", chatRoomId=" + chatRoomId + ", senderId=" + senderId + ", chatContent="
-				+ chatContent + ", chatDate=" + chatDate + "]";
+		return "Chat [_id=" + _id + ", chatId=" + chatId + ", chatRoomId=" + chatRoomId + ", senderId=" + senderId
+				+ ", chatContent=" + chatContent + ", chatDate=" + chatDate + ", readers=" + readers + "]";
 	}
 	
 

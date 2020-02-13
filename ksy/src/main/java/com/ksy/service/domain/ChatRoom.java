@@ -1,18 +1,29 @@
 package com.ksy.service.domain;
 
+import java.sql.Date;
 import java.util.List;
+
+import org.bson.types.ObjectId;
 
 public class ChatRoom {
 	
+	private ObjectId _id;
 	private String chatRoomId; // chatRoom_id
 	private String chatRoomName; // chatRoom_name
 	private int chatMemNum; // chatMem_num 채팅 참여 인원
-	private List<User> chatMems; // 채팅 참여 회원 목록
+	private String creator;
+	private List<String> chatMems; // 채팅 참여 회원 목록
+	private Date createdDate;
 
 	// 출력용 field
 	private String lastChat; // 마지막 메시지
 	private int unreadMsgCount; // 안 읽은 메시지 수
-	
+	public ObjectId get_id() {
+		return new ObjectId(chatRoomId);
+	}
+	public void set_id(ObjectId _id) {
+		this._id = _id;
+	}
 	public String getChatRoomId() {
 		return chatRoomId;
 	}
@@ -31,11 +42,23 @@ public class ChatRoom {
 	public void setChatMemNum(int chatMemNum) {
 		this.chatMemNum = chatMemNum;
 	}
-	public List<User> getChatMems() {
+	public String getCreator() {
+		return creator;
+	}
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+	public List<String> getChatMems() {
 		return chatMems;
 	}
-	public void setChatMems(List<User> chatMems) {
+	public void setChatMems(List<String> chatMems) {
 		this.chatMems = chatMems;
+	}
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 	public String getLastChat() {
 		return lastChat;
@@ -51,8 +74,9 @@ public class ChatRoom {
 	}
 	@Override
 	public String toString() {
-		return "ChatRoom [chatRoomId=" + chatRoomId + ", chatRoomName=" + chatRoomName + ", chatMemNum=" + chatMemNum
-				+ ", chatMems=" + chatMems + ", lastChat=" + lastChat + ", unreadMsgCount=" + unreadMsgCount + "]";
+		return "ChatRoom [_id=" + _id + ", chatRoomId=" + chatRoomId + ", chatRoomName=" + chatRoomName
+				+ ", chatMemNum=" + chatMemNum + ", creator=" + creator + ", chatMems=" + chatMems + ", createdDate="
+				+ createdDate + ", lastChat=" + lastChat + ", unreadMsgCount=" + unreadMsgCount + "]";
 	}
 	
 	
