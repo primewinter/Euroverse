@@ -517,8 +517,8 @@
 	      </div>
 	      
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('updateSlotModal')">아니오</button>
 	      	<c:if test="${user.totalPoint >= 500 }">
+	      		<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('updateSlotModal')">아니오</button>
 	      		<button type="button" class="btn btn-primary" id="updateUserSlot">예</button>
 	      	</c:if>
 	      </div>

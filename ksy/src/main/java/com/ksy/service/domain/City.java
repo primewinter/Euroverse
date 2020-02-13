@@ -20,7 +20,7 @@ public class City {
 	
 	//private List<Bucket> bucketList;	//버킷리스트
 	
-	//FullCalendar에 뿌려주기 위함!!
+	//FullCalendar에 뿌려주기 위함!! && city_route term..
 	private String startDateStr;
 	private String endDateStr;
 	

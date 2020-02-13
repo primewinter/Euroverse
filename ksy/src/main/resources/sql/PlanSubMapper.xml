@@ -33,6 +33,7 @@
 		
 		<result jdbcType="VARCHAR"		column="country"			property="country"/>
 		<result jdbcType="VARCHAR"		column="city_content"		property="cityInfo"/>
+		<result jdbcType="VARCHAR"		column="city_img"			property="cityImg"/>
 	</resultMap>
 	
 	
@@ -116,15 +117,19 @@
 	</delete>
 	
 	
+	
+	
 	<!--		city_info SQL		-->
 	
-	
 	<select id="getCityListByScroll"	parameterType="int"	resultMap="citySelectMap">
-		SELECT 	ci.lat, ci.lng, ci.country, ci.city_content, ci.city_name,
+		SELECT 	ci.lat, ci.lng, ci.country, ci.city_content, ci.city_name, ci.city_img,
 				TO_CHAR(ci.lat, 'fm90.0000000') lat_str, TO_CHAR(ci.lng, 'fm90.0000000') lng_str 
 		FROM 	city_info ci 
 		WHERE 	ci.scroll_scale &lt;= #{zoomLevel} 
 	</select>
+	
+	
+	
 	
 	
 	<!-- 		City_route SQL		 -->
@@ -164,6 +169,8 @@
 		WHERE 	cr.city_id = #{cityId}
 	</select>
 	
+	
+	
 	<update id="updateCityDuration"	parameterType="city">
 		UPDATE 	city_route 
 		SET 	city_duration = #{cityDuration} 
@@ -175,6 +182,15 @@
 		SET 	tran_type = #{tranType} 
 		WHERE 	city_id = #{cityId}
 	</update>
+	
+	
+	<update id="updateVisitOrder"	parameterType="city">
+		UPDATE 	city_route 
+		SET 	visit_order = #{visitOrder:NUMERIC} 
+		WHERE 	city_id = #{cityId:VARCHAR}
+	</update>
+	
+	
 	
 	
 	

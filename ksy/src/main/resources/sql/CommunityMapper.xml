@@ -116,8 +116,8 @@
 	<update id="updatePost" parameterType="post">
 	 	UPDATE post
 	 	<set>
-	 		post_title   = #{postTitle},
-	 		post_content = #{postContent}
+	 		post_title   = #{postTitle:VARCHAR},
+	 		post_content = #{postContent:CLOB}
 	 	</set>
 		WHERE post_id = #{postId}
 	</update>

@@ -97,6 +97,16 @@ public class PlanSubServiceImpl implements PlanSubService {
 	}
 
 	@Override
+	public void updateVisitOrder(City city) throws Exception {
+		planSubDao.updateVisitOrder(city);
+	}
+	
+	
+	
+	
+	
+
+	@Override
 	public List<Stuff> getStuffList(String planId) throws Exception {
 		return planSubDao.getStuffList(planId);
 	}
@@ -148,6 +158,7 @@ public class PlanSubServiceImpl implements PlanSubService {
 	public List<City> getCityListByScroll(int zoomLevel) throws Exception {
 		return planSubDao.getCityListByScroll(zoomLevel);
 	}
+
 
 
 	

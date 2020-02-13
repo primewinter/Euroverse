@@ -8,25 +8,29 @@
 <head>
 <title>Insert title here</title>
 <meta charset="EUC-KR">
+	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
-
-	<!--  bootstrap jQuery CDN -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+	<!--  iamPort -->
 	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+	<!-- asome icon CDN -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
+
+  	<!-- jQuery UI toolTip 사용 CSS-->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<!-- jQuery UI toolTip 사용 JS-->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
-	<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script> 
+	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	
 		body{
 		 padding-top : 50px;
-            background: linear-gradient(-100deg, mistyrose,pink, lightpink) fixed;
 		}
        body > div.container{
         	border: 3px solid white;
@@ -78,12 +82,11 @@
     							    pg : 'inicis', // version 1.1.0부터 지원.
     							    pay_method : 'card',
     							    merchant_uid : 'merchant_' + new Date().getTime(),
-    							    name : 'Order',
+    							    name : 'Flights',
     							    amount : 10,
-    							    buyer_email : 'iamport@siot.do',
-    							    buyer_name : "김유경",
-    							    buyer_tel : "010",
-    							    buyer_addr : "강남",
+    							    buyer_email : '${order.buyerEmail}',
+    							    buyer_name : '${order.buyerName}',
+    							    buyer_tel : '${order.buyerPhone}',
     							    buyer_postcode : 1234 ,
     							  
     							    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
@@ -139,9 +142,6 @@
 <body>
 
 <div class="container"><br/>
-	<div class="alert alert-warning" role="alert">
-	  <h5 align="center" style="font-size:30px; font-family : Consolas;">Order History</h5>
-	</div>
 	
 	<form class="form-horizontal">
 	<input type="hidden" name="orderId" value= "" id="orderId"/>
@@ -149,76 +149,81 @@
 	<input type="hidden" name="orderDate" value= "" id="orderDate"/>
 	<input type="hidden" name="userId" value= "" id="userId"/>
 	<input type="hidden" name="payInstal" value= "" id="payInstal"/>
-	
-		<div class="form-group">
-		<label for="userId" class="col-sm-offset-1 col-sm-3 control-label">회원아이디</label>
-		<div class="col-sm-4">
-		<input type="text" class="form-control" readonly="readonly" id="userId" name="userId" value="${user.userId}">
-		</div>
-		</div>
-		
-		<div class="form-group">
-		<label for="depCity" class="col-sm-offset-1 col-sm-3 control-label">출발지역</label>
-		<div class="col-sm-4">
-			<input type="text" class="form-control" readonly="readonly" id="depCity" name="depCity" value="${flight.depCity }">
-		</div>
-		</div>
-		
-		<div class="form-group">
-		<label for="arrCity" class="col-sm-offset-1 col-sm-3 control-label">도착지역</label>
-		<div class="col-sm-4">
-			<input type="text" class="form-control" readonly="readonly" id="arrCity" name="arrCity" value="${flight.arrCity}">
-		</div>
-		</div>
-		
-		<div class="form-group">
-		<label for="price" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
-		<div class="col-sm-4">
-			<input type="text" class="form-control" readonly="readonly" id="prices" name="price" value="${flight.price}">
-		</div>
-		</div>
-		
-		<h4 align="center">포인트 사용 </h4>
-		<div class="form-group">
-		<label for="payPoint" class="col-sm-offset-1 col-sm-3 control-label"></label>
-		<div class="col-sm-4">
-		<input	type="text" name="payPoint" id="payPoint" class="form-control" 
-		placeholder="사용할 포인트" onkeyup="call()">
-		
-		</div>
-		<div class="col-sm-4">
-		
-		보유한 포인트
-		<input	type="text" name="point" id="point" class="form-control" value="">
-		</div>
-		</div>
-		
-		<label for="totalAmount" class="col-sm-offset-1 col-sm-3 control-label">총 주문 금액 </label>
-		<div class="col-sm-4">
-		<input	type="text" name="totalAmount" id="totalAmount" class="form-control" value="">
-	
-		</div>
-		
-		<label for="usedPoint" class="col-sm-offset-1 col-sm-3 control-label"> -포인트사용 </label>
-		<div class="col-sm-4">
-		<input	type="text" name="usedPoint" id="usedPoint" class="form-control" readonly="readonly">
-		
-		</div>
-		
-		<label for="actualAmount" class="col-sm-offset-1 col-sm-3 control-label">실 주문 금액 </label>
-		<div class="col-sm-4">
-		<input	type="text" name="actualAmount" id="actualAmount" class="form-control" value="${order.actualAmount }">
-		
-		적립예정
-		<div class="col-md-4">
-		<input	type="text" name="accumulate" id="accumulate" class="form-control" value="">
-		</div>
-		</div>
-		
-	
-	
-							
-		<div class="form-group">
+	<i class="fas fa-plane" id="iconf" style="Padding-left:20px;font-size:40px;" ></i>
+	<br/>
+		<table class="table">
+			  <thead>
+			    <tr>
+			      <th scope="col">항공사</th>
+			      <th scope="col">출발시간</th>
+			      <th scope="col">도착시간</th>
+			      <th scope="col">경유</th>
+			      <th scope="col">소요시간</th>
+			      <th scope="col">가격</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <th scope="row">${flight.airline}</th>
+			      <td>${flight.depTime}</td>
+			      <td>${flight.arrTime}</td>
+			      <td>${flight.stopOver}</td>
+			      <td>${flight.leadTime}</td>
+			      <td>${flight.price}원</td>
+			    </tr>
+			  </tbody>
+			  
+			</table>
+			<br/><br/>
+			<div class="row">
+			    <div class="col">
+			    <h4 align="left">주문자 정보</h4>
+			    <br/>
+			    	<div style="width:50%;">
+				       <input type="text" class="form-control" placeholder="주문자 이름" id="buyerName" name="buyerName" value="${order.buyerName}">
+				      	<br/>
+				       <input type="text" class="form-control" placeholder="주문자 핸드폰 번호" id="buyerPhone" name="buyerPhone" value="${order.buyerPhone}">
+				       	<br/>
+				       <input type="text" class="form-control" placeholder="주문자 핸드폰 번호" id="buyerPhone" name="buyerPhone" value="${order.buyerPhone}">
+				       	<br/>
+				       <input type="text" class="form-control" placeholder="주문자 이메일 " id="buyerEmail" name="buyerEmail" value="${order.buyerEmail}">
+			    	</div>
+			    </div>
+			    <div class="col">
+			    	<input type="hidden" name="price" id="price" value="${flight.price }" >
+<%-- 			    	<input type="text" class="form-control" readonly="readonly" id="price" name="price" value="${flight.price}" style="width:50%;">
+ --%>			    		<h4 align="left">포인트 사용 </h4>
+							<div class="form-group">
+								<label for="payPoint" class="col-sm-offset-1 col-sm-3 control-label"></label>
+								<div class="col-sm-4">
+									<input	type="text" name="payPoint" id="payPoint" class="form-control" 
+											placeholder="사용할 포인트" onkeyup="call()">
+								</div>
+								<div class="col-sm-4">
+										보유한 포인트
+								<input	type="text" name="point" id="point" class="form-control" value="">
+								</div>
+							</div>
+							<label for="totalAmount" class="col-sm-offset-1 col-sm-3 control-label">총 주문 금액 </label>
+						<div class="col-sm-4">
+							<input	type="text" name="totalAmount" id="totalAmount" class="form-control" value="">
+						</div>
+							<label for="usedPoint" class="col-sm-offset-1 col-sm-3 control-label"> -포인트사용 </label>
+						<div class="col-sm-4">
+							<input	type="text" name="usedPoint" id="usedPoint" class="form-control" readonly="readonly">
+						</div>
+							<label for="actualAmount" class="col-sm-offset-1 col-sm-3 control-label">실 주문 금액 </label>
+						<div class="col-sm-4">
+							<input	type="text" name="actualAmount" id="actualAmount" class="form-control" value="${order.actualAmount }">
+								적립예정
+							<div class="col-md-4">
+								<input	type="text" name="accumulate" id="accumulate" class="form-control" value="">
+							</div>
+						</div>
+			    </div>
+			</div>
+		<br/><br/>
+		<div class="form-group" align="center">
    		 <div class="col-sm-offset-4  col-sm-4 text-center">
 		<button type="button" class="btn btn-primary"  >구매</button>
 		<input type="hidden" name="actualAmount" value= "${order.actualAmount }"/>
