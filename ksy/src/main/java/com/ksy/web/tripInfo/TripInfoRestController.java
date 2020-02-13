@@ -15,6 +15,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -91,18 +93,19 @@ public class TripInfoRestController {
 		
 	}
 	
-	@RequestMapping( value="json/exchange", method=RequestMethod.GET )
-	public Map<String,Object> exchange() throws Exception{
+	@RequestMapping( value="json/exchange/{conCode}", method=RequestMethod.GET )
+	public Map<String,Object> exchange(@PathVariable String conCode ) throws Exception{
 		
 		System.out.println("json/exchage :: GET");
 		
 		HttpClient httpClient = new DefaultHttpClient();
 		
+		System.out.println("conName µð¹ö±ë ==>"+conCode);
+		
 		String addr = "http://apis.data.go.kr/1262000/CountryBasicService/getCountryBasicList?ServiceKey=";
 		String serviceKey="FZiC%2BGu2IHC5gmO3z1BLlSTFhEUKOdGmXwctgo8iuycxvGX8dSswTxpjzBcwxwAhuNDyrQCj%2BEdi4VSsu1XxIA%3D%3D";
 		String parameter = "";
-		String conName = "";
-		parameter = parameter +"&"+"countryName="+"¿µ±¹";
+		parameter = parameter +"&"+"isoCode1="+conCode;
 		String url = addr+serviceKey+parameter; 
 		HttpGet httpGet = new HttpGet(url);
 		httpGet.setHeader("Accept", "application/json");

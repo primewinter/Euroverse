@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=euc-kr"%>
-<%@ page pageEncoding="utf-8"%>
+<%@ page pageEncoding="euc-kr"%>
 
 <!DOCTYPE html>
 
@@ -7,12 +7,12 @@
 
 <head>
 
-<span class='exchan' abc='EUR'></span>
- 
- <!-- Ï∞∏Ï°∞ : http://getbootstrap.com/css/   Ï∞∏Ï°∞ -->
+
+
+ <!-- ¬¸¡∂ : http://getbootstrap.com/css/   ¬¸¡∂ -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<!-- Î∂ÄÌä∏Ïä§Ìä∏Îû© 4.4 Ïì∞Î†§Îã§Í∞Ä Îπ†Íæ∏...............................ÌñàÎã§Í∞Ä Îã§Ïãú 4.4Î°ú..  -->
+	<!-- ∫Œ∆ÆΩ∫∆Æ∑¶ 4.4 æ≤∑¡¥Ÿ∞° ∫¸≤Ÿ...............................«ﬂ¥Ÿ∞° ¥ŸΩ√ 4.4∑Œ..  -->
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -31,160 +31,264 @@
  
 <script>
 
-
-	$(function() {
-
-		/* var a = $("#exampleFormControlSelect2 option:selected");
-		alert(a.val()); */
+/* 	$(".list-group-item-action").on('click', function() {
+				
+		alert($(this).attr('con')); 
+		var conName = $(this).attr('con');
 		
-		$(".list-group-item").click(function() {
+		conturyInfo(conName);
+		
+	}) */
+
+$(function(){
+	
+	$.getJSON('').done('https://earthquake.kr:23490/query/KRWEUR')
+	
+})
+
+		
+$(function(){
+ 	$(".list-group-item-action").click(function() {
 			
-			alert($(this).text());
+		alert($(this).attr('mon'));
+		var conCode = $(this).attr('con');
+		var conName = $(this).text();
+		alert(conCode);
+		alert(conName);
+		conturyInfo(conCode);
+		$()
 			
-			});
-	})
+	}); 
+});
 
-	$.ajax({
-		url : "/api/json/exchange",
-		method : "GET",
-		dataType : "json",
-		headers : {
-			"Accept" : "application/json",
-			"Content-Type" : "application/json"
-		},
-		success : function(JSONData, status) {
-			var conInfo = JSONData.response.body.items.item.basic;
-			var conName = JSONData.response.body.items.item.countryName;
-			var conFlag = JSONData.response.body.items.item.imgUrl;
-			/* alert(conName); */
-			/* $("#form-group").html(myItem); */
-
-			/*  for (var i = 0; myItem.length; i++) {
-				var output = item[i]+imgUrl2;
-				myItem += output;
-				alert(myItem); */
-			/* 		$("#exchange").attr("value", myItem);
-				},error:function(status){
-					alert("sss");*/
-
-			/* $("#exampleFormControlSelect2") */
-			$("#JH").attr("src", conFlag);
-
-		}
-
-	});
-
+	function conturyInfo(conCode){
+		
+		alert('conturyInfo Start....');
+		
+		$.ajax({
+			url : "/api/json/exchange/"+conCode ,
+			method : "GET" ,
+			dataType : "json" ,
+			data: JSON.stringify({
+				conCode : conCode 
+			}),
+			contentType: "application/x-www-form-urlencoded; charset=EUC-KR",
+			headers : {
+				"Accept" : "application/json" ,
+				"Content-Type" : "application/json"
+			} ,
+			success : function(JSONData, status) {
+				
+				var conInfo = JSONData.response.body.items.item.basic;
+				var contury = JSONData.response.body.items.item.countryName;
+				var conFlag = JSONData.response.body.items.item.imgUrl;
+				/* alert(conName); */
+				/* $("#form-group").html(myItem); */
+				$('#conturyInfo').html(conInfo);
+			}
+		});
+		};
+	
 	function exchange(data) {
-
-		if ($(".exchan")) {
-			$.getJSON('https://api.exchangeratesapi.io/latest?base=KRW').done(
+   	
+	if ($(".list-group-item-action")) { 	
+		$.getJSON('https://api.exchangeratesapi.io/latest?base=KRW').done(
 
 					function(data) {
 
-						var abc = $(".list-group-item-action.active").attr('abc');
+						var mon = $(".list-group-item-action.active").attr('mon');
 
-						/* var cur1= $(".exchan").attr('cur');
-						var cur2= $(".exchan").attr('cur');
-						var cur3= $(".exchan").attr('cur');
-						var cur4= $(".exchan").attr('cur');
-						var cur5= $(".exchan").attr('cur');
-						var cur6= $(".exchan").attr('cur');
-						var cur7= $(".exchan").attr('cur');
-						var cur8= $(".exchan").attr('cur');
-						var cur9= $(".exchan").attr('cur');
-						var cur10= $(".exchan").attr('cur');
-						var cur11= $(".exchan").attr('cur');
-						var cur12= $(".exchan").attr('cur');
-						var cur13= $(".exchan").attr('cur');
-						var cur14= $(".exchan").attr('cur'); */
-
-						if (abc == undefined)
-							return;
+						if (mon == undefined){
+							alert('±π∞°∏¶ º±≈√«œººø‰.');
+							$("input[name='won']").val("")
+							.return;
+						}
+						
 						var price = $("input[name='won']").val();
 						/* var num = price/ data.rates[cur] */
-
+						
 						var num = Math.round(price.match(/\d+/)[0]
-								/ data.rates[abc]);
+								/ data.rates[mon]);
 						/* alert(num);
 						alert(data.rates[abc]); */
-						num = num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g,
-								'$1,')
+						num = num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g,'$1,')
 						/* $(this).html(
-								old + ' <small>(ÏïΩ ' + num
-										+ 'Ïõê)<small>'); */
+								old + ' <small>(æ‡ ' + num
+										+ 'ø¯)<small>'); */
 						/* console.log(num) */
-						$('#result').attr("value", "‚Ç¨ " + num);
+					
+						$('#result').attr("value", "¢Ê " + num);
 					})
-		}
+		 } 
 	}
+	
 </script>
 
 <style type='text/css'>
+/* * { 
+	box-sizing: border-box; 
+}
+
+body {
+	display: flex; 
+	align-items: center; 
+	justify-content: center;
+} */
+
+body{
+
+	margin: 0 auto;
+	padding-bottom : 30px;
+	background-color: gray;
+	background-repeat: repeat;
+	
+	
+	
+}
+.container{
+	position: relative;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	left: 50%;
+}
+
+#conturyInfo{
+	width:300px;
+	height : 300px;
+	border: 1px solid red;
+	border-radius : 10px;
+	overflow:auto;
+
+}
+
+#conturyMoney{
+	width:300px;
+	height : 300px;
+	border: 1px solid red;
+	border-radius : 10px;
+}
+#wrapper{
+	width:300px;
+	height : 300px;
+	border: 1px solid red;
+	border-radius : 10px;
+}
+
+
+.list-group{
+	width:300px;
+	overflow:auto;
+	height: 300px;
+}
+
 .list-group-item {
 	font-weight: bold;
-	size : 50px;
-	padding-bottom : 0.20rem;
+	size : 40px;
+	padding-bottom : 0.3rem;
+	padding-top : 0.3rem;
+	border-radius : 10px;
+	
 }
 
 .list-group img {
-
-	size : 20px;
+	width : 40px;
+	vertical-align: sub;
 }
+.border-0 {
+	width:40px;
+	height : 30px;
+}
+
+.flex-nowrap{
+	height : 300px;
+	border: 1px solid red;
+	border-radius : 10px;
+	width:300px;
+}
+.form-control{
+	top:30%;
+}
+
+.form-control2{
+	top:60%
+}
+
 </style>
-<!-- <span class='exchan' cur='EUR'></span>
-<span class='exchan' cur='EUR'></span>
-<span class='exchan' cur='EUR'></span>
-<span class='exchan' cur='EUR'></span>
-<span class='exchan' cur='EUR'></span>
-<span class='exchan' cur='EUR'></span> -->
-
-<h3>exchange</h3>
-<input type="text" class="form" id="won" name="won" placeholder="ÏõêÌôî"
-	value="" onkeydown="exchange()"> WON
-<br />
-<br />
-<br />
-<br />
-<input type="text" id="result" placeholder="Ïú†Î°ú" readonly="readonly"
-	value=""> EURO
-
-<form>
-	<div id="form-group">
-		<label for="exampleFormControlSelect2">Example multiple select</label><br />
-		<select multiple class="form-control" id="exampleFormControlSelect2"
-			style='width: 400px'>
-			<option class='a' abc='EUR'>ÏòÅÍµ≠</option>
-			<option>2123123123123123123123123</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-		</select>
-	</div>
-
-
-
-</form>
-<img id="JH" alt="" src="">
-<!-- <input type="text" id="exchange" > -->
-<!-- <div id="a"></div> -->
 
 </head>
 
 
-
 <body>
+
+<h3>exchange</h3>
+
+
+
 <div class="container">
-<div class="row">
-  <div class="col-4">
-    <div class="list-group" id="list-tab" role="tablist">
-      <a class="list-group-item list-group-item-action" id="a" data-toggle="list" href="#list-home" abc="EUR">
-      <img src='http://www.0404.go.kr/imgsrc.mofa?atch_file_id=COUNTRY_159&amp;file_sn=1'/>ÏòÅÍµ≠</a>
-      <a class="list-group-item list-group-item-action" id="b" data-toggle="list" href="#list-profile" abc="HUF">ÌóùÍ∞ÄÎ¶¨</a>
-      <a class="list-group-item list-group-item-action" id="c" data-toggle="list" href="#list-messages" >Messages</a>
-      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" >Settings</a>
-    </div>
-</div>
-</div>
+	<div class="row">
+	  
+<!-- ============== ø©±‚¥¬ ±π∞°∏¶ º±≈√«œ¥¬ html ============  -->
+	<div id="wrapper" class="wrapper" style="overflow:hidden;">	
+	ø¿¥√¿« »Ø¿≤	  
+	    <div class="list-group" id="list-tab" role="tablist" >
+	      <a class="list-group-item list-group-item-action" id="a" data-toggle="list" href="#list-home" mon="EUR" con="GBR">
+	      <img src='/resources/images/tripInfoimges/Europe.png'/>&nbsp; ¿Ø∑¥ </a>
+	      <a class="list-group-item list-group-item-action" id="b" data-toggle="list" href="#list-profile" mon="HUF" con="HUN">
+	      <img src='/resources/images/tripInfoimges/Hungary.gif'/>&nbsp; «Î∞°∏Æ</a>
+	      <a class="list-group-item list-group-item-action" id="c" data-toggle="list" href="#list-messages" mon="CZK" con="CZE">
+	      <img src='/resources/images/tripInfoimges/Czech.gif'/>&nbsp; √ºƒ⁄</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="DKK" con="DNK">
+	      <img src='/resources/images/tripInfoimges/Denmark.gif'/>&nbsp; µß∏∂≈©</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="GBP" con="GBR">
+	      <img src='/resources/images/tripInfoimges/England.gif'/>&nbsp; øµ±π</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="RON" con="ROU">
+	     <img src='/resources/images/tripInfoimges/Lithuania.gif'/>&nbsp; ∑Á∏∂¥œæ∆</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="SEK" con="SWE">
+	     <img src='/resources/images/tripInfoimges/Sweden.gif'/>&nbsp; Ω∫ø˛µß</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="HRK" con="HRV">
+	     <img src='/resources/images/tripInfoimges/Croatia.gif'/>&nbsp; ≈©∑Œæ∆∆ºæ∆</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="CHF" con="CHE">
+	     <img src='/resources/images/tripInfoimges/Swiss.gif'/>&nbsp; Ω∫¿ßΩ∫</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="BGN" con="BGR">
+	     <img src='/resources/images/tripInfoimges/Bulgaria.gif'/>&nbsp; ∫“∞°∏Ææ∆</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="TRY" con="TUR">
+	     <img src='/resources/images/tripInfoimges/Turkey.gif'/>&nbsp; ≈Õ≈∞</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="NOK" con="NOR">
+	      <img src='/resources/images/tripInfoimges/norway.gif'/>&nbsp; ≥Î∏£ø˛¿Ã</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="PLN" con="POL">
+	     <img src='/resources/images/tripInfoimges/Poland.png'/>&nbsp; ∆˙∂ıµÂ</a>
+	     </div>
+		</div>
+		
+		<!-- ============ø©±‚¥¬ ±π∞°¡§∫∏∞° ≥™≈∏≥™¥¬ box ================ -->
+	
+		<div id="conturyInfo"></div>
+		 
+	   <!-- =========== ø©±‚¥¬ ±›æ◊¿ª ¿‘∑¬«œ¥¬ ƒ≠ ====================  -->  
+	  <div class="input-group flex-nowrap">
+	  	<div class="conturyMoney">
+  		<input type="text" class="form-control" placeholder="Username" aria-describedby="addon-wrapping" value="" onkeydown="exchange()">
+		<br/>
+		<div class="conturyMoney2">
+		<input type="text" class="form-control" placeholder="Username"  readonly="readonly" value="">
+		</div>
+		
+	    <div id="conturyMoney">
+	    <input type="text" class="form" id="won" name="won" placeholder="ø¯»≠" value="" onkeydown="exchange()"> WON
+		<br /><br /><br /><br />
+		<input type="text" id="result" placeholder="¿Ø∑Œ" readonly="readonly" value=""> EURO
+	    </div>
+	    
+	    
+	    
+	   <!--  <script type="text/javascript">
+		    var IScroll = $.AMUI.iScroll;
+		    var myScroll = new IScroll('#wrapper', { click: true });
+		</script> -->
+	</div>
 </div>
 
 </body>
