@@ -392,7 +392,7 @@ public class FlightController {
 				}
 			}
 			synchronized (driver) {
-				driver.wait(10000);
+				driver.wait(12000);
 
 			}
 		} catch (IndexOutOfBoundsException ie) {
@@ -409,7 +409,7 @@ public class FlightController {
 
 		////////////////////////////////////////////////////////////
 
-		return "forward:/flight/getFlightList.jsp";
+		return "forward:/view/flight/getFlightList.jsp";
 
 	}
 

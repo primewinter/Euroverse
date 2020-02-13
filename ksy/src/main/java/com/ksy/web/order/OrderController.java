@@ -113,15 +113,15 @@ public class OrderController {
 		flight.setTripCourse(tripCourse);
 		flight.setPrice(price);
 		flight.setSeatGrade(seatGrade);
-//		flight.setAdultNum(adultNum);
-//		flight.setChildNum(childNum);
-//		flight.setInfantNum(infantNum);
+		flight.setAdultNum(adultNum);
+		flight.setChildNum(childNum);
+		flight.setInfantNum(infantNum);
 		
 		System.out.println("flight :: "+flight);
 		System.out.println("order :: "+order);
 		model.addAttribute("flight", flight);
 		model.addAttribute("order", order);
-		return "forward:/order/addFlightOrder.jsp";
+		return "forward:/view/order/addFlightOrder.jsp";
 	}
 	@RequestMapping(value = "addFlightOrder", method = RequestMethod.POST)
 	public String addFlightOrder(
@@ -136,7 +136,7 @@ public class OrderController {
 		Point point = new Point();
 		Order order = new Order();
 		point.setUsedPoint(usedPoint);
-		//point.setBuyer(user);
+		point.setUserId(user.getUserId());
 		point.setRefId(orderId);
 		
 		order.setBuyer(user);
@@ -163,7 +163,7 @@ public class OrderController {
 		model.addAttribute("flight",flight);
 		model.addAttribute("order",order);
 		model.addAttribute("point",point);
-		return "forward:/order/addOrderConfirm.jsp";
+		return "forward:/view/order/addOrderConfirm.jsp";
 	}
 	
 	@RequestMapping(value = "addRoomOrder", method = RequestMethod.GET)
@@ -192,7 +192,7 @@ public class OrderController {
 		Point point = new Point();
 		Order order = new Order();
 		point.setUsedPoint(usedPoint);
-		//point.setBuyer(user);
+		point.setUserId(user.getUserId());
 		point.setRefId(orderId);
 		
 		order.setBuyer(user);
