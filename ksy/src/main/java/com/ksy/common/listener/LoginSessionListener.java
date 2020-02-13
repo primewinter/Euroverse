@@ -19,7 +19,7 @@ import com.ksy.service.domain.Push;
 import com.ksy.service.domain.Todo;
 import com.ksy.service.domain.User;
 import com.ksy.service.plan.PlanService;
-import com.ksy.web.push.util.WebSocket;
+import com.ksy.web.push.util.UserSocket;
 
 
 //@WebListener
