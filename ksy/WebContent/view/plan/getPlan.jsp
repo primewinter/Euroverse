@@ -194,6 +194,11 @@
 		   overflow-y: hidden !important;
 		}
       
+      
+      .list-container{
+      	margin-right: 200px;
+      }
+      
 	</style>
 	
 	
@@ -201,9 +206,9 @@
 	<!-- 왼쪽 사이드바를 위한 CSS... 안돼서 걍 스크립트 통째로 넣어둠 -->
     <!-- <link href="/css/bootstrapDashboardCustomStyle.css" rel="stylesheet"> -->
 	<style type="text/css">
-		body {
+		/* body {
 		  font-size: .875rem;
-		}
+		} */
 		.feather {
 		  width: 16px;
 		  height: 16px;
@@ -267,13 +272,13 @@
 		}
 		
 		/* Navbar */
-		.navbar-brand {
+		/* .navbar-brand {
 		  padding-top: .75rem;
 		  padding-bottom: .75rem;
 		  font-size: 1rem;
 		  background-color: rgba(0, 0, 0, .25);
 		  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
-		}
+		} */
 		.navbar .form-control {
 		  padding: .75rem 1rem;
 		  border-width: 0;
@@ -1169,21 +1174,18 @@
 </head>
 <body>
 	<!-- ToolBar 시작 -->
-	<%-- <jsp:include page="/toolbar/toolBar.jsp"></jsp:include> --%>
-	
-	<!-- <div class="navbar fixed-top py-4 bg-light text-center"> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~````~ 원래는 Top ToolBar 있어야 할 자리 ~~~~~~~~~~~~~~~~~~1~~~~~~~~~~ </div> -->
+	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<!-- ToolBar 끝 -->
 	
 	
 	<!-- 화면구성 div Start ///////////////////////////// -->
-	<div class="container">
+	<div class="container-fluid">
 		
 		<!-- 다단 레이아웃 Start ///////////////////////////// -->
 		<div class="row">
 		
-		
 			<!-- 좌측 Plan 툴바 구성 Start /////////////////////////////////////////////////////////// -->
-			<nav class="col-md-2 d-none d-md-block bg-light sidebar" style="padding-left:7px;">
+			<nav class="col-md-2 d-none d-md-block bg-light sidebar" style="padding-top:70px; padding-left:7px;">
 		      <div class="sidebar-sticky">
 		      
 		        <ul class="nav flex-column">
@@ -1296,16 +1298,16 @@
 			
 			<!-- top버튼 이동을 위한 div.... 구림... -->
 			<div id="gotop"></div>	
-			
 			<!-- Main 화면 구성 Start ///////////////////////////////////////////////////////////////////////////////////////// -->
-			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 container">
+			<!-- <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 container"> -->
+			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" style="padding-top: 20px;">
 				
 				<!--	 Plan Information START	//////////////////////// 	-->
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-					<div class="container">
-						<!-- <h5>Plan Information</h5> -->
-						<div class="row" style="background-color: #F3F7F6; width: 100%; padding: 15px; border-radius: 5px; ">
-							<div class="media">
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom list-container" >
+					<!-- <div class="container">
+						<h5>Plan Information</h5>
+						<div class="row" style="background-color: #F3F7F6; width: 100%; padding: 15px; border-radius: 5px; "> -->
+							<div class="media" style="background-color: #F3F7F6; width: 100%; padding: 15px; border-radius: 5px; ">
 							
 								<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border-width: 1px; border-color: #D1D1D1; border-style: solid; width: 130px; height: 100px;">
 							    <div class="media-body" style="margin-left: 13px; margin-top: 25px; height: 100px;">
@@ -1347,8 +1349,8 @@
 								</div>
 								
 							</div>
-						</div>
-					</div>
+						<!-- </div>
+					</div> -->
 				</div>
 				<!--	 Plan Information START	//////////////////////// 	-->
 				
@@ -1372,17 +1374,17 @@
 				
 				<!--	 CityRoute List : 여행루트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light" id="gotoCityRouteList"> -->
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoCityRouteList">
-					<div class="container">
-						<!-- <h5>여행루트</h5> -->
-						<div class="row">
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom list-container" id="gotoCityRouteList">
+					<!-- <div class="container">
+						<h5>여행루트</h5>
+						<div class="row"> -->
 						
 							<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;height:445px;float:left;width:50%;"></div>
-							<div id='calendar-container' style="float:right;width:45%; margin: 5px 10px;max-width: 900px;">
+							<div id='calendar-container' style="float:right;width:50%; margin: 5px 10px;max-width: 900px;">
 							  <div id='calendar'></div>
 							</div>
-						</div>
-					</div>
+						<!-- </div>
+					</div> -->
 				</div>
 				<!--	 CityRoute List : 여행루트 END	//////////////////////// 	-->
 			
@@ -1391,12 +1393,15 @@
 				
 				<!--	 BudgetOverview List : 예산 간략 리스트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light"  id="gotoBudgetOverviewList"> -->
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"  id="gotoBudgetOverviewList">
-					<div class="container">
-						<h6>예산 정보</h6>
-						<div class="row">
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom list-container"  id="gotoBudgetOverviewList">
+					<!-- <div class="container"> -->
+						<!-- <h6>예산 정보</h6> -->
+						<!-- <div class="row"> -->
+							<div></div>
 							
 							<div class="text-center" style="border:solid thin #DDDDDD ; border-radius:5px; padding: 5px 10px; background-color: white; width: 50%; ">
+								<div class="d-flex justify-content-left mt-1 ml-3" style="font-weight: bolder; font-size: 17px;">예산 정보</div>
+								
 								<!-- 만들어두고 스크립트에서 포문돌려 셋팅하기 -->
 								<div class="budgetOverview" style="padding: 5px;">
 									<div style="float:left;width:45%;">
@@ -1414,8 +1419,8 @@
 								</div>
 							</div>
 							
-						</div>
-					</div>
+						<!-- </div>
+					</div> -->
 				</div>
 				<!--	 BudgetOverview List : 예산 간략 리스트 END	//////////////////////// 	-->
 				
@@ -1423,7 +1428,7 @@
 
 				<!--	 Daily List : 일정표 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light" id="gotoDailyList"> -->
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoDailyList">
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom list-container" id="gotoDailyList">
 					<div class="container">
 						<h5>일정표</h5>
 						<div class="row">
@@ -1469,15 +1474,18 @@
 				
 				<!--	 Stuff List : 준비물 체크리스트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light"  id="gotoStuffList"> -->
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoStuffList">
-					<div class="container">
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom list-container" id="gotoStuffList">
+					<!-- <div class="container"> -->
 						<!-- <h5>준비물 체크리스트</h5>  -->
-						<div class="text-right" style="font-weight: bolder; font-size: 18px;" id="stuffMode">Edit Mode</div>
-						<div class="row">
+						
+						<!-- <div class="row"> -->
 							
 							<div style="border:solid thin #DDDDDD ; border-radius:5px; padding:20px; background-color: white; width: 100%; ">
-								<span id="stuff_icon"><i class="fas fa-tasks" style="font-size: 25px; margin-right: 6px; margin-bottom: 15px;"></i></span> <span style="margin-left:10px; font-size:large; font-weight:bolder;"> 준비물 체크리스트</span> <span id="stuffCount" style="margin-left: 15px;"></span> <br/>
-								
+								<span id="stuff_icon"><i class="fas fa-tasks" style="font-size: 25px; margin-right: 6px; margin-bottom: 15px;"></i></span> <span style="margin-left:10px; font-size:large; font-weight:bolder;"> 준비물 체크리스트</span>
+								&nbsp;&nbsp;<span style="font-weight: bolder; font-size: 18px;" id="stuffMode">Edit Mode</span>
+								<span id="stuffCount" style="margin-left: 15px;"></span>
+								<br/>
+								 
 								<div class="stuffItems"> <!-- 빈 div 만든 후 getStuffList() 바로 호출해서 세팅하기 -->
 									<%-- <c:forEach var="stuff" items="${plan.stuffList}">
 										<div class="stuffItem" style="margin: 7px;">
@@ -1499,8 +1507,8 @@
 								</div> 	
 							</div>
 							
-						</div>
-					</div>
+						<!-- </div>
+					</div> -->
 				</div>
 				<!--	 Stuff List : 준비물 체크리스트 END	//////////////////////// 	-->
 

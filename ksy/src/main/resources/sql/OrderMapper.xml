@@ -120,24 +120,12 @@
 	 
 	 
 	 
-	   <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  <!--   <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
 		FROM ( SELECT ORDER_ID, BUYER_ID, BUYER_NAME, BUYER_PHONE, BUYER_EMAIL, ORDER_DATE, ORDER_STATUS, PAY_OPT, PAY_INSTAL, CARD_NO, TOTAL_AMOUNT , ACTUAL_AMOUNT , PAY_POINT , ROOM_ID , FLIGHT_ID
 					FROM orders
 						<if test="searchCondition != null">
-							<trim prefix="WHERE" prefixOverrides="AND | OR">
-							
-								<if test=" searchCondition == 0 and searchKeyword !='' ">
-									prod_no = #{searchKeyword}
-								</if>
-								<if test="searchCondition == 1 and searchKeyword !='' ">
-									buyer_id = #{searchKeyword}
-								</if>
-								<if test=" searchCondition == 2 and searchKeyword !='' ">
-									receiver_name = #{searchKeyword}
-								</if>
-							</trim>
 						</if> ) countTable						
-	 </select>
-  	
+	 </select>  -->
+  
 </mapper>

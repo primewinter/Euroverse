@@ -65,7 +65,7 @@
 			
 			var boardName = $("#boardName").val();
 			
-			$(".btn.btn-primary").on("click" , function() {
+			$("#addpost_view").on("click" , function() {
 				self.location = "/community/addPost?boardName="+boardName;
 			});
 		});
@@ -181,7 +181,7 @@
       
       </table>
 	  <!--  table End /////////////////////////////////////-->
-	  <button type="button" class="btn btn-primary">작성하기</button>
+	  <button type="button" id="addpost_view" class="btn btn-primary">작성하기</button>
 	  
  	</div>
  	<!--  화면구성 div End /////////////////////////////////////-->

@@ -30,7 +30,7 @@
 		
   	</resultMap>
   	
-  	<insert id="addRoom" parameterType="room">
+  	<!-- <insert id="addRoom" parameterType="room">
 		INSERT 
 		INTO room(ROOM_ID,ROOM_NAME,PRICE,ROOM_CITY,CHECK_IN,CHECK_OUT,DETAIL_LINK,ADULT_NUM,CHILD_NUM,ROOM_NUM,ROOM_IMG,MAIN_SERVICE,FAMILY_SERVICE,SIGHTS,HOTEL_INFO,ROOM_INFO )
 		VALUES (
@@ -75,6 +75,6 @@
   						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
   		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
   		AND #{search.currentPage}*#{search.pageSize}
-	</select>
+	</select> -->
   	
 </mapper>

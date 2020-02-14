@@ -146,7 +146,7 @@ function fncGetUserList(currentPage) {
 </head>
 
 <body>
-	
+	<jsp:include page="/toolbar/toolBar.jsp" />
 	<div class="container">
 		<div class="page-header">
 			<h3>Order List</h3>

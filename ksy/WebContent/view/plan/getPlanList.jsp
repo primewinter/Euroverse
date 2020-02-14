@@ -97,7 +97,6 @@
 		    content: "image";
 		}
 		
-		      
 	</style>
 
 
@@ -247,9 +246,7 @@
 		}
 		
 	</script>
-
-</head>
-<body>
+	
 	<script>
 		
 		/* 모달창 닫기 */
@@ -260,15 +257,21 @@
 			}
 			$("#"+modalName).hide();
 		}
+		
 	</script>
+
+
+</head>
+<body>
 	
+	<!-- ToolBar 시작 -->
+	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
+	<!-- ToolBar 끝 -->
 	
-	<br/>
-	<a href="/index.jsp" >다시 메인으로</a><br/>
-	userId = ${user.userId} , userSlot = ${user.slot} , user.totalPoint = ${user.totalPoint}
-	<br/><br/>
+	<%-- <a href="/index.jsp" >다시 메인으로</a><br/>
+	userId = ${user.userId} , userSlot = ${user.slot} , user.totalPoint = ${user.totalPoint} <br/><br/> --%>
 	
-	<div class="album py-5 bg-light">
+	<div class="album py-5">
 		<div class="container">
 			<div class="row">
 			

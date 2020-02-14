@@ -27,6 +27,7 @@ public class FlightDaoImpl implements FlightDao {
 	}
 	public void addFlight(Flight flight ) throws Exception{
 		sqlSession.insert("FlightMapper.addFlight", flight);
+		System.out.println("flight : "+flight);
 	}
 	
 	public Flight getFlight(String flightId) throws Exception{
