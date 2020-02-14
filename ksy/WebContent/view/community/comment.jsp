@@ -107,7 +107,6 @@
 						output += "&nbsp;<i onclick='reportshow("+JSONData.list[i].cmtId+",\"C\");' class='fas fa-concierge-bell'></i>"
 						+ "<i class='fas fa-reply-all' onclick='showrcmt("+JSONData.list[i].cmtId+")'></i>"
 						+ "<div class='container'><div class='view_comment'>"
-						+ "<h2 class='blind'>댓글 영역</h2>"
 						+ "<form class='form-horizontal' id='"+JSONData.list[i].cmtId+"addRcmt'>"
 						+ "<div class='cmt_write_box clear' id='"+JSONData.list[i].cmtId+"rcmt' style='display: none;'><div class='fl'>"
 						+ "<div class='user_info_input'><label for='nickName' class='blind'>닉네임</label>"
@@ -285,25 +284,26 @@
 	<!-- ///////////////////////댓글 작성 view 화면/////////////////////////////// -->
 	<div class="view_comment">
 	
-	  <h2 class="blind">댓글 영역</h2>
 		<form class="form-horizontal" id="addCmt">
 		<!-- 답글 입력 -->
 		<div class="cmt_write_box clear">
 			<div class="fl">
-						<div class="user_info_input">
-					<label for="nickName" class="blind">닉네임</label>
-					<input type="text" id="nickName" name="nickName" placeholder="닉네임" onfocus="this.style.background='#FFFFFF'" maxlength="20" value="${post.nickName}">
+				<div class="card" style="width: 105px; float: left;">
+				  <img src="../../resources/images/userImages/${user.userImg}" class="card-img-top" alt="..." style="height: 70px; width: 100px;">
+				  <span id="nickName" name="nickName">${post.nickName}</span>
 				</div>
 			</div>
 			<div class="cmt_txt_cont">
 				<div class="cmt_write">
-				  <textarea id="cmtContent" name="cmtContent" maxlength="400"></textarea>
+				  <textarea id="cmtContent" name="cmtContent" maxlength="400" style="float: left; margin-bottom: 10px;"></textarea>
 				</div>
 				<div class="cmt_cont_bottm clear">
 					<div class="fr">
-						<label><input type="checkbox" id="secret" name="secret" value="T">비밀댓글</label>
-						<button type="button" class="btn_blue btn_svc small repley_add" id="addComment">등록</button>
-						<button type="button" class="btn_lightblue btn_svc small repley_add_vote">등록+추천</button>
+						<div class="custom-control custom-radio">
+						  <input type="radio" id="secret" name="secret" class="custom-control-input" value="T">
+						  <label class="custom-control-label" for="customRadio1" style="font-size: 14px; margin: 7px 7px 0 0">비밀댓글</label>
+						  <button type="button" class="btn btn-secondary btn-sm" id="addComment">등록</button>
+						</div>
 					</div>
 				</div>
 			</div>

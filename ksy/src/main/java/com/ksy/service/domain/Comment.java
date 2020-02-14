@@ -18,6 +18,7 @@ public class Comment {
 	private String cmtImg;  
 	private String deleted; //deleted
 	private String postWriterId;
+	private String postTitle;
 	
 	public Comment() {
 		
@@ -143,6 +144,14 @@ public class Comment {
 	public void setParentCmtId(String parentCmtId) {
 		this.parentCmtId = parentCmtId;
 	}
+	
+	public String getPostTitle() {
+		return postTitle;
+	}
+
+	public void setPostTitle(String postTitle) {
+		this.postTitle = postTitle;
+	}
 
 	@Override
 	public String toString() {
@@ -150,7 +159,7 @@ public class Comment {
 				+ cmtWriterId + ", nickName=" + nickName + ", cmtContent=" + cmtContent + ", cmtDate=" + cmtDate
 				+ ", blocked=" + blocked + ", cmtLikeFlag=" + cmtLikeFlag + ", cmtLikeCount=" + cmtLikeCount
 				+ ", secret=" + secret + ", cmtImg=" + cmtImg + ", deleted=" + deleted + ", postWriterId="
-				+ postWriterId + "]";
+				+ postWriterId + ", postTitle=" + postTitle + "]";
 	}
 
 }
