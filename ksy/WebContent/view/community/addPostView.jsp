@@ -109,7 +109,7 @@
 		  		});
 		  	}
 		  	render.readAsDataURL(file);  
-		  	
+		  	 
 		      $.ajax({
 		        data: form_data,
 		        type: "POST",
@@ -121,7 +121,7 @@
 		        success: function(img_name) {
 		        	$("img[data-filename='retriever"+countt+"']").attr('src',img_name);
 		        	countt++;
-		        	console.log(countt);
+		        	console.log(countt);;
 		        }
 		    }); 
 		}

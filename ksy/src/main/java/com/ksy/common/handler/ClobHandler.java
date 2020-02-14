@@ -16,8 +16,10 @@ public class ClobHandler implements TypeHandler<Object>{
 	}
  
     @Override
-    public void setParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType)
-           throws SQLException {
+    public void setParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType) throws SQLException {
+    	
+    	System.out.println("ClobHandler.java method setParameter()");
+    	
         String s = (String) parameter;
         StringReader reader = new StringReader(s);
         ps.setCharacterStream(i, reader, s.length());
@@ -25,16 +27,25 @@ public class ClobHandler implements TypeHandler<Object>{
  
     @Override
     public Object getResult(ResultSet rs, String columnName) throws SQLException {
+    	
+    	System.out.println("ClobHandler.java method getResult( columnName )");
+    	
         return rs.getString(columnName);
     }
  
     @Override
     public Object getResult(CallableStatement cs, int columnIndex) throws SQLException {
+    	
+    	System.out.println("ClobHandler.java method getResult( columnIndex )");
+    	
         return cs.getString(columnIndex);
     }
 
 	@Override
 	public Object getResult(ResultSet rs, int columnIndex) throws SQLException {
+		
+		System.out.println("ClobHandler.java method getResult( columnIndex )");
+		
 		// TODO Auto-generated method stub
 		return null;
 	}

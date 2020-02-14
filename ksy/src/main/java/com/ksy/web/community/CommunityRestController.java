@@ -276,7 +276,7 @@ public class CommunityRestController {
 			f.mkdirs();
 		}
 		file.transferTo(f);
-		Thread.sleep(3000);
+		Thread.sleep(4000);
 		out.println("../../resources/images/commImg/" + str_filename);
 		out.close();
 	}
