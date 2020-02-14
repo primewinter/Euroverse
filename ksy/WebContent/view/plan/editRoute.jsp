@@ -82,12 +82,44 @@
 		background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
       }
       
+      
+      
+      
+      
+      .tran_icon {
+      	font-size: 32px;
+      }
+      .city_route{
+      	margin: 0px 15px; 
+      	padding: 6px;
+      }
+      .cr_cityName{
+      	font-weight: 600;
+      	font-size: 17px;
+      }
+      .cr_term{
+      	font-size: 13px;
+      }
+      
+      .tran_icon2 {
+      	font-size: 45px;
+      	margin: 5px;
+      }
+      .tran_circle{
+      	width: 100px;
+      	height: 100px;
+      	//border: 1px solid gray;
+      	border-radius: 100%;
+      	align-content: center;
+      	text-align: center;
+      	padding-top: 10px;
+      	margin: 10px;
+      }
+      
 	</style>
 	
 	
 	
-	
-
 	<!-- 함수들 모음집 -->
 	<script type="text/javascript">
 	
@@ -116,14 +148,108 @@
 			});
 			
 			
-			$('.tran_type').on('click', function(){
-				alert(".tran_type 클릭 => "+ ($('.tran_type').index($(this))+1) );
+			/* $('.tran_type').on('click', function(){
+				alert(".tran_type 클릭 => "+ ($('.tran_type').index($(this)) ) );
+				$('#updateTranModal').show();
 			});
 			$('.cr_cityDuration_parent').on('click', function(){
-				alert(".cr_cityDuration_parent 클릭 => "+ ($('.cr_cityDuration_parent').index($(this))+1) );
+				alert( ".cr_cityDuration_parent 클릭 => "+ ( $('.cr_cityDuration_parent').index($(this)) )   );
 				//alert( "cityId = " );
-			});
+			}); */
+			
+			$('button .close').hide();
+			
+			$('.city_route').hover(
+		        function() {
+		            $(this).find('.media').css('backgroundColor', '#F4FAFA');
+		            $(this).find('.close').show();
+		        },
+		        function() {
+		            $(this).find('.media').css('background', 'none');
+		            $(this).find('.close').hide();
+		        }
+		    );
+			
+			
+			
+			$('.tran_circle').on('click', function(){
+				var getCityId = $('#update_city_id').text();
+				var tranType = $(this).attr('id').substring(10,11);
+      			console.log( "update tran_type="+tranType+", cityId="+getCityId );
+      			
+      			updateTranType( getCityId, tranType);
+      			
+      			$('.tran_circle').css('background', 'none').css('color', 'black');
+      			$('#tran_type_'+tranType).css('backgroundColor', '#7CECE5').css('color', 'white');
+      		});
+      	
+			
 		});
+		
+		
+		
+		function showUpdateTranType( cityId, currTranType ) {
+			
+			$('#update_city_id').text(cityId);
+			$('#tran_type_'+currTranType).css('backgroundColor', '#7CECE5').css('color', 'white');
+
+			console.log("showUpdateTranType('"+cityId+"','"+ currTranType+"')");
+			
+			$('#updateTranModal').show();
+		}
+		
+		function updateTranType( cityId, tranType ){
+			var index = $('.city_id').index( $('.city_id:contains("'+cityId+'")') );
+			
+			$.ajax({
+				url: "/planSub/json/updateTranType",
+				method: "POST",
+				dataType: "json",
+				data: JSON.stringify({
+					planId: planId,
+					cityId: cityId,
+					tranType: tranType
+				}),
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				success: function(JSONData, status){
+					//console.log("리턴데이터 있음! => "+JSON.stringify(JSONData) );
+				},
+				error:function(request,status,error){
+			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			    } 
+			}); //ajax
+			
+			//$($('.trans')[index]).html('!!!!!');
+			
+			var jsStr = "javascript:showUpdateTranType('"+cityId+"','"+tranType+"')";
+			
+			var fontHtml;
+			if( tranType == 'T' ){
+				fontHtml = "기차 <i class='tran_icon fas fa-train'></i>";
+			}else if( tranType == 'B' ){
+				fontHtml = "버스 <i class='tran_icon fas fa-bus'></i>";
+			}else if( tranType == 'A' ){
+				fontHtml = "항공 <i class='tran_icon fas fa-plane'></i>";
+			}else if( tranType == 'F' ){
+				fontHtml = "페리 <i class='tran_icon fas fa-ship'></i>";
+			}else if( tranType == 'E' ){
+				fontHtml = "기타 <i class='tran_icon fas fa-guitar'></i>";
+			}
+			
+			$($('.trans')[index]).find('a').attr('href',jsStr);
+			$($('.trans')[index]).find('font').html(fontHtml);
+			
+			/* $('.tran_circle').css('background', 'none').css('color', 'black');
+			closeModal('updateTranModal'); */
+		}
+		
+		
+		function updateCityDuration( cityId, currDuration ){
+			
+			console.log("updateCityDuration('"+ cityId +"','"+ currDuration +"')");
+		}
+		
+		
 		
 		
 		function reorder() {
@@ -131,16 +257,18 @@
 			
 		    $(".city_route").each(function(i, box) {
 		    	var cityId = $(box).find(".city_id").text().trim();
-		    	var index = $(".city_route").index($(box));
-		        $(box).find(".visit_order").html(i);
-		        console.log(" reorder 실행! => "+$(box)+"/cityId="+ cityId +", i="+i + ", index="+index );
-		        if( i == 1){
+		    	//var index = $(".city_route").index($(box));
+		    	var visitOrder = i+1;
+		    	
+		        $(box).find(".visit_order").html(visitOrder);
+		        console.log(" reorder 실행! => "+$(box)+"/cityId="+ cityId +", i="+i+", visitOrder="+visitOrder );
+		        if( i == 0){
 		        	$(box).find(".tran_type").hide();
 		        }else{
 		        	$(box).find(".tran_type").show();
 		        }
 		        
-		        updateVisitOrder( cityId, i );
+		        updateVisitOrder( cityId, visitOrder );
 		    });
 			
 			//getCityRouteList( planId );
@@ -175,7 +303,7 @@
 		
 		function deleteCityRoute( cityId, visitOrder ){
 			var visitOrderNew  = visitOrder+1;	//삭제 후 이미 부여된 순서 오류... 필요없음!!!!!!
-			var indexNew = $(".city_id").index( $(".city_id:contains('"+cityId+"')") )+1;
+			var indexNew = $(".city_id").index( $(".city_id:contains('"+cityId+"')") );
 			
 			if(confirm( "삭제된 경로는 복구가 불가능합니다.\n정말 삭제하시겠습니까? "+"/ indexNew="+indexNew ))
 			{
@@ -245,7 +373,7 @@
 		
 		
 		function addCityRoute(cityName){
-			var nextVisitOrder = $(".city_route").size();
+			var nextVisitOrder = $(".city_route").size()+1;
 			
 			if(confirm( "addCityRoute() 실행! : cityName="+cityName+" (planId="+planId+") / nextVisitOrder="+nextVisitOrder +"\n 경로를 추가하시겠습니까?" ))
 			{	
@@ -269,7 +397,6 @@
 							crHtml = crHtml + '<span class="float-right" onclick="deleteCityRoute(\''+ JSONData.cityId +'\', 0 )">X</span>';
 							crHtml = crHtml + '<div class="trans">';
 							crHtml = crHtml + '<div class="tran_type" style="border-bottom: 1px solid red;">';
-							
 							if( JSONData.tranType == 'T' ){
 								crHtml = crHtml + '기차 <i class="fas fa-train" style="font-size: 30px;"></i>';
 							}else if( JSONData.tranType == 'B' ){
@@ -285,7 +412,6 @@
 							}
 							crHtml = crHtml + '</div>';
 							crHtml = crHtml + '</div>';
-							
 							crHtml = crHtml + '<div>';
 							crHtml = crHtml + '<div class="cr_cityName">'+JSONData.cityName+'</div>';
 							crHtml = crHtml + '방문순서: <span class="visit_order">'+JSONData.visitOrder+'</span> , 도시ID: <span class="city_id">'+ JSONData.cityId +'</span>';
@@ -295,33 +421,33 @@
 							crHtml = crHtml + '</div>'; */
 							
 							
-							var crHtml = '<div class="city_route"  style="margin: 5px; padding: 6px;">';
+							var crHtml = '<div class="city_route">';
 							crHtml = crHtml + '<div class="trans d-flex justify-content-center">';
 							crHtml = crHtml + '<div class="tran_type" style="font: 7px gray;">';
 							
 							if( JSONData.tranType == 'T' ){
-								crHtml = crHtml + '기차 <i class="fas fa-train" style="font-size: 50px;"></i>';
+								crHtml = crHtml + '기차 <i class="tran_icon fas fa-train"></i>';
 							}else if( JSONData.tranType == 'B' ){
-								crHtml = crHtml + '버스 <i class="fas fa-bus" style="font-size: 50px;"></i>';
+								crHtml = crHtml + '버스 <i class="tran_icon fas fa-bus"></i>';
 							}else if( JSONData.tranType == 'A' ){
-								crHtml = crHtml + '항공 <i class="fas fa-plane" style="font-size: 50px;"></i>';
+								crHtml = crHtml + '항공 <i class="tran_icon fas fa-plane"></i>';
 							}else if( JSONData.tranType == 'F' ){
-								crHtml = crHtml + '페리 <i class="fas fa-ship" style="font-size: 50px;"></i>';
+								crHtml = crHtml + '페리 <i class="tran_icon fas fa-ship"></i>';
 							}else if( JSONData.tranType == 'E' ){
-								crHtml = crHtml + '기타 <i class="fas fa-guitar" style="font-size: 50px;"></i>';
+								crHtml = crHtml + '기타 <i class="tran_icon fas fa-guitar"></i>';
 							}else if( JSONData.tranType == null || JSONData.tranType == '' ){
-								crHtml = crHtml + '선택<i class="fas fa-plus" style="font-size: 50px;"></i>';
+								crHtml = crHtml + '선택<i class="tran_icon fas fa-plus"></i>';
 							}
 							crHtml = crHtml + '</div>';
 							crHtml = crHtml + '</div>';
 							
 							crHtml = crHtml + '<button type="button" class="close" aria-label="Close" onclick="deleteCityRoute(\''+ JSONData.cityId +'\', 0 )"> <span aria-hidden="true">&times;</span> </button>';
 	
-							crHtml = crHtml + '<div class="media mt-4" style="border: 1px solid #CDD8D8; padding: 15px 35px 0px 35px;">';
+							crHtml = crHtml + '<div class="media mt-4" style="border: 1px solid #CDD8D8; padding: 12px 30px 5px 30px;">';
 							crHtml = crHtml + '<div hidden="hidden">방문순서: <span class="visit_order">'+ JSONData.visitOrder +'</span> , 도시ID: <span class="city_id">'+ JSONData.cityId +'</span></div>';
 							crHtml = crHtml + '<img alt="" src="/resources/images/planImg/defaultPlanImage.jpg" class="align-self-center mr-3 city_img" style="width: 50px; height: auto;" hidden="hidden">';
 							crHtml = crHtml + '<div class="media-body">';
-							crHtml = crHtml + '<h5 class="cr_cityName mt-0" style="font-weight:600;">'+ JSONData.cityName +'</h5>';
+							crHtml = crHtml + '<div class="cr_cityName mt-0">'+ JSONData.cityName +'</div>';
 							crHtml = crHtml + '<p class="cr_term">'+ JSONData.startDateStr +' ~ '+ JSONData.endDateStr +'</p>';
 							crHtml = crHtml + '</div>';
 							crHtml = crHtml + '<div class="rounded-circle" style="border:3px solid #33B9B1; padding: 12px; font-weight: 600;">';
@@ -357,6 +483,8 @@
 	
 		/* 모달창 닫기 */
 		function closeModal(modalName) {
+			$('.tran_circle').css('background', 'none').css('color', 'black');
+			
 			console.log("closeModal : modalName="+modalName);
 			if( typeof $("."+modalName)[0] != "undefined" ){
 				$("."+modalName)[0].reset();		//form에 모달 이름과 같은 클래스명 주기
@@ -754,7 +882,7 @@
 		<!-- <div class="row"> -->
 			
 			<!-- 좌측 컨테이너 Start ///////////////////////////// -->
-			<div id="city_route_list_container" style="width: 28%; height:786px; float: left; border-right: 1 #DEDEDE solid; margin-left: 0px;margin-top: 0px;">
+			<div id="city_route_list_container" style="width: 25%; height:786px; float: left; border-right: 1 #DEDEDE solid; margin-left: 0px;margin-top: 0px;">
 				
 				<!-- 좌측 컨테이너 상단 plan_info Start ///////////////////////////// -->
 				<div class="plan_info" style="background-color: #ADDFDC; width: 100%; padding: 7px; height: 16%;">
@@ -809,12 +937,11 @@
 				
 				
 				<!-- 좌측 컨테이너 하단 city_route Start ///////////////////////////// -->
-				<div class="city_route" style="background-color: #FFFFFF; width: 100%; height: 84%; overflow: hidden auto;">
+				<div class="city_route_container" style="background-color: #FFFFFF; width: 100%; height: 84%; overflow: hidden auto;">
 				
 					<div class="city_route_list ui-sortable">
 						<c:if test="${!empty plan.cityList}">
 							<c:forEach var="cityRoute" items="${plan.cityList}">
-								
 								
 								<!-- city_route item  start /////////////////////////////////////////////////////// -->
 								<%-- <div class="city_route"  style="margin: 5px; padding: 5px; border: 1px solid gray; background-color: white;">
@@ -830,61 +957,58 @@
 												<c:when test="${cityRoute.tranType == 'E'}">기타 <i class="fas fa-guitar" style="font-size: 30px;"></i></c:when>
 												<c:when test="${empty cityRoute.tranType || cityRoute.tranType == ''}">ㄴㄴ<i class="fas fa-plus" style="font-size: 30px;"></i></c:when>
 											</c:choose>
-											
 										</div>
 									</div>
-									
 									<div>
 										<div class="cr_cityName">${cityRoute.cityName}</div>
 										방문순서: <span class="visit_order">${cityRoute.visitOrder}</span> , 도시ID: <span class="city_id">${cityRoute.cityId}</span>
 										<div class="cr_term">${cityRoute.startDateStr} ~ ${cityRoute.endDateStr}</div>
 									</div>
-									
 									<div class="cr_cityDuration">city_duration: ${cityRoute.cityDuration}</div> 
 								</div> --%>
 								<!-- city_route item   end ////////////////////////////////////////////////////////// -->
-								
-								
 								<!-- ---------------------------------------------------------------------------------------------------------------------- -->
 								
 								
 								<!-- city_route item  NEW  start /////////////////////////////////////////////////////// -->
-								<div class="city_route"  style="margin: 5px; padding: 6px;">
+								<div class="city_route">
 									
 									<!-- tran_type -->
 									<div class="trans d-flex justify-content-center"><!-- 가운데 정렬 -->
-										<div class="tran_type" style="font: 7px gray;">
-											<c:choose>
-												<c:when test="${cityRoute.tranType == 'T'}">기차 <i class="fas fa-train" style="font-size: 50px;"></i></c:when>
-												<c:when test="${cityRoute.tranType == 'B'}">버스 <i class="fas fa-bus" style="font-size: 50px;"></i></c:when>
-												<c:when test="${cityRoute.tranType == 'A'}">항공 <i class="fas fa-plane" style="font-size: 50px;"></i></c:when>
-												<c:when test="${cityRoute.tranType == 'F'}">페리 <i class="fas fa-ship" style="font-size: 50px;"></i></c:when>
-												<c:when test="${cityRoute.tranType == 'E'}">기타 <i class="fas fa-guitar" style="font-size: 50px;"></i></c:when>
-												<c:when test="${empty cityRoute.tranType || cityRoute.tranType == ''}">선택<i class="fas fa-plus" style="font-size: 50px;"></i></c:when>
-											</c:choose>
-										</div>
+										<a href="javascript:showUpdateTranType('${cityRoute.cityId}','${cityRoute.tranType}')">
+											<font class="tran_type" style="font: 7px gray;"><!-- div 안들어가서 font로.. -->
+												<c:choose>
+													<c:when test="${cityRoute.tranType == 'T'}">기차 <i class="tran_icon fas fa-train"></i></c:when>
+													<c:when test="${cityRoute.tranType == 'B'}">버스 <i class="tran_icon fas fa-bus"></i></c:when>
+													<c:when test="${cityRoute.tranType == 'A'}">항공 <i class="tran_icon fas fa-plane"></i></c:when>
+													<c:when test="${cityRoute.tranType == 'F'}">페리 <i class="tran_icon fas fa-ship"></i></c:when>
+													<c:when test="${cityRoute.tranType == 'E'}">기타 <i class="tran_icon fas fa-guitar"></i></c:when>
+													<c:when test="${empty cityRoute.tranType || cityRoute.tranType == ''}">선택<i class="tran_icon fas fa-plus"></i></c:when>
+												</c:choose>
+											</font>
+										</a>
 									</div>
 									
 									<!-- X 버튼 -->
-									<button type="button" class="close" aria-label="Close" onclick="deleteCityRoute('${cityRoute.cityId}',${plan.cityList.indexOf(cityRoute)} )"> <span aria-hidden="true">&times;</span> </button>
+									<button type="button" class="close" aria-label="Close" onclick="deleteCityRoute('${cityRoute.cityId}',${plan.cityList.indexOf(cityRoute)} )"><span aria-hidden="true">&times;</span></button>
 									
 									
 									<!-- city_route 정보 -->
-									<div class="media mt-4" style="border: 1px solid #CDD8D8; padding: 15px 35px 0px 35px;"> <!-- 상 우 하 좌 -->
-									
+									<div class="media mt-4" style="border: 1px solid #CDD8D8; padding: 12px 30px 5px 30px;"> <!-- 상 우 하 좌 -->
 										<!-- hidden 정보 (방문순서, 도시ID) -->
 										<div hidden="hidden">방문순서: <span class="visit_order">${cityRoute.visitOrder}</span> , 도시ID: <span class="city_id">${cityRoute.cityId}</span></div>
-										
 										<img alt="" src="/resources/images/planImg/defaultPlanImage.jpg" class="align-self-center mr-3 city_img" style="width: 50px; height: auto;" hidden="hidden">
 										
 										<div class="media-body">
-											<h5 class="cr_cityName mt-0" style="font-weight:600;">${cityRoute.cityName}</h5>
+											<div class="cr_cityName mt-0">${cityRoute.cityName}</div>
 											<p class="cr_term">${cityRoute.startDateStr} ~ ${cityRoute.endDateStr}</p>
 										</div> <!-- media-body -->
 									
+										<a href="javascript:updateCityDuration('${cityRoute.cityId}','${cityRoute.cityDuration}')">
 										<div class="cr_cityDuration_parent rounded-circle" style="border:3px solid #33B9B1; padding: 12px; font-weight: 600;">
 											<span class="cr_cityDuration">${cityRoute.cityDuration-1}</span>박
 										</div>
+										</a>
 									</div> <!-- media -->
 								
 								</div>
@@ -915,7 +1039,7 @@
 			
 			
 			<!-- 지도 컨테이너 Start ///////////////////////////// -->
-			<div id="map_container" style="width: 72%;height:786px;float: left;">
+			<div id="map_container" style="width: 75%;height:786px;float: left;">
 				<div id="map" style="border:1px solid #e5e5e5;width:100%;height: 100%;"></div>
 			</div>
 			<!-- 지도 컨테이너 End ///////////////////////////// -->
@@ -926,6 +1050,52 @@
 		<!-- 다단 레이아웃 End ///////////////////////////// -->
 	<!-- </div> -->
 	<!-- 화면구성 div End ///////////////////////////// -->
+
+
+
+	<!-- /////////////////////	Modal : dailyEdit 	///////////////////// -->
+	<div class="modal" id="updateTranModal" >
+	  <div class="modal-dialog modal-lg">
+	  <h4 style="color: #FFFFFF; margin-top: 100px;">이동수단 변경</h4>
+	    <div class="modal-content">
+	    
+	      <div class="modal-header">
+	        <div class="modal-title">
+	        </div>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('updateTranModal')">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      
+	      <div class="modal-body">
+	      
+	      	<div hidden="hidden" id="update_city_id"></div>
+	      	<div class="container">
+	      		<div class="row d-flex justify-content-center">
+	      			<div class="tran_circle" id="tran_type_T"><i class="tran_icon2 fas fa-train"></i><br/>기차</div>
+					<div class="tran_circle" id="tran_type_B"><i class="tran_icon2 fas fa-bus"></i><br/>버스</div>
+					<div class="tran_circle" id="tran_type_A"><i class="tran_icon2 fas fa-plane"></i><br/>항공</div>
+					<div class="tran_circle" id="tran_type_F"><i class="tran_icon2 fas fa-ship"></i><br/>페리</div>
+					<div class="tran_circle" id="tran_type_E"><i class="tran_icon2 fas fa-guitar"></i><br/>기타</div>
+					<!-- <div class="tran_circle"><i class="tran_icon2 fas fa-plus"></i><br/>선택</div> -->
+	      		</div>
+	      	</div>
+	      	
+	      	
+	      	
+	        
+	      </div>
+	      <!-- <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('updateTranModal')">Close</button>
+	        <button type="button" class="btn btn-danger" id="deleteDaily">Delete Daily</button>
+	        <button type="button" class="btn btn-primary" id="submitDaily">Edit Daily</button>
+	      </div> -->
+	    </div>
+	  </div>
+	</div>
+	<!-- /////////////////////	Modal : dailyEdit 끝	///////////////////// -->
+
+
 
 
 	<!-- <div style="position: absolute; top: 10px; right: 20px; background-color: white; border: 1px solid; width: 200px; height: 300px;"> 

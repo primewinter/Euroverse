@@ -48,6 +48,7 @@
 		<result property="cmtLikeCount" 				column="cmt_like_count" 					jdbcType="NUMERIC" />
 		<result property="cmtLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
 		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
+		<result property="postTitle"	column="post_title" 		jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<resultMap id="reportSelectMap" type="report">

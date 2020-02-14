@@ -175,6 +175,9 @@ public class CommunityController {
 		Post post = communityService.getPost(postId, user.getUserId(), boardName);
 		List<Tag> tag = communityService.getTagList(postId);
 
+		User userProfile = userService.getUser(user.getUserId());
+		
+		model.addAttribute("user", userProfile);
 		model.addAttribute("post", post);
 		model.addAttribute("tag", tag);
 		

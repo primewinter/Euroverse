@@ -18,6 +18,7 @@ public class Order {
 	private int totalAmount; //total_amount
 	private int actualAmount; //actual_amount
 	private int payPoint; //pay_point
+	private int addPoint;
 	private String cardNo; //card_no
 	private Timestamp refundDate; //refund_date
 	
@@ -123,14 +124,22 @@ public class Order {
 	public void setPayPoint(int payPoint) {
 		this.payPoint = payPoint;
 	}
+	public int getAddPoint() {
+		return addPoint;
+	}
+	public void setAddPoint(int addPoint) {
+		this.addPoint = addPoint;
+	}
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", buyer=" + buyer + ", buyerName=" + buyerName + ", buyerPhone="
 				+ buyerPhone + ", buyerEmail=" + buyerEmail + ", orderDate=" + orderDate + ", orderStatus="
 				+ orderStatus + ", flightId=" + flightId + ", roomId=" + roomId + ", payDate=" + payDate + ", payOpt="
 				+ payOpt + ", payInstal=" + payInstal + ", totalAmount=" + totalAmount + ", actualAmount="
-				+ actualAmount + ", payPoint=" + payPoint + ", cardNo=" + cardNo + ", refundDate=" + refundDate + "]";
+				+ actualAmount + ", payPoint=" + payPoint + ", addPoint=" + addPoint + ", cardNo=" + cardNo
+				+ ", refundDate=" + refundDate + "]";
 	}
+	
 
 	
 }

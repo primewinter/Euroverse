@@ -131,7 +131,7 @@
 
 				<!-- 채팅창 -->
  				<div id="accChat">
- 						<div class="accChat info" style="padding:5px">
+ 						<div class="accChat info" style="padding:5px;margin-top:10%;">
  							<p><i class="fas fa-arrow-left fa-2x"></i></p>
  							<span style="float:left;"></span>
  							<p style="text-align:right;"><i class="fas fa-bars fa-2x" data-toggle="modal" data-target="#accModal"></i></p>
@@ -216,7 +216,7 @@
         	$("#accChat").show();
         	chatRoomId = roomId;
 	  		console.log("입장한 채팅방 번호 : "+roomId);
-	        var accChatAddr = "ws://localhost:8080/accSocket/"+roomId+"/"+userId;
+	        var accChatAddr = "ws://192.168.0.82:8080/accSocket/"+roomId+"/"+userId;
 	        accChatSocket = new WebSocket(accChatAddr);
 	        //웹 소켓이 연결되었을 때 호출되는 이벤트
 	        accChatSocket.onopen = function(message){

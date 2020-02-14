@@ -17,7 +17,6 @@
   		<result property="orderStatus" 		column="ORDER_STATUS"	jdbcType="CHAR"/>
   		<result property="payOpt" 			column="PAY_OPT" 		jdbcType="CHAR"/>
   		<result property="payInstal" 		column="PAY_INSTAL" 	jdbcType="NUMERIC"/>
-  		<result property="cardNo" 			column="CARD_NO" 		jdbcType="VARCHAR"/>  		 
   		<result property="totalAmount" 		column="TOTAL_AMOUNT"	jdbcType="NUMERIC"/>
   		<result property="actualAmount"		column="ACTUAL_AMOUNT"	jdbcType="NUMERIC"/>
   		<result property="payPoint"			column="PAY_POINT"      jdbcType="NUMERIC" />
@@ -29,7 +28,7 @@
   	
   		<insert id="addFlightOrder" parameterType="order">
 		INSERT 
-		INTO orders(ORDER_ID, BUYER_ID, BUYER_NAME, BUYER_PHONE, BUYER_EMAIL, ORDER_DATE, ORDER_STATUS, PAY_OPT, PAY_INSTAL, CARD_NO, TOTAL_AMOUNT , ACTUAL_AMOUNT , PAY_POINT , FLIGHT_ID)
+		INTO orders(ORDER_ID, BUYER_ID, BUYER_NAME, BUYER_PHONE, BUYER_EMAIL, ORDER_DATE, ORDER_STATUS, PAY_OPT, PAY_INSTAL, TOTAL_AMOUNT , ACTUAL_AMOUNT , PAY_POINT , FLIGHT_ID)
 		VALUES (
 					#{orderId:VARCHAR},
 					#{buyer.userId:VARCHAR},
@@ -40,7 +39,6 @@
 					#{orderStatus:CHAR},
 					#{payOpt:CHAR},
 					#{payInstal:NUMERIC},
-					#{cardNo:VARCHAR},
 					#{totalAmount:NUMERIC},
 					#{actualAmount:NUMERIC},
 					#{payPoint:NUMERIC},
@@ -51,7 +49,7 @@
 	
 	<insert id="addRoomOrder" parameterType="order">
 		INSERT 
-		INTO orders(ORDER_ID, BUYER_ID, BUYER_NAME, BUYER_PHONE, BUYER_EMAIL, ORDER_DATE, ORDER_STATUS, PAY_OPT, PAY_INSTAL, CARD_NO, TOTAL_AMOUNT , ACTUAL_AMOUNT , PAY_POINT , ROOM_ID)
+		INTO orders(ORDER_ID, BUYER_ID, BUYER_NAME, BUYER_PHONE, BUYER_EMAIL, ORDER_DATE, ORDER_STATUS, PAY_OPT, PAY_INSTAL, TOTAL_AMOUNT , ACTUAL_AMOUNT , PAY_POINT , ROOM_ID)
 		VALUES (
 					#{orderId:VARCHAR},
 					#{buyer.userId:VARCHAR},
@@ -62,7 +60,6 @@
 					#{orderStatus:CHAR},
 					#{payOpt:CHAR},
 					#{payInstal:NUMERIC},
-					#{cardNo:VARCHAR},
 					#{totalAmount:NUMERIC},
 					#{actualAmount:NUMERIC},
 					#{payPoint:NUMERIC},
@@ -74,7 +71,7 @@
   	
   	<select id="getFlightOrder" parameterType="String" resultMap="orderSelectMap">
   		SELECT 
-		f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over  , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.card_no 
+		f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over  , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date 
 		FROM orders o , flight f
 		WHERE order_id = #{orderId}
 					AND f.flight_id(+)=o.flight_id
@@ -84,7 +81,7 @@
   	
   	<select id="getRoomOrder" parameterType="String" resultMap="orderSelectMap">
   		SELECT 
-		r.room_id , r.room_name , r.price, r.check_in , r.check_out , r.room_num , r.adult_num , r.child_num , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.card_no 
+		r.room_id , r.room_name , r.price, r.check_in , r.check_out , r.room_num , r.adult_num , r.child_num , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date  
 		FROM orders o , room r
 		WHERE order_id = #{orderId}
 					AND r.room_id(+)=o.room_id
@@ -105,7 +102,7 @@
 	 <select id="getOrderList" parameterType="map" resultMap="orderSelectMap">
   		SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM (  SELECT f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over  ,  r.room_id , r.room_name , r.price, r.check_in , r.check_out , r.room_num , r.adult_num , r.child_num , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.card_no 
+  						FROM (  SELECT f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over  ,  r.room_id , r.room_name , r.price, r.check_in , r.check_out , r.room_num , r.adult_num , r.child_num , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date  
 										FROM flight f, room r,  users u , orders o 
 										WHERE o.room_id  = r.room_id(+)
 										AND o.flight_id = f.flight_id(+)
@@ -120,12 +117,11 @@
 	 
 	 
 	 
-	  <!--   <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
-		FROM ( SELECT ORDER_ID, BUYER_ID, BUYER_NAME, BUYER_PHONE, BUYER_EMAIL, ORDER_DATE, ORDER_STATUS, PAY_OPT, PAY_INSTAL, CARD_NO, TOTAL_AMOUNT , ACTUAL_AMOUNT , PAY_POINT , ROOM_ID , FLIGHT_ID
+		FROM ( SELECT ORDER_ID, BUYER_ID, BUYER_NAME, BUYER_PHONE, BUYER_EMAIL, ORDER_DATE, ORDER_STATUS, PAY_OPT, PAY_INSTAL,  TOTAL_AMOUNT , ACTUAL_AMOUNT , PAY_POINT , ROOM_ID , FLIGHT_ID
 					FROM orders
-						<if test="searchCondition != null">
-						</if> ) countTable						
-	 </select>  -->
+			 ) countTable						
+	 </select>  
   
 </mapper>
