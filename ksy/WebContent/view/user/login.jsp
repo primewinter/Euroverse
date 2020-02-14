@@ -195,7 +195,9 @@ var h6 = document.getElementsByClassName('loginH6');
 			success : function(JSONData){
 				console.log(JSONData);
 				if(JSONData.result == 'ok'){
-					$("form").attr("method","get").attr("action","/user/login").submit();
+					//$("form").attr("method","get").attr("action","/user/login").submit();
+					$("#loginModal").modal("hide");
+					location.reload();
 				}else if(JSONData.result =='errorId'){
 					//alert("존재하지 않는 아이디입니다.");
 					h6[2].innerHTML = "존재하지 않는 아이디입니다.";

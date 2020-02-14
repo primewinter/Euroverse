@@ -24,7 +24,7 @@ import org.json.simple.parser.ParseException;
 import com.ksy.service.domain.Push;
 
 // handshake 설정하기 위한 클래스를 지정한다.
-@ServerEndpoint(value = "/websocket/{userId}")
+@ServerEndpoint(value = "/userSocket/{userId}")
 
 public class UserSocket {
 	
