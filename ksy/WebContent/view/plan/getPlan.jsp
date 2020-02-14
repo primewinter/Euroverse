@@ -129,7 +129,7 @@
       }
       .swiper-slide {
       	height: 480px;
-      	width: 40px;
+      	width: 50px;
       	background-color: white;
       	margin: 4px;
       	padding: 10px;

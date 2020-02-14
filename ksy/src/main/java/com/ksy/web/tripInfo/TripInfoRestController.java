@@ -85,7 +85,7 @@ public class TripInfoRestController {
 		System.out.println("infinityClick rest Controller Start");
 		
 		Random random = new Random();
-		int id = random.nextInt(67);
+		int id = random.nextInt(73);
 		TripInfo tripInfo = tripInfoService.getUrl(id);
 		System.out.println("tripInfo µð¹ö±ë ==>"+tripInfo);
 		
