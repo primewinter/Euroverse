@@ -97,7 +97,7 @@ $(function() {
 
 
 <body>
-	
+	<jsp:include page="/toolbar/toolBar.jsp" />
 	<div class="container">
 			<table class="table">
 			  <thead>

@@ -402,6 +402,7 @@ function europe(obj) {
 
 
 <body>
+ 	<jsp:include page="/toolbar/toolBar.jsp" />
 <form>
 <div class="wrapper">	
 <br>

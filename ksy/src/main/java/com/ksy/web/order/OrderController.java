@@ -133,6 +133,7 @@ public class OrderController {
 		System.out.println("/addFlightOrder : POST");
 		//결제 후 controller
 		User user = (User) session.getAttribute("user");
+		System.out.println("user  :: "+user);
 		Point point = new Point();
 		Order order = new Order();
 		point.setUsedPoint(usedPoint);
@@ -157,6 +158,7 @@ public class OrderController {
 		System.out.println("flight : "+flight);
 		//flight 상품 insert
 		flightService.addFlight(flight);
+		System.out.println("ㅠ_ㅠ"+flight);
 		//flight Order insert
 		orderService.addFlightOrder(order);
 		//포인트

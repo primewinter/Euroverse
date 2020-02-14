@@ -15,7 +15,6 @@
 	
 	<!-- FQCN(Full Qualified Class Name) Alias(별칭관리) -->
 	<typeAliases>
-		
 		<typeAlias alias="bucket" 	type="com.ksy.service.domain.Bucket" />
 		<typeAlias alias="chat" 	type="com.ksy.service.domain.Chat" />
 		<typeAlias alias="chatRoom" type="com.ksy.service.domain.ChatRoom" />
@@ -47,10 +46,6 @@
 		
 	</typeAliases>
 	
-	<!-- SQL Definition :: file include -->
-	<!-- <typeHandlers>
-        <typeHandler handler="com.ksy.common.handler.ClobHandler" javaType="String" jdbcType="LONGVARCHAR"/>
-    </typeHandlers> -->
 	<typeHandlers>
         <typeHandler handler="com.ksy.common.handler.ClobHandler" javaType="String" jdbcType="CLOB"/>
     </typeHandlers>
@@ -65,10 +60,10 @@
 
 		<mapper resource="sql/TripInfoMapper.xml"/>
 		
-		<!-- <mapper resource="sql/OrderMapper.xml"/>
+	 	<mapper resource="sql/OrderMapper.xml"/>
 		<mapper resource="sql/FlightMapper.xml"/>
-		 <mapper resource="sql/RoomMapper.xml"/> 
-		 -->
+		<mapper resource="sql/RoomMapper.xml"/>  
+		
 		
 		<mapper resource="sql/CommunityMapper.xml"/>
 		<mapper resource="sql/LikeMapper.xml"/> 

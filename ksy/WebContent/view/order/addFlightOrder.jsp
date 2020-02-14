@@ -117,8 +117,8 @@
     							        var price = rsp.paid_amount;
     							        $("#price").val(price);
     							        
-    							        var orderDate = rsp.paid_at;
-    							        $("#orderDate").val(orderDate);
+    							       /*  var orderDate = rsp.paid_at;
+    							        $("#orderDate").val(orderDate); */
     							        
     							        var userId = '${user.userId}';
     							        $("#userId").val(userId);
@@ -126,10 +126,10 @@
     							    } else {
     							        var msg = '결제에 실패하였습니다.';
     							        msg += '에러내용 : ' + rsp.error_msg;
-    							        self.location = "/view/order/addFlightOrder.jsp";
+    	    							  $("form").attr("method" , "GET").attr("action" , "/view/order/addFlightOrder.jsp").submit();
     							    }
     						        alert(msg);
-    						        alert("input imp_uid : "+$("#orderId").val());
+    						        alert("input imp_uid : "+$("#userId").val());
     						    
     							  $("form").attr("method" , "POST").attr("action" , "/order/addFlightOrder").submit();
     					});	
@@ -144,13 +144,13 @@
 </head>
 
 <body>
-
+	<jsp:include page="/toolbar/toolBar.jsp" />
 <div class="container"><br/>
 	
 	<form class="form-horizontal">
 	<input type="hidden" name="orderId" value= "" id="orderId"/>
 	<input type="hidden" name="price" value= "" id="price"/>
-	<input type="hidden" name="orderDate" value= "" id="orderDate"/>
+<!-- 	<input type="hidden" name="orderDate" value= "" id="orderDate"/> -->
 	<input type="hidden" name="userId" value= "" id="userId"/>
 	<input type="hidden" name="payInstal" value= "" id="payInstal"/>
 	<i class="fas fa-plane" id="iconf" style="Padding-left:20px;font-size:40px;" ></i>
@@ -218,11 +218,12 @@
 							<label for="actualAmount" class="col-sm-offset-1 col-sm-3 control-label">실 주문 금액 </label>
 						<div class="col-sm-4">
 							<input	type="text" name="actualAmount" id="actualAmount" class="form-control" value="${order.actualAmount }">
+						</div>		
 								적립예정
-							<div class="col-sm-4">
-								<input	type="text" name="accumulate" id="accumulate" class="form-control" value="">
-							</div>
+						<div class="col-sm-4">
+							<input	type="text" name="accumulate" id="accumulate" class="form-control" value="">
 						</div>
+						
 			    </div>
 			</div>
 		<br/><br/>
@@ -237,6 +238,8 @@
 		<input type="hidden" name="tripCourse" value= "${flight.tripCourse }"/>
 		<input type="hidden" name="depDate" value= "${flight.depDate }"/>
 		<input type="hidden" name="arrDate" value= "${flight.arrDate }"/>
+		<input type="hidden" name="depCity" value= "${flight.depCity }"/>
+		<input type="hidden" name="arrCity" value= "${flight.arrCity }"/>
 		<input type="hidden" name="seatGrade" value= "${flight.seatGrade }"/>
 		<input type="hidden" name="adultNum" value= "${flight.adultNum }"/>
 		<input type="hidden" name="childNum" value= "${flight.childNum }"/>
