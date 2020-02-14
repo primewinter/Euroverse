@@ -9,10 +9,9 @@
 
 
 
- <!-- 참조 : http://getbootstrap.com/css/   참조 -->
+ <!-- : http://getbootstrap.com/css/  -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<!-- 부트스트랩 4.4 쓰려다가 빠꾸...............................했다가 다시 4.4로..  -->
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -31,6 +30,32 @@
  
 <script>
 
+function printTime() {
+	var clock = document.getElementById("clock");
+	var now = new Date();
+
+	clock.innerHTML = now.getFullYear() + "년 " +
+	(now.getMonth()+1) + "월 " +
+	now.getDate() + "일 " +
+	now.getHours() + "시 " +
+	now.getMinutes() + "분 " +
+	now.getSeconds() + "초";
+
+	setTimeout("printTime()", 1000);
+	}
+
+	window.onload = function() {
+	printTime();
+	};
+	
+	
+
+document.addEventListener("DOMContentLoaded", function() {
+	
+    var toTime = new Date();
+
+    document.getElementById("toNow").innerHTML = toTime.toString();
+});
 /* 	$(".list-group-item-action").on('click', function() {
 				
 		alert($(this).attr('con')); 
@@ -53,10 +78,13 @@ $(function(){
 		alert($(this).attr('mon'));
 		var conCode = $(this).attr('con');
 		var conName = $(this).text();
+		var conHwa = $(this).attr('hwa');
 		alert(conCode);
 		alert(conName);
+		alert(conHwa);
 		conturyInfo(conCode);
-		$()
+		$('input[name="conMoney"]').attr('placeholder', conName.trim());
+		$('.text').html(conHwa);
 			
 	}); 
 });
@@ -84,7 +112,10 @@ $(function(){
 				var conFlag = JSONData.response.body.items.item.imgUrl;
 				/* alert(conName); */
 				/* $("#form-group").html(myItem); */
-				$('#conturyInfo').html(conInfo);
+				/* $("img[class='conImg']").attr("src", conFlag);
+				$('.title').html(contury); */
+				$('.content').html(conInfo);
+				
 			}
 		});
 		};
@@ -99,25 +130,22 @@ $(function(){
 						var mon = $(".list-group-item-action.active").attr('mon');
 
 						if (mon == undefined){
-							alert('국가를 선택하세요.');
-							$("input[name='won']").val("")
+							alert('국가를 선택하세요');
+							$("input[name='conMoney1']").val("")
 							.return;
 						}
 						
-						var price = $("input[name='won']").val();
+						var price = $("input[class='form-control']").val();
 						/* var num = price/ data.rates[cur] */
 						
 						var num = Math.round(price.match(/\d+/)[0]
 								/ data.rates[mon]);
 						/* alert(num);
 						alert(data.rates[abc]); */
+						price = price.replace(/(\d)(?=(\d{3})+(?!\d))/g,'$1,')
 						num = num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g,'$1,')
-						/* $(this).html(
-								old + ' <small>(약 ' + num
-										+ '원)<small>'); */
-						/* console.log(num) */
 					
-						$('#result').attr("value", "€ " + num);
+						$('#result').attr("value",  num);
 					})
 		 } 
 	}
@@ -139,49 +167,54 @@ body{
 
 	margin: 0 auto;
 	padding-bottom : 30px;
-	background-color: gray;
 	background-repeat: repeat;
-	
-	
-	
+}
+
+.row{
+	transform: translate(10%,0%);
 }
 .container{
-	position: relative;
-	align-items: center;
-	justify-content: center;
 	position: absolute;
 	top: 50%;
 	transform: translate(-50%,-50%);
 	left: 50%;
 }
 
-#conturyInfo{
+.title{
 	width:300px;
 	height : 300px;
-	border: 1px solid red;
+	border: 1px solid teal;
 	border-radius : 10px;
 	overflow:auto;
+	box-shadow:blur;
 
 }
 
 #conturyMoney{
 	width:300px;
 	height : 300px;
-	border: 1px solid red;
+	border: 1px solid teal;
 	border-radius : 10px;
 }
 #wrapper{
 	width:300px;
 	height : 300px;
-	border: 1px solid red;
+	border: 1px solid teal;
 	border-radius : 10px;
+}
+h5{
+	padding-top : 0.6rem;
+	text-align: center;
+	font-weight: bold;
 }
 
 
 .list-group{
 	width:300px;
 	overflow:auto;
-	height: 300px;
+	height: 250px;
+	padding-top: 1rem;
+	padding-bottom: 0.1rem;
 }
 
 .list-group-item {
@@ -204,17 +237,21 @@ body{
 
 .flex-nowrap{
 	height : 300px;
-	border: 1px solid red;
+	border: 1px solid teal;
 	border-radius : 10px;
 	width:300px;
 }
-.form-control{
-	top:30%;
+.conturyMoney{
+	width:300px;
+	top:50px;
+	position: relative;
+	justify-content: center;
+	text-align: right;
+	color: blue;
+	font-size: 17px;
+	
 }
 
-.form-control2{
-	top:60%
-}
 
 </style>
 
@@ -228,61 +265,65 @@ body{
 
 
 <div class="container">
+
+	  현재 시간은<br/><br/> <span id="clock"></span>
+
 	<div class="row">
-	  
-<!-- ============== 여기는 국가를 선택하는 html ============  -->
+	
+<!-- ============== 국가선택하는 목록 html ============  -->
 	<div id="wrapper" class="wrapper" style="overflow:hidden;">	
-	오늘의 환율	  
+	<h5>오늘의 환율</h5>	  
 	    <div class="list-group" id="list-tab" role="tablist" >
-	      <a class="list-group-item list-group-item-action" id="a" data-toggle="list" href="#list-home" mon="EUR" con="GBR">
-	      <img src='/resources/images/tripInfoimges/Europe.png'/>&nbsp; 유럽 </a>
-	      <a class="list-group-item list-group-item-action" id="b" data-toggle="list" href="#list-profile" mon="HUF" con="HUN">
+	      <a class="list-group-item list-group-item-action" id="a" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR">
+	      <img src='/resources/images/tripInfoimges/Europe.png'/>&nbsp;  유럽</a>
+	      <a class="list-group-item list-group-item-action" id="b" data-toggle="list" href="#list-profile" hwa='포린트' mon="HUF" con="HUN">
 	      <img src='/resources/images/tripInfoimges/Hungary.gif'/>&nbsp; 헝가리</a>
-	      <a class="list-group-item list-group-item-action" id="c" data-toggle="list" href="#list-messages" mon="CZK" con="CZE">
+	      <a class="list-group-item list-group-item-action" id="c" data-toggle="list" href="#list-messages"hwa='코루나' mon="CZK" con="CZE">
 	      <img src='/resources/images/tripInfoimges/Czech.gif'/>&nbsp; 체코</a>
-	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="DKK" con="DNK">
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='크로네' mon="DKK" con="DNK">
 	      <img src='/resources/images/tripInfoimges/Denmark.gif'/>&nbsp; 덴마크</a>
-	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="GBP" con="GBR">
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR">
 	      <img src='/resources/images/tripInfoimges/England.gif'/>&nbsp; 영국</a>
-	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="RON" con="ROU">
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='레우' mon="RON" con="ROU">
 	     <img src='/resources/images/tripInfoimges/Lithuania.gif'/>&nbsp; 루마니아</a>
-	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="SEK" con="SWE">
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='크로나' mon="SEK" con="SWE">
 	     <img src='/resources/images/tripInfoimges/Sweden.gif'/>&nbsp; 스웨덴</a>
-	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="HRK" con="HRV">
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='쿠나' mon="HRK" con="HRV">
 	     <img src='/resources/images/tripInfoimges/Croatia.gif'/>&nbsp; 크로아티아</a>
-	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="CHF" con="CHE">
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='프랑' mon="CHF" con="CHE">
 	     <img src='/resources/images/tripInfoimges/Swiss.gif'/>&nbsp; 스위스</a>
-	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="BGN" con="BGR">
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='레바' mon="BGN" con="BGR">
 	     <img src='/resources/images/tripInfoimges/Bulgaria.gif'/>&nbsp; 불가리아</a>
-	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="TRY" con="TUR">
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='리라' mon="TRY" con="TUR">
 	     <img src='/resources/images/tripInfoimges/Turkey.gif'/>&nbsp; 터키</a>
-	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="NOK" con="NOR">
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='크로네' mon="NOK" con="NOR">
 	      <img src='/resources/images/tripInfoimges/norway.gif'/>&nbsp; 노르웨이</a>
-	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" mon="PLN" con="POL">
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='즈워티' mon="PLN" con="POL">
 	     <img src='/resources/images/tripInfoimges/Poland.png'/>&nbsp; 폴란드</a>
 	     </div>
 		</div>
 		
-		<!-- ============여기는 국가정보가 나타나는 box ================ -->
+		<!-- ============국가정보출력 box ================ -->
 	
-		<div id="conturyInfo"></div>
+		<div class="title">
+		<div class="content">
+		</div>
+		<img class="conImg" alt="" src=""/>
+		</div>
 		 
-	   <!-- =========== 여기는 금액을 입력하는 칸 ====================  -->  
+	   <!-- =========== 환율금액입력 ====================  -->  
 	  <div class="input-group flex-nowrap">
 	  	<div class="conturyMoney">
-  		<input type="text" class="form-control" placeholder="Username" aria-describedby="addon-wrapping" value="" onkeydown="exchange()">
-		<br/>
-		<div class="conturyMoney2">
-		<input type="text" class="form-control" placeholder="Username"  readonly="readonly" value="">
+  		<input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()">
+		원<br/><br/><br/><br/>
+		<input type="text" name='conMoney' id="result" class="form-control" placeholder=""  readonly="readonly" value="">
+		<div class='text'>
+		</div>
+		</div>
 		</div>
 		
-	    <div id="conturyMoney">
-	    <input type="text" class="form" id="won" name="won" placeholder="원화" value="" onkeydown="exchange()"> WON
-		<br /><br /><br /><br />
-		<input type="text" id="result" placeholder="유로" readonly="readonly" value=""> EURO
-	    </div>
-	    
-	    
+		<!-- 현재 한국 시간 구하기 : <span id="toNow"></span> -->
+		
 	    
 	   <!--  <script type="text/javascript">
 		    var IScroll = $.AMUI.iScroll;

@@ -154,7 +154,7 @@
 	<insert id="addCityRoute"	parameterType="city">
 		INSERT 
 		INTO 	city_route ( city_id, plan_id, city_name, visit_order, city_duration, tran_type ) 
-		VALUES 		( TO_CHAR(seq_city_route_city_id.NEXTVAL), #{planId}, #{cityName}, #{visitOrder}, 1, NULL )
+		VALUES 		( TO_CHAR(seq_city_route_city_id.NEXTVAL), #{planId}, #{cityName}, #{visitOrder}, 2, NULL )
 	</insert>
 	
 	<delete id="deleteCityRoute"	parameterType="string">

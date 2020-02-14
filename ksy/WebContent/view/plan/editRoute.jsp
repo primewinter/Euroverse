@@ -83,12 +83,21 @@
       }
       
 	</style>
+	
+	
+	
+	
 
 	<!-- 함수들 모음집 -->
 	<script type="text/javascript">
 	
 		var planId = ${plan.planId};	//현재 조회중인 plan의 아이디 박아두기
 	
+		var routeList = [];
+		routeList = ${cityMarkerList};
+		
+		//alert("routeList => "+routeList);
+		
 		$(function(){
 			$('#updatePlanButton').on('click', function(){
 				alert('#updatePlanButton 클릭! 플래너 수정 함수 호출');
@@ -107,6 +116,13 @@
 			});
 			
 			
+			$('.tran_type').on('click', function(){
+				alert(".tran_type 클릭 => "+ ($('.tran_type').index($(this))+1) );
+			});
+			$('.cr_cityDuration_parent').on('click', function(){
+				alert(".cr_cityDuration_parent 클릭 => "+ ($('.cr_cityDuration_parent').index($(this))+1) );
+				//alert( "cityId = " );
+			});
 		});
 		
 		
@@ -126,11 +142,12 @@
 		        
 		        updateVisitOrder( cityId, i );
 		    });
+			
+			//getCityRouteList( planId );
 		}
 		
 		function updateVisitOrder( cityId, visitOrder ){
-			console.log("updateVisitOrder("+ cityId +", "+ visitOrder +") 실행");
-			
+			//console.log("updateVisitOrder("+ cityId +", "+ visitOrder +") 실행");
 			$.ajax({
 				url: "/planSub/json/updateVisitOrder",
 				method: "POST",
@@ -152,8 +169,8 @@
 			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
 			    } 
 			}); //ajax
-			
 		} //updateVisitOrder( )
+		
 		
 		
 		function deleteCityRoute( cityId, visitOrder ){
@@ -199,7 +216,6 @@
 			}
 		}
 		
-		
 
 		$(function(){
 			$('.city_route_list').sortable({
@@ -220,6 +236,7 @@
 					var epos = ui.item.index();
 					
 					reorder();	//순서 변경시 모든 itemBox 내의 itemNum(입력필드 앞의 숫자)의 번호를 순서대로 다시 붙임
+					//getCityRouteList( planId );
 				}
 			});
 			
@@ -229,65 +246,107 @@
 		
 		function addCityRoute(cityName){
 			var nextVisitOrder = $(".city_route").size();
-			alert("addCityRoute() 실행! : cityName="+cityName+" (planId="+planId+") / nextVisitOrder="+nextVisitOrder);
 			
-			
-			$.ajax({
-				url: "/planSub/json/addCityRoute",
-				method: "POST",
-				dataType: "json",
-				data: JSON.stringify({
-					planId: planId,
-					cityName: cityName,
-					visitOrder: nextVisitOrder
-				}),
-				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
-				success: function(JSONData, status){
-					if( JSONData==null || JSONData=="" ){
-						console.log("리턴데이터 없음");	
-					}else{
-						console.log("리턴데이터 있음! => "+JSON.stringify(JSONData) );	
-						
-						var crHtml = '<div class="city_route"  style="margin: 5px; padding: 5px; border: 1px solid gray; background-color: white;">';
-						crHtml = crHtml + '<span class="float-right" onclick="deleteCityRoute(\''+ JSONData.cityId +'\', 0 )">X</span>';
-						crHtml = crHtml + '<div class="trans">';
-						crHtml = crHtml + '<div class="tran_type" style="border-bottom: 1px solid red;">';
-						
-						if( JSONData.tranType == 'T' ){
-							crHtml = crHtml + '기차 <i class="fas fa-train" style="font-size: 30px;"></i>';
-						}else if( JSONData.tranType == 'B' ){
-							crHtml = crHtml + '버스 <i class="fas fa-bus" style="font-size: 30px;"></i>';
-						}else if( JSONData.tranType == 'A' ){
-							crHtml = crHtml + '항공 <i class="fas fa-plane" style="font-size: 30px;"></i>';
-						}else if( JSONData.tranType == 'F' ){
-							crHtml = crHtml + '페리 <i class="fas fa-ship" style="font-size: 30px;"></i>';
-						}else if( JSONData.tranType == 'E' ){
-							crHtml = crHtml + '기타 <i class="fas fa-guitar" style="font-size: 30px;"></i>';
-						}else if( JSONData.tranType == null || JSONData.tranType == '' ){
-							crHtml = crHtml + 'ㄴㄴ <i class="fas fa-guitar" style="font-size: 30px;"></i>';
+			if(confirm( "addCityRoute() 실행! : cityName="+cityName+" (planId="+planId+") / nextVisitOrder="+nextVisitOrder +"\n 경로를 추가하시겠습니까?" ))
+			{	
+				$.ajax({
+					url: "/planSub/json/addCityRoute",
+					method: "POST",
+					dataType: "json",
+					data: JSON.stringify({
+						planId: planId,
+						cityName: cityName,
+						visitOrder: nextVisitOrder
+					}),
+					headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+					success: function(JSONData, status){
+						if( JSONData==null || JSONData=="" ){
+							console.log("리턴데이터 없음");	
+						}else{
+							console.log("리턴데이터 있음! => "+JSON.stringify(JSONData) );	
+							
+							/* var crHtml = '<div class="city_route"  style="margin: 5px; padding: 5px; border: 1px solid gray; background-color: white;">';
+							crHtml = crHtml + '<span class="float-right" onclick="deleteCityRoute(\''+ JSONData.cityId +'\', 0 )">X</span>';
+							crHtml = crHtml + '<div class="trans">';
+							crHtml = crHtml + '<div class="tran_type" style="border-bottom: 1px solid red;">';
+							
+							if( JSONData.tranType == 'T' ){
+								crHtml = crHtml + '기차 <i class="fas fa-train" style="font-size: 30px;"></i>';
+							}else if( JSONData.tranType == 'B' ){
+								crHtml = crHtml + '버스 <i class="fas fa-bus" style="font-size: 30px;"></i>';
+							}else if( JSONData.tranType == 'A' ){
+								crHtml = crHtml + '항공 <i class="fas fa-plane" style="font-size: 30px;"></i>';
+							}else if( JSONData.tranType == 'F' ){
+								crHtml = crHtml + '페리 <i class="fas fa-ship" style="font-size: 30px;"></i>';
+							}else if( JSONData.tranType == 'E' ){
+								crHtml = crHtml + '기타 <i class="fas fa-guitar" style="font-size: 30px;"></i>';
+							}else if( JSONData.tranType == null || JSONData.tranType == '' ){
+								crHtml = crHtml + 'ㄴㄴ <i class="fas fa-plus" style="font-size: 30px;"></i>';
+							}
+							crHtml = crHtml + '</div>';
+							crHtml = crHtml + '</div>';
+							
+							crHtml = crHtml + '<div>';
+							crHtml = crHtml + '<div class="cr_cityName">'+JSONData.cityName+'</div>';
+							crHtml = crHtml + '방문순서: <span class="visit_order">'+JSONData.visitOrder+'</span> , 도시ID: <span class="city_id">'+ JSONData.cityId +'</span>';
+							crHtml = crHtml + '<div class="cr_term">'+ JSONData.startDateStr +' ~ '+ JSONData.endDateStr +'</div>';
+							crHtml = crHtml + '</div>';
+							crHtml = crHtml + '<div class="cr_cityDuration">city_duration: '+ JSONData.cityDuration +'</div>';
+							crHtml = crHtml + '</div>'; */
+							
+							
+							var crHtml = '<div class="city_route"  style="margin: 5px; padding: 6px;">';
+							crHtml = crHtml + '<div class="trans d-flex justify-content-center">';
+							crHtml = crHtml + '<div class="tran_type" style="font: 7px gray;">';
+							
+							if( JSONData.tranType == 'T' ){
+								crHtml = crHtml + '기차 <i class="fas fa-train" style="font-size: 50px;"></i>';
+							}else if( JSONData.tranType == 'B' ){
+								crHtml = crHtml + '버스 <i class="fas fa-bus" style="font-size: 50px;"></i>';
+							}else if( JSONData.tranType == 'A' ){
+								crHtml = crHtml + '항공 <i class="fas fa-plane" style="font-size: 50px;"></i>';
+							}else if( JSONData.tranType == 'F' ){
+								crHtml = crHtml + '페리 <i class="fas fa-ship" style="font-size: 50px;"></i>';
+							}else if( JSONData.tranType == 'E' ){
+								crHtml = crHtml + '기타 <i class="fas fa-guitar" style="font-size: 50px;"></i>';
+							}else if( JSONData.tranType == null || JSONData.tranType == '' ){
+								crHtml = crHtml + '선택<i class="fas fa-plus" style="font-size: 50px;"></i>';
+							}
+							crHtml = crHtml + '</div>';
+							crHtml = crHtml + '</div>';
+							
+							crHtml = crHtml + '<button type="button" class="close" aria-label="Close" onclick="deleteCityRoute(\''+ JSONData.cityId +'\', 0 )"> <span aria-hidden="true">&times;</span> </button>';
+	
+							crHtml = crHtml + '<div class="media mt-4" style="border: 1px solid #CDD8D8; padding: 15px 35px 0px 35px;">';
+							crHtml = crHtml + '<div hidden="hidden">방문순서: <span class="visit_order">'+ JSONData.visitOrder +'</span> , 도시ID: <span class="city_id">'+ JSONData.cityId +'</span></div>';
+							crHtml = crHtml + '<img alt="" src="/resources/images/planImg/defaultPlanImage.jpg" class="align-self-center mr-3 city_img" style="width: 50px; height: auto;" hidden="hidden">';
+							crHtml = crHtml + '<div class="media-body">';
+							crHtml = crHtml + '<h5 class="cr_cityName mt-0" style="font-weight:600;">'+ JSONData.cityName +'</h5>';
+							crHtml = crHtml + '<p class="cr_term">'+ JSONData.startDateStr +' ~ '+ JSONData.endDateStr +'</p>';
+							crHtml = crHtml + '</div>';
+							crHtml = crHtml + '<div class="rounded-circle" style="border:3px solid #33B9B1; padding: 12px; font-weight: 600;">';
+							crHtml = crHtml + '<span class="cr_cityDuration">'+ (JSONData.cityDuration-1) +'</span>박';
+							crHtml = crHtml + '</div>';
+							crHtml = crHtml + '</div>';
+							crHtml = crHtml + '</div>';
+							
+							$(crHtml).appendTo('.city_route_list');
 						}
-						
-						
-						crHtml = crHtml + '</div>';
-						crHtml = crHtml + '</div>';
-						
-						crHtml = crHtml + '<div>';
-						crHtml = crHtml + '<div class="cr_cityName">'+JSONData.cityName+'</div>';
-						crHtml = crHtml + '방문순서: <span class="visit_order">'+JSONData.visitOrder+'</span> , 도시ID: <span class="city_id">'+ JSONData.cityId +'</span>';
-						crHtml = crHtml + '<div class="cr_term">'+ JSONData.startDateStr +' ~ '+ JSONData.endDateStr +'</div>';
-						crHtml = crHtml + '</div>';
-						crHtml = crHtml + '<div class="cr_cityDuration">city_duration: '+ JSONData.cityDuration +'</div>';
-						crHtml = crHtml + '</div>';
-						
-						$(crHtml).appendTo('.city_route_list');
-					}
-				},
-				error:function(request,status,error){
-			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-			    } 
-			}); //ajax
-			
-			//reorder();
+					},
+					error:function(request,status,error){
+				        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+				    } 
+				}); //ajax
+				
+				//reorder();
+			}//confirm if
+		}
+		
+		
+		/* GoogleMap control 버튼 클릭 */
+		function controlClick(){
+			var string = '/plan/getPlan?planId='+planId;
+			$(self.location).attr("href", string);
 		}
 	
 	
@@ -316,14 +375,378 @@
 		});
 		
 	</script>
+	
+	
+	
+	
+	
+	
+	<!-- body 로드 후 실행되어야 하는 스크립트 모음  -->
+	<!-- Map 관련 스크립트 -->
+	<script>
+	
+	 	/* ------------------------------------ Google Map Script ------------------------------------ */
+		var map;
+		var geocoder;
+		var overlay;
+		var marker=[];
+		var routeLines=[];
+		
+		var allMarkers = [];
+		var myMarkers = [];
+		var prv_infowindow;
+		
+		var korea = {lat:37.497957 , lng:127.027780};
+		
+		
+		
+	
+		/* initMap !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+		function initMap(){
+			
+			geocoder = new google.maps.Geocoder();
+		    map = new google.maps.Map(document.getElementById('map'), {
+		        center: korea,
+		        zoom: 3,			/* zoom: 1:World, 5:Landmass/continent, 10:City, 15:Streets, 20:Buildings */
+		        //mapTypeId :'terrain',
+		        styles: [
+		        	/* { "elementType": "geometry", "stylers": [ { "color": "#ffffff" } ] }, */
+		        	  { "elementType": "labels.icon", "stylers": [ { "color": "#e5e5e5" }, { "visibility": "off" } ] },
+		        	  { "elementType": "labels.text.fill", "stylers": [ { "color": "#c3c3c3" } ] },
+		        	  { "featureType": "administrative", "elementType": "geometry", "stylers": [ { "visibility": "off" } ] },
+		        	  /* { "featureType": "administrative.land_parcel", "stylers": [ { "visibility": "off" } ] },
+		        	  { "featureType": "administrative.locality", "stylers": [ { "visibility": "simplified" } ] },
+		        	  { "featureType": "administrative.neighborhood", "stylers": [ { "visibility": "off" } ] },
+		        	  { "featureType": "poi", "stylers": [ { "visibility": "off" } ] },
+		        	  /* { "featureType": "road", "stylers": [ { "visibility": "off" } ] }, */
+		        	  { "featureType": "transit", "stylers": [ { "visibility": "off" } ] },
+		        	  { "featureType": "water", "elementType": "geometry", "stylers": [ { "color": "#DAF8F6" } ] },
+		        	  /* { "featureType": "water", "elementType": "labels.text", "stylers": [ { "visibility": "off" } ] } */
+		        ]
+		    });
+		    
+	    	 
+	    	/* 스크롤(zoom) 할때마다 도시리스트 가져와서 뿌려주는 이벤트 발생 */
+	    	google.maps.event.addListener(map, 'tilesloaded', function(){
+	    		
+	    		zoomLevel = map.getZoom();
+	    		console.log("tilesloaded : zoomLevel="+zoomLevel);
+	    		
+	    		$.ajax({
+	    			url: "/planSub/json/getCityListByScroll/"+zoomLevel ,
+					method: "GET",
+					dataType: "json",
+					headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+					success: function(JSONData, status){
+						//console.log("리턴데이터 있음! => JSONData = "+JSON.stringify(JSONData));	
+						//console.log("리턴데이터 리스트...\n cityLat="+JSONData[0].cityLat+"/ cityLng="+JSONData[0].cityLat+"/ cityName="+JSONData[0].cityName);
+						
+						clearAllMarkers();
+						
+						var cityList = JSONData;
+						for( var i in cityList ){
+							var getPosition = new google.maps.LatLng( cityList[i].cityLat , cityList[i].cityLng );
+							
+							var getMarker = createMarker( cityList[i].cityName, cityList[i].country, getPosition, cityList[i].cityImg, cityList[i].cityInfo );
+							getMarker.setMap(map);
+							allMarkers.push(getMarker);
+							
+							//마커 만들기
+							/* var getMarker = new google.maps.Marker({ position: getPosition, map: map, icon: myIcon, shape: shape, title: cityList[i].cityName }); */
+						} //for문
+					},
+					error:function(request,status,error){
+				        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+				    } 
+	    		});	//ajax(getCityListByScroll) 끝
+	    		
+	    	});	//addListener : tilesloaded
+	    	 
+	    	
+	    	/* function clearAllMarkers() {
+	    		for(i=0;i<allMarkers.length;i++){ allMarkers[i].setMap(null);} 
+	    		allMarkers=[];
+	    	} 
+	    	function clearMyMarkers() {
+	    		for(i=0;i<myMarkers.length;i++){ myMarkers[i].setMap(null); }
+	    		myMarkers=[];
+	    	} */
+	    	/* function clearRouteLines() {
+	    		for(i=0;i<routeLines.length;i++){ routeLines[i].setMap(null); }
+	    		routeLines=[];
+	    	} */
+	    	
+	    	
+	    	/* 도구모음! */
+	    	var shape = {
+		    			coords: [1, 1, 1, 12, 12, 12, 12, 1],
+		    	        type: 'poly'
+	    	        };
+		 	var lineSymbol_TRAIN_RL = {
+		 			    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
+		 			    fillColor: '#696969',
+		 			    fillOpacity: 1,
+		 			    strokeWeight: 1,
+		 			    scale: 1
+		 			}
+		 	var lineSymbol_TRAIN_LR = {
+		 			    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
+		 			    fillColor: '#696969',
+		 			    fillOpacity: 1,
+		 			    strokeWeight: 1,
+		 			    scale: 1,
+		 				rotation: 0,
+		 				anchor: new google.maps.Point(0,0)
+		 			}
+		 	
+		 	var markerIcon = new google.maps.MarkerImage("/resources/images/icon/circle_red.png", null, null, null, new google.maps.Size(9,9));
+		 	var myIcon = new google.maps.MarkerImage("/resources/images/icon/circle_blue.png", null, null, null, new google.maps.Size(12,12));
+			
+			
+			/* 마커 생성 */
+	    	function createMarker( city, country, mPosition, img, cityInfo ){
+	    		//console.log("create Marker........ city="+city+", country="+country+", mPosition="+mPosition+", img="+img+", cityInfo="+cityInfo );
+	    		
+	    		//var markerIcon = new google.maps.MarkerImage("/resources/images/icon/circle_red.png", null, null, null, new google.maps.Size(9,9));
+	    		
+	    		var makingMarker = new google.maps.Marker({
+					position: mPosition,
+					icon: markerIcon,
+					shape: shape,
+					title: city
+					, zIndex: 1000 
+				}); 
+	    		
+	    		google.maps.event.addListener(makingMarker, 'click', function() {
+					console.log("city name = "+makingMarker.title);
+					
+					if(prv_infowindow){ prv_infowindow.close(); }
+					
+					var markerLatLng = new google.maps.LatLng( mPosition.lat() , mPosition.lng() );		//구글의 함수로 만든 LatLng 객체라서 lat() 이런식의 함수로 수 뽑아줘야 함
+					
+					var infowindow = new google.maps.InfoWindow();
+					
+					var contentHtml = '<div class="media" style="width:300px; height:120px; padding:5px;">';
+					contentHtml = contentHtml + '<img class="align-self-start mr-2" src="/resources/images/cityImg/'+img+'" width="60px" height="60px">';
+					contentHtml = contentHtml + '<div class="media-body">';
+					contentHtml = contentHtml + '<h5 class="mt-0">'+ makingMarker.title +  '<div class="badge badge-primary text-wrap" style="width: 3rem; margin-left:10px; margin-top:0;" onClick="addCityRoute(\'' + makingMarker.title + '\' )">'+'add'+'</div>'  +'</h5>';
+					contentHtml = contentHtml + '<p>'+  cityInfo  +'</p>';
+					contentHtml = contentHtml + '</div>';
+					contentHtml = contentHtml + '</div>';
+					
+					infowindow.setContent(contentHtml);
+					infowindow.setPosition(markerLatLng);
+					infowindow.open(map);
+					
+					prv_infowindow = infowindow;
+				}); 
+	    		
+	    		return makingMarker;
+	    	} //createMarker( city, country, mPosition, img, cityInfo )
+	    	
+	    	
+	    	/* 시티루트 리스트의 마커 생성... 나중에 함수 취합 */
+	    	function createMyMarker( city, country, mPosition, img, cityInfo ){
+	    		console.log("create My Marker.... city="+city+", country="+country+", mPosition="+mPosition+", img="+img+", cityInfo="+cityInfo );
+	    		
+	    		//var myIcon = new google.maps.MarkerImage("/resources/images/icon/circle_blue.png", null, null, null, new google.maps.Size(12,12));
+	    		
+	    		var myMarker = new google.maps.Marker({
+					position: mPosition,
+					icon: myIcon,
+					shape: shape,
+					title: city
+					, zIndex: 2000 
+				});
+	    		
+	    		google.maps.event.addListener(myMarker, 'click', function() {
+					console.log("city name = "+myMarker.title);
+					
+					if(prv_infowindow){ prv_infowindow.close(); }
+					
+					//var markerLatLng = new google.maps.LatLng( mPosition.lat() , mPosition.lng() );		//구글의 함수로 만든 LatLng 객체라서 lat() 이런식의 함수로 수 뽑아줘야 함
+					//console.log(mPosition.lat()+"/"+mPosition.lng() );
+					
+					var infowindow = new google.maps.InfoWindow();
+					
+					var contentHtml = '<div class="media" style="width:300px; height:120px; padding:5px;">';
+					contentHtml = contentHtml + '<img class="align-self-start mr-2" src="/resources/images/cityImg/'+img+'" width="60px" height="60px">';
+					contentHtml = contentHtml + '<div class="media-body">';
+					contentHtml = contentHtml + '<h5 class="mt-0">'+ city +  '<div class="badge badge-primary text-wrap" style="width: 3rem; margin-left:10px; margin-top:0;" onClick="addCityRoute(\'' + myMarker.title + '\' )">'+'add'+'</div>'  +'</h5>';
+					
+					contentHtml = contentHtml + '<p> 시티루트에 담긴 도시입니다~~~~~ </p>';
+					contentHtml = contentHtml + '<p>'+  cityInfo  +'</p>';
+					contentHtml = contentHtml + '</div>';
+					contentHtml = contentHtml + '</div>';
+					
+					infowindow.setContent(contentHtml);
+					infowindow.setPosition(myMarker.position);	//infowindow.setPosition(markerLatLng);
+					infowindow.open(map);
+					
+					prv_infowindow = infowindow;
+				}); 
+	    		
+	    		return myMarker;
+	    	} //createMyMarker( city, country, mPosition, img, cityInfo )
+	    	
+	    	
+	    	
+	    	
+		    /* GoogleMap 에 뿌릴 것들  */
+			function initMapItems(){
+				
+				var bounds = new google.maps.LatLngBounds();
+				
+				clearMyMarkers();
+				
+				var cityMarkerList = ${cityMarkerList};
+				
+				//받아온 마커리스트를 통해 뿌려주기
+				for( var i in cityMarkerList ){
+					//console.log("cityMarkerList[i] = "+cityMarkerList[i].title)
+					//var getPosition = new google.maps.LatLng( cityMarkerList[i].cityLat , cityMarkerList[i].cityLng );
+					
+					var getMyMarker = createMyMarker( cityMarkerList[i].title, cityMarkerList[i].country, cityMarkerList[i].position, cityMarkerList[i].cityImg, cityMarkerList[i].cityInfo );
+					getMyMarker.setMap(map);
+					myMarkers.push(getMyMarker);
+					
+					if( i > 0 ){
+						var path = [ myMarkers[i-1].getPosition() , myMarkers[i].getPosition() ];
+						routeLines[i-1] = new google.maps.Polyline({
+							map: map,
+							strokeColor: '#696969',
+					        strokeOpacity: 1.0,
+					        strokeWeight:1,
+					        geodesic: false,
+					        icons: [{
+					            icon: lineSymbol_TRAIN_LR,
+					            offset: '95%'
+					        }]
+						});
+						routeLines[i-1].setPath(path);
+					}
+					bounds.extend(getMyMarker.getPosition()); 
+					
+				} //for문 
+				map.fitBounds(bounds);
+			} //initMapItems 끝
+			
+			
+			initMapItems();
+			
+			/* setTimeout(function(){
+				map.setCenter(korea);
+				map.setZoom(5);
+			}, 50); */
+			
+			/* 지도 내에 버튼 만들기 */ 
+			var leftControlDiv = document.createElement('div');
+			var thtml = '<div class="text-center" style="margin-bottom:5px;margin-left:10px;font-weight:bold; background-color:#29B4AC; font-size:10pt;border:solid thin #DDDDDD ; border-radius:5px; padding:10px; color: white;" onClick="controlClick()"><i class="fas fa-door-open" style="font-size: 35px; margin:5px;"></i><br/>플래너 페이지로</div>';
+			leftControlDiv.innerHTML = thtml;
+			map.controls[google.maps.ControlPosition.LEFT_TOP].push(leftControlDiv);
+		    
+		};	//initMap()
+		/* ------------------------------------ Google Map Script ------------------------------------ */
+		
+		
+		
+		function clearAllMarkers() {
+    		for(i=0;i<allMarkers.length;i++){ 
+    			allMarkers[i].setMap(null); 
+    		}
+    		allMarkers=[];
+    	} 
+    	function clearMyMarkers() {
+    		console.log("clearMyMarkers......");
+    		for(i=0;i<myMarkers.length;i++){
+    			myMarkers[i].setMap(null);	
+    		}
+    		myMarkers=[];
+    	}
+		function clearRouteLines() {
+    		alert("clearRouteLines......");
+    		for(i=0;i<routeLines.length;i++){
+    			routeLines[i].setMap(null);
+    		}
+    		routeLines=[];
+    	}
+		
+		
+		function getCityRouteList( planId ){
+			alert("getCityRouteList("+ planId +") 실행! ");
+			
+			$.ajax({
+				url: "/planSub/json/getCityRouteList/"+planId ,
+				method: "GET",
+				dataType: "json",
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				success: function(JSONData, status){
+					if( JSONData==null || JSONData=="" ){
+						alert("리턴데이터 없음");	
+					}else{
+						alert("리턴데이터 있음! => "+JSON.stringify(JSONData) );	
+						
+						var bounds = new google.maps.LatLngBounds();
+						clearMyMarkers();
+						clearRouteLines();
+						
+						var cityMarkerList = JSONData;
+						
+						for( var i in JSONData ){
+							var getMyMarker = createMyMarker( cityMarkerList[i].title, cityMarkerList[i].country, cityMarkerList[i].position, cityMarkerList[i].cityImg, cityMarkerList[i].cityInfo );
+							getMyMarker.setMap(map);
+							myMarkers.push(getMyMarker);
+							
+							if( i > 0 ){
+								var path = [ myMarkers[i-1].getPosition() , myMarkers[i].getPosition() ];
+								routeLines[i-1] = new google.maps.Polyline({
+									map: map,
+									strokeColor: '#696969',
+							        strokeOpacity: 1.0,
+							        strokeWeight:1,
+							        geodesic: false,
+							        icons: [{
+							            icon: lineSymbol_TRAIN_LR,
+							            offset: '95%'
+							        }]
+								});
+								routeLines[i-1].setPath(path);
+							}
+							bounds.extend(getMyMarker.getPosition()); 
+						}
+						map.fitBounds(bounds);
+						
+						
+					}
+				},
+				error:function(request,status,error){
+					alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			    } 
+			}); //ajax
+			
+		}
+		
+		
+		/* icon 사용을 위한 스크립트 */
+		/* https://github.com/feathericons/feather#feather 참고 */
+		feather.replace();
+		
+		//$($('.tran_type')[0]).hide();	//맨 밑으로 보내야함(초기설정 위해)
+		
+	</script>
+	
+	<!-- Google Map API -->
+	<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4" type="text/javascript"></script> -->
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4&callback=initMap" type="text/javascript"></script>
 
+	
 <head>
 
 <meta charset="EUC-KR">
 <title>editRoute</title>
 
 </head>
-<body>
+<body ><!-- onload="initializeMap()" -->
 
 	<!-- 화면구성 div Start ///////////////////////////// -->
 	<!-- <div class="container"> -->
@@ -334,7 +757,7 @@
 			<div id="city_route_list_container" style="width: 28%; height:786px; float: left; border-right: 1 #DEDEDE solid; margin-left: 0px;margin-top: 0px;">
 				
 				<!-- 좌측 컨테이너 상단 plan_info Start ///////////////////////////// -->
-				<div class="plan_info" style="background-color: #F3F7F6; width: 100%; padding: 10px; height: 17%;">
+				<div class="plan_info" style="background-color: #ADDFDC; width: 100%; padding: 7px; height: 16%;">
 				
 					<div class="media" style="width: 100%; padding: 10px;">
 					
@@ -377,8 +800,6 @@
 							      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
 						    </div>
 						    
-						    
-							
 						</div> <!-- media body -->
 						
 					</div>
@@ -388,7 +809,7 @@
 				
 				
 				<!-- 좌측 컨테이너 하단 city_route Start ///////////////////////////// -->
-				<div class="city_route" style="background-color: #FFFFFF; width: 100%; height: 83%; overflow: hidden auto;">
+				<div class="city_route" style="background-color: #FFFFFF; width: 100%; height: 84%; overflow: hidden auto;">
 				
 					<div class="city_route_list ui-sortable">
 						<c:if test="${!empty plan.cityList}">
@@ -396,8 +817,9 @@
 								
 								
 								<!-- city_route item  start /////////////////////////////////////////////////////// -->
-								<div class="city_route"  style="margin: 5px; padding: 5px; border: 1px solid gray; background-color: white;">
+								<%-- <div class="city_route"  style="margin: 5px; padding: 5px; border: 1px solid gray; background-color: white;">
 									<span class="float-right" onclick="deleteCityRoute('${cityRoute.cityId}',${plan.cityList.indexOf(cityRoute)} )">X</span>
+									<button type="button" class="close" aria-label="Close" onclick="deleteCityRoute('${cityRoute.cityId}',${plan.cityList.indexOf(cityRoute)} )"> <span aria-hidden="true">&times;</span> </button>
 									<div class="trans">
 										<div class="tran_type" style="border-bottom: 1px solid red;">
 											<c:choose>
@@ -406,6 +828,7 @@
 												<c:when test="${cityRoute.tranType == 'A'}">항공 <i class="fas fa-plane" style="font-size: 30px;"></i></c:when>
 												<c:when test="${cityRoute.tranType == 'F'}">페리 <i class="fas fa-ship" style="font-size: 30px;"></i></c:when>
 												<c:when test="${cityRoute.tranType == 'E'}">기타 <i class="fas fa-guitar" style="font-size: 30px;"></i></c:when>
+												<c:when test="${empty cityRoute.tranType || cityRoute.tranType == ''}">ㄴㄴ<i class="fas fa-plus" style="font-size: 30px;"></i></c:when>
 											</c:choose>
 											
 										</div>
@@ -418,21 +841,70 @@
 									</div>
 									
 									<div class="cr_cityDuration">city_duration: ${cityRoute.cityDuration}</div> 
+								</div> --%>
+								<!-- city_route item   end ////////////////////////////////////////////////////////// -->
+								
+								
+								<!-- ---------------------------------------------------------------------------------------------------------------------- -->
+								
+								
+								<!-- city_route item  NEW  start /////////////////////////////////////////////////////// -->
+								<div class="city_route"  style="margin: 5px; padding: 6px;">
+									
+									<!-- tran_type -->
+									<div class="trans d-flex justify-content-center"><!-- 가운데 정렬 -->
+										<div class="tran_type" style="font: 7px gray;">
+											<c:choose>
+												<c:when test="${cityRoute.tranType == 'T'}">기차 <i class="fas fa-train" style="font-size: 50px;"></i></c:when>
+												<c:when test="${cityRoute.tranType == 'B'}">버스 <i class="fas fa-bus" style="font-size: 50px;"></i></c:when>
+												<c:when test="${cityRoute.tranType == 'A'}">항공 <i class="fas fa-plane" style="font-size: 50px;"></i></c:when>
+												<c:when test="${cityRoute.tranType == 'F'}">페리 <i class="fas fa-ship" style="font-size: 50px;"></i></c:when>
+												<c:when test="${cityRoute.tranType == 'E'}">기타 <i class="fas fa-guitar" style="font-size: 50px;"></i></c:when>
+												<c:when test="${empty cityRoute.tranType || cityRoute.tranType == ''}">선택<i class="fas fa-plus" style="font-size: 50px;"></i></c:when>
+											</c:choose>
+										</div>
+									</div>
+									
+									<!-- X 버튼 -->
+									<button type="button" class="close" aria-label="Close" onclick="deleteCityRoute('${cityRoute.cityId}',${plan.cityList.indexOf(cityRoute)} )"> <span aria-hidden="true">&times;</span> </button>
+									
+									
+									<!-- city_route 정보 -->
+									<div class="media mt-4" style="border: 1px solid #CDD8D8; padding: 15px 35px 0px 35px;"> <!-- 상 우 하 좌 -->
+									
+										<!-- hidden 정보 (방문순서, 도시ID) -->
+										<div hidden="hidden">방문순서: <span class="visit_order">${cityRoute.visitOrder}</span> , 도시ID: <span class="city_id">${cityRoute.cityId}</span></div>
+										
+										<img alt="" src="/resources/images/planImg/defaultPlanImage.jpg" class="align-self-center mr-3 city_img" style="width: 50px; height: auto;" hidden="hidden">
+										
+										<div class="media-body">
+											<h5 class="cr_cityName mt-0" style="font-weight:600;">${cityRoute.cityName}</h5>
+											<p class="cr_term">${cityRoute.startDateStr} ~ ${cityRoute.endDateStr}</p>
+										</div> <!-- media-body -->
+									
+										<div class="cr_cityDuration_parent rounded-circle" style="border:3px solid #33B9B1; padding: 12px; font-weight: 600;">
+											<span class="cr_cityDuration">${cityRoute.cityDuration-1}</span>박
+										</div>
+									</div> <!-- media -->
+								
 								</div>
-								<!-- city_route item  end ////////////////////////////////////////////////////////// -->
+								<!-- city_route item  NEW  end ////////////////////////////////////////////////////////// -->
+								
 								
 							</c:forEach>
 						</c:if>
 						
 						
-						
 					</div> 
 					<!-- city_route_list end -->
 					
+					<div style="height: 50px;">
 					
-					<div id="addCityRoute_here" class="text-center" style="margin: 20px 40px; padding: 20px; border: 1px solid white; border-radius:5px; background-color: #7DCFCA;">
-						도시 추가하기
 					</div>
+					
+					<!-- <div id="addCityRoute_here" class="text-center" style="margin: 20px 40px; padding: 20px; border: 1px solid white; border-radius:5px; background-color: #7DCFCA;">
+						도시 추가하기
+					</div> -->
 					
 				</div>
 				<!-- 좌측 컨테이너 하단 city_route End ///////////////////////////// -->
@@ -441,11 +913,10 @@
 			<!-- 좌측 컨테이너 End ///////////////////////////// -->
 			
 			
+			
 			<!-- 지도 컨테이너 Start ///////////////////////////// -->
 			<div id="map_container" style="width: 72%;height:786px;float: left;">
-			
 				<div id="map" style="border:1px solid #e5e5e5;width:100%;height: 100%;"></div>
-				
 			</div>
 			<!-- 지도 컨테이너 End ///////////////////////////// -->
 			
@@ -456,276 +927,20 @@
 	<!-- </div> -->
 	<!-- 화면구성 div End ///////////////////////////// -->
 
+
 	<!-- <div style="position: absolute; top: 10px; right: 20px; background-color: white; border: 1px solid; width: 200px; height: 300px;"> 
 		테스트용 창<br/> 
 		00: <span id="s00">01</span><br/>
-		01: <span id="s01">02</span><br/>
-		02: <span id="s02">03</span><br/>
-		03: <span id="s03">04</span><br/>
-		04: <span id="s04">05</span><br/>
+		<div id="click" style="border: 1px solid gray; background-color: black; padding: 10px;" onclick="clearRouteLines()">clearButton</div>
 	</div> -->
+	
+	
 
+	<script type="text/javascript">
 	
-	<!-- body 로드 후 실행되어야 하는 스크립트 모음  -->
-	<script>
-	
-	 	/* ------------------------------------ Google Map Script ------------------------------------ */
-		var map;
-		var geocoder;
-		var overlay;
-		var marker=[];
-		var routelines=[];
-		
-		var allMarkers = [];
-		var myMakers = [];
-		var prv_infowindow;
-		
-		var korea = {lat:37.497957 , lng:127.027780};
-	
-		// initMap !!!!!!!!!!!
-		function initMap(){
-			
-			geocoder = new google.maps.Geocoder();
-		    map = new google.maps.Map(document.getElementById('map'), {
-		        center: korea,
-		        zoom: 3,			/* zoom: 1:World, 5:Landmass/continent, 10:City, 15:Streets, 20:Buildings */
-		        //mapTypeId :'terrain',
-		        styles: [
-		        	/* { "elementType": "geometry", "stylers": [ { "color": "#ffffff" } ] }, */
-		        	  { "elementType": "labels.icon", "stylers": [ { "color": "#e5e5e5" }, { "visibility": "off" } ] },
-		        	  { "elementType": "labels.text.fill", "stylers": [ { "color": "#c3c3c3" } ] },
-		        	  { "featureType": "administrative", "elementType": "geometry", "stylers": [ { "visibility": "off" } ] },
-		        	  /* { "featureType": "administrative.land_parcel", "stylers": [ { "visibility": "off" } ] },
-		        	  { "featureType": "administrative.locality", "stylers": [ { "visibility": "simplified" } ] },
-		        	  { "featureType": "administrative.neighborhood", "stylers": [ { "visibility": "off" } ] },
-		        	  { "featureType": "poi", "stylers": [ { "visibility": "off" } ] },
-		        	  /* { "featureType": "road", "stylers": [ { "visibility": "off" } ] }, */
-		        	  { "featureType": "transit", "stylers": [ { "visibility": "off" } ] },
-		        	  { "featureType": "water", "elementType": "geometry", "stylers": [ { "color": "#DAF8F6" } ] },
-		        	  /* { "featureType": "water", "elementType": "labels.text", "stylers": [ { "visibility": "off" } ] } */
-		        ]
-		    });
-		    
-	    	 
-	    	/* 스크롤(zoom) 할때마다 도시리스트 가져와서 뿌려주는 이벤트 발생 */
-	    	google.maps.event.addListener(map, 'tilesloaded', function(){
-	    		
-	    		zoomLevel = map.getZoom();
-	    		console.log("tilesloaded : zoomLevel="+zoomLevel);
-	    		
-	    		$.ajax({
-	    			url: "/planSub/json/getCityListByScroll/"+zoomLevel ,
-					method: "GET",
-					dataType: "json",
-					headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
-					success: function(JSONData, status){
-						if( JSONData==null || JSONData=="" ){		
-							console.log("리턴데이터 없음");	
-						}else{		
-							console.log("리턴데이터 있음! => JSONData = "+JSON.stringify(JSONData));	
-							console.log("리턴데이터 리스트...\n cityLat="+JSONData[0].cityLat+"/ cityLng="+JSONData[0].cityLat+"/ cityName="+JSONData[0].cityName);
-							
-							clearAllMarkers();
-							
-							var cityList = JSONData;
-							for( var i in cityList ){
-								
-								//var imgUrl = '/resources/images/cityImg/city_img.jpg';
-								
-								var getPosition = new google.maps.LatLng( cityList[i].cityLat , cityList[i].cityLng );
-								
-								//마커 만들기
-								/* var getMarker = new google.maps.Marker({
-									position: getPosition, map: map, icon: myIcon, shape: shape, title: cityList[i].cityName
-								}); */
-								
-								var getMarker = createMarker( cityList[i].cityName, cityList[i].country, getPosition, cityList[i].cityImg, cityList[i].cityInfo );
-								getMarker.setMap(map);
-								allMarkers.push(getMarker);
-								
-							} //for문
-						} //if-else
-					},
-					error:function(request,status,error){
-				        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-				    } 
-	    		});	//ajax(getCityListByScroll) 끝
-	    		
-	    	});	//addListener : tilesloaded
-	    	 
-	    	
-	    	function createMarker( city, country, mPosition, img, cityInfo ){
-	    		console.log("create Marker........ city="+city+", country="+country+", mPosition="+mPosition+", img="+img+", cityInfo="+cityInfo );
-	    		//var image = { url: imgUrl};
-	    		
-	    		var makingMarker = new google.maps.Marker({
-					position: mPosition,
-					icon: myIcon,
-					shape: shape,
-					title: city
-				}); 
-	    		
-	    		google.maps.event.addListener(makingMarker, 'click', function() {
-					console.log("city name = "+makingMarker.title);
-					
-					if(prv_infowindow){
-						prv_infowindow.close();
-					}
-					
-					var markerLatLng = new google.maps.LatLng( mPosition.lat() , mPosition.lng() );		//구글의 함수로 만든 LatLng 객체라서 lat() 이런식의 함수로 수 뽑아줘야 함
-					//console.log(mPosition.lat()+"/"+mPosition.lng() );
-					
-					var infowindow = new google.maps.InfoWindow();
-					
-					var contentHtml = '<div class="media" style="width:300px; height:120px; padding:5px;">';
-					//contentHtml = contentHtml + '<div style="height:50px; margin-bottom:10px;">';
-					contentHtml = contentHtml + '<img class="align-self-start mr-2" src="/resources/images/cityImg/'+img+'" width="60px" height="60px">';
-					
-					contentHtml = contentHtml + '<div class="media-body">';
-					contentHtml = contentHtml + '<h5 class="mt-0">'+ makingMarker.title +  '<div class="badge badge-primary text-wrap" style="width: 3rem; margin-left:10px; margin-top:0;" onClick="addCityRoute(\'' + makingMarker.title + '\' )">'+'add'+'</div>'  +'</h5>';
-					contentHtml = contentHtml + '<p>'+  cityInfo  +'</p>';
-					contentHtml = contentHtml + '</div>';
-					contentHtml = contentHtml + '</div>';
-					
-					
-					//contentHtml = contentHtml + '<div class="badge badge-primary text-wrap" style="width: 6rem;" onClick="addCityRoute(\'' + makingMarker.title + '\' )">'+'This text should wrap.'+'</div>';
-					//contentHtml = contentHtml + '<button type="button" class="btn btn-primary" id="addCityRouteButton" onClick="addCityRoute(\'' + makingMarker.title + '\' )">+</button>'+'</div>';
-					//contentHtml = contentHtml + '<div style="height:90px;">'+ cityInfo +'</div>';
-					//contentHtml = contentHtml + '</div>';
-					
-					
-					infowindow.setContent(contentHtml);
-					infowindow.setPosition(markerLatLng);
-					infowindow.open(map);
-					
-					prv_infowindow = infowindow;
-				}); 
-	    		
-	    		return makingMarker;
-	    	}
-	    	 
-	    	 
-	    	function clearAllMarkers() {
-	    		console.log("clearAllMarkers......");
-	    		for(i=0;i<allMarkers.length;i++)
-	    			allMarkers[i].setMap(null);
-	    		allMarkers=[];
-	    	} 
-	    	function clearMyMarkers() {
-	    		console.log("clearMyMarkers......");
-	    		for(i=0;i<myMarkers.length;i++)
-	    			myMarkers[i].setMap(null);
-	    		myMarkers=[];
-	    	}
-	    	 
-	    	
-	    	 
-	    	/* 도구모음! */
-	    	var shape = {
-		    			coords: [1, 1, 1, 12, 12, 12, 12, 1],
-		    	        type: 'poly'
-	    	        };
-		 	var lineSymbol_TRAIN_RL = {
-		 			    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
-		 			    fillColor: '#696969',
-		 			    fillOpacity: 1,
-		 			    strokeWeight: 1,
-		 			    scale: 1
-		 			}
-		 	var lineSymbol_TRAIN_LR = {
-		 			    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
-		 			    fillColor: '#696969',
-		 			    fillOpacity: 1,
-		 			    strokeWeight: 1,
-		 			    scale: 1,
-		 				rotation: 0,
-		 				anchor: new google.maps.Point(0,0)
-		 			}
-		 	
-		 	var myIcon = new google.maps.MarkerImage("/resources/images/icon/red_circle.png", null, null, null, new google.maps.Size(12,12));
-	    	 
-		    /* GoogleMap 에 뿌릴 것들  */
-			function initMapItems(){
-				console.log("initMapItems() 실행");
-				
-				var bounds = new google.maps.LatLngBounds();
-				
-				var cityMarkerList = ${cityMarkerList};
-				
-				//받아온 마커리스트를 통해 뿌려주기
-				for( var i in cityMarkerList ){
-					console.log("cityMarkerList[i] = "+cityMarkerList[i])
-					
-					marker[i] = new google.maps.Marker({
-							position: cityMarkerList[i].position,
-							map: map,
-							icon: myIcon,
-							shape: shape,
-							title: cityMarkerList[i].title
-					});
-					
-					
-					if( i > 0 ){
-						var path = [ marker[i-1].getPosition() , marker[i].getPosition() ];
-						routelines[i-1] = new google.maps.Polyline({
-							map: map,
-							strokeColor: '#696969',
-					        strokeOpacity: 1.0,
-					        strokeWeight:1,
-					        geodesic: false,
-					        icons: [{
-					            icon: lineSymbol_TRAIN_LR,
-					            offset: '95%'
-					        }]
-						});
-						routelines[i-1].setPath(path);
-					}
-					
-					bounds.extend(marker[i].getPosition());
-					
-					/* marker[i].addListener('click', function() {
-						alert(" 마커 클릭 => cityName="+cityMarkerList[i].title);
-					}); */
-					
-				} //for문 end
-				
-				map.fitBounds(bounds);
-				
-				
-			} //initMapItems 끝
-			
-			initMapItems();
-			
-			
-			/* setTimeout(function(){
-				map.setCenter(korea);
-				map.setZoom(5);
-			}, 50); */
-			
-			
-			/* 지도 내에 버튼 만들기 */ 
-			var leftControlDiv = document.createElement('div');
-			var thtml = '<div style="margin-bottom:5px;margin-left:10px;font-weight:bold; color:#383AE4; font-size:10pt;border:solid thin #DDDDDD ; border-radius:5px; padding:10px; background-color: white;" onClick="controlClick()">${plan.startDateString.substring(0,10)} 출발</div>';
-			leftControlDiv.innerHTML = thtml;
-			map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(leftControlDiv);
-		    
-		};
-		/* ------------------------------------ Google Map Script ------------------------------------ */
-		
-		/* icon 사용을 위한 스크립트 */
-		/* https://github.com/feathericons/feather#feather 참고 */
-		feather.replace();
-	
-		
-		
-		
 		$($('.tran_type')[0]).hide();
+		
 	</script>
 	
-	
-	<!-- Google Map API -->
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4&callback=initMap" type="text/javascript"></script>
-	
-
 </body>
 </html>

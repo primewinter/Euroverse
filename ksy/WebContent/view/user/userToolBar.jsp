@@ -26,7 +26,7 @@ color: #e0e0e0!important;
         <a class="nav-link" href="/user/searchId">아이디찾기</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link " href="/user/searchPwd">비밀번호찾기</a>
+        <a class="nav-link " href="/user/findPwd">비밀번호찾기</a>
       </li>
     </ul>
 
