@@ -97,7 +97,7 @@
 		    font-size: 26px;
 		    font-family: 'Jeju Hallasan', cursive;
 		    letter-spacing: -1px;
-		    margin: 2px 10px 0 3px;
+		    margin: 2px 30px 0 3px;
 		}
 		html, body, div, span, iframe, h1, h2, h3, h4, h5, h6, p, a, em, img, strong, b, u, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, embed, figure, figcaption, footer, header, nav, section, summary, audio, video, button {
 		    margin: 0;
