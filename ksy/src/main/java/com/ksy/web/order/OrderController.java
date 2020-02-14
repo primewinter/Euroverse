@@ -117,14 +117,19 @@ public class OrderController {
 		flight.setChildNum(childNum);
 		flight.setInfantNum(infantNum);
 		
+		System.out.println("userPoint :: "+user.getTotalPoint());
 		System.out.println("flight :: "+flight);
 		System.out.println("order :: "+order);
 		model.addAttribute("flight", flight);
 		model.addAttribute("order", order);
+		model.addAttribute("user", user);
+		
 		return "forward:/view/order/addFlightOrder.jsp";
 	}
 	@RequestMapping(value = "addFlightOrder", method = RequestMethod.POST)
 	public String addFlightOrder(
+			@RequestParam("addPoint")int addPoint,		@RequestParam("buyerName")String buyerName ,
+			@RequestParam("buyerEmail")String buyerEmail , @RequestParam("buyerPhone")String buyerPhone,
 			@RequestParam("usedPoint")int usedPoint,@RequestParam("totalAmount")int totalAmount,
 			@ModelAttribute("flight")Flight flight, @RequestParam("orderId")String orderId,
 			@RequestParam("payPoint")int payPoint, @RequestParam("actualAmount")int actualAmount,
@@ -136,15 +141,19 @@ public class OrderController {
 		System.out.println("user  :: "+user);
 		Point point = new Point();
 		Order order = new Order();
-		point.setUsedPoint(usedPoint);
+		
 		point.setUserId(user.getUserId());
 		point.setRefId(orderId);
 		
 		user.getTotalPoint();
 		
 		order.setBuyer(user);
+		order.setBuyerEmail(buyerEmail);
+		order.setBuyerName(buyerName);
+		order.setBuyerPhone(buyerPhone);
 		order.setOrderId(orderId);
 		order.setPayPoint(payPoint);
+		order.setAddPoint(addPoint);
 		order.setPayInstal(payInstal);
 		order.setActualAmount(actualAmount);
 		order.setTotalAmount(totalAmount);
@@ -158,11 +167,18 @@ public class OrderController {
 		System.out.println("flight : "+flight);
 		//flight 상품 insert
 		flightService.addFlight(flight);
-		System.out.println("ㅠ_ㅠ"+flight);
 		//flight Order insert
 		orderService.addFlightOrder(order);
-		//포인트
+		//포인트 적립
+		point.setUsedType("F");
+		point.setUsedPoint(addPoint);
 		orderService.addPoint(point);
+		System.out.println("point 1 : "+point);
+		//포인트 사용
+		point.setUsedType("U");
+		point.setUsedPoint(usedPoint);
+		orderService.addPoint(point);
+		System.out.println("point 2 : "+point);
 		//view로 쏴주기
 		model.addAttribute("flight",flight);
 		model.addAttribute("order",order);

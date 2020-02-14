@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
@@ -7,8 +7,8 @@
 <html>
 <head>
 <title>Insert title here</title>
-<meta charset="EUC-KR">
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+<meta charset="UTF-8">
+	<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -21,9 +21,9 @@
 	<!-- asome icon CDN -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
 
-  	<!-- jQuery UI toolTip »ç¿ë CSS-->
+  	<!-- jQuery UI toolTip ì‚¬ìš© CSS-->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<!-- jQuery UI toolTip »ç¿ë JS-->
+	<!-- jQuery UI toolTip ì‚¬ìš© JS-->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
@@ -42,34 +42,40 @@
     <script type="text/javascript">
     
     window.onload = function () {
-    	var price = $("#prices").val();
+    	var price = $("#prices").val(); //ìƒí’ˆ ê°€ê²©
+    	var total = $("#usertotalPoint").val(); // ì›ë˜ ìˆë˜ ì´ ë³´ìœ  í¬ì¸íŠ¸
+    	console.log("total Point : "+total);
     	console.log("price"+$("#prices").val());
-    	var totalAmount = $("#totalAmount").val(price);
-    	var actualAmount = $("#actualAmount").val(price);
+    	var totalAmount = $("#totalAmount").val(price); // ì´ê²°ì œê¸ˆì•¡
+    	var actualAmount = $("#actualAmount").text(price); // ì‹¤ê²°ì œê¸ˆì•¡
     	};	
+    	
        function call(){
-    	   var price = $("#prices").val(); //»óÇ°°¡°İ
-    	   var totalAmount = $("#totalAmount").val(price); //ÃÑ °¡°İ
-        	var payPoint = document.getElementById("payPoint").value; //»ç¿ëÇÒ Æ÷ÀÎÆ® 
+    	var price = $("#prices").val(); //ìƒí’ˆê°€ê²©
+ 	   var totalAmount = $("#totalAmount").text(); //ì´ ê°€ê²©
+ 	   var total = $("#usertotalPoint").val();
+     	var payPoint = $("#payPoint").val(); //ì‚¬ìš©í•  í¬ì¸íŠ¸ 
+    	   
         	
         	console.log("totalAmount"+totalAmount);
         	console.log("payPoint"+payPoint);
         	console.log("price"+price);
         	
-        	//»ç¿ëµÈ Æ÷ÀÎÆ® = »ç¿ëÇÒ Æ÷ÀÎÆ®
+        	//ì‚¬ìš©ëœ í¬ì¸íŠ¸ = ì‚¬ìš©í•  í¬ì¸íŠ¸
     		document.getElementById("usedPoint").value = document.getElementById("payPoint").value;
         	
-    		var calculation = price - payPoint; //»óÇ°°¡°İ - »ç¿ëÇÒ Æ÷ÀÎÆ® = ½Ç°áÁ¦±İ¾× °è»ê
-    		var calculation2 = 500 - payPoint;// º¸À¯ Æ÷ÀÎÆ® - »ç¿ëÆ÷ÀÎÆ® »©±â
-    		console.log("calculation2"+calculation2);
+    		var calculation = price - payPoint; //ìƒí’ˆê°€ê²© - ì‚¬ìš©í•  í¬ì¸íŠ¸ = ì‹¤ê²°ì œê¸ˆì•¡ ê³„ì‚°
+    		console.log("calculation"+calculation);
+    		var calculation2 = total - payPoint;// ë³´ìœ  í¬ì¸íŠ¸ - ì‚¬ìš©í¬ì¸íŠ¸ ë¹¼ê¸°
+    		console.log("calculation2"+calculation2); 
     		
     		
-    		var point = $("#point").val(calculation2);  //º¸À¯ÇÑ Æ÷ÀÎÆ®
-    		var actualAmount = $("#actualAmount").val(calculation); //½Ç °áÁ¦±İ¾× ÀÔ·Â
+    		var actualAmount = $("#actualAmount").text(calculation); //ì‹¤ ê²°ì œê¸ˆì•¡ ì…ë ¥
     		console.log("actualAmount"+actualAmount+"calculation"+calculation);	
     		
-    		var accumulate = $("#accumulate").val(calculation * 0.01); //Àû¸³¿¹Á¤ ±İ¾×
-    		console.log("accumulate"+accumulate);
+    		$("#totalPoint").text(calculation2);  // ì‚¬ìš©í•  í¬ì¸íŠ¸ë¥¼ ê°ì†Œí•œ ì´ ë³´ìœ í•œ í¬ì¸íŠ¸
+    		var addPoint = $("#addPoint").val(Math.floor(calculation * 0.01)); //ì ë¦½ì˜ˆì • ê¸ˆì•¡
+    		console.log("addPoint"+addPoint);
     };	
     
     
@@ -83,7 +89,7 @@
     		//$("form").attr("method" , "POST").attr("action" , "/purchase/addPurchase").submit();
     						 IMP.init('imp15344798');
     						 IMP.request_pay({
-    							    pg : 'inicis', // version 1.1.0ºÎÅÍ Áö¿ø.
+    							    pg : 'inicis', // version 1.1.0ë¶€í„° ì§€ì›.
     							    pay_method : 'card',
     							    merchant_uid : 'merchant_' + new Date().getTime(),
     							    name : 'Flights',
@@ -97,16 +103,16 @@
     							    
     							}, function(rsp) {
     							    if ( rsp.success ) {
-    							        var msg = '°áÁ¦°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.';
-    							        msg += '°íÀ¯ID : ' + rsp.imp_uid;
-    							        msg += '»óÁ¡ °Å·¡ID : ' + rsp.merchant_uid;
-    							        msg += '°áÁ¦ ±İ¾× : ' + rsp.paid_amount;
-    							        msg += 'Ä«µå ½ÂÀÎ¹øÈ£ : ' + rsp.apply_num;
-    									msg += 'È¸¿ø ¾ÆÀÌµğ : ' + '${user.userId}';
-    									msg += '°áÁ¦ÀÏ½Ã' + rsp.paid_at;
+    							        var msg = 'ê²°ì œê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.';
+    							        msg += 'ê³ ìœ ID : ' + rsp.imp_uid;
+    							        msg += 'ìƒì  ê±°ë˜ID : ' + rsp.merchant_uid;
+    							        msg += 'ê²°ì œ ê¸ˆì•¡ : ' + rsp.paid_amount;
+    							        msg += 'ì¹´ë“œ ìŠ¹ì¸ë²ˆí˜¸ : ' + rsp.apply_num;
+    									msg += 'íšŒì› ì•„ì´ë”” : ' + '${user.userId}';
+    									msg += 'ê²°ì œì¼ì‹œ' + rsp.paid_at;
     									msg += '??' + rsp.vbank_name;
     									msg += 'status '+ rsp.pay_method;
-    									msg += 'ÇÒºÎ'+ rsp.card_quota;
+    									msg += 'í• ë¶€'+ rsp.card_quota;
     									
     									var payInstal = rsp.card_quota;
     									$("#payInstal").val(payInstal);
@@ -124,8 +130,8 @@
     							        $("#userId").val(userId);
     							        
     							    } else {
-    							        var msg = '°áÁ¦¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.';
-    							        msg += '¿¡·¯³»¿ë : ' + rsp.error_msg;
+    							        var msg = 'ê²°ì œì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.';
+    							        msg += 'ì—ëŸ¬ë‚´ìš© : ' + rsp.error_msg;
     	    							  $("form").attr("method" , "GET").attr("action" , "/view/order/addFlightOrder.jsp").submit();
     							    }
     						        alert(msg);
@@ -158,12 +164,12 @@
 		<table class="table">
 			  <thead>
 			    <tr>
-			      <th scope="col">Ç×°ø»ç</th>
-			      <th scope="col">Ãâ¹ß½Ã°£</th>
-			      <th scope="col">µµÂø½Ã°£</th>
-			      <th scope="col">°æÀ¯</th>
-			      <th scope="col">¼Ò¿ä½Ã°£</th>
-			      <th scope="col">°¡°İ</th>
+			      <th scope="col">í•­ê³µì‚¬</th>
+			      <th scope="col">ì¶œë°œì‹œê°„</th>
+			      <th scope="col">ë„ì°©ì‹œê°„</th>
+			      <th scope="col">ê²½ìœ </th>
+			      <th scope="col">ì†Œìš”ì‹œê°„</th>
+			      <th scope="col">ê°€ê²©</th>
 			    </tr>
 			  </thead>
 			  <tbody>
@@ -173,7 +179,7 @@
 			      <td>${flight.arrTime}</td>
 			      <td>${flight.stopOver}</td>
 			      <td>${flight.leadTime}</td>
-			      <td>${flight.price}¿ø</td>
+			      <td>${flight.price}ì›</td>
 			    </tr>
 			  </tbody>
 			  
@@ -181,47 +187,47 @@
 			<br/><br/>
 			<div class="row">
 			    <div class="col">
-			    <h4 align="left">ÁÖ¹®ÀÚ Á¤º¸</h4>
+			    <h4 align="left">ì£¼ë¬¸ì ì •ë³´</h4>
 			    <br/>
 			    	<div style="width:50%;">
-				       <input type="text" class="form-control" placeholder="ÁÖ¹®ÀÚ ÀÌ¸§" id="buyerName" name="buyerName" value="${order.buyerName}">
+				       <input type="text" class="form-control" placeholder="ì£¼ë¬¸ì ì´ë¦„" id="buyerName" name="buyerName" value="${order.buyerName}">
 				      	<br/>
-				       <input type="text" class="form-control" placeholder="ÁÖ¹®ÀÚ ÇÚµåÆù ¹øÈ£" id="buyerPhone" name="buyerPhone" value="${order.buyerPhone}">
+				       <input type="text" class="form-control" placeholder="ì£¼ë¬¸ì í•¸ë“œí° ë²ˆí˜¸" id="buyerPhone" name="buyerPhone" value="${order.buyerPhone}">
 				       	<br/>
 				       	<br/>
-				       <input type="text" class="form-control" placeholder="ÁÖ¹®ÀÚ ÀÌ¸ŞÀÏ " id="buyerEmail" name="buyerEmail" value="${order.buyerEmail}">
+				       <input type="text" class="form-control" placeholder="ì£¼ë¬¸ì ì´ë©”ì¼ " id="buyerEmail" name="buyerEmail" value="${order.buyerEmail}">
 			    	</div>
 			    </div>
 			    <div class="col">
 			    	<input type="hidden" name="price" id="prices" value="${flight.price }" >
-<%-- 			    	<input type="text" class="form-control" readonly="readonly" id="price" name="price" value="${flight.price}" style="width:50%;">
- --%>			    		<h4 align="left">Æ÷ÀÎÆ® »ç¿ë </h4>
+			    		<h5 align="left">í¬ì¸íŠ¸ ì‚¬ìš© </h5>
 							<div class="form-group">
 								<label for="payPoint" class="col-sm-offset-1 col-sm-3 control-label"></label>
-								<div class="col-sm-4">
-									<input	type="text" name="payPoint" id="payPoint" class="form-control" 
-											placeholder="»ç¿ëÇÒ Æ÷ÀÎÆ®" onkeyup="call()">
-								</div>
-								<div class="col-sm-4">
-										º¸À¯ÇÑ Æ÷ÀÎÆ®
-								<input	type="text" name="point" id="point" class="form-control" value="">
-								</div>
+									<div class="col-sm-4">
+										<input	type="text" name="payPoint" id="payPoint" class="form-control" placeholder="ì‚¬ìš©í•  í¬ì¸íŠ¸" onkeyup="call()">
+									</div>
+									<div class="row" style="Padding-left:30px;">ë³´ìœ  í¬ì¸íŠ¸  : &nbsp;
+										<div id="totalPoint">${user.totalPoint }</div>
+									</div>
+											<!-- í¬ì¸íŠ¸ ì°¨ê°ì‹œ ê³„ì‚°ì„ ìœ„í•œ totalPoint -->
+											<input type="hidden" name="totalPoint" id="usertotalPoint" value="${user.totalPoint }" >
 							</div>
-							<label for="totalAmount" class="col-sm-offset-1 col-sm-3 control-label">ÃÑ ÁÖ¹® ±İ¾× </label>
+							<h5 align="left">ê²°ì œ ê¸ˆì•¡</h5>
+								<div class="row" style="Padding-left:30px;">ì´ ì£¼ë¬¸ ê¸ˆì•¡  : &nbsp;&nbsp;&nbsp;
+										<div id="totalAmount" name="totalAmount" >${flight.price} </div>ì›
+								</div>
+								<div class="row" style="Padding-left:30px;">í¬ì¸íŠ¸ ì‚¬ìš©  : &nbsp;&nbsp;&nbsp; - &nbsp;
+										<div id="usedPoint" name="usedPoint" >${point.usedPoint} </div>
+								</div>
+								<div class="row" style="Padding-left:30px;">ì‹¤ ì£¼ë¬¸ ê¸ˆì•¡  : &nbsp;&nbsp;&nbsp;
+										<div id="actualAmount" name="actualAmount" >${order.actualAmount } </div>ì›
+								</div>
+								
+								
+							
+								ì ë¦½ì˜ˆì •
 						<div class="col-sm-4">
-							<input	type="text" name="totalAmount" id="totalAmount" class="form-control" value="">
-						</div>
-							<label for="usedPoint" class="col-sm-offset-1 col-sm-3 control-label"> -Æ÷ÀÎÆ®»ç¿ë </label>
-						<div class="col-sm-4">
-							<input	type="text" name="usedPoint" id="usedPoint" class="form-control" readonly="readonly">
-						</div>
-							<label for="actualAmount" class="col-sm-offset-1 col-sm-3 control-label">½Ç ÁÖ¹® ±İ¾× </label>
-						<div class="col-sm-4">
-							<input	type="text" name="actualAmount" id="actualAmount" class="form-control" value="${order.actualAmount }">
-						</div>		
-								Àû¸³¿¹Á¤
-						<div class="col-sm-4">
-							<input	type="text" name="accumulate" id="accumulate" class="form-control" value="">
+							<input	type="text" name="addPoint" id="addPoint" class="form-control">
 						</div>
 						
 			    </div>
@@ -229,7 +235,7 @@
 		<br/><br/>
 		<div class="form-group" align="center">
    		 <div class="col-sm-offset-4  col-sm-4 text-center">
-		<button type="button" class="btn btn-primary"  >±¸¸Å</button>
+		<button type="button" class="btn btn-primary"  >êµ¬ë§¤</button>
 		<input type="hidden" name="actualAmount" value= "${order.actualAmount }"/>
 		<input type="hidden" name="usedPoint" value= "${point.usedPoint }"/>
 		<input type="hidden" name="totalAmount" value= "${order.totalAmount }"/>

@@ -46,19 +46,86 @@
 </head>
 
 <body>
+	<form>
 
 <div class="container"><br/>
-	<div class="alert alert-warning" role="alert">
-	  <h5 align="center" style="font-size:30px; font-family : Consolas;">Order History</h5>
+
+	<div >
+	  <h5 align="center">${user.userName}님 결제가 완료되었습니다.</h5>
 	</div>
-	
-	<form class="form-horizontal">
+	<hr/>
+		<div class="row" style="margin-bottom: 15px" >
+				  <div class="col-md-3">수령자</div>
+				  <div class="col-md-9">${order.buyerName}</div>
+		</div>
+		<div class="row" style="margin-bottom: 15px" >
+				  <div class="col-md-3">연락처</div>
+				  <div class="col-md-9">${order.buyerPhone}</div>
+		</div>
+		<div class="row" style="margin-bottom: 15px" >
+				  <div class="col-md-3">Email</div>
+				  <div class="col-md-9">${order.buyerEmail}</div>
+		</div>
+		<hr/>
+		 <c:if test="${room.roomCity == null }">
+			<i class="fas fa-plane" id="iconf" style="Padding-left:20px;font-size:40px;" ></i>
+				<br/>
+				<table class="table">
+					  <thead>
+					    <tr>
+					      <th scope="col">항공사</th>
+					      <th scope="col">출발시간</th>
+					      <th scope="col">도착시간</th>
+					      <th scope="col">경유</th>
+					      <th scope="col">소요시간</th>
+					      <th scope="col">가격</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <th scope="row">${flight.airline}</th>
+					      <td>${flight.depTime}</td>
+					      <td>${flight.arrTime}</td>
+					      <td>${flight.stopOver}</td>
+					      <td>${flight.leadTime}</td>
+					      <td>${flight.price}원</td>
+					    </tr>
+					  </tbody>
+				</table>
+		</c:if>
+		 <c:if test="${flight.depCity == null }">
+			<i class="fas fa-bed" id="iconr" style="Padding-left:20px;font-size:40px;"></i>
+				<br/>
+				<table class="table">
+					  <thead>
+					    <tr>
+					      <th scope="col">숙소</th>
+					      <th scope="col">체크인</th>
+					      <th scope="col">체크아웃</th>
+					      <th scope="col">객실수</th>
+					      <th scope="col">숙박인원</th>
+					      <th scope="col">가격</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <th scope="row">${room.roomName}</th>
+					      <td>${room.checkIn}</td>
+					      <td>${room.checkOut}</td>
+					      <td>${room.roomNum}</td>
+					      <td>성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
+					      <td>${room.price}원</td>
+					    </tr>
+					  </tbody>
+				</table>
+		</c:if>
+		
+		
 		
 		<div class="row">
-		 <c:if test="${room.roomCity == null }">
+		
 			<div class="col-xs-4 col-md-2"><strong>도착도시</strong></div>
 			<div class="col-xs-8 col-md-4">${flight.depCity }</div>
-		</c:if>
 		 <c:if test="${flight.depCity == null }">
 			<div class="col-xs-4 col-md-2"><strong>도착지역</strong></div>
 			<div class="col-xs-8 col-md-4">${room.roomCity }</div>
@@ -91,11 +158,10 @@
 		</div>
 		</div>
 		
+	
+	
+
+
 	</form>
-	
-	
-</div>
-
-
 </body>
 </html>

@@ -30,7 +30,7 @@
 		
   	</resultMap>
   	
-  	<!-- <insert id="addRoom" parameterType="room">
+  	 <insert id="addRoom" parameterType="room">
 		INSERT 
 		INTO room(ROOM_ID,ROOM_NAME,PRICE,ROOM_CITY,CHECK_IN,CHECK_OUT,DETAIL_LINK,ADULT_NUM,CHILD_NUM,ROOM_NUM,ROOM_IMG,MAIN_SERVICE,FAMILY_SERVICE,SIGHTS,HOTEL_INFO,ROOM_INFO )
 		VALUES (
@@ -65,7 +65,7 @@
   	 <select id="getRoomList" parameterType="map" resultMap="roomSelectMap">
   		SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM (  SELECT r.room_id ,r.room_city, r.room_name , r.price, r.check_in , r.check_out , r.room_num , r.adult_num , r.child_num , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.card_no 
+  						FROM (  SELECT r.room_id ,r.room_city, r.room_name , r.price, r.check_in , r.check_out , r.room_num , r.adult_num , r.child_num , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date  
 										FROM  room r,  users u , orders o 
 										WHERE o.room_id  = r.room_id(+)
 										AND o.buyer_id = u.user_id(+)
@@ -75,6 +75,6 @@
   						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
   		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
   		AND #{search.currentPage}*#{search.pageSize}
-	</select> -->
+	</select> 
   	
 </mapper>
