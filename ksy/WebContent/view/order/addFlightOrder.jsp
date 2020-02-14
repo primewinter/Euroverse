@@ -68,7 +68,7 @@
     		var actualAmount = $("#actualAmount").val(calculation); //실 결제금액 입력
     		console.log("actualAmount"+actualAmount+"calculation"+calculation);	
     		
-    		var accumulate = $("#accumulate").val(calculation * 0.05); //적립예정 금액
+    		var accumulate = $("#accumulate").val(calculation * 0.01); //적립예정 금액
     		console.log("accumulate"+accumulate);
     };	
     
@@ -76,6 +76,10 @@
     $( function () {
     	$('button.btn.btn-primary').on('click' , function () {
     		var actualAmount = $("#actualAmount").val();
+    		var buyerEmail = $("#buyerEmail").val();
+    		var buyerName = $("#buyerName").val();
+    		var buyerPhone = $("#buyerPhone").val();
+    		
     		//$("form").attr("method" , "POST").attr("action" , "/purchase/addPurchase").submit();
     						 IMP.init('imp15344798');
     						 IMP.request_pay({
@@ -84,9 +88,9 @@
     							    merchant_uid : 'merchant_' + new Date().getTime(),
     							    name : 'Flights',
     							    amount : 10,
-    							    buyer_email : '${order.buyerEmail}',
-    							    buyer_name : '${order.buyerName}',
-    							    buyer_tel : '${order.buyerPhone}',
+    							    buyer_email : buyerEmail ,
+    							    buyer_name : buyerName,
+    							    buyer_tel : buyerPhone ,
     							    buyer_postcode : 1234 ,
     							  
     							    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
@@ -99,7 +103,6 @@
     							        msg += '결제 금액 : ' + rsp.paid_amount;
     							        msg += '카드 승인번호 : ' + rsp.apply_num;
     									msg += '회원 아이디 : ' + '${user.userId}';
-    									msg += '상품 번호 : '+ '${product.prodNo}';
     									msg += '결제일시' + rsp.paid_at;
     									msg += '??' + rsp.vbank_name;
     									msg += 'status '+ rsp.pay_method;
@@ -185,7 +188,6 @@
 				      	<br/>
 				       <input type="text" class="form-control" placeholder="주문자 핸드폰 번호" id="buyerPhone" name="buyerPhone" value="${order.buyerPhone}">
 				       	<br/>
-				       <input type="text" class="form-control" placeholder="주문자 핸드폰 번호" id="buyerPhone" name="buyerPhone" value="${order.buyerPhone}">
 				       	<br/>
 				       <input type="text" class="form-control" placeholder="주문자 이메일 " id="buyerEmail" name="buyerEmail" value="${order.buyerEmail}">
 			    	</div>
@@ -217,7 +219,7 @@
 						<div class="col-sm-4">
 							<input	type="text" name="actualAmount" id="actualAmount" class="form-control" value="${order.actualAmount }">
 								적립예정
-							<div class="col-md-4">
+							<div class="col-sm-4">
 								<input	type="text" name="accumulate" id="accumulate" class="form-control" value="">
 							</div>
 						</div>

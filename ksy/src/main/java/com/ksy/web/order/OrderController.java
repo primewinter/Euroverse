@@ -139,6 +139,8 @@ public class OrderController {
 		point.setUserId(user.getUserId());
 		point.setRefId(orderId);
 		
+		user.getTotalPoint();
+		
 		order.setBuyer(user);
 		order.setOrderId(orderId);
 		order.setPayPoint(payPoint);
