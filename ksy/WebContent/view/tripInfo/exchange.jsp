@@ -16,6 +16,9 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	
+	<!-- 글씨체 때문에 걸어둔 link -->
+	<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+	 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" ></script> -->
@@ -29,6 +32,8 @@
  
  
 <script>
+
+
 
 function printTime() {
 	var clock = document.getElementById("clock");
@@ -47,6 +52,7 @@ function printTime() {
 	window.onload = function() {
 	printTime();
 	};
+	
 	
 	
 
@@ -150,6 +156,10 @@ $(function(){
 		 } 
 	}
 	
+	var iscroll = new iScroll("wrapper", {
+	    hScroll:false
+	});
+	
 </script>
 
 <style type='text/css'>
@@ -162,6 +172,8 @@ body {
 	align-items: center; 
 	justify-content: center;
 } */
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css);
+@import url('https://fonts.googleapis.com/css?family=Lato|Ubuntu&display=swap');
 
 body{
 
@@ -185,7 +197,7 @@ body{
 	height : 300px;
 	border: 1px solid teal;
 	border-radius : 10px;
-	overflow:auto;
+	overflow-y:scroll;
 	box-shadow:blur;
 
 }
@@ -195,17 +207,23 @@ body{
 	height : 300px;
 	border: 1px solid teal;
 	border-radius : 10px;
+
 }
+/* 국가선택창 Box css  */
 #wrapper{
 	width:300px;
 	height : 300px;
 	border: 1px solid teal;
 	border-radius : 10px;
+	box-shadow : 5px 5px grey;
 }
+/* 국가선택창에 제목때문에 걸어둔 css  */
 h5{
 	padding-top : 0.6rem;
 	text-align: center;
 	font-weight: bold;
+	font-family: "Noto Sans CJK KR","Helvetica Neue","Apple SD Gothic Neo",sans-serif;
+	font-size: 26px;
 }
 
 
@@ -241,13 +259,15 @@ h5{
 	border-radius : 10px;
 	width:300px;
 }
+
+/* 금액입력창 css  */
 .conturyMoney{
 	width:300px;
 	top:50px;
 	position: relative;
 	justify-content: center;
 	text-align: right;
-	color: blue;
+	color: #309EFE;
 	font-size: 17px;
 	
 }
@@ -259,6 +279,8 @@ h5{
 
 
 <body>
+
+<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 
 <h3>exchange</h3>
 
@@ -307,8 +329,9 @@ h5{
 	
 		<div class="title">
 		<div class="content">
-		</div>
 		<img class="conImg" alt="" src=""/>
+		</div>
+		
 		</div>
 		 
 	   <!-- =========== 환율금액입력 ====================  -->  
