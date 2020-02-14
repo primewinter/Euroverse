@@ -117,8 +117,8 @@ public class UserController {
 		System.out.println("addUser POST Start");
 		System.out.println(user);
 		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-		//드림시티랑 트립스타일도 따로 테이블? 로 관리하기 유저아이디랑 조인
-		
+
+		//다른방법
 //		if(user.getImage().isEmpty()==false) {
 //			MultipartFile mhsr = (MultipartFile)user.getImage();
 //			String path = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages";
@@ -134,19 +134,9 @@ public class UserController {
 //		}
 		MultipartFile mhsr = (MultipartFile)user.getImage();
 		if( mhsr.isEmpty() == false) {	//null 체크로 잡을 수 없음! 
-			//String path = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\planImg";
-			
-			/*
-			 * Calendar cal = Calendar.getInstance() ; SimpleDateFormat dateFormat = new
-			 * SimpleDateFormat("yyyyMMdd_HHmmSS"); String time =
-			 * dateFormat.format(cal.getTime()); String fileName =
-			 * mpFile.getOriginalFilename() + "_"+time;
-			 */
-			
 			String fileName = mhsr.getOriginalFilename();
 			fileName = uploadFile(fileName, mhsr.getBytes());
 			//mpFile.transferTo( new File(path, fileName) );
-			
 			user.setUserImg(fileName);
 			
 		}else {

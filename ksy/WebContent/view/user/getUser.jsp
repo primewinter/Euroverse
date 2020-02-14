@@ -16,48 +16,20 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
+<style>
+img{
+	width: 200px;
+	height: 200px;
+	border-radius: 100px;
+	-moz-border-radius: 100px;
+	-khtml-border-radius: 100px;
+	-webkit-border-radius: 100px;
+}
+
+
+</style>
 
 <script>
-
-$(function(){
-/* 	$("button:contains('로그인')").on("click",function(){
-		location.href="/view/user/loginTest.jsp";
-	});
-	
-	$("button:contains('로그아웃')").on("click",function(){
-		location.href="/user/logout";
-	});
-	
-	$("h1:contains('출석체크페이지로 이동')").on("click",function(){
-			location.href="/view/myPage/choolCheck.jsp";
-	});
-	
-	
- 	$("h1:contains('회원가입')").on("click",function(){
-		location.href="/user/addUser";
-	});
- 	
- 	$("h1:contains('내정보조회')").on("click",function(){
- 		location.href="/user/getUser";
- 	});
- 	
- 	$("h5:contains('메인으로')").on("click",function(){
- 		location.href="/";
- 	}); */
- 	
-/*
-	$("h1:contains('출석체크페이지로 이동')").on("click",function(){
-		location.href=
-	});
-
-	$("h1:contains('출석체크페이지로 이동')").on("click",function(){
-		location.href=
-	});
- */
-	
-});
-
-
  
 </script>
 
@@ -136,13 +108,7 @@ $(function(){
                     </div>
 		</div><!--row -->
 		
-	<%-- <c:if test="${fn:length(tripSurveyList)> 0} "> --%>
-	
-	
-		
 		<hr class="one" style="height: 30" >
-		
-		
 		<div class="row">
 			<div class="col-md-5">
 			</div>
@@ -159,20 +125,12 @@ $(function(){
 						    <p class="card-text">${tripSurvey.surveyChoice}</p>
 						  </div>
 						</div>
-					
-					
-					
-					
 					</c:if>
 				</c:forEach> 
 		</div>
-		
-		
-		
 		<div class="row">
 			<div class="col-md-5">
 			</div>
-			
 			<h3>나의 여행 스타일 </h3>
 		</div>
 		<div class="row">
@@ -185,34 +143,19 @@ $(function(){
 						    <p class="card-text">${tripSurvey.surveyChoice}</p>
 						  </div>
 						</div>
-						
 						</c:if>
 				</c:forEach> 
-		
-			
 		</div>
-		
-		
-		
-<%-- </c:if>		
-		 --%>
-		
-		
-		
 		
 		
 		
 		
 		
 		<hr class="one" style="height: 30" >
-		
 		<div class="row">
 			<div class="col-md-5">
 			</div>
-			
 			<h3>유럽에 머문 시간 </h3>
-			
-		
 		</div>
 		<div class="row">
 			<div class="col-md-4">
@@ -226,7 +169,6 @@ $(function(){
 			<div class="col-md-1">
 				${travelMin}분
 			</div>
-			
 		</div>
 		
 		<div class="row">
@@ -236,6 +178,25 @@ $(function(){
       
       
       
+    <!--   
+      
+      	<div class="d-flex bd-highlight" style="background: #DFFDFC">
+		  <div class="p-2" style="margin-left: 80px;">
+		  <img alt="" src="/resources/images/userImages/defaultUserImage.jpg">
+		  </div>
+		  <div class="p-2 bd-highlight">Flex item</div>
+		  <div class="p-2 bd-highlight">Third flex item</div>
+		</div>
+      
+      
+      <div class="d-flex align-items-start flex-column bd-highlight mb-3" style="height: 200px; background: aqua;">
+      		<div class="p-2 w-100 bd-highlight">Flex item</div>
+		  <div class="mb-auto p-2 bd-highlight">Flex item</div>
+		  <div class="p-2 bd-highlight">Flex item</div>
+		  <div class="p-2 bd-highlight">Flex item</div>
+		</div>
+      
+       -->
     </main>
     </div><!-- include 사이드바와 이어짐  row End-->
     </div><!-- include 사이드바와 이어짐 container End -->
