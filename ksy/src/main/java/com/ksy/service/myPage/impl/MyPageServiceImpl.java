@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.ksy.common.Search;
+import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Point;
+import com.ksy.service.domain.Post;
 import com.ksy.service.domain.TripSurvey;
 import com.ksy.service.myPage.MyPageDao;
 import com.ksy.service.myPage.MyPageService;
@@ -98,5 +100,27 @@ public class MyPageServiceImpl implements MyPageService{
 	
 
 	
-
+	public Map<String,Object> getMyPostList(Search search , String userId)throws Exception{
+		
+		List<Post> list= myPageDao.getMyPostList(search, userId);
+		//int totalCount = communityDao.getPostTotalCount(search, boardName);
+		System.out.println("호호호호홓호호!!!!!!!!!!!!!!!!!");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		//map.put("totalCount", new Integer(totalCount));
+		return map;
+	}
+	
+	
+	public Map<String,Object> getMyCommentList(Search search , String userId)throws Exception{
+		
+		List<Comment> list= myPageDao.getMyCommentList(search, userId);
+		//int totalCount = communityDao.getPostTotalCount(search, boardName);
+		System.out.println("호호호호홓호호!!!!!!!!!!!!!!!!!");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		//map.put("totalCount", new Integer(totalCount));
+		return map;
+	}
+	
 }

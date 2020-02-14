@@ -5,7 +5,11 @@
 <html>
 <head>
 <meta charset="EUC-KR">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
 <script>
 	function openForm() {
 		var authForm = document.getElementById("authForm");
@@ -13,7 +17,7 @@
 	}
 	window.onload = function() {
 		function login() {
-			location.href("/user/login.jsp");
+			location.href("/");
 		}
 		var phoneDiv = document.getElementById("phoneDiv");
 		var emailDiv = document.getElementById("emailDiv");
@@ -129,6 +133,7 @@
 	});
 
 	$(function() {
+		$(".nav-link:contains('아이디찾기')").addClass("disabled");
 
 		$('#confirm').hide();
 		$('#phoneConfirm').hide();
@@ -234,6 +239,10 @@
 
 </head>
 <body>
+ <jsp:include page="/view/user/userToolBar.jsp"></jsp:include>
+	
+	
+	
 	<h1>아이디 찾기</h1>
 	
 	<form action="" id="formId" >
@@ -280,8 +289,8 @@
 			</div>
 			</div>
 		</c:if>
-		<a href="/user/login.jsp">
-		<input type="button" value="로그인" onclick="javascript:login()">
+		<a href="/">
+		<input type="button" value="메인으로" onclick="javascript:login()">
 		</a>
 		</br>
 	</form>
@@ -289,8 +298,8 @@
 	<div id="onTheATag"></div>
 
 	<a href="/user/login.jsp"> <input type="hidden" name="loginButton">
-	</a>
-	
+	</a> 
+<%-- 	
 <div class="container">
 	<div class="form-row text-center">
 		<div class="form-group col-md-6">
@@ -303,7 +312,7 @@
 	
 	
 	</div>
-</div>
+</div> --%>
 	
 	
 </body>

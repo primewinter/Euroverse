@@ -1329,18 +1329,23 @@
 								      ${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate}</c:if> ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
 								      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
 								      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
-							    </div>
+							    
+							    </div> <!-- media body -->
 								
 								<div>
-								<button type="button" class="btn btn-primary" id="updatePlanButton" style="margin-left: 10px;">플래너 수정</button> 
-								<c:if test="${ user.userId == plan.planMaster.userId }">
-									<button type="button" class="btn btn-danger" id="deletePlanButton" style="margin-left: 10px;">플래너 삭제</button> 
-								</c:if>
-								<c:if test="${ user.userId != plan.planMaster.userId }">
-									<button type="button" class="btn btn-secondary" id="exitPlanButton" style="margin-left: 10px;">플래너 탈퇴</button> 
-								</c:if>
-								<button type="button" class="btn btn-info" id="planCompleteButton" style="margin-left: 10px;">여행완료 확정</button>
+									<c:if test="${plan.planStatus != 'C' }">
+										<button type="button" class="btn btn-info" id="planCompleteButton" style="margin-left: 10px;">여행완료 확정</button>
+										<button type="button" class="btn btn-primary" id="updatePlanButton" style="margin-left: 10px;">플래너 수정</button> 
+									</c:if>
+									
+									<c:if test="${ user.userId == plan.planMaster.userId }">
+										<button type="button" class="btn btn-danger" id="deletePlanButton" style="margin-left: 10px;">플래너 삭제</button> 
+									</c:if>
+									<c:if test="${ user.userId != plan.planMaster.userId }">
+										<button type="button" class="btn btn-secondary" id="exitPlanButton" style="margin-left: 10px;">플래너 탈퇴</button> 
+									</c:if>
 								</div>
+								
 							</div>
 						</div>
 					</div>
@@ -2137,6 +2142,7 @@
 		var now = new Date();
 		var planEndDate = "${plan.endDate}";
 		var newPlanEndDate = new Date(planEndDate);
+		
 		console.log("now="+now+" / endDate="+newPlanEndDate);
 		var planStatus = '${plan.planStatus}';
 		

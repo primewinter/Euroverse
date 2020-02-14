@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.ksy.common.Search;
+import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Point;
+import com.ksy.service.domain.Post;
 import com.ksy.service.domain.TripSurvey;
 import com.ksy.service.myPage.MyPageDao;
 import com.ksy.service.user.UserDao;
@@ -95,6 +97,33 @@ public class MyPageDaoImpl implements MyPageDao{
 		return sqlSession.selectList("UserMapper.getTripSurveyList",userId);
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	public List<Post> getMyPostList(Search search, String userId){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("userId", userId);
+		
+		
+		return sqlSession.selectList("UserMapper.getMyPostList",map);
+	}
+	
+	public List<Comment> getMyCommentList(Search search, String userId){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("userId", userId);
+		
+		
+		return sqlSession.selectList("UserMapper.getMyCommentList",map);
+	}
 	
 	
 	

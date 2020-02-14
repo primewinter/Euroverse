@@ -538,3 +538,24 @@ VALUES ( TO_CHAR(seq_city_info_city_info_id.nextval), '나폴리', '이탈리아', '나�
 
 
 
+
+
+
+INSERT INTO city_info ( city_info_id, city_name, country, city_content, city_img, lat, lng, scroll_scale )
+VALUES ( TO_CHAR(seq_city_info_city_info_id.nextval), '룩셈부르크', '룩셈부르크', '룩셈부르크는 룩셈부르크 대공국의 수도이다. 2007년 현재 인구는 86,329명이며 페트뤼스 강이 알제트 강에 합류하는 지점에 위치한다.', 'city_img.jpg', 49.6077433,5.9961298,  7  );
+
+INSERT INTO city_info ( city_info_id, city_name, country, city_content, city_img, lat, lng, scroll_scale )
+VALUES ( TO_CHAR(seq_city_info_city_info_id.nextval), '낭시', '프랑스', '낭시는 프랑스 모젤 강의 지류를 따라 발달한 로렌 지방의 중심 도시이다. 알사스와 자르를 연결하는 교통의 요지로, 예부터 교통·상업의 중심지로 발전하여 왔다.', 'city_img.jpg', 48.6881732,6.1035688,  7  );
+
+INSERT INTO city_info ( city_info_id, city_name, country, city_content, city_img, lat, lng, scroll_scale )
+VALUES ( TO_CHAR(seq_city_info_city_info_id.nextval), '스트라스부르', '프랑스', '스트라스부르는 프랑스 북동부에 있는 도시로서 라인 강의 서쪽 강변에 있는 도시이다. 알자스 레지옹 청사 소재지임과 동시에 바랭주 정부 청사 소재지이다.', 'city_img.jpg', 48.5692562,7.6223536,  7  );
+
+INSERT INTO city_info ( city_info_id, city_name, country, city_content, city_img, lat, lng, scroll_scale )
+VALUES ( TO_CHAR(seq_city_info_city_info_id.nextval), '제네바', '스위스', '제네바는 스위스에서 두 번째로 인구가 많은 도시이다. 레만 호에서 론 강이 흘러나오는 곳에 자리하고 있다.', 'city_img.jpg', 46.205127,6.0742203,  7  );
+
+INSERT INTO city_info ( city_info_id, city_name, country, city_content, city_img, lat, lng, scroll_scale )
+VALUES ( TO_CHAR(seq_city_info_city_info_id.nextval), '헨트', '벨기에', '헨트는 벨기에 오스트플란데런주의 주도이자 가장 큰 도시로 플랑드르에 있는 지방 자치체다.', 'city_img.jpg', 51.0825382,3.4349902,  7  );
+
+INSERT INTO city_info ( city_info_id, city_name, country, city_content, city_img, lat, lng, scroll_scale )
+VALUES ( TO_CHAR(seq_city_info_city_info_id.nextval), '슈투트가르트', '독일', '슈투트가르트는 독일 바덴뷔르템베르크주의 주도이다. 구 뷔르템베르크 왕국의 수도였으며, 2006년 FIFA 월드컵의 경기가 열린 도시 중 하나이기도 하다.', 'city_img.jpg', 48.7793237,8.897719,  7  );
+
