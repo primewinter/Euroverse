@@ -47,6 +47,52 @@
 </resultMap>	
 
 
+
+<resultMap id="postSelectMap" type="post">
+		<result property="postId" 			column="post_id" 			jdbcType="VARCHAR"/>
+		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
+		<result property="nickName" 				column="nickname" 					jdbcType="VARCHAR" />
+		<result property="boardName" 	column="board_name" 		jdbcType="CHAR" />
+		<result property="postGrade" 				column="post_grade" 					jdbcType="CHAR" />
+		<result property="postTitle" 				column="post_title" 					jdbcType="VARCHAR" />
+		<result property="postContent" 			column="post_content" 		jdbcType="CLOB" />
+		<result property="postDate" 				column="post_date" 					jdbcType="TIMESTAMP" />
+		<result property="accCount"					column="acc_count"				jdbcType="NUMERIC"	/>
+		<result property="accPerson" 				column="acc_person" 					jdbcType="NUMERIC" />
+		<result property="accStartDate" 				column="acc_start_date" 					jdbcType="TIMESTAMP" />
+		<result property="accEndDate" 				column="acc_end_date" 					jdbcType="TIMESTAMP" />
+		<result property="postLikeCount" 				column="post_like_count" 					jdbcType="NUMERIC" />
+		<result property="planId" 				column="plan_id" 					jdbcType="VARCHAR" /> 
+		<result property="qnaFirstCate" 				column="qna_first_cate" 					jdbcType="CHAR" />
+		<result property="qnaSecondCate" 				column="qna_second_cate" 					jdbcType="CHAR" />
+		<result property="views" 				column="views" 					jdbcType="NUMERIC" />
+		<result property="comments" 				column="comments" 		jdbcType="NUMERIC"/>
+		<result property="blocked" 				column="blocked" 					jdbcType="CHAR" />
+		<result property="deleted" 				column="deleted" 					jdbcType="CHAR" />
+		<result property="postLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
+		<result property="nextId" 				column="next_id" 		jdbcType="VARCHAR"/>
+		<result property="nextTitle" 				column="next_title" 					jdbcType="VARCHAR" />
+		<result property="prevId" 				column="prev_id" 					jdbcType="VARCHAR" />
+		<result property="prevTitle" 				column="prev_title" 					jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+<resultMap id="commentSelectMap" type="comment">
+		<result property="parentCmtId"		column="parent_cmt_id"		jdbcType="VARCHAR"/>
+		<result property="cmtId" 			column="cmt_id" 			jdbcType="VARCHAR"/>
+		<result property="postId"	column="post_id" 		jdbcType="VARCHAR" />
+		<result property="cmtWriterId" 				column="writer_id" 					jdbcType="VARCHAR" />
+		<result property="nickName"			column="nickname"					jdbcType="VARCHAR" />
+		<result property="cmtContent" 				column="cmt_content" 					jdbcType="VARCHAR" />
+		<result property="cmtDate" 			column="cmt_date" 		jdbcType="TIMESTAMP" />
+		<result property="secret" 				column="secret" 					jdbcType="CHAR" />
+		<result property="blocked" 				column="blocked" 					jdbcType="CHAR" />
+		<result property="deleted" 				column="deleted" 					jdbcType="CHAR" />
+		<result property="cmtLikeCount" 				column="cmt_like_count" 					jdbcType="NUMERIC" />
+		<result property="cmtLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
+		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
+	</resultMap>
+
 <!-- 
 <resultMap id="statsSelectMap" type="stats">
 	<result property=""		column=""			jdbcType=""/>
@@ -328,6 +374,41 @@ WHERE
 	
 
 
+
+
+
+
+
+
+
+
+<select id="getMyPostList" parameterType="map"	resultMap="postSelectMap">
+SELECT *
+  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+  						FROM ( SELECT p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
+										FROM post p, comments c
+										where p.post_id = c.post_id(+) AND p.post_writer_id = #{userId}
+										GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count 
+										ORDER BY p.post_date DESC) inner_table    
+			    WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
+	  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
+  		AND #{search.currentPage}*#{search.pageSize}
+</select>
+	
+
+<select id="getMyCommentList" parameterType="map"	resultMap="commentSelectMap">
+SELECT  *
+from(
+	SELECT inner_table.*, ROWNUM AS row_seq
+	from(
+		SELECT
+		 c.post_id , c.cmt_id , c.nickname , c.writer_id , c.cmt_date , c.cmt_content , c.secret , c.deleted , c.blocked , c.cmt_like_count
+		from Comments c
+		WHERE c.writer_id= #{userId}
+		order By c.cmt_date DESC) inner_table
+	WHERE rownum<![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} ) 
+WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1 AND #{search.currentPage}*#{search.pageSize}
+</select>
 
 
 </mapper>

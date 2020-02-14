@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.ksy.common.Search;
 import com.ksy.service.domain.Point;
+import com.ksy.service.domain.Post;
 import com.ksy.service.domain.TripSurvey;
 
 public interface MyPageService {
@@ -21,4 +22,12 @@ public interface MyPageService {
 	
 	public void addTripSurvey(TripSurvey tripSurvey) throws Exception;
 	public List<TripSurvey> getTripSurveyList(String userId) throws Exception;
+	
+	
+	
+	
+	
+	
+	public Map<String , Object> getMyPostList(Search search, String userId)throws Exception;
+	public Map<String , Object> getMyCommentList(Search search , String userId)throws Exception;
 }
