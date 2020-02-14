@@ -32,7 +32,6 @@ import com.ksy.service.domain.Like;
 import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.Push;
-import com.ksy.service.domain.Recomment;
 import com.ksy.service.domain.Report;
 import com.ksy.service.domain.User;
 import com.ksy.service.like.LikeService;

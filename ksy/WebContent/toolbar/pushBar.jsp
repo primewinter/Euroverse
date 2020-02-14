@@ -19,7 +19,7 @@
 				    <br />
 				    
 				    <script type="text/javascript">
-				        var pushAddr = "ws://localhost:8080/userSocket/";
+				        var pushAddr = "ws://192.168.0.82:8080/userSocket/";
 				        var webSocket;
 				        var userId = '${user.userId}';
 				        

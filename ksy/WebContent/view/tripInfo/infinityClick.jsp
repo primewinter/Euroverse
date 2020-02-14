@@ -3,117 +3,35 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="ko">
 
+<head>
+
+<!-- : http://getbootstrap.com/css/  -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	
+	<!-- 글씨체 때문에 걸어둔 link -->
+	<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+	 
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" ></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+	<!-- 스크롤 cdn 걸기  -->
+	
+	
 <style>
-* {
-	box-sizing: border-box;
-}
 
-body {
-	background: #f1f1f1;
-	color: #333333;
-	font-family: 'Cairo', sans-serif;
-	font-size: 30px;
-	height: 100vh;
-
-}
-
-.fa-question-circle, .dialog__action {
-	/* border: 3px solid #333333;
-	background: #f1f1f1;
-	padding: 15px 20px;
-	font-size: 1.5rem;
-	text-transform: uppercase;
-	display: block;
-	-webkit-transition: all 150ms ease-out;
-	transition: all 150ms ease-out;
-	-webkit-transform: translateY(0px);
-	transform: translateY(0px); */
-	color : #CECECE;
-}
-
-.fa-question-circle:hover, .dialog__action:hover {
-	-webkit-transform: translateY(-5px);
-	transform: translateY(-5px);
-	-webkit-transition: all 100ms ease-in; /*애니메이션 속도*/
-	transition: all 100ms ease-in; /*애니메이션 속도*/
-	box-shadow: 0 5px 10px rgba(51, 51, 51, 0.4); /*그림자*/
-}
-
-.fa-question-circle:focus, .dialog__action:focus {
-	outline: 0;
-}
-
-.fa-question-circle:active, .dialog__action:active {
-	-webkit-transform: translateY(-3px);
-	transform: translateY(-3px);
-}
-
-.dialog {
-	background: #f1f1f1;
-	width: 70%;
-	position: absolute;
-	left: calc(50% - 35%);
-	top: 0;
-	padding: 30px;
-	box-shadow: 0 10px 30px rgba(51, 51, 51, 0.4);
-	border: 3px solid #333333;
-	visibility: hidden;
-	opacity: 0;
-	-webkit-transition: all 180ms ease-in;
-	transition: all 180ms ease-in;
-}
-
-@media ( max-width : 600px) {
-	.dialog {
-		width: 90%;
-		left: calc(50% - 45%);
-	}
-}
-
-.dialog.dialog--active {
-	top: 10%;
-	visibility: visible;
-	opacity: 1;
-	-webkit-transition: all 250ms ease-out;
-	transition: all 250ms ease-out;
-}
-
-.dialog .dialog__close {
-	font-size: 2rem;
-	line-height: 2rem;
-	position: absolute;
-	right: 15px;
-	top: 15px;
-	cursor: pointer;
-	padding: 15px;
-	-webkit-transition: color 150ms ease;
-	transition: color 150ms ease;
-}
-
-.dialog .dialog__close:hover {
-	color: #E74C3C;
-}
-
-.dialog .dialog__title {
-	font-size: 2rem;
-	font-family: 'Slabo 27px', serif;
-	font-weight: 100;
-	margin: 0;
-	padding: 0 0 15px 0;
-	border-bottom: 2px solid #333333;
-}
-
-.dialog .dialog__content {
-	font-size: 1.1rem;
-	line-height: 2rem;
-}
-
-.dialog .dialog__action {
-	margin: 0;
-	font-size: 1rem;
-}
 </style>
 
 
@@ -205,16 +123,129 @@ body {
 
 </script>
 <style>
+/* * {
+	box-sizing: border-box;
+} */
+
+/* body {
+	background: #f1f1f1;
+	color: #333333;
+	font-family: 'Cairo', sans-serif;
+	font-size: 30px;
+	height: 100vh;
+
+} */
+
+.fa-question-circle, .dialog__action {
+	/* border: 3px solid #333333;
+	background: #f1f1f1;
+	padding: 15px 20px;
+	font-size: 1.5rem;
+	text-transform: uppercase;
+	display: block;
+	-webkit-transition: all 150ms ease-out;
+	transition: all 150ms ease-out;
+	-webkit-transform: translateY(0px);
+	transform: translateY(0px); */
+	color : #CECECE;
+}
+
+/* 물음표 아이콘 애니메이션 속도 및 그림자 속성값 조정 css  */
+.fa-question-circle:hover, .dialog__action:hover {
+	-webkit-transform: translateY(-5px);
+	transform: translateY(-5px);
+	-webkit-transition: all 100ms ease-in; /*애니메이션 속도*/
+	transition: all 100ms ease-in; /*애니메이션 속도*/
+	box-shadow: 0 5px 10px rgba(51, 51, 51, 0.4); /*그림자*/
+}
+
+.fa-question-circle:focus, .dialog__action:focus {
+	outline: 0;
+}
+
+.fa-question-circle:active, .dialog__action:active {
+	-webkit-transform: translateY(-3px);
+	transform: translateY(-3px);
+}
+
+.dialog {
+	background: #f1f1f1;
+	width: 70%;
+	position: absolute;
+	left: calc(50% - 35%);
+	top: 0;
+	padding: 30px;
+	box-shadow: 0 10px 30px rgba(51, 51, 51, 0.4);
+	border: 3px solid #333333;
+	visibility: hidden;
+	opacity: 0;
+	-webkit-transition: all 180ms ease-in;
+	transition: all 180ms ease-in;
+}
+
+@media ( max-width : 600px) {
+} 
+.dialog {
+	width: 90%;
+	left: calc(50% - 45%);
+}
+
+.dialog.dialog--active {
+	top: 10%;
+	visibility: visible;
+	opacity: 1;
+	-webkit-transition: all 250ms ease-out;
+	transition: all 250ms ease-out;
+}
+
+.dialog .dialog__close {
+	font-size: 2rem;
+	line-height: 2rem;
+	position: absolute;
+	right: 15px;
+	top: 15px;
+	cursor: pointer;
+	padding: 15px;
+	-webkit-transition: color 150ms ease;
+	transition: color 150ms ease;
+}
+
+.dialog .dialog__close:hover {
+	color: #E74C3C;
+}
+
+.dialog .dialog__title {
+	font-size: 2rem;
+	font-family: 'Slabo 27px', serif;
+	font-weight: 100;
+	margin: 0;
+	padding: 0 0 15px 0;
+	border-bottom: 2px solid #333333;
+}
+
+.dialog .dialog__content {
+	font-size: 1.1rem;
+	line-height: 2rem;
+}
+
+.dialog .dialog__action {
+	margin: 0;
+	font-size: 1rem;
+}
+
+	.container{
+		position: absolute;
+	transform: translate(0%,0%);
+	background-color: yellow;
+	}
 	#infinityclick {
-		position: relative;
+		position: absolute;
 		height: 300px;
 		width : 1600px;
-		
-		background-repeat: repeat;
+		/* background-repeat: repeat; */
+		transform: translate(0%,0%);
 	}
-	#infinityclick img {
-		
-	}
+	
 	#infinityclick i{
 	position : absolute;
 	left : 13px;
@@ -225,12 +256,21 @@ body {
 </head>
 <body>
 
+<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
+
 	<h3>infinityClick</h3>
+	
+	<div class="container">
+	
+	<div class="row">
+	
 	<div id="infinityclick" style="background-image:url(${tripInfo.url})">
 		<%-- <img id="LSH" alt="" src="${tripInfo.url}"> --%>
 		 <i class="far fa-question-circle"></i>
 		<!-- <button class="dialog__trigger">상세정보</button> -->
 	</div>
+	</div>
+	
 
 	<div class="dialog">
 		<span class="dialog__close">&#x2715;</span>
@@ -242,6 +282,7 @@ body {
 			ipsa quas voluptatem consectetur atque, velit reprehenderit debitis.</p>
 		<button class="dialog__action">Read more &#8594;</button>
 
+	</div>
 	</div>
 
 <!-- 	<script async
