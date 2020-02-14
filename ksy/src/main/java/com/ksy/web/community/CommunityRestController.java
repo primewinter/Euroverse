@@ -282,7 +282,7 @@ public class CommunityRestController {
 	}
 	
 	@RequestMapping( value="json/addComment", method=RequestMethod.POST )
-	public void addComment( Comment comment, String boardName, HttpSession session, HttpServletResponse response ) throws Exception {
+	public void addComment( Comment comment, HttpSession session, HttpServletResponse response ) throws Exception {
 		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter(); 
@@ -298,8 +298,7 @@ public class CommunityRestController {
 		}
 		communityService.addComment(comment);
 		
-		Post post = communityService.getPost(comment.getPostId(), user.getUserId(), boardName);
-		String postWriterId = post.getPostWriterId();
+		String postWriterId = comment.getPostWriterId();
 		
 		if( !postWriterId.equals(comment.getCmtWriterId()) ) {
 			System.out.println("글 작성자 =/= 댓글 작성자");
