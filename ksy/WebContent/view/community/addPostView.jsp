@@ -109,7 +109,7 @@
 		  		});
 		  	}
 		  	render.readAsDataURL(file);  
-		  	
+		  	 
 		      $.ajax({
 		        data: form_data,
 		        type: "POST",
@@ -121,7 +121,7 @@
 		        success: function(img_name) {
 		        	$("img[data-filename='retriever"+countt+"']").attr('src',img_name);
 		        	countt++;
-		        	console.log(countt);
+		        	console.log(countt);;
 		        }
 		    }); 
 		}
@@ -183,11 +183,7 @@
 <body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
-	<div class="navbar  navbar-default">
-        <div class="container">
-        	<a class="navbar-brand" href="/view/community/page.jsp">EUROVERSE</a>
-   		</div>
-   	</div>
+	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
