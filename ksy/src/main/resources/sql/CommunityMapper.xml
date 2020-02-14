@@ -208,7 +208,7 @@
 	
 	<select 	id="getPost"	parameterType="map"	resultMap="postSelectMap">
 		SELECT
-		count(t.party_user_id) acc_count , p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , TO_CHAR(p.post_content) , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , l.like_check , next_id , next_title , prev_id , prev_title
+		count(t.party_user_id) acc_count , p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , DBMS_LOB.SUBSTR(p.post_content, 4000, 1) post_content , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , l.like_check , next_id , next_title , prev_id , prev_title
 		FROM post p, likes l, party t,
 			( 	SELECT
         		post_id , post_title , board_name , LEAD(post_id, 1) OVER (ORDER BY post_id DESC) next_id , LEAD(post_TITLE, 1, '다음글이 없습니다') OVER (ORDER BY post_id DESC) next_title ,
@@ -216,7 +216,7 @@
 		   		FROM post
 				WHERE board_name = #{boardName} ) inner_table
 		WHERE p.post_id = l.ref_id(+) AND p.post_id = t.ref_id(+) AND p.post_id = #{postId} AND l.like_user_id(+) = #{userId} AND t.party_type(+) = 'A' AND inner_table.post_id = #{postId}
-		GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , TO_CHAR(p.post_content) , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , l.like_check , next_id , next_title , prev_id , prev_title
+		GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , DBMS_LOB.SUBSTR(p.post_content, 4000, 1) , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , l.like_check , next_id , next_title , prev_id , prev_title
 	</select>
 	
 	<select  id="getTagList" 	parameterType="string"		resultMap="tagSelectMap">
@@ -347,7 +347,7 @@
 		SELECT
 		row_number() over(partition by c.parent_cmt_id order by c.parent_cmt_id , c.cmt_id) num , p.post_writer_id , l.like_check , c.*
 		FROM comments c, post p, likes l
-		WHERE c.cmt_id = l.ref_id(+) AND c.post_id = p.post_id AND c.post_id = #{postId} AND l.like_user_id = #{userId} AND c.parent_cmt_id IS NOT NULL
+		WHERE c.cmt_id = l.ref_id(+) AND c.post_id = p.post_id AND c.post_id = #{postId} AND l.like_user_id(+) = #{userId} AND c.parent_cmt_id IS NOT NULL
 		ORDER BY c.parent_cmt_id , c.cmt_id
 	</select>
 	

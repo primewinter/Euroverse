@@ -191,6 +191,10 @@ public class UserController {
 	
 	@RequestMapping(value = "getUser" , method=RequestMethod.GET)
 	public String getUser(HttpSession session , Model model) throws Exception {
+		if(session.getAttribute("user")==null) {
+			return "redirect:/";
+		}
+		
 		System.out.println(this.getClass()+"getUser Start");
 		User user = (User)session.getAttribute("user");
 		List<Plan> planList = userService.getEndPlanList(user.getUserId());
@@ -230,6 +234,7 @@ public class UserController {
 	
 	@RequestMapping(value="searchId",method=RequestMethod.POST)
 	public String searchUserId(@ModelAttribute("user") User user , Model model) throws Exception {
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		System.out.println("UserController POST searchUserId");
 		List<String> idList = new ArrayList<String>();
 		
@@ -285,9 +290,17 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="updateUser" , method = RequestMethod.GET)
-	public String updateUser() {
+	public String updateUser(Model model) {
 		System.out.println("userController updateUser GET");
-		return"redirect:/view/user/updateUser.jsp";
+		
+		List<TripSurvey> countryList = countryList();
+		List<TripSurvey> tripStyleList = tripStyleList();
+		
+		model.addAttribute("countryList",countryList);
+		model.addAttribute("tripStyleList",tripStyleList);
+		
+		
+		return"forward:/view/user/updateUser.jsp";
 	}
 	
 	
@@ -315,12 +328,40 @@ public class UserController {
 		}
 		userService.updateUser(currentUser);
 		
+		if(user.getDreamCountry()!=null) {
+			
+		for(int i=0;i<(user.getDreamCountry().size())-1;i++) {
+			System.out.println(user.getDreamCountry().get(i));
+			TripSurvey tripSurvey = new TripSurvey();
+			tripSurvey.setUserId(currentUser.getUserId());
+			tripSurvey.setSurveyChoice(user.getDreamCountry().get(i));
+			tripSurvey.setSurveyImg(user.getCountryImg().get(i));
+			tripSurvey.setSurveyType("D");
+			myPageService.addTripSurvey(tripSurvey);
+		}
+		
+		}
+		
+		System.out.println(user.getTripStyle());
+		if(user.getTripStyle()!=null) {
+			
+		for(int j=0;j<(user.getTripStyle().size())-1;j++) {
+			System.out.println(user.getTripStyle().get(j));
+			TripSurvey tripSurvey = new TripSurvey();
+			tripSurvey.setUserId(currentUser.getUserId());
+			tripSurvey.setSurveyChoice(user.getTripStyle().get(j));
+			tripSurvey.setSurveyImg(user.getStyleImg().get(j));
+			tripSurvey.setSurveyType("T");
+			myPageService.addTripSurvey(tripSurvey);
+		}
+		
+		}
 		
 		User reloadUser = userService.getUser(currentUser.getUserId());
 		session.setAttribute("user", reloadUser);
 		
 		
-		return "redirect:/view/user/getUser.jsp";
+		return "redirect:/user/getUser";
 	}
 	
 	
@@ -442,6 +483,36 @@ public class UserController {
 		  
 		  
 		return "forward:/user/addUser";
+	}
+	
+	
+	@RequestMapping(value="findPwd")
+	public String findPwd() {
+		
+		return "redirect:/view/user/findPwd.jsp";
+	}
+	
+	@RequestMapping(value="updatePwd" , method=RequestMethod.GET)
+	public String updatePwd(@RequestParam("userId") String userId , Model model) {
+		
+		model.addAttribute("userId" , userId);
+		return "forward:/view/user/updatePwd.jsp";
+	}
+	
+	@RequestMapping(value="updatePwd" , method=RequestMethod.POST)
+	public String updatePwd(@ModelAttribute("user")User user , Model model)throws Exception {
+		System.out.println("updatePwd");
+		System.out.println(user);
+		
+		if(userService.getUser(user.getUserId())==null){
+			System.out.println("일치하는 데이터가 없음");
+		}else {
+			userService.updatePwd(user);
+			System.out.println("업데이트 완료했음다~");
+		}
+		
+		
+		return "redirect:/user/updatePwdConfirm.jsp";
 	}
 	
 	@RequestMapping( value = "naverLoginLogic" )

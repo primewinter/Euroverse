@@ -76,5 +76,30 @@ public class MyPageController {
 		
 		return "forward:/view/myPage/pointList.jsp";
 	}
+	
+	@RequestMapping(value="myPostCommentList")
+	public String myPostCommentList(HttpSession session , Model model)throws Exception{
+		User user = (User)session.getAttribute("user");
+		Search search = new Search();
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		
+		Map<String,Object> map = myPageService.getMyPostList(search, user.getUserId());
+		
+		Map<String , Object> commentMap = myPageService.getMyCommentList(search, user.getUserId());
+		
+		System.out.println(map);
+		System.out.println(map.get("list"));
+		
+		
+		model.addAttribute("postList",map.get("list"));
+		model.addAttribute("commentList",commentMap.get("list"));
+		
+		return "forward:/view/myPage/myPostCommentList.jsp";
+	}
 
 }

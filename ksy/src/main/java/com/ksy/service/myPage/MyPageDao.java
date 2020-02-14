@@ -3,7 +3,9 @@ package com.ksy.service.myPage;
 import java.util.List;
 
 import com.ksy.common.Search;
+import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Point;
+import com.ksy.service.domain.Post;
 import com.ksy.service.domain.TripSurvey;
 
 public interface MyPageDao {
@@ -25,5 +27,12 @@ public interface MyPageDao {
 	/////////////////////survey/////////////////////////////////////////
 	public void addTripSurvey(TripSurvey tripSurvey) throws Exception;
 	public List<TripSurvey> getTripSurveyList(String userId) throws Exception;
+	
+	
+	
+	//////////////////////community///////////////////////////////////////////////
+	
+	public List<Post> getMyPostList(Search search, String userId)throws Exception;
+	public List<Comment> getMyCommentList(Search search,String userId)throws Exception;
 	
 }

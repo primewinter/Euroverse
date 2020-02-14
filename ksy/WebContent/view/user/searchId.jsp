@@ -177,18 +177,22 @@ h6{
 					
 					alert("창 이동~");
 				
-					var name1 = document.getElementById("userName1");
+					 var name1 = document.getElementById("userName1");
 					console.log(name1.name);
 					var name2 = document.getElementById("userName2");
 					console.log(name2.name);
 					var email =document.getElementById("email");
 					console.log(email.name);
+					if(email.value=='@'){
+						email.value ="";
+					}
 					
 					var phone = document.getElementById("phone");
 					if(phone.value == '--'){
 						phone.value = "";
-					}
-					document.getElementById("form").submit();
+					} 
+					//document.getElementById("searchIdForm").submit();
+					$("#searchIdForm").attr("action","/user/searchId").attr("method","post").submit();
 				}
 			}
 		})
@@ -226,7 +230,7 @@ h6{
 				<h1 class="text-center">아이디찾기</h1>
 			 </div> 
 		</div>
-<form id="form" method="post" action="/user/searchId">
+<form id="searchIdForm">
 
 <div class="form-group">
 	<div class="col-md-7 mx-auto" > 
@@ -275,7 +279,6 @@ h6{
 	</div>
 </div>
 
-
 <div class="form-group">
 <!-- <input type="radio" name="searchId" id="emailCheck">이메일로 아이디찾기</br> -->
 	<div class="col-md-7 mx-auto" > 
@@ -306,7 +309,7 @@ h6{
 				<span class="input-group-append">&nbsp;<i class="fas fa-at"></i>&nbsp;</span>
 				<select class="custom-select" id="choiceEmail">
 				<option value="" disabled selected hidden>please choice....</option>
-			    <option value="google.com">google.com</option>
+			    <option value="gmail.com">gmail.com</option>
 			    <option value="naver.com">naver.com</option>
 			    <option value="daum.net">daum.net</option>
 			    <!--이메일 잘 정리하기 email잡은다음에 밸류에 +@+choiceEmail.val() 더하기  -->

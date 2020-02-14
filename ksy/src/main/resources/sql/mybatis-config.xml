@@ -47,11 +47,13 @@
 		
 	</typeAliases>
 	
-	 <!-- SQL Definition :: file include -->
+	<!-- SQL Definition :: file include -->
 	<!-- <typeHandlers>
         <typeHandler handler="com.ksy.common.handler.ClobHandler" javaType="String" jdbcType="LONGVARCHAR"/>
     </typeHandlers> -->
-		
+	<typeHandlers>
+        <typeHandler handler="com.ksy.common.handler.ClobHandler" javaType="String" jdbcType="CLOB"/>
+    </typeHandlers>
 		
 		<mappers>
 		<mapper resource="sql/PlanMapper.xml"/>

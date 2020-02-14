@@ -44,6 +44,46 @@
 <title>Insert title here</title>
 <style type="text/css">
 
+
+.swiper-container{
+    height: 300px;
+    background-color:#E6E6E6;
+    padding: 50px;
+    padding-top: 30px;
+    padding-right: 30px;
+    margin-right:30px;
+}
+
+
+.s1 {
+    width: 500px;
+    height: 300px;
+     padding-right: 30px;
+      margin-right:30px;
+    
+} 
+
+
+.s2 {
+    width: 500px;
+    height: 300px;
+     padding-right: 30px;
+      margin-right:30px;
+} 
+
+
+
+
+ .swiper-slide {
+ 
+	margin:10px;
+	
+} 
+.swiper-slide img {
+}
+
+
+
 .modal {
           text-align: center;
         }
@@ -249,6 +289,29 @@ $(function(){
 				}
 			}
 			
+			 
+			for(var i=1;i<=$("input:checkbox[class=dreamCountry]").length;i++){
+				 if($("input:checkbox[id=dreamCountry"+i+"]").is(":checked") == true) {
+					  var value = $("input:checkbox[id=dreamCountry"+i+"]").val();
+					  var countryImg = $("#countryImg"+i).val();
+					  
+					  $("#checkDreamCountry").append("<input type='hidden' name='dreamCountry' value='"+value+"'>");
+					  $("#checkDreamCountry").append("<input type='hidden' name='countryImg' value='"+countryImg+"'>'")
+				} 
+			}/* for End */	 
+			
+			for(var i=1;i<=$("input:checkbox[class=tripStyle]").length;i++){
+				if($("input:checkbox[id=tripStyle"+i+"]").is(":checked")==true){
+					var value = $("input:checkbox[id=tripStyle"+i+"]").val();
+					var styleImg = $("styleImg"+i).val();
+					
+					 $("#checkTripStyle").append("<input type='hidden' name='tripStyle' value='"+value+"'>");
+					 $("#checkTripStyle").append("<input type='hidden' name='styleImg' value='"+styleImg+"'>");
+				}
+			}/* for End(tripStyle) */
+			
+			
+			
 			$("#updateForm").attr("action","/user/updateUser").attr("method","post").attr("enctype","multipart/form-data").submit();
 		})
 		
@@ -445,7 +508,7 @@ function readImg(input){
      				
      				 <div class="form-group col">
      				 
-     				 <c:if test="${user.choiceEmail=='google.com'}">
+     				 <c:if test="${user.choiceEmail=='gmail.com'}">
 	     				<select class="custom-select" id="choiceEmail">
 						    <option value="gmail.com" selected="selected">gmail.com</option>
 						    <option value="naver.com" >naver.com</option>
@@ -482,6 +545,15 @@ function readImg(input){
 					 	</select>
 					 </c:if>	
 					 	
+					 	<!-- 더미데이터때문에 집어넣어둔거 나중에 삭제하자 -->
+					 <c:if test="${user.choiceEmail=='google.com'}">
+	     				<select class="custom-select" id="choiceEmail">
+						    <option value="gmail.com" selected="selected">gmail.com</option>
+						    <option value="naver.com" >naver.com</option>
+						    <option value="daum.net">daum.net</option>
+						    <!-- 셀렉트 된 값이 없으면 기본 값 집어넣기-->
+					 	</select>
+					 </c:if>	
 					 	
 						    <input type="hidden" name="email">
 				 	</div>
@@ -528,12 +600,14 @@ function readImg(input){
 				</div>
 			</c:if>	
 				
-				
-				
+		
 				
 				
      		</div>
      		<div class="col">
+     			
+	 	
+     		
      		</div>
      		<div class="col">
      		</div>
@@ -566,7 +640,85 @@ function readImg(input){
      		</div>
       </div>
       
-      <div class="row">
+
+      
+
+ 		
+ 				 <div class="form-group">
+	 	<div class="col-6 mx-auto">
+				<div class="swiper-container s1">
+	 		<b>가고싶은 나라</b>(최대 5개)
+    				<div class="swiper-wrapper">
+     	 				 <c:forEach var="dreamCountry" items="${countryList}" varStatus="status">
+							<c:if test="${status.index%8 eq 0 && status.index ne 0}">
+								</div><!-- row row-cols-1 row-cols-md-5 -->
+								</div><!-- swiper-slide -->
+							</c:if>
+							<c:if test="${status.index%8 eq 0}">
+			     				<div class="swiper-slide">
+			     	 			<div class="row row-cols-1 row-cols-md-4">
+							</c:if>
+							<div class="card">
+							    <img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="90px" style="overflow: hidden;">
+					 			<p class="card-text" style="font-size: x-small;"> 
+					 				<input type="hidden" value="${status.count}">
+					   	 			<input  type="checkbox" id="dreamCountry${status.count}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
+					   	 	 		<input type="hidden" id="countryImg${status.count}" value="${dreamCountry.surveyImg}">
+					   	 	 		<label  for="dreamCountry${status.count}">${dreamCountry.surveyChoice}</label>
+		  						</p>
+							</div> 
+					
+						</c:forEach> 
+						<div id="checkDreamCountry"></div>
+						<h6 class="addH6"></h6>
+					</div><!-- wrapper -->
+				</div><!-- s1 -->
+   			 </div><!-- 가고싶은 도시 col-6 mx-auto  -->
+  				 <div class="swiper-pagination"></div>
+   				 <div class="swiper-scrollbar"></div>
+		</div><!-- 가고싶은 도시 form-group End  -->
+	</div><!-- 컨테이너 end 왜냐하면 스와이퍼 두개가 같은 컨테이너에 있으면 이름 다르게해도 자꾸 충돌일어남...  -->
+				
+				
+ 
+
+     
+     
+     <div class="form-group">
+	 		<div class="col-6 mx-auto">
+					<div class="swiper-container s2">
+	 				<b>여행스타일</b>(최대 3개)
+    					<div class="swiper-wrapper">
+     	 					 <c:forEach var="style" items="${tripStyleList}" varStatus="status">
+								<c:if test="${status.index%8 eq 0 && status.index ne 0}">
+									</div><!-- row row-cols-1 row-cols-md-5 -->
+									</div><!-- swiper-slide -->
+								</c:if>
+								<c:if test="${status.index%8 eq 0}">
+			     	 				<div class="swiper-slide">
+			     	 				<div class="row row-cols-1 row-cols-md-4">
+								</c:if>
+								<div class="card">
+						    		<img alt="" src="http://ipsumimage.appspot.com/50x60">
+				 						<p class="card-text"> 
+				 							<input type="hidden" value="${status.count}">
+								   	 		<input  type="checkbox" id="tripStyle${status.count}" value="${style.surveyChoice}" class="tripStyle">
+								   	 		<input type="hidden" id="styleImg${status.count}" value="${style.surveyImg}">
+								   	 	 	<label  for="tripStyle${status.count}">${style.surveyChoice}</label>
+				  						</p>
+								</div> 
+							</c:forEach> 
+							<div id="checkTripStyle"></div>
+							<h6 class="addH6"></h6>
+						</div><!-- wrapper -->
+					</div><!-- s2 -->
+					<div class="swiper-pagination"></div>
+   				 <div class="swiper-scrollbar"></div>
+   				 </div><!--여행스타일 col-6 mx-auto End -->
+			</div><!-- 여행스타일 form-group End -->
+	
+	 
+	 	      <div class="row">
       		<div class="col-5">
      		</div>
      		<div class="col-3" style="text-align: center;">
@@ -579,17 +731,24 @@ function readImg(input){
      		</div>
       </div>
       
+	 
       
-     	</form>
      </main>
      </div><!-- row -->
-     </div><!-- container -->
  
-     
-     
-     
-     
-     
+ 
+ 
+	
+     	</form>
+       </div><!-- container -->  
+       
+       
+   </div>
+   </div>    
+       
+       
+       
+       
 <div class="modal fade " id="checkPwd">
 	  <!-- <div class="modal-dialog modal-lg"> -->
 	  <div class="modal-dialog ">
@@ -629,5 +788,14 @@ function readImg(input){
 </div><!--myModal End  -->
      
 
+ <script>
+	
+	$(".swiper-container").each(function(index, element){
+	    var $this = $(this);
+	    var swiper = new Swiper(this, {
+	        // your settings ...
+	    });
+	})
+  </script>
 </body>
 </html>
