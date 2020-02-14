@@ -91,6 +91,7 @@
 		<result property="cmtLikeCount" 				column="cmt_like_count" 					jdbcType="NUMERIC" />
 		<result property="cmtLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
 		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
+		<result property="postTitle" 				column="post_title" 					jdbcType="VARCHAR" />
 	</resultMap>
 
 <!-- 
@@ -409,6 +410,21 @@ from(
 	WHERE rownum<![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} ) 
 WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1 AND #{search.currentPage}*#{search.pageSize}
 </select>
+
+
+<!-- 커맨트 리스트
+
+SELECT  *
+	from(
+		SELECT inner_table.*, ROWNUM AS row_seq
+			from
+				(SELECT
+				p.post_title , c.writer_id  , c.cmt_content , c.nickname , c.cmt_like_count , c.cmt_date , c.secret , c.deleted , c.blocked  , c.cmt_id 
+				from post p , comments c
+				WHERE  p.post_id = c.post_id AND p.post_writer_id = '#{userId}'
+				order By c.cmt_date DESC) inner_table
+			WHERE rownum<![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} ) 
+	WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1 AND #{search.currentPage}*#{search.pageSize} -->
 
 
 </mapper>

@@ -123,23 +123,21 @@
     <tr>
       <th scope="col"></th>
       <th scope="col">제목</th>
+      <th scope="col">댓글내용</th>
       <th scope="col">닉네임</th>
-      <th scope="col">작성일</th>
-      <th scope="col">댓글수</th>
-      <th scope="col">조회수</th>
       <th scope="col">추천수</th>
+      <th scope="col">댓글작성일</th>
     </tr>
   </thead>
   <tbody>
   	  	<c:forEach var="comment" items="${commentList}" varStatus="status">
 		<tr>
 			<th scope="row">${status.count}</th>
+			<td>게시글제목</td>
 			<td>${comment.cmtContent}</td>
 			<td>${comment.nickName}</td>
-			<td>${comment.cmtDate}</td>
- 			<td>.</td>
-			<td>.</td>
 			<td>${comment.cmtLikeCount}</td>
+			<td>${comment.cmtDate}</td>
 		</tr>
   		</c:forEach>
   	
