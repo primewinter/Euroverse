@@ -123,6 +123,7 @@
     							    } else {
     							        var msg = '결제에 실패하였습니다.';
     							        msg += '에러내용 : ' + rsp.error_msg;
+    							        self.location = "/view/order/addFlightOrder.jsp";
     							    }
     						        alert(msg);
     						        alert("input imp_uid : "+$("#orderId").val());
@@ -190,7 +191,7 @@
 			    	</div>
 			    </div>
 			    <div class="col">
-			    	<input type="hidden" name="price" id="price" value="${flight.price }" >
+			    	<input type="hidden" name="price" id="prices" value="${flight.price }" >
 <%-- 			    	<input type="text" class="form-control" readonly="readonly" id="price" name="price" value="${flight.price}" style="width:50%;">
  --%>			    		<h4 align="left">포인트 사용 </h4>
 							<div class="form-group">

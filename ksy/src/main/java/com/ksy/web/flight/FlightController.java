@@ -305,7 +305,7 @@ public class FlightController {
 			System.out.println("selenium 완료");
 			
 			synchronized (driver) {
-				driver.wait(10000);
+				driver.wait(13000);
 
 			}
 			// List안에 필요한 정보들 넣기

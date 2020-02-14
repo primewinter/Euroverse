@@ -1352,11 +1352,11 @@
 				</div>
 				<!--	 Plan Information START	//////////////////////// 	-->
 				
-				<br/>
+				<!-- <br/> -->
 				
 				<!--	 Todo List : 투두 리스트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light"  id="gotoTodoList"> -->
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoTodoList">
+				<!-- <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoTodoList">
 				
 					<div class="container">
 						<h5>Todo List</h5>
@@ -1365,16 +1365,16 @@
 							
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<!--	 Todo List : 투두 리스트 END	//////////////////////// 	-->
-				<br/>
+				<!-- <br/> -->
 				
 				
 				<!--	 CityRoute List : 여행루트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light" id="gotoCityRouteList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoCityRouteList">
 					<div class="container">
-						<h5>여행루트</h5>
+						<!-- <h5>여행루트</h5> -->
 						<div class="row">
 						
 							<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;height:445px;float:left;width:50%;"></div>

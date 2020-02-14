@@ -23,7 +23,6 @@
 	
 		body{
 		 padding-top : 50px;
-            background: linear-gradient(-100deg, mistyrose,pink, lightpink) fixed;
 		}
        body > div.container{
         	border: 3px solid white;
@@ -37,7 +36,7 @@
 	$('button.btn.btn-warning').on('click' , function () {
 		var orderId = $("#orderId").val();
 		alert("${order.orderId}");
-		self.location ="/flight/searchRoom.jsp";
+		self.location ="/view/flight/searchFlight.jsp";
 
 		//  $("form").attr("method" , "POST").attr("action" , "/order/addOrderConfirm?orderId=${order.orderId}").submit();
 	});

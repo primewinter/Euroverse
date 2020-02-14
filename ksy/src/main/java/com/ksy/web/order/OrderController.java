@@ -239,7 +239,7 @@ public class OrderController {
 		List<Order> orderList = (List<Order>) map.get("list");
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/order/getOrderList.jsp");
+		modelAndView.setViewName("/view/order/getOrderList.jsp");
 		modelAndView.addObject("list", map.get("list"));
 		modelAndView.addObject("list2", map2.get("list"));
 		modelAndView.addObject("resultPage", resultPage);
