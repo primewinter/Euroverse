@@ -22,9 +22,13 @@ import org.bson.types.ObjectId;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.ksy.common.util.Util;
 import com.ksy.service.domain.Chat;
 import com.ksy.service.domain.Push;
+import com.ksy.service.user.UserService;
 import com.ksy.web.push.util.UserSocket;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
@@ -41,13 +45,12 @@ public class AccChatSocket {
 	private static UserSocket webSocket = new UserSocket();
 	private Chat chat = new Chat();
 	private String msg;
-
 	
 	// 웹 소켓이 연결되면 호출되는 이벤트
 	@OnOpen
 	public void handleOpen(@PathParam("roomId") String roomId, @PathParam("userId") String userId, Session session) throws Exception {
 				System.out.println("\n동행채팅 ::: [" + roomId + "]번 채팅방에 ["+userId+"] 입장");
-				
+				UserService userService = (UserService)Util.getBean("userServiceImpl");
 				List<Session> mapList = accMap.get(roomId); // 같은 roomId의 session 리스트 호출
 				if (mapList == null || mapList.size() == 0) { // 없다면 생성
 					mapList = new ArrayList<>();
@@ -59,10 +62,11 @@ public class AccChatSocket {
 				if( !userList.contains(userId)) {
 					chat.setSenderId("system");
 					chat.setChatContent(userId+"님이 입장하셨습니다.");
+					chat.setUser(userService.getUser(userId));
 					msg = new ObjectMapper().writeValueAsString(chat);
 					System.out.println(">> 보낸 메시지 : "+msg);
 					sendToRoom(roomId, msg, session);
-					sendToUser(userList, "chat");
+					//sendToUser(userList, "chat");
 				}
 				
 				
@@ -72,19 +76,23 @@ public class AccChatSocket {
 	public void handleMessage(@PathParam("roomId") String roomId, @PathParam("userId") String userId, String message, Session session)
 			throws Exception {
 				// process booking from the given guest here
+				UserService userService = (UserService)Util.getBean("userServiceImpl");
 				System.out.println("[동행 채팅] Client > Client : " + message);
 				JSONObject jsonobj = (JSONObject)JSONValue.parse(message);
 				ObjectMapper objectMapper = new ObjectMapper();
 				chat = objectMapper.readValue(jsonobj.get("chat").toString(), Chat.class);
 				SimpleDateFormat sdf = new SimpleDateFormat("a hh:mm");
 				chat.setSendTime(sdf.format(new Date()));
+				if(!userId.equals("system")) {
+						chat.setUser(userService.getUser(userId));
+				}
 				msg = new ObjectMapper().writeValueAsString(chat);
 				
 				sendToRoom(roomId, msg, session);
 				insertMongo(msg);
 				
 				List<String> userList = getChatMems(roomId);
-				sendToUser(userList, "chat");
+				//sendToUser(userList, "chat");
 
 	}
 

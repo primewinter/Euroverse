@@ -20,6 +20,9 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	
+	<!-- sweetalert2 CDN -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+	
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" ></script> -->
@@ -87,7 +90,7 @@
             bottom: 20px;
             -webkit-box-shadow: 0 1px 2px 0 #777;
             box-shadow: 0 1px 2px 0 #777;
-            background-color: cornsilk;
+            background-color: antiquewhite;
         }
 
         .accChat.output {
@@ -103,7 +106,7 @@
             margin-top: 20px;
             margin-bottom: 20px;
             height: auto%;
-            background-color: cornsilk;
+            background-color: antiquewhite;
         }
         
         .accLobby {
@@ -123,11 +126,16 @@
 	<jsp:include page="/toolbar/toolBar.jsp" />
 				
 				<!-- 채팅목록 -->
-				<div class="accLobby container">
+				<div class="accLobby container" >
        			</div>
 
 				<!-- 채팅창 -->
  				<div id="accChat">
+ 						<div class="accChat info" style="padding:5px">
+ 							<p><i class="fas fa-arrow-left fa-2x"></i></p>
+ 							<span style="float:left;"></span>
+ 							<p style="text-align:right;"><i class="fas fa-bars fa-2x" data-toggle="modal" data-target="#accModal"></i></p>
+ 						</div>
       				   <div class="accChat output" style="padding:5px">
      				   </div>
        				   <div class="accChat input" style="padding:5px">
@@ -139,12 +147,31 @@
 								 </div>
         				</div>
    				  </div>
+   				  
+   			<div class="modal fade" id="accModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+						        <h5 class="modal-title" id="accModalLabel">채팅방 제목</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+				      </div>
+				      <div class="modal-body">
+						        <form class="form-group accModal">
+						     			채팅 참여자 목록
+						        </form>
+				      </div>
+				    </div>
+				  </div>
+			</div>
     <script type="text/javascript">
     	var userId = '${user.userId}';
     	var chatRoomId;
         var accChatSocket;
         var accChatLayer = $(".accChat.output");
         var myAccChat = $("#myAccChat");
+        var chatRoomName;
 
         
         function getChatRoomList() {
@@ -152,10 +179,7 @@
         		url : "/chat/json/getChatRoomList/"+userId ,
 				type : "GET",
 				dataType : "json",
-				headers : {
-					"Accept" : "application/json",
-					"Content-Type" : "application/json"
-				},
+				headers : { "Accept" : "application/json", "Content-Type" : "application/json" },
 				success : function(result) {
 					console.log("채팅방 조회 성공");
 					showRoomList(result);
@@ -169,17 +193,18 @@
         
         function showRoomList(list) {
         	var html = "";
+        	console.log("채팅방 목록 개수 : "+list.length);
         	for(var i in list) {
-        		html += "<div class=\"accRoom row\" onclick='enterRoom(\""+list[i].chatRoomId+"\")'>";
-        		html += "<input type='hidden' name='chatRoomId' value='"+list[i].chatRoomId+"'>";
-        		html += "<div class='col-3' style='background-color: antiquewhite'>";
+        		html += "<div class=\"accRoom row\" style='margin-bottom:20px;' onclick='enterRoom(\""+list[i].chatRoomId+"\")'>";
+        		//html += "<input type='hidden' name='chatRoomId' value='"+list[i].chatRoomId+"'>";
+        		html += "<div class='col-2' style='background-color: antiquewhite'>";
         		html += "</div>"
-        		html += "<div class='col-7'>";
-        		html += list[i].chatRoomName +"&ensp;"+list[i].chatMems.length+"<br/>";
-        		html += list[i].chatMems;
+        		html += "<div class='col-8'>";
+        		html += "<b>"+list[i].chatRoomName +"&ensp;</b><font color=gray>"+list[i].chatMems.length+"</font><br/>";
+        		html += "<font size=2 color=gray>"+ list[i].lastChat.chatContent+"</font>";
         		html += "</div>";
-        		html += " <div class='col-2' style='background-color: antiquewhite'>";
-        		html += "시간";
+        		html += " <div class='col-2' style='padding:0;text-align:right;'>";
+        		html += "<font size=1 color=gray>"+ list[i].lastChat.sendTime+"</font>";
         		html += "</div>";
         		html += "</div>";
         	}
@@ -188,6 +213,7 @@
         
         
         function enterRoom(roomId) {
+        	$("#accChat").show();
         	chatRoomId = roomId;
 	  		console.log("입장한 채팅방 번호 : "+roomId);
 	        var accChatAddr = "ws://localhost:8080/accSocket/"+roomId+"/"+userId;
@@ -196,15 +222,16 @@
 	        accChatSocket.onopen = function(message){
 	              console.log('[accChat] : connection opened. || 방 번호 : '+roomId)
             	  accChatLayer.html("");
-	              getChat(roomId);
+	              
+	              getChat(roomId); // 웹소켓 연결 되면 이전 대화 내용 불러옴 
+	              getChatRoom(roomId); // 채팅방 정보 불러옴
+	              
 	          	  //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
 		          accChatSocket.onmessage = function(message){
-	            	  console.log("accChat 왔다 ::: "+message.data);
 	            	  var data = JSON.parse(message.data)
 	            	  data.readers = [ userId ];
 	                  receiveAccChat(data);
-	                  readChat(data);
-	            	  console.log(data);
+	                  //readChat(data);
 	                  $(".accChat.output").scrollTop($(".accChat.output")[0].scrollHeight);
 	                    
 		        };
@@ -223,7 +250,6 @@
         
         
         function receiveAccChat(chat) {
-            console.log("받은 메시지 : "+chat);
         	var html = "";
             if(chat.senderId == 'system'){
                 html += "<div class=\"card-body\" style=\"text-align:center;margin: 10px;border:1px solid gray;border-radius:10px;\">";
@@ -234,9 +260,9 @@
               	html += "<font color='black' size=2>"+chat.chatContent+"</font>";
             } else { 
                 html += "<div class=\"card-body\" style=\"text-align:left;\">"
-                html += chat.senderId+"<br/>";
-                /*html += "<img class=\"imgFile\" src=\"/resources/images/userImages/"+chat.user.userImg+"\">";*/
-                html += "<font color='black' size=2>"+chat.chatContent+"&ensp;</font>";
+                html += chat.user.nickname+"<br/>";
+                html += "<img  style='border: 2px solid gold;border-radius: 7px;-moz-border-radius: 7px;-khtml-border-radius: 7px; -webkit-border-radius: 7px;width:30px;height:30px;' src=\"/resources/images/userImages/"+chat.user.userImg+"\">";
+                html += "<font color='black' size=2>&ensp;"+chat.chatContent+"&ensp;</font>";
                 html += "<font color='#cccccc' size=1> "+chat.sendTime+"</font>";
             }
             html += "</div>"
@@ -247,13 +273,23 @@
         
         
 	        //Send 버튼을 누르면 실행되는 함수
-	        function sendAccMessage(){
+	        function sendAccMessage(quitUser){
+	        	 if(quitUser != null ){ 
+	        		var chat = new Object();
+                	chat.senderId = "system";
+                	chat.chatContent = quitUser+"님이 동행에서 탈퇴하셨습니다."
+                	chat.chatRoomId = chatRoomId;
+                	accChatSocket.send(JSON.stringify({chat}));
+                	console.log("탈퇴 메시지 송출 :: ");
+                	console.log(chat);
+	               	}
+	        	
 	        	if( myAccChat.val().trim() != "" ) {
 	                var chat = new Object();
 	                chat.senderId = userId;
 	                chat.chatContent = myAccChat.val();
 	                chat.chatRoomId = chatRoomId;
-	                            
+
 	                accChatSocket.send(JSON.stringify({chat}));
 	            	}
 	                myAccChat.val('');
@@ -270,23 +306,15 @@
 					url: "/chat/json/getChat/"+roomNo ,
 				 	type: "GET",
 				 	dataType : "json",
-					headers : {
-						"Accept" : "application/json",
-						"Content-Type" : "application/json"
-					},
+					headers : {	"Accept" : "application/json","Content-Type" : "application/json" },
 					success : function(result) {
 						console.log("getChat() 성공");
-						console.log(result);
 						var list = JSON.stringify({result});
 						var html = "";
 						for(var i in result) {
 							receiveAccChat(result[i]);
-							/* html += "<br/>"+result[i].senderId+" : "+result[i].chatContent +" (보낸 시간 : "+result[i].chatDate+") ";
-							console.log( result[i].senderId+" : "+result[i].chatContent +" (보낸 시간 : "+result[i].chatDate+")"); */
 						}
 						$(".accChat.output").scrollTop($(".accChat.output")[0].scrollHeight);
-						//$(".planChat.output").append(html);
-						
 					},
 					error: function(error) {
 						console.log("getChat() 실패")
@@ -295,25 +323,96 @@
 				 })
 			 }
 	        
+	        function getChatRoom(roomId) {
+	        	$.ajax({
+	        		url : "/chat/json/getChatRoom/"+roomId,
+	        		type : "GET",
+	        		dataType : "json",
+	        		headers : { "Accept" : "application/json", "Content-Type" : "application/json" },
+	        		success : function(result) {
+	        			var userList = result.userList;
+	        			chatRoomName = result.chatRoomName;
+	        			var html = "<b><font size=3>"+chatRoomName+"</font></b>";
+	        			html += "<font size=3 color=chocolate>"+userList.length+"</font>";
+	        			$(".accChat.info span").html(html);
+	        			$("#accModalLabel").html(chatRoomName+"("+userList.length+")");
+					    
+	        			var tag = ""
+	        			for(var i in userList){
+	        				tag += "<div style='margin-bottom:20px;'>"
+	        				tag += "<img  style='border: 2px solid gold;border-radius: 7px;-moz-border-radius: 7px;-khtml-border-radius: 7px; -webkit-border-radius: 7px;width:30px;height:30px;margin-right:10px;' src=\"/resources/images/userImages/"+userList[i].userImg+"\">";
+	        				tag += userList[i].nickname;
+	        				if(userId == result.creator && userId != userList[i].userId) {
+	        					tag += "<button type='button' class='btn btn-outline-danger' style='float:right;' onclick='quitAcc(\""+userList[i].userId+"\")'>강퇴</button>";
+	        				}
+	        				tag += "</div>"
+	        			}
+        				$(".form-group.accModal").html(tag);
+	        		},
+	        		error : function(error) {
+	        			console.log("채팅방 정보 조회 실패 :: "+error);
+	        		}
+	        	})
+
+	        }
+	        
 	        function readChat(chat) {
 	        	console.log("readChat 시작")
 	        	 $.ajax({
 					url: "/chat/json/readChat/",
 				 	type: "POST",
 				 	data : JSON.stringify(chat),
-					headers : {
-						"Accept" : "application/json",
-						"Content-Type" : "application/json"
-					},
+					headers : { "Accept" : "application/json", "Content-Type" : "application/json" },
 					success : function() {
 						console.log("readChat() 성공");
-						console.log(result);
 					},
 					error: function(error) {
 						console.log("readChat() 실패")
 						console.log(error);
 					}
 				 })
+	        	
+	        }
+	        
+	        function quitAcc(quitId) {
+	        	console.log("강퇴시킬 user : "+quitId);
+	        	
+	        	Swal.fire({
+	        		  title: '정말 강제 퇴장 시키시겠습니까?',
+	        		  text: "한 번 퇴장시키시면 채팅방뿐만 아니라 동행에서도 빠지게 됩니다.",
+	        		  icon: 'warning',
+	        		  showCancelButton: true,
+	        		  confirmButtonColor: '#3085d6',
+	        		  cancelButtonColor: '#d33',
+	        		  confirmButtonText: '예, 강제 퇴장시키겠습니다.',
+	        		  cancelButtonText: '아니오!',
+	        		}).then((result) => {
+	        		  if (result.value) {
+	        			  var chatRoom = new Object();
+	        			  chatRoom.chatRoomId = chatRoomId;
+	        			  chatRoom.chatMems = [ quitId ];
+	        			  $.ajax({
+	      					url: "/chat/json/quitChatRoom/",
+	      				 	type: "POST",
+	      				 	data : JSON.stringify(chatRoom),
+	      					headers : { "Accept" : "application/json", "Content-Type" : "application/json" },
+	      					success : function() {
+	      						console.log("quitChatRoom() 성공 :: "+quitId);
+	      						sendAccMessage(quitId);
+	      						enterRoom(chatRoomId);
+	      						getChatRoomList();
+	      					},
+	      					error: function(error) {
+	      						console.log("quitChatRoom() 실패")
+	      						console.log(error);
+	      					}
+	      				 })
+	        		    Swal.fire(
+	        		      '완료',
+	        		      '해당 회원이 동행에서 제외되었습니다.'
+	        		    )
+	        		  }
+	        		})
 	        	
 	        }
 	        
@@ -325,6 +424,7 @@
 	        
 	        jQuery(document).ready(function($) {
 	        	//connectPlanChat();
+	        	$("#accChat").hide();
 	        	$(".accChat.output").scrollTop($(".accChat.output")[0].scrollHeight);
 	        	getChatRoomList();
 	        	$("#myAccChat").keydown(function (key) {
@@ -333,6 +433,9 @@
 	                	myAccChat.val();
 	                }
 	            });
+	        	$(".fas.fa-arrow-left").on("click", function(){
+	        		$("#accChat").hide();
+	        	})
 	        });
     </script>
 

@@ -3,7 +3,9 @@ package com.ksy.web.chat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ksy.service.domain.Chat;
 import com.ksy.service.domain.ChatRoom;
 import com.ksy.service.domain.Plan;
+import com.ksy.service.domain.User;
 import com.ksy.service.user.UserService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
@@ -60,6 +63,7 @@ import com.mongodb.client.MongoDatabase;
 		public List<ChatRoom> getChatRoom(@PathVariable("userId") String userId, Model model) throws Exception {
 			System.out.println("getChatRoom :: "+userId);
 			coll = mongoDB.getCollection("ChatRoom");
+			MongoCollection<Document> coll2 = mongoDB.getCollection("Chat");
 			List<String> listUser = new ArrayList<String>();
 			listUser.add(userId);
 			
@@ -76,6 +80,12 @@ import com.mongodb.client.MongoDatabase;
 				chatRoom.setChatRoomName(doc.get("chatRoomName")+"");
 				System.out.println(listUser+"를 포함하는 채팅방 목록 : "+chatRoom);
 				roomList.add(chatRoom);
+				
+				System.out.println("채팅방 마지막 메시지====================");
+				query = new BasicDBObject("chatRoomId", doc.get("_id")+"");
+				chatRoom.setLastChat(coll2.find(query).sort(new BasicDBObject("chatDate", -1)).first());
+				System.out.println("채팅방 마지막 메시지 : "+chatRoom.getLastChat());
+				
 			}
 			return roomList;
 		}
@@ -91,6 +101,7 @@ import com.mongodb.client.MongoDatabase;
 			fit.into(docs);
 			for (Document doc : docs) {
 				System.out.println("채팅방id 가 "+chatRoomId+"인 채팅 메시지 : "+doc);
+				doc.put("user", userService.getUser(doc.get("senderId")+""));
 			}
 			// _id의 값을 사용하여 오름차순으로 정렬
 			//db.orders.find().sort( { "_id": 1 } )
@@ -120,6 +131,29 @@ import com.mongodb.client.MongoDatabase;
 //			db.orders.find().sort( { "amount": 1, "_id": -1 } )
 			
 			return docs;
+		}
+		
+		@RequestMapping(value="getChatRoom/{chatRoomId}", method=RequestMethod.GET)
+		public Map<String, Object> getChatRoom(@PathVariable("chatRoomId") String chatRoomId) throws Exception{
+			System.out.println("getChatRoom :: "+chatRoomId);
+
+			coll = mongoDB.getCollection("ChatRoom");
+			BasicDBObject query = new BasicDBObject("_id", new ObjectId(chatRoomId));
+			FindIterable<Document> fit = coll.find(query);
+			Document doc = fit.first();
+			List<String> userList = (List<String>) doc.get("chatMems");
+			List<User> users = new ArrayList<>();
+			for(String userId : userList) {
+				System.out.println("채팅방에 참여한 회원 아이디 : "+userId);
+				users.add(userService.getUser(userId));
+			}
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("userList", users);
+			map.put("chatRoomName", doc.get("chatRoomName")+"");
+			map.put("creator", doc.get("creator")+"");
+			
+			return map;
 		}
 		
 		@RequestMapping(value="createRoom", method=RequestMethod.POST)
@@ -175,7 +209,7 @@ import com.mongodb.client.MongoDatabase;
 			coll = mongoDB.getCollection("ChatRoom");
 			
 			BasicDBObject searchQuery = new BasicDBObject();
-			searchQuery.append("_id", chatRoom.get_id());
+			searchQuery.append("_id", new ObjectId(chatRoom.getChatRoomId()));
 			FindIterable<Document> cur = coll.find(searchQuery);
 			Document doc = cur.first();
 			List<String> arr = (List<String>) doc.get("chatMems");
@@ -208,7 +242,6 @@ import com.mongodb.client.MongoDatabase;
 			updateQuery.append("$set", 
 				new BasicDBObject().append("readers", arr));
 			coll.updateMany(query, updateQuery);	
-			
 			
 		}
 		

@@ -25,11 +25,9 @@ ${user.nickname}님 로그인중....
 </c:if>
 
 <br/>
-<a href="/view/flight/searchFlight.jsp">항공권 검색</a>
-<br/>
-<a href="/view/room/searchRoom.jsp">숙소 검색</a>
-<br/>
-<a href="/order/getOrderList">주문 목록</a>
+<a href="/view/flight/searchFlight.jsp">항공권 검색</a> &ensp;&ensp;
+<a href="/view/room/searchRoom.jsp">숙소 검색</a> &ensp;&ensp;
+<a href="/order/getOrderList">주문 목록</a> &ensp;&ensp; <a href="/toolbar/donghaeng.jsp">동행 채팅</a> &ensp;&ensp;
 
 <ul class="nav nav-tabs">
 	  <li class="nav-item dropdown">
@@ -188,8 +186,8 @@ ${user.nickname}님 로그인중....
 				 success : function(result) {
 					 console.log(result);
 					 var list = result.list;
-					 var resultPage = result.resultPage;
-					 var search = result.search;
+					 //var resultPage = result.resultPage;
+					 //var search = result.search;
 					 var totalCount = result.totalCount;
 					 $(".totalCount").append(totalCount);
 					 console.log("totalCount : "+totalCount);
@@ -202,9 +200,10 @@ ${user.nickname}님 로그인중....
 					console.log("resultPage : "+resultPage);
 					console.log("search : "+search);
 				 },
-				 error : function(error) {
+				 error : function(error, status) {
 					 console.log("알림 내역 출력 실패");
-					 console.log(error);
+					 console.log(error.responseText);
+					 console.log(status);
 				 }
 			 })
 		 }

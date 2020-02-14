@@ -3,6 +3,7 @@ package com.ksy.service.domain;
 import java.sql.Date;
 import java.util.List;
 
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 public class ChatRoom {
@@ -16,7 +17,7 @@ public class ChatRoom {
 	private Date createdDate;
 
 	// 출력용 field
-	private String lastChat; // 마지막 메시지
+	private Document lastChat; // 마지막 메시지
 	private int unreadMsgCount; // 안 읽은 메시지 수
 	public ObjectId get_id() {
 		return new ObjectId(chatRoomId);
@@ -60,10 +61,10 @@ public class ChatRoom {
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
-	public String getLastChat() {
+	public Document getLastChat() {
 		return lastChat;
 	}
-	public void setLastChat(String lastChat) {
+	public void setLastChat(Document lastChat) {
 		this.lastChat = lastChat;
 	}
 	public int getUnreadMsgCount() {
