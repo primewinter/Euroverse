@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+		
+<mapper namespace="AdminMapper">
+		
+<!-- <mapper namespace="UserMapper"> -->
+
+
+<resultMap id="adminSelectMap" 	type="user">
+	<result property="userId"		column="user_id"		jdbcType="VARCHAR"/>
+	<result property="userName"		column="user_name"		jdbcType="VARCHAR"/>
+	<result property="nickname"		column="nickname"		jdbcType="VARCHAR"/>
+	<result property="pwd"			column="pwd"			jdbcType="VARCHAR"/>
+	<result property="role"			column="role"			jdbcType="CHAR"/>
+	<result property="email"		column="email"			jdbcType="VARCHAR"/>
+	<result property="phone"		column="phone"			jdbcType="VARCHAR"/>
+	<result property="userImg"		column="user_img"		jdbcType="VARCHAR"/>
+	<result property="sex"			column="sex"			jdbcType="CHAR"/>
+	<result property="birth"		column="birth"			jdbcType="VARCHAR"/>
+	<result property="slot"			column="slot"			jdbcType="NUMERIC"/>
+	<result property="totalPoint"	column="total_point"	jdbcType="NUMERIC"/>
+	<result property="pushAgree"	column="push_agree"		jdbcType="CHAR"/>
+	<result property="regDate"		column="reg_date"		jdbcType="TIMESTAMP"/>
+	<result property="unRegDate"	column="unreg_date"		jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+
+ <resultMap id="pointSelectMap" type="point">
+	<result property="pointId"		column="point_id"			jdbcType="VARCHAR"/>
+	<result property="userId"		column="user_id"			jdbcType="VARCHAR"/>
+	<result property="refId"		column="ref_id"			jdbcType="VARCHAR"/>
+	<result property="usedType"		column="used_type"			jdbcType="CHAR"/>
+	<result property="usedPoint"		column="used_point"			jdbcType="NUMERIC"/>
+	<result property="usedDate"		column="used_date"			jdbcType="TIMESTAMP"/>
+</resultMap>	
+
+<resultMap id="tripSurveySelectMap" type="tripSurvey">
+	<result property="userId"		column="user_id"			jdbcType="VARCHAR"/>
+	<result property="surveyId"		column="survey_id"			jdbcType="VARCHAR"/>
+	<result property="surveyType"		column="survey_type"			jdbcType="VARCHAR"/>
+	<result property="surveyChoice"		column="survey_choice"			jdbcType="VARCHAR"/>
+	<result property="surveyImg"		column="survey_img"			jdbcType="VARCHAR"/>
+</resultMap>	
+
+
+
+<resultMap id="postSelectMap" type="post">
+		<result property="postId" 			column="post_id" 			jdbcType="VARCHAR"/>
+		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
+		<result property="nickName" 				column="nickname" 					jdbcType="VARCHAR" />
+		<result property="boardName" 	column="board_name" 		jdbcType="CHAR" />
+		<result property="postGrade" 				column="post_grade" 					jdbcType="CHAR" />
+		<result property="postTitle" 				column="post_title" 					jdbcType="VARCHAR" />
+		<result property="postContent" 			column="post_content" 		jdbcType="CLOB" />
+		<result property="postDate" 				column="post_date" 					jdbcType="TIMESTAMP" />
+		<result property="accCount"					column="acc_count"				jdbcType="NUMERIC"	/>
+		<result property="accPerson" 				column="acc_person" 					jdbcType="NUMERIC" />
+		<result property="accStartDate" 				column="acc_start_date" 					jdbcType="TIMESTAMP" />
+		<result property="accEndDate" 				column="acc_end_date" 					jdbcType="TIMESTAMP" />
+		<result property="postLikeCount" 				column="post_like_count" 					jdbcType="NUMERIC" />
+		<result property="planId" 				column="plan_id" 					jdbcType="VARCHAR" /> 
+		<result property="qnaFirstCate" 				column="qna_first_cate" 					jdbcType="CHAR" />
+		<result property="qnaSecondCate" 				column="qna_second_cate" 					jdbcType="CHAR" />
+		<result property="views" 				column="views" 					jdbcType="NUMERIC" />
+		<result property="comments" 				column="comments" 		jdbcType="NUMERIC"/>
+		<result property="blocked" 				column="blocked" 					jdbcType="CHAR" />
+		<result property="deleted" 				column="deleted" 					jdbcType="CHAR" />
+		<result property="postLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
+		<result property="nextId" 				column="next_id" 		jdbcType="VARCHAR"/>
+		<result property="nextTitle" 				column="next_title" 					jdbcType="VARCHAR" />
+		<result property="prevId" 				column="prev_id" 					jdbcType="VARCHAR" />
+		<result property="prevTitle" 				column="prev_title" 					jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+<resultMap id="commentSelectMap" type="comment">
+		<result property="parentCmtId"		column="parent_cmt_id"		jdbcType="VARCHAR"/>
+		<result property="cmtId" 			column="cmt_id" 			jdbcType="VARCHAR"/>
+		<result property="postId"	column="post_id" 		jdbcType="VARCHAR" />
+		<result property="cmtWriterId" 				column="writer_id" 					jdbcType="VARCHAR" />
+		<result property="nickName"			column="nickname"					jdbcType="VARCHAR" />
+		<result property="cmtContent" 				column="cmt_content" 					jdbcType="VARCHAR" />
+		<result property="cmtDate" 			column="cmt_date" 		jdbcType="TIMESTAMP" />
+		<result property="secret" 				column="secret" 					jdbcType="CHAR" />
+		<result property="blocked" 				column="blocked" 					jdbcType="CHAR" />
+		<result property="deleted" 				column="deleted" 					jdbcType="CHAR" />
+		<result property="cmtLikeCount" 				column="cmt_like_count" 					jdbcType="NUMERIC" />
+		<result property="cmtLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
+		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
+	</resultMap>
+
+<!-- 
+<resultMap id="statsSelectMap" type="stats">
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+</resultMap>
+
+
+
+<resultMap id="" type="">
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+</resultMap>
+
+
+<resultMap id="" type="">
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+	<result property=""		column=""			jdbcType=""/>
+</resultMap>
+
+ -->
+
+<resultMap type="plan" id="planSelectMap">
+		<result	jdbcType="VARCHAR"		column="plan_id"		property="planId"/>
+		<result	jdbcType="VARCHAR"		column="plan_master_id"	property="planMaster.userId"/>
+		<result	jdbcType="VARCHAR"		column="plan_title"		property="planTitle"/>
+		<result	jdbcType="VARCHAR"		column="plan_img"		property="planImg"/>
+		<result	jdbcType="CHAR"			column="plan_type"		property="planType"/>
+		<result	jdbcType="TIMESTAMP"	column="plan_reg_date"	property="planRegDate"/>
+		<result	jdbcType="TIMESTAMP"	column="start_date"		property="startDate"/>
+		<result	jdbcType="VARCHAR"		column="plan_status"	property="planStatus"/>
+		
+		<result	jdbcType="NUMERIC"		column="plan_total_days"	property="planTotalDays"/>
+		<result	jdbcType="NUMERIC"		column="plan_party_size"	property="planPartySize"/>
+</resultMap>
+
+
+
+<!-- 관리자 회원목록조회 sql  -->
+
+<select  id="getUserList"  parameterType="map"	resultMap="postSelectMap">
+	  	SELECT *
+  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+  						FROM ( SELECT p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
+										FROM post p, comments c, tag t
+										<if test="search.searchCondition != null">
+										  <trim prefix="WHERE" prefixOverrides="AND | OR">
+											<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
+										 		p.post_title LIKE '%${search.searchKeyword}%'
+											</if>
+											<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
+										 		p.post_writer_id LIKE '%${search.searchKeyword}%'
+											</if>
+											<if test="search.searchCondition == 2 and search.searchKeyword !='' ">
+										 		t.tag_content LIKE '%${search.searchKeyword}%'
+											</if>
+											<if test="search.searchCondition != null">
+												AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.board_name = #{boardName}
+											</if> 
+										  </trim>
+										</if>
+										<if test="search.searchCondition == null">
+										  <where>
+											  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.board_name = #{boardName}
+										  </where>
+										</if> 
+										GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count
+										ORDER BY p.post_date desc ) inner_table
+  						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
+  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
+  		AND #{search.currentPage}*#{search.pageSize}
+	</select>
+	
+	
+
+
+
+<!-- ===회원가입===
+
+회원가입 -->
+<insert id="addUser" parameterType="user">
+	INSERT INTO USERS
+	( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot ,  push_agree , reg_date) 
+	VALUES(#{userId} , #{userName} , #{nickname} , #{pwd} , 'G' , #{email} , #{phone} , #{userImg,jdbcType=VARCHAR} , #{sex} , #{birth} , 3 , #{pushAgree,jdbcType=CHAR} , systimestamp )
+</insert>
+
+
+<!-- 
+============
+
+
+===아이디찾기====
+
+ -->
+
+<!-- 아이디로 유저정보 가져오기 -->
+<select id = "getUser" parameterType="String" resultMap="userSelectMap">
+SELECT  
+user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot , total_point , push_agree , reg_date, unreg_date
+FROM USERS
+WHERE user_id = #{value}
+</select>
+
+<select id = "checkNickname" parameterType="String" resultType="String">
+SELECT  
+nickname 
+FROM USERS
+WHERE nickname = #{value} AND role != 'x'
+</select>
+
+<select id = "checkUserId" parameterType="String" resultType="String">
+SELECT  
+user_id 
+FROM USERS
+WHERE user_id = #{value} AND role != 'x'
+</select>
+
+
+
+<!-- 핸드폰번호로 아이디찾기 -->
+<!-- <select id="getPhoneUserId" parameterType="user" resultType="String">
+SELECT 
+user_id 
+FROM USERS 
+WHERE user_name = #{userName} AND cell_phone = #{phone} AND  role != 'x' 
+</select> -->
+
+<!-- 이메일로 아이디찾기 -->
+<!-- <select id="getEmailUserId" parameterType="user" resultType="String">
+SELECT 
+user_id 
+FROM USERS 
+WHERE user_name = #{userName} AND email = #{email}  AND  role != 'x' 
+</select> -->
+
+<select id="getUserId" parameterType="user" resultType="String">
+SELECT 
+user_id 
+FROM USERS 
+WHERE user_name = #{userName}  AND  role != 'x' 
+<if test="phone == null and email != null">
+	AND email = #{email}
+</if>
+<if test="email == null and phone != null">
+	AND phone = #{phone}
+</if>
+</select>
+
+
+
+<!-- 비밀번호 변경 -->
+<update id="updatePwd" parameterType="user">
+UPDATE 
+USERS SET pwd = #{pwd} 
+WHERE user_id = #{userId}
+</update>
+
+
+
+
+
+<!-- 회원정보 수정 -->
+<update id="updateUser" parameterType="user">
+UPDATE
+USERS SET  nickname = #{nickname} ,  email = #{email} , phone = #{phone} , user_img = #{userImg} , sex = #{sex} , birth = #{birth}  , push_agree = #{pushAgree}
+WHERE user_id = #{userId}
+</update>
+
+
+<!-- 회원인증 -->
+<update id = "updateRole" parameterType="String">
+UPDATE
+USERS SET role = 'Q'
+WHERE user_id = #{value}
+</update>
+
+
+
+
+
+
+
+
+<!-- 회원탈퇴 -->
+<update id = "unRegister" parameterType="String">
+UPDATE
+USERS SET role = 'X' AND nickname =  null
+WHERE user_id = #{value}
+</update>
+
+
+ 
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+<insert id ="addPoint" parameterType="point">
+INSERT INTO POINT
+(point_id , user_id ,  used_type , used_point , used_date)
+VALUES ( TO_CHAR(seq_point_point_id.nextval), #{userId} ,  #{usedType} , #{usedPoint} , sysDate)
+</insert>
+
+<select id = "getPointList"  parameterType="map" resultMap="pointSelectMap">
+SELECT  *
+from(
+	SELECT inner_table.*, ROWNUM AS row_seq
+	from(
+		SELECT
+		user_id , point_id , ref_id , used_type , used_point , used_date
+		from Point
+		WHERE user_id = #{userId}
+		<if test="search.searchKeyword == 'use'">
+			AND used_type = 'U' OR used_type = 'S'
+		</if>
+		<if test="search.searchKeyword == 'save'">
+			AND used_type = 'C' OR used_type = 'F' OR used_type = 'R'
+		</if>
+		order By used_date DESC) inner_table
+	WHERE rownum<![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} ) 
+WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1 AND #{search.currentPage}*#{search.pageSize}
+</select>
+
+
+<select id = "getPointListTotalCount"  parameterType="map" resultType="int">
+		SELECT
+		COUNT(*)
+		from Point
+		WHERE user_id = #{userId}
+		<if test="search.searchKeyword == 'use'">
+			AND used_type = 'U' OR used_type = 'S'
+		</if>
+		<if test="search.searchKeyword == 'save'">
+			AND used_type = 'C' OR used_type = 'F' OR used_type = 'R'
+		</if>
+</select>
+
+
+<select id="getChoolCheckList" parameterType="String" resultMap="pointSelectMap">
+SELECT
+used_date
+FROM POINT
+WHERE user_id = #{value} AND used_type = 'C'
+</select>
+
+
+<update id="updateTotalPoint" parameterType="point">
+UPDATE
+USERS SET  total_point = 
+(select
+p.a - m.b
+FROM (
+		select
+		NVL(SUM(USED_POINT),0) a
+		FROM point 
+		WHERE user_id = #{userId} AND (used_type = 'C' OR used_type='F' OR used_type='R')
+		) p,
+	    (
+		select
+		NVL(SUM(USED_POINT),0) b
+		FROM point
+		WHERE user_id = #{userId} AND (used_type = 'U' OR used_type = 'S')
+		) m )
+WHERE user_id = #{userId}
+</update>
+
+<!-- <update id="updateSlot" parameterType="user">
+UPDATE
+USERS SET 
+WHERE 
+</update> -->
+<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+
+
+<insert id="addTripSurvey" parameterType="tripSurvey">
+	INSERT INTO TRIP_SURVEY
+	(survey_id , survey_type , survey_choice , user_id , survey_img)
+	VALUES ( TO_CHAR(seq_trip_survey_survey_id.nextval),#{surveyType,jdbcType=VARCHAR} , #{surveyChoice,jdbcType=VARCHAR},  #{userId,jdbcType=VARCHAR} , #{surveyImg,jdbcType=VARCHAR})
+</insert>
+
+<select id = "getTripSurveyList" parameterType="String" resultMap="tripSurveySelectMap">
+	SELECT 
+	survey_id , user_id , survey_type , survey_choice , survey_img
+	FROM TRIP_SURVEY
+	WHERE user_id = #{value}
+</select>
+
+
+
+
+
+
+
+<select id="getEndPlanList" parameterType="string"	resultMap="planSelectMap">
+		SELECT p.plan_id, p.plan_title, p.start_date, count(*)
+		FROM plan p, todo t
+		WHERE p.deleted = 'F'
+			AND p.plan_id = t.plan_id 
+			AND p.plan_status = 'C'
+			AND p.plan_id IN ( SELECT ref_id FROM party WHERE party_user_id = #{userId} AND party_type = 'P' )
+		GROUP BY p.plan_id, p.plan_title, p.start_date
+		ORDER BY p.plan_id
+</select>
+	
+
+
+
+
+
+
+
+
+
+
+<select id="getMyPostList" parameterType="map"	resultMap="postSelectMap">
+SELECT *
+  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+  						FROM ( SELECT p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
+										FROM post p, comments c
+										where p.post_id = c.post_id(+) AND p.post_writer_id = #{userId}
+										GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count 
+										ORDER BY p.post_date DESC) inner_table    
+			    WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
+	  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
+  		AND #{search.currentPage}*#{search.pageSize}
+</select>
+	
+
+<select id="getMyCommentList" parameterType="map"	resultMap="commentSelectMap">
+SELECT  *
+from(
+	SELECT inner_table.*, ROWNUM AS row_seq
+	from(
+		SELECT
+		 c.post_id , c.cmt_id , c.nickname , c.writer_id , c.cmt_date , c.cmt_content , c.secret , c.deleted , c.blocked , c.cmt_like_count
+		from Comments c
+		WHERE c.writer_id= #{userId}
+		order By c.cmt_date DESC) inner_table
+	WHERE rownum<![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} ) 
+WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1 AND #{search.currentPage}*#{search.pageSize}
+</select>
+
+
+</mapper>
