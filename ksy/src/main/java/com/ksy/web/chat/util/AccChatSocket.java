@@ -24,6 +24,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.socket.BinaryMessage;
 
 import com.ksy.common.util.Util;
 import com.ksy.service.domain.Chat;
@@ -73,7 +74,7 @@ public class AccChatSocket {
 	}
 
 	@OnMessage
-	public void handleMessage(@PathParam("roomId") String roomId, @PathParam("userId") String userId, String message, Session session)
+	public void handleMessage(@PathParam("roomId") String roomId, @PathParam("userId") String userId,String message, Session session)
 			throws Exception {
 				// process booking from the given guest here
 				UserService userService = (UserService)Util.getBean("userServiceImpl");

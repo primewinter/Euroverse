@@ -37,6 +37,35 @@
             margin-top: 10px;
             
         }
+        
+        #reserInfo {
+        line-height: 1.2;
+		color: #646464;
+		word-break: break-all;
+		font-family: "Nanum Gothic", "Malgun Gothic", "돋움", Dotum, "돋움", Dotum, Arial, Helvetica, sans-serif;
+		letter-spacing: -.3px;
+		border-spacing: 0;
+		empty-cells: show;
+		margin-top: 10px;
+		text-align: left;
+		border-collapse: collapse;
+		font-size: 13px;
+        }
+        .final-pay{
+        line-height: 1.2;
+		color: #646464;
+		word-break: break-all;
+		margin: 0;
+		font-size: 13px;
+		font-family: "Nanum Gothic", "Malgun Gothic", "돋움", Dotum, "돋움", Dotum, Arial, Helvetica, sans-serif;
+		letter-spacing: -.3px;
+		overflow: hidden;
+		display: table;
+		width: 100%;
+		padding: 0;
+		border-bottom: 1px solid #afafaf;
+		box-sizing: border-box;
+        }
    
     </style>
     <script type="text/javascript">
@@ -62,7 +91,8 @@
         	console.log("price"+price);
         	
         	//사용된 포인트 = 사용할 포인트
-    		document.getElementById("usedPoint").value = document.getElementById("payPoint").value;
+    		//document.getElementById("usedPoint").value = document.getElementById("payPoint").value;
+        	$("#usedPoint").text(payPoint);
         	
     		var calculation = price - payPoint; //상품가격 - 사용할 포인트 = 실결제금액 계산
     		console.log("calculation"+calculation);
@@ -76,6 +106,11 @@
     		$("#totalPoint").text(calculation2);  // 사용할 포인트를 감소한 총 보유한 포인트
     		var addPoint = $("#addPoint").val(Math.floor(calculation * 0.01)); //적립예정 금액
     		console.log("addPoint"+addPoint);
+    		
+    		/* $("#totalPoints").val(totalPoint);
+    		$("#actualAmounts").val(actualAmount);
+    		$("#addPoints").val(addPoint);
+    		$("#usedPoints").val(payPoint); */
     };	
     
     
@@ -153,7 +188,7 @@
 	<jsp:include page="/toolbar/toolBar.jsp" />
 <div class="container"><br/>
 	
-	<form class="form-horizontal">
+	<form >
 	<input type="hidden" name="orderId" value= "" id="orderId"/>
 	<input type="hidden" name="price" value= "" id="price"/>
 <!-- 	<input type="hidden" name="orderDate" value= "" id="orderDate"/> -->
@@ -186,46 +221,188 @@
 			</table>
 			<br/><br/>
 			<div class="row">
-			    <div class="col">
-			    <h4 align="left">주문자 정보</h4>
-			    <br/>
-			    	<div style="width:50%;">
+			<h4 align="left">주문자 정보</h4>
+			    <br/><br/>
+			    <table class="table" id="reserInfo" style="Padiing-right:100px;">
+                 
+                  <tbody>
+                    <tr>
+                      <th>이름
+                        <span class="point-txt">*</span>
+                      </th>
+					  	<td id="tdGName">
+					  		<input type="text" title="예약자명을 입력하세요" style="width:200px;" class="form-control" maxlength="20" name="buyerName" id="buyerName">
+					  	</td>
+					  <th>이메일
+                        <span class="point-txt">*</span>
+                      </th>
+	                      <td>
+	                        <input type="text" title="이메일주소 앞자리를 입력해주세요" style="width:200px;height:30px;"class="form-control" name="str_email01" id="str_email01" >
+	                      </td>
+	                      <td style="width:30px;Padding-left:30px;Padding-right:50px;">
+	                      	<span>@</span>
+	                      </td>
+                      <td>
+                       	 <select title="이메일 서비스 도메인을 선택해주세요." class="form-control" style="width:250px;" name="selectEmail" id="selectEmail">
+	                          <option value="">선택</option>
+	                          <option value="naver.com">naver.com</option>
+	                          <option value="gmail.com">gmail.com</option>
+	                          <option value="dreamwiz.com">dreamwiz.com</option>
+	                          <option value="freechal.com">freechal.com</option>
+	                          <option value="hanmail.net">hanmail.net</option>
+	                          <option value="hanmir.com">hanmir.com</option>
+	                          <option value="hotmail.com">hotmail.com</option>
+	                          <option value="korea.com">korea.com</option>
+	                          <option value="nate.com">nate.com</option>
+	                          <option value="paran.com">paran.com</option>
+	                          <option value="직접입력">직접입력</option>
+                        </select> 
+                      </td>
+                    </tr>
+                    
+                    <tr>
+                      <th>휴대폰
+                        <span class="point-txt">*</span>
+                      </th>
+                      <td>
+						<select title="휴대전화 식별번호를 선택해주세요."  class="form-control" style="width:200px;" name="mobile0" id="mobile0">
+                          <option value="">선택</option>
+                          <option value="010">010</option>
+                          <option value="011">011</option>
+                          <option value="016">016</option>
+                          <option value="017">017</option>
+                          <option value="018">018</option>
+                          <option value="019">019</option>
+                        </select>
+                       </td>
+                       <td style="width:20px;"> -
+                       </td>
+                       <td>
+                       	  <input type="text" title="휴대전화 국번을 입력해주세요." class="form-control" maxlength="4" name="mobile1" id="mobile1" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
+                       </td>
+                       <td style="width:20px;"> -
+                       </td>
+                       	<td >
+                         <input type="text" title="휴대전화 뒷자리를 입력해주세요." class="form-control" maxlength="4" name="mobile2" id="mobile2" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
+						</td>
+                    </tr>
+                </tbody>
+              </table>
+			    	<%-- <div style="width:50%;">
 				       <input type="text" class="form-control" placeholder="주문자 이름" id="buyerName" name="buyerName" value="${order.buyerName}">
 				      	<br/>
 				       <input type="text" class="form-control" placeholder="주문자 핸드폰 번호" id="buyerPhone" name="buyerPhone" value="${order.buyerPhone}">
 				       	<br/>
-				       	<br/>
 				       <input type="text" class="form-control" placeholder="주문자 이메일 " id="buyerEmail" name="buyerEmail" value="${order.buyerEmail}">
-			    	</div>
-			    </div>
-			    <div class="col">
+			    	</div> --%>
+			</div>
+			<h4 align="left">주문자 정보</h4>
+			<hr/>
+			<div class="row">
+	             <div class="col-sm-2">
+                    <div class="row">
+	            		 이름 *
+                   		<input type="text" title="예약자명을 입력하세요" style="width:200px;" class="form-control" maxlength="20" name="buyerName" id="buyerName">
+            		</div>
+	             </div>
+	             </div>
+			<br/><br/>
+			
+			<h4 align="left">포인트 사용</h4>
+			<hr/>
+			<div class="row">
+	             <div class="col-sm-2">
+	            		 보유 포인트
+                    <div class="row">
+                   		<input type="text" name="totalPoint" id="totalPoint" class="form-control" value="${user.totalPoint }"
+											style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" />
+						<!-- 포인트 차감시 계산을 위한 totalPoint -->
+						<input type="hidden" name="totalPoint" id="usertotalPoint" value="${user.totalPoint }" >
+            		</div>
+	             </div>
+	             <i class="fas fa-minus-circle" style="margin-top:10px;"></i>
+	             <div class="col-sm-2" style="Padding-left:70px;">
+	              		 사용 포인트
+	                    <div class="row">
+	                    <input	type="text" name="payPoint" id="payPoint" class="form-control" 
+								style="width:110px;font-size:13px;"	placeholder="입력해주세요" onkeyup="call()">
+	            		</div>
+	             </div>
+	             <i class="fas fa-equals" style="margin-top:10px;"></i>
+	             <div class="col-sm-2" style="Padding-left:70px;">
+	            		 적립 예정
+	                    <div class="row">
+	                  		 <input	type="text" name="addPoint" id="addPoint" class="form-control"
+	                  		 style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" />
+	            		</div>
+	             </div>
+			</div>
+			<br/><br/>			
+			<h4 align="left">결제 정보</h4>
+			<hr/>
+			<div class="row">
+	             <div class="col-sm-2">
+	            		 총 결제 금액
+	                    <div class="row">
+	                    <div id="totalAmount" style="Padding-left:30px;">${flight.price}</div> 원
+	            		</div>
+	             </div>
+	             <i class="fas fa-minus-circle" style="margin-top:10px;"></i>
+	             <div class="col-sm-2" style="Padding-left:70px;">
+	            		 포인트 사용
+	                    <div class="row">
+	                    <div id="usedPoint" style="Padding-left:20px;">${point.usedPoint}</div>
+	            		</div>
+	             </div>
+	             <i class="fas fa-equals" style="margin-top:10px;"></i>
+	             <div class="col-sm-2" style="Padding-left:70px;">
+	            		 실 결제 금액
+	                    <div class="row">
+	                    <div id="actualAmount" style="Padding-left:20px;">${order.actualAmount}</div> 원
+	            		</div>
+	             </div>
+			</div>
+			
+			
+			
+			
+				<br/><br/><br/>
+			    <div class="row">
 			    	<input type="hidden" name="price" id="prices" value="${flight.price }" >
 			    		<h5 align="left">포인트 사용 </h5>
 							<div class="form-group">
 								<label for="payPoint" class="col-sm-offset-1 col-sm-3 control-label"></label>
 									<div class="col-sm-4">
-										<input	type="text" name="payPoint" id="payPoint" class="form-control" placeholder="사용할 포인트" onkeyup="call()">
+										<input	type="text" name="payPoint" id="payPoint" class="form-control" 
+												placeholder="사용할 포인트" onkeyup="call()">
 									</div>
-									<div class="row" style="Padding-left:30px;">보유 포인트  : &nbsp;
-										<div id="totalPoint">${user.totalPoint }</div>
+										<div class="col-sm-4">
+										<div class="row" style="Padding-left:30px;">보유 포인트  : &nbsp;
+										<input type="text" name="totalPoint" id="totalPoint" class="form-control" value="${user.totalPoint }"
+												style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" />
+										</div>
 									</div>
 											<!-- 포인트 차감시 계산을 위한 totalPoint -->
 											<input type="hidden" name="totalPoint" id="usertotalPoint" value="${user.totalPoint }" >
 							</div>
+							<br/>
 							<h5 align="left">결제 금액</h5>
 								<div class="row" style="Padding-left:30px;">총 주문 금액  : &nbsp;&nbsp;&nbsp;
-										<div id="totalAmount" name="totalAmount" >${flight.price} </div>원
+										<div id="totalAmount" >${flight.price} </div>원
 								</div>
+								<br/>
 								<div class="row" style="Padding-left:30px;">포인트 사용  : &nbsp;&nbsp;&nbsp; - &nbsp;
-										<div id="usedPoint" name="usedPoint" >${point.usedPoint} </div>
+										<div id="usedPoint" >${point.usedPoint} </div>
 								</div>
+								<br/>
 								<div class="row" style="Padding-left:30px;">실 주문 금액  : &nbsp;&nbsp;&nbsp;
-										<div id="actualAmount" name="actualAmount" >${order.actualAmount } </div>원
+										<div id="actualAmount" >${order.actualAmount } </div>원
 								</div>
+								<br/>
 								
 								
 							
-								적립예정
+								적립 예정 포인트
 						<div class="col-sm-4">
 							<input	type="text" name="addPoint" id="addPoint" class="form-control">
 						</div>
@@ -239,6 +416,7 @@
 		<input type="hidden" name="actualAmount" value= "${order.actualAmount }"/>
 		<input type="hidden" name="usedPoint" value= "${point.usedPoint }"/>
 		<input type="hidden" name="totalAmount" value= "${order.totalAmount }"/>
+		<input type="hidden" name="addPoint" value= "${order.addPoint }"/>
 		<input type="hidden" name="payPoint" value= "${order.payPoint }"/>
 		<input type="hidden" name="airline" value= "${flight.airline }"/>
 		<input type="hidden" name="tripCourse" value= "${flight.tripCourse }"/>
@@ -253,7 +431,7 @@
 		<input type="hidden" name="leadTime" value= "${flight.leadTime }"/>	
 		<input type="hidden" name="stopOver" value= "${flight.stopOver }"/>	
 		<input type="hidden" name="depTime" value= "${flight.depTime }"/>	
-		<input type="hidden" name="arrTime" value= "${flight.arrTime }"/>	
+		<input type="hidden" name="arrTime" value= "${flight.arrTime }"/>
 		
 		</div>
 		</div>
