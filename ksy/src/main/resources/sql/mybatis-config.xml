@@ -60,7 +60,7 @@
 		<mapper resource="sql/PushMapper.xml"/>
 
 		<mapper resource="sql/TripInfoMapper.xml"/>
-		<!-- <mapper resource="sql/AdminMapper.xml"/> -->
+		<mapper resource="sql/AdminMapper.xml"/>
 	 	<mapper resource="sql/OrderMapper.xml"/>
 		<mapper resource="sql/FlightMapper.xml"/>
 		<mapper resource="sql/RoomMapper.xml"/>  
