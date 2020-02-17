@@ -87,17 +87,14 @@ function fncGetUserList(currentPage) {
 	} 
  
  		$( function () {
-		$('.delete:contains("배")').on("click" , function (){
-			var tranNo = $(this).next().val();
-			alert(tranNo);
+		$('#refund').on("click" , function (){
+			var flightId = $("#flightId").val();
+			var roomId = $("#roomId").val();
+			alert(flightId+roomId);
 			//xxx self.location = "/purchase/deletePurchase?tranNo="+$(this).next().val()+"&prodNo="+$(this).next().next().val();
-			self.location ="/order/cancel?tranNo="+tranNo;
-			
-			
-						
+			self.location ="/order/getOrder?flightId="+flightId+"&roomId="+roomId;
+			//$("form").attr("method" , "GET").attr("action" , "/order/getOrder").submit();
 		})
-		$('.delete:contains("배")').css("color" , "steelblue");
-		
 	})
 	
 	////////////////////////////////////////////////////
@@ -124,27 +121,12 @@ function fncGetUserList(currentPage) {
 	
 	
 	////////////////////////////////////////////////////
-	
-	
-	
-//+"&count="+$(this).next().next().next().val()
- 		$(function () { 
- 			$('input:button').on('click' , function () {
-			var tranNo = $(this).next().val();
-			var tranCode = $(this).next().next().val();
-			tranCode = 2;
-			console.log("tranNo"+tranNo);
-			self.location ="/purchase/updateTranCode?tranNo="+tranNo+"&tranCode="+tranCode;
-		});
-		
-		$( 'input:button' ).css("color" , "lightseagreen");
-		
-	}) 
+
 
 </script>
 
 </head>
-
+<form>
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	<div class="container">
@@ -154,7 +136,7 @@ function fncGetUserList(currentPage) {
 	
 	
 			
-		<div class="col-md-6 text-right">
+		<%-- <div class="col-md-6 text-right">
 			<form class="form-inline" name="detailForm">
 			<input type="hidden" name="imp_uid" value= "${purchase.imp_uid}" id="imp_uid"/>
 				<div class="form-group">
@@ -173,7 +155,7 @@ function fncGetUserList(currentPage) {
 				  <button type="button" class="btn btn-default">검색</button>
 				  <input type="hidden" id="currentPage" name="currentPage" value="" />
 			</form>
-		</div>
+		</div> --%>
 		</div>
 		<br/>
 <div class="btn-group btn-group-toggle" data-toggle="buttons" style="Padding-left:180px;" >
@@ -205,30 +187,31 @@ function fncGetUserList(currentPage) {
   <tbody>
    
      <c:set var = "i" value="0"/>
-	<c:forEach var="flight" items = "${list}" >
+		<c:forEach var="flight" items = "${list}" >
 	<c:set var="i" value="${i+1}"/>
-	 <tr>
-      <th scope="row">회원아이디</th>
-      <td>${flight.airline}</td>
-      <td>${flight.depCity}/${flight.arrCity }</td>
-      <td>${flight.depTime}/${flight.arrTime }</td>
-      <td>${flight.stopOver}/${flight.leadTime}</td>
-      <td>${flight.price}/${flight.orderDate}</td>
-      <td>${flight.orderStatus}</td>
-   	 </tr>
-     </c:forEach>
-   
-   <!--  <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr> -->
+			 <tr>
+			      <th scope="row">
+			      <i class="fas fa-list" id="refund"></i>
+			      <input type="hidden" name="${flight.flightId}" id="flightId" value="${flight.flightId}"/>
+			      </th>
+				      <td>${flight.airline}</td>
+				      <td>${flight.depCity}/${flight.arrCity }</td>
+				      <td>${flight.depTime} - ${flight.arrTime }</td>
+				      <td>${flight.stopOver}/${flight.leadTime}</td>
+				      <td>${flight.price}원/${flight.orderDate}</td>
+				      <td>
+					      <c:if test="${flight.orderStatus == '1' }">
+					      	주문완료
+					      </c:if>
+					      <c:if test="${flight.orderStatus == '2' }">
+					      	환불신청
+					      </c:if>
+					      <c:if test="${flight.orderStatus == '3' }">
+					      	환불완료
+						  </c:if>
+					  </td>
+		   	 </tr>
+    	 </c:forEach>
   </tbody>
 </table>
 	 
@@ -253,36 +236,32 @@ function fncGetUserList(currentPage) {
 	     <c:set var = "i" value="0"/>
 		<c:forEach var="room" items = "${list2}" >
 		<c:set var="i" value="${i+1}"/>
-		 <tr>
-	      <th scope="row">1</th>
-	      <td>${room.roomCity }</td>
-	      <td>${room.roomName}</td>
-	      <td>${room.checkIn}/${room.checkOut }</td>
-	      <td>${room.roomNum}/${room.adultNum }</td>
-	      <td>${room.price}/${orderDate}</td>
-	      <td>${room.orderStatus}</td>
-	   	 </tr>
+			 <tr>
+			    <th scope="row">
+			    <i class="fas fa-list" id="refund"></i>
+			    	<input type="hidden" name="${room.roomId}" id="roomId" value="${room.roomId}"/>
+			    </th>
+			    <td>${room.roomCity }</td>
+			    <td>${room.roomName}</td>
+			    <td>${room.checkIn}/${room.checkOut }</td>
+			    <td>${room.roomNum}/${room.adultNum }</td>
+			    <td>${room.price}/${orderDate}</td>
+			    <td> 
+			      <c:if test="${order.orderStatus eq '1' }">
+			      	주문완료
+			      </c:if>
+			      <c:if test="${order.orderStatus eq '2' }">
+			      	환불신청
+			      </c:if>
+			      <c:if test="${order.orderStatus eq '3' }">
+			      	환불완료
+				  </c:if>
+				 </td>
+		   	 </tr>
 	     </c:forEach>
-	   
-	   <!--  <tr>
-	      <th scope="row">2</th>
-	      <td>Jacob</td>
-	      <td>Thornton</td>
-	      <td>@fat</td>
-	    </tr>
-	    <tr>
-	      <th scope="row">3</th>
-	      <td colspan="2">Larry the Bird</td>
-	      <td>@twitter</td>
-	    </tr> -->
 	  </tbody>
 	</table>
 
-
-
-
-</div>
-
-
 </body>
+</form>
 </html>

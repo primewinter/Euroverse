@@ -3,6 +3,8 @@ package com.ksy.web.planSub;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ import com.ksy.service.domain.City;
 import com.ksy.service.domain.Daily;
 import com.ksy.service.domain.Memo;
 import com.ksy.service.domain.Stuff;
+import com.ksy.service.domain.User;
 import com.ksy.service.plan.PlanService;
 import com.ksy.service.planSub.PlanSubService;
 
@@ -239,7 +242,17 @@ public class PlanSubRestController {
 	}
 	
 	@RequestMapping( value = "json/addMemo", method = RequestMethod.POST )
-	public List<Memo> addMemo( @RequestBody Memo memo ) throws Exception {
+	public List<Memo> addMemo( @RequestBody Memo memo, HttpSession session ) throws Exception {
+		
+		User user = (User)session.getAttribute("user");
+		//test용 if문 : 회원아이디 셋팅
+		if(user == null) {
+			user = new User();
+			user.setUserId("admin");
+		}
+		memo.setMemoRegUser(user.getUserId());
+		
+		
 		planSubService.addMemo(memo);
 		
 		List<Memo> memoList = planSubService.getMemoList(memo.getPlanId());

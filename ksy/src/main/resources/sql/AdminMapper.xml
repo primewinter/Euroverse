@@ -12,72 +12,168 @@
 <!-- <mapper namespace="UserMapper"> -->
 
 
-<resultMap id="adminSelectMap" 	type="user">
-	<result property="userId"		column="user_id"		jdbcType="VARCHAR"/>
-	<result property="userName"		column="user_name"		jdbcType="VARCHAR"/>
-	<result property="nickname"		column="nickname"		jdbcType="VARCHAR"/>
-	<result property="pwd"			column="pwd"			jdbcType="VARCHAR"/>
-	<result property="role"			column="role"			jdbcType="CHAR"/>
-	<result property="email"		column="email"			jdbcType="VARCHAR"/>
-	<result property="phone"		column="phone"			jdbcType="VARCHAR"/>
-	<result property="userImg"		column="user_img"		jdbcType="VARCHAR"/>
-	<result property="sex"			column="sex"			jdbcType="CHAR"/>
-	<result property="birth"		column="birth"			jdbcType="VARCHAR"/>
-	<result property="slot"			column="slot"			jdbcType="NUMERIC"/>
-	<result property="totalPoint"	column="total_point"	jdbcType="NUMERIC"/>
-	<result property="pushAgree"	column="push_agree"		jdbcType="CHAR"/>
-	<result property="regDate"		column="reg_date"		jdbcType="TIMESTAMP"/>
-	<result property="unRegDate"	column="unreg_date"		jdbcType="TIMESTAMP"/>
-</resultMap>
+	<resultMap id="adminSelectMap" 	type="user">
+		<result property="userId"		column="user_id"		jdbcType="VARCHAR"/>
+		<result property="userName"		column="user_name"		jdbcType="VARCHAR"/>
+		<result property="nickname"		column="nickname"		jdbcType="VARCHAR"/>
+		<result property="pwd"			column="pwd"			jdbcType="VARCHAR"/>
+		<result property="role"			column="role"			jdbcType="CHAR"/>
+		<result property="email"		column="email"			jdbcType="VARCHAR"/>
+		<result property="phone"		column="phone"			jdbcType="VARCHAR"/>
+		<result property="userImg"		column="user_img"		jdbcType="VARCHAR"/>
+		<result property="sex"			column="sex"			jdbcType="CHAR"/>
+		<result property="birth"		column="birth"			jdbcType="VARCHAR"/>
+		<result property="slot"			column="slot"			jdbcType="NUMERIC"/>
+		<result property="totalPoint"	column="total_point"	jdbcType="NUMERIC"/>
+		<result property="pushAgree"	column="push_agree"		jdbcType="CHAR"/>
+		<result property="regDate"		column="reg_date"		jdbcType="TIMESTAMP"/>
+		<result property="unRegDate"	column="unreg_date"		jdbcType="TIMESTAMP"/>
+	</resultMap>
+
+
+<!-- 게시글 신고처리를 위한 postSelectMap Mapper  -->
+	<resultMap id="postSelectMap" type="post">
+		<result property="postId" 			column="post_id" 			jdbcType="VARCHAR"/>
+		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
+		<result property="nickName" 				column="nickname" 					jdbcType="VARCHAR" />
+		<result property="boardName" 	column="board_name" 		jdbcType="CHAR" />
+		<result property="postGrade" 				column="post_grade" 					jdbcType="CHAR" />
+		<result property="postTitle" 				column="post_title" 					jdbcType="VARCHAR" />
+		<result property="postContent" 			column="post_content" 		jdbcType="CLOB" />
+		<result property="postDate" 				column="post_date" 					jdbcType="TIMESTAMP" />
+		<result property="accCount"					column="acc_count"				jdbcType="NUMERIC"	/>
+		<result property="accPerson" 				column="acc_person" 					jdbcType="NUMERIC" />
+		<result property="accStartDate" 				column="acc_start_date" 					jdbcType="TIMESTAMP" />
+		<result property="accEndDate" 				column="acc_end_date" 					jdbcType="TIMESTAMP" />
+		<result property="postLikeCount" 				column="post_like_count" 					jdbcType="NUMERIC" />
+		<result property="planId" 				column="plan_id" 					jdbcType="VARCHAR" /> 
+		<result property="qnaFirstCate" 				column="qna_first_cate" 					jdbcType="CHAR" />
+		<result property="qnaSecondCate" 				column="qna_second_cate" 					jdbcType="CHAR" />
+		<result property="views" 				column="views" 					jdbcType="NUMERIC" />
+		<result property="comments" 				column="comments" 		jdbcType="NUMERIC"/>
+		<result property="blocked" 				column="blocked" 					jdbcType="CHAR" />
+		<result property="deleted" 				column="deleted" 					jdbcType="CHAR" />
+		<result property="postLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
+		<result property="nextId" 				column="next_id" 		jdbcType="VARCHAR"/>
+		<result property="nextTitle" 				column="next_title" 					jdbcType="VARCHAR" />
+		<result property="prevId" 				column="prev_id" 					jdbcType="VARCHAR" />
+		<result property="prevTitle" 				column="prev_title" 					jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<!-- 댓글 신고처리를 위한 commentSelectMap Mapper  -->
+	<resultMap id="commentSelectMap" type="comment">
+		<result property="parentCmtId"		column="parent_cmt_id"		jdbcType="VARCHAR"/>
+		<result property="cmtId" 			column="cmt_id" 			jdbcType="VARCHAR"/>
+		<result property="postId"	column="post_id" 		jdbcType="VARCHAR" />
+		<result property="cmtWriterId" 				column="writer_id" 					jdbcType="VARCHAR" />
+		<result property="nickName"			column="nickname"					jdbcType="VARCHAR" />
+		<result property="cmtContent" 				column="cmt_content" 					jdbcType="VARCHAR" />
+		<result property="cmtDate" 			column="cmt_date" 		jdbcType="TIMESTAMP" />
+		<result property="secret" 				column="secret" 					jdbcType="CHAR" />
+		<result property="blocked" 				column="blocked" 					jdbcType="CHAR" />
+		<result property="deleted" 				column="deleted" 					jdbcType="CHAR" />
+		<result property="cmtLikeCount" 				column="cmt_like_count" 					jdbcType="NUMERIC" />
+		<result property="cmtLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
+		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
+		<result property="postTitle"	column="post_title" 		jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="reportSelectMap" type="report">
+		<result property="reportId" 			column="report_id" 			jdbcType="VARCHAR"/>
+		<result property="reportTarget" 			column="report_target" 			jdbcType="CHAR"/>
+		<result property="refId" 			column="ref_id" 			jdbcType="VARCHAR"/>
+		<result property="reportReason" 			column="report_reason" 			jdbcType="CHAR"/>
+		<result property="reportContent" 			column="report_content" 			jdbcType="VARCHAR"/>
+		<result property="reportDate" 			column="report_date" 			jdbcType="TIMESTAMP"/>
+		<result property="reportUserId" 			column="report_user_id" 			jdbcType="VARCHAR"/>
+	</resultMap>
 
 
 <!-- 관리자 회원목록조회 sql  -->
 
-<select  id="getUserList"  parameterType="search"	resultMap="adminSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  			FROM (	SELECT user_id , user_name , nickname, sex, total_point, reg_date
-						FROM users
-						<if test="searchCondition != null">
-						<where>
-						<if test="searchCondition == 0 and searchKeyword !='' ">
-						user_id = #{searchKeyword}
-						</if>
-						<if test="searchCondition == 1 and searchKeyword !='' ">
-						user_name = #{searchKeyword}
-						</if>
-						</where>
-						</if>
-						ORDER BY user_id ) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
-</select>
-
-
-<select  id="getTotalCount"  parameterType="search"	 resultType="int">
-	  	SELECT COUNT(*)
-	  	FROM(	SELECT user_id , user_name , email
-						FROM users
-						<if test="searchCondition != null">
+	<select  id="getUserList"  parameterType="search"	resultMap="adminSelectMap">
+		  	SELECT *
+		  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+		  			FROM (	SELECT user_id , user_name , nickname, sex, total_point, reg_date
+							FROM users
+							<if test="searchCondition != null">
 							<where>
-								<if test="searchCondition == 0 and searchKeyword !='' ">
-						 			user_id = #{searchKeyword}
-								</if>
-								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 		user_name = #{searchKeyword}
-								</if>
+							<if test="searchCondition == 0 and searchKeyword !='' ">
+							user_id = #{searchKeyword}
+							</if>
+							<if test="searchCondition == 1 and searchKeyword !='' ">
+							user_name = #{searchKeyword}
+							</if>
 							</where>
-						</if> ) countTable						
-</select>
+							</if>
+							ORDER BY user_id ) inner_table
+							WHERE ROWNUM &lt;= #{endRowNum} )
+			WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	</select>
+
+
+	<select  id="getTotalCount"  parameterType="search"	 resultType="int">
+		  	SELECT COUNT(*)
+		  	FROM(	SELECT user_id , user_name , email
+							FROM users
+							<if test="searchCondition != null">
+								<where>
+									<if test="searchCondition == 0 and searchKeyword !='' ">
+							 			user_id = #{searchKeyword}
+									</if>
+									<if test="searchCondition == 1 and searchKeyword !='' ">
+							 		user_name = #{searchKeyword}
+									</if>
+								</where>
+							</if> ) countTable						
+	</select>
+	
+	
+	<!-- 관리자가 게시글에서 신고처리 버튼을 누를 경우 blocked 컬럼이 true로 플래그처리 -->
+	<update id="adminPostBlocked" parameterType="string">
+		UPDATE post
+			<set>
+				blocked = 'T'
+			</set>
+		WHERE post_id = ${value}
+	</update>	
+	
+	
+	<!-- 관리자가 댓글에서 신고처리 버튼을 누를 경우 blocked 컬럼이 true로 플래그처리 -->
+	<update id="adminCmtBlocked" parameterType="string">
+		UPDATE comments
+			<set>
+				blocked = 'T'
+			</set>
+		WHERE cmt_id = ${value}
+	</update>	 
 	
 
-<!-- ===회원가입===
 
-회원가입 -->
-<insert id="addUser" parameterType="user">
-	INSERT INTO USERS
-	( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot ,  push_agree , reg_date) 
-	VALUES(#{userId} , #{userName} , #{nickname} , #{pwd} , 'G' , #{email} , #{phone} , #{userImg,jdbcType=VARCHAR} , #{sex} , #{birth} , 3 , #{pushAgree,jdbcType=CHAR} , systimestamp )
-</insert>
-
+	<!-- 1:1문의 관리자 댓글 조회  -->
+	<select id="getComment" parameterType="String" resultMap="commentSelectMap">
+  		SELECT *
+  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+  						FROM ( SELECT c.post_id , c.cmt_id , c.nickname , c.writer_id , p.post_writer_id , 
+  										c.cmt_date , c.cmt_content
+										FROM comments c, post p
+										WHERE p.post_id = c.post_id AND c.cmt_id = l.ref_id(+) AND 
+										c.post_id = #{postId}
+										ORDER BY c.cmt_date DESC ) inner_table )
+	</select>
+	
+	<!-- 1:1 문의 관리자 댓글 작성 -->
+	<insert id="addComment" parameterType="String">
+  		SELECT *
+  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+  						FROM ( SELECT c.post_id , c.cmt_id , c.nickname , c.writer_id , p.post_writer_id , 
+  										c.cmt_date , c.cmt_content
+										FROM comments c, post p
+										WHERE p.post_id = c.post_id AND c.cmt_id = l.ref_id(+) AND 
+										c.post_id = #{postId}
+										ORDER BY c.cmt_date DESC ) inner_table )
+	</insert>
+	
+ 
 </mapper>

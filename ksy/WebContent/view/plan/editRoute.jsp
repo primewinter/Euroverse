@@ -367,7 +367,7 @@
 			var visitOrderNew  = visitOrder+1;	//삭제 후 이미 부여된 순서 오류... 필요없음!!!!!!
 			var indexNew = $(".city_id").index( $(".city_id:contains('"+cityId+"')") );
 			
-			if(confirm( "삭제된 경로는 복구가 불가능합니다.\n정말 삭제하시겠습니까? "+"/ indexNew="+indexNew ))
+			if(confirm( "삭제된 경로는 복구가 불가능합니다.\n정말 삭제하시겠습니까? " ))
 			{
 				console.log( indexNew + "번째 cityRoute 삭제"  );
 				$($(".city_route")[indexNew] ).remove();
@@ -903,8 +903,8 @@
 	</script>
 	
 	<!-- Google Map API -->
-	<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4" type="text/javascript"></script> -->
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4&callback=initMap" type="text/javascript"></script>
+	<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=" type="text/javascript"></script> -->
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
 
 	
 <head>
@@ -1178,6 +1178,10 @@
 	
 
 	<script type="text/javascript">
+	
+		/* icon 사용을 위한 스크립트 */
+		/* https://github.com/feathericons/feather#feather 참고 */
+		feather.replace();
 	
 		$($('.tran_type')[0]).hide();
 		

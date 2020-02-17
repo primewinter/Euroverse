@@ -56,6 +56,7 @@
 		}
 		ol, ul {
 		    list-style: none;
+		    padding: 0 0 0 10px;
 		}
 		.cmt_list li:first-child .cmt_info {
 		    border-top: none;
@@ -70,7 +71,7 @@
 		}
 		.cmt_nickbox {
 		    float: left;
-		    width: 132px;
+		    width: 110px;
 		    margin-top: 3px;
 		}
 		.gall_writer {
@@ -168,7 +169,7 @@
 		    border-right: 1px solid silver;
 		}
 		.cmt_write_box {
-		    padding: 12px 12px 12px;
+		    padding: 10px 10px 10px;
 		    background: snow;
 		    border-top: 1px solid silver;
 		    border-radius: 7px;
@@ -286,11 +287,33 @@
 		} 
 		.clear.cmt_txtbox.btn_reply_write_all {
 			clear: both;
-			padding-left: 133px;
-			padding-top: 10px;
+			padding-left: 115px;
 		}
 		.container, .container-md, .container-sm {
 		    max-width: 930px;
+		}
+		.modal {
+        text-align: center;
+		}
+		@media screen and (min-width: 768px) { 
+		        .modal:before {
+		                display: inline-block;
+		                vertical-align: middle;
+		                content: " ";
+		                height: 100%;
+		        }
+		}
+		.modal-dialog {
+		        display: inline-block;
+		        text-align: left;
+		        vertical-align: middle;
+		}
+		.card {
+			width: 85px;
+		    height: 85px; 
+		    border-radius: 70%;
+		    overflow: hidden;
+		    margin-left: 10px;
 		} 
 	</style>
     
@@ -366,7 +389,8 @@
                 	data : $("#reportform").serialize() ,
                 	dataType : "json" ,
                 	success : function(JSONData , status){
-                		$("#myModal").hide();
+                		$(".myModal")[0].reset();
+                		$("#myModal").modal("hide");
                 		alert(JSONData.msg);
                 	}
                 });
@@ -422,32 +446,32 @@
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	            <p>신고사유</p>
+	            <p>신고사유 선택</p>
             <form id="reportform" class="myModal">
 				<div class="custom-control custom-radio">
 				  <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="F">
-				  <label class="custom-control-label" for="customRadio1">욕설</label>
+				  <label class="custom-control-label" for="customRadio1" style="font-size:12px; padding-bottom:5px;">욕설</label>
 				</div>
 				<div class="custom-control custom-radio">
 				  <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" value="A">
-				  <label class="custom-control-label" for="customRadio2">음란물</label>
+				  <label class="custom-control-label" for="customRadio2" style="font-size:12px; padding-bottom:5px;">음란물</label>
 				</div>
 				<div class="custom-control custom-radio">
 				  <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input" value="R">
-				  <label class="custom-control-label" for="customRadio3">허위사실</label>
+				  <label class="custom-control-label" for="customRadio3" style="font-size:12px; padding-bottom:5px;">허위사실</label>
 				</div>
 				<div class="custom-control custom-radio">
 				  <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input" value="E">
-				  <label class="custom-control-label" for="customRadio4">기타</label>
-				  <input type="text" class="form-control" id="reportContent" name="reportContent" placeholder="기타 내용을 입력하세요."/>
+				  <label class="custom-control-label" for="customRadio4" style="font-size:12px;">기타</label>
+				  <input type="text" class="form-control" id="reportContent" name="reportContent" placeholder="기타 내용을 입력하세요." style="font-size:12px;"/>
 				</div>
 				  <input type="hidden" id="refId" name="refId" value="">
 	              <input type="hidden" id="reportTarget" name="reportTarget" value="">
 			</form>	      
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" id="addReport">send report</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:50px;height:30px;font-size:11px;line-height:9px;">Close</button>
+	        <button type="button" class="btn btn-primary" style="width:50px;height:30px;font-size:11px;line-height:9px;" id="addReport">send report</button>
 	      </div>
 	    </div>
 	  </div>
@@ -507,9 +531,9 @@
 	        ${post.postDate}
 	      </span>
 	    <div class="post_history" style="float: right;">
-	      <span class="views" style="font-size: 12px;">조회수 ${post.views} || </span>
-	      <span class="likes" style="font-size: 12px;">추천수 ${post.postLikeCount} || </span>
-	      <span class="comments" style="font-size: 12px;">댓글수 ${post.comments}</span>
+	      <i class="far fa-eye" style="font-size: 13px;"> ${post.views}</i>
+	      &nbsp;<i class="far fa-thumbs-up" style="font-size: 13px;"> ${post.postLikeCount}</i>
+	      &nbsp;<i class="far fa-comments" style="font-size: 13px;"> ${post.comments}</i>
 	    </div>
 	    </div>
 	  </div>
