@@ -1,14 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <html lang="ko">
 <head>
-<title>í•­ê³µê¶Œ ê²€ìƒ‰</title>
-<meta charset="UTF-8">
+<title>Ç×°ø±Ç °Ë»ö</title>
+<meta charset="EUC-KR">
 	
-	<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
+	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -20,9 +20,9 @@
 	<!-- asome icon CDN -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
 
-  	<!-- jQuery UI toolTip ì‚¬ìš© CSS-->
+  	<!-- jQuery UI toolTip »ç¿ë CSS-->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<!-- jQuery UI toolTip ì‚¬ìš© JS-->
+	<!-- jQuery UI toolTip »ç¿ë JS-->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
@@ -36,7 +36,7 @@
         	font-family : Consolas;
         }
         
-       /* ì¸ì›ìˆ˜ */
+       /* ÀÎ¿ø¼ö */
        row.justify-content-around {
         position:absolute;
  		 top:50%;
@@ -87,9 +87,9 @@
 	  
 
 	  
-	  /* ì´ë¯¸ì§€ ë°°ê²½ css */
+	  /* ÀÌ¹ÌÁö ¹è°æ css */
 	  .wrapper {
-		   position: relative; /* #wrapperì— íˆ¬ëª…ë„ë¥¼ ì£¼ë©´ ì»¨í…ì¸ ë„ ê°™ì´ íˆ¬ëª…í•´ì§€ê¸° ë•Œë¬¸ì—.. */
+		   position: relative; /* #wrapper¿¡ Åõ¸íµµ¸¦ ÁÖ¸é ÄÁÅÙÃ÷µµ °°ÀÌ Åõ¸íÇØÁö±â ¶§¹®¿¡.. */
 		}
 		.wrapper:after {
 		
@@ -104,9 +104,9 @@
 		    opacity : 0.7;
 		    z-index: -2;
 		}
-		/* ë‹¬ë ¥ css */
+		/* ´Ş·Â css */
 		.ui-datepicker { width: 20em; padding: .2em .2em 0;font-size: 14px; height:10px;}
-		/* ì¸ì› ìˆ˜ëŸ‰ */
+		/* ÀÎ¿ø ¼ö·® */
 		#decreaseQuantity , #decreaseQuantity2 , #decreaseQuantity3{
 		word-break: break-all;
 		list-style: none;
@@ -178,7 +178,7 @@ $(function() {
 });	
 
 
-////////////////////////////////ë‹¬ë ¥
+////////////////////////////////´Ş·Â
 
 var rangeDate = 500; // set limit day
 var setSdate, setEdate;
@@ -200,9 +200,9 @@ $("#from").datepicker({
                 setSdate = selectDate;
                 console.log(setSdate)
         }});
-        //to ì„¤ì •
+        //to ¼³Á¤
     }
-    //from ì„ íƒë˜ì—ˆì„ ë•Œ
+    //from ¼±ÅÃµÇ¾úÀ» ¶§
 });
 });
 $(function() {
@@ -215,11 +215,11 @@ $(function() {
 	});
 	 $('.btn.btn-info').on('click', function(e){
 	    if($('input#from').val() == ''){
-	        alert('ì‹œì‘ì¼ì„ ì„ íƒí•´ì£¼ì„¸ìš”.');
+	        alert('½ÃÀÛÀÏÀ» ¼±ÅÃÇØÁÖ¼¼¿ä.');
 	        $('input#from').focus();
 	        return false;
 	    }else if($('input#to').val() == ''){
-	        alert('ì¢…ë£Œì¼ì„ ì„ íƒí•´ì£¼ì„¸ìš”.');
+	        alert('Á¾·áÀÏÀ» ¼±ÅÃÇØÁÖ¼¼¿ä.');
 	        $('input#to').focus();
 	        return false;
 	    }
@@ -227,13 +227,13 @@ $(function() {
  
 	
 });
-///////////////////////////// table ìˆ¨ê¸°ê¸°, ë‚˜íƒ€ë‚´ê¸°
+///////////////////////////// table ¼û±â±â, ³ªÅ¸³»±â
 /* function doShow() { 
     if ($('#domestic').is(":visible")) { 
-        $('#domestic').hide(); // idê°’ì„ ë°›ì•„ì„œ ìˆ¨ê¸°ê¸° 
+        $('#domestic').hide(); // id°ªÀ» ¹Ş¾Æ¼­ ¼û±â±â 
         $('#icon').show();
     } else { 
-        $('#domestic').show(); // idê°’ì„ ë°›ì•„ì„œ ë³´ì´ê¸° 
+        $('#domestic').show(); // id°ªÀ» ¹Ş¾Æ¼­ º¸ÀÌ±â 
         $('#icon').hide();
        
     } 
@@ -241,11 +241,11 @@ $(function() {
 
 function Show() { 
     if ($('#europe').is(":visible")) { 
-        $('#europe').hide(); // idê°’ì„ ë°›ì•„ì„œ ìˆ¨ê¸°ê¸° 
+        $('#europe').hide(); // id°ªÀ» ¹Ş¾Æ¼­ ¼û±â±â 
      //   $('#icon').show();
     
     } else { 
-        $('#europe').show(); // idê°’ì„ ë°›ì•„ì„œ ë³´ì´ê¸° 
+        $('#europe').show(); // id°ªÀ» ¹Ş¾Æ¼­ º¸ÀÌ±â 
      //   $('#icon').hide();
     } 
 }  */
@@ -273,11 +273,11 @@ function Show() {
 }
 
 function domestic(obj) {
-	// í˜„ì¬ í´ë¦­ëœ Row(<tr>)
+	// ÇöÀç Å¬¸¯µÈ Row(<tr>)
 	var tr = $(this);
 	var td = tr.children();
 	
-	// tr.text()ëŠ” í´ë¦­ëœ Row ì¦‰ trì— ìˆëŠ” ëª¨ë“  ê°’ì„ ê°€ì ¸ì˜¨ë‹¤.
+	// tr.text()´Â Å¬¸¯µÈ Row Áï tr¿¡ ÀÖ´Â ¸ğµç °ªÀ» °¡Á®¿Â´Ù.
 	var depCity = $("#depCity").val(obj);
 	if ($('#domestic').css("display","block")) { 
 		$("#domestic").css("display","none");
@@ -290,11 +290,11 @@ function domestic(obj) {
 };
 
 function europe(obj) {
-	// í˜„ì¬ í´ë¦­ëœ Row(<tr>)
+	// ÇöÀç Å¬¸¯µÈ Row(<tr>)
 	var tr = $(this);
 	var td = tr.children();
 	
-	// tr.text()ëŠ” í´ë¦­ëœ Row ì¦‰ trì— ìˆëŠ” ëª¨ë“  ê°’ì„ ê°€ì ¸ì˜¨ë‹¤.
+	// tr.text()´Â Å¬¸¯µÈ Row Áï tr¿¡ ÀÖ´Â ¸ğµç °ªÀ» °¡Á®¿Â´Ù.
 	var arrCity = $("#arrCity").val(obj);
 	if ($('#europe').css("display","block")) { 
 		$("#europe").css("display","none");
@@ -304,8 +304,8 @@ function europe(obj) {
 	}
 	//alert(depCity);
 };
-///////////////////////////////// ì¸ì›ìˆ˜ ì¦ê°€, ê°ì†Œ
-	/* ì„±ì¸ ìˆ˜ */
+///////////////////////////////// ÀÎ¿ø¼ö Áõ°¡, °¨¼Ò
+	/* ¼ºÀÎ ¼ö */
 	$(function(){
 		$('#decreaseQuantity').click(function(e){
 			e.preventDefault();
@@ -313,11 +313,11 @@ function europe(obj) {
 			var num = parseInt(stat,10);
 			num--;
 		if(num<=0){
-			alert('ë”ì´ìƒ ì¤„ì¼ìˆ˜ ì—†ìŠµë‹ˆë‹¤.');
+			alert('´õÀÌ»ó ÁÙÀÏ¼ö ¾ø½À´Ï´Ù.');
 			num =1;
 		}
 		$('#numberUpDown').val(num);
-		$("#peopleChoice").val("ì´	 "+adult+child+inf);
+		$("#peopleChoice").val("ÃÑ	 "+adult+child+inf);
 		});
 			$('#increaseQuantity').click(function(e){
 			e.preventDefault();
@@ -326,16 +326,16 @@ function europe(obj) {
 			num++;
 		
 				if(num>10){
-					alert('ë”ì´ìƒ ëŠ˜ë¦´ìˆ˜ ì—†ìŠµë‹ˆë‹¤.');
+					alert('´õÀÌ»ó ´Ã¸±¼ö ¾ø½À´Ï´Ù.');
 					num=10;
 				}
 			var adult = $('#numberUpDown').val(num);
 			var grade = $("#grade").text();
-			$("#peopleChoice").val("ì´	 "+adult+child+inf);
+			$("#peopleChoice").val("ÃÑ	 "+adult+child+inf);
 			});
 		});
 		
-	/* ì†Œì•„ìˆ˜ */
+	/* ¼Ò¾Æ¼ö */
 	$(function(){
 		$('#decreaseQuantity2').click(function(e){
 			e.preventDefault();
@@ -343,11 +343,11 @@ function europe(obj) {
 			var num = parseInt(stat,10);
 			num--;
 		if(num<=-1){
-			alert('ë”ì´ìƒ ì¤„ì¼ìˆ˜ ì—†ìŠµë‹ˆë‹¤.');
+			alert('´õÀÌ»ó ÁÙÀÏ¼ö ¾ø½À´Ï´Ù.');
 			num =0;
 		}
 		$('#numberUpDown2').val(num);
-		$("#peopleChoice").val(total+"/ì†Œì•„"+num+"ëª… ")
+		$("#peopleChoice").val(total+"/¼Ò¾Æ"+num+"¸í ")
 		});
 			$('#increaseQuantity2').click(function(e){
 			e.preventDefault();
@@ -356,14 +356,14 @@ function europe(obj) {
 			num++;
 		
 				if(num>10){
-					alert('ë”ì´ìƒ ëŠ˜ë¦´ìˆ˜ ì—†ìŠµë‹ˆë‹¤.');
+					alert('´õÀÌ»ó ´Ã¸±¼ö ¾ø½À´Ï´Ù.');
 					num=10;
 				}
 			var child = $('#numberUpDown2').val(num);
-			$("#peopleChoice").val("ì´	 "+adult+child+inf);
+			$("#peopleChoice").val("ÃÑ	 "+adult+child+inf);
 			});
 		});
-	/* ìœ ì•„ìˆ˜ */
+	/* À¯¾Æ¼ö */
 	$(function(){
 		$('#decreaseQuantity3').click(function(e){
 			e.preventDefault();
@@ -371,7 +371,7 @@ function europe(obj) {
 			var num = parseInt(stat,10);
 			num--;
 		if(num<=-1){
-			alert('ë”ì´ìƒ ì¤„ì¼ìˆ˜ ì—†ìŠµë‹ˆë‹¤.');
+			alert('´õÀÌ»ó ÁÙÀÏ¼ö ¾ø½À´Ï´Ù.');
 			num =0;
 		}
 		$('#numberUpDown3').val(num);
@@ -383,11 +383,11 @@ function europe(obj) {
 			num++;
 		
 				if(num>10){
-					alert('ë”ì´ìƒ ëŠ˜ë¦´ìˆ˜ ì—†ìŠµë‹ˆë‹¤.');
+					alert('´õÀÌ»ó ´Ã¸±¼ö ¾ø½À´Ï´Ù.');
 					num=10;
 				}
 			var inf = $('#numberUpDown3').val(num);
-			$("#peopleChoice").val("ì´	 "+adult+child+inf);
+			$("#peopleChoice").val("ÃÑ	 "+adult+child+inf);
 			});
 		});
 	
@@ -409,15 +409,15 @@ function europe(obj) {
 <br>
 <br>
 			<div class="row" style="Padding-left:200px;">
-              		<button type="button" class="btn btn-outline-light">ì™•ë³µêµ¬ê°„ ê²€ìƒ‰</button>
+              		<button type="button" class="btn btn-outline-light">¿Õº¹±¸°£ °Ë»ö</button>
               		&nbsp;&nbsp;&nbsp;&nbsp;
-                	<button type="button" class="btn btn-outline-light" style="">í¸ë„êµ¬ê°„ ê²€ìƒ‰</button>
+                	<button type="button" class="btn btn-outline-light" style="">Æíµµ±¸°£ °Ë»ö</button>
             </div>
             <br/><br/>
 			<div class="container">
 			  <div class="row">
 			    <div class="col">
-			    	 <input type="text" class="form-control" placeholder="ì¶œë°œì§€ì—­ì„ ì…ë ¥í•˜ì„¸ìš”" name="depCity" id="depCity" style="width:300px;height:30px;font-size:13px;float:left;" onclick="javascript:doShow();">
+			    	 <input type="text" class="form-control" placeholder="Ãâ¹ßÁö¿ªÀ» ÀÔ·ÂÇÏ¼¼¿ä" name="depCity" id="depCity" style="width:300px;height:30px;font-size:13px;float:left;" onclick="javascript:doShow();">
 					 <div class="input-group-append">
 					  <span class="input-group-text" id="basic-addon2"><i class="fas fa-plane" id="iconf" style="font-size:15px;"></i></span>
 			  			<i class="fas fa-arrows-alt-h" style="font-size:25px;Padding-left:100px;"></i>
@@ -425,7 +425,7 @@ function europe(obj) {
 			  		</div>
 			    </div>
 			    <div class="col">
-			    	 <input type="text" class="form-control" placeholder="ë„ì°©ì§€ì—­ì„ ì…ë ¥í•˜ì„¸ìš”" name="arrCity" id="arrCity" style="width:350px;height:30px;font-size:13px;float:left; " onclick="javascript:Show();">
+			    	 <input type="text" class="form-control" placeholder="µµÂøÁö¿ªÀ» ÀÔ·ÂÇÏ¼¼¿ä" name="arrCity" id="arrCity" style="width:350px;height:30px;font-size:13px;float:left; " onclick="javascript:Show();">
 					 <div class="input-group-append">
 					  <span class="input-group-text" id="basic-addon2"><i class="fas fa-plane" id="iconf" style="font-size:15px;"></i></span>
 		  			 </div>
@@ -441,27 +441,27 @@ function europe(obj) {
 			    <br/>
 				<div class="row">
 			   		 <div class="col-sm-2" id="depIcon">
-			    	<input type="text" class="form-control" placeholder="ì¶œë°œë‚ ì§œ ì„ íƒ" style="width:120px;font-size:14px;height:30px;float:left;" id="from" name="depDate">
+			    	<input type="text" class="form-control" placeholder="Ãâ¹ß³¯Â¥ ¼±ÅÃ" style="width:120px;font-size:14px;height:30px;float:left;" id="from" name="depDate">
 					  <div class="input-group-append">
 					    <span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
 					  </div>
 					
 					</div>
 			   		 <div class="col-sm-2" id="arrIcon">
-			   		 	 <input type="text" class="form-control" placeholder="ë„ì°©ë‚ ì§œ ì„ íƒ"  style="width:120px;font-size:14px;height:30px;float:left;" id="to" name="arrDate">
+			   		 	 <input type="text" class="form-control" placeholder="µµÂø³¯Â¥ ¼±ÅÃ"  style="width:120px;font-size:14px;height:30px;float:left;" id="to" name="arrDate">
 						  <div class="input-group-append">
 						    <span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
 						  </div>
 			   	
 			   		 </div>
 			   		 <div class="col-sm-2" style="margin-left: 18%" id="totalNum">
-			   		 	<input type="text" id="peopleChoice" value="ì„±ì¸ 1ëª… / ì¼ë°˜ì„" style="width:150px;" 
-			   		 	 title="ì¸ì› ë° ì¢Œì„ ë“±ê¸‰ ì„ íƒ" class="form-control" readonly="readonly" data-toggle="modal" data-target="#flightNum">
+			   		 	<input type="text" id="peopleChoice" value="¼ºÀÎ 1¸í / ÀÏ¹İ¼®" style="width:150px;" 
+			   		 	 title="ÀÎ¿ø ¹× ÁÂ¼® µî±Ş ¼±ÅÃ" class="form-control" readonly="readonly" data-toggle="modal" data-target="#flightNum">
 			   		 </div>
 			   		 &nbsp;&nbsp;&nbsp;&nbsp;
 			   		 <div class="btn-area" id="search">
-	                  <button type="button" id="searchButton" class="btn btn-info" title="í•­ê³µê¶Œ ê²€ìƒ‰">
-	                    <span class="ico-search">í•­ê³µê¶Œ ê²€ìƒ‰</span>
+	                  <button type="button" id="searchButton" class="btn btn-info" title="Ç×°ø±Ç °Ë»ö">
+	                    <span class="ico-search">Ç×°ø±Ç °Ë»ö</span>
 	                  </button>
 	                </div>
 			 		</div>
@@ -470,22 +470,22 @@ function europe(obj) {
 			  		<table class="table" id="domestic" style="width: 300px; display: none;">
 					 <tbody>	
 						<tr>
-						<th rowspan="5" align="center">êµ­ë‚´</th>
+						<th rowspan="5" align="center">±¹³»</th>
 						</tr>			
 							<tr>			
-								<td onclick="javascript:domestic($(this).closest('td').text());">ì¸ì²œ</td>
-								<td onclick="javascript:domestic($(this).closest('td').text());">ê¹€í¬</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">ÀÎÃµ</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">±èÆ÷</td>
 							</tr>
 							<tr>
-								<td onclick="javascript:domestic($(this).closest('td').text());">ë¶€ì‚°</td>
-								<td onclick="javascript:domestic($(this).closest('td').text());">ëŒ€êµ¬</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">ºÎ»ê</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">´ë±¸</td>
 							</tr>
 							<tr>
-								<td onclick="javascript:domestic($(this).closest('td').text());">ì²­ì£¼</td>
-								<td onclick="javascript:domestic($(this).closest('td').text());">ì œì£¼</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">Ã»ÁÖ</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">Á¦ÁÖ</td>
 							</tr>
 							<tr>
-								<td onclick="javascript:domestic($(this).closest('td').text());">ë¬´ì•ˆ</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">¹«¾È</td>
 								<td onclick="javascript:domestic($(this).closest('td').text());"></td>
 							</tr>
 						</tbody>
@@ -496,47 +496,47 @@ function europe(obj) {
 		  			  <table id="europe" class="table" style="margin-left: 52%; width: 350px; display: none;">
 						<tbody>	
 						<tr>
-						<th rowspan="9" align="center">ìœ ëŸ½</th>
+						<th rowspan="9" align="center">À¯·´</th>
 						</tr>			
 							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">íŒŒë¦¬</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">ëŸ°ë˜</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">ì•„í…Œë„¤</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">ÆÄ¸®</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">·±´ø</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">¾ÆÅ×³×</td>
 							</tr>
 							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">ë¡œë§ˆ</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">í”„ë¼í•˜</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">ì´ìŠ¤íƒ„ë¶ˆ</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">·Î¸¶</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">ÇÁ¶óÇÏ</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">ÀÌ½ºÅººÒ</td>
 							</tr>
 							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">í”„ë‘í¬í‘¸ë¥´íŠ¸</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">ë§ˆë“œë¦¬ë“œ</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">ë°€ë¼ë…¸</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">ÇÁ¶ûÅ©Çª¸£Æ®</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">¸¶µå¸®µå</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">¹Ğ¶ó³ë</td>
 							</tr>
 							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">ë°”ë¥´ì…€ë¡œë‚˜</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">ì·¨ë¦¬íˆ</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">ë² ë¥´ì‚¬ìœ </td>
+								<td onclick="javascript:europe($(this).closest('td').text());">¹Ù¸£¼¿·Î³ª</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">Ãë¸®È÷</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">º£¸£»çÀ¯</td>
 							</tr>
 							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">ë‚˜í´ë¦¬</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">í—¬ì‹±í‚¤</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">ì œë„¤ë°”</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">³ªÆú¸®</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">Çï½ÌÅ°</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">Á¦³×¹Ù</td>
 							</tr>
 							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">ë² ë‹ˆìŠ¤</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">ë¶€ë‹¤í˜ìŠ¤íŠ¸</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">ë² ë¥¼ë¦°</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">º£´Ï½º</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">ºÎ´ÙÆä½ºÆ®</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">º£¸¦¸°</td>
 							</tr>
 							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">ì•”ìŠ¤í…Œë¥´ë‹´</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">ë®Œí—¨</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">ë¦¬ìŠ¤ë³¸</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">¾Ï½ºÅ×¸£´ã</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">¹ÀÇî</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">¸®½ºº»</td>
 							</tr>
 							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">ë‘ë¸Œë¡œë¸Œë‹ˆí¬</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">ëª¨ìŠ¤í¬ë°”</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">ë² ì˜¤ê·¸ë¼ë“œ</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">µÎºê·Îºê´ÏÅ©</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">¸ğ½ºÅ©¹Ù</td>
+								<td onclick="javascript:europe($(this).closest('td').text());">º£¿À±×¶óµå</td>
 							</tr>
 						</tbody>
 						</table>
@@ -553,12 +553,12 @@ function europe(obj) {
 
 		
 </div>	
-		<!-- Modal ì•ˆì— ë‚´ìš© -->
+		<!-- Modal ¾È¿¡ ³»¿ë -->
 		<div class="modal fade" id="flightNum" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content"  >
 		      <div class="modal-header" style="background-color:gray;">
-		        <h5 class="modal-title" id="exampleModalLabel" style="color:white;font-size:13px;">> ì¸ì› ë° ì¢Œì„ ë“±ê¸‰ ì„ íƒ</h5>
+		        <h5 class="modal-title" id="exampleModalLabel" style="color:white;font-size:13px;">> ÀÎ¿ø ¹× ÁÂ¼® µî±Ş ¼±ÅÃ</h5>
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		          <span aria-hidden="true">&times;</span>
 		        </button>
@@ -566,8 +566,8 @@ function europe(obj) {
 		      <div class="modal-body">
 		        <div class="number">
 		        	<li>
-					<label for="Adt"><strong>ì„±ì¸</strong><br/>
-										ë§Œ 12ì„¸ ì´ìƒ</label>
+					<label for="Adt"><strong>¼ºÀÎ</strong><br/>
+										¸¸ 12¼¼ ÀÌ»ó</label>
 					<span class="ctrl-num">
 			        	<button type="button" id="decreaseQuantity" class="plus"></button>
 							 <input style="font-size:15px;width:5%;display: table-cell;margin-bottom:20px;text-align: center;vertical-align: middle;border: none;" 
@@ -576,8 +576,8 @@ function europe(obj) {
 					</span>
 					<br/>
 					<li>
-					<label for="Chd"><strong>ì†Œì•„</strong><br/>
-										ë§Œ 12ì„¸ ë¯¸ë§Œ</label>
+					<label for="Chd"><strong>¼Ò¾Æ</strong><br/>
+										¸¸ 12¼¼ ¹Ì¸¸</label>
 					<span class="ctrl-num">
 			        	<button type="button" id="decreaseQuantity2" class="plus"></button>
 							 <input style="font-size:15px;width:5%;display: table-cell;margin-bottom:20px;text-align: center;vertical-align: middle;border: none;"
@@ -586,8 +586,8 @@ function europe(obj) {
 					</span>
 					</li>
 					<li>
-					<label for="Inf"><strong>ìœ ì•„</strong><br/>
-										ë§Œ 2ì„¸ ë¯¸ë§Œ</label>&nbsp;
+					<label for="Inf"><strong>À¯¾Æ</strong><br/>
+										¸¸ 2¼¼ ¹Ì¸¸</label>&nbsp;
 					<span class="ctrl-num">
 			        	<button type="button" id="decreaseQuantity3" class="plus"></button>
 							 <input style="font-size:15px;width:5%;display: table-cell;margin-bottom:20px;text-align: center;vertical-align: middle;border: none;"
@@ -597,14 +597,14 @@ function europe(obj) {
 					</li>
 					<hr/>
 						<div class="input-group">
-						  <label for="seatGrade" id="seatGrade" style="text-align: center; font-size:14px;">ì¢Œì„ ë“±ê¸‰ ì„ íƒ</label>
+						  <label for="seatGrade" id="seatGrade" style="text-align: center; font-size:14px;">ÁÂ¼® µî±Ş ¼±ÅÃ</label>
 						 &nbsp;&nbsp;&nbsp;&nbsp;
 						  <div class="input-group-append">
 							   <select class="form-control" id="grade" name="seatGrade" style="width:80%;">
-								 	<option value="0">ì¼ë°˜ì„</option>
-									<option value="1">í”„ë¦¬ë¯¸ì—„ ì¼ë°˜ì„</option>
-									<option value="2">ë¹„ì¦ˆë‹ˆìŠ¤ì„</option>
-									<option value="3">ì¼ë“±ì„</option>
+								 	<option value="0">ÀÏ¹İ¼®</option>
+									<option value="1">ÇÁ¸®¹Ì¾ö ÀÏ¹İ¼®</option>
+									<option value="2">ºñÁî´Ï½º¼®</option>
+									<option value="3">ÀÏµî¼®</option>
 								</select>
 						</div>
 						
@@ -612,8 +612,8 @@ function europe(obj) {
 				</div>
 		      </div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">í™•ì¸</button>
-		        <button type="button" class="btn btn-primary" data-dismiss="modal">ì·¨ì†Œ</button>
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">È®ÀÎ</button>
+		        <button type="button" class="btn btn-primary" data-dismiss="modal">Ãë¼Ò</button>
 		      </div>
 		    </div>
 		  </div>

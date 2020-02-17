@@ -7,17 +7,12 @@
  		<div class="pushToast">
  		pushToast 자리
  		</div>
- 		<div class="footerBar-content">
- 			 
-				    <!-- 결과 메시지 보여주는 창 -->
-				     <div class="deletePush" >
-				    <span class = "totalCount" style="float:center;">내 소식 알림</span>
-				    <a href='javascript:deletePush()'><i class="far fa-trash-alt" style="float:right;"></i></a><hr>
-				    	<div class="pushList" style="overflow-y:auto; width:300px; height:350px;">
-				    	</div>
+ 		<div class="bottom-bar push-layer" >
+				    <div class="deletePush" >
+						    <span class = "totalCount" style="float:center;">내 소식 알림</span>
+						    <a href='javascript:deletePush()'><i class="far fa-trash-alt" style="float:right;"></i></a><hr>
+						    	<div class="pushList" style="overflow-y:auto; width:300px; height:350px;"></div>
 				    </div>
-				    <br />
-				    
 				    <script type="text/javascript">
 				        var pushAddr = "ws://192.168.0.82:8080/userSocket/";
 				        var webSocket;
@@ -88,10 +83,16 @@
 						  	webSocket.send(JSON.stringify({push}));
 							console.log("push 보냈음 ::"+JSON.stringify({push}));
 				        }
-				        
 				    </script>
  		</div>
- 		<i class="fas fa-bell fa-2x"></i><span class="unreadCount" style="display:table-col;vertical-align:top;"></span>
+ 		<div class="bottom-bar chat-layer">
+	 			<div class="roomList" style="overflow-y:auto; width:300px; height:450px;">
+	 			</div>
+ 		</div>
+ 		<div class="bottom-menu" >
+		 		<i class="fas fa-bell"  style="margin:10px;"></i><span class="unreadCount" style="display:table-col;vertical-align:top;"></span>
+		 		<i class="fas fa-comment-alt"  style="margin:10px;"></i>
+ 		</div>
  	</div>
  	
  	<script type="text/javascript">
@@ -319,7 +320,8 @@
 			  	
 			  }
 	            // hide the menu when the page load
-	            $(".footerBar-content").hide();
+	            $(".footerBar .push-layer").hide();
+	            $(".footerBar .chat-layer").hide();
 
 	            // when .menuBtn is clicked, do this
 	            $(".footerBar .fa-bell").click(function() {
@@ -329,11 +331,14 @@
 						setTimeout(() => getUnreadCount(userId), 50);
 	            	}
 	                // open the menu with slide effect
-	                $(".footerBar-content").slideToggle(300);
-	                
-	            	
-
+	                $(".chat-layer").hide();
+	                $(".push-layer").slideToggle(300);
 	            });
+	            
+	            $(".footerBar .fa-comment-alt").click(function() {
+	            	$(".push-layer").hide();
+	            	$(".chat-layer").slideToggle(300);
+	            })
 
 	        });
 
@@ -341,17 +346,55 @@
 		
 	</script>  
 		<style>
+		
         .footerBar {
         	position: fixed;
         	right: 50px;
         	bottom: 50px;
         	text-align: right;
         }
-        
-        .footerBar-content {
-        	background-color: white;
-        }
-        
+       
+        .push-layer, .chat-layer {
+			position: relative;
+			background: #ffffff;
+			border: 1px solid gray;
+			border-radius: 10px;
+			margin-bottom:20px;
+			padding: 10px;
+		}
+		.push-layer:after, .push-layer:before {
+			top: 100%;
+			left: 82%;
+			border: solid transparent;
+			content: "";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		}
+		.chat-layer:after, .chat-layer:before {
+			top: 100%;
+			left: 95%;
+			border: solid transparent;
+			content: "";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		}
+				
+		 .push-layer:after, .chat-layer:after {
+			 border-color: rgba(255, 255, 255, 0);
+			border-top-color: #ffffff;
+			border-width: 10px;
+			margin-left: -10px;
+		 }
+		 	.push-layer:before, .chat-layer:before {
+		 	border-color: rgba(184, 0, 0, 0);
+			border-top-color: black;
+			border-width: 11px;
+			margin-left: -11px;
+		 }
         
 
 	</style>

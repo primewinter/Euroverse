@@ -20,18 +20,20 @@
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 
-   <!-- jQuery UI toolTip 사용 CSS-->
-   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-   <!-- jQuery UI toolTip 사용 JS-->
-   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- jQuery UI toolTip 사용 CSS-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- jQuery UI toolTip 사용 JS-->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-	  body {
-            padding-top : 30px;
-      }
+		.container, .container-md, .container-sm {
+		    max-width: 1000px;
+		    font-size: 14px;
+		}
+		
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -43,7 +45,7 @@
 		}
 		
 		 $(function() {
-			 $( "button.btn.btn-default" ).on("click" , function() {
+			 $( ".fas.fa-search" ).on("click" , function() {
 			 	fncGetUserList(1);
 			 });
 		 });
@@ -56,9 +58,6 @@
 			     var postId = $(this).find($("input[name='postId']")).val();	
 				 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
 			});
-						
-			$( "td:nth-child(2)" ).css("color" , "indianred");
-			
 		});	
 	
 		$(function(){
@@ -83,44 +82,38 @@
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
-		<div class="page-header text-info">
-		<c:if test="${param.boardName=='A'}">
-			<h3>자유게시판</h3>
-		</c:if>
-		<c:if test="${param.boardName=='B'}">
-			<h3>정보공유</h3>
-		</c:if>
-		<c:if test="${param.boardName=='C'}">
-			<h3>인기글게시판</h3>
-		</c:if>
-		<c:if test="${param.boardName=='D'}">
-			<h3>동행찾기</h3>
-		</c:if>
-		<c:if test="${param.boardName=='E'}">
-			<h3>플래너공유</h3>
-		</c:if>
-		<c:if test="${param.boardName=='F'}">
-			<h3>여행후기</h3>
-		</c:if>
-		<c:if test="${param.boardName=='G'}">
-			<h3>QnA</h3>
-		</c:if>
+		<div class="h3" style="font-weight: bold; margin-top: 40px;">
+			<c:if test="${param.boardName=='A'}">
+			자유게시판
+			</c:if>
+			<c:if test="${param.boardName=='B'}">
+			정보공유
+			</c:if>
+			<c:if test="${param.boardName=='C'}">
+			인기글게시판
+			</c:if>
+			<c:if test="${param.boardName=='D'}">
+			동행찾기
+			</c:if>
+			<c:if test="${param.boardName=='E'}">
+			플래너공유
+			</c:if>
+			<c:if test="${param.boardName=='F'}">
+			여행후기
+			</c:if>
+			<c:if test="${param.boardName=='G'}">
+			QnA
+			</c:if>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	    <div class="row">
-	    
-		    <div class="col-md-6 text-left">
-		    	<p class="text-primary">
-		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
-		    	</p>
-		    </div>
 		    
-		    <div class="col-md-6 text-right">
-			    <form class="form-inline" name="detailForm">
+		    <div class="col-md-12 text-right" style="margin: 10px 0 15px 0">
+			    <form class="form-inline mt-2 mt-md-0" name="detailForm" style="float:right;">
 			      <input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>
 				  <div class="form-group">
-				    <select class="form-control" name="searchCondition" >
+				    <select class="form-control" name="searchCondition" style="height: 30px; width: 85px; font-size: 13px; margin-right: 2px;" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>제목</option>
 						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>닉네임</option>
 						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>태그</option>
@@ -129,12 +122,12 @@
 				  
 				  <div class="form-group">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
-				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
+				    <input type="text" class="form-control mr-sm-2" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" style="height: 30px; font-size: 13px;" >
 				  </div>
 				  
-				  <button type="button" class="btn btn-default">검색</button>
-				  
+				  &nbsp;<i class="fas fa-search"></i>
+			
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
@@ -144,19 +137,19 @@
 		</div>
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
-		
+	<div class="table-responsive">	
       <!--  table Start /////////////////////////////////////-->
-      <table class="table table-hover table-striped" >
+      <table class="table table-white table-sm" >
       
         <thead>
           <tr>
             <th align="center">게시글번호</th>
-            <th align="left" >제목</th>
-            <th align="left">닉네임</th>
-            <th align="left">작성일</th>
-            <th align="left">댓글수</th>
-            <th align="left">조회수</th>
-            <th align="left">추천수</th>
+            <th align="center" >제목</th>
+            <th align="center">닉네임</th>
+            <th align="center">작성일</th>
+            <th align="center">댓글수</th>
+            <th align="center">조회수</th>
+            <th align="center">추천수</th>
           </tr>
         </thead>
        
@@ -166,22 +159,23 @@
 		  <c:forEach var="post" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
-			  <td align="left">${ i }</td>
-			  <td align="left">
+			  <td align="center">${ i }</td>
+			  <td align="left" style="font-weight: bold; color: dimgray;">
 			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>${post.postTitle}</td>
-			  <td align="left">${post.nickName}</td>
-			  <td align="left">${post.postDate}</td>
-			  <td align="left">${post.comments}</td>
-			  <td align="left">${post.views}</td>
-			  <td align="left">${post.postLikeCount}</td>
+			  <td align="center">${post.nickName}</td>
+			  <td align="center">${post.postDate}</td>
+			  <td align="center">${post.comments}</td>
+			  <td align="center">${post.views}</td>
+			  <td align="center">${post.postLikeCount}</td>
 			</tr>
           </c:forEach>
         
         </tbody>
       
       </table>
+     </div>
 	  <!--  table End /////////////////////////////////////-->
-	  <button type="button" id="addpost_view" class="btn btn-primary">작성하기</button>
+	  <button type="button" id="addpost_view" class="btn btn-info" style="width: 90px; height: 25px; font-size: 15px; line-height: 14px;">작성하기</button>
 	  
  	</div>
  	<!--  화면구성 div End /////////////////////////////////////-->

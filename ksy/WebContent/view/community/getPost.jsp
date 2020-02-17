@@ -52,7 +52,7 @@
 		}
 		.comment_box {
 		    position: relative;
-		    border-top: 2px solid silver;
+		    border-top: 1px solid silver;
 		}
 		ol, ul {
 		    list-style: none;
@@ -61,7 +61,7 @@
 		    border-top: none;
 		}
 		.view_comment .cmt_info {
-		    padding: 9px 3px 40px 3px;
+		    padding: 9px 3px 10px 3px;
 		}
 		.cmt_info {
 		    position: relative;
@@ -71,14 +71,14 @@
 		.cmt_nickbox {
 		    float: left;
 		    width: 132px;
-		    margin-right: 33px;
 		    margin-top: 3px;
 		}
 		.gall_writer {
 		    position: relative;
 		    font-size: 13px;
 		    cursor: pointer;
-		}.nickname.me {
+		}
+		.nickname.me {
 		    background: #e5ebff;
 		    padding: 3px 1px 1px 2px;
 		}
@@ -86,7 +86,8 @@
 		    font-size: 12px;
 		    color: #777;
 		    vertical-align: top;
-		}.comment_box .nickname.in > em {
+		}
+		.comment_box .nickname.in > em {
 		    max-width: 110px;
 		    padding-right: 1px;
 		}
@@ -130,20 +131,6 @@
 		    vertical-align: top;
 		    margin-top: 3px;
 		}
-		.view_comment .cmt_mdf_del {
-		    top: 3px;
-		}
-		.cmt_mdf_del:empty {
-		    display: none;
-		}
-		.cmt_mdf_del {
-		    float: right;
-		}
-		.cmt_mdf_del {
-		    position: relative;
-		    margin-left: 6px;
-		    z-index: 1;
-		}
 		.view_comment .bottom_paging_box {
 		    height: 69px;
 		}
@@ -182,8 +169,9 @@
 		}
 		.cmt_write_box {
 		    padding: 12px 12px 12px;
-		    background: #fafafa;
+		    background: snow;
 		    border-top: 1px solid silver;
+		    border-radius: 7px;
 		}
 		.user_info_input:first-child {
 		    margin-top: 0px;
@@ -214,6 +202,7 @@
 		}
 		.cmt_txt_cont {
 		    float: right;
+		    width: 730px;
 		}
 		.cmt_write {
 		    position: relative;
@@ -227,7 +216,9 @@
 		    line-height: 18px;
 		}
 		.cmt_txt_cont textarea {
-		    width: 900px;
+			float: left;
+			margin: 10px 0 10px 0;
+		    width: 730px;
 		    height: 78px;
 		    padding: 13px;
 		    border: 1px solid #cecdce;
@@ -289,21 +280,17 @@
 		    width: 820px;
 		    cursor: pointer;
 		}
-		.cmt_mdf_del button {
-		    color: #999;
-		}
-		.btn_cmt_delete {
-		    background: url(https://nstatic.dcinside.com/dc/w/images/sp/sp_img.png);
-		    background-position: -268px -200px;
-		    font-size: 0;
-		    line-height: 0;
-		    width: 13px;
-		    height: 13px;
-		    vertical-align: top;
-		}
 		.cmt_like {
 			clear: both;
 			float: left;
+		} 
+		.clear.cmt_txtbox.btn_reply_write_all {
+			clear: both;
+			padding-left: 133px;
+			padding-top: 10px;
+		}
+		.container, .container-md, .container-sm {
+		    max-width: 930px;
 		} 
 	</style>
     
@@ -351,51 +338,40 @@
 		function reportshow(refId, repTar){ 
 	    	$("#refId").attr('value',''+refId+'');
 	    	$("#reportTarget").attr('value',''+repTar+'');
-	        $("#dialog-add").dialog("open");     
+	    	$('#myModal').on('shown.bs.modal'); 
 	    };
-		
-		$(function(){
+	    
+	    $(function(){
+	    	$("#addReport").on("click", function(){
 
-		    $("#dialog-add").dialog({
-		        autoOpen: false,
-		        buttons:[
-		            {
-		                text: "신고",
-		                click: function(){
-		                	
-		                	if($('#reportReason option:selected').val() == 'E'){
-		                		
-			                	var reportContent = $("input[name='reportContent']").val();
-			                	
-			            		if(reportContent == null || reportContent.length<1){
-			            			alert("내용은 반드시 입력하세요.");
-			            			return;
-			            		}
-		                	}
-		                	
-		                    $.ajax({
-		                    	url : '/community/json/addReport' ,
-		                    	type : "POST" ,
-		                    	data : $("#reportform").serialize() ,
-		                    	dataType : "json" ,
-		                    	success : function(JSONData , status){
-		                    		alert(JSONData.msg);
-		                    		$("#dialog-add").dialog("close");
-		                    	}
-		                    });
-		                }
-		            }
-		        ]
-		    });
-
-		    $('#reportReason').change(function() {
-				if($('#reportReason option:selected').val() == 'E'){
-					$('.layer').show();
-				}else{
-					$('.layer').hide();
-				}
-			});
-		});
+	    		if( $("input:radio[id='customRadio4']").is(":checked") == true ){
+            		
+                	var reportContent = $("input[name='reportContent']").val();
+                	
+            		if(reportContent == null || reportContent.length<1){
+            			alert("내용은 반드시 입력하세요.");
+            			return;
+            		}
+	    		}else if( $("input:radio[id='customRadio4']").is(":checked") == false ){
+	    			
+	    			if( $("input[name='reportContent']" ).val() != ""){
+	    				alert("기타만 입력 가능");
+	    				return;
+	    			}
+	    		}
+            	
+                $.ajax({
+                	url : '/community/json/addReport' ,
+                	type : "POST" ,
+                	data : $("#reportform").serialize() ,
+                	dataType : "json" ,
+                	success : function(JSONData , status){
+                		$("#myModal").hide();
+                		alert(JSONData.msg);
+                	}
+                });
+	    	});
+	    });
 		
 		function addBookMark(postId){
 
@@ -424,7 +400,7 @@
 		function getPost(postId) {
 			self.location = "/community/getPost?postId="+postId+"&boardName="+boardName;
 		}
-
+		
 	</script>
 	
 </head>
@@ -435,21 +411,48 @@
 	<jsp:include page="/toolbar/toolBar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
    	
-	<div id="dialog-add" title="신고 작성">
-	  <form id="reportform">
-	    <p>신고사유</p>
-	    <select id="reportReason" name="reportReason">
-	      <option value="F">욕설</option>
-	      <option value="A">음란물</option>
-	      <option value="R">허위사실</option>
-	      <option value="E">기타</option>
-	    </select>
-	    <div class="layer"><input type="text" id="reportContent" name="reportContent" placeholder="기타 내용을 입력하세요."/></div>
-	      <input type="hidden" id="refId" name="refId" value="">
-	      <input type="hidden" id="reportTarget" name="reportTarget" value="">
-	  </form>	
+   	
+   	<div class="modal" tabindex="-1" role="dialog" id="myModal" >
+	  <div class="modal-dialog" role="document" >
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">신고 작성</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	            <p>신고사유</p>
+            <form id="reportform" class="myModal">
+				<div class="custom-control custom-radio">
+				  <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="F">
+				  <label class="custom-control-label" for="customRadio1">욕설</label>
+				</div>
+				<div class="custom-control custom-radio">
+				  <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" value="A">
+				  <label class="custom-control-label" for="customRadio2">음란물</label>
+				</div>
+				<div class="custom-control custom-radio">
+				  <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input" value="R">
+				  <label class="custom-control-label" for="customRadio3">허위사실</label>
+				</div>
+				<div class="custom-control custom-radio">
+				  <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input" value="E">
+				  <label class="custom-control-label" for="customRadio4">기타</label>
+				  <input type="text" class="form-control" id="reportContent" name="reportContent" placeholder="기타 내용을 입력하세요."/>
+				</div>
+				  <input type="hidden" id="refId" name="refId" value="">
+	              <input type="hidden" id="reportTarget" name="reportTarget" value="">
+			</form>	      
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" id="addReport">send report</button>
+	      </div>
+	    </div>
+	  </div>
 	</div>
-	
+   
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
@@ -480,20 +483,19 @@
 	
 	  <hr>
 	  
-	     <div class="recom_bottom_box clear" style="width: 1110px;"> 
+	     <div class="recom_bottom_box clear" style="width: 890px;"> 
           <c:if test="${post.postLikeFlag == 'F' || post.postLikeFlag == null}">
 	   		<i onclick="addBookMark(${post.postId})" class="far fa-bookmark fa-2x" style="float: right;"></i>
 	      </c:if>
 	      <c:if test="${post.postLikeFlag == 'T' }">
 	  		<i onclick="addBookMark(${post.postId})" class="fas fa-bookmark fa-2x" style="float: right;"></i>
 	      </c:if>
-         	<div class="far fa-angry" onclick="reportshow('${post.postId}','P')" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</div>
-	     	  <h3 class="title ub-word" style="margin-bottom: 40px">
+         	<div class="far fa-angry" data-toggle="modal" data-target="#myModal" onclick="reportshow('${post.postId}','P');" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</div>
+	     	  <h4 class="title ub-word" style="margin-bottom: 40px;">
 		      	<span class="title_subject">${post.postTitle}</span>
-		      </h3>
+		      </h4>
 	     </div>
 		
-	  
 	<div class="view_content_wrap">
 	 <div class="gallview_head clear ub-content">
 	  <div class="gall_writer ub-writer">
@@ -530,8 +532,8 @@
 	        <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
 	      <div class="inner fl" style="text-align: center;">
 	        <div class="up_num_box" style="margin: 50px 0 50px 0">
-	          <span class="up_num font_red" style="color: tomato; font-size: 43px; margin-right: 20px">${post.postLikeCount} </span>
-	          <i onclick="like()" class="far fa-thumbs-up fa-3x" style="color: tomato;"></i>
+	          <span class="up_num font_red" style="color: tomato; font-size: 20px; margin-right: 10px">${post.postLikeCount} </span>
+	          <i onclick="like()" class="fas fa-heart fa-2x" style="color: tomato;"></i>
 	        </div>
 	      </div>
 	    </form>
@@ -539,13 +541,13 @@
 	  </div>
 	  
 	  <div class="tag_content_box">
-	     <div class="tagbox">
+	     <div class="tagbox" style="font-size: 12px;">
 	       <i class="fas fa-tags"> 태그 </i>
 	       <span>
 	         <c:set var="i" value="0"/>
 			 <c:forEach var="tag" items="${tag}" varStatus="last">
 			 <c:set var="i" value="${ i+1 }"/>
-	           <a href="" style="font-size: 14px; color: gray;">${tag.tagContent}</a>
+	           <a href="" style="color: gray;">${tag.tagContent}</a>
 	         <c:if test="${!last.last}">
 	           <i>,</i>
 	         </c:if>
@@ -562,7 +564,7 @@
 	   
 	   <hr>
 	   
-	   <ul class="list-group list-group-flush">
+	   <ul class="list-group list-group-flush" style="font-size: 13px;">
 		  <li class="list-group-item">이전글 <i class="fas fa-angle-double-right" onclick="getPost('${post.prevId}')"> ${post.prevTitle}</i></li>
 		  <li class="list-group-item">다음글 <i class="fas fa-angle-double-right" onclick="getPost('${post.nextId}')"> ${post.nextTitle}</i></li>
 	   </ul>
