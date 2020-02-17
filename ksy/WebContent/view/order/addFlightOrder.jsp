@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
@@ -7,8 +7,8 @@
 <html>
 <head>
 <title>Insert title here</title>
-<meta charset="UTF-8">
-	<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
+<meta charset="EUC-KR">
+	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -21,9 +21,9 @@
 	<!-- asome icon CDN -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
 
-  	<!-- jQuery UI toolTip ì‚¬ìš© CSS-->
+  	<!-- jQuery UI toolTip »ç¿ë CSS-->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<!-- jQuery UI toolTip ì‚¬ìš© JS-->
+	<!-- jQuery UI toolTip »ç¿ë JS-->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
@@ -42,7 +42,7 @@
         line-height: 1.2;
 		color: #646464;
 		word-break: break-all;
-		font-family: "Nanum Gothic", "Malgun Gothic", "ë‹ì›€", Dotum, "ë‹ì›€", Dotum, Arial, Helvetica, sans-serif;
+		font-family: "Nanum Gothic", "Malgun Gothic", "µ¸¿ò", Dotum, "µ¸¿ò", Dotum, Arial, Helvetica, sans-serif;
 		letter-spacing: -.3px;
 		border-spacing: 0;
 		empty-cells: show;
@@ -57,7 +57,7 @@
 		word-break: break-all;
 		margin: 0;
 		font-size: 13px;
-		font-family: "Nanum Gothic", "Malgun Gothic", "ë‹ì›€", Dotum, "ë‹ì›€", Dotum, Arial, Helvetica, sans-serif;
+		font-family: "Nanum Gothic", "Malgun Gothic", "µ¸¿ò", Dotum, "µ¸¿ò", Dotum, Arial, Helvetica, sans-serif;
 		letter-spacing: -.3px;
 		overflow: hidden;
 		display: table;
@@ -71,60 +71,82 @@
     <script type="text/javascript">
     
     window.onload = function () {
-    	var price = $("#prices").val(); //ìƒí’ˆ ê°€ê²©
-    	var total = $("#usertotalPoint").val(); // ì›ë˜ ìˆë˜ ì´ ë³´ìœ  í¬ì¸íŠ¸
+    	var price = $("#prices").val(); //»óÇ° °¡°İ
+    	var total = $("#usertotalPoint").val(); // ¿ø·¡ ÀÖ´ø ÃÑ º¸À¯ Æ÷ÀÎÆ®
+    	var payPoint = $("#payPoint").val(); //»ç¿ëÇÒ Æ÷ÀÎÆ®
+    	
     	console.log("total Point : "+total);
     	console.log("price"+$("#prices").val());
-    	var totalAmount = $("#totalAmount").val(price); // ì´ê²°ì œê¸ˆì•¡
-    	var actualAmount = $("#actualAmount").text(price); // ì‹¤ê²°ì œê¸ˆì•¡
+    	
+    	var totalAmount = $("#totalAmount").val(price); // ÃÑ°áÁ¦±İ¾×
+    	var actualAmount = $("#actualAmount").val(price); // ½Ç°áÁ¦±İ¾×
+    	
+    	console.log("actualAmount : "+actualAmount);
+    	
+    	var calculation = price - payPoint; //»óÇ°°¡°İ - »ç¿ëÇÒ Æ÷ÀÎÆ® = ½Ç°áÁ¦±İ¾× °è»ê
+    	var addPoint = $("#addPoint").val(Math.floor(calculation * 0.01)); //Àû¸³¿¹Á¤ ±İ¾×
+    	
+    	$("#usedPoint").val(0);
     	};	
     	
        function call(){
-    	var price = $("#prices").val(); //ìƒí’ˆê°€ê²©
- 	   var totalAmount = $("#totalAmount").text(); //ì´ ê°€ê²©
- 	   var total = $("#usertotalPoint").val();
-     	var payPoint = $("#payPoint").val(); //ì‚¬ìš©í•  í¬ì¸íŠ¸ 
+    	
+    	var price = $("#prices").val(); //»óÇ°°¡°İ
+ 	   	var totalAmount = $("#totalAmount").text(); //ÃÑ °¡°İ
+ 	   	var total = $("#usertotalPoint").val();
+     	var payPoint = $("#payPoint").val(); //»ç¿ëÇÒ Æ÷ÀÎÆ® 
     	   
         	
         	console.log("totalAmount"+totalAmount);
         	console.log("payPoint"+payPoint);
         	console.log("price"+price);
         	
-        	//ì‚¬ìš©ëœ í¬ì¸íŠ¸ = ì‚¬ìš©í•  í¬ì¸íŠ¸
+        	//»ç¿ëµÈ Æ÷ÀÎÆ® = »ç¿ëÇÒ Æ÷ÀÎÆ®
     		//document.getElementById("usedPoint").value = document.getElementById("payPoint").value;
-        	$("#usedPoint").text(payPoint);
+        	$("#usedPoint").val(payPoint);
         	
-    		var calculation = price - payPoint; //ìƒí’ˆê°€ê²© - ì‚¬ìš©í•  í¬ì¸íŠ¸ = ì‹¤ê²°ì œê¸ˆì•¡ ê³„ì‚°
+    		var calculation = price - payPoint; //»óÇ°°¡°İ - »ç¿ëÇÒ Æ÷ÀÎÆ® = ½Ç°áÁ¦±İ¾× °è»ê
     		console.log("calculation"+calculation);
-    		var calculation2 = total - payPoint;// ë³´ìœ  í¬ì¸íŠ¸ - ì‚¬ìš©í¬ì¸íŠ¸ ë¹¼ê¸°
+    		var calculation2 = total - payPoint;// º¸À¯ Æ÷ÀÎÆ® - »ç¿ëÆ÷ÀÎÆ® »©±â
     		console.log("calculation2"+calculation2); 
     		
     		
-    		var actualAmount = $("#actualAmount").text(calculation); //ì‹¤ ê²°ì œê¸ˆì•¡ ì…ë ¥
+    		var actualAmount = $("#actualAmount").val(calculation); //½Ç °áÁ¦±İ¾× ÀÔ·Â
     		console.log("actualAmount"+actualAmount+"calculation"+calculation);	
     		
-    		$("#totalPoint").text(calculation2);  // ì‚¬ìš©í•  í¬ì¸íŠ¸ë¥¼ ê°ì†Œí•œ ì´ ë³´ìœ í•œ í¬ì¸íŠ¸
-    		var addPoint = $("#addPoint").val(Math.floor(calculation * 0.01)); //ì ë¦½ì˜ˆì • ê¸ˆì•¡
+    		//$("#totalPoint").text(calculation2);  // »ç¿ëÇÒ Æ÷ÀÎÆ®¸¦ °¨¼ÒÇÑ ÃÑ º¸À¯ÇÑ Æ÷ÀÎÆ®
+    		var addPoint = $("#addPoint").val(Math.floor(calculation * 0.01)); //Àû¸³¿¹Á¤ ±İ¾×
     		console.log("addPoint"+addPoint);
     		
-    		/* $("#totalPoints").val(totalPoint);
-    		$("#actualAmounts").val(actualAmount);
-    		$("#addPoints").val(addPoint);
-    		$("#usedPoints").val(payPoint); */
+    		if ($("#usedPoint").val() == 0 ) {
+    	    	$("#usedPoint").val(0);
+    		}
     };	
     
     
     $( function () {
     	$('button.btn.btn-primary').on('click' , function () {
     		var actualAmount = $("#actualAmount").val();
+    		var payPoint = $("#payPoint").val(); //»ç¿ëÇÒ Æ÷ÀÎÆ®
     		var buyerEmail = $("#buyerEmail").val();
     		var buyerName = $("#buyerName").val();
     		var buyerPhone = $("#buyerPhone").val();
+    		if ($("#payPoint").val() == null | $("#payPoint").val() == "" | $("#payPoint").val() == 0) {
+    			$("#zeroPoint").val(0);
+			}else{
+				$("#zeroPoint").val(payPoint);
+			}
+    		
+    		var buyerEmail = $("#str_email01").val()+$("#middle").text()+$("#selectEmail").val();
+        	var buyerPhone = $("#mobile0").val()+$("#mobile1").val()+$("#mobile2").val();
+        	
+        	$("#email").val(buyerEmail);
+        	$("#phone").val(buyerPhone);
     		
     		//$("form").attr("method" , "POST").attr("action" , "/purchase/addPurchase").submit();
     						 IMP.init('imp15344798');
     						 IMP.request_pay({
-    							    pg : 'inicis', // version 1.1.0ë¶€í„° ì§€ì›.
+    							    pg : 'inicis', // version 1.1.0ºÎÅÍ Áö¿ø.
     							    pay_method : 'card',
     							    merchant_uid : 'merchant_' + new Date().getTime(),
     							    name : 'Flights',
@@ -138,16 +160,16 @@
     							    
     							}, function(rsp) {
     							    if ( rsp.success ) {
-    							        var msg = 'ê²°ì œê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.';
-    							        msg += 'ê³ ìœ ID : ' + rsp.imp_uid;
-    							        msg += 'ìƒì  ê±°ë˜ID : ' + rsp.merchant_uid;
-    							        msg += 'ê²°ì œ ê¸ˆì•¡ : ' + rsp.paid_amount;
-    							        msg += 'ì¹´ë“œ ìŠ¹ì¸ë²ˆí˜¸ : ' + rsp.apply_num;
-    									msg += 'íšŒì› ì•„ì´ë”” : ' + '${user.userId}';
-    									msg += 'ê²°ì œì¼ì‹œ' + rsp.paid_at;
+    							        var msg = '°áÁ¦°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.';
+    							        msg += '°íÀ¯ID : ' + rsp.imp_uid;
+    							        msg += '»óÁ¡ °Å·¡ID : ' + rsp.merchant_uid;
+    							        msg += '°áÁ¦ ±İ¾× : ' + rsp.paid_amount;
+    							        msg += 'Ä«µå ½ÂÀÎ¹øÈ£ : ' + rsp.apply_num;
+    									msg += 'È¸¿ø ¾ÆÀÌµğ : ' + '${user.userId}';
+    									msg += '°áÁ¦ÀÏ½Ã' + rsp.paid_at;
     									msg += '??' + rsp.vbank_name;
     									msg += 'status '+ rsp.pay_method;
-    									msg += 'í• ë¶€'+ rsp.card_quota;
+    									msg += 'ÇÒºÎ'+ rsp.card_quota;
     									
     									var payInstal = rsp.card_quota;
     									$("#payInstal").val(payInstal);
@@ -158,6 +180,7 @@
     							        var price = rsp.paid_amount;
     							        $("#price").val(price);
     							        
+    							        
     							       /*  var orderDate = rsp.paid_at;
     							        $("#orderDate").val(orderDate); */
     							        
@@ -165,8 +188,8 @@
     							        $("#userId").val(userId);
     							        
     							    } else {
-    							        var msg = 'ê²°ì œì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.';
-    							        msg += 'ì—ëŸ¬ë‚´ìš© : ' + rsp.error_msg;
+    							        var msg = '°áÁ¦¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.';
+    							        msg += '¿¡·¯³»¿ë : ' + rsp.error_msg;
     	    							  $("form").attr("method" , "GET").attr("action" , "/view/order/addFlightOrder.jsp").submit();
     							    }
     						        alert(msg);
@@ -191,20 +214,23 @@
 	<form >
 	<input type="hidden" name="orderId" value= "" id="orderId"/>
 	<input type="hidden" name="price" value= "" id="price"/>
-<!-- 	<input type="hidden" name="orderDate" value= "" id="orderDate"/> -->
 	<input type="hidden" name="userId" value= "" id="userId"/>
 	<input type="hidden" name="payInstal" value= "" id="payInstal"/>
+	<input type="hidden" name="buyerEmail" value= "" id="email"/>
+	<input type="hidden" name="buyerPhone" value= "" id="phone"/>
+	<input type="hidden" name="payPoint" value= "" id="zeroPoint"/>
+	
 	<i class="fas fa-plane" id="iconf" style="Padding-left:20px;font-size:40px;" ></i>
 	<br/>
 		<table class="table">
 			  <thead>
 			    <tr>
-			      <th scope="col">í•­ê³µì‚¬</th>
-			      <th scope="col">ì¶œë°œì‹œê°„</th>
-			      <th scope="col">ë„ì°©ì‹œê°„</th>
-			      <th scope="col">ê²½ìœ </th>
-			      <th scope="col">ì†Œìš”ì‹œê°„</th>
-			      <th scope="col">ê°€ê²©</th>
+			      <th scope="col">Ç×°ø»ç</th>
+			      <th scope="col">Ãâ¹ß½Ã°£</th>
+			      <th scope="col">µµÂø½Ã°£</th>
+			      <th scope="col">°æÀ¯</th>
+			      <th scope="col">¼Ò¿ä½Ã°£</th>
+			      <th scope="col">°¡°İ</th>
 			    </tr>
 			  </thead>
 			  <tbody>
@@ -214,37 +240,37 @@
 			      <td>${flight.arrTime}</td>
 			      <td>${flight.stopOver}</td>
 			      <td>${flight.leadTime}</td>
-			      <td>${flight.price}ì›</td>
+			      <td>${flight.price}¿ø</td>
 			    </tr>
 			  </tbody>
 			  
 			</table>
 			<br/><br/>
-			<div class="row">
-			<h4 align="left">ì£¼ë¬¸ì ì •ë³´</h4>
+<!-- 			<div class="row">
+			<h4 align="left">ÁÖ¹®ÀÚ Á¤º¸</h4>
 			    <br/><br/>
 			    <table class="table" id="reserInfo" style="Padiing-right:100px;">
                  
                   <tbody>
                     <tr>
-                      <th>ì´ë¦„
+                      <th>ÀÌ¸§
                         <span class="point-txt">*</span>
                       </th>
 					  	<td id="tdGName">
-					  		<input type="text" title="ì˜ˆì•½ìëª…ì„ ì…ë ¥í•˜ì„¸ìš”" style="width:200px;" class="form-control" maxlength="20" name="buyerName" id="buyerName">
+					  		<input type="text" title="¿¹¾àÀÚ¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä" style="width:200px;" class="form-control" maxlength="20" name="buyerName" id="buyerName">
 					  	</td>
-					  <th>ì´ë©”ì¼
+					  <th>ÀÌ¸ŞÀÏ
                         <span class="point-txt">*</span>
                       </th>
 	                      <td>
-	                        <input type="text" title="ì´ë©”ì¼ì£¼ì†Œ ì•ìë¦¬ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”" style="width:200px;height:30px;"class="form-control" name="str_email01" id="str_email01" >
+	                        <input type="text" title="ÀÌ¸ŞÀÏÁÖ¼Ò ¾ÕÀÚ¸®¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä" style="width:200px;height:30px;"class="form-control" name="str_email01" id="str_email01" >
 	                      </td>
 	                      <td style="width:30px;Padding-left:30px;Padding-right:50px;">
 	                      	<span>@</span>
 	                      </td>
                       <td>
-                       	 <select title="ì´ë©”ì¼ ì„œë¹„ìŠ¤ ë„ë©”ì¸ì„ ì„ íƒí•´ì£¼ì„¸ìš”." class="form-control" style="width:250px;" name="selectEmail" id="selectEmail">
-	                          <option value="">ì„ íƒ</option>
+                       	 <select title="ÀÌ¸ŞÀÏ ¼­ºñ½º µµ¸ŞÀÎÀ» ¼±ÅÃÇØÁÖ¼¼¿ä." class="form-control" style="width:250px;" name="selectEmail" id="selectEmail">
+	                          <option value="">¼±ÅÃ</option>
 	                          <option value="naver.com">naver.com</option>
 	                          <option value="gmail.com">gmail.com</option>
 	                          <option value="dreamwiz.com">dreamwiz.com</option>
@@ -255,18 +281,18 @@
 	                          <option value="korea.com">korea.com</option>
 	                          <option value="nate.com">nate.com</option>
 	                          <option value="paran.com">paran.com</option>
-	                          <option value="ì§ì ‘ì…ë ¥">ì§ì ‘ì…ë ¥</option>
+	                          <option value="Á÷Á¢ÀÔ·Â">Á÷Á¢ÀÔ·Â</option>
                         </select> 
                       </td>
                     </tr>
                     
                     <tr>
-                      <th>íœ´ëŒ€í°
+                      <th>ÈŞ´ëÆù
                         <span class="point-txt">*</span>
                       </th>
                       <td>
-						<select title="íœ´ëŒ€ì „í™” ì‹ë³„ë²ˆí˜¸ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”."  class="form-control" style="width:200px;" name="mobile0" id="mobile0">
-                          <option value="">ì„ íƒ</option>
+						<select title="ÈŞ´ëÀüÈ­ ½Äº°¹øÈ£¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä."  class="form-control" style="width:200px;" name="mobile0" id="mobile0">
+                          <option value="">¼±ÅÃ</option>
                           <option value="010">010</option>
                           <option value="011">011</option>
                           <option value="016">016</option>
@@ -278,141 +304,110 @@
                        <td style="width:20px;"> -
                        </td>
                        <td>
-                       	  <input type="text" title="íœ´ëŒ€ì „í™” êµ­ë²ˆì„ ì…ë ¥í•´ì£¼ì„¸ìš”." class="form-control" maxlength="4" name="mobile1" id="mobile1" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
+                       	  <input type="text" title="ÈŞ´ëÀüÈ­ ±¹¹øÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä." class="form-control" maxlength="4" name="mobile1" id="mobile1" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
                        </td>
                        <td style="width:20px;"> -
                        </td>
                        	<td >
-                         <input type="text" title="íœ´ëŒ€ì „í™” ë’·ìë¦¬ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”." class="form-control" maxlength="4" name="mobile2" id="mobile2" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
+                         <input type="text" title="ÈŞ´ëÀüÈ­ µŞÀÚ¸®¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä." class="form-control" maxlength="4" name="mobile2" id="mobile2" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
 						</td>
                     </tr>
                 </tbody>
               </table>
-			    	<%-- <div style="width:50%;">
-				       <input type="text" class="form-control" placeholder="ì£¼ë¬¸ì ì´ë¦„" id="buyerName" name="buyerName" value="${order.buyerName}">
-				      	<br/>
-				       <input type="text" class="form-control" placeholder="ì£¼ë¬¸ì í•¸ë“œí° ë²ˆí˜¸" id="buyerPhone" name="buyerPhone" value="${order.buyerPhone}">
-				       	<br/>
-				       <input type="text" class="form-control" placeholder="ì£¼ë¬¸ì ì´ë©”ì¼ " id="buyerEmail" name="buyerEmail" value="${order.buyerEmail}">
-			    	</div> --%>
-			</div>
-			<h4 align="left">ì£¼ë¬¸ì ì •ë³´</h4>
+			</div> -->
+			<h4 align="left">ÁÖ¹®ÀÚ Á¤º¸</h4>
 			<hr/>
-			<div class="row">
-	             <div class="col-sm-2">
-                    <div class="row">
-	            		 ì´ë¦„ *
-                   		<input type="text" title="ì˜ˆì•½ìëª…ì„ ì…ë ¥í•˜ì„¸ìš”" style="width:200px;" class="form-control" maxlength="20" name="buyerName" id="buyerName">
-            		</div>
-	             </div>
-	             </div>
+					<div class="row">
+	            		<p style="Padding-left:20px;">ÀÌ¸§ *</p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   			<input type="text" title="¿¹¾àÀÚ¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä" style="width:200px;height:30px;" class="form-control" maxlength="20" name="buyerName" id="buyerName">
+                   		<p style="Padding-left:220px;">ÀÌ¸ŞÀÏ *</p>&nbsp;&nbsp;&nbsp;
+                   			<input type="text" title="ÀÌ¸ŞÀÏÁÖ¼Ò ¾ÕÀÚ¸®¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä" style="width:200px;height:30px;"class="form-control" name="str_email01" id="str_email01" >
+                   		<P style="Padding-left:10px;" id="middle">@</P>&nbsp;&nbsp;&nbsp;
+	                   		 <select title="ÀÌ¸ŞÀÏ ¼­ºñ½º µµ¸ŞÀÎÀ» ¼±ÅÃÇØÁÖ¼¼¿ä." class="form-control" style="width:250px;height:30px;font-size:13px;" name="selectEmail" id="selectEmail">
+		                          <option value="">¼±ÅÃ</option>
+		                          <option value="naver.com">naver.com</option>
+		                          <option value="gmail.com">gmail.com</option>
+		                          <option value="hanmail.net">hanmail.net</option>
+		                          <option value="chol.com">chol.com</option>
+		                          <option value="freechal.com">freechal.com</option>
+		                          <option value="intizen.com">intizen.com</option>
+		                          <option value="nate.com">nate.com</option>
+	                        </select> 
+                   	</div>
+					<hr/>
+                   	<div class="row">	
+                   		<p style="Padding-left:20px;">ÀüÈ­¹øÈ£ *</p>&nbsp;&nbsp;&nbsp;
+	                   		<select title="ÈŞ´ëÀüÈ­ ½Äº°¹øÈ£¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä."  class="form-control" style="width:170px;" id="mobile0">
+	                          <option value="">¼±ÅÃ</option>
+	                          <option value="010">010</option>
+	                          <option value="011">011</option>
+	                          <option value="016">016</option>
+	                          <option value="017">017</option>
+	                          <option value="018">018</option>
+	                          <option value="019">019</option>
+	                        </select>
+	                    <p style="Padding-left:10px;">-</p>&nbsp;&nbsp;&nbsp;
+	                        <input type="text" title="ÈŞ´ëÀüÈ­ ±¹¹øÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä." style="width:170px;" class="form-control" maxlength="4" id="mobile1" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
+	                   	<p style="Padding-left:10px;">-</p>&nbsp;&nbsp;&nbsp;
+	                   		<input type="text" title="ÈŞ´ëÀüÈ­ µŞÀÚ¸®¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä." style="width:170px;" class="form-control" maxlength="4" id="mobile2" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
+                   	</div>
 			<br/><br/>
 			
-			<h4 align="left">í¬ì¸íŠ¸ ì‚¬ìš©</h4>
+			<br/>	
+			<h4 align="left">°áÁ¦ Á¤º¸</h4>
 			<hr/>
-			<div class="row">
+			<div class="row" id="pay">
 	             <div class="col-sm-2">
-	            		 ë³´ìœ  í¬ì¸íŠ¸
-                    <div class="row">
-                   		<input type="text" name="totalPoint" id="totalPoint" class="form-control" value="${user.totalPoint }"
-											style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" />
-						<!-- í¬ì¸íŠ¸ ì°¨ê°ì‹œ ê³„ì‚°ì„ ìœ„í•œ totalPoint -->
-						<input type="hidden" name="totalPoint" id="usertotalPoint" value="${user.totalPoint }" >
-            		</div>
-	             </div>
-	             <i class="fas fa-minus-circle" style="margin-top:10px;"></i>
-	             <div class="col-sm-2" style="Padding-left:70px;">
-	              		 ì‚¬ìš© í¬ì¸íŠ¸
+	            		 ÃÑ °áÁ¦ ±İ¾×
 	                    <div class="row">
-	                    <input	type="text" name="payPoint" id="payPoint" class="form-control" 
-								style="width:110px;font-size:13px;"	placeholder="ì…ë ¥í•´ì£¼ì„¸ìš”" onkeyup="call()">
-	            		</div>
-	             </div>
-	             <i class="fas fa-equals" style="margin-top:10px;"></i>
-	             <div class="col-sm-2" style="Padding-left:70px;">
-	            		 ì ë¦½ ì˜ˆì •
-	                    <div class="row">
-	                  		 <input	type="text" name="addPoint" id="addPoint" class="form-control"
-	                  		 style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" />
-	            		</div>
-	             </div>
-			</div>
-			<br/><br/>			
-			<h4 align="left">ê²°ì œ ì •ë³´</h4>
-			<hr/>
-			<div class="row">
-	             <div class="col-sm-2">
-	            		 ì´ ê²°ì œ ê¸ˆì•¡
-	                    <div class="row">
-	                    <div id="totalAmount" style="Padding-left:30px;">${flight.price}</div> ì›
+	                    <input	type="text" name="totalAmount" id="totalAmount" class="form-control" value="${flight.price}"
+                  		 		style="Padding-left:30px;margin-top:10px;height:20px;border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" />
+	                    <%-- <div id="totalAmount" style="Padding-left:30px;">${flight.price}</div> ¿ø --%>
 	            		</div>
 	             </div>
 	             <i class="fas fa-minus-circle" style="margin-top:10px;"></i>
 	             <div class="col-sm-2" style="Padding-left:70px;">
-	            		 í¬ì¸íŠ¸ ì‚¬ìš©
+	             <input type="hidden" name="price" id="prices" value="${flight.price }" >
+	            		 Æ÷ÀÎÆ® ÇÒÀÎ
 	                    <div class="row">
-	                    <div id="usedPoint" style="Padding-left:20px;">${point.usedPoint}</div>
+	                    <input	type="text" name="usedPoint" id="usedPoint" class="form-control" value="${point.usedPoint}"
+                  		 		style="Padding-left:30px;margin-top:10px;height:20px;border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" />
+	                    <%-- <div id="usedPoint" style="Padding-left:20px;">${point.usedPoint}</div> --%>
 	            		</div>
 	             </div>
-	             <i class="fas fa-equals" style="margin-top:10px;"></i>
-	             <div class="col-sm-2" style="Padding-left:70px;">
-	            		 ì‹¤ ê²°ì œ ê¸ˆì•¡
+	             <i class="fas fa-equals" style="margin-left:15px;margin-top:10px;"></i>
+	             <div class="col-sm-2" style="Padding-left:40px;">
+	            		 ½Ç °áÁ¦ ±İ¾×
 	                    <div class="row">
-	                    <div id="actualAmount" style="Padding-left:20px;">${order.actualAmount}</div> ì›
+	                    <input	type="text" name="actualAmount" id="actualAmount" class="form-control" value="${order.actualAmount}"
+                  		 		style="Padding-left:30px;margin-top:10px;height:20px;border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" />
+	                    <%-- <div id="actualAmount" style="Padding-left:20px;">${order.actualAmount}</div> ¿ø --%>
+	            		
 	            		</div>
 	             </div>
 			</div>
+			<br/>
+			<hr style="width:50%;float:left;margin-right:700px;" />
 			
+				<div class="row" style="Padding-left:10px;">
+				 Æ÷ÀÎÆ® »ç¿ë &nbsp;&nbsp;&nbsp;
+				<input	type="text" name="payPoint" id="payPoint" class="form-control" 
+							style="width:110px;height:30px;font-size:13px;"	placeholder="0" onkeyup="call()">
+				&nbsp;&nbsp;&nbsp;
+				<p style="font-size:12px;margin-top:5px;"> ( º¸À¯ Æ÷ÀÎÆ® ${user.totalPoint} P ) </p>
+				<i class="fas fa-equals" style="margin-left:60px;"></i>
+					<div class="col" style="Padding-left:40px;">
+						<p> Àû¸³ ¿¹Á¤</p>
+					 	<input	type="text" name="addPoint" id="addPoint" class="form-control" readonly="readonly"
+                  		 		style="background-color:white;margin-top:-10px;width:50px;height:10px;border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" />
+					</div>
+				</div>
 			
-			
-			
-				<br/><br/><br/>
-			    <div class="row">
-			    	<input type="hidden" name="price" id="prices" value="${flight.price }" >
-			    		<h5 align="left">í¬ì¸íŠ¸ ì‚¬ìš© </h5>
-							<div class="form-group">
-								<label for="payPoint" class="col-sm-offset-1 col-sm-3 control-label"></label>
-									<div class="col-sm-4">
-										<input	type="text" name="payPoint" id="payPoint" class="form-control" 
-												placeholder="ì‚¬ìš©í•  í¬ì¸íŠ¸" onkeyup="call()">
-									</div>
-										<div class="col-sm-4">
-										<div class="row" style="Padding-left:30px;">ë³´ìœ  í¬ì¸íŠ¸  : &nbsp;
-										<input type="text" name="totalPoint" id="totalPoint" class="form-control" value="${user.totalPoint }"
-												style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" />
-										</div>
-									</div>
-											<!-- í¬ì¸íŠ¸ ì°¨ê°ì‹œ ê³„ì‚°ì„ ìœ„í•œ totalPoint -->
-											<input type="hidden" name="totalPoint" id="usertotalPoint" value="${user.totalPoint }" >
-							</div>
-							<br/>
-							<h5 align="left">ê²°ì œ ê¸ˆì•¡</h5>
-								<div class="row" style="Padding-left:30px;">ì´ ì£¼ë¬¸ ê¸ˆì•¡  : &nbsp;&nbsp;&nbsp;
-										<div id="totalAmount" >${flight.price} </div>ì›
-								</div>
-								<br/>
-								<div class="row" style="Padding-left:30px;">í¬ì¸íŠ¸ ì‚¬ìš©  : &nbsp;&nbsp;&nbsp; - &nbsp;
-										<div id="usedPoint" >${point.usedPoint} </div>
-								</div>
-								<br/>
-								<div class="row" style="Padding-left:30px;">ì‹¤ ì£¼ë¬¸ ê¸ˆì•¡  : &nbsp;&nbsp;&nbsp;
-										<div id="actualAmount" >${order.actualAmount } </div>ì›
-								</div>
-								<br/>
-								
-								
-							
-								ì ë¦½ ì˜ˆì • í¬ì¸íŠ¸
-						<div class="col-sm-4">
-							<input	type="text" name="addPoint" id="addPoint" class="form-control">
-						</div>
-						
-			    </div>
 			</div>
 		<br/><br/>
 		<div class="form-group" align="center">
    		 <div class="col-sm-offset-4  col-sm-4 text-center">
-		<button type="button" class="btn btn-primary"  >êµ¬ë§¤</button>
+		<button type="button" class="btn btn-primary"  >¿¹¾àÇÏ±â</button>
 		<input type="hidden" name="actualAmount" value= "${order.actualAmount }"/>
 		<input type="hidden" name="usedPoint" value= "${point.usedPoint }"/>
 		<input type="hidden" name="totalAmount" value= "${order.totalAmount }"/>

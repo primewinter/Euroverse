@@ -37,8 +37,8 @@ public class OrderServiceImpl implements OrderService{
 	public void addPoint(Point point) throws Exception {
 		orderDao.addPoint(point);
 	}
-	public Order getFlightOrder (String orderId) throws Exception {
-		return orderDao.getFlightOrder(orderId);
+	public Order getFlightOrder (String flightId) throws Exception {
+		return orderDao.getFlightOrder(flightId);
 	}
 	public Order getRoomOrder (String orderId) throws Exception {
 		return orderDao.getRoomOrder(orderId);

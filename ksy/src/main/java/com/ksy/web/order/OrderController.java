@@ -153,7 +153,6 @@ public class OrderController {
 		order.setBuyerPhone(buyerPhone);
 		order.setOrderId(orderId);
 		order.setPayPoint(payPoint);
-		order.setAddPoint(addPoint);
 		order.setPayInstal(payInstal);
 		order.setActualAmount(actualAmount);
 		order.setTotalAmount(totalAmount);
@@ -161,13 +160,15 @@ public class OrderController {
 		System.out.println("order : "+order);
 		System.out.println("point : "+point);
 		
-		order.setOrderStatus("1"); //주문상태
-		
+		flight.setOrderStatus("1"); //주문상태
+		order.setOrderStatus("1");
 		System.out.println("order : "+order);
 		System.out.println("flight : "+flight);
 		//flight 상품 insert
 		flightService.addFlight(flight);
 		//flight Order insert
+		System.out.println("orderDate : "+flight.getOrderDate());
+		order.setOrderDate(flight.getOrderDate());
 		orderService.addFlightOrder(order);
 		//포인트 적립
 		point.setUsedType("F");
@@ -197,7 +198,7 @@ public class OrderController {
 		System.out.println("room ::: "+room);
 		model.addAttribute("room", room);
 		model.addAttribute("order",order);
-		return "forward:/order/addRoomOrder.jsp";
+		return "forward:/view/order/addRoomOrderjsp";
 	}
 
 	@RequestMapping(value = "addRoomOrder", method = RequestMethod.POST)
@@ -231,7 +232,7 @@ public class OrderController {
 		model.addAttribute("order",order);
 		model.addAttribute("point",point);
 		
-		return "forward:/order/addOrderConfirm.jsp";
+		return "forward:/view/order/addOrderConfirm.jsp";
 	}
 	
 	@RequestMapping(value = "getOrderList")
@@ -269,23 +270,40 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value = "getOrder", method = RequestMethod.GET)
-	public String getOrder(@RequestParam("orderId")String orderId , Model model) throws Exception {
-		System.out.println("/getPurchase : GET");
+	public String getOrder(@RequestParam("flightId")String flightId, 
+						@RequestParam("roomId")String roomId,
+						HttpSession session, Model model) throws Exception {
+		System.out.println("/getOrder : GET");
 		Order order = new Order();
-		
-		Room room = new Room();
 		Flight flight = new Flight();
+		Room room = new Room();
+		Point point = (Point) session.getAttribute("point");
+		
 		
 		if (room.getRoomId() == null ) {
-			orderService.getFlightOrder(orderId);
-			flightService.getFlight(flight.getFlightId());
+			flight = flightService.getFlight(flightId);
+			order = orderService.getFlightOrder(flightId);
 		}else if(flight.getFlightId() == null) {
-			orderService.getRoomOrder(orderId);
-			roomService.getRoom(room.getRoomId());
+			//orderService.getRoomOrder(orderId);
+			room = roomService.getRoom(roomId);
 		}
+		model.addAttribute("flight",flight);
+		model.addAttribute("room",room);
 		model.addAttribute("order",order);
+		model.addAttribute("point",point);
 
-		return "forward:/order/getOrder.jsp";
+		return "forward:/view/order/getOrder.jsp";
+	}
+	
+	@RequestMapping(value = "getOrderRefund", method = RequestMethod.POST)
+	public String getOrderRefund(@RequestParam("flightId")String flightId, 
+						@RequestParam("roomId")String roomId,
+						HttpSession session, Model model) throws Exception {
+		
+		
+		
+		
+		return "";
 	}
 	
 ///////////////////////////////////환불////////////////////////////////////////

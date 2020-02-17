@@ -4,6 +4,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
  
  <div class="footerBar">
+ 	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+  Popover on top
+</button>
  		<div class="pushToast">
  		</div>
  		<div class="bottom-bar push-layer" >
@@ -111,7 +114,13 @@
 				   				</div>
 		   				</li>
 	   				</ul>
-     			<div class="modal fade" id="accModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ 		</div>
+ 		<div class="bottom-menu" >
+		 		<i class="fas fa-bell"  style="margin:10px;"></i><span class="unreadCount" style="display:table-col;vertical-align:top;"></span>
+		 		<i class="fas fa-comment-alt"  style="margin:10px;"></i>
+ 		</div>
+ 	</div>
+ 	<div class="modal fade" id="accModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					  <div class="modal-dialog modal-dialog-centered" role="document">
 					    <div class="modal-content">
 					      <div class="modal-header">
@@ -128,13 +137,6 @@
 					    </div>
 					  </div>
 				</div>
- 		</div>
- 		<div class="bottom-menu" >
-		 		<i class="fas fa-bell"  style="margin:10px;"></i><span class="unreadCount" style="display:table-col;vertical-align:top;"></span>
-		 		<i class="fas fa-comment-alt"  style="margin:10px;"></i>
- 		</div>
- 	</div>
- 	
  	<script type="text/javascript">
      var userId = '${user.userId}';
      function getPushList(userId) {
@@ -379,12 +381,14 @@
         function showRoomList(list) {
         	var html = "";
         	console.log("채팅방 목록 개수 : "+list.length);
+        	html += "<h5>동행 채팅 <i class=\"fas fa-comment-alt\"></i></h5><hr>"
+        	html += "<table class='roomTable' style='border-spacing: 0 10px;width:100%;'>"
         	for(var i in list) {
-        		html += "<div class=\"accRoom row\" style='margin-bottom:20px;' onclick='enterRoom(\""+list[i].chatRoomId+"\")'>";
+        		html += "<tr onclick='enterRoom(\""+list[i].chatRoomId+"\")' style='height:60px;'>";
         		//html += "<input type='hidden' name='chatRoomId' value='"+list[i].chatRoomId+"'>";
-        		html += "<div class='col-2' style='background-color: lightblue;'>";
-        		html += "</div>"
-        		html += "<div class='col-8'>";
+        		html += "<td class='td1' style='text-align:left;background-color:lightblue;padding:1px;width:40px;'>ㅋㅋㅋ";
+        		html += "</td>"
+        		html += "<td class='td2' style='text-align:left;min-width:150px;'>";
         		html += "<b><font size='3'>"+list[i].chatRoomName +"&ensp;</font></b><font color=gray>"+list[i].chatMems.length+"</font><br/>";
         		html += "<font size=2 color=gray>";
         		if( list[i].lastChat.chatContent.length > 12 ) {
@@ -393,12 +397,13 @@
         			html += list[i].lastChat.chatContent
         		}
         		html += "</font>";
-        		html += "</div>";
-        		html += " <div class='col-2' style='padding:0;text-align:left;'>";
+        		html += "</td>";
+        		html += " <td class='td3' style='padding:0;text-align:left;'>";
         		html += "<font size=1 color=gray>"+ list[i].lastChat.sendTime+"</font>";
-        		html += "</div>";
-        		html += "</div>";
+        		html += "</td>";
+        		html += "</tr>";
         	}
+        	html += "</table>"
         	$(".accLobby").html(html);
         }
         
@@ -420,6 +425,7 @@
 	              
 	          	  //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
 		          accChatSocket.onmessage = function(message){
+	            	  console.log("메시지 날아옴 :: " + message)
 	            	  var data = JSON.parse(message.data)
 	            	  data.readers = [ userId ];
 	                  receiveAccChat(data);
@@ -442,15 +448,15 @@
         function receiveAccChat(chat) {
         	var html = "";
             if(chat.senderId == 'system'){
-                html += "<div class=\"chat system\">";
+                html += "<div class='chat system'>";
                 html += "<font color='white' size=1 class='msg content'>"+chat.chatContent+"</font>";
             } else if(chat.senderId == userId) {
-                html += "<div class=\"chat mine\">"
+                html += "<div class=\"chat mine container\">"
                	html += "<font size=1 class='msg nickname none'>"+chat.user.nickname+"</font>";
-               	html += "<font color='#424242' size=1 class='mine msg sendTime'>"+chat.sendTime+"</font>";
-                html += "<span class='bubble mine' style='width: 50px;word-wrap: break-word;'>";
+               	html += "<div class='row'><font color='#424242' size=1 class='mine msg sendTime'>"+chat.sendTime+"</font>";
+                html += "<div class='bubble mine' style='text-align:right;'>";
               	html += "<font color='black' size=2 class='mine msg content'>"+chat.chatContent+"</font>";
-              	html += "</span>"
+              	html += "</div></div>"
             } else { 
                 html += "<div class=\"chat others\" style=\"text-align:left;margin:3px;\">"
                 if( $("div.chat font.msg.nickname").last().html() != chat.user.nickname ) {
@@ -461,13 +467,12 @@
                	html += "<img  style='border: 2px solid gold;border-radius: 7px;-moz-border-radius: 7px;-khtml-border-radius: 7px; -webkit-border-radius: 7px;width:30px;height:30px;' src=\"/resources/images/userImages/"+chat.user.userImg+"\">";
                 html += "<font size=1 class='other msg nickname'>"+chat.user.nickname+"</font><br/>";
                 html += "</div>"
-                html += "<div class='chat content' style='margin:10px 0 7px; 2px;'>";
-                html += "<span class='bubble other' style='width: 50px;word-wrap: break-word;'>";
-                html += "<font color='black' size=2 class='other msg content'>"+chat.chatContent+"</font>";
-                html += "</span>"
-                html += "<font color='#424242' size=1 class='other msg sendTime'>"+chat.sendTime+"</font>";
+                html += "<div class='chat content container' style='margin:7px 0 7px; 2px;'><div class='row'>";
+                html += "<div class='bubble other'>";
+                html += "<font color='black' size=2 class='other msg content'>"+chat.chatContent +"</font>";
                 html += "</div>"
-                
+                html += "<font color='#424242' size=1 class='other msg sendTime'>"+chat.sendTime+"</font>";
+                html += "</div></div>"
             }
             html += "</div>"
             accChatLayer.append(html);
@@ -485,11 +490,11 @@
 	               	}
 	        	
 	        	if( myAccChat.val().trim() != "" ) {
+	        		console.log("공백 입력 > 전송");
 	                var chat = new Object();
 	                chat.senderId = userId;
 	                chat.chatContent = myAccChat.val();
 	                chat.chatRoomId = chatRoomId;
-
 	                accChatSocket.send(JSON.stringify({chat}));
 	            	}
 	                myAccChat.val('');
@@ -593,12 +598,15 @@
 	      					url: "/chat/json/quitChatRoom/",
 	      				 	type: "POST",
 	      				 	data : JSON.stringify(chatRoom),
+	      				 	dataType : "text",
 	      					headers : { "Accept" : "application/json", "Content-Type" : "application/json" },
-	      					success : function() {
-	      						console.log("quitChatRoom() 성공 :: "+quitId);
-	      						sendAccMessage(quitId);
-	      						enterRoom(chatRoomId);
+	      					success : function(result) {
+	      						console.log(result);
+	      						console.log("quitChatRoom() 성공 :: "+quitId+" || db에서 가져온 닉네임 : "+result);
+	      						sendAccMessage(result);
 	      						getChatRoomList();
+	      						loadChatRoomInfo(chatRoomId);
+	      						
 	      					},
 	      					error: function(error) {
 	      						console.log("quitChatRoom() 실패")
@@ -638,7 +646,6 @@
 			  	getPushList(userId);
 			  	getUnreadCount(userId);
 			  	getChatRoomList();
-			  	
 			  }
 
 	            $(".footerBar .fa-bell").click(function() {
@@ -669,6 +676,12 @@
 	        	})
 	        	
 	        	 $('#slider-wrap ul#slider').width(600);
+	        	
+	        	$(".roomTable tr").mouseout( function() {
+	         		$(this).css({'background-color':"white"});
+	         	}).mouseover( function(){
+	         		$(this).css({'background-color':'#ccc'});
+	         	});
 
 	        });
 		  
@@ -693,7 +706,6 @@
             transition: all 0.3s;
             position: absolute;
             bottom: -10px;
-         	z-index: -10;
 			border: 1px solid gray;
 			border-radius: 10px;
 			margin-bottom:20px;
@@ -701,14 +713,16 @@
 		
 		.push-layer {
 			right: 50px;
+			z-index: -10;
 		}
 		.chat-layer{
 			right: 10px;
+			z-index: -9;
 		}
 		
-		.push-layer.on, .chat-layer.on {
+		.chat-layer.on, .push-layer.on {
             opacity: 1;
-            bottom: 50px;
+            bottom: 40px;
         }
         
         
@@ -723,7 +737,6 @@
 		#slider-wrap{
 		    width:300px;
 		    height:500px;
-		    position:relative;
 		    overflow:hidden;
 		}
 		

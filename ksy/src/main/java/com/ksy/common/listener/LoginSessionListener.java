@@ -22,6 +22,7 @@ import com.ksy.service.plan.PlanService;
 import com.ksy.web.push.util.UserSocket;
 
 
+
 //@WebListener
 public class LoginSessionListener implements HttpSessionListener, HttpSessionAttributeListener {
 
@@ -63,7 +64,7 @@ public class LoginSessionListener implements HttpSessionListener, HttpSessionAtt
 			String userId = sessionUser.getUserId();
 			userMap.put(se.getSession().getId(), sessionUser);
 			System.out.println("session에서 가져온 User : "+sessionUser+" || userId : "+userId);
-		/*	
+			
 			try {
 				PlanService planService = (PlanService)Util.getBean("planServiceImpl");
 				System.out.println("\n\ncount ::::: "+planService.getUndoneCount(userId)+"\n\n");
@@ -75,7 +76,7 @@ public class LoginSessionListener implements HttpSessionListener, HttpSessionAtt
 					TimerTask runTask = checkMap.get(userId); // 같은 userId의 TimerTask 호출 
 					if (runTask == null) { // 없다면 생성
 						
-						WebSocket webSocket = new WebSocket();
+						UserSocket webSocket = new UserSocket();
 						runTask = new TimerTask() {
 							
 							@Override public void run() { 
@@ -114,7 +115,7 @@ public class LoginSessionListener implements HttpSessionListener, HttpSessionAtt
 				e1.printStackTrace();
 			}
 			
-			*/
+			
 		}	 
 		
 	}

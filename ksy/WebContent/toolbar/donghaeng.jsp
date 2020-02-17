@@ -82,6 +82,7 @@
             margin-top: 20px;
             height: 410px;
             overflow-y:auto;
+            overflow-x:hidden;
         }
 
         .accChat.input {
@@ -95,18 +96,22 @@
             text-align:left;
         }
         
-        
         .bubble {
+        	display: inline-block;
         	border-radius: 10px;
         	padding: 5px;
+        	max-width: 200px;
+        	word-wrap: break-word;
         }
         .bubble.mine {
 		    border: 1 solid gold;
 		    background:gold;
+		    float:right;
 		}    
 		.bubble.other {
 			border: 1 solid white;
 		    background:white;
+		    float:left;
 		}
 		.chat.system {
 			text-align: center;
@@ -123,12 +128,21 @@
 		}
 		.mine.msg.sendTime {
 			margin-right: 3px;
+			vertical-align:bottom;
 		}
 		.other.msg.sendTime {
 			margin-left: 3px;
+			vertical-align:bottom;
 		}
 		.none {
 			display:none;
+		}
+		.right {
+			text-align: right;
+		}
+		.row {
+			display:inline-block;
+			margin-right:1px;
 		}
 }
 
@@ -145,6 +159,13 @@
 	<script>
 	        jQuery(document).ready(function($) {
 	        	//connectPlanChat();
+	        });
+	        
+	        $(function() {
+	        	
+	        	/* if($('div.bubble').hasClass('mine')) {
+	        		$('div.bubble.mine').parent().addClass('right');
+	        	} */
 	        });
     </script>
 <jsp:include page="/toolbar/pushBar_jay.jsp"/>

@@ -1,5 +1,7 @@
 package com.ksy.service.domain;
 
+import java.sql.Timestamp;
+
 public class Flight {
 	private String flightId; //flight_id
 	private String airline; //airline
@@ -18,7 +20,7 @@ public class Flight {
 	private String leadTime; //lead_time
 	private String stopOver; //stop_over
 	private String orderStatus; //order_status
-	private String orderDate; //order_date
+	private Timestamp orderDate; //order_date
 	
 	public String getFlightId() {
 		return flightId;
@@ -123,10 +125,10 @@ public class Flight {
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
-	public String getOrderDate() {
+	public Timestamp getOrderDate() {
 		return orderDate;
 	}
-	public void setOrderDate(String orderDate) {
+	public void setOrderDate(Timestamp orderDate) {
 		this.orderDate = orderDate;
 	}
 	@Override
