@@ -311,6 +311,42 @@
 	      }
 	</style>
 
+	<style>
+	
+	  #todo_list, #doing_list, #done_list{
+	    //border-right: 1px solid #C1CDCC;
+	    border-radius: 5px;
+	    width: 100%;
+	    min-height: 50%;
+	    max-height: 85%;
+	    list-style-type: none; 
+	    margin: 5px;
+	    padding: 5px; 
+	    float: left;
+	    overflow: hidden auto;
+	    font-size: 14px;
+	  }
+	  #todo_list_container, #doing_list_container, #done_list_container {
+	  	min-height: 180px;
+	    max-height: 180px;
+	  }
+	  #todo_list{
+	  	background-color: #FAFAFA;
+	  }
+	  #doing_list{
+	  	background-color: #E2F4F3;
+	  }
+	  #done_list{
+	  	background-color: #C5ECE9;
+	  }
+	  
+	 
+	  #todo_list li, #doing_list li, #done_list li {
+	    margin: 5px 5px 3px 5px;
+	    padding: px 3px;
+	    width: 100%;
+	  }
+ 	</style>
 
 	<!-- ICON 사용을 위한 스크립트 임포트 -->
 	<!-- https://feathericons.com/ -->
@@ -780,7 +816,10 @@
 			});
 		} //getBudgetOverviewList(planId) END
 		
-		getBudgetOverviewList(planId);
+		//getBudgetOverviewList(planId);
+		setTimeout(function(){ 
+			getBudgetOverviewList(planId); 
+		},50);
 		
 		/* ------------------------------------------------------------------------------------------------------ */
 		
@@ -789,7 +828,6 @@
 		/* ---------------------------------		Todo List 관련 함수들			--------------------------------- */
 		
 		$(function(){
-			
 			$('#todoMode').on('click', function(){
 				alert("#todoMode 클릭 => changeTodoMode() 실행");
 				changeTodoMode($(this).text());
@@ -797,25 +835,28 @@
 
 		});
 		
-		function changeTodoMode(mode){
-			alert("changeTodoMode(mode) 실행");
-		} //changeTodoMode 끝
-		
-		function checkTodo(todoId){
-			alert("checkTodo(todoId) 실행");
-		}	//checkTodo 끝
-		
-		function getTodoList(planId, mode){
-			alert("getTodoList(planId, mode) 실행");
-		}	//getTodoList 끝
-		
-		function deleteTodo(todoId){
-			alert("deleteTodo(todoId) 실행");
+		function deleteTodo( todoId ){
+			
+			if(confirm( "삭제된 Todo 리스트는 복구 불가능합니다. \n정말 삭제하시겠습니까? ")){
+				$.ajax({
+					url: "/plan/json/deleteTodo/"+todoId ,
+					method: "GET",
+					dataType: "json",
+					headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+					success: function(JSONData, status){	//리턴데이터 없음
+					},
+					error:function(request,status,error){
+				        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+				        if( request.status == 200){
+				        	$('span:contains("'+ todoId +'")').parent().remove();
+				        }
+					} 
+				});
+			}
 		}	//deleteTodo 끝
 		
 		
 		function addTodo(){
-			console.log("addTodo() 실행");
 			
 			var todoName = $("input[name='todoName']").val();
 			console.log('addTodo() 실행 : todoName='+todoName);
@@ -839,9 +880,11 @@
 						console.log("리턴데이터 없음");	
 					}else{
 						console.log("리턴데이터 있음! +> JSONData = "+JSON.stringify(JSONData));	
-						var todoHtml = '<li>'+todoName+'<span hidden="hidden">'+ JSONData.todoId +'</span></li>';
+						var todoHtml = '<li class="todo_item" >'+todoName+'<span hidden="hidden">'+ JSONData.todoId +'</span> &nbsp;<i class="fas fa-backspace deleteTodo" onclick="deleteTodo(\''+JSONData.todoId+'\')"></i></li>';
+						
 						$("#todo_list").append(todoHtml);
 						$("input[name='todoName']").val('');
+						$('.deleteTodo').hide();
 					}
 				},
 				error:function(request,status,error){
@@ -851,14 +894,32 @@
 			
 		}	//addTodo 끝
 		
-		/* ------------------------------------------------------------------------------------------------------ */
-		
-		
-		
-		/* ---------------------------------	CityRoute List 관련 함수들		--------------------------------- */
-		
-		$(function(){
+		$(document).ready(function(){
+			$('.deleteTodo').hide();
 			
+			/* $('.todo_item').hover(
+		        function() {
+		            $(this).css('color', '#089D94').css('fontWeight','bolder');
+		            $(this).find('.deleteTodo').show();
+		        },
+		        function() {
+		            $(this).css('color', 'black').css('fontWeight','normal');
+		            $(this).find('.deleteTodo').hide();
+		        }
+		    ); */
+			
+			$(document).on('mouseover', '.todo_item', 
+				function() {
+		            $(this).css('color', '#039088').css('fontWeight','bolder');
+		            $(this).find('.deleteTodo').show();
+		    	}
+			);
+		    $(document).on('mouseout', '.todo_item', 
+		        function() {
+		            $(this).css('color', 'black').css('fontWeight','normal');
+		            $(this).find('.deleteTodo').hide();
+		        }
+			);
 		});
 		
 		/* ------------------------------------------------------------------------------------------------------ */
@@ -1109,7 +1170,6 @@
 		
 		
 		
-		
 		/* GoogleMap control 버튼 클릭 */
 		function controlClick(){
 			console.log("controlClick() 실행")
@@ -1149,6 +1209,7 @@
 		}); 
 		
 	</script>
+	
 	
 	<!-- 캘린더 생성 -->
 	<script type="text/javascript">
@@ -1211,44 +1272,286 @@
 	
 	</script>
 	
+	<style type="text/css">
+		
+		.memo{
+			font-size:small;
+			margin: 10px;
+			padding:5px;
+			width: 230px;
+			height: 230px;
+			//border: 1px solid gray;
+			background-color:#FFF38B;
+			//background: white;
+			//position: absolute;
+			box-shadow:3px 2px 4px #898989;
+		}
+		
+		.memo > .top_nav{
+			height: 32px; line-height: 32px;
+		}
+		
+		.memo > .top_nav span{
+			display: inline-block;
+			padding: 0 5px;
+			color: #666;
+			text-decoration: none;
+		}
+		.memo > .top_nav span:hover{
+			color: #FFF4B6; background: #666;
+		}
+		.memo > .top_nav >  span.addMemo{
+			float: left;
+		}
+		.memo > .top_nav >  .right{
+			float: right;
+		}
+		
+		.memo > textarea{
+			margin: 0; padding: 10px;
+			box-sizing: border-box;
+			width: 218px; height: 180px;
+			background: #FFF38B;
+			border: none;
+			resize: inherit;
+		}
+		
+	</style>
 	
+	<script type="text/javascript">
+				
+		/* -------------------------------------	Memo List 관련 함수들		------------------------------------- */
+		
+		$(function(){
+			
+			var number = 0;
+			
+			//메모장
+			var memo_html = '<div class="memo">' +
+								'<nav class="top_nav">' +
+									'<span class="addMemo"><i class="fa fa-plus"></i></span>' + 
+									'<span class="saveMemo"><i class="fa fa-save"></i></span>' + 
+									'<div class="right">' +
+										'<a href="#" class="getMemo"><i class="fa fa-list"></i></a>' +
+										'<a href="#" class="deleteMemo"><i class="fa fa-times"></i></a>' +
+									'</div>' +
+								'</nav>' +
+								'<textarea name="memoDetail" class="txt"></textarea>' + 
+								'<nav class="side_nav"><ol></ol></nav>' +
+							'</div>';
+							
+			var memo_html03 = '<div class="memo" >'+
+								'<div>메모 등록일 : &nbsp; ${memo.memoRegDate} </div>' +
+								'<div>작성자 : &nbsp; ${memo.regUserNickname} </div>' +
+								'<textarea name="memoDetail" class="txt"> ${memo.memoDetail} </textarea>' +
+								'<div class="memo_id"> ${memo.memoId} </div>' +
+								'</div>';
+				
+			//메모 객체
+			var Memo = {
+					
+				//메모 추가 메소드
+				addMemo : function( ex, ey ){
+					
+					alert("win_width = "+$('#memo_wrap').width() + "/ win_height="+$('#memo_wrap').height());
+					
+					number = number+1;
+					
+					var memo_html2 = '<div class="memo">' + 
+										'<nav class="top_nav">' + number +
+											'<span class="addMemo"><i class="fa fa-plus"></i></span>' + 
+											'<span class="saveMemo"><i class="fa fa-save"></i></span>' + 
+											'<div class="right">' +
+												'<a href="#" class="getMemo"><i class="fa fa-list"></i></a>' +
+												'<a href="#" class="deleteMemo"><i class="fa fa-times"></i></a>' +
+											'</div>' +
+										'</nav>' +
+										'<textarea name="memoDetail" class="txt"></textarea>' + 
+										'<nav class="side_nav"><ol></ol></nav>' +
+									'</div>';
+									
+					var memo_html04 = '<div class="memo">'+
+											'<nav class="top_nav">'+
+												'<span class="addMemo"><i class="fa fa-plus"></i></span>'+
+												'<span class="delMemo" onclick="deleteMemo(\'memoId\')"><i class="fa fa-trash"></i></span>'+
+											'</nav>'+
+											'<textarea name="memoDetail" class="memoDetail">'+''+'</textarea>'+
+											'<div class="memo_id" hidden="hidden">memoId</div>'+
+										'</div>';
+					
+					//창 크기 구하기
+					var win_width = $('#memo_wrap').width() - 250,
+						win_height = $('#memo_wrap').height() - 300,
+						x = Math.random() * win_width,	//랜덤으로 좌표 지정
+						y = Math.random() * win_height;
+					
+					//$('#memo_wrap').append(memo_html);	//메모 추가
+					//$('.memoItem').last().parent().append(memo_html2);
+					$('.memo_row').append(memo_html04);
+					
+					var $new_memo = $('.memo').last();	//새로 생성된 메모 객체
+					
+					//$new_memo.css({
+						//left: parseInt(x) + 'px',
+						//top: parseInt(x) + 'px'
+						//left: ex + 'px',
+						//top: ey + 'px'
+					//});
+					//$('.memo').last().css('left','10px').css('top', '10px');
+					/* $new_memo.css('left', ex+'px');
+					$new_memo.css('top', ey+'px'); */
+					
+					$('.memo').css('zIndex', '50');	//메모장 레이어 초기화
+					$new_memo.css('zIndex', '99');	//새 메모장을 상위 레이어로
+					
+				}	//addMemo
+				
+			};	//end Memo{}
+			
+			
+			//추가버튼
+			$('#memo_wrap').on("click", '.addMemo', function(e){
+				var event = e.originalEvent;	//제이쿼리에서 기존 자바스크립트 이벤트 받을때 필요
+				//var touchObj = event.changedTouches[0];		//터치 이벤트 객체
+				
+				//현재 손가락 위치
+				var x = parseInt(event.pageX),
+					y = parseInt(event.pageY),
+					ex = x - 125,
+					ey = y - 16;
+				
+				Memo.addMemo( ex, ey );
+			});
+			
+			//마우스 입력 : 마우스가 메모장 상단에 위치하면 드래그 활성화
+			$('#memo_wrap').on('mouseover', '.top_nav', function(){
+				$(this).parent().draggable();
+			});
+			
+			//터치 입력
+			$('#memo_wrap').on('touchstart mousedown', '.memo', function(){	//복수 이벤트 지정
+				$('.memo').css('zIndex', '50');
+				$(this).css('zIndex', '99');
+			});
+			
+			$('#memo_wrap').on('touchmove', '.top_nav', function(e){	//mousemove 복수로 지정시 에러발생..... 
+				var $memo = $(this).parent();	//메모 객체
+				var event = e.originalEvent;	//제이쿼리에서 기존 자바스크립트 이벤트 받을때 필요
+				var touchObj = event.changedTouches[0];		//터치 이벤트 객체
+				
+				//현재 손가락 위치
+				var x = parseInt(touchObj.clientX),
+					y = parseInt(touchObj.clientY),
+					ex = x - 125,
+					ey = y - 16;
+				
+				//메모장 위치 지정
+				$memo.css('left', ex+'px');
+				$memo.css('top', ey+'px');
+				
+				console.log("memo left:"+ex+"px / top:"+ey+"px");
+			})
+			
+			//메모 내용 변경시 update
+			$('#memo_wrap').on('change', '.memoDetail', function(){
+				
+				var currDetail = $(this).val();
+				var memoId = $(this).next().text();
+				console.log("currDetail="+currDetail + " / memoId="+memoId);
+
+				if( memoId == 'memoId'){
+					addMemo( currDetail );
+				}else{
+					updateMemoDetail( currDetail, memoId );
+				}
+			});
+			
+			
+			/* $('.memo').hover(
+				  function() {
+					    $( this ).find('span').css("color", "black");
+					  }, function() {
+					    $( this ).find('span').css("color", "#FFF38B");
+					  }
+			); */
+			
+		});
+		
+		function addMemo( memoDetail ){
+			$.ajax({
+				url: "/planSub/json/addMemo",
+				method: "POST",
+				dataType: "json",
+				data: JSON.stringify({
+					planId: planId,
+					memoDetail: memoDetail
+				}),
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				success: function(JSONData, status){
+					if( JSONData==null || JSONData=="" ){
+						console.log("리턴데이터 없음");	
+					}else{
+						console.log("리턴데이터 있음! => "+JSONData);	
+					}
+				},
+				error:function(request,status,error){
+			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			    } 
+			});
+		} //addMemo
 	
+		function updateMemoDetail( memoDetail, memoId ){
+			
+			$.ajax({
+				url: "/planSub/json/updateMemo",
+				method: "POST",
+				dataType: "json",
+				data: JSON.stringify({
+					planId: planId,
+					memoId: memoId,
+					memoDetail: memoDetail
+				}),
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				success: function(JSONData, status){
+					if( JSONData==null || JSONData=="" ){
+						console.log("리턴데이터 없음");	
+					}else{
+						console.log("리턴데이터 있음! => "+JSONData);	
+					}
+				},
+				error:function(request,status,error){
+			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			    } 
+			});
+		} //updateMemoDetail
+		
+		function deleteMemo( memoId ){
+			
+			if(confirm( "삭제된 메모는 복구 불가능합니다. \n정말 삭제하시겠습니까? ")){
+				
+				$.ajax({
+					url: "/planSub/json/deleteMemo/"+memoId+"/"+planId,
+					method: "POST",
+					dataType: "json",
+					headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+					success: function(JSONData, status){
+						if( JSONData==null || JSONData=="" ){
+							console.log("리턴데이터 없음");	
+						}else{
+							console.log("리턴데이터 있음! => "+JSONData);	
+						}
+					},
+					error:function(request,status,error){
+				        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+				    } 
+				});
+			}
+		} //deleteMemo
+		
+		/* -------------------------------------	Memo List 관련 함수들		------------------------------------- */
+		
+	</script>
 	
-	<style>
-	
-	  #todo_list, #doing_list, #done_list{
-	    //border-right: 1px solid #C1CDCC;
-	    border-radius: 8px;
-	    width: 100%;
-	    min-height: 50%;
-	    max-height: 85%;
-	    list-style-type: none; 
-	    margin: 5px;
-	    padding: 5px; 
-	    float: left;
-	    overflow: hidden auto;
-	  }
-	  #todo_list_container, #doing_list_container, #done_list_container {
-	  	min-height: 210px;
-	    max-height: 210px;
-	  }
-	  #todo_list{
-	  	background-color: #FAFAFA;
-	  }
-	  #doing_list{
-	  	background-color: #EFF5F5;
-	  }
-	  #done_list{
-	  	background-color: #DCF1F0;
-	  }
-	  
-	 
-	  #todo_list li, #doing_list li, #done_list li {
-	    margin: 5px 5px 3px 5px;
-	    padding: px 3px;
-	    width: 100%;
-	  }
- 	</style>
 
 </head>
 <body>
@@ -1379,14 +1682,14 @@
 			<div id="gotop"></div>	
 			<!-- Main 화면 구성 Start ///////////////////////////////////////////////////////////////////////////////////////// -->
 			<!-- <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 container"> -->
-			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" style="padding-top: 20px;">
+			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" style="padding-top: 20px;" id="memo_wrap">
 				
 				<!--	 Plan Information START	//////////////////////// 	-->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom list-container" >
 					<!-- <div class="container">
 						<h5>Plan Information</h5>
 						<div class="row" style="background-color: #F3F7F6; width: 100%; padding: 15px; border-radius: 5px; "> -->
-							<div class="media" style="background-color: #F3F7F6; width: 100%; padding: 15px; border-radius: 5px; ">
+							<div class="media" style="background-color: white; width: 100%; padding: 10px 15px; border-radius: 5px; ">
 							
 								<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border-width: 1px; border-color: #D1D1D1; border-style: solid; width: 130px; height: 100px;">
 							    <div class="media-body" style="margin-left: 13px; margin-top: 25px; height: 100px;">
@@ -1439,30 +1742,26 @@
 					$(function() {
 						
 						$('#addTodoButton').on('click', function(){
-							//alert("addTodoButton 클릭");
 							var todoListHeight = $('#todo_list').height()
 							
 							if( $('#todo_list_container').find('.addTodo').text() == '' ){
 								todoListHeight = todoListHeight - 50;
-								
-								var addTodoHtml = '<div class="addTodo"><i class="fas fa-pencil-alt" style="margin: 7px;"></i><input type="text" class="form-control" name="todoName" style="margin-left:5px; margin-top:5px; width: 70%; display:inline-block;" placeholder="새로운 Todo 입력"> <button style="margin-bottom: 5px; margin-left: 5px;" type="button" class="btn btn-primary" onclick="addTodo()">+</button> </div>';
-								
-								$('#todo_list_container').find('p').append($(addTodoHtml));
-							}
-							else{
-								//alert($('#todo_list_container').find('.addTodo').text())
-								$('#todo_list_container').find('.addTodo').remove();
-								
+								var addTodoHtml = '<div class="addTodo row align-middle" style="width: 100%; margin-left:15px; margin-top:5px; padding-top:5px;"><i class="fas fa-pencil-alt" style="margin-top: 10px;width: 7%;"></i><input type="text" class="form-control" name="todoName" style="margin-left:5px; width: 70%; " placeholder="새로운 Todo 입력"> <button style="margin-bottom: 5px; margin-left: 5px;width: 13%;" type="button" class="btn btn-primary" onclick="addTodo()">+</button> </div>';
+								$('#todo_list').before($(addTodoHtml));
+							}else{
 								todoListHeight = todoListHeight + 50;
-								//$('#todo_list').height(todoListHeight);
+								$('#todo_list_container').find('.addTodo').remove();
 							}
 							$('#todo_list').height(todoListHeight);
-							
-							
-							
-						
 						});
 						
+						$('#addTodoButton').hover(
+							  function() {
+								    $( this ).css("color", "#08B5BA");
+								  }, function() {
+								    $( this ).css("color", "black");
+								  }
+						);
 						
 						
 						$( "#todo_list, #doing_list, #done_list" ).sortable({
@@ -1509,7 +1808,6 @@
 							},
 							error:function(request,status,error){
 						        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
-						        
 						    } 
 						});
 						
@@ -1524,15 +1822,15 @@
 					<!-- <div class="container">
 						<h5>Todo List</h5>
 						<div class="row"> -->
-					<div class="d-flex justify-content-around flex-wrap flex-md-nowrap"  style="width: 100%;">
+					<div class="d-flex justify-content-around flex-wrap flex-md-nowrap"  style="width: 99%;">
 						<div id="todo_list_container" style="width: 32%;">
-							<p style="margin: 0 20px; font-weight: bolder;">Todo <span data-feather="pen-tool" id="addTodoButton"></span></p>
+							<p style="margin: 0 10px; font-weight: bolder; float: right;">Todo &nbsp;<span data-feather="pen-tool" id="addTodoButton"></span></p>
 							<ul id="todo_list" class="connectedSortable">
 							
 								<c:if test="${plan.todoList.size()!=0}">
 									<c:forEach var="todo" items="${plan.todoList}">
 										<c:if test="${todo.todoCheck == 'T' }">
-											<li>${todo.todoName}<span hidden="hidden">${todo.todoId}</span></li>
+											<li class="todo_item" >${todo.todoName}<span hidden="hidden">${todo.todoId}</span> &nbsp;<i class="fas fa-backspace deleteTodo" onclick="deleteTodo('${todo.todoId}')"></i></li>
 										
 										</c:if>
 									</c:forEach>
@@ -1543,13 +1841,13 @@
 						</div>
 						
 						<div id="doing_list_container" style="width: 32%;border-left: 1px #C1CDCC;">
-							<p style="margin: 0 20px; font-weight: bolder;">Doing</p> 
+							<p style="margin: 0 10px; font-weight: bolder; float: right;">Doing</p> 
 							<ul id="doing_list" class="connectedSortable">
 							
 								<c:if test="${plan.todoList.size()!=0}">
 									<c:forEach var="todo" items="${plan.todoList}">
 										<c:if test="${todo.todoCheck == 'I' }">
-											<li >${todo.todoName}<span hidden="hidden">${todo.todoId}</span></li>
+											<li class="todo_item" >${todo.todoName}<span hidden="hidden">${todo.todoId}</span> &nbsp;<i class="fas fa-backspace deleteTodo" onclick="deleteTodo('${todo.todoId}')"></i></li>
 										
 										</c:if>
 									</c:forEach>
@@ -1559,13 +1857,13 @@
 						</div>
 						
 						<div id="done_list_container" style="width: 32%;border-left: 1px #C1CDCC;">
-							<p style="margin: 0 20px; font-weight: bolder;">Done</p> 
+							<p style="margin: 0 10px; font-weight: bolder; float: right;">Done</p> 
 							<ul id="done_list" class="connectedSortable">
 							
 								<c:if test="${plan.todoList.size()!=0}">
 									<c:forEach var="todo" items="${plan.todoList}">
 										<c:if test="${todo.todoCheck == 'D' }">
-											<li >${todo.todoName}<span hidden="hidden">${todo.todoId}</span></li>
+											<li class="todo_item" >${todo.todoName}<span hidden="hidden">${todo.todoId}</span> &nbsp;<i class="fas fa-backspace deleteTodo" onclick="deleteTodo('${todo.todoId}')"></i></li>
 										
 										</c:if>
 									</c:forEach>
@@ -1583,14 +1881,36 @@
 				
 				<!--	 CityRoute List : 여행루트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light" id="gotoCityRouteList"> -->
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom list-container" id="gotoCityRouteList">
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 pl-2 mb-3 border-bottom list-container" id="gotoCityRouteList">
 					<!-- <div class="container">
 						<h5>여행루트</h5>
 						<div class="row"> -->
 						
-							<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;height:445px;float:left;width:50%;"></div>
-							<div id='calendar-container' style="float:right;width:50%; margin: 5px 10px;max-width: 900px;">
-							  <div id='calendar'></div>
+							<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;height:620px;float:left;width:55%;"></div>
+							
+							<div id='calendar-container' style="float:right;width:45%; margin: 5px 10px;max-width: 900px;">
+							  <div id='calendar' style="margin-bottom:10px; height: 65%;"></div>
+							  
+							  <div class="text-center" style="border:solid thin #DDDDDD; border-radius:5px; padding: 5px 10px; background-color: white; height:auto; ">
+									<div class="d-flex justify-content-left mt-1 ml-3" style="font-weight: bolder; font-size: 16px;">예산 정보</div>
+									
+									<!-- 만들어두고 스크립트에서 포문돌려 셋팅하기 -->
+									<div class="budgetOverview d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center" style="padding: 0px 3px 0px 0px;font-size: 14px;width:100%;">
+										<div style="width:47%;margin: 3px;">
+											<div class="row" style="margin: 4px 0;"> <i class="fas fa-walking" 		style="width:40px; font-size: 20px;"></i>관광  <div class="budget_amount" id="budget_D" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+											<div class="row" style="margin: 4px 0;"> <i class="fas fa-bus" 			style="width:40px; font-size: 20px;"></i>교통  <div class="budget_amount" id="budget_T" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+											<div class="row" style="margin: 4px 0;"> <i class="fas fa-ticket-alt" 	style="width:40px; font-size: 20px;"></i>투어  <div class="budget_amount" id="budget_V" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+											<div class="row" style="margin: 4px 0;"> <i class="fas fa-ellipsis-h" 	style="width:40px; font-size: 20px;"></i>기타  <div class="budget_amount" id="budget_E" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+										</div>
+										<div style="width:47%;margin: 3px;">
+											<div class="row" style="margin: 4px 0;"> <i class="fas fa-bed" 			style="width:40px; font-size: 20px;"></i>숙소  <div class="budget_amount" id="budget_R" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+											<div class="row" style="margin: 4px 0;"> <i class="fas fa-utensils" 	style="width:40px; font-size: 20px;"></i>식사  <div class="budget_amount" id="budget_F" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+											<div class="row" style="margin: 4px 0;"> <i class="fas fa-shopping-cart" style="width:40px; font-size:20px;"></i>쇼핑  <div class="budget_amount" id="budget_S" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+											<div style="margin: 5px 0;text-align: right; color:#32D0BF; font-weight: bolder;"> 총  <div id="budget_total" style="font-size:23px; display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+										</div>
+									</div>
+								</div>
+							  
 							</div>
 						<!-- </div>
 					</div> -->
@@ -1598,20 +1918,13 @@
 				<!--	 CityRoute List : 여행루트 END	//////////////////////// 	-->
 			
 				
-				
-				
 				<!--	 BudgetOverview List : 예산 간략 리스트 START	//////////////////////// 	-->
-				<!-- <div class="album py-5 bg-light"  id="gotoBudgetOverviewList"> -->
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom list-container"  id="gotoBudgetOverviewList">
-					<!-- <div class="container"> -->
-						<!-- <h6>예산 정보</h6> -->
-						<!-- <div class="row"> -->
+				<!-- <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom list-container"  id="gotoBudgetOverviewList">
 							<div></div>
-							
 							<div class="text-center" style="border:solid thin #DDDDDD ; border-radius:5px; padding: 5px 10px; background-color: white; width: 50%; ">
 								<div class="d-flex justify-content-left mt-1 ml-3" style="font-weight: bolder; font-size: 17px;">예산 정보</div>
 								
-								<!-- 만들어두고 스크립트에서 포문돌려 셋팅하기 -->
+								만들어두고 스크립트에서 포문돌려 셋팅하기
 								<div class="budgetOverview" style="padding: 5px;">
 									<div style="float:left;width:45%;">
 										<div style="margin: 4px 0;"> <i class="fas fa-walking" 		style="width:40px; font-size: 20px;"></i>관광  <div class="budget_amount" id="budget_D" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
@@ -1628,9 +1941,7 @@
 								</div>
 							</div>
 							
-						<!-- </div>
-					</div> -->
-				</div>
+				</div> -->
 				<!--	 BudgetOverview List : 예산 간략 리스트 END	//////////////////////// 	-->
 				
 				
@@ -1639,7 +1950,7 @@
 				<!-- <div class="album py-5 bg-light" id="gotoDailyList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom list-container" id="gotoDailyList">
 					<div class="container">
-						<h5>일정표</h5>
+						<div style="font-weight: bolder;font-size: 20px;margin-bottom: 5px;">일정표</div>
 						<div class="row">
 						
 							<c:if test="${plan.dayList.size() != 0}">
@@ -1725,19 +2036,31 @@
 				
 				<!--	 Memo List : 메모 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light"  id="gotoMemoList"> -->
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoMemoList">
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom list-container" id="gotoMemoList">
 					<div class="container">
-						<h5>메모</h5>
-						<div class="row">
+						<!-- <h5>메모</h5> -->
+						<div style="font-weight: bolder;font-size: 20px;margin-bottom: 5px;">메모 <span class="addMemo">addMemo</span> </div>
+						<div class="row memo_row">
 							
-							<br/><br/>
+							<br/>
 							<c:if test="${plan.memoList.size()!=0}">
 								<c:forEach var="memo" items="${plan.memoList}">
 								
-									<div style="font-size:small;  background-color:#FFF38B;padding: 18px;margin: 10px;height: 250px;width: 250px;border: medium;border-color: navy;box-shadow:3px 2px 4px #898989;">
+									<%-- <div class="memoItem" style="font-size:small;  background-color:#FFF38B;padding: 18px;margin: 10px;height: 250px;width: 250px;border: medium;border-color: navy;box-shadow:3px 2px 4px #898989;">
 										메모 등록일자 : &nbsp; ${memo.memoRegDate}<br/>
 										등록자 : &nbsp; ${memo.regUserNickname}<br/><br/>
 										${memo.memoDetail}<br/>
+									</div> --%>
+								
+									<div class="memo">
+										<nav class="top_nav">
+											<span class="addMemo"><i class="fa fa-plus"></i></span>
+											<span class="delMemo" onclick="deleteMemo('${memo.memoId}')"><i class="fa fa-trash"></i></span>
+										</nav>
+										<%-- <div>메모 등록일 : &nbsp; ${memo.memoRegDate} </div>
+										<div>작성자 : &nbsp; ${memo.regUserNickname} </div> --%>
+										<textarea name="memoDetail" class="memoDetail">${memo.memoDetail}</textarea>
+										<div class="memo_id" hidden="hidden">${memo.memoId}</div>
 									</div>
 								
 								</c:forEach>
@@ -1753,372 +2076,8 @@
 				<!-- Footer End	/////////////////////////// -->
 			
 			
-			
-				<!-- //////////////////////////////////////// 모달모달 모음  //////////////////////////////////////// -->
-				<!-- /////////////////////	Modal : editPlan 	///////////////////// -->
-				<div class="modal" id="editPlan">
-				  <div class="modal-dialog" >
-				  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 수정</h4>
-				  
-				    <div class="modal-content">
-				    
-				      <div class="modal-header">
-				        <div class="modal-title">
-				        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>플래너를 수정합니다</h6>
-				        </div>
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('editPlan')">
-				          <span aria-hidden="true">&times;</span>
-				        </button>
-				      </div>
-				      
-				      <div class="modal-body">
-				        
-				        <form class="form-horizontal editPlan" style="margin: 10px;">
-				        	<br/>
-							<div class="form-group row">
-							    <label for="planTitle" style="text-align: right;" class="col-sm-4 col-form-label ">플래너 제목</label>
-							    <div class="col-sm-7">
-							      <input type="text" class="form-control" id="planTitle" name="planTitle" placeholder="플래너 제목" value="${plan.planTitle}">
-							    </div>
-							</div>
-				        	
-				        	<div class="form-group row">
-								<label for="planType" style="text-align: right;" class="col-sm-4 col-form-label ">여행 타입</label>
-							    <div class="col-sm-7">
-								    <select class="form-control" id="planType" name="planType"  value="${plan.planType}">
-										<option value="A" <c:if test="${plan.planType == 'A'}">selected </c:if> >여자혼자</option>
-										<option value="B" <c:if test="${plan.planType == 'B'}">selected </c:if> >남자혼자</option>
-										<option value="C" <c:if test="${plan.planType == 'C'}">selected </c:if>>여자끼리</option>
-										<option value="D" <c:if test="${plan.planType == 'D'}">selected </c:if>>남자끼리</option>
-										<option value="E" <c:if test="${plan.planType == 'E'}">selected </c:if>>단체</option>
-										<option value="F" <c:if test="${plan.planType == 'F'}">selected </c:if>>부모님과</option>
-										<option value="G" <c:if test="${plan.planType == 'G'}">selected </c:if>>커플</option>
-									</select>
-								</div>
-							</div>
-							
-							<div class="form-group row">
-							    <label for="planImgFile" style="text-align: right;" class="col-sm-4 col-form-label ">플래너 이미지</label>
-							    <div class="col-sm-7 custom-file">
-							    	<div class="input-group mb-2">
-							    		<input type="file" class="form-control custom-file-input" id="planImgFile" name="planImgFile" placeholder="플래너 이미지" accept="image/*">
-							      		<label class="custom-file-label" for="customFile"><i class="fas fa-camera-retro"> size 360x360</i></label>  
-							    		
-							    	</div>
-							    </div>
-							</div>
-							
-							<%-- <div class="form-group">
-							    <label for="planImg" class="col-sm-offset-3 col-sm-5 control-label">플래너 이미지</label>
-							    <div class="col-sm-5">
-							      <input type="text" class="form-control" id="planImg" name="planImg" placeholder="플래너 이미지" value="${plan.planImg}">
-							    </div>
-							</div> --%>
-							
-							<div class="form-group row">
-							    <label for="startDateString" style="text-align: right;" class="col-sm-4 col-form-label ">여행 시작일</label>
-							    
-							    <div class="col-sm-7">
-								    <div class="input-group mb-2">
-								      <input type="text" class="form-control" id="startDateString" name="startDateString" placeholder="여행 시작일" readonly="readonly"  value="${plan.startDateString.substring(0,10)}">
-								      <div class="input-group-append">
-								      	<div class="input-group-text"><span data-feather="calendar"></span></div>
-								      </div>
-								    </div>
-							    </div>
-							</div>
-						
-							<%-- <div class="form-group">
-							    <label for="startDateString" class="col-sm-offset-3 col-sm-5 control-label">여행 시작일</label>
-							    <div class="col-sm-5">
-							      <input type="text" class="form-control" id="startDateString" name="startDateString" placeholder="여행 시작일" value="${plan.startDateString}">
-							    </div>
-							</div> --%>
-							
-							<!-- 여행완료 확정 폼제출을 위한 히든 값 -->
-							<input type="hidden" class="form-control" id="planStatus" name="planStatus" value="${plan.planStatus}">
-							<input type="hidden" class="form-control" id="planId2" name="planId" value="${plan.planId}">
-				        	
-				        	<div class="alert alert-danger alert-dismissable" style="display: none;" >
-							    <button type="button" class="close" >×</button>
-							    <strong></strong><br/>수정 후 다시 시도해주세요.
-							</div>
-				        </form>
-				        
-				      </div>
-				      <div class="modal-footer">
-				      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('editPlan')">Close</button>
-				        <button type="button" class="btn btn-primary" id="updatePlan">수정</button>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<!-- /////////////////////	Modal : editPlan 끝	///////////////////// -->
-				
-				<!-- /////////////////////	Modal : dailyEdit 	///////////////////// -->
-				<div class="modal" id="dailyEdit" >
-				  <div class="modal-dialog">
-				  <h4 style="color: #FFFFFF; margin-top: 100px;">일정 등록</h4>
-				    <div class="modal-content">
-				    
-				      <div class="modal-header">
-				        <div class="modal-title">
-				        	<h4 class="daily-info city-names">cityNames</h4>
-				        	<h5 class="daily-info city-date">cityDate</h5>
-				        </div>
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('dailyEdit')">
-				          <span aria-hidden="true">&times;</span>
-				        </button>
-				      </div>
-				      
-				      <div class="modal-body">
-				        
-				        <form class="form-inline dailyEdit" style="margin: 10px;">
-				        	<input type="hidden" class="form-control" id="dayNo" name="dayNo" value="">
-				        	<input type="hidden" class="form-control" id="planId1" name="planId" value="${plan.planId}">
-				        	<input type="hidden" class="form-control" id="dailyId" name="dailyId" value="">
-				        	
-							<div class="form-group" >
-							    <label for="dayTime" style="font-weight: bold;">시간 &nbsp;</label>
-						    	<select class="form-control" id="dayTime" name="dayTime" disabled="disabled">
-									<c:forEach var="j" begin="9" end="20">
-										<option value="${j}">${j}</option>
-									</c:forEach>
-								</select>
-								 &nbsp; &nbsp;
-								<label for="dailyCate" style="font-weight: bold;" >카테고리 &nbsp;</label>
-						    	<select class="form-control" id="dailyCate" name="dailyCate" >
-									<option value="D">관광</option>
-									<option value="T">교통</option>
-									<option value="V">투어</option>
-									<!-- <option value="R">숙소</option> -->
-									<option value="F">식사</option>
-									<option value="S">쇼핑</option>
-									<option value="E">기타</option>
-								</select>
-							</div>
-							
-							<div class="form-group" style="margin-top: 15px; margin-bottom: 20px; width: 440px;">
-							    <label for="dailyDetail" class="control-label" style="font-weight: bold; margin-bottom: 5px;" >일정 내용</label><br/>
-							    <input type="text" class="form-control" id="dailyDetail" name="dailyDetail" placeholder="일정 내용을 작성해주세요" style="width:100%; height: 100px;">
-							</div>
-							
-							<div class="form-group" >
-								<label for="budgetAmount" style="font-weight: bold;" >예산 &nbsp;</label>
-						    	<input type="text" class="form-control" id="budgetAmount" name="budgetAmount" placeholder="0" style="width: 100px;"> 
-								&nbsp; 
-							    <label for="budgetCurrency" style="font-weight: bold;"> &nbsp;</label>
-						    	<select class="form-control" id="budgetCurrency" name="budgetCurrency" >
-									<option value="K">KRW</option>
-									<option value="E">EUR</option>
-									<option value="G">GBP</option>
-								</select>
-							</div>
-					
-				        </form>
-				        
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('dailyEdit')">Close</button>
-				        <button type="button" class="btn btn-danger" id="deleteDaily">Delete Daily</button>
-				        <button type="button" class="btn btn-primary" id="submitDaily">Edit Daily</button>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<!-- /////////////////////	Modal : dailyEdit 끝	///////////////////// -->
 				
 				
-				<!-- /////////////////////	Modal : inviteUser	///////////////////// -->	
-				<div class="modal" id="inviteUser">
-				  <div class="modal-dialog modal-lg" >
-				  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너에 친구 초대하기</h4>
-				  
-				    <div class="modal-content">
-				    
-				      <div class="modal-header">
-				        <div class="modal-title">
-				        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
-				        </div>
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('inviteUser')">
-				          <span aria-hidden="true">&times;</span>
-				        </button>
-				      </div>
-				      
-				      <div class="modal-body">
-				        
-				        <form class="inviteUser" style="margin: 10px;">
-				        	<!-- <input type="hidden" class="form-control" id="planId" name="planId" value="${plan.planId}">  -->
-					        <div class="input-group flex-nowrap" style="margin: 0 auto; width: 40%;">
-							  <div class="input-group-prepend">
-							    <span class="input-group-text" id="addon-wrapping">@</span>
-							  </div>
-							  <input type="text" class="form-control" name="findUserId" id="findUserId" placeholder="아이디를 입력하세요" aria-label="findUserId" aria-describedby="addon-wrapping">
-								 &nbsp; &nbsp;<button type="button" class="btn btn-primary" id="findUser">검색</button>
-							</div>
-				        
-				        	<br/>
-				        	
-							<div class="findUserResult" style="text-align: center;"></div>
-							
-							<div class="form-group" id="offerMsgForm" style="margin: 30px 10px 10px 10px; width:auto;">
-							    <label for="offerMsg" class="control-label" style="font-weight: bold; margin-bottom: 7px;" ><span class="findUserResult"></span> 님에게 전송할 초대 메시지</label><br/>
-							    <input type="text" class="form-control" id="offerMsg" name="offerMsg" placeholder="초대 메시지를 입력하세요" style="width:100%; height: 100px;">
-							</div>
-				        </form>
-				        
-				      </div>
-				      <div class="modal-footer">
-				      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('inviteUser')">Close</button>
-				        <button type="button" class="btn btn-primary" id="addOffer">초대하기</button>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<!-- /////////////////////	Modal : inviteUser 끝	///////////////////// -->	
-				
-				
-				<!-- /////////////////////	Alert Modal : 플래너 삭제 	///////////////////// -->	
-				<div class="modal" id="deletePlanAlert">
-				  <div class="modal-dialog" >
-				  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 삭제</h4>
-				  
-				    <div class="modal-content">
-				    
-				      <div class="modal-header">
-				        <!-- <div class="modal-title">
-				        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
-				        </div> -->
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('deletePlanAlert')">
-				          <span aria-hidden="true">&times;</span>
-				        </button>
-				      </div>
-				      
-				      <div class="modal-body text-center">
-				        <br/><span style="font-size:20px; color:#00AACC; font-weight:bold;">${plan.planTitle}</span> <br/>
-				        <span style="font-size:17px;"> 플래너를 삭제하시겠습니까?</span>
-				        <br/><br/>
-				      </div>
-				      
-				      <div class="modal-footer">
-				      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('deletePlanAlert')">아니오</button>
-				        <button type="button" class="btn btn-primary" id="deletePlan">예</button>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<!-- /////////////////////	Alert Modal : 플래너 삭제 끝	///////////////////// -->
-				
-				
-				<!-- /////////////////////	Alert Modal : 여행완료 확정	///////////////////// -->	
-				<div class="modal" id="planCompleteAlert">
-				  <div class="modal-dialog modal-lg" >
-				  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 여행완료 확정</h4>
-				  
-				    <div class="modal-content">
-				    
-				      <div class="modal-header">
-				        <!-- <div class="modal-title">
-				        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
-				        </div> -->
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('planCompleteAlert')">
-				          <span aria-hidden="true">&times;</span>
-				        </button>
-				      </div>
-				      
-				      <div class="modal-body text-center">
-				        ${plan.startDateString} 부터 ${plan.endDate} 까지
-				        <br/>
-				        <span style="font-size:20px; color:#00AACC; font-weight:bold;">${plan.planTitle}</span> <span style="font-size:17px;"> 즐겁게 다녀오셨나요?</span>
-				        <br/><br/><br/>
-				        
-				        <span style="font-weight:bold;">여행완료 확정</span> 시 <br/>
-				        	내 여행정보 통계에 플래너 정보가 등록됩니다.
-				      </div>
-				      
-				      <div class="modal-footer">
-				      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('planCompleteAlert')">Close</button>
-				        <button type="button" class="btn btn-primary" id="planComplete">여행완료 확정</button>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<!-- /////////////////////	Alert Modal : 여행완료 확정 끝	///////////////////// -->	
-				
-				
-				<!-- /////////////////////	Alert Modal : 플래너 멤버 강퇴	///////////////////// -->	
-				<div class="modal" id="deletePlanPartyAlert">
-				  <div class="modal-dialog" >
-				  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 멤버 강퇴</h4>
-				  
-				    <div class="modal-content">
-				    
-				      <div class="modal-header">
-				        <!-- <div class="modal-title">
-				        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
-				        </div> -->
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('deletePlanPartyAlert')">
-				          <span aria-hidden="true">&times;</span>
-				        </button>
-				      </div>
-				      
-				      <div class="modal-body text-center">
-				        <br/><span id="planMemberId" style="font-size:17px;font-weight:bold; color:#00AACC; "></span>
-				        <span style="font-size:17px;"> 님을</span> <br/> <span style="font-size:17px;">플래너 참여자에서 제외시키시겠습니까? </span>
-				        <br/><br/>
-				        
-				        <!-- 플래너 멤버 삭제용 제출 폼 -->
-				        <form class="form-inline deleteMember">
-				        	<input type="hidden" class="form-control" id="planId4" name="refId" value="${plan.planId}">
-				        	<input type="hidden" class="form-control" id="partyUserId" name="partyUserId" value="">
-				        	<input type="hidden" class="form-control" id="partyRole" name="partyRole" value="">
-				        </form>
-				        
-				      </div>
-				      
-				      <div class="modal-footer">
-				      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('deletePlanPartyAlert')">아니오</button>
-				        <button type="button" class="btn btn-primary" id="deletePlanParty">예</button>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<!-- /////////////////////	Alert Modal : 플래너 멤버 강퇴 끝	///////////////////// -->	
-
-
-				<!-- /////////////////////	Alert Modal : 플래너 탈퇴 	///////////////////// -->	
-				<div class="modal" id="exitPlanAlert">
-				  <div class="modal-dialog" >
-				  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 탈퇴</h4>
-				  
-				    <div class="modal-content">
-				    
-				      <div class="modal-header">
-				        <!-- <div class="modal-title">
-				        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
-				        </div> -->
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('exitPlanAlert')">
-				          <span aria-hidden="true">&times;</span>
-				        </button>
-				      </div>
-				      
-				      <div class="modal-body text-center">
-				        <br/><span style="font-size:20px; color:#00AACC; font-weight:bold;">${plan.planTitle}</span> <br/>
-				        <span style="font-size:17px;"> 플래너를 탈퇴하시겠습니까?</span>
-				        <br/><br/>
-				      </div>
-				      
-				      <div class="modal-footer">
-				      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('exitPlanAlert')">아니오</button>
-				        <button type="button" class="btn btn-primary" id="exitPlan">예</button>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<!-- /////////////////////	Alert Modal : 플래너 탈퇴 끝	///////////////////// -->
-
-
-				<!-- //////////////////////////////////////// 모달 모음 끝  //////////////////////////////////////// -->
 				
 			</main>
 			<!-- Main 화면 구성 End ///////////////////////////// -->
@@ -2131,6 +2090,371 @@
 	<!-- 화면구성 div End ///////////////////////////// -->
 	
 	
+	<!-- //////////////////////////////////////// 모달모달 모음  //////////////////////////////////////// -->
+	<!-- /////////////////////	Modal : editPlan 	///////////////////// -->
+	<div class="modal" id="editPlan">
+	  <div class="modal-dialog" >
+	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 수정</h4>
+	  
+	    <div class="modal-content">
+	    
+	      <div class="modal-header">
+	        <div class="modal-title">
+	        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>플래너를 수정합니다</h6>
+	        </div>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('editPlan')">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      
+	      <div class="modal-body">
+	        
+	        <form class="form-horizontal editPlan" style="margin: 10px;">
+	        	<br/>
+				<div class="form-group row">
+				    <label for="planTitle" style="text-align: right;" class="col-sm-4 col-form-label ">플래너 제목</label>
+				    <div class="col-sm-7">
+				      <input type="text" class="form-control" id="planTitle" name="planTitle" placeholder="플래너 제목" value="${plan.planTitle}">
+				    </div>
+				</div>
+	        	
+	        	<div class="form-group row">
+					<label for="planType" style="text-align: right;" class="col-sm-4 col-form-label ">여행 타입</label>
+				    <div class="col-sm-7">
+					    <select class="form-control" id="planType" name="planType"  value="${plan.planType}">
+							<option value="A" <c:if test="${plan.planType == 'A'}">selected </c:if> >여자혼자</option>
+							<option value="B" <c:if test="${plan.planType == 'B'}">selected </c:if> >남자혼자</option>
+							<option value="C" <c:if test="${plan.planType == 'C'}">selected </c:if>>여자끼리</option>
+							<option value="D" <c:if test="${plan.planType == 'D'}">selected </c:if>>남자끼리</option>
+							<option value="E" <c:if test="${plan.planType == 'E'}">selected </c:if>>단체</option>
+							<option value="F" <c:if test="${plan.planType == 'F'}">selected </c:if>>부모님과</option>
+							<option value="G" <c:if test="${plan.planType == 'G'}">selected </c:if>>커플</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+				    <label for="planImgFile" style="text-align: right;" class="col-sm-4 col-form-label ">플래너 이미지</label>
+				    <div class="col-sm-7 custom-file">
+				    	<div class="input-group mb-2">
+				    		<input type="file" class="form-control custom-file-input" id="planImgFile" name="planImgFile" placeholder="플래너 이미지" accept="image/*">
+				      		<label class="custom-file-label" for="customFile"><i class="fas fa-camera-retro"> size 360x360</i></label>  
+				    		
+				    	</div>
+				    </div>
+				</div>
+				
+				<%-- <div class="form-group">
+				    <label for="planImg" class="col-sm-offset-3 col-sm-5 control-label">플래너 이미지</label>
+				    <div class="col-sm-5">
+				      <input type="text" class="form-control" id="planImg" name="planImg" placeholder="플래너 이미지" value="${plan.planImg}">
+				    </div>
+				</div> --%>
+				
+				<div class="form-group row">
+				    <label for="startDateString" style="text-align: right;" class="col-sm-4 col-form-label ">여행 시작일</label>
+				    
+				    <div class="col-sm-7">
+					    <div class="input-group mb-2">
+					      <input type="text" class="form-control" id="startDateString" name="startDateString" placeholder="여행 시작일" readonly="readonly"  value="${plan.startDateString.substring(0,10)}">
+					      <div class="input-group-append">
+					      	<div class="input-group-text"><span data-feather="calendar"></span></div>
+					      </div>
+					    </div>
+				    </div>
+				</div>
+			
+				<%-- <div class="form-group">
+				    <label for="startDateString" class="col-sm-offset-3 col-sm-5 control-label">여행 시작일</label>
+				    <div class="col-sm-5">
+				      <input type="text" class="form-control" id="startDateString" name="startDateString" placeholder="여행 시작일" value="${plan.startDateString}">
+				    </div>
+				</div> --%>
+				
+				<!-- 여행완료 확정 폼제출을 위한 히든 값 -->
+				<input type="hidden" class="form-control" id="planStatus" name="planStatus" value="${plan.planStatus}">
+				<input type="hidden" class="form-control" id="planId2" name="planId" value="${plan.planId}">
+	        	
+	        	<div class="alert alert-danger alert-dismissable" style="display: none;" >
+				    <button type="button" class="close" >×</button>
+				    <strong></strong><br/>수정 후 다시 시도해주세요.
+				</div>
+	        </form>
+	        
+	      </div>
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('editPlan')">Close</button>
+	        <button type="button" class="btn btn-primary" id="updatePlan">수정</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- /////////////////////	Modal : editPlan 끝	///////////////////// -->
+	
+	<!-- /////////////////////	Modal : dailyEdit 	///////////////////// -->
+	<div class="modal" id="dailyEdit" >
+	  <div class="modal-dialog">
+	  <h4 style="color: #FFFFFF; margin-top: 100px;">일정 등록</h4>
+	    <div class="modal-content">
+	    
+	      <div class="modal-header">
+	        <div class="modal-title">
+	        	<h4 class="daily-info city-names">cityNames</h4>
+	        	<h5 class="daily-info city-date">cityDate</h5>
+	        </div>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('dailyEdit')">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      
+	      <div class="modal-body">
+	        
+	        <form class="form-inline dailyEdit" style="margin: 10px;">
+	        	<input type="hidden" class="form-control" id="dayNo" name="dayNo" value="">
+	        	<input type="hidden" class="form-control" id="planId1" name="planId" value="${plan.planId}">
+	        	<input type="hidden" class="form-control" id="dailyId" name="dailyId" value="">
+	        	
+				<div class="form-group" >
+				    <label for="dayTime" style="font-weight: bold;">시간 &nbsp;</label>
+			    	<select class="form-control" id="dayTime" name="dayTime" disabled="disabled">
+						<c:forEach var="j" begin="9" end="20">
+							<option value="${j}">${j}</option>
+						</c:forEach>
+					</select>
+					 &nbsp; &nbsp;
+					<label for="dailyCate" style="font-weight: bold;" >카테고리 &nbsp;</label>
+			    	<select class="form-control" id="dailyCate" name="dailyCate" >
+						<option value="D">관광</option>
+						<option value="T">교통</option>
+						<option value="V">투어</option>
+						<!-- <option value="R">숙소</option> -->
+						<option value="F">식사</option>
+						<option value="S">쇼핑</option>
+						<option value="E">기타</option>
+					</select>
+				</div>
+				
+				<div class="form-group" style="margin-top: 15px; margin-bottom: 20px; width: 440px;">
+				    <label for="dailyDetail" class="control-label" style="font-weight: bold; margin-bottom: 5px;" >일정 내용</label><br/>
+				    <input type="text" class="form-control" id="dailyDetail" name="dailyDetail" placeholder="일정 내용을 작성해주세요" style="width:100%; height: 100px;">
+				</div>
+				
+				<div class="form-group" >
+					<label for="budgetAmount" style="font-weight: bold;" >예산 &nbsp;</label>
+			    	<input type="text" class="form-control" id="budgetAmount" name="budgetAmount" placeholder="0" style="width: 100px;"> 
+					&nbsp; 
+				    <label for="budgetCurrency" style="font-weight: bold;"> &nbsp;</label>
+			    	<select class="form-control" id="budgetCurrency" name="budgetCurrency" >
+						<option value="K">KRW</option>
+						<option value="E">EUR</option>
+						<option value="G">GBP</option>
+					</select>
+				</div>
+		
+	        </form>
+	        
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('dailyEdit')">Close</button>
+	        <button type="button" class="btn btn-danger" id="deleteDaily">Delete Daily</button>
+	        <button type="button" class="btn btn-primary" id="submitDaily">Edit Daily</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- /////////////////////	Modal : dailyEdit 끝	///////////////////// -->
+	
+	
+	<!-- /////////////////////	Modal : inviteUser	///////////////////// -->	
+	<div class="modal" id="inviteUser">
+	  <div class="modal-dialog modal-lg" >
+	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너에 친구 초대하기</h4>
+	  
+	    <div class="modal-content">
+	    
+	      <div class="modal-header">
+	        <div class="modal-title">
+	        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
+	        </div>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('inviteUser')">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      
+	      <div class="modal-body">
+	        
+	        <form class="inviteUser" style="margin: 10px;">
+	        	<!-- <input type="hidden" class="form-control" id="planId" name="planId" value="${plan.planId}">  -->
+		        <div class="input-group flex-nowrap" style="margin: 0 auto; width: 40%;">
+				  <div class="input-group-prepend">
+				    <span class="input-group-text" id="addon-wrapping">@</span>
+				  </div>
+				  <input type="text" class="form-control" name="findUserId" id="findUserId" placeholder="아이디를 입력하세요" aria-label="findUserId" aria-describedby="addon-wrapping">
+					 &nbsp; &nbsp;<button type="button" class="btn btn-primary" id="findUser">검색</button>
+				</div>
+	        
+	        	<br/>
+	        	
+				<div class="findUserResult" style="text-align: center;"></div>
+				
+				<div class="form-group" id="offerMsgForm" style="margin: 30px 10px 10px 10px; width:auto;">
+				    <label for="offerMsg" class="control-label" style="font-weight:bold; margin-bottom: 7px;" ><span class="findUserResult"></span> 님에게 전송할 초대 메시지</label><br/>
+				    <input type="text" class="form-control" id="offerMsg" name="offerMsg" placeholder="초대 메시지를 입력하세요" style="width:100%; height: 100px;">
+				</div>
+	        </form>
+	        
+	      </div>
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('inviteUser')">Close</button>
+	        <button type="button" class="btn btn-primary" id="addOffer">초대하기</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- /////////////////////	Modal : inviteUser 끝	///////////////////// -->	
+	
+	
+	<!-- /////////////////////	Alert Modal : 플래너 삭제 	///////////////////// -->	
+	<div class="modal" id="deletePlanAlert">
+	  <div class="modal-dialog" >
+	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 삭제</h4>
+	  
+	    <div class="modal-content">
+	    
+	      <div class="modal-header">
+	        <!-- <div class="modal-title">
+	        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
+	        </div> -->
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('deletePlanAlert')">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      
+	      <div class="modal-body text-center">
+	        <br/><span style="font-size:20px; color:#00AACC; font-weight:bold;">${plan.planTitle}</span> <br/>
+	        <span style="font-size:17px;"> 플래너를 삭제하시겠습니까?</span>
+	        <br/><br/>
+	      </div>
+	      
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('deletePlanAlert')">아니오</button>
+	        <button type="button" class="btn btn-primary" id="deletePlan">예</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- /////////////////////	Alert Modal : 플래너 삭제 끝	///////////////////// -->
+	
+	
+	<!-- /////////////////////	Alert Modal : 여행완료 확정	///////////////////// -->	
+	<div class="modal" id="planCompleteAlert">
+	  <div class="modal-dialog modal-lg" >
+	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 여행완료 확정</h4>
+	  
+	    <div class="modal-content">
+	    
+	      <div class="modal-header">
+	        <!-- <div class="modal-title">
+	        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
+	        </div> -->
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('planCompleteAlert')">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      
+	      <div class="modal-body text-center">
+	        ${plan.startDateString} 부터 ${plan.endDate} 까지
+	        <br/>
+	        <span style="font-size:20px; color:#00AACC; font-weight:bold;">${plan.planTitle}</span> <span style="font-size:17px;"> 즐겁게 다녀오셨나요?</span>
+	        <br/><br/><br/>
+	        
+	        <span style="font-weight:bold;">여행완료 확정</span> 시 <br/>
+	        	내 여행정보 통계에 플래너 정보가 등록됩니다.
+	      </div>
+	      
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('planCompleteAlert')">Close</button>
+	        <button type="button" class="btn btn-primary" id="planComplete">여행완료 확정</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- /////////////////////	Alert Modal : 여행완료 확정 끝	///////////////////// -->	
+	
+	
+	<!-- /////////////////////	Alert Modal : 플래너 멤버 강퇴	///////////////////// -->	
+	<div class="modal" id="deletePlanPartyAlert">
+	  <div class="modal-dialog" >
+	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 멤버 강퇴</h4>
+	  
+	    <div class="modal-content">
+	    
+	      <div class="modal-header">
+	        <!-- <div class="modal-title">
+	        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
+	        </div> -->
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('deletePlanPartyAlert')">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      
+	      <div class="modal-body text-center">
+	        <br/><span id="planMemberId" style="font-size:17px;font-weight:bold; color:#00AACC; "></span>
+	        <span style="font-size:17px;"> 님을</span> <br/> <span style="font-size:17px;">플래너 참여자에서 제외시키시겠습니까? </span>
+	        <br/><br/>
+	        
+	        <!-- 플래너 멤버 삭제용 제출 폼 -->
+	        <form class="form-inline deleteMember">
+	        	<input type="hidden" class="form-control" id="planId4" name="refId" value="${plan.planId}">
+	        	<input type="hidden" class="form-control" id="partyUserId" name="partyUserId" value="">
+	        	<input type="hidden" class="form-control" id="partyRole" name="partyRole" value="">
+	        </form>
+	        
+	      </div>
+	      
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('deletePlanPartyAlert')">아니오</button>
+	        <button type="button" class="btn btn-primary" id="deletePlanParty">예</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- /////////////////////	Alert Modal : 플래너 멤버 강퇴 끝	///////////////////// -->	
+
+
+	<!-- /////////////////////	Alert Modal : 플래너 탈퇴 	///////////////////// -->	
+	<div class="modal" id="exitPlanAlert">
+	  <div class="modal-dialog" >
+	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 탈퇴</h4>
+	  
+	    <div class="modal-content">
+	    
+	      <div class="modal-header">
+	        <!-- <div class="modal-title">
+	        	<h6 style="margin-left:15px; align-self: center; font-weight: bolder;"><br/>친구를 초대해 플래너를 함께 작성하고 여행을 떠나보세요</h6>
+	        </div> -->
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('exitPlanAlert')">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      
+	      <div class="modal-body text-center">
+	        <br/><span style="font-size:20px; color:#00AACC; font-weight:bold;">${plan.planTitle}</span> <br/>
+	        <span style="font-size:17px;"> 플래너를 탈퇴하시겠습니까?</span>
+	        <br/><br/>
+	      </div>
+	      
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('exitPlanAlert')">아니오</button>
+	        <button type="button" class="btn btn-primary" id="exitPlan">예</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- /////////////////////	Alert Modal : 플래너 탈퇴 끝	///////////////////// -->
+
+
+	<!-- //////////////////////////////////////// 모달 모음 끝  //////////////////////////////////////// -->
 
 	
 	<!-- body 로드 후 실행되어야 하는 스크립트 모음  -->
@@ -2398,7 +2722,7 @@
 	
 	
 	<!-- Google Map API -->
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4&callback=initMap" type="text/javascript"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
 
 </body>
 </html>

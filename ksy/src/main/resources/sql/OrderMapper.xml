@@ -35,8 +35,8 @@
 					#{buyerName:VARCHAR},
 					#{buyerPhone:VARCHAR},
 					#{buyerEmail:VARCHAR},
-					SYSDATE,
-					#{orderStatus:CHAR},
+					#{orderDate:TIMESTAMP},
+					#{orderStatus:VARCHAR},
 					#{payOpt:CHAR},
 					#{payInstal:NUMERIC},
 					#{totalAmount:NUMERIC},
@@ -71,12 +71,10 @@
   	
   	<select id="getFlightOrder" parameterType="String" resultMap="orderSelectMap">
   		SELECT 
-		f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over  , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date 
+		f.flight_id , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.flight_id
 		FROM orders o , flight f
-		WHERE order_id = #{orderId}
-					AND f.flight_id(+)=o.flight_id
-					AND room_id IS NULL
-					
+		WHERE f.flight_id = ${value}
+					AND f.flight_id=o.flight_id(+)
   	</select>
   	
   	<select id="getRoomOrder" parameterType="String" resultMap="orderSelectMap">

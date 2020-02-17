@@ -40,7 +40,7 @@
 				dataType : "json" ,
 				data : $('#'+cmtId+'addRcmt').serialize() ,
 				success : function(data) {
-					getRcmtList();
+					getCommentList(1);
 					$('#rcmtContent').val('');
 					
 					//글 작성자에게 push 하기
@@ -74,8 +74,11 @@
 					if(JSONData.list[i].deleted == "F"){
 						 output += "<li id='comment_li_"+JSONData.list[i].cmtId+"' class='ub-content'>"
 						 + "<div class='cmt_info clear'><div class='cmt_nickbox'><span class='gall_writer ub-writer'>"
-						 + "<span class='nickname me in' title='"+JSONData.list[i].nickName+"'>"+JSONData.list[i].nickName+"</span></span></div></div><span class='date_time'>"+JSONData.list[i].cmtDate+"</span>"
-						 + "<div class='cmt_like' style='float: right; margin-right: 15px'>"
+						 + "<span class='nickname me in' title='"+JSONData.list[i].nickName+"'>"+JSONData.list[i].nickName+"</span></span></div><span class='date_time'>"+JSONData.list[i].cmtDate+"</span>"
+					if(JSONData.list[i].cmtWriterId == JSONData.userId){
+						 output += "<div class='cmt_updat' style='color: dimgray;font-size: 11px; margin-top: 4px;'>&nbsp;<span class='btn_cmt_updat' onclick='showUpdate("+JSONData.list[i].cmtId+");'> 수정</span><span class='btn_cmt_delete' onclick='deleteComment("+JSONData.list[i].cmtId+");'> 삭제</span></div>"
+					}
+						 output += "</div><div class='cmt_like' style='float: right; margin-right: 15px'>"
 					if(JSONData.userId != null){
 					if(JSONData.list[i].cmtLikeFlag == "F"){ 
 						 output += "<i onclick='like_func("+JSONData.list[i].cmtId+");' id='"+JSONData.list[i].cmtId+"zz' class='far fa-thumbs-up'> "+JSONData.list[i].cmtLikeCount+"</i>"
@@ -85,11 +88,8 @@
 					}else{
 						 output += "<i onclick='login_need();' id='"+JSONData.list[i].cmtId+"zz' class='far fa-thumbs-up'> "+JSONData.list[i].cmtLikeCount+"</i>"
 					}
-						 output += "&nbsp;<i onclick='reportshow("+JSONData.list[i].cmtId+",\"C\");' class='fas fa-concierge-bell'></i></div>"
+						 output += "&nbsp;<i onclick='reportshow("+JSONData.list[i].cmtId+",\"C\");' data-toggle='modal' data-target='#myModal' class='fas fa-concierge-bell'></i></div>"
 					
-					if(JSONData.list[i].cmtWriterId == JSONData.userId){
-						 output += "<div class='cmt_updat' style='color: dimgray;font-size: 12px;'>&nbsp;<span class='btn_cmt_updat' onclick='showUpdate("+JSONData.list[i].cmtId+");'> 수정</span><span class='btn_cmt_delete' onclick='deleteComment("+JSONData.list[i].cmtId+");'> 삭제</span></div>"
-					}
 					if(JSONData.list[i].secret == "T"){
 					if(JSONData.userId == JSONData.list[i].cmtWriterId || JSONData.userId == JSONData.list[i].postWriterId){
 						 output += "<div class='clear cmt_txtbox btn_reply_write_all' id='"+JSONData.list[i].cmtId+"old'><p class='usertxt ub-word' style='color: gray;'><i class='fas fa-lock' style='color:black;'></i>&nbsp;"+JSONData.list[i].cmtContent+"</p></div>"
@@ -99,29 +99,29 @@
 					}else{
 						 output += "<div class='clear cmt_txtbox btn_reply_write_all' id='"+JSONData.list[i].cmtId+"old'><p class='usertxt ub-word'>"+JSONData.list[i].cmtContent+"</p></div>"
 					}
-						 output += "<form name='"+JSONData.list[i].cmtId+"f'><div class='cmt_txt_cont'><div class='cmt_new' style='display: none; width: 740px; float: left; position: relative; margin: 10px 0 0 69px;' id='"+JSONData.list[i].cmtId+"neww'><input type='text' id='"+JSONData.list[i].cmtId+"new' name='cmtContent' maxlength='400' style='display: none;float: left; width: 600px; margin-bottom: 5px' value='"+JSONData.list[i].cmtContent+"'/><div class='cmt_cont_bottm clear'><div class='fr' style='float:left;'><label style='margin: 0 10px 0 0; font-size:12px'><input type='checkbox' id='secret' name='secret' value='T' "
+						 output += "<form name='"+JSONData.list[i].cmtId+"f'><div class='cmt_txt_cont'><div class='cmt_new' style='display: none; width: 740px; float: left; position: relative; margin: 10px 0 0 10px;' id='"+JSONData.list[i].cmtId+"neww'><input type='text' id='"+JSONData.list[i].cmtId+"new' name='cmtContent' maxlength='400' style='display: none;float: left; width: 600px; margin-bottom: 5px' value='"+JSONData.list[i].cmtContent+"'/><div class='cmt_cont_bottm clear'><div class='fr' style='float:left;'><label style='margin: 0 10px 0 0; font-size:12px'><input type='checkbox' id='secret' name='secret' value='T' "
 					if(JSONData.list[i].secret == "T"){
 						 output += "checked"
 					}	 
-						 output += ">비밀댓글</label><span onclick='updateComment("+JSONData.list[i].cmtId+");' class='btn btn-secondary btn-sm' id='addComment' style='font-size:12px'>등록</span>&nbsp;<span onclick='cancel("+JSONData.list[i].cmtId+");' class='btn btn-secondary btn-sm' style='font-size:12px'>취소</span></div></div></div></div></form>"
-						 + "<i class='fas fa-reply-all' onclick='showrcmt("+JSONData.list[i].cmtId+")' style='margin: 0 0 10px 10px; font-size: 10px;'> 댓글쓰기</i>"
-						 + "<div class='container'>"	
+						 output += ">비밀댓글</label><span onclick='updateComment("+JSONData.list[i].cmtId+");' class='btn btn-secondary btn-sm' id='addComment' style='font-size:11px;height:20px;line-height:12px;'>등록</span>&nbsp;<span onclick='cancel("+JSONData.list[i].cmtId+");' class='btn btn-secondary btn-sm' style='font-size:11px;height:20px;line-height:12px;'>취소</span></div></div></div></div></form>"
+						 + "<i class='fas fa-reply-all' onclick='showrcmt("+JSONData.list[i].cmtId+")' style='margin: 0 0 10px 115px; font-size: 10px; width: 300px;'> 댓글쓰기</i>"
+						 + "<div class='container' style='width: 810px; margin-right: 0;'>"	
 					     + "<div class='view_comment'>"
 						 + "<form class='form-horizontal' id='"+JSONData.list[i].cmtId+"addRcmt'>"
 						 + "<div class='cmt_write_box clear' id='"+JSONData.list[i].cmtId+"rcmt' style='display: none;'>"
 						 + "<div class='fl' style='width: 105px; float: left; margin-left: 15px;'>"
-						 + "<input type='text' style='background-color:transparent;border:0 solid black;text-align:center;margin-bottom:10px;width:105px;font-size:13px;' id='nickName' name='nickName' value='${post.nickName}'>" 
+						 + "<input type='text' style='background-color:transparent;border:0 solid black;text-align:center;width:105px;font-size:13px;' id='nickName' name='nickName' value='${post.nickName}'>" 
 						 + "<div class='card'>"
-						 + "<img src='../../resources/images/userImages/${user.userImg}' class='card-img-top' alt='...' style='height: 70px; width: 105px; border: 3px solid lavender'>"
+						 + "<img src='../../resources/images/userImages/${user.userImg}' class='card-img-top' alt='...' style='height: 85px; width: 85px;'>"
 						 + "</div></div>"
-						 + "<div class='cmt_txt_cont' style='width: 530px;'>"
+						 + "<div class='cmt_txt_cont' style='width: 600px;'>"
 						 + "<div class='cmt_write'>"
-						 + "<textarea id='rcmtContent' name='cmtContent' maxlength='400' style='float: left; margin: 10px 0 10px 0; width: 530px;'></textarea>"
+						 + "<textarea id='rcmtContent' name='cmtContent' maxlength='400' style='float: left; margin: 10px 0 10px 0; width: 580px;'></textarea>"
 						 + "</div>"
 						 + "<div class='cmt_cont_bottm clear'>"
 						 + "<div class='fr'>"
 						 + "<label style='margin: 0 10px 0 0; font-size:12px'><input type='checkbox' id='secret' name='secret' value='T'>비밀댓글</label>"
-						 + "<span class='btn btn-secondary btn-sm' id='addRecomment' style='font-size:12px' onclick='addRecomment("+JSONData.list[i].cmtId+")'>등록</span>"
+						 + "<span class='btn btn-secondary btn-sm' id='addRecomment' style='font-size:11px;height:20px;line-height:12px;' onclick='addRecomment("+JSONData.list[i].cmtId+")'>등록</span>"
 						 + "</div></div></div></div>"
 						 + "<input type='hidden' id='parentCmtId' name='parentCmtId' value='"+JSONData.list[i].cmtId+"'/>"
 						 + "<input type='hidden' id='postId' name='postId' value='${post.postId}'/>"
@@ -130,22 +130,37 @@
 						 + "<div id='getRecommentList"+JSONData.list[i].cmtId+"'></div></div></div></li>"
 					}
 				 }
-						output += "</ul><div class='bottom_paging_box'><div class='cmt_paging'>"
-				
-						for(var i=JSONData.resultPage.beginUnitPage; i<=JSONData.resultPage.endUnitPage; i++){
-							if(JSONData.resultPage.currentPage == i){
-								output +="<li class='active'>"
-								+"<a onclick='getCommentList("+i+");'>"+i+"<span class='sr-only'>(current)</span></a>"
-								+"</li>"
-							}
-							if(JSONData.resultPage.currentPage != i){
-								output +="<li>"
-								+"<a onclick='getCommentList("+i+");'>"+i+"</a>"
-								+"</li></div></div></div></div>";
-							}
-						}
-						$("#getCommentList").html(output);
-						
+						 output += "</ul><div class='container text-center'><nav aria-label='Page navigation example'><ul class='pagination justify-content-center'>"
+					 
+					 if( JSONData.resultPage.currentPage <= JSONData.resultPage.pageUnit ){
+						 output += "<li class='page-item'>"
+					 }
+					 if( JSONData.resultPage.currentPage > JSONData.resultPage.pageUnit ){
+					 }
+					 	 output += "<li class='page-item'>"
+					 	 + "<a class='page-link' onclick='getCommentList('"+JSONData.resultPage.currentPage+"-1')' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>"
+					 for(var i=JSONData.resultPage.beginUnitPage; i<=JSONData.resultPage.endUnitPage; i++){
+						 if(JSONData.resultPage.currentPage == i){
+							output +="<li class='active'>"
+							+"<a onclick='getCommentList("+i+");'>"+i+"<span class='sr-only'>(current)</span></a>"
+							+"</li>"
+						 }
+						 if(JSONData.resultPage.currentPage != i){
+							output +="<li>"
+							+"<a onclick='getCommentList("+i+");'>"+i+"</a>"
+							+"</li>";
+						 }
+					 }
+					 	 if( JSONData.resultPage.currentPage >= JSONData.resultPage.pageUnit ){
+							output += "<li class='page-item'>"
+						 }
+						 if( JSONData.resultPage.currentPage < JSONData.resultPage.pageUnit ){
+						 }
+						 	output += "<li class='page-item'>"
+						 	+ "<a class='page-link' onclick='getCommentList('"+JSONData.resultPage.currentPage+"+1')' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li></ul></nav></div></div></div>"
+				 
+					$("#getCommentList").html(output);
+		
 				  getRcmtList();
 			  	}
 		   });
@@ -169,10 +184,13 @@
 					 for(var i in JSONData.list){
 						 var output = '';
 							if(JSONData.list[i].deleted == "F"){
-								 output += "<li id='comment_li_"+JSONData.list[i].cmtId+"' class='ub-content'>"
+								 output += "<li id='comment_li_"+JSONData.list[i].cmtId+"' class='ub-content' style='height:100px;'>"
 								 + "<div class='cmt_info clear'><div class='cmt_nickbox'><span class='gall_writer ub-writer'>"
-								 + "<i class='fas fa-arrow-right' style='color: gray;'></i> <span class='nickname me in' title='"+JSONData.list[i].nickName+"'>"+JSONData.list[i].nickName+"</span></span></div></div><span class='date_time'>"+JSONData.list[i].cmtDate+"</span>"
-								 + "<div class='cmt_like' style='float: right;'>"
+								 + "<i class='fas fa-arrow-right' style='color: gray;'></i> <span class='nickname me in' title='"+JSONData.list[i].nickName+"'>"+JSONData.list[i].nickName+"</span></span></div><span class='date_time'>"+JSONData.list[i].cmtDate+"</span>"
+							if(JSONData.list[i].cmtWriterId == JSONData.userId){
+								 output += "<div class='cmt_updat' style='color: dimgray;font-size: 12px;'>&nbsp;<span class='btn_cmt_updat' onclick='showUpdate("+JSONData.list[i].cmtId+");'> 수정</span><span class='btn_cmt_delete' onclick='deleteComment("+JSONData.list[i].cmtId+");'> 삭제</span></div>"
+							}
+								 output += "</div><div class='cmt_like' style='float: right;'>"
 							if(JSONData.userId != null){
 							if(JSONData.list[i].cmtLikeFlag == "F"){ 
 								 output += "<i onclick='like_func("+JSONData.list[i].cmtId+");' id='"+JSONData.list[i].cmtId+"zz' class='far fa-thumbs-up'> "+JSONData.list[i].cmtLikeCount+"</i>"
@@ -182,11 +200,8 @@
 							}else{
 								 output += "<i onclick='login_need();' id='"+JSONData.list[i].cmtId+"zz' class='far fa-thumbs-up'> "+JSONData.list[i].cmtLikeCount+"</i>"
 							}
-								 output += "&nbsp;<i onclick='reportshow("+JSONData.list[i].cmtId+",\"R\");' class='fas fa-concierge-bell'></i></div>"
+								 output += "&nbsp;<i onclick='reportshow("+JSONData.list[i].cmtId+",\"R\");' data-toggle='modal' data-target='#myModal' class='fas fa-concierge-bell'></i></div>"
 							
-							if(JSONData.list[i].cmtWriterId == JSONData.userId){
-								 output += "<div class='cmt_updat' style='color: dimgray;font-size: 12px;'>&nbsp;<span class='btn_cmt_updat' onclick='showUpdate("+JSONData.list[i].cmtId+");'> 수정</span><span class='btn_cmt_delete' onclick='deleteComment("+JSONData.list[i].cmtId+");'> 삭제</span></div>"
-							}
 							if(JSONData.list[i].secret == "T"){
 							if(JSONData.userId == JSONData.list[i].cmtWriterId || JSONData.userId == JSONData.list[i].postWriterId){
 								 output += "<div class='clear cmt_txtbox btn_reply_write_all' id='"+JSONData.list[i].cmtId+"old'><p class='usertxt ub-word' style='color: gray;'><i class='fas fa-lock' style='color:black;'></i>&nbsp;"+JSONData.list[i].cmtContent+"</p></div>"
@@ -196,11 +211,11 @@
 							}else{
 								 output += "<div class='clear cmt_txtbox btn_reply_write_all' id='"+JSONData.list[i].cmtId+"old'><p class='usertxt ub-word'>"+JSONData.list[i].cmtContent+"</p></div>"
 							}
-								 output += "<form name='"+JSONData.list[i].cmtId+"f'><div class='cmt_txt_cont'><div class='cmt_new' style='display: none; width: 550px; float: left; margin-left: 170px; position: relative;' id='"+JSONData.list[i].cmtId+"neww'><input type='text' id='"+JSONData.list[i].cmtId+"new' name='cmtContent' maxlength='400' style='display: none;float: left; width: 550px; margin-bottom: 5px' value='"+JSONData.list[i].cmtContent+"'/><div class='cmt_cont_bottm clear'><div class='fr' style='float:left;'><label style='margin: 0 10px 0 0; font-size:12px'><input type='checkbox' id='secret' name='secret' value='T' "
+								 output += "<form name='"+JSONData.list[i].cmtId+"f'><div class='cmt_txt_cont'><div class='cmt_new' style='display: none; width: 550px; float: left; margin-left: 105px; position: relative;' id='"+JSONData.list[i].cmtId+"neww'><input type='text' id='"+JSONData.list[i].cmtId+"new' name='cmtContent' maxlength='400' style='display: none;float: left; width: 550px; margin-bottom: 5px' value='"+JSONData.list[i].cmtContent+"'/><div class='cmt_cont_bottm clear'><div class='fr' style='float:left;'><label style='margin: 0 10px 0 0; font-size:12px'><input type='checkbox' id='secret' name='secret' value='T' "
 							if(JSONData.list[i].secret == "T"){
 								 output += "checked"
 							}	 
-								 output += ">비밀댓글</label><span onclick='updateComment("+JSONData.list[i].cmtId+");' class='btn btn-secondary btn-sm' id='addComment' style='font-size:12px'>등록</span>&nbsp;<span onclick='cancel("+JSONData.list[i].cmtId+");' class='btn btn-secondary btn-sm' style='font-size:12px'>취소</span></div></div></div></div></form></li>"
+								 output += ">비밀댓글</label><span onclick='updateComment("+JSONData.list[i].cmtId+");' class='btn btn-secondary btn-sm' id='addComment' style='font-size:11px;height:20px;line-height:12px;'>등록</span>&nbsp;<span onclick='cancel("+JSONData.list[i].cmtId+");' class='btn btn-secondary btn-sm' style='font-size:11px;height:20px;line-height:12px;'>취소</span></div></div></div></div></form></li>"
 							}
 							$("#getRecommentList"+JSONData.list[i].parentCmtId).append(output);
 						 }
@@ -222,10 +237,11 @@
 		}
 		
 		function updateComment(cmtId){
+			
 			$.ajax({
 				url : '/community/json/updateComment' ,
 				type : "POST" ,
-				data : $("form[name='"+cmtId+"f']").serialize() ,
+				data : $("form[name='"+cmtId+"f']").serialize() + "&cmtId="+cmtId ,
 				dataType : "json" ,
 				success : function(JSONData , status){
 					getCommentList(1);
@@ -296,9 +312,9 @@
 		<!-- 답글 입력 -->
 		<div class="cmt_write_box clear">
 			<div class="fl" style="width: 105px; float: left; margin-left: 15px;">
-				  <input type="text" style="background-color:transparent;border:0 solid black;text-align:center;margin-bottom:10px;width:105px;font-size:13px;" id="nickName" name="nickName" value="${post.nickName}"> 
+				  <input type="text" style="background-color:transparent;border:0 solid black;text-align:center;width:105px;font-size:13px;" readonly="readonly" id="nickName" name="nickName" value="${user.nickname}"> 
 				<div class="card">
-				  <img src="../../resources/images/userImages/${user.userImg}" class="card-img-top" alt="..." style="height: 70px; width: 105px; border: 3px solid lavender;">
+				  <img src="../../resources/images/userImages/${user.userImg}" class="card-img-top" alt="..." style="height: 85px; width: 85px;">
 				</div>
 			</div>
 			<div class="cmt_txt_cont">
@@ -308,7 +324,7 @@
 				<div class="cmt_cont_bottm clear">
 					<div class="fr">
 					  <label style="margin: 0 10px 0 0; font-size:12px"><input type="checkbox" id="secret" name="secret" value="T">비밀댓글</label>
-					  <button type="button" class="btn btn-secondary btn-sm" id="addComment" style="font-size:12px">등록</button>
+					  <button type="button" class="btn btn-secondary btn-sm" id="addComment" style="font-size:11px;height:20px;line-height:12px;">등록</button>
 					</div>
 				</div>
 			</div>
