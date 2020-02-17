@@ -115,6 +115,16 @@
       	padding-top: 10px;
       	margin: 10px;
       }
+      .dura_circle{
+      	width: 100px;
+      	height: 100px;
+      	border: 1px solid gray;
+      	border-radius: 100%;
+      	align-content: center;
+      	text-align: center;
+      	padding-top: 10px;
+      	margin: 10px;
+      }
       
 	</style>
 	
@@ -157,7 +167,7 @@
 				//alert( "cityId = " );
 			}); */
 			
-			$('button .close').hide();
+			$('.close.hide').hide();
 			
 			$('.city_route').hover(
 		        function() {
@@ -171,7 +181,7 @@
 		    );
 			
 			
-			
+			//updateTranType을 위한 클릭이벤트 걸어주기...
 			$('.tran_circle').on('click', function(){
 				var getCityId = $('#update_city_id').text();
 				var tranType = $(this).attr('id').substring(10,11);
@@ -183,19 +193,74 @@
       			$('#tran_type_'+tranType).css('backgroundColor', '#7CECE5').css('color', 'white');
       		});
       	
+			$('.dura_circle').on('click', function(){
+				var getCityId = $('#update_city_id').text();
+				var duration = $(this).attr('id').substring(5,6);
+      			console.log( "update dura_="+duration+", cityId="+getCityId );
+      			
+      			updateCityDuration( getCityId, duration );
+      			
+      			$('.dura_circle').css('background', 'none').css('color', 'black');
+      			$('#dura_'+duration).css('backgroundColor', '#7CECE5').css('color', 'white');
+      		});
 			
 		});
 		
 		
+		function showUpdateCityDuration( cityId, currDuration ){
+			console.log("updateCityDuration('"+ cityId +"','"+ currDuration +"')");
+			
+			var index = $('.city_id').index( $('.city_id:contains("'+cityId+'")') );
+			
+			$('#update_city_id').text(cityId);
+			$('#durationCityName').text( $($('.cr_cityName')[index]).text() );
+			$('#dura_'+currDuration).css('backgroundColor', '#7CECE5').css('color', 'white');
+			
+			$('#updateDurationModal').show();
+		}
 		
 		function showUpdateTranType( cityId, currTranType ) {
+			console.log("showUpdateTranType('"+cityId+"','"+ currTranType+"')");
+			
+			var index = $('.city_id').index( $('.city_id:contains("'+cityId+'")') );
+			var startCity = $($('.cr_cityName')[index-1]).text();
+			$('#startCity').text(startCity);
+			$('#endCity').text( $($('.cr_cityName')[index]).text() );
 			
 			$('#update_city_id').text(cityId);
 			$('#tran_type_'+currTranType).css('backgroundColor', '#7CECE5').css('color', 'white');
 
-			console.log("showUpdateTranType('"+cityId+"','"+ currTranType+"')");
-			
 			$('#updateTranModal').show();
+		}
+		
+		
+		function updateCityDuration( cityId, duration ){
+			var index = $('.city_id').index( $('.city_id:contains("'+cityId+'")') );
+
+			$.ajax({
+				url: "/planSub/json/updateCityDuration",
+				method: "POST",
+				dataType: "json",
+				data: JSON.stringify({
+					planId: planId,
+					cityId: cityId,
+					cityDuration: duration
+				}),
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				success: function(JSONData, status){
+					//console.log("리턴데이터 있음! => "+JSON.stringify(JSONData) );
+				},
+				error:function(request,status,error){
+			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			    } 
+			}); //ajax
+			
+			var jsStr = "javascript:showUpdateCityDuration('"+cityId+"','"+duration+"')";
+			
+			var nights = duration - 1 ;
+			$($('.city_duration_wrap')[index]).attr('href',jsStr);
+			$($('.city_duration_wrap')[index]).find('span').text( nights );
+			
 		}
 		
 		function updateTranType( cityId, tranType ){
@@ -244,10 +309,7 @@
 		}
 		
 		
-		function updateCityDuration( cityId, currDuration ){
-			
-			console.log("updateCityDuration('"+ cityId +"','"+ currDuration +"')");
-		}
+		
 		
 		
 		
@@ -393,37 +455,10 @@
 						}else{
 							console.log("리턴데이터 있음! => "+JSON.stringify(JSONData) );	
 							
-							/* var crHtml = '<div class="city_route"  style="margin: 5px; padding: 5px; border: 1px solid gray; background-color: white;">';
-							crHtml = crHtml + '<span class="float-right" onclick="deleteCityRoute(\''+ JSONData.cityId +'\', 0 )">X</span>';
-							crHtml = crHtml + '<div class="trans">';
-							crHtml = crHtml + '<div class="tran_type" style="border-bottom: 1px solid red;">';
-							if( JSONData.tranType == 'T' ){
-								crHtml = crHtml + '기차 <i class="fas fa-train" style="font-size: 30px;"></i>';
-							}else if( JSONData.tranType == 'B' ){
-								crHtml = crHtml + '버스 <i class="fas fa-bus" style="font-size: 30px;"></i>';
-							}else if( JSONData.tranType == 'A' ){
-								crHtml = crHtml + '항공 <i class="fas fa-plane" style="font-size: 30px;"></i>';
-							}else if( JSONData.tranType == 'F' ){
-								crHtml = crHtml + '페리 <i class="fas fa-ship" style="font-size: 30px;"></i>';
-							}else if( JSONData.tranType == 'E' ){
-								crHtml = crHtml + '기타 <i class="fas fa-guitar" style="font-size: 30px;"></i>';
-							}else if( JSONData.tranType == null || JSONData.tranType == '' ){
-								crHtml = crHtml + 'ㄴㄴ <i class="fas fa-plus" style="font-size: 30px;"></i>';
-							}
-							crHtml = crHtml + '</div>';
-							crHtml = crHtml + '</div>';
-							crHtml = crHtml + '<div>';
-							crHtml = crHtml + '<div class="cr_cityName">'+JSONData.cityName+'</div>';
-							crHtml = crHtml + '방문순서: <span class="visit_order">'+JSONData.visitOrder+'</span> , 도시ID: <span class="city_id">'+ JSONData.cityId +'</span>';
-							crHtml = crHtml + '<div class="cr_term">'+ JSONData.startDateStr +' ~ '+ JSONData.endDateStr +'</div>';
-							crHtml = crHtml + '</div>';
-							crHtml = crHtml + '<div class="cr_cityDuration">city_duration: '+ JSONData.cityDuration +'</div>';
-							crHtml = crHtml + '</div>'; */
-							
-							
 							var crHtml = '<div class="city_route">';
 							crHtml = crHtml + '<div class="trans d-flex justify-content-center">';
-							crHtml = crHtml + '<div class="tran_type" style="font: 7px gray;">';
+							crHtml = crHtml + '<a href="javascript:showUpdateTranType(\''+ JSONData.cityId +'\' , \''+ JSONData.tranType +'\')">';
+							crHtml = crHtml + '<font class="tran_type" style="font: 7px gray;">';
 							
 							if( JSONData.tranType == 'T' ){
 								crHtml = crHtml + '기차 <i class="tran_icon fas fa-train"></i>';
@@ -436,12 +471,13 @@
 							}else if( JSONData.tranType == 'E' ){
 								crHtml = crHtml + '기타 <i class="tran_icon fas fa-guitar"></i>';
 							}else if( JSONData.tranType == null || JSONData.tranType == '' ){
-								crHtml = crHtml + '선택<i class="tran_icon fas fa-plus"></i>';
+								crHtml = crHtml + '선택 <i class="tran_icon fas fa-plus"></i>';
 							}
-							crHtml = crHtml + '</div>';
+							crHtml = crHtml + '</font>';
+							crHtml = crHtml + '</a>';
 							crHtml = crHtml + '</div>';
 							
-							crHtml = crHtml + '<button type="button" class="close" aria-label="Close" onclick="deleteCityRoute(\''+ JSONData.cityId +'\', 0 )"> <span aria-hidden="true">&times;</span> </button>';
+							crHtml = crHtml + '<button type="button" class="close hide" aria-label="Close" onclick="deleteCityRoute(\''+ JSONData.cityId +'\', 0 )"> <span aria-hidden="true">&times;</span> </button>';
 	
 							crHtml = crHtml + '<div class="media mt-4" style="border: 1px solid #CDD8D8; padding: 12px 30px 5px 30px;">';
 							crHtml = crHtml + '<div hidden="hidden">방문순서: <span class="visit_order">'+ JSONData.visitOrder +'</span> , 도시ID: <span class="city_id">'+ JSONData.cityId +'</span></div>';
@@ -450,9 +486,11 @@
 							crHtml = crHtml + '<div class="cr_cityName mt-0">'+ JSONData.cityName +'</div>';
 							crHtml = crHtml + '<p class="cr_term">'+ JSONData.startDateStr +' ~ '+ JSONData.endDateStr +'</p>';
 							crHtml = crHtml + '</div>';
-							crHtml = crHtml + '<div class="rounded-circle" style="border:3px solid #33B9B1; padding: 12px; font-weight: 600;">';
+							crHtml = crHtml + '<a href="javascript:showUpdateCityDuration(\''+ JSONData.cityId +'\' ,\' '+ JSONData.cityDuration + '\')" class="city_duration_wrap">';
+							crHtml = crHtml + '<div class="cr_cityDuration_parent rounded-circle" style="border:3px solid #33B9B1; padding: 12px; font-weight: 600;">';
 							crHtml = crHtml + '<span class="cr_cityDuration">'+ (JSONData.cityDuration-1) +'</span>박';
 							crHtml = crHtml + '</div>';
+							crHtml = crHtml + '</a>';
 							crHtml = crHtml + '</div>';
 							crHtml = crHtml + '</div>';
 							
@@ -483,6 +521,7 @@
 	
 		/* 모달창 닫기 */
 		function closeModal(modalName) {
+			$('.dura_circle').css('background', 'none').css('color', 'black');
 			$('.tran_circle').css('background', 'none').css('color', 'black');
 			
 			console.log("closeModal : modalName="+modalName);
@@ -990,7 +1029,7 @@
 									</div>
 									
 									<!-- X 버튼 -->
-									<button type="button" class="close" aria-label="Close" onclick="deleteCityRoute('${cityRoute.cityId}',${plan.cityList.indexOf(cityRoute)} )"><span aria-hidden="true">&times;</span></button>
+									<button type="button" class="close hide" aria-label="Close" onclick="deleteCityRoute('${cityRoute.cityId}',${plan.cityList.indexOf(cityRoute)} )"><span aria-hidden="true">&times;</span></button>
 									
 									
 									<!-- city_route 정보 -->
@@ -1004,7 +1043,7 @@
 											<p class="cr_term">${cityRoute.startDateStr} ~ ${cityRoute.endDateStr}</p>
 										</div> <!-- media-body -->
 									
-										<a href="javascript:updateCityDuration('${cityRoute.cityId}','${cityRoute.cityDuration}')">
+										<a href="javascript:showUpdateCityDuration('${cityRoute.cityId}','${cityRoute.cityDuration}')" class="city_duration_wrap">
 										<div class="cr_cityDuration_parent rounded-circle" style="border:3px solid #33B9B1; padding: 12px; font-weight: 600;">
 											<span class="cr_cityDuration">${cityRoute.cityDuration-1}</span>박
 										</div>
@@ -1053,7 +1092,7 @@
 
 
 
-	<!-- /////////////////////	Modal : dailyEdit 	///////////////////// -->
+	<!-- /////////////////////	Modal : updateTranModal 	///////////////////// -->
 	<div class="modal" id="updateTranModal" >
 	  <div class="modal-dialog modal-lg">
 	  <h4 style="color: #FFFFFF; margin-top: 100px;">이동수단 변경</h4>
@@ -1061,6 +1100,7 @@
 	    
 	      <div class="modal-header">
 	        <div class="modal-title">
+	       		<span id="startCity"></span> - <span id="endCity"></span> 교통편 선택
 	        </div>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('updateTranModal')">
 	          <span aria-hidden="true">&times;</span>
@@ -1068,7 +1108,6 @@
 	      </div>
 	      
 	      <div class="modal-body">
-	      
 	      	<div hidden="hidden" id="update_city_id"></div>
 	      	<div class="container">
 	      		<div class="row d-flex justify-content-center">
@@ -1080,22 +1119,54 @@
 					<!-- <div class="tran_circle"><i class="tran_icon2 fas fa-plus"></i><br/>선택</div> -->
 	      		</div>
 	      	</div>
-	      	
-	      	
-	      	
-	        
 	      </div>
 	      <!-- <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('updateTranModal')">Close</button>
-	        <button type="button" class="btn btn-danger" id="deleteDaily">Delete Daily</button>
 	        <button type="button" class="btn btn-primary" id="submitDaily">Edit Daily</button>
 	      </div> -->
 	    </div>
 	  </div>
 	</div>
-	<!-- /////////////////////	Modal : dailyEdit 끝	///////////////////// -->
+	<!-- /////////////////////	Modal : updateTranModal 끝	///////////////////// -->
 
 
+	<!-- /////////////////////	Modal : updateDurationModal 	///////////////////// -->
+	<div class="modal" id="updateDurationModal" >
+	  <div class="modal-dialog modal-lg">
+	  <h4 style="color: #FFFFFF; margin-top: 100px;">체류기간 변경</h4>
+	    <div class="modal-content">
+	    
+	      <div class="modal-header">
+	        <div class="modal-title">
+	       		<span id="durationCityName"></span> 체류기간 선택
+	        </div>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('updateDurationModal')">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      
+	      <div class="modal-body">
+	      	<!-- <div hidden="hidden" id="update_city_id"></div> -->
+	      	<div class="container">
+	      		<div class="row d-flex justify-content-center">
+	      			<div class="dura_circle" id="dura_1">무박</div>
+	      			<div class="dura_circle" id="dura_2">1박</div>
+	      			<div class="dura_circle" id="dura_3">2박</div>
+	      			<div class="dura_circle" id="dura_4">3박</div>
+	      			<div class="dura_circle" id="dura_5">4박</div>
+	      			<div class="dura_circle" id="dura_6">5박</div>
+	      			<!-- <div class="dura_circle" id="dura_n">선택</div> -->
+	      		</div>
+	      	</div>
+	      </div>
+	      <!-- <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('updateDurationModal')">Close</button>
+	      </div> -->
+	    </div>
+	  </div>
+	</div>
+	<!-- /////////////////////	Modal : updateDurationModal 끝	///////////////////// -->
+	
 
 
 	<!-- <div style="position: absolute; top: 10px; right: 20px; background-color: white; border: 1px solid; width: 200px; height: 300px;"> 

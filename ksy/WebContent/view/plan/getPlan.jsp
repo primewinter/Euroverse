@@ -129,7 +129,7 @@
       }
       .swiper-slide {
       	height: 480px;
-      	width: 50px;
+      	width: 40px;
       	background-color: white;
       	margin: 4px;
       	padding: 10px;
@@ -552,7 +552,10 @@
 			$(dailyIdString).append(appendString);
 		} //setDaily
 		
-		getDailyList(planId);	//페이지 로드 후 ajax로 일정 리스트 가져와서 만들어진 일정표에 심어주기
+		//getDailyList(planId);	//페이지 로드 후 ajax로 일정 리스트 가져와서 만들어진 일정표에 심어주기
+		setTimeout(function(){ 
+			getDailyList(planId); 
+			},50);
 		
 		/* ------------------------------------------------------------------------------------------------------ */
 		
@@ -717,7 +720,11 @@
 			});
 		} //addStuff() END
 		
-		getStuffList(planId, 'List Mode');
+		
+		//getStuffList(planId, 'List Mode');
+		setTimeout(function(){ 
+			getStuffList(planId, 'List Mode');
+			},50);
 		
 		/* ------------------------------------------------------------------------------------------------------ */
 		
@@ -806,8 +813,42 @@
 			alert("deleteTodo(todoId) 실행");
 		}	//deleteTodo 끝
 		
+		
 		function addTodo(){
-			alert("addTodo() 실행");
+			console.log("addTodo() 실행");
+			
+			var todoName = $("input[name='todoName']").val();
+			console.log('addTodo() 실행 : todoName='+todoName);
+			
+			if(todoName == null || todoName ==''){
+				alert("todoName 을 입력해주세요");
+				return false;
+			}
+			
+			$.ajax({		// GET방식으로 addStuff 했더니 한글이 깨져 들어가서 POST로 바꿈
+				url: "/plan/json/addTodo" ,
+				method: "POST",
+				dataType: "json",
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				data: JSON.stringify({
+					planId: planId,
+					todoName: todoName
+				}),
+				success: function(JSONData, status){
+					if( JSONData==null || JSONData=="" ){ 	
+						console.log("리턴데이터 없음");	
+					}else{
+						console.log("리턴데이터 있음! +> JSONData = "+JSON.stringify(JSONData));	
+						var todoHtml = '<li>'+todoName+'<span hidden="hidden">'+ JSONData.todoId +'</span></li>';
+						$("#todo_list").append(todoHtml);
+						$("input[name='todoName']").val('');
+					}
+				},
+				error:function(request,status,error){
+					console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+				} 
+			});
+			
 		}	//addTodo 끝
 		
 		/* ------------------------------------------------------------------------------------------------------ */
@@ -1170,6 +1211,44 @@
 	
 	</script>
 	
+	
+	
+	
+	<style>
+	
+	  #todo_list, #doing_list, #done_list{
+	    //border-right: 1px solid #C1CDCC;
+	    border-radius: 8px;
+	    width: 100%;
+	    min-height: 50%;
+	    max-height: 85%;
+	    list-style-type: none; 
+	    margin: 5px;
+	    padding: 5px; 
+	    float: left;
+	    overflow: hidden auto;
+	  }
+	  #todo_list_container, #doing_list_container, #done_list_container {
+	  	min-height: 210px;
+	    max-height: 210px;
+	  }
+	  #todo_list{
+	  	background-color: #FAFAFA;
+	  }
+	  #doing_list{
+	  	background-color: #EFF5F5;
+	  }
+	  #done_list{
+	  	background-color: #DCF1F0;
+	  }
+	  
+	 
+	  #todo_list li, #doing_list li, #done_list li {
+	    margin: 5px 5px 3px 5px;
+	    padding: px 3px;
+	    width: 100%;
+	  }
+ 	</style>
 
 </head>
 <body>
@@ -1356,18 +1435,148 @@
 				
 				<!-- <br/> -->
 				
+				<script>
+					$(function() {
+						
+						$('#addTodoButton').on('click', function(){
+							//alert("addTodoButton 클릭");
+							var todoListHeight = $('#todo_list').height()
+							
+							if( $('#todo_list_container').find('.addTodo').text() == '' ){
+								todoListHeight = todoListHeight - 50;
+								
+								var addTodoHtml = '<div class="addTodo"><i class="fas fa-pencil-alt" style="margin: 7px;"></i><input type="text" class="form-control" name="todoName" style="margin-left:5px; margin-top:5px; width: 70%; display:inline-block;" placeholder="새로운 Todo 입력"> <button style="margin-bottom: 5px; margin-left: 5px;" type="button" class="btn btn-primary" onclick="addTodo()">+</button> </div>';
+								
+								$('#todo_list_container').find('p').append($(addTodoHtml));
+							}
+							else{
+								//alert($('#todo_list_container').find('.addTodo').text())
+								$('#todo_list_container').find('.addTodo').remove();
+								
+								todoListHeight = todoListHeight + 50;
+								//$('#todo_list').height(todoListHeight);
+							}
+							$('#todo_list').height(todoListHeight);
+							
+							
+							
+						
+						});
+						
+						
+						
+						$( "#todo_list, #doing_list, #done_list" ).sortable({
+							connectWith: ".connectedSortable",
+							/* 드래그 시작시 호출되는 이벤트 핸들러 */
+							start: function( event, ui ){
+								console.log("start => "+ "todoId="+ui.item.find('span').text()+"/todoCheck="+$('.connectedSortable').index(ui.item.parent()) );
+							},
+							/* 드랍시 호출되는 이벤트 핸들러 */
+							stop: function( event, ui ){
+								var todoId = ui.item.find('span').text();
+								var todoIndex = $('.connectedSortable').index(ui.item.parent());
+								var todoStatus;
+								
+								if( todoIndex == 0 ){
+									todoStatus = 'T';
+								}else if( todoIndex == 1 ){
+									todoStatus = 'I';
+								}else if( todoIndex == 2 ){
+									todoStatus = 'D';
+								}
+								console.log("end => "+ "todoId="+todoId+"/todoCheck="+ todoStatus );
+
+								updateTodoStatus( todoId, todoStatus );
+							}
+						}).disableSelection();
+					});
+					
+					
+					function updateTodoStatus( todoId, todoStatus ){
+						
+						$.ajax({
+							url: "/plan/json/checkTodo" ,
+							method: "POST",
+							dataType: "json",
+							headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+							data: JSON.stringify({
+								planId: planId,
+								todoId: todoId,
+								todoCheck: todoStatus
+							}),
+							success: function(JSONData, status){
+								//String만 와서 여기는 거치지 않음..
+							},
+							error:function(request,status,error){
+						        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+						        
+						    } 
+						});
+						
+					}
+				</script>
+				
+				
+							
 				<!--	 Todo List : 투두 리스트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light"  id="gotoTodoList"> -->
-				<!-- <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" id="gotoTodoList">
-				
-					<div class="container">
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-3 border-bottom list-container" id="gotoTodoList">
+					<!-- <div class="container">
 						<h5>Todo List</h5>
-						<div class="row">
+						<div class="row"> -->
+					<div class="d-flex justify-content-around flex-wrap flex-md-nowrap"  style="width: 100%;">
+						<div id="todo_list_container" style="width: 32%;">
+							<p style="margin: 0 20px; font-weight: bolder;">Todo <span data-feather="pen-tool" id="addTodoButton"></span></p>
+							<ul id="todo_list" class="connectedSortable">
 							
+								<c:if test="${plan.todoList.size()!=0}">
+									<c:forEach var="todo" items="${plan.todoList}">
+										<c:if test="${todo.todoCheck == 'T' }">
+											<li>${todo.todoName}<span hidden="hidden">${todo.todoId}</span></li>
+										
+										</c:if>
+									</c:forEach>
+								</c:if>
+								
+							</ul>
 							
 						</div>
+						
+						<div id="doing_list_container" style="width: 32%;border-left: 1px #C1CDCC;">
+							<p style="margin: 0 20px; font-weight: bolder;">Doing</p> 
+							<ul id="doing_list" class="connectedSortable">
+							
+								<c:if test="${plan.todoList.size()!=0}">
+									<c:forEach var="todo" items="${plan.todoList}">
+										<c:if test="${todo.todoCheck == 'I' }">
+											<li >${todo.todoName}<span hidden="hidden">${todo.todoId}</span></li>
+										
+										</c:if>
+									</c:forEach>
+								</c:if>
+							
+							</ul>
+						</div>
+						
+						<div id="done_list_container" style="width: 32%;border-left: 1px #C1CDCC;">
+							<p style="margin: 0 20px; font-weight: bolder;">Done</p> 
+							<ul id="done_list" class="connectedSortable">
+							
+								<c:if test="${plan.todoList.size()!=0}">
+									<c:forEach var="todo" items="${plan.todoList}">
+										<c:if test="${todo.todoCheck == 'D' }">
+											<li >${todo.todoName}<span hidden="hidden">${todo.todoId}</span></li>
+										
+										</c:if>
+									</c:forEach>
+								</c:if>
+							</ul>
+						</div>
 					</div>
-				</div> -->
+						
+						<!-- </div>
+					</div> -->
+				</div>
 				<!--	 Todo List : 투두 리스트 END	//////////////////////// 	-->
 				<!-- <br/> -->
 				
@@ -1439,7 +1648,7 @@
 							    
 							    		<c:forEach var="day" items="${plan.dayList}">
 							    			<div class="swiper-slide">
-							    			<div>
+							    			<div >
 							    				<div class="dayInfo" style="padding-top:10px;padding-left:10px;text-align:left;padding-left:8px;font-size:14pt;color:#696969; font-weight: bold;">
 													${day.dateString}  <br/>
 													<span style="font-size:11pt;color:#32D0BF"> ${day.cityNames} &nbsp;&nbsp; ( ${day.dayNo} 일차 )</span>
@@ -2164,7 +2373,7 @@
 		/* 일정표 칸 마우스오버 이벤트 */
 		$( ".dailys" ).hover(
 		  function() {
-		    $( this ).css("background", "#D4EFFA");
+		    $( this ).css("background", "#EEF7F7");
 		  }, function() {
 		    $( this ).css("background", "none");
 		  }
@@ -2183,6 +2392,7 @@
 				prevEl : '.swiper-button-prev', // 이번 버튼 클래스명
 			}
 		  });
+		
 		
 	</script>
 	
