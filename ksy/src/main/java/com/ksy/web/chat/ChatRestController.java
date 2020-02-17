@@ -202,7 +202,7 @@ import com.mongodb.client.MongoDatabase;
 		}
 		
 		@RequestMapping(value="quitChatRoom", method=RequestMethod.POST)
-		public void quitChatRoom(@RequestBody ChatRoom chatRoom) throws Exception {
+		public String quitChatRoom(@RequestBody ChatRoom chatRoom) throws Exception {
 			// °­Åð
 			System.out.println("quitChatRoom :: ChatRoom"+chatRoom);
 			
@@ -220,7 +220,8 @@ import com.mongodb.client.MongoDatabase;
 			BasicDBObject updateQuery = new BasicDBObject();
 			updateQuery.append("$set", 
 				new BasicDBObject().append("chatMems", arr));
-			coll.updateMany(searchQuery, updateQuery);	
+			coll.updateMany(searchQuery, updateQuery);
+			return userService.getUser(chatRoom.getChatMems().get(0)).getNickname();
 			
 		}
 		
