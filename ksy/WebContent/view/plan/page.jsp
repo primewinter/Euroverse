@@ -570,7 +570,7 @@
 <!-- https://blog.naver.com/qkrquddyd94/221345117645 -->
 
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4&callback=initMap" type="text/javascript"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
 
 </body>
 </html>
