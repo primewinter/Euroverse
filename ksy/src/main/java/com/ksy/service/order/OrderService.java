@@ -15,7 +15,7 @@ public interface OrderService {
 	
 	public void addPoint(Point point) throws Exception;
 	
-	public Order getFlightOrder(String orderId) throws Exception;
+	public Order getFlightOrder(String flightId) throws Exception;
 	
 	public Order getRoomOrder(String orderId) throws Exception;
 	

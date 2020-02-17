@@ -139,17 +139,17 @@
 		
 	<div class="table-responsive">	
       <!--  table Start /////////////////////////////////////-->
-      <table class="table table-white table-sm" >
+      <table class="table">
       
         <thead>
           <tr>
-            <th align="center">게시글번호</th>
-            <th align="center" >제목</th>
-            <th align="center">닉네임</th>
-            <th align="center">작성일</th>
-            <th align="center">댓글수</th>
-            <th align="center">조회수</th>
-            <th align="center">추천수</th>
+            <th scope="col">게시글번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">닉네임</th>
+            <th scope="col">작성일</th>
+            <th scope="col">댓글수</th>
+            <th scope="col">조회수</th>
+            <th scope="col">추천수</th>
           </tr>
         </thead>
        
@@ -159,14 +159,14 @@
 		  <c:forEach var="post" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
-			  <td align="center">${ i }</td>
-			  <td align="left" style="font-weight: bold; color: dimgray;">
+			  <th scope="row">${ i }</th>
+			  <td style="font-weight: bold; color: dimgray;">
 			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>${post.postTitle}</td>
-			  <td align="center">${post.nickName}</td>
-			  <td align="center">${post.postDate}</td>
-			  <td align="center">${post.comments}</td>
-			  <td align="center">${post.views}</td>
-			  <td align="center">${post.postLikeCount}</td>
+			  <td>${post.nickName}</td>
+			  <td>${post.postDate}</td>
+			  <td>${post.comments}</td>
+			  <td>${post.views}</td>
+			  <td>${post.postLikeCount}</td>
 			</tr>
           </c:forEach>
         
@@ -175,7 +175,7 @@
       </table>
      </div>
 	  <!--  table End /////////////////////////////////////-->
-	  <button type="button" id="addpost_view" class="btn btn-info" style="width: 90px; height: 25px; font-size: 15px; line-height: 14px;">작성하기</button>
+	  <button type="button" id="addpost_view" class="btn btn-lg btn-primary" style="font-size: 13px; width: 88px; height: 30px; line-height:11px;">작성하기</button>
 	  
  	</div>
  	<!--  화면구성 div End /////////////////////////////////////-->

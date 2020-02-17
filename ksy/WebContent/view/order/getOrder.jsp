@@ -12,25 +12,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 	
-	
-	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
-   
-   <!-- jQuery UI toolTip 사용 CSS-->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip 사용 JS-->
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  
-  <!-- asome icon CDN -->
+	<!-- asome icon CDN -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
+
+  	<!-- jQuery UI toolTip 사용 CSS-->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<!-- jQuery UI toolTip 사용 JS-->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	
@@ -46,14 +40,18 @@
     </style>
     <script type="text/javascript">
     $( function () {
-	$('button.btn.btn-warning').on('click' , function () {
+	$("#refundApp2").on('click' , function () {
 		var orderId = $("#orderId").val();
-		alert("${order.orderId}");
-		self.location ="/view/flight/searchFlight.jsp";
-
-		//  $("form").attr("method" , "POST").attr("action" , "/order/addOrderConfirm?orderId=${order.orderId}").submit();
+		alert(orderId);
+		
+		
+		//$("#refundApp1").hide();
+		
+		//self.location ="/order/getOrderRefund?orderId="+orderId;
+		
+		//$("form").attr("method" , "POST").attr("action" , "/order/getOrderRefund").submit();
 	});
-});
+}); 
     </script>
 
 </head>
@@ -61,14 +59,20 @@
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	<form>
-
+	<input type="hidden" name="orderId" id="orderId" value= "${order.orderId }"/>
 <div class="container"><br/>
-
-	<div >
-	  <h3 align="center">${user.userName}님 예약이 정상적으로 완료되었습니다.</h3>
-	</div>
-	
-		 <c:if test="${room.roomCity == null }">
+			<h4 align="left">
+				  <c:if test="${order.orderStatus == '1' }">
+			      	주문완료
+			      </c:if>
+			      <c:if test="${order.orderStatus == '2' }">
+			      	환불신청
+			      </c:if>
+			      <c:if test="${order.orderStatus == '3' }">
+			      	환불완료
+				  </c:if>
+			</h4>
+		 <c:if test="${flight.flightId ne null }">
 		 	<hr/>
 			<i class="fas fa-plane" id="iconf" style="Padding-left:20px;font-size:40px;" ></i>
 				<br/>
@@ -95,7 +99,7 @@
 					  </tbody>
 				</table>
 		</c:if>
-		 <c:if test="${flight.depCity == null }">
+		 <c:if test="${room.roomId ne null }">
 		 	<hr/>
 			<i class="fas fa-bed" id="iconr" style="Padding-left:20px;font-size:40px;"></i>
 				<br/>
@@ -210,10 +214,31 @@
 	
 	   		 <div class="form-group" align="center">
 			<button type="button" class="btn btn-warning"  >확인</button>
+			<button type="button" class="btn btn-primary" id="refundApp1" data-toggle="modal" data-target="#refund">
+			   환불 신청
+			</button>
 			</div>
 </div>
 			
-			
+<div class="modal fade" id="refund" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">환불 신청</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	  예약한 상품을 환불 신청 하시겠습니까?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="reset" data-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-primary" id="refundApp2">환불신청</button>
+      </div>
+    </div>
+  </div>
+</div>	
 			
 		
 		

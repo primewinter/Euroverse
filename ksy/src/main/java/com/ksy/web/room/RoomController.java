@@ -280,6 +280,8 @@ public class RoomController {
 					By.cssSelector("#listings > ol > li > article > section > aside > div.price > a > ins"));
 			/////////////////////////////////////이미지////////////////////////////////////////////////////
 			  
+			
+			
 			  List<WebElement> roomImg = driver.findElements(By.cssSelector(
 					  "#listings > ol > li > article > section > div > figure > a > img.u-photo.use-bgimage.featured-img-tablet"));
 			  List<String> styleList = new ArrayList<String>();
@@ -296,6 +298,8 @@ public class RoomController {
 				  String url =tempt.substring(start , end); 
 				  System.out.println("URL : "+url);   
 				  //list2.add(url);
+				  
+				  //경로 꼭 수정하기!!!
 				  String savePath =
 						  "C:\\Users\\User\\git\\repository\\Exhibition\\11.Model2MVCShop\\WebContent\\images\\uploadFiles\\";
 				  String saveFileName = System.currentTimeMillis()+".jpg";
