@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-    <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+        <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html>
@@ -41,54 +41,48 @@
  -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
-
 <script>
-function fncGetUserList(currentPage) {
-	alert("1번 currentPage="+currentPage);
-	$("#currentPage").val(currentPage)
-	$("#myPostCommentListForm").attr("method" , "POST").attr("action" , "/myPage/myPostCommentList").submit();
-}
-function fncGetUserList2(currentPage2) {
-	alert("2번currentPage="+currentPage2);
-	$("#currentPage2").val(currentPage2)
-	$("#myPostCommentListForm").attr("method" , "POST").attr("action" , "/myPage/myPostCommentList").submit();
-}
+function addBookMark(postId){
 
-/* $(function() {
-	 
-	var boardName = $("#boardName").val();
-
-	$( "td:nth-child(2)" ).on("click" , function() {
-	     var postId = $(this).find($("input[name='postId']")).val();	
-		 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
+	$.ajax({
+		url : '/community/json/addBookMark/'+postId ,
+		type : "GET" ,
+		cache : false ,
+		dataType : "json" ,
+		success : function(data) {
+			var msg = '';
+			msg += data.msg;
+			alert(msg);
+			
+			if(data.likeCheck == 'F'){
+			  $(".fas.fa-bookmark").attr('class','far fa-bookmark fa-2x');
+			}else{
+			  $(".far.fa-bookmark").attr('class','fas fa-bookmark fa-2x');
+			}      
+		},
+		error: function(request, status, error){
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
 	});
-				
-	$( "td:nth-child(2)" ).css("color" , "indianred");
-	
-});	
- */
+}
 
 </script>
 
 
 </head>
-
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"  id="main">
 	
 	 <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">나의 게시글목록</h1>
+        <h1 class="h2">북마크목록</h1>
      </div> 
 		
 	
 	
-	<form id="myPostCommentListForm">
- 		<input type="hidden" id="currentPage" name="currentPage" value=0 />
- 		<input type="hidden" id="currentPage2" name="currentPage2" value=0 /> 
-
-	</form>
+	<form id="myBookMarkListForm">
+ 		<input type="hidden" id="currentPage" name="currentPage" value=0 /> 
 	
 
 
@@ -98,6 +92,7 @@ function fncGetUserList2(currentPage2) {
 	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">적립</button>
 	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">차감</button>
 	   -->
+	</form>
 	
 							
 	
@@ -106,14 +101,11 @@ function fncGetUserList2(currentPage2) {
       <th scope="col"></th>
       <th scope="col">제목</th>
       <th scope="col">닉네임</th>
-      <th scope="col">작성일</th>
-      <th scope="col">댓글수</th>
-      <th scope="col">조회수</th>
-      <th scope="col">추천수</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
-  		
+<%--   		
   	<c:forEach var="post" items="${postList}" varStatus="status">
 		<tr>
 			<th scope="row">${status.count}</th>
@@ -124,56 +116,29 @@ function fncGetUserList2(currentPage2) {
 			<td>${post.views}</td>
 			<td>${post.postLikeCount}</td>
 		</tr>
-  	</c:forEach>	
+  	</c:forEach>	 --%>
   	
+  	<c:forEach var="bookMarkPost" items="${bookMarkList}" varStatus="status">
+  		<tr>
+  			<th scope="row">${status.count}</th>
+  			<input type="hidden" id="postId" name="postId" value="${bookMarkPost.postId}"/>
+  			<td>${bookMarkPost.postTitle}</td>
+  			<td>${bookMarkPost.nickName}</td>
+  			<td><i onclick="addBookMark(${bookMarkPost.postId})" class="far fa-bookmark fa-2x" style="float: right;"></i></td>
+  			
+  		
+  		</tr>
+  	
+  	
+  	</c:forEach>
   		
   </tbody>
 </table>
 <jsp:include page="../../common/pageNavigator_new.jsp"/>
-<hr class="one">
 
 
- <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">나의 댓글목록</h1>
-     </div> 
-     
 
 
-<table class="table">
-<!-- 	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">최신순</button>
-	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">적립</button>
-	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">차감</button>
-	   -->
-	
-							
-	
-  <thead>
-    <tr>
-      <th scope="col"></th>
-      <th scope="col">제목</th>
-      <th scope="col">댓글내용</th>
-      <th scope="col">닉네임</th>
-      <th scope="col">추천수</th>
-      <th scope="col">댓글작성일</th>
-    </tr>
-  </thead>
-  <tbody>
-  	  	<c:forEach var="comment" items="${commentList}" varStatus="status">
-		<tr>
-			<th scope="row">${status.count}</th>
-			<td>${comment.postTitle}</td>
-			<td>${comment.cmtContent}</td>
-			<td>${comment.nickName}</td>
-			<td>${comment.cmtLikeCount}</td>
-			<td>${comment.cmtDate}</td>
-		</tr>
-  		</c:forEach>
-  	
-  </tbody>
-</table>
-
-
-<jsp:include page="../../common/pageNavigator_new2.jsp"/>
 </main>
 </div>
 </div>

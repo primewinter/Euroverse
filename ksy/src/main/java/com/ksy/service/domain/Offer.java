@@ -15,6 +15,11 @@ public class Offer {
 	private String toUserId;		//to_user_id
 	private Timestamp offerDate; 	//offer_date
 	
+	private String userImg;
+	private String planImg;
+	private String planTitle;
+	private String postTitle;
+	
 	public Offer() {
 	}
 
@@ -74,13 +79,51 @@ public class Offer {
 	public void setOfferDate(Timestamp offerDate) {
 		this.offerDate = offerDate;
 	}
+	
+
+	
+	
+	
+	public String getUserImg() {
+		return userImg;
+	}
+
+	public void setUserImg(String userImg) {
+		this.userImg = userImg;
+	}
+
+	public String getPlanImg() {
+		return planImg;
+	}
+
+	public void setPlanImg(String planImg) {
+		this.planImg = planImg;
+	}
+
+	public String getPlanTitle() {
+		return planTitle;
+	}
+
+	public void setPlanTitle(String planTitle) {
+		this.planTitle = planTitle;
+	}
+
+	public String getPostTitle() {
+		return postTitle;
+	}
+
+	public void setPostTitle(String postTitle) {
+		this.postTitle = postTitle;
+	}
 
 	@Override
 	public String toString() {
 		return "Offer [offerId=" + offerId + ", offerType=" + offerType + ", refId=" + refId + ", offerMsg=" + offerMsg
 				+ ", offerStatus=" + offerStatus + ", fromUserId=" + fromUserId + ", toUserId=" + toUserId
-				+ ", offerDate=" + offerDate + "]";
+				+ ", offerDate=" + offerDate + ", userImg=" + userImg + ", planImg=" + planImg + ", planTitle="
+				+ planTitle + ", postTitle=" + postTitle + "]";
 	}
 
+	
 	
 }

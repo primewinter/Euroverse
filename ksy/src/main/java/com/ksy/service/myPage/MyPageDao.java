@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
+import com.ksy.service.domain.Like;
+import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.TripSurvey;
@@ -31,8 +33,24 @@ public interface MyPageDao {
 	
 	
 	//////////////////////community///////////////////////////////////////////////
-	
 	public List<Post> getMyPostList(Search search, String userId)throws Exception;
+	public int getMyPostListTotalCount(String userId)throws Exception;
+	
 	public List<Comment> getMyCommentList(Search search,String userId)throws Exception;
+	public int getMyCommentListTotalCount(String userId)throws Exception;
+	
+	
+	
+	/////////////////////////BookMark/////////////////////////////////////////
+	public List<Like> getBookMarkList(String userId)throws Exception;
+	public Post getBookMarkPost(String postId)throws Exception;
+	
+	
+	
+	//////////////////////////////offer///////////////////////////////////////
+	public List<Offer> getPlanOfferList(Search search , String userId) throws Exception;
+	public List<Offer> getPartyOfferList(Search search , String userId) throws Exception;
+	
+	
 	
 }

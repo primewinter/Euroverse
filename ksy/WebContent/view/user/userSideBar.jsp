@@ -38,13 +38,11 @@
 		});
 		
 		$(".nav-link:contains('북마크 목록')").on("click" ,function(){
-			alert("구현중");
-			//$(self.location).attr("href","/user/getUser");
+			$(self.location).attr("href","/myPage/myBookMarkList");
 		});
 		
 		$(".nav-link:contains('플래너 초대 및 동행신청 목록')").on("click" ,function(){
-			alert("구현중");
-			//$(self.location).attr("href","/user/getUser");
+			$(self.location).attr("href","/myPage/myOfferList");
 		});
 		$(".nav-link:contains('찜한 상품 목록')").on("click" ,function(){
 			alert("구현중");

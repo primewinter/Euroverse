@@ -4,6 +4,7 @@ public class Search {
 
 	///Field
 	private int currentPage;
+	private int currentPage2;
 	private String searchCondition;
 	private String searchKeyword;
 	private int pageSize;
@@ -73,12 +74,24 @@ public class Search {
 	public void setBoardName(String boardName) {
 		this.boardName = boardName;
 	}
+	
+	
+
+	public int getCurrentPage2() {
+		return currentPage2;
+	}
+
+	public void setCurrentPage2(int currentPage2) {
+		this.currentPage2 = currentPage2;
+	}
 
 	@Override
 	public String toString() {
-		return "Search [currentPage=" + currentPage + ", searchCondition=" + searchCondition + ", searchKeyword="
-				+ searchKeyword + ", pageSize=" + pageSize + ", sorting=" + sorting + ", boardName=" + boardName
-				+ ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum + "]";
+		return "Search [currentPage=" + currentPage + ", currentPage2=" + currentPage2 + ", searchCondition="
+				+ searchCondition + ", searchKeyword=" + searchKeyword + ", pageSize=" + pageSize + ", sorting="
+				+ sorting + ", boardName=" + boardName + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
+				+ "]";
 	}
+
 
 }

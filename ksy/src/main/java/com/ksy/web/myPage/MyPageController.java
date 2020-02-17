@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ksy.common.Page;
 import com.ksy.common.Search;
+import com.ksy.service.domain.Like;
+import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Point;
+import com.ksy.service.domain.Post;
 import com.ksy.service.domain.User;
 import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.plan.PlanService;
@@ -78,19 +81,29 @@ public class MyPageController {
 	}
 	
 	@RequestMapping(value="myPostCommentList")
-	public String myPostCommentList(HttpSession session , Model model)throws Exception{
+	public String myPostCommentList(@ModelAttribute("search") Search search,HttpSession session , Model model)throws Exception{
+		System.out.println("키크크크크크크크크@~~~");
 		User user = (User)session.getAttribute("user");
-		Search search = new Search();
+		System.out.println(search);
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
-		search.setPageSize(pageSize);
+		if(search.getCurrentPage2()==0) {
+			search.setCurrentPage2(1);
+		}
+		
+		search.setPageSize(10);
 		
 		
+		System.out.println("여기는!!!!!!!!!!!!내게시글댓글리스트!!");
 		Map<String,Object> postMap = myPageService.getMyPostList(search, user.getUserId());
 		
+		System.out.println("이게 나오나?!!???!!!!???!?!?!?!?!?!??!!??!?!!?!?!?!?");
 		Map<String , Object> commentMap = myPageService.getMyCommentList(search, user.getUserId());
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)postMap.get("totalCount")).intValue(), pageUnit, 10);
+		Page resultPage2 = new Page( search.getCurrentPage2(), ((Integer)commentMap.get("totalCount")).intValue(), pageUnit, 10);
 		
 		System.out.println(postMap);
 		System.out.println(postMap.get("list"));
@@ -100,7 +113,67 @@ public class MyPageController {
 		model.addAttribute("postList",postMap.get("list"));
 		model.addAttribute("commentList",commentMap.get("list"));
 		
+		model.addAttribute("resultPage",resultPage);
+		model.addAttribute("resultPage2",resultPage2);
+		
 		return "forward:/view/myPage/myPostCommentList.jsp";
+	}
+	
+	@RequestMapping(value="myBookMarkList")
+	public String myBookMarkList(HttpSession session , Model model)throws Exception{
+		System.out.println("북마크리스트 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		User user = (User)session.getAttribute("user");
+		List<Post> likeList = myPageService.getBookMarkList(user.getUserId());
+		System.out.println(likeList);
+		
+		
+		model.addAttribute("bookMarkList",likeList);
+		
+		
+		return "forward:/view/myPage/myBookMarkList.jsp";
+	}
+	
+	
+	@RequestMapping(value="myOfferList")
+	public String myOfferList(@ModelAttribute("search") Search search , HttpSession session , Model model)throws Exception {
+		System.out.println("오퍼리스트@!~!~~!@#!#@!@~@~@!~!@~@!~@!~@!~");
+		User user = (User)session.getAttribute("user");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		
+		if(search.getCurrentPage2()==0) {
+			search.setCurrentPage2(1);
+		}
+		
+		search.setPageSize(pageSize);
+		
+		
+		
+		Map<String , Object> offerMap = myPageService.getOfferList(search,user.getUserId());
+		List<Offer> planOfferList = (List<Offer>) offerMap.get("planOfferList");
+		List<Offer> partyOfferList = (List<Offer>)offerMap.get("partyOfferList");
+		System.out.println(planOfferList);
+		System.out.println(partyOfferList);
+		
+		
+		
+		Map<String , Object> map = new HashMap<String, Object>();
+		
+		map = myPageService.getPointList(search, user.getUserId());
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
+		System.out.println(resultPage);
+		
+		
+		model.addAttribute("planOfferList",planOfferList);
+		model.addAttribute("partyOfferList",partyOfferList);
+		
+		
+		
+		return "forward:/view/myPage/myOfferList.jsp";
 	}
 
 }

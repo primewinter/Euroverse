@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
+import com.ksy.service.domain.Like;
+import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.TripSurvey;
@@ -116,6 +118,11 @@ public class MyPageDaoImpl implements MyPageDao{
 	}
 	
 	public List<Comment> getMyCommentList(Search search, String userId){
+		System.out.println("myPageDaoImpl");
+		System.out.println("@@@@@@@@@@@@@@@@@@@@");
+		System.out.println(search);
+		System.out.println("유저아이디"+userId);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("search", search);
@@ -125,6 +132,58 @@ public class MyPageDaoImpl implements MyPageDao{
 		return sqlSession.selectList("UserMapper.getMyCommentList",map);
 	}
 	
+	
+	
+	
+	/////////////////////////BookMark/////////////////////////////////////////
+	public List<Like> getBookMarkList(String userId)throws Exception{
+		System.out.println("myPageDaoImpl getBookMarkList()");
+		
+		return sqlSession.selectList("UserMapper.getBookMarkList",userId);
+	}
+	
+	
+	public Post getBookMarkPost(String postId)throws Exception{
+		System.out.println("myPageDaoImpl getBookMarkPost()");
+		
+		
+		
+		return sqlSession.selectOne("UserMapper.getBookMarkPost",postId);
+	}
+	
+	
+	
+	public List<Offer> getPlanOfferList(Search search , String userId)throws Exception{
+		System.out.println("myPageDaoImpl getPlanOfferList");
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("userId", userId);
+		
+		
+		return sqlSession.selectList("UserMapper.getPlanOfferList",map);
+	}
+	
+	public List<Offer> getPartyOfferList(Search search , String userId)throws Exception{
+		System.out.println("myPageDaoImpl getPartyOfferList");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("userId", userId);
+		
+		return sqlSession.selectList("UserMapper.getPartyOfferList",map);
+	}
+	
+	public int getMyPostListTotalCount(String userId)throws Exception{
+		
+		return sqlSession.selectOne("UserMapper.getMyPostListTotalCount",userId);
+	}
+	
+	public int getMyCommentListTotalCount(String userId)throws Exception{
+		
+		return sqlSession.selectOne("UserMapper.getMyCommentListTotalCount",userId);
+	}
 	
 	
 
