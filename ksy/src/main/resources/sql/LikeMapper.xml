@@ -45,7 +45,7 @@
 	 
 	<insert id="addLike" parameterType="like">
 		INSERT INTO likes(like_id , like_type , ref_id , like_user_id , like_check) 
-		VALUES ( SEQ_likes_like_id.NEXTVAL , 'C' , #{refId} , #{likeUserId} , 'F' )
+		VALUES ( SEQ_likes_like_id.NEXTVAL , #{likeType} , #{refId} , #{likeUserId} , 'F' )
     </insert>
 
 </mapper>

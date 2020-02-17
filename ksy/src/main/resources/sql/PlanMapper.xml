@@ -168,7 +168,7 @@
 	<insert id="addTodo"	parameterType="todo">
 		INSERT 
 		INTO 	todo ( plan_id, todo_id, todo_name, todo_check ) 
-		VALUES 		( #{planId}, TO_CHAR(seq_todo_todo_id.nextval), #{todoName}, 'F')
+		VALUES 		( #{planId}, TO_CHAR(seq_todo_todo_id.nextval), #{todoName}, 'T')
 	</insert>
 	
 	<select id="getTodoList"	parameterType="string"	resultMap="todoSelectMap">
@@ -200,7 +200,7 @@
 	<insert id="addDefaultTodos"	parameterType="string">
 		INSERT 
 		INTO 	todo ( plan_id, todo_id, todo_name, todo_check ) 
-		VALUES 		( TO_CHAR(seq_plan_plan_id.CURRVAL), TO_CHAR(seq_todo_todo_id.NEXTVAL), #{todoName}, 'F')
+		VALUES 		( TO_CHAR(seq_plan_plan_id.CURRVAL), TO_CHAR(seq_todo_todo_id.NEXTVAL), #{todoName}, 'T')
 	</insert>
 	
 	

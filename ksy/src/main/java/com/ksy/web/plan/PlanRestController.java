@@ -150,12 +150,8 @@ public class PlanRestController {
 	}
 	
 	/* checkTodo & updateTodoName 메소드 묶고 SQL을 다이나믹으로 만들수도 있을거같음! */
-	@RequestMapping( value = "json/checkTodo/{todoCheck}/{todoId}", method = RequestMethod.GET )
-	public void checkTodo( @PathVariable String todoId, @PathVariable String todoCheck ) throws Exception {
-		
-		Todo todo = new Todo();
-		todo.setTodoId(todoId);
-		todo.setTodoCheck(todoCheck);
+	@RequestMapping( value = "json/checkTodo", method = RequestMethod.POST )
+	public void checkTodo( @RequestBody Todo todo ) throws Exception {
 		
 		planService.checkTodo(todo);
 	}
@@ -170,18 +166,15 @@ public class PlanRestController {
 		planService.updateTodoName(todo);
 	}
 	
-	@RequestMapping( value = "json/addTodo/{todoName}/{planId}", method = RequestMethod.GET )
-	public List<Todo> addTodo( @PathVariable String todoName, @PathVariable String planId ) throws Exception {
-		
-		Todo todo = new Todo();
-		todo.setTodoName(todoName);
-		todo.setPlanId(planId);
+	@RequestMapping( value = "json/addTodo", method = RequestMethod.POST )
+	public Todo addTodo( @RequestBody Todo todo ) throws Exception {
 		
 		planService.addTodo(todo);	//todo 등록 후
 		
-		List<Todo> todoList = planService.getTodoList(planId);	// 리스트 재검색해서 다시 뿌려주기!
+		List<Todo> todoList = planService.getTodoList(todo.getPlanId());	// 리스트 재검색해서 다시 뿌려주기!
+		//todoList.get(todoList.size()-1);
 		
-		return todoList;
+		return todoList.get(todoList.size()-1);
 	}
 	
 	@RequestMapping( value = "json/deleteTodo/{todoId}", method = RequestMethod.GET )
