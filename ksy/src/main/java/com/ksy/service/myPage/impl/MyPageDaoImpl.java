@@ -184,6 +184,46 @@ public class MyPageDaoImpl implements MyPageDao{
 		
 		return sqlSession.selectOne("UserMapper.getMyCommentListTotalCount",userId);
 	}
+
+	@Override
+	public int getPlanOfferListTotalList(String userId) throws Exception {
+		return sqlSession.selectOne("UserMapper.getPlanOfferListTotalCount",userId);
+	}
+
+	@Override
+	public int getPartyOfferListTotalList(String userId) throws Exception {
+		return sqlSession.selectOne("UserMapper.getPartyOfferListTotalCount",userId);
+	}
+	
+	
+	
+	////////////////////QNA///////////////////////////////////////
+	public void addQna(Post post)throws Exception{
+		sqlSession.insert("UserMapper.addQna" , post);
+	}
+	
+
+	@Override
+	public List<Post> getQnaList(Search search, String userId) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("userId", userId);
+		return sqlSession.selectList("UserMapper.getQnaList",map);
+	}
+
+	@Override
+	public int getQnaListTotalCount(String userId) {
+		System.out.println("여기까지는 들어온다구??@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		return sqlSession.selectOne("UserMapper.getQnaListTotalCount",userId);
+	}
+
+	@Override
+	public List<Comment> getQnaCommentList(String postId) throws Exception {
+		return sqlSession.selectList("UserMapper.getQnaCommentList",postId);
+	}
+	
+	
 	
 	
 

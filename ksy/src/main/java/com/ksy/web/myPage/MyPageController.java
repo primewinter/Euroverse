@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -147,7 +148,7 @@ public class MyPageController {
 			search.setCurrentPage2(1);
 		}
 		
-		search.setPageSize(pageSize);
+		search.setPageSize(4);
 		
 		
 		
@@ -156,24 +157,78 @@ public class MyPageController {
 		List<Offer> partyOfferList = (List<Offer>)offerMap.get("partyOfferList");
 		System.out.println(planOfferList);
 		System.out.println(partyOfferList);
+		//int planOfferListTotalCount = (int)offerMap.get("planOfferList");
+		//int partyOfferListTotalCount = (int)offerMap.get("partyOfferList");
+		//System.out.println(planOfferListTotalCount);
+		//System.out.println(partyOfferListTotalCount);
 		
 		
+		Map<String , Object> planOfferMap = new HashMap<String, Object>();
 		
-		Map<String , Object> map = new HashMap<String, Object>();
+		//planOfferMap = myPageService.getpl(search, user.getUserId());
 		
-		map = myPageService.getPointList(search, user.getUserId());
-		
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)offerMap.get("planOfferListTotalCount")).intValue(), pageUnit, 4);
+		Page resultPage2 = new Page( search.getCurrentPage(), ((Integer)offerMap.get("partyOfferListTotalCount")).intValue(), pageUnit, 4);
 		
 		System.out.println(resultPage);
+		System.out.println(resultPage2);
 		
 		
 		model.addAttribute("planOfferList",planOfferList);
 		model.addAttribute("partyOfferList",partyOfferList);
-		
+		model.addAttribute("resultPage",resultPage);
+		model.addAttribute("resultPage2",resultPage2);
 		
 		
 		return "forward:/view/myPage/myOfferList.jsp";
 	}
+	
+	
+	
+	@RequestMapping(value ="addQnaAndQnaList")
+	public String addQnaAndQnaList(@ModelAttribute("search") Search search ,HttpSession session , Model model)throws Exception {
+		System.out.println("@@@@@@@@@@@addQnaAndQnaList");
+		User user = (User)session.getAttribute("user");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		
+		search.setPageSize(4);
+		
+		Map<String , Object> map = myPageService.getQnaList(search,user.getUserId());
+		
+		List<Post> qnaList = (List<Post>)map.get("qnaList");
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, 4);
+		
+		model.addAttribute("qnaList",qnaList);
+		model.addAttribute("resultPage" , resultPage);
+		System.out.println("¿©±â±îÁö@@@@@@@@@@@@@@@@@@@@@@@");
+		
+		return "forward:/view/myPage/addQnaAndQnaList.jsp";
+	}
+	
+	
+	
+	@RequestMapping( value="addQna", method=RequestMethod.POST )
+	public String addPost( @ModelAttribute("post") Post post,  Model model, HttpSession session ) throws Exception {
+		
+		System.out.println("/mypage/addQna : POST");
+	
+		User user = (User)session.getAttribute("user");
+		post.setPostWriterId(user.getUserId());
+		post.setNickName(user.getNickname());
+		
+		myPageService.addQna(post);
+	
+		System.out.println("addQna¿Ï·áÇß½¿µÕ~~~~~~~~~~~~~~~~~~~~~");
+		
+		
+		return "redirect:/myPage/addQnaAndQnaList";
+	}
+	
+	
+	
 
 }

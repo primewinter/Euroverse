@@ -94,11 +94,6 @@ function fncGetUserList2(currentPage2) {
 
 
 <table class="table">
-<!-- 	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">최신순</button>
-	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">적립</button>
-	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">차감</button>
-	   -->
-	
 							
 	
   <thead>
@@ -140,12 +135,6 @@ function fncGetUserList2(currentPage2) {
 
 
 <table class="table">
-<!-- 	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">최신순</button>
-	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">적립</button>
-	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">차감</button>
-	   -->
-	
-							
 	
   <thead>
     <tr>

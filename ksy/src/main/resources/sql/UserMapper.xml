@@ -590,4 +590,64 @@ WHERE o.to_user_id = #{userId} AND o.offer_type = 'A' AND p.post_id = o.ref_id A
 
 
 
+
+
+
+
+
+
+
+
+
+<insert id="addQna" parameterType="post">
+INSERT
+INTO post(post_id , post_writer_id , nickname ,post_title , post_content , post_date , qna_first_cate , qna_second_cate)
+VALUES (SEQ_post_post_id.NEXTVAL , #{postWriterId:VARCHAR} , #{nickName:VARCHAR} ,#{postTitle:VARCHAR} , #{postContent:CLOB} , SYSDATE , #{qnaFirstCate:CHAR} , #{qnaSecondCate:CHAR})
+</insert>
+
+
+
+<select id="getQnaList" parameterType="map" resultMap="postSelectMap">
+SELECT *
+FROM (
+	SELECT inner_table.*, ROWNUM AS row_seq		
+	FROM(
+			SELECT 
+			post_id , post_writer_id , post_title , post_content , post_date , qna_first_cate , qna_second_cate ,post_grade
+			FROM post
+			WHERE post_writer_id = #{userId} AND qna_first_cate IS NOT NULL
+			ORDER BY post_date DESC)inner_table
+				 WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
+	  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
+  		AND #{search.currentPage}*#{search.pageSize}
+</select>
+
+
+<select id="getQnaListTotalCount" parameterType="string" resultType="int">
+SELECT COUNT(*) FROM(
+	SELECT inner_table.*, ROWNUM AS row_seq		
+	FROM(
+			SELECT 
+			post_id , post_writer_id , post_title , post_content , post_date , qna_first_cate , qna_second_cate
+			FROM post
+			WHERE post_writer_id = #{userId} AND qna_first_cate IS NOT NULL
+			ORDER BY post_date DESC)inner_table)
+</select>
+
+
+
+<!-- SELECT 
+post_id , post_writer_id , post_title , post_content , post_date , qna_first_cate , qna_second_cate
+FROM post
+WHERE post_writer_id = #{userId} AND qna_first_cate IS NOT NULL
+ORDER BY post_date DESC -->
+
+
+<select id="getQnaCommentList" parameterType="string" resultMap="commentSelectMap">
+SELECT
+ post_id , cmt_id , nickname , writer_id  , cmt_date , cmt_content , secret , deleted , blocked , cmt_like_count 
+FROM  comments 
+WHERE #{postId} = post_id
+</select>
+
 </mapper>

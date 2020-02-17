@@ -10,12 +10,23 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ksy.service.community.CommunityService;
+import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Point;
+import com.ksy.service.domain.Post;
 import com.ksy.service.domain.User;
 import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.user.UserService;
@@ -31,6 +42,10 @@ public class MyPageRestController {
 	@Autowired
 	@Qualifier("myPageServiceImpl")
 	private MyPageService myPageService;
+	
+	@Autowired
+	@Qualifier("communityServiceImpl")
+	private CommunityService communityService;
 	
 	
 	public MyPageRestController() {
@@ -96,5 +111,27 @@ public class MyPageRestController {
 		return list;
 	}
 	
+	
+	@RequestMapping(value="json/getQnaCommentList")
+	public Map getQnaCommentList(@RequestBody Post post)throws Exception{
+		List<Comment> qnaCommentList = myPageService.getQnaCommentList(post.getPostId());
+		Map map = new HashMap();
+		
+		if(qnaCommentList.size()==0) {
+			System.out.println("호로로롤로롫");
+			map.put("returnMessage","error");
+		}else {
+			map.put("qnaCommentList", qnaCommentList);
+			map.put("returnMessage", "ok");
+		}
+		
+		
+		
+		
+		
+		
+		return map;
+	}
+
 
 }
