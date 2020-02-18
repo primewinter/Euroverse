@@ -52,6 +52,9 @@
 		<result jdbcType="TIMESTAMP"	column="memo_reg_date"		property="memoRegDate"/>
 		<result jdbcType="VARCHAR"		column="user_id"		property="memoRegUser"/>
 		<result jdbcType="VARCHAR"		column="nickname"		property="regUserNickname"/>
+		
+		<result jdbcType="VARCHAR"		column="page_x"		property="pageX"/>
+		<result jdbcType="VARCHAR"		column="page_y"		property="pageY"/>
 	</resultMap>
 	
 	
@@ -240,7 +243,7 @@
 	
 	<!-- 		Memo SQL		 -->
 	<select id="getMemoList"	parameterType="string" resultMap="memoSelectMap">
-		SELECT 	m.memo_id, m.memo_detail, m.memo_reg_date, u.nickname, u.user_id 
+		SELECT 	m.memo_id, m.memo_detail, m.memo_reg_date, m.page_x, m.page_y, u.nickname, u.user_id 
 		FROM 	users u, memo m 
 		WHERE 	m.memo_reg_user = u.user_id 
 			AND m.plan_id = #{planId} 
@@ -256,6 +259,13 @@
 	<update id="updateMemo"	parameterType="memo">
 		UPDATE 	memo 
 		SET 	memo_detail = #{memoDetail} 
+		WHERE 	memo_id = #{memoId}
+	</update>
+	
+	<update id="updateMemoCoordinates"	parameterType="memo">
+		UPDATE 	memo 
+		SET 	page_x = #{pageX},
+				page_y = #{pageY}
 		WHERE 	memo_id = #{memoId}
 	</update>
 	
