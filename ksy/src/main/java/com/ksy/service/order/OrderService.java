@@ -21,5 +21,5 @@ public interface OrderService {
 	
 	public Map<String,Object> getOrderList(Search search,String buyerId) throws Exception;
 	
-	
+	public void getOrderRefund(Order order) throws Exception; 
 }

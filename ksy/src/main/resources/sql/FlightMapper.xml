@@ -32,7 +32,7 @@
   	
   	 <insert id="addFlight" parameterType="flight">
 		INSERT 
-		INTO flight(FLIGHT_ID,AIRLINE,PRICE,TRIP_COURSE,DEP_CITY,ARR_CITY ,dep_date,arr_date,SEAT_GRADE,ADULT_NUM,CHILD_NUM,INFANT_NUM,LEAD_TIME,stop_over ,DEP_TIME,ARR_TIME , ORDER_DATE , ORDER_STATUS )
+		INTO flight(FLIGHT_ID,AIRLINE,PRICE,TRIP_COURSE,DEP_CITY,ARR_CITY ,dep_date,arr_date,SEAT_GRADE,ADULT_NUM,CHILD_NUM,INFANT_NUM,LEAD_TIME,stop_over ,DEP_TIME,ARR_TIME )
 		VALUES (
 					seq_flight_FLIGHT_ID.NEXTVAL,
 					#{airline:VARCHAR},
@@ -49,9 +49,7 @@
 					#{leadTime:VARCHAR},
 					#{stopOver:VARCHAR},
 					#{depTime:VARCHAR},
-					#{arrTime:VARCHAR},
-					SYSDATE,
-					#{orderStatus:CHAR}
+					#{arrTime:VARCHAR}
 					
 					)
 	</insert>
@@ -59,23 +57,26 @@
   
   	<select id="getFlight" parameterType="String" resultMap="flightSelectMap">
   	
-  	  		SELECT 
-		f.flight_id , f.airline, f.price , f.dep_city ,f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over , f.DEP_TIME, f.ARR_TIME , f.ORDER_DATE , f.ORDER_STATUS , 		o.order_id , o.flight_id
+  	  	SELECT 
+		f.flight_id , f.airline, f.price , f.dep_city ,f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over , f.DEP_TIME, f.ARR_TIME , o.ORDER_DATE , o.ORDER_STATUS , o.order_id , o.flight_id
 		FROM  flight f, orders o
 		WHERE f.flight_id = ${value}
 				AND f.flight_id=o.flight_id(+)
-  		<!-- SELECT 
-		f.flight_id , f.airline, f.dep_city ,f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over , f.DEP_TIME, f.ARR_TIME , f.ORDER_DATE , f.ORDER_STATUS , o.order_id , o.buyerName , o.buyerEmail , o.buyerPhone
-		FROM  flight f, orders o
-		WHERE flight_id = ${value}
-				AND f.flight_id=o.flight_id(+) -->
-					
   	</select>
+  	
+  	<update id="updateStatus"	parameterType="order"   >
+	   	UPDATE flight
+	   	<set>
+			ORDER_STATUS = #{orderStatus}
+	   	</set>
+	   	
+	   	WHERE flight_id = #{flightId} 
+	 </update>
   	
   	 <select id="getFlightList" parameterType="map" resultMap="flightSelectMap">
   		SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM (  SELECT f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over , f.dep_time , f.arr_time, f.price ,  o.order_id , f.order_date, f.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date  
+  						FROM (  SELECT f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over , f.dep_time , f.arr_time, f.price ,  o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date  
 										FROM flight f, users u , orders o 
 										WHERE o.flight_id = f.flight_id(+)
 										AND o.buyer_id = u.user_id(+)
