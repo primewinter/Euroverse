@@ -54,4 +54,8 @@ public interface MyPageService {
 	
 	public List<Comment> getQnaCommentList(String postId)throws Exception;
 	
+	public void deleteQna(String postId)throws Exception;
+	
+	public void updateQna(Post post)throws Exception;
+	
 }

@@ -42,7 +42,7 @@
     <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
 
-	function fncAddPost(){
+	function fncUpdatePost(){
 		//Form 유효성 검증
 	 	var postTitle = $("input[name='postTitle']").val();
 		/* var postContent = $("input[name='postContent']").val(); */
@@ -66,12 +66,12 @@
 		$(function() {
 			$( "button.btn.btn-primary" ).on("click" , function() {
 				
-				fncAddPost();
+				fncUpdatePost();
 			});
 		});
 			
 		$(function() {
-			$( "a[href='#']" ).on("click" , function() {
+			$( "#cancel" ).on("click" , function() {
 					
 				$("form")[0].reset();
 			});
@@ -83,8 +83,8 @@
 		             height: 300,                 // set editor height
 		             minHeight: null,             // set minimum height of editor
 		             maxHeight: null,             // set maximum height of editor
-		             focus: true,                  // set focus to editable area after initializing summernote
-		             lang: 'ko-KR', // default: 'en-US'
+		             focus: true,                 // set focus to editable area after initializing summernote
+		             lang : 'ko-KR',
 		             callbacks: {
 		                 onImageUpload: function(files, editor, welEditable) {
 		                   for (var i = files.length - 1; i >= 0; i--) {
@@ -111,7 +111,7 @@
 		  		});
 		  	}
 		  	render.readAsDataURL(file);  
-		  	
+		  	 
 		      $.ajax({
 		        data: form_data,
 		        type: "POST",
@@ -123,16 +123,16 @@
 		        success: function(img_name) {
 		        	$("img[data-filename='retriever"+countt+"']").attr('src',img_name);
 		        	countt++;
-		        	console.log(countt);
+		        	console.log(countt);;
 		        }
 		    }); 
 		}
-
+		
 		$(document).ready(function() {
 			$('#summernote').summernote();
 			$('.dropdown-toggle').dropdown();
 		});
-
+		
 		function addTag(){
 			
 			var count = $( 'dd' ).length;
@@ -149,11 +149,11 @@
 					return true;
 				}
 			}
-	
+			
 			if( count <= 9 ){
 				$("#appendTag").val('');
 				
-				var tag = "<dd class='tagdiv' id='tagContent"+count+"'><input type='text' name='tagContent' value='"+output+"'><button type='button' onclick='deltag("+count+")'>삭제</button></dd>";
+				var tag = "<dd style='float:left;margin-right:15px;font-size:12px;' class='tagdiv' id='tagContent"+count+"'><input type='hidden' name='tagContent' value='"+output+"'>"+output+" <i class='fas fa-trash-alt' onclick='deltag("+count+")'></i></dd>";
 				$(".tagList").append(tag);
 				
 			}else{
@@ -173,7 +173,7 @@
 				if( count <= i ){
 					var g = i + 1;
 					$("#tagContent"+g).attr('id','tagContent'+i+'');
-					$("button[onclick='deltag("+g+")']").attr('onclick','deltag('+i+')');
+					$("i[onclick='deltag("+g+")']").attr('onclick','deltag('+i+')');
 				}
 			}
 		}
@@ -189,41 +189,45 @@
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
+	<div class="container" style="width: 930px;">
 	
-		<div class="page-header text-center">
-	       <h3 class=" text-info">게시글 등록</h3>
+	  <div class="page_head clear">
+		<div class="h4" style="text-align:left;font-weight:bold;margin: 40px 0 30px 80px;">
+		  게시글 수정
 	    </div>
+	  </div>
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
 			<input type="hidden" id="postId" name="postId" value="${post.postId}"/>		
 		  <div class="form-group">
-		    <label for="postTitle" class="col-sm-offset-1 col-sm-1 control-label">제목</label>
-		    <div class="col-sm-8">
-		      <input type="text" class="form-control" id="postTitle" name="postTitle" value="${post.postTitle}">
+		    <label for="postTitle" class="col-sm-1 control-label" style="font-size: 12px;">제목</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" value="${post.postTitle}">
 		    </div>
 		  </div>
 		
 		<div class="form-group">
-		    <label for="postContent" class="col-sm-offset-1 col-sm-1 control-label">내용</label>
-		    <div class="col-sm-8">
+		    <label for="postContent" class="col-sm-1 control-label" style="font-size: 12px;">내용</label>
+		    <div class="col-sm-10">
 		      <textarea class="form-control" id="summernote" name="postContent">${post.postContent}</textarea>
 		    </div>
-		  </div>
+		</div>
 	
+		<br>
+		
 		<div class="form-group">
-		    <label for="tagContent" class="col-sm-offset-1 col-sm-1 control-label">태그등록</label>
-		    <div class="col-sm-3">
-		      <input type="text" class="form-control" id="appendTag" value="">
-		      <button type="button" class="tag" onclick="addTag()">등록하기</button>
-		      <div class="tagList" id="tagList">
+		    <label for="tagContent" class="control-label" style="font-size: 12px; float: left; margin-left: 30px;">태그등록</label>
+		    <div class="col-sm-5">
+		      <input type="text" class="form-control" id="appendTag" value="" style="font-size: 12px; height:23px; width:200px; float:left;">
+		      <i class="fas fa-plus" onclick="addTag()" style="float:left; margin-left:10px; margin-top:4px; font-size:12px;">등록하기</i>
+		      <div class="tagList" id="tagList" style="width:800px;float:left;margin-top:10px;">
 			      <c:set var="i" value="0" />
 				  <c:forEach var="tag" items="${tag}">
-					<dd class="tagdiv" id="tagContent${i}">
-					  <input type="text" name="tagContent" value="${tag.tagContent}">
-					  <button type="button" onclick="deltag(${i})">삭제</button>
-					</dd>
+				    <dd style="float:left;margin-right:15px;font-size:12px;" class="tagdiv" id="tagContent${i}">
+					  <input type="hidden" name="tagContent" value="${tag.tagContent}">${tag.tagContent}
+					  <i class="fas fa-trash-alt" onclick="deltag(${i})"></i>
+				    </dd>
 				  <c:set var="i" value="${ i+1 }" />
 		          </c:forEach>
 		      </div>
@@ -232,8 +236,8 @@
 		
 		<div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  >등 &nbsp;록</button>
-			  <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+		      <button type="button" class="btn btn-primary">등 &nbsp;록</button>
+			  <a id="cancel" class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
 		    </div>
 		  </div>
 		</form>
@@ -241,4 +245,5 @@
 	</div>
 
 </body>
+
 </html>

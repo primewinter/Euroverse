@@ -60,16 +60,25 @@ public class AdminServiceImpl implements AdminService {
 		
 	}
 	
-	public Map<String, Object> getQnaCommList(String postId) throws Exception {
+	public Comment getQnaComment(String postId) throws Exception {
 		
 		System.out.println("AdminServiceImpl getQnaCommList");
 		
-		List<Comment> list = adminDao.getQnaCommList(postId);
+		Comment comment = new Comment();
+		comment = adminDao.getQnaComment(postId);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list);
-		
-		return map;
+		return comment;
 	}
+	
+	public void addQnaComment(Comment comment) throws Exception {
+		
+		System.out.println("AdminServiceImpl addQnaComment");
+		
+		adminDao.addQnaComment(comment);
+		
+	}
+	
+	
+	
 
 }

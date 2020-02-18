@@ -65,10 +65,58 @@ function fncGetUserList(currentPage) {
 
 $(function(){
 	
+	$(".updateQna").on("click",function(){
+		var num = $(this).next().next().val();
+		
+		var qnaFirstCate = $('#qnaFirstCate'+num).val();
+		var postTitle = $('#postTitle'+num).val();
+		var postContent = $('#postContent'+num).val();
+		
+		if(postTitle == "" || postTitle == null){
+			alert("제목은 꼭 입력해주세요");
+			return;
+		}
+		
+		if(qnaFirstCate=="" || qnaFirstCate==null){
+			alert("1차분류는 꼭 선택해주세요");
+			return;
+		}
+		
+		if(postContent == "" || postContent==null){
+			alert("내용을 입력해주세요");
+			return;
+			
+		}
+		
+		
+		
+		$("#qnaUpdateForm"+num).attr("action","/myPage/updateQna").attr("method","post").submit();
+		
+	})
+	
+	$(".fa-cog").on("click",function(){
+		var postId = $(this).next().val();
+		var num = $(this).next().next().val();
+		
+		$("#mediaBody"+num).css("display","none");
+		$("#updateDiv"+num).css("display","block");
+		
+		//$("#qnaUpdateForm"+num).attr("action","/myPage/updateQna").attr("method","post").submit();
+		
+	})
+	
+	$(".fa-times-circle").on("click",function(){
+		var postId = $(this).next().val();
+		var num = $(this).next().next().val();
+		$(self.location).attr("href","/myPage/deleteQna?postId="+postId);				
+	})
+		
+	
 	
 	 $("b:contains('답글보기')").on("click",function(){
 		console.log($(this).next().val());
 		var postId = $(this).next().val();
+		var num = $(this).next().next().val();
 		 
 					$.ajax({
 						url : "/myPage/json/getQnaCommentList",
@@ -83,33 +131,29 @@ $(function(){
 						}),
 						success : function(JSONData) {
 							console.log(JSONData);
-							alert("성공!");
 							if(JSONData.returnMessage=='ok'){
-								alert("메세지는 ok");
 								
 								var qnaCommentList = JSONData.qnaCommentList;
 								console.log(qnaCommentList);
+								$("#appendCommentDiv"+num).html("");
 								
-								$("#appendCommentDiv").append("<div class='media mt-3'>");
-								$("#appendCommentDiv").append("<i class='fas fa-arrow-right'></i>");
-								$("#appendCommentDiv").append("");
-								$("#appendCommentDiv").append("");
-								$("#appendCommentDiv").append("");
-								$("#appendCommentDiv").append("");
-								$("#appendCommentDiv").append("");
-								$("#appendCommentDiv").append("");
-								$("#appendCommentDiv").append("");
-								$("#appendCommentDiv").append("");
-								$("#appendCommentDiv").append("");
+								$("#appendCommentDiv"+num).append("<div class='media mt-3'>");
+								$("#appendCommentDiv"+num).append("<div class='media-body'>");
+								$("#appendCommentDiv"+num).append("<h5 class='mt-0' style='text-align: right;'>"+"답글"+"</h5>");
+								$("#appendCommentDiv"+num).append("<div align='right'><small>"+qnaCommentList[0].cmtDate+" , "+qnaCommentList[0].nickName+"</small></div>");
+								$("#appendCommentDiv"+num).append("<div id='qnaContentDiv' style='margin-top: 20px;text-align: right;'>"+qnaCommentList[0].cmtContent+"</div>");
 							}else if(JSONData.returnMessage=='error'){
-								alert("메세지는 error");
-								/*   <div class="media mt-3">
-									<i class="fas fa-arrow-right"></i>
-							      <div class="media-body">
-							        <h5 class="mt-0">Media heading</h5>
-							        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-							      </div>
-							    </div> */
+							/* 	<div class="media mt-3">
+						      	<div class="media-body">
+							        <h5 class="mt-0" style="text-align: right;">답변제목</h5>
+									<div align="right">
+							        <small>답변 날짜 , 답변자</small>
+									</div>
+							        <div id="qnaContentDiv" style="margin-top: 20px;text-align: right;">
+										답변내용
+					 			  	</div>
+						      </div>
+						    </div>  */
 								
 								
 								
@@ -126,8 +170,23 @@ $(function(){
 		var qnaSecondCate = $("#qnaSecondCate");
 		var postContent = $("#postContent");
 		var postTitle = $("#postTitle");
-		alert(postTitle.val()+" "+postContent.val()+" "+qnaFirstCate.val()+" "+qnaSecondCate.val());
-	
+		
+		
+		
+		if(postTitle.val()=="" || postTitle.val()==null){
+			alert("제목을 입력해주세요");
+			return;
+		}
+		
+		if(qnaFirstCate.val()=="" || qnaFirstCate.val()==null){
+			alert("1차분류는 꼭 선택해주세요.");
+			return;
+		}
+		
+		if(postContent.val()=="" || postContent.val()==null){
+			alert("내용을 입력해주세요");
+			return;
+		}
 		
 		
 		$("#qnaForm").attr("action","/myPage/addQna").attr("method","post").submit();
@@ -136,7 +195,6 @@ $(function(){
 	})
 	
 	$("#no").on("click",function(){
-		alert("s");
 		var qnaFirstCate = $('#qnaFirstCate');
 		var qnaSecondCate = $("#qnaSecondCate");
 		var postContent = $("#postContent");
@@ -146,8 +204,17 @@ $(function(){
 		qnaSecondCate.css("display","none");
 		$(".secondCate").remove();
 		postContent.val("");
-		postTitle.vla("");
+		postTitle.val("");
 	})
+	
+	$(".updateDelete").on("click",function(){
+		var num = $(this).next().val();
+		
+		$("#mediaBody"+num).css("display","block");
+		$("#updateDiv"+num).css("display","none");
+		
+	})
+	
 	
 
 	$('#qnaFirstCate').change(function() {
@@ -171,6 +238,39 @@ $(function(){
 			qnaSecondCate.append("<option value='G' class='secondCate'>숙소</option>");
 		}else if(state =='C'){
 			$(".secondCate").remove();
+			qnaSecondCate.css("display","none");
+		}
+	
+
+	});
+	
+	$('.qnaFirstCateClass').change(function() {
+		var num = $(this).next().val();
+		var state = $('#qnaFirstCate'+num+' option:selected').val();
+		
+		console.log($('.qnaFirstCateClass'))
+		
+		var qnaSecondCate = $("#qnaSecondCate"+num);
+		
+		
+		if ( state == 'A' ) {
+			$('.qnaSecondCateClass2').remove();
+			qnaSecondCate.html("");
+			qnaSecondCate.css("display","block");
+			qnaSecondCate.append("<option disabled selected hidden>2차분류</option>");
+			qnaSecondCate.append("<option value='D' class='qnaSecondCateClass2'>결제</option>");
+			qnaSecondCate.append("<option value='E' class='qnaSecondCateClass2'>환불</option>");
+		
+		}else if(state == 'B') {
+			qnaSecondCate.html("");
+			$(".qnaSecondCateClass2").remove();
+			qnaSecondCate.css("display","block");
+			qnaSecondCate.append("<option disabled selected hidden>2차분류</option>");
+			qnaSecondCate.append("<option value='F' class='qnaSecondCateClass2'>항공권</option>");
+			qnaSecondCate.append("<option value='G' class='qnaSecondCateClass2'>숙소</option>");
+		}else if(state =='C'){
+			qnaSecondCate.html("");
+			$(".qnaSecondCateClass2").remove();
 			qnaSecondCate.css("display","none");
 		}
 	
@@ -230,15 +330,28 @@ $(function(){
 		    		
 		    		
 		    	<c:forEach var="qna" items="${qnaList}" varStatus="status">	
+		    	<form id="qnaUpdateForm${status.index}">
+		    	<input type="hidden" value="${qna.postId}" name="postId">
 		    		<div class="media border border-info">
-					  <div class="media-body">
-					    <h4 class="mt-0">${qna.postTitle} </h4>
-					    	<c:if test="${qna.postGrade != null }">
-					   			<span class="badge badge-pill badge-success">답변완료</span>
+					  <div id="mediaBody${status.index}" class="media-body">
+					   		<div id="deleteQna${status.index}" align="right">
+					   		<i class="far fa-times-circle" style="font-size: 20px;"></i>
+					   		<input type="hidden" value="${qna.postId}">
+					   		<input type="hidden" value="${status.index}">
+					   		</div>
+					   		<h4>
+					   		${qna.postTitle}
+					   		<i class="fas fa-cog"style="font-size: 15px;"></i>
+					   		<input type="hidden" value="${qna.postId}">
+					   		<input type="hidden" value="${status.index}">
+					   		</h4>
+					   		
+					    	<c:if test="${qna.postGrade != 'Q' }">
+					   			<span class="badge badge-pill badge-secondary">답변없음</span>
 					   		</c:if>	
 					   		
-					   		<c:if test="${qna.postGrade == null }">
-					   			<span class="badge badge-pill badge-secondary">답변없음</span>
+					   		<c:if test="${qna.postGrade == 'Q' }">
+					   			<span class="badge badge-pill badge-success">답변완료</span>
 					   		</c:if>
 					   		   	
 					    
@@ -272,50 +385,95 @@ $(function(){
 					    <c:if test="${qna.qnaSecondCate=='G'}">
 					    	숙소
 					    </c:if>
-					   <%--  <c:if test="${qna.qnaFirstCate==''}">
-					    	
-					    </c:if>
-					    <c:if test="${qna.qnaFirstCate==''}">
-					    	
-					    </c:if> --%>
 					  </small>
 					   <div id="qnaContentDiv" style="margin-top: 20px;">
 					    ${qna.postContent}
 					   </div>
 					   		
 					   
-					    <c:if test="${qna.postGrade != null }">
-					    <span style="float: right;">
-					   			<b><i class="fas fa-arrow-down"></i>답글보기</b>
-					   			<input type="hidden" value="${qna.postId}">
-					   				</span>
-				   		</c:if>	
 				   		
-				   		<c:if test="${qna.postGrade == null }">
+				   		<c:if test="${qna.postGrade == 'Q' }">
 				   		 <span style="float: right;">
 				   				<b><i class="fas fa-arrow-down"></i>답글보기</b>
 				   				<input type="hidden" value="${qna.postId}">
+				   				<input type="hidden" value="${status.index}">
 				   				</span>
 				   		</c:if>
 				   		   	
-<!-- 					   <div id="appendCommentDiv">
+				  		 <div id="appendCommentDiv${status.index}">
 					   		
-					   			 <div class="media mt-3">
-							      	<div class="media-body">
-								        <h5 class="mt-0" style="float: right;">답변제목</h5>
-								        <br>
-								        <small style="float: right;">답변 날짜 , 답변자</small>
-								        <div id="qnaContentDiv" style="margin-top: 20px;">
-											   답변내용   답변내용   답변내용   답변내용   답변내용   답변내용   답변내용   답변내용   답변내용   답변내용   답변내용   답변내용   답변내용
-						 			  	</div>
-							      </div>
-							    </div> 
+					   			 
 					   
 					   
-					   </div> -->
-					   
+					   	</div>
+					   	
 					  </div>
+					  
+					  
 					</div>
+					
+							<div id="updateDiv${status.index}" style="display: none;">
+								<div class="container mt-3">
+								  <div class="d-flex flex-column mb-3">
+								    <div class="p-2 ">
+				  						<input type="text" id="postTitle${status.index}" name="postTitle" value="${qna.postTitle}" class="form-control" style="width: 200px;margin-bottom: 5px;">
+									  
+									    <select id="qnaFirstCate${status.index}" name="qnaFirstCate" class="form-control qnaFirstCateClass" style="width: 150px;height: 35px;float: left; margin-right: 20px;">
+									      
+									       <c:if test="${qna.qnaFirstCate=='A'}">
+										    	<option value="A">주문관련</option>
+											    <option value="B">상품관련</option>
+											    <option value="C">기타</option>
+										    </c:if>
+										    <c:if test="${qna.qnaFirstCate=='B'}">
+									     		<option value="B">상품관련</option>
+										    	<option value="A">주문관련</option>
+									      		<option value="C">기타</option>
+										    </c:if>
+										    <c:if test="${qna.qnaFirstCate=='C'}">
+										        <option value="C">기타</option>
+											    <option value="A">주문관련</option>
+										        <option value="B">상품관련</option>
+										    </c:if>
+									    </select>
+									    <input type="hidden" value="${status.index}">
+													    
+										<%-- <c:if test="${qna.qnaFirstCate!='C'}"> --%>			    
+									    <select id="qnaSecondCate${status.index}" name="qnaSecondCate" class="form-control qnaSecondCateClass" style="width: 150px;height: 35px;">
+									          
+									           <c:if test="${qna.qnaSecondCate=='D'}">
+											    	<option value="D">결제</option>
+											    	<option value="E">환불</option>
+											    </c:if>
+											    <c:if test="${qna.qnaSecondCate=='E'}">
+											    	<option value="E">환불</option>
+											    	<option value="D">결제</option>
+											    </c:if>
+											    <c:if test="${qna.qnaSecondCate=='F'}">
+											    	<option value="F">항공권</option>
+											    	<option value="G">숙소</option>
+											    </c:if>
+											    <c:if test="${qna.qnaSecondCate=='G'}">
+											    	<option value="G">숙소</option>
+											    	<option value="F">항공권</option>
+											    </c:if> 
+											    
+											    
+									    </select>
+										<%--  </c:if>		 --%>	    
+						  	 	 	</div><!--1:1문의작성  -->
+									 <div class="p-2 ">
+									 	<div class="md-form">
+										  	<textarea id="postContent${status.index}" name="postContent"  class="md-textarea form-control" rows="3" style="width: 700px;margin-bottom: 10px;">${qna.postContent}</textarea>
+										 	<button  type="button" class="btn btn-primary updateQna" style="margin-left: 575px;margin-right:17px; float: left;">작성</button>
+									 		<button  type="button" class="btn btn-secondary updateDelete">취소</button> 
+									 		<input type="hidden" value="${status.index}">
+										</div>
+									</div>
+								</div>
+							</div>
+						  </div><!-- updateDiv -->
+					</form>
 				</c:forEach>
 				
 				

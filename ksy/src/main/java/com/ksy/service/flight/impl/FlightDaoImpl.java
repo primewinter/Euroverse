@@ -33,6 +33,10 @@ public class FlightDaoImpl implements FlightDao {
 	public Flight getFlight(String flightId) throws Exception{
 		return sqlSession.selectOne("FlightMapper.getFlight", flightId);
 	}
+	
+	public void getOrderRefund(Flight flight)throws Exception {
+		sqlSession.selectOne("FlightMapper.updateStatus", flight);
+	}
 	public List<Flight> getFlightList(Search search ,String buyerId ) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("search", search);

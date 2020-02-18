@@ -10,8 +10,10 @@
 <head>
 	<meta charset="EUC-KR">
 	
+	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	
@@ -23,6 +25,7 @@
 	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
 
+	<!-- include summernote css/js-->
 	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 
@@ -68,7 +71,7 @@
 		});
 			
 		$(function() {
-			$( "a[href='#']" ).on("click" , function() {
+			$( "#cancel" ).on("click" , function() {
 					
 				$("form")[0].reset();
 			});
@@ -108,7 +111,7 @@
 		  		});
 		  	}
 		  	render.readAsDataURL(file);  
-		  	
+		  	 
 		      $.ajax({
 		        data: form_data,
 		        type: "POST",
@@ -120,11 +123,11 @@
 		        success: function(img_name) {
 		        	$("img[data-filename='retriever"+countt+"']").attr('src',img_name);
 		        	countt++;
-		        	console.log(countt);
+		        	console.log(countt);;
 		        }
 		    }); 
 		}
-
+		
 		$(document).ready(function() {
 			$('#summernote').summernote();
 			$('.dropdown-toggle').dropdown();
@@ -134,8 +137,8 @@
 			
 			var count = $( 'dd' ).length;
 			var output = $('#appendTag').val();
-			if(output.trim() == 0) { 
-			/* if(output.search(/\s/) != -1) {  */
+			
+			if(output.trim() == 0 || output.search(/\s/gi, "") != -1) { 
 				alert("공백은 입력이 불가합니다.");
 				return true;
 			}else{
@@ -150,7 +153,7 @@
 			if( count <= 9 ){
 				$("#appendTag").val('');
 				
-				var tag = "<dd class='tagdiv' id='tagContent"+count+"'><input type='text' readonly='readonly' name='tagContent' value='"+output+"'><button type='button' onclick='deltag("+count+")'>삭제</button></dd>";
+				var tag = "<dd style='float:left;margin-right:15px;font-size:12px;' class='tagdiv' id='tagContent"+count+"'><input type='hidden' name='tagContent' value='"+output+"'>"+output+" <i class='fas fa-trash-alt' onclick='deltag("+count+")'></i></dd>";
 				$(".tagList").append(tag);
 				
 			}else{
@@ -170,35 +173,35 @@
 				if( count <= i ){
 					var g = i + 1;
 					$("#tagContent"+g).attr('id','tagContent'+i+'');
-					$("button[onclick='deltag("+g+")']").attr('onclick','deltag('+i+')');
+					$("i[onclick='deltag("+g+")']").attr('onclick','deltag('+i+')');
 				}
 			}
 		}
 		
 		 $(function() {
-             //시작일.
-             $('#startDate').datepicker({
-                 dateFormat: "yy-mm-dd",             // 날짜의 형식
-                 changeMonth: true,                  // 월을 이동하기 위한 선택상자 표시여부
-                 minDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이전 날짜 선택 불가)
-                 onClose: function( selectedDate ) {    
-                     // 시작일(fromDate) datepicker가 닫힐때
-                     // 종료일(toDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
-                     $("#endDate").datepicker( "option", "minDate", selectedDate );
-                 }                
-             });
-             //종료일
-             $('#endDate').datepicker({
-                 dateFormat: "yy-mm-dd",
-                 changeMonth: true,
-                 minDate: 0, // 오늘 이전 날짜 선택 불가
-                 onClose: function( selectedDate ) {
-                     // 종료일(toDate) datepicker가 닫힐때
-                     // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
-                     $("#startDate").datepicker( "option", "maxDate", selectedDate );
-                 }                
-             });
-         });
+            //시작일.
+            $('#startDate').datepicker({
+                dateFormat: "yy-mm-dd",             // 날짜의 형식
+                changeMonth: true,                  // 월을 이동하기 위한 선택상자 표시여부
+                minDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이전 날짜 선택 불가)
+                onClose: function( selectedDate ) {    
+                    // 시작일(fromDate) datepicker가 닫힐때
+                    // 종료일(toDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
+                    $("#endDate").datepicker( "option", "minDate", selectedDate );
+                }                
+            });
+            //종료일
+            $('#endDate').datepicker({
+                dateFormat: "yy-mm-dd",
+                changeMonth: true,
+                minDate: 0, // 오늘 이전 날짜 선택 불가
+                onClose: function( selectedDate ) {
+                    // 종료일(toDate) datepicker가 닫힐때
+                    // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
+                    $("#startDate").datepicker( "option", "maxDate", selectedDate );
+                }                
+            });
+        });
 		
 	</script>
     
@@ -211,60 +214,64 @@
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
+	<div class="container" style="width: 930px;">
 	
-		<div class="page-header text-center">
-	       <h3 class=" text-info">게시글 등록</h3>
+	  <div class="page_head clear">
+		<div class="h4" style="text-align:left;font-weight:bold;margin: 40px 0 30px 80px;">
+		  동행찾기 게시글 등록
 	    </div>
+	  </div>
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
 			<input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>		
 		  <div class="form-group">
-		    <label for="postTitle" class="col-sm-1 control-label">제목</label>
+		    <label for="postTitle" class="col-sm-1 control-label" style="font-size: 12px;">제목</label>
 		    <div class="col-sm-6">
-		      <input type="text" class="form-control" id="postTitle" name="postTitle" placeholder="제목을 입력하세요.">
+		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" placeholder="제목을 입력하세요.">
 		    </div>
-		    <label for="accPerson" class="col-sm-1 control-label">인원</label>
-		    <div class="col-sm-3">
+		     <label for="accPerson" class="col-sm-1 control-label" style="font-size: 12px;">인원</label>
+		     <div class="col-sm-3">
 		      <select class="form-control" id="accPerson" name="accPerson">
 			    <c:forEach var="i" begin="1" end="30" >
 			      <option value="${i}">${i}</option>
 			    </c:forEach>
 		      </select>
 		    </div>
-		   </div>
+		  </div>
 	
 		<div class="form-group">
-		    <label for="accDate" class="col-sm-1 control-label">동행날짜</label>
+		    <label for="accDate" class="col-sm-1 control-label" style="font-size: 12px;">동행날짜</label>
 		    <div class="col-sm-5">
-		      <input type="text" class="form-control" id="startDate" name="accStartDateStr" placeholder="동행 시작날짜를 입력하세요.">
+		      <input type="text" class="form-control" id="startDate" name="accStartDateStr" placeholder="동행 시작날짜를 입력하세요." style="font-size: 12px;">
 		    </div>
 		     <div class="col-sm-5">
-		      <input type="text" class="form-control" id="endDate" name="accEndDateStr" placeholder="동행 종료날짜를 입력하세요.">
+		      <input type="text" class="form-control" id="endDate" name="accEndDateStr" placeholder="동행 종료날짜를 입력하세요." style="font-size: 12px;">
 		    </div>
 		  </div>
 		
 		<div class="form-group">
-		    <label for="postContent" class="col-sm-1 control-label">내용</label>
+		    <label for="postContent" class="col-sm-1 control-label" style="font-size: 12px;">내용</label>
 		    <div class="col-sm-10">
 		      <textarea class="form-control" id="summernote" name="postContent"></textarea>
 		    </div>
-		  </div>
+		</div>
+	
+		<br>
 	
 		<div class="form-group">
-		    <label for="tagContent" class="col-sm-1 control-label">태그등록</label>
-		    <div class="col-sm-3">
-		      <input type="text" class="form-control" id="appendTag" value="">
-		      <button type="button" class="tag" onclick="addTag()">등록하기</button>
-		      <div class="tagList" id="tagList"></div>
+		    <label for="tagContent" class="control-label" style="font-size: 12px; float: left; margin-left: 30px;">태그등록</label>
+		    <div class="col-sm-5">
+		      <input type="text" class="form-control" id="appendTag" value="" style="font-size: 12px; height:23px; width:200px; float:left;">
+		      <i class="fas fa-plus" onclick="addTag()" style="float:left; margin-left:10px; margin-top:4px; font-size:12px;">등록</i>
+		      <div class="tagList" id="tagList" style="width:800px;float:left;margin-top:10px;"></div>
 		    </div>
 		  </div>   
 		
 		<div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  >등 &nbsp;록</button>
-			  <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+		      <button type="button" class="btn btn-primary">등 &nbsp;록</button>
+			  <a id="cancel" class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
 		    </div>
 		  </div>
 		</form>

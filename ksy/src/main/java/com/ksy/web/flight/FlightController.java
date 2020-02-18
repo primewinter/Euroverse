@@ -52,31 +52,6 @@ public class FlightController {
 	int pageSize;
 	
 	
-//	@RequestMapping(value = "addFlight", method = RequestMethod.GET)
-//	public String addFlight(@ModelAttribute("flight")Flight flight , Model model) throws Exception {
-//		System.out.println("/addFlightOrder : GET");
-//		
-//		model.addAttribute("flight", flight);
-//
-//		return "forward:/flight/addFlight.jsp";
-//	}
-//
-//	@RequestMapping(value = "addFlight", method = RequestMethod.POST)
-//	public void addFlight(@ModelAttribute("flight")Flight flight,
-//			HttpSession session, HttpServletRequest request) throws Exception {
-//		System.out.println("/addFlightOrder : POST");
-//		User user = (User) session.getAttribute("user");
-//		System.out.println(user);
-//
-//		order.setBuyerId(user);
-//		order.setOrderStatus("0");
-//		
-//		orderService.addFlightOrder(order);
-//		Flight flight = new Flight();
-//		flightService.addFlight(flight);
-//		
-//	}
-	
 	@RequestMapping(value = "getFlight", method = RequestMethod.GET)
 	public String getFlight(@RequestParam("flightId")String flightId , Model model) throws Exception {
 		System.out.println("/getFlight : GET");
@@ -112,6 +87,7 @@ public class FlightController {
 		int adultNum = flight.getAdultNum();
 		int childNum = flight.getChildNum();
 		int infantNum = flight.getInfantNum();
+		String tripCourse = flight.getTripCourse();
 		String seatGrade = flight.getSeatGrade();
 		System.out.println("seat1"+seatGrade);
 		String grade = "";
@@ -177,6 +153,14 @@ public class FlightController {
 			driver.get(base_url);
 
 			System.out.println("selenium Ω√¿€");
+			synchronized (driver) {
+				driver.wait(200);
+			}
+				if (tripCourse.equals("1")) {
+					driver.findElement(By.xpath("//*[@id=\"dBodyContent\"]/div[1]/div/div[1]/ul/li[1]/a")).click();
+				}else if(tripCourse.equals("2")) {
+					driver.findElement(By.xpath("//*[@id=\"dBodyContent\"]/div[1]/div/div[1]/ul/li[2]/a")).click();
+				}
 			synchronized (driver) {
 				driver.wait(200);
 			}

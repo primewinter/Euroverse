@@ -22,7 +22,8 @@ public interface OrderDao {
 		
 		public List<Order> getOrderList(Search search, String buyerId) throws Exception;
 		
-			
+		public void getOrderRefund(Order order) throws Exception;
+		
 		public int getTotalCount(Search search) throws Exception ;
 		
 		//public String makeCurrentPageSql(String sql, Search search) ;

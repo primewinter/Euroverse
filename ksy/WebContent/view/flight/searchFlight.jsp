@@ -257,8 +257,8 @@ function doShow() {
 			$("#depIcon").hide();
 			$("#arrIcon").hide();
 			$("#search").show();
-			$("#totalNum").show();
-			$("#totalNum").css("margin-left","51.3%");
+			//$("#totalNum").show();
+			//$("#totalNum").css("margin-left","51.3%");
 		}
 }
 function Show() { 
@@ -268,7 +268,7 @@ function Show() {
 		$("#depIcon").show();
 		$("#arrIcon").show();
 		$("#search").hide();
-		$("#totalNum").hide();
+		//$("#totalNum").hide();
 	}
 }
 
@@ -283,7 +283,7 @@ function domestic(obj) {
 		$("#domestic").css("display","none");
 		$("#depIcon").show();
 		$("#arrIcon").show();
-		$("#totalNum").css("margin-left","18%");
+		//$("#totalNum").css("margin-left","18%");
 		
 	}
 	//alert(depCity);
@@ -390,6 +390,19 @@ function europe(obj) {
 			$("#peopleChoice").val("총	 "+adult+child+inf);
 			});
 		});
+	/* 왕복 , 편도 function */
+	$(function() {
+		$("#roundTrip").click(function() {
+			$("#arraw").attr("class","fas fa-arrows-alt-h");
+			$("#tripCourses").val(1);
+		});
+		$("#right").click(function() {
+			$("#arraw").attr("class","fas fa-arrow-right");
+			$("#tripCourses").val(2);
+		});
+		
+	});
+	
 	
 	
 </script>
@@ -408,140 +421,136 @@ function europe(obj) {
 <br>
 <br>
 <br>
-			<div class="row" style="Padding-left:200px;">
-              		<button type="button" class="btn btn-outline-light">왕복구간 검색</button>
+			<div class="row" style="Padding-left:250px;">
+              		<button type="button" class="btn btn-outline-light" id="roundTrip" >왕복구간 검색</button>
+              				<input type="hidden" name="tripCourse" id="tripCourses" value="1" >
               		&nbsp;&nbsp;&nbsp;&nbsp;
-                	<button type="button" class="btn btn-outline-light" style="">편도구간 검색</button>
+                	<button type="button" class="btn btn-outline-light" id="right" >편도구간 검색</button>
             </div>
             <br/><br/>
 			<div class="container">
 			  <div class="row">
-			    <div class="col">
+			    <div class="col-md-6">
+			    <div class="row">
 			    	 <input type="text" class="form-control" placeholder="출발지역을 입력하세요" name="depCity" id="depCity" style="width:300px;height:30px;font-size:13px;float:left;" onclick="javascript:doShow();">
 					 <div class="input-group-append">
 					  <span class="input-group-text" id="basic-addon2"><i class="fas fa-plane" id="iconf" style="font-size:15px;"></i></span>
-			  			<i class="fas fa-arrows-alt-h" style="font-size:25px;Padding-left:100px;"></i>
-			  			
+			  			<i class="fas fa-arrows-alt-h" id="arraw" style="font-size:25px;Padding-left:100px;"></i>
 			  		</div>
+			  		<table class="table" id="domestic" style="width: 300px; display: none;">
+						 <tbody>	
+							<tr>
+							<th rowspan="5" align="center">국내</th>
+							</tr>			
+								<tr>			
+									<td onclick="javascript:domestic($(this).closest('td').text());">인천</td>
+									<td onclick="javascript:domestic($(this).closest('td').text());">김포</td>
+								</tr>
+								<tr>
+									<td onclick="javascript:domestic($(this).closest('td').text());">부산</td>
+									<td onclick="javascript:domestic($(this).closest('td').text());">대구</td>
+								</tr>
+								<tr>
+									<td onclick="javascript:domestic($(this).closest('td').text());">청주</td>
+									<td onclick="javascript:domestic($(this).closest('td').text());">제주</td>
+								</tr>
+								<tr>
+									<td onclick="javascript:domestic($(this).closest('td').text());">무안</td>
+									<td onclick="javascript:domestic($(this).closest('td').text());"></td>
+								</tr>
+							</tbody>
+						</table>
+						</div>
+						<br/><br/>
+						<div class="row">
+						 <div class="col-sm-4" id="depIcon" style="margin-left:-15px;">
+				    		<input type="text" class="form-control" placeholder="출발날짜 선택" style="width:120px;font-size:14px;height:30px;float:left;" id="from" name="depDate">
+						  	<div class="input-group-append">
+						    	<span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
+						  	</div>
+						
+						</div>
+				   		 <div class="col-sm-4" id="arrIcon">
+				   		 	 <input type="text" class="form-control" placeholder="도착날짜 선택"  style="width:120px;font-size:14px;height:30px;float:left;" id="to" name="arrDate">
+							  <div class="input-group-append">
+							    <span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
+							  </div>
+				   	
+				   		 </div>
+						</div>
 			    </div>
-			    <div class="col">
+			    <div class="col-md-6">
+			    <div class="row">
 			    	 <input type="text" class="form-control" placeholder="도착지역을 입력하세요" name="arrCity" id="arrCity" style="width:350px;height:30px;font-size:13px;float:left; " onclick="javascript:Show();">
-					 <div class="input-group-append">
-					  <span class="input-group-text" id="basic-addon2"><i class="fas fa-plane" id="iconf" style="font-size:15px;"></i></span>
+					 <div class="input-group-append" style="height:30px;">
+					  <span class="input-group-text" id="basic-addon2">
+					  <i class="fas fa-plane" id="iconf" style="font-size:15px;"></i></span>
 		  			 </div>
 		  			
-		  		</div> 
-		  		
-		  		
-			    
-			  </div>
-			    
-			   
-			    
-			    <br/>
+		  			<table id="europe" class="table" style="width: 350px; display: none;">
+					<tbody>	
+					<tr>
+					<th rowspan="9" align="center">유럽</th>
+					</tr>			
+						<tr>
+							<td onclick="javascript:europe($(this).closest('td').text());">파리</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">런던</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">아테네</td>
+						</tr>
+						<tr>
+							<td onclick="javascript:europe($(this).closest('td').text());">로마</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">프라하</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">이스탄불</td>
+						</tr>
+						<tr>
+							<td onclick="javascript:europe($(this).closest('td').text());">프랑크푸르트</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">마드리드</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">밀라노</td>
+						</tr>
+						<tr>
+							<td onclick="javascript:europe($(this).closest('td').text());">바르셀로나</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">취리히</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">베르사유</td>
+						</tr>
+						<tr>
+							<td onclick="javascript:europe($(this).closest('td').text());">나폴리</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">헬싱키</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">제네바</td>
+						</tr>
+						<tr>
+							<td onclick="javascript:europe($(this).closest('td').text());">베니스</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">부다페스트</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">베를린</td>
+						</tr>
+						<tr>
+							<td onclick="javascript:europe($(this).closest('td').text());">암스테르담</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">뮌헨</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">리스본</td>
+						</tr>
+						<tr>
+							<td onclick="javascript:europe($(this).closest('td').text());">두브로브니크</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">모스크바</td>
+							<td onclick="javascript:europe($(this).closest('td').text());">베오그라드</td>
+						</tr>
+					</tbody>
+					</table>
+					<br/><br/>
+				</div>
+				<br/>
 				<div class="row">
-			   		 <div class="col-sm-2" id="depIcon">
-			    	<input type="text" class="form-control" placeholder="출발날짜 선택" style="width:120px;font-size:14px;height:30px;float:left;" id="from" name="depDate">
-					  <div class="input-group-append">
-					    <span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
-					  </div>
-					
-					</div>
-			   		 <div class="col-sm-2" id="arrIcon">
-			   		 	 <input type="text" class="form-control" placeholder="도착날짜 선택"  style="width:120px;font-size:14px;height:30px;float:left;" id="to" name="arrDate">
-						  <div class="input-group-append">
-						    <span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
-						  </div>
-			   	
-			   		 </div>
-			   		 <div class="col-sm-2" style="margin-left: 18%" id="totalNum">
+					<div class="col-sm-4" id="totalNum">
 			   		 	<input type="text" id="peopleChoice" value="성인 1명 / 일반석" style="width:150px;" 
 			   		 	 title="인원 및 좌석 등급 선택" class="form-control" readonly="readonly" data-toggle="modal" data-target="#flightNum">
 			   		 </div>
-			   		 &nbsp;&nbsp;&nbsp;&nbsp;
-			   		 <div class="btn-area" id="search">
+			   		 <div class="col-sm-4" id="search">
 	                  <button type="button" id="searchButton" class="btn btn-info" title="항공권 검색">
 	                    <span class="ico-search">항공권 검색</span>
 	                  </button>
 	                </div>
-			 		</div>
-			 		<div>
-		  			<div>
-			  		<table class="table" id="domestic" style="width: 300px; display: none;">
-					 <tbody>	
-						<tr>
-						<th rowspan="5" align="center">국내</th>
-						</tr>			
-							<tr>			
-								<td onclick="javascript:domestic($(this).closest('td').text());">인천</td>
-								<td onclick="javascript:domestic($(this).closest('td').text());">김포</td>
-							</tr>
-							<tr>
-								<td onclick="javascript:domestic($(this).closest('td').text());">부산</td>
-								<td onclick="javascript:domestic($(this).closest('td').text());">대구</td>
-							</tr>
-							<tr>
-								<td onclick="javascript:domestic($(this).closest('td').text());">청주</td>
-								<td onclick="javascript:domestic($(this).closest('td').text());">제주</td>
-							</tr>
-							<tr>
-								<td onclick="javascript:domestic($(this).closest('td').text());">무안</td>
-								<td onclick="javascript:domestic($(this).closest('td').text());"></td>
-							</tr>
-						</tbody>
-					</table>
-					</div>
-		  		
-			     	<div style="right">
-		  			  <table id="europe" class="table" style="margin-left: 52%; width: 350px; display: none;">
-						<tbody>	
-						<tr>
-						<th rowspan="9" align="center">유럽</th>
-						</tr>			
-							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">파리</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">런던</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">아테네</td>
-							</tr>
-							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">로마</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">프라하</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">이스탄불</td>
-							</tr>
-							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">프랑크푸르트</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">마드리드</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">밀라노</td>
-							</tr>
-							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">바르셀로나</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">취리히</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">베르사유</td>
-							</tr>
-							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">나폴리</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">헬싱키</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">제네바</td>
-							</tr>
-							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">베니스</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">부다페스트</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">베를린</td>
-							</tr>
-							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">암스테르담</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">뮌헨</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">리스본</td>
-							</tr>
-							<tr>
-								<td onclick="javascript:europe($(this).closest('td').text());">두브로브니크</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">모스크바</td>
-								<td onclick="javascript:europe($(this).closest('td').text());">베오그라드</td>
-							</tr>
-						</tbody>
-						</table>
-		  			 </div>
-			    </div><br>
+				</div>
+	  		</div> 
+			  </div>
+			    <br/>
 			</div>
 			
 			

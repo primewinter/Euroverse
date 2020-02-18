@@ -1,5 +1,7 @@
 package com.ksy.service.admin.test;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -16,9 +18,7 @@ import com.ksy.service.admin.AdminService;
 import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Post;
-import com.ksy.service.domain.TripInfo;
-import com.ksy.service.tripInfo.TripInfoService;
-import com.ksy.web.tripInfo.InfinityClick;
+import com.sun.jmx.snmp.Timestamp;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -81,7 +81,6 @@ public class adminTest {
 		
 //		service.updatePostReport("90000");
 		post = comService.getPost("90000", "admin", "A");
-//		comService.upda
 		
 		System.out.println("post.getBlocked ==>"+post.getBlocked());
 		Assert.assertEquals("T", post.getBlocked());
@@ -97,10 +96,47 @@ public class adminTest {
 		comment = comService.getComment("90000");
 //		comService.upda
 		
-		System.out.println("comment.getBlocked ==>"+comment.getBlocked());
+		System.out.println("comment.getBlockd ==>"+comment.getBlocked());
 		Assert.assertEquals("T", comment.getBlocked());
 	}
 	
+//	@Test
+	public void testGetQnaComment() throws Exception{
+		
+		System.out.println("testGetQnaComment TEST START");
+		
+		Comment comment = new Comment();
+		
+		comment = service.getQnaComment("90000");
+		
+		System.out.println("comment 디버깅  ==>"+comment);
+//		Assert.assertEquals("T", comment.getBlocked());
+	}
+	
+//	@Test
+	public void testaddQnaComment() throws Exception{
+		
+		System.out.println("testGetQnaComment TEST START");
+		
+		Timestamp time = new Timestamp();
+		
+		
+		Post post = new Post();
+		Comment comment = new Comment();
+//		post.setPostId("90001");
+		comment.setPostId("90000");
+//		comment.setCmtId("90001");
+		comment.setNickName("test");
+		comment.setCmtWriterId("user01");
+//		comment.setCmtDate("202001121400");
+		comment.setCmtContent("안녕하세요 하하하하하하하하하하");
+		
+		service.addQnaComment(comment);
+//		comment = service.getQnaComment("90001");
+		
+		System.out.println("comment 디버깅  ==>"+comment);
+//		Assert.assertEquals("T", comment.getBlocked());
+	}
 	
 
 }
