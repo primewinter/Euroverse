@@ -61,6 +61,8 @@ public interface PlanSubService {
 	
 	public void deleteMemo(String memoId) throws Exception;
 
+	public void updateMemoCoordinates(Memo memo) throws Exception;
+	
 	
 	//city_info ฐüทร..
 	public List<City> getCityListByScroll(int zoomLevel) throws Exception;

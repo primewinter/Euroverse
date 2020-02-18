@@ -92,6 +92,7 @@
 		<result property="cmtLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
 		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
 		<result property="postTitle" 				column="post_title" 					jdbcType="VARCHAR" />
+		<result property="boardName" 	column="board_name" 		jdbcType="CHAR" />
 	</resultMap>
 
 <!-- 
@@ -416,7 +417,7 @@ SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
   						FROM ( SELECT p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
 										FROM post p, comments c
-										where p.post_id = c.post_id(+) AND p.post_writer_id = #{userId}
+										where p.post_id = c.post_id(+) AND p.post_writer_id = #{userId} AND p.qna_first_cate IS NULL AND p.deleted = 'F'
 										GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count 
 										ORDER BY p.post_date DESC) inner_table    
 			    WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
@@ -430,7 +431,7 @@ COUNT(*)
 FROM(SELECT inner_table.*, ROWNUM AS row_seq
   FROM ( SELECT p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
 FROM post p, comments c
-where p.post_id = c.post_id(+) AND p.post_writer_id = #{userId}
+where p.post_id = c.post_id(+) AND p.post_writer_id = #{userId} AND p.qna_first_cate IS NULL AND p.deleted = 'F'
 GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count
 ORDER BY p.post_date DESC) inner_table)
 </select>
@@ -458,9 +459,9 @@ SELECT  *
 		SELECT inner_table.*, ROWNUM AS row_seq
 			from
 				(SELECT
-				p.post_title , c.writer_id  , c.cmt_content , c.nickname , c.cmt_like_count , c.cmt_date , c.secret , c.deleted , c.blocked  , c.cmt_id 
+				p.post_title,c.post_id , p.board_name , c.writer_id  , c.cmt_content , c.nickname , c.cmt_like_count , c.cmt_date , c.secret , c.deleted , c.blocked  , c.cmt_id 
 				from post p , comments c
-				WHERE  p.post_id = c.post_id AND c.writer_id = #{userId}
+				WHERE  p.post_id = c.post_id AND c.writer_id = #{userId} AND c.deleted = 'F'
 				order By c.cmt_date DESC) inner_table
 			WHERE rownum<![CDATA[<=]]> #{search.currentPage2}*#{search.pageSize} ) 
 	WHERE row_seq BETWEEN (#{search.currentPage2}-1)*#{search.pageSize}+1 AND #{search.currentPage2}*#{search.pageSize}
@@ -475,7 +476,7 @@ from
 (SELECT
 p.post_title , c.writer_id  , c.cmt_content , c.nickname , c.cmt_like_count , c.cmt_date , c.secret , c.deleted , c.blocked  , c.cmt_id
 from post p , comments c
-WHERE  p.post_id = c.post_id AND c.writer_id = #{userId}
+WHERE  p.post_id = c.post_id AND c.writer_id = #{userId} AND c.deleted = 'F'
 order By c.cmt_date DESC) inner_table
 )
 </select>
@@ -488,7 +489,7 @@ order By c.cmt_date DESC) inner_table
 SELECT 
 like_id , like_type , ref_id , like_user_id , like_check
 FROM LIKES
-WHERE like_user_id = #{value} AND like_type = 'B'
+WHERE like_user_id = #{value} AND like_type = 'B' AND like_check = 'T'
 </select>
 
 <select id="getBookMarkPost" parameterType="String" resultMap="postSelectMap">
@@ -615,7 +616,7 @@ FROM (
 			SELECT 
 			post_id , post_writer_id , post_title , post_content , post_date , qna_first_cate , qna_second_cate ,post_grade
 			FROM post
-			WHERE post_writer_id = #{userId} AND qna_first_cate IS NOT NULL
+			WHERE post_writer_id = #{userId} AND qna_first_cate IS NOT NULL AND deleted IS NULL
 			ORDER BY post_date DESC)inner_table
 				 WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
 	  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
@@ -630,7 +631,7 @@ SELECT COUNT(*) FROM(
 			SELECT 
 			post_id , post_writer_id , post_title , post_content , post_date , qna_first_cate , qna_second_cate
 			FROM post
-			WHERE post_writer_id = #{userId} AND qna_first_cate IS NOT NULL
+			WHERE post_writer_id = #{userId} AND qna_first_cate IS NOT NULL AND deleted IS NULL
 			ORDER BY post_date DESC)inner_table)
 </select>
 
@@ -649,5 +650,23 @@ SELECT
 FROM  comments 
 WHERE #{postId} = post_id
 </select>
+
+
+
+
+<update id="deleteQna" parameterType="string">
+UPDATE 
+POST SET deleted = 'T'
+WHERE post_id = #{postId}
+</update>
+
+
+<update id="updateQna" parameterType="post">
+UPDATE 
+POST 
+SET post_title =  #{postTitle} , post_content = #{postContent} , qna_first_cate = #{qnaFirstCate} , qna_second_cate = #{qnaSecondCate,jdbcType=CHAR}
+WHERE post_id = #{postId}
+</update>
+
 
 </mapper>

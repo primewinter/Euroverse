@@ -78,6 +78,7 @@ import com.mongodb.client.MongoDatabase;
 				chatRoom.setChatRoomId(doc.get("_id")+"");
 				chatRoom.setChatMems((List<String>)doc.get("chatMems"));
 				chatRoom.setChatRoomName(doc.get("chatRoomName")+"");
+				chatRoom.setChatImg(doc.getString("chatImg")+"");
 				System.out.println(listUser+"를 포함하는 채팅방 목록 : "+chatRoom);
 				roomList.add(chatRoom);
 				
@@ -169,7 +170,9 @@ import com.mongodb.client.MongoDatabase;
 			Document doc = new Document("creator", chatRoom.getCreator())
 													.append("chatMems", chatMems)
 													.append("chatRoomName", chatRoom.getChatRoomName())
-													.append("createdDate", new Date());
+													.append("createdDate", new Date())
+													.append("chatImg", chatRoom.getChatImg());
+			
 
 			System.out.println("Document : "+doc);
 			coll.insertOne(doc);
