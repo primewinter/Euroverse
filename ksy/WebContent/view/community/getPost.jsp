@@ -170,9 +170,9 @@
 		}
 		.cmt_write_box {
 		    padding: 10px 10px 10px;
-		    background: snow;
+		    background: whitesmoke;
 		    border-top: 1px solid silver;
-		    border-radius: 7px;
+		    border-radius: 3px;
 		}
 		.user_info_input:first-child {
 		    margin-top: 0px;

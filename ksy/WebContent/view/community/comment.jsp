@@ -110,10 +110,9 @@
 						 + "<form class='form-horizontal' id='"+JSONData.list[i].cmtId+"addRcmt'>"
 						 + "<div class='cmt_write_box clear' id='"+JSONData.list[i].cmtId+"rcmt' style='display: none;'>"
 						 + "<div class='fl' style='width: 105px; float: left; margin-left: 15px;'>"
-						 + "<input type='text' style='background-color:transparent;border:0 solid black;text-align:center;width:105px;font-size:13px;' id='nickName' name='nickName' value='${post.nickName}'>" 
-						 + "<div class='card'>"
-						 + "<img src='../../resources/images/userImages/${user.userImg}' class='card-img-top' alt='...' style='height: 85px; width: 85px;'>"
-						 + "</div></div>"
+						 + "<input type='text' style='background-color:transparent;border:0 solid black;text-align:center;width:105px;font-size:13px;' id='nickName' name='nickName' value='${user.nickname}'>" 
+						 + "<img src='../../resources/images/userImages/${user.userImg}' class='card' alt='...' style='height: 85px; width: 85px; border: 2px solid darkgray;'>"
+						 + "</div>"
 						 + "<div class='cmt_txt_cont' style='width: 600px;'>"
 						 + "<div class='cmt_write'>"
 						 + "<textarea id='rcmtContent' name='cmtContent' maxlength='400' style='float: left; margin: 10px 0 10px 0; width: 580px;'></textarea>"
@@ -188,7 +187,7 @@
 								 + "<div class='cmt_info clear'><div class='cmt_nickbox'><span class='gall_writer ub-writer'>"
 								 + "<i class='fas fa-arrow-right' style='color: gray;'></i> <span class='nickname me in' title='"+JSONData.list[i].nickName+"'>"+JSONData.list[i].nickName+"</span></span></div><span class='date_time'>"+JSONData.list[i].cmtDate+"</span>"
 							if(JSONData.list[i].cmtWriterId == JSONData.userId){
-								 output += "<div class='cmt_updat' style='color: dimgray;font-size: 12px;'>&nbsp;<span class='btn_cmt_updat' onclick='showUpdate("+JSONData.list[i].cmtId+");'> 수정</span><span class='btn_cmt_delete' onclick='deleteComment("+JSONData.list[i].cmtId+");'> 삭제</span></div>"
+								 output += "<div class='cmt_updat' style='color: dimgray;font-size: 11px; margin-top: 4px;'>&nbsp;<span class='btn_cmt_updat' onclick='showUpdate("+JSONData.list[i].cmtId+");'> 수정</span><span class='btn_cmt_delete' onclick='deleteComment("+JSONData.list[i].cmtId+");'> 삭제</span></div>"
 							}
 								 output += "</div><div class='cmt_like' style='float: right;'>"
 							if(JSONData.userId != null){
@@ -311,12 +310,6 @@
 		<form class="form-horizontal" id="addCmt">
 		<!-- 답글 입력 -->
 		<div class="cmt_write_box clear">
-			<div class="fl" style="width: 105px; float: left; margin-left: 15px;">
-				  <input type="text" style="background-color:transparent;border:0 solid black;text-align:center;width:105px;font-size:13px;" readonly="readonly" id="nickName" name="nickName" value="${user.nickname}"> 
-				<div class="card">
-				  <img src="../../resources/images/userImages/${user.userImg}" class="card-img-top" alt="..." style="height: 85px; width: 85px;">
-				</div>
-			</div>
 			<div class="cmt_txt_cont">
 				<div class="cmt_write">
 				  <textarea id="cmtContent" name="cmtContent" maxlength="400"></textarea>

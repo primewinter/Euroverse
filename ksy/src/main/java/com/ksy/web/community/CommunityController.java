@@ -28,8 +28,10 @@ import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.User;
 import com.ksy.service.like.LikeService;
+import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.user.UserService;
 import com.ksy.service.domain.Tag;
+import com.ksy.service.domain.TripSurvey;
 
 @Controller
 @RequestMapping("/community/*")
@@ -46,6 +48,10 @@ public class CommunityController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier("myPageServiceImpl")
+	private MyPageService myPageService;
 	
 	public CommunityController() {
 		System.out.println(this.getClass());
@@ -182,6 +188,7 @@ public class CommunityController {
 		model.addAttribute("tag", tag);
 		
 		List<User> userList = new ArrayList<User>();
+		List<String> tripStyle = new ArrayList<String>();
 		
 		if( boardName.equals("D") ) {
 			
@@ -189,6 +196,15 @@ public class CommunityController {
 		
 			for(int i=0; i<party.size(); i++) {
 				User partyUser = userService.getUser(party.get(i).getPartyUserId());
+				List<TripSurvey> tripSurvey = myPageService.getTripSurveyList(party.get(i).getPartyUserId());
+				
+				for(int j=0; j<tripSurvey.size(); j++) {
+					if(tripSurvey.get(j).getSurveyType().equals("T")) {
+					String surveyChoice = tripSurvey.get(j).getSurveyChoice();
+					tripStyle.add(surveyChoice);
+					partyUser.setTripStyle(tripStyle);
+					}
+				}
 				userList.add(partyUser);
 			}
 			System.out.println("userList : "+userList);
