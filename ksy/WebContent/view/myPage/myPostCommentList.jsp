@@ -54,6 +54,21 @@ function fncGetUserList2(currentPage2) {
 	$("#myPostCommentListForm").attr("method" , "POST").attr("action" , "/myPage/myPostCommentList").submit();
 }
 
+$(function() {
+	 
+	var boardName = $("#boardName").val();
+
+	$( "td:nth-child(2)" ).on("click" , function() {
+		var postId = $(this).next().val();
+		var boardName = $(this).next().next().val();
+		self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
+		
+		
+	     /* var postId = $(this).find($("input[name='postId']")).val();	
+		 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName; */
+	});
+});	
+
 /* $(function() {
 	 
 	var boardName = $("#boardName").val();
@@ -112,7 +127,17 @@ function fncGetUserList2(currentPage2) {
   	<c:forEach var="post" items="${postList}" varStatus="status">
 		<tr>
 			<th scope="row">${status.count}</th>
-			<td>${post.postTitle}</td>
+			
+					<c:set var="title" value="${post.postTitle}"/>
+			<td>${fn:substring(title,0,20)}
+			<c:if test="${fn:length(title)>20}">
+				......
+			</c:if>
+			</td>
+			
+			
+			<input type="hidden" value="${post.postId}">
+			<input type="hidden" value="${post.boardName}">
 			<td>${post.nickName}</td>
 			<td>${post.postDate}</td>
  			<td>${post.comments}</td>
@@ -151,7 +176,19 @@ function fncGetUserList2(currentPage2) {
 		<tr>
 			<th scope="row">${status.count}</th>
 			<td>${comment.postTitle}</td>
-			<td>${comment.cmtContent}</td>
+			<input type="hidden" value="${comment.postId}">
+			<input type="hidden" value="${comment.boardName}">
+			
+			
+			
+			
+		<c:set var="content" value="${comment.cmtContent}"/>
+			<td>${fn:substring(content,0,25)}
+			<c:if test="${fn:length(content)>20}">
+				......
+			</c:if>
+			</td>
+			
 			<td>${comment.nickName}</td>
 			<td>${comment.cmtLikeCount}</td>
 			<td>${comment.cmtDate}</td>

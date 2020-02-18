@@ -222,7 +222,15 @@ public class MyPageDaoImpl implements MyPageDao{
 	public List<Comment> getQnaCommentList(String postId) throws Exception {
 		return sqlSession.selectList("UserMapper.getQnaCommentList",postId);
 	}
+
+	@Override
+	public void deleteQna(String postId) throws Exception {
+		sqlSession.update("UserMapper.deleteQna",postId);
+	}
 	
+	public void updateQna(Post post )throws Exception{
+		sqlSession.update("UserMapper.updateQna",post);
+	}
 	
 	
 	

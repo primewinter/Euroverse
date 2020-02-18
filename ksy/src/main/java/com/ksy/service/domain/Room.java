@@ -12,7 +12,21 @@ public class Room {
 	private String checkOut; //check_out
 	private String detailLink; //detail_link
 	private int adultNum;  //adult_num
+	private int adultNum2;
 	private int childNum; //child_num
+	private int childNum2;
+	public int getAdultNum2() {
+		return adultNum2;
+	}
+	public void setAdultNum2(int adultNum2) {
+		this.adultNum2 = adultNum2;
+	}
+	public int getChildNum2() {
+		return childNum2;
+	}
+	public void setChildNum2(int childNum2) {
+		this.childNum2 = childNum2;
+	}
 	private int roomNum; //room_num
 	private String roomImg; //room_img
 	private String mainService; //main_service
@@ -142,11 +156,10 @@ public class Room {
 	public String toString() {
 		return "Room [roomId=" + roomId + ", roomName=" + roomName + ", roomAddr=" + roomAddr + ", price=" + price
 				+ ", roomCity=" + roomCity + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", detailLink="
-				+ detailLink + ", adultNum=" + adultNum + ", childNum=" + childNum + ", roomNum=" + roomNum
-				+ ", roomImg=" + roomImg + ", mainService=" + mainService + ", familyService=" + familyService
-				+ ", sights=" + sights + ", hotelInfo=" + hotelInfo + ", roomInfo=" + roomInfo + ", orderStatus="
-				+ orderStatus + ", OrderDate=" + OrderDate + "]";
+				+ detailLink + ", adultNum=" + adultNum + ", adultNum2=" + adultNum2 + ", childNum=" + childNum
+				+ ", childNum2=" + childNum2 + ", roomNum=" + roomNum + ", roomImg=" + roomImg + ", mainService="
+				+ mainService + ", familyService=" + familyService + ", sights=" + sights + ", hotelInfo=" + hotelInfo
+				+ ", roomInfo=" + roomInfo + ", orderStatus=" + orderStatus + ", OrderDate=" + OrderDate + "]";
 	}
-	
 	
 }

@@ -29,10 +29,6 @@
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
-	<!-- 스크롤 cdn 걸기  -->
-	
-	
- 
  
 <script>
 
@@ -165,7 +161,10 @@ $(function(){
 	
 </script>
 
+
+<!-- CSS 속성값 -->
 <style type='text/css'>
+
 /* * { 
 	box-sizing: border-box; 
 }
@@ -175,6 +174,9 @@ body {
 	align-items: center; 
 	justify-content: center;
 } */
+
+
+/* 글씨체 때문에 걸어둔 inport 1.나눔고딕체, 2.유분투체  */
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css);
 @import url('https://fonts.googleapis.com/css?family=Lato|Ubuntu&display=swap');
 
@@ -220,6 +222,7 @@ body{
 	border-radius : 10px;
 	box-shadow : 5px 5px grey;
 }
+
 /* 국가선택창에 제목때문에 걸어둔 css  */
 h5{
 	padding-top : 0.6rem;
@@ -262,6 +265,7 @@ h5{
 	border-radius : 10px;
 	width:300px;
 }
+
 
 /* 금액입력창 css  */
 .conturyMoney{

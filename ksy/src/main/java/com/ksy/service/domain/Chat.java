@@ -1,7 +1,6 @@
 package com.ksy.service.domain;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -18,6 +17,7 @@ public class Chat {
 	private Date chatDate; //chat_date
 	private String sendTime;
 	private List<String> readers;
+	private String chatImg;
 	
 	public ObjectId get_id() {
 		return _id;
@@ -75,11 +75,17 @@ public class Chat {
 	public void setSendTime(String sendTime) {
 		this.sendTime = sendTime;
 	}
+	public String getChatImg() {
+		return chatImg;
+	}
+	public void setChatImg(String chatImg) {
+		this.chatImg = chatImg;
+	}
 	@Override
 	public String toString() {
-		return "Chat [_id=" + _id + ", chatId=" + chatId + ", chatRoomId=" + chatRoomId + ", senderId=" + senderId
-				+ ", chatContent=" + chatContent + ", chatDate=" + chatDate + ", readers=" + readers + "]";
+		return "Chat [_id=" + _id + ", chatId=" + chatId + ", chatRoomId=" + chatRoomId + ", user=" + user
+				+ ", senderId=" + senderId + ", chatContent=" + chatContent + ", chatDate=" + chatDate + ", sendTime="
+				+ sendTime + ", readers=" + readers + ", chatImg=" + chatImg + "]";
 	}
-	
 
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ksy.common.Page;
 import com.ksy.common.Search;
@@ -228,6 +229,25 @@ public class MyPageController {
 		return "redirect:/myPage/addQnaAndQnaList";
 	}
 	
+	@RequestMapping(value="deleteQna" , method=RequestMethod.GET)
+	public String deleteQna(@RequestParam("postId") String postId)throws Exception {
+		System.out.println("deleteQna~~~~~~");
+		myPageService.deleteQna(postId);
+		System.out.println("삭제완료!!");
+		
+		return"redirect:/myPage/addQnaAndQnaList";
+	}
+	
+	@RequestMapping(value="updateQna" , method=RequestMethod.POST)
+	public String updateQna( @ModelAttribute("post") Post post,  Model model, HttpSession session)throws Exception{
+		System.out.println("updateQna@@%!$!$!$!$$!!@@!@!@!@!@!");
+		System.out.println(post);
+		
+		myPageService.updateQna(post);
+		System.out.println("업데이트 완료@!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		
+		return "redirect:/myPage/addQnaAndQnaList";
+	}
 	
 	
 

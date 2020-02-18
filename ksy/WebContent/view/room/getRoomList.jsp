@@ -12,41 +12,25 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 	
-	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
-   <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+	<!-- asome icon CDN -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
 
-   <!-- jQuery UI toolTip 사용 CSS-->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip 사용 JS-->
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<!-- jQuery UI toolTip 사용 CSS-->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<!-- jQuery UI toolTip 사용 JS-->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	  body {
              padding-top : 50px;
-            background: linear-gradient(-100deg, mistyrose,pink, lightpink) fixed;
-
+			font-family: "Nanum Gothic", "Malgun Gothic", "돋움", Dotum, "돋움", Dotum, Arial, Helvetica, sans-serif;
         }
-        image {
-        	border : 1px solid lightpink;
-        }
-        h3{
-        	color: white;
-        	font-family : Consolas;
-        }
-      
-        
         
     </style>
     
@@ -100,39 +84,86 @@ $(function() {
 <!-- 폼태크 -> input 안에 link 줌 -> controller 타기  ////link 필드 추가아아 -->
 
 <body>
-<form>
+<jsp:include page="/toolbar/toolBar.jsp" />
 	<div class="container">
-		<div class="page-header">
-		<h3 align="center"> 숙소 </h3>
-		<h5 align="center"> 도착지역 ${room.roomCity }</h5>
-		<h5 align="center"> 출발시간 ${room.checkIn }</h5>
-		<h5 align="center"> 도착시간 ${room.checkOut }</h5>
 		<c:forEach var="room" items = "${roomList}" >
-		
-    	<h5 align="center"> ${room.roomName}</h5>
-    	
-    	<h5 align="center"><img src = "/images/uploadFiles/${room.roomImg}" id="imgControll" name="imgControll" width="80" height="80" />
-    	<h5 align="center"> ${room.price }
-    	<button type="button" value="${room.detailLink}" >상세보기</button>
-    	<input type="hidden" name="price" value=" ${room.price}">
-    	<input type="hidden" name="roomCity" value=" ${room.roomCity}">
-    	<input type="hidden" name="roomNum" value=" ${room.roomNum}">
-    	<input type="hidden" name="checkIn" value=" ${room.checkIn}">
-    	<input type="hidden" name="adultNum" value=" ${room.adultNum}" id="adultNum">
-    	<input type="hidden" name="childNum" value=" ${room.childNum}" id="childNum">
-    	<input type="hidden" name="checkOut" value=" ${room.checkOut}" id="checkOut">
-    	</h5>
-    	
-    	<input type="hidden" name="detailLink" value="${room.detailLink}">
-    <%-- 	<input href="${purchase.merchant_uid }" type="button" value="상세보기" /> --%>
-    	</c:forEach>
-		
-		
-		
-		
+		<div class="row">
+				<div class="col-sm-8" style="background-color:whitesmoke;">
+					<div class="row" style="color:gray;margin-top:10px;margin-left:20px;margin-right:20px;margin-bottom:10px;">
+						<p style="font-size:18px;">${room.roomName}</p>
+						<address class="contact">
+							<span style="font-size:13px;">${room.roomAddr}</span>
+						</address>
+						<br/>
+					</div>
+						<div class="row" style="margin-left:30px;">
+							<div class="col-sm-5">
+								<img src = "/resources/images/orderImg/${room.roomImg}" width="180" height="120"/>
+							</div>
+							<div class="col-sm-7" style="Padding-left:250px;">
+								<div class="row" style="margin-top:40px;margin-left:20px;">
+								<i class="fas fa-won-sign" style="font-size:15px;"></i>
+									<p>${room.price}원</p>
+								</div>
+								<button type="button" class="btn btn-info" style="width:100px;">상세보기</button>
+							</div>
+						</div>
+					<br/>
+				</div>
+				<%-- <div class="col-sm-3">
+					<div class="row" style="margin-top:40px;margin-left:20px;margin-right:20px;margin-bottom:10px;">
+					<i class="fas fa-won-sign" style="font-size:15px;"></i>
+						<p>${room.price}원</p>
+					</div>
+					<button type="button" class="btn btn-info" style="margin-top:80px;width:100px;">상세보기</button>
+				</div>  --%>
 		</div>
-</div>
-</form>
+			<br/>
+			<hr/>	
+		</c:forEach>
+			<%-- <table class="table">
+			  <thead>
+			    <tr>
+			      <th scope="col">도착지역</th>
+			      <th scope="col">숙소이름</th>
+			      <th scope="col">체크인</th>
+			      <th scope="col">체크아웃</th>
+			      <th scope="col">숙소주소</th>
+			      <th scope="col">이미지</th>
+			      <th scope="col">객실수</th>
+			      <th scope="col">인원수</th>
+			      <th scope="col">가격</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  <c:forEach var="room" items = "${roomList}" >
+			    <tr>
+			      <th scope="row">${room.roomCity}</th>
+			      <td>${room.roomName}</td>
+			      <td>${room.checkIn}</td>
+			      <td>${room.checkOut}</td>
+			      <td>${room.roomAddr}</td>
+			      <td><img src = "/resources/images/orderImg/${room.roomImg}" width="50" height="50"/></td>
+			      <td>${room.roomNum}</td>
+			      <td>${room.adultNum} / ${room.childNum}</td>
+			      <td>${room.price}원</td>
+			      <td><i class="far fa-heart" style="font-size:15px;"></i></td>
+			      <td><button type="button" class="btn btn-info" style="width:40px;">상세보기</button>
+			    	<input type="hidden" name="price" value=" ${room.price}">
+			    	<input type="hidden" name="roomCity" value=" ${room.roomCity}">
+			    	<input type="hidden" name="roomNum" value=" ${room.roomNum}">
+			    	<input type="hidden" name="checkIn" value=" ${room.checkIn}">
+			    	<input type="hidden" name="adultNum" value=" ${room.adultNum}" id="adultNum">
+			    	<input type="hidden" name="childNum" value=" ${room.childNum}" id="childNum">
+			    	<input type="hidden" name="checkOut" value=" ${room.checkOut}" id="checkOut">
+    				<input type="hidden" name="detailLink" value="${room.detailLink}">
+    			<input href="${purchase.merchant_uid }" type="button" value="상세보기" />
+    			</td>
+			    </tr>
+			  </c:forEach>
+			  </tbody>
+			</table> --%>
+		</div>
 
 </body>
 </html>

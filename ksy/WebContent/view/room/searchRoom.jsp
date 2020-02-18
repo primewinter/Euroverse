@@ -5,63 +5,211 @@
 
 <html lang="ko">
 <head>
-<title>구매 목록조회</title>
+<title>숙소 검색</title>
 <meta charset="EUC-KR">
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 	
-	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
-   <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+	<!-- asome icon CDN -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
 
-   <!-- jQuery UI toolTip 사용 CSS-->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip 사용 JS-->
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<!-- jQuery UI toolTip 사용 CSS-->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<!-- jQuery UI toolTip 사용 JS-->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	  body {
              padding-top : 50px;
-            background: linear-gradient(-100deg, mistyrose,pink, lightpink) fixed;
 
-        }
-        image {
-        	border : 1px solid lightpink;
         }
         h3{
         	color: white;
         	font-family : Consolas;
         }
-      
         
-        
+       /* 인원수 */
+       row.justify-content-around {
+        position:absolute;
+ 		 top:50%;
+		  left:50%;
+		}
+
+	  th{
+	  	text-align: center;
+	  	 width: 70px;
+  		 height: 100px;
+   		line-height: 100px;
+   		     
+	  }
+	  td{
+	  font-size:13px;
+	  text-align: center;
+	  width : 80px;
+	  }
+	  #domestic ,  #domestic  {
+	  	z-index: 3;
+	  }
+	  #to , #from , div{
+	  	z-index: 2;
+	  }
+	  table {
+	   text-ailgn : center;
+	   background-color: white;
+		/*  border-collapse: separate;  */
+		border:5px solid white;
+	  }
+/* 	  .container{
+	   position: relative;
+	   
+	  }
+	   .container:after{
+	   		content : "";
+		    display: block;
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 300px;
+		    opacity : 0.7;
+	   		background-color: #646464;
+			box-sizing: border-box;
+			z-index : -1;
+	  } */
+	  /* 출발 날짜 배경 css */
+		#depIcon , #arrIcon {
+			position: relative;
+		}
+		
+		#depIcon:after , #arrIcon:after {
+			content : "";
+		    display: block;
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    background-color: lightblue; 
+		    width: 100%;
+		    height: 100px;
+		    opacity : 0.7;
+		    z-index: -3;
+		}
+		/* 객실수 , 인원수 배경 css */
+		#num1 , #num2 , #num3{
+			position: relative;
+			
+		}
+		#num1:after , #num2:after , #num3:after{
+			content : "";
+		    display: block;
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    background-color: lightskyblue; 
+		    width: 100%;
+		    height: 100px;
+		    opacity : 0.6;
+		    z-index: -3;
+		}	  
+	  /* 이미지 배경 css */
+	  	.wrapper {
+		   position: relative; /* #wrapper에 투명도를 주면 컨텐츠도 같이 투명해지기 때문에.. */
+		}
+		.wrapper:after {
+		
+		    content : "";
+		    display: block;
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    background-image: url('/resources/images/orderImg/2.jpg'); 
+		    width: 100%;
+		    height: 460px;
+		    opacity : 0.7;
+		    z-index: -4;
+		}
+		/* 달력 css */
+		.ui-datepicker { width: 20em; padding: .2em .2em 0;font-size: 14px; height:10px;}
+		/* 인원 수량 */
+		#decreaseQuantity , #decreaseQuantity2 , #decreaseQuantity3{
+		word-break: break-all;
+		list-style: none;
+		cursor: pointer;
+		padding: 0;
+		margin: 0;
+		font-family: "Nanum Gothic", malgun Gothic, dotum;
+		letter-spacing: -.3px;
+		width: 43px;
+		height: 43px;
+		color: #e25147;
+		border: 0;
+		vertical-align: top;
+		position: relative;
+		font-size: 0;
+		line-height: 0;
+		background: url("//openimage.interpark.com/tourpark/tour_ui/common/btn/btn_del.png") no-repeat 0 0;
+		}
+		#increaseQuantity , #increaseQuantity2 , #increaseQuantity3{
+		word-break: break-all;
+		list-style: none;
+		cursor: pointer;
+		padding: 0;
+		margin: 0;
+		font-family: "Nanum Gothic", malgun Gothic, dotum;
+		letter-spacing: -.3px;
+		width: 43px;
+		height: 43px;
+		color: #e25147;
+		border: 0;
+		vertical-align: top;
+		position: relative;
+		font-size: 0;
+		line-height: 0;
+		background: url("//openimage.interpark.com/tourpark/tour_ui/common/btn/plus.png") no-repeat 0 0;
+		
+		}
+		/*  #numberUpDown{
+		width: 300px;
+		  height: 50px;
+		  background-color: gray;
+		  border: none;
+		} */
+		.round-trip.on{
+		line-height: 1.2;
+		color: #646464;
+		word-break: break-all;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		font-size: 13px;
+		font-family: "Nanum Gothic", malgun Gothic, dotum;
+		letter-spacing: -.3px;
+		display: table-cell;
+		width: 33.33%;
+		box-sizing: border-box;
+		text-align: center;
+		}
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 <script type="text/javascript">
 
 $(function() {
-	 $( '.form-group:contains("검")' ).on("click" , function() {
-		 	//alert("검색")
+	 $( '.btn.btn-info' ).on("click" , function() {
 			$("form").attr("method" , "POST").attr("action" , "/room/searchRoom").submit();
 
 	});
 });	
 
-////////////////////////
+
+////////////////////////////////달력
 
 var rangeDate = 500; // set limit day
 var setSdate, setEdate;
@@ -96,7 +244,7 @@ $(function() {
 	        console.log(setEdate)
 	    }
 	});
-	$('.btn').on('click', function(e){
+	 $('.btn.btn-info').on('click', function(e){
 	    if($('input#from').val() == ''){
 	        alert('시작일을 선택해주세요.');
 	        $('input#from').focus();
@@ -106,20 +254,171 @@ $(function() {
 	        $('input#to').focus();
 	        return false;
 	    }
-
-   /*  var t1 = $('input#from').val().split("-");
-    var t2 = $('input#to').val().split("-");
-    var t1date = new Date(t1[0], t1[1], t1[2]);
-    var t2date = new Date(t2[0], t2[1], t2[2]);
-    var diff = t2date - t1date;
-    var currDay = 24 * 60 * 60 * 1000;
-    if(parseInt(diff/currDay) > rangeDate){
-        alert('로그 조회 기간은 ' + rangeDate + '일을 초과할 수 없습니다.');        
-        return false;
-    } */
-	});
+	 });
+ 
+	
 });
 
+	function doShow() { 
+		if ($('#domestic').css("display","none")) { 
+			$("#domestic").css("display","block");
+			$("#depIcon").hide();
+			$("#arrIcon").hide();
+			$("#search").show();
+			
+		}
+	}
+	
+	function domestic(obj) {
+		// 현재 클릭된 Row(<tr>)
+		var tr = $(this);
+		var td = tr.children();
+		
+		// tr.text()는 클릭된 Row 즉 tr에 있는 모든 값을 가져온다.
+		var roomCity = $("#roomCity").val(obj);
+		if ($('#domestic').css("display","block")) { 
+			$("#domestic").css("display","none");
+			$("#depIcon").show();
+			$("#arrIcon").show();
+			
+		}
+	};
+
+///////////////////////////////// 인원수 증가, 감소
+	/* 성인 수 */
+	$(function(){
+		$('#decreaseQuantity').click(function(e){
+			e.preventDefault();
+			var stat = $('#numberUpDown').val();
+			var num = parseInt(stat,10);
+			num--;
+		if(num<=0){
+			alert('더이상 줄일수 없습니다.');
+			num =1;
+		}
+		$('#numberUpDown').val(num);
+		$("#peopleChoice").val("총	 "+adult+child+inf);
+		});
+			$('#increaseQuantity').click(function(e){
+			e.preventDefault();
+			var stat = $('#numberUpDown').val();
+			var num = parseInt(stat,10);
+			num++;
+		
+				if(num>10){
+					alert('더이상 늘릴수 없습니다.');
+					num=10;
+				}
+			var adult = $('#numberUpDown').val(num);
+			var grade = $("#grade").text();
+			$("#peopleChoice").val("총	 "+adult+child+inf);
+			});
+		});
+		
+	/* 아동수 */
+	$(function(){
+		$('#decreaseQuantity2').click(function(e){
+			e.preventDefault();
+			var stat = $('#numberUpDown2').val();
+			var num = parseInt(stat,10);
+			num--;
+		if(num<=-1){
+			alert('더이상 줄일수 없습니다.');
+			num =0;
+		}
+		$('#numberUpDown2').val(num);
+		$("#peopleChoice").val(total+"/소아"+num+"명 ")
+		});
+			$('#increaseQuantity2').click(function(e){
+			e.preventDefault();
+			var stat = $('#numberUpDown2').val();
+			var num = parseInt(stat,10);
+			num++;
+		
+				if(num>10){
+					alert('더이상 늘릴수 없습니다.');
+					num=10;
+				}
+			var child = $('#numberUpDown2').val(num);
+			$("#peopleChoice").val("총	 "+adult+child+inf);
+			});
+		});
+	/* 성인 수  2*/
+	$(function(){
+		$('#decreaseQuantity3').click(function(e){
+			e.preventDefault();
+			var stat = $('#numberUpDown3').val();
+			var num = parseInt(stat,10);
+			num--;
+		if(num<=0){
+			alert('더이상 줄일수 없습니다.');
+			num =1;
+		}
+		$('#numberUpDown3').val(num);
+		});
+			$('#increaseQuantity3').click(function(e){
+			e.preventDefault();
+			var stat = $('#numberUpDown3').val();
+			var num = parseInt(stat,10);
+			num++;
+		
+				if(num>10){
+					alert('더이상 늘릴수 없습니다.');
+					num=10;
+				}
+			var adult = $('#numberUpDown3').val(num);
+			var grade = $("#grade").text();
+			});
+		});
+		
+	/* 아동수 2 */
+		$(function(){
+			$('#decreaseQuantity4').click(function(e){
+				e.preventDefault();
+				var stat = $('#numberUpDown4').val();
+				var num = parseInt(stat,10);
+				num--;
+			if(num<=-1){
+				alert('더이상 줄일수 없습니다.');
+				num =0;
+			}
+			$('#numberUpDown4').val(num);
+			});
+				$('#increaseQuantity4').click(function(e){
+				e.preventDefault();
+				var stat = $('#numberUpDown4').val();
+				var num = parseInt(stat,10);
+				num++;
+			
+					if(num>10){
+						alert('더이상 늘릴수 없습니다.');
+						num=10;
+					}
+				var child = $('#numberUpDown4').val(num);
+				});
+			});
+	/* 객실 수 2개 클릭 시 */
+	$(function() {
+		$('#roomNum').click(function (){
+			if ($("#roomNum").val() == 2) {
+				$("#hiding").css("display","block");
+				$("#numberUpDown3").val(1);
+				
+			}else if($("#roomNum").val() == 1){
+				$("#hiding").css("display","none");
+			}
+			
+		});
+	});
+	/* 총 인원수 합하기 */
+	/* $(function() {
+		var adultNum = $("#numberUpDown").val()+$("#numberUpDown3").val();
+		var childNum = $("#numberUpDown2").val()+$("#numberUpDown4").val();
+		
+		$("#adultNum").val(adultNum);
+		$("#childNum").val(childNum);
+	}); */
+	
 	
 </script>
 
@@ -131,93 +430,287 @@ $(function() {
 
 
 <body>
+ 	<jsp:include page="/toolbar/toolBar.jsp" />
+<form>
+<div class="wrapper">	
+<br>
+<br>
+<br>
+            <br/><br/>
+			<div class="container">
+				<div class="row">
+			     <div class="col-md-5">
+				     	<div class="row">
+				    	 <input type="text" class="form-control" placeholder="도착지역을 입력하세요" name="roomCity" id="roomCity" style="width:380px;height:30px;font-size:13px;float:left;" onclick="javascript:doShow();">
+						 <div class="input-group-append">
+						  <span class="input-group-text" id="basic-addon2" style="background-color:white;"><i class="fas fa-suitcase-rolling" id="iconf" style="font-size:15px;"></i></span>
+				  			
+				  		</div>
+				  	<table class="table" id="domestic" style="width: 380px; display: none;">
+					 <tbody>	
+						<tr>
+						<th rowspan="9" align="center">유럽</th>
+						</tr>			
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">파리</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">런던</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">아테네</td>
+							</tr>
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">로마</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">프라하</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">이스탄불</td>
+							</tr>
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">프랑크푸르트</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">마드리드</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">밀라노</td>
+							</tr>
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">바르셀로나</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">취리히</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">베르사유</td>
+							</tr>
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">나폴리</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">헬싱키</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">제네바</td>
+							</tr>
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">베니스</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">부다페스트</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">베를린</td>
+							</tr>
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">암스테르담</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">뮌헨</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">리스본</td>
+							</tr>
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">두브로브니크</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">모스크바</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">베오그라드</td>
+							</tr>
+						</tbody>
+					</table>
+				  			
+				  		</div>
+			  		<br/><br/><br/>
+			  		<div class="row">
+			  		<div class="col-sm-5" id="depIcon">
+			   		 <h5 align="center" style="color:white;margin-top:10px;">Check In</h5>
+			    	<input type="text" class="form-control" placeholder="출발날짜 선택" style="width:120px;font-size:14px;height:30px;float:left;" id="from" name="checkIn">
+					  <div class="input-group-append">
+					    <span class="input-group-text" id="basic-addon2" style="background-color:white;">
+					    <i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
+					  </div>
+					
+					</div>
+			   		 <div class="col-sm-5" id="arrIcon">
+			   		 <h5 align="center" style="color:white;margin-top:10px;">Check Out</h5>
+			   		 	 <input type="text" class="form-control" placeholder="도착날짜 선택"  style="width:120px;font-size:14px;height:30px;float:left;" id="to" name="checkOut">
+						  <div class="input-group-append">
+						    <span class="input-group-text" id="basic-addon2" style="background-color:white;">
+						    <i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
+						  </div>
+			   	
+			   		 </div>
+			   		 </div>
+			  </div>
+			  
+			  
+				<div class="col-md-7">
+			   		 <div class="row">
+			   		 <div class="col-sm-3"  id="num1">
+			   		 	<!-- <h6 align="center">객실 수</h6> -->
+			   		 	<select class="custom-select" name="roomNum" id="roomNum" style="width:80%;margin-top:30px;">
+						  <option selected value="1">1</option>
+						  <option value="2">2</option>
+						</select>
+			   		 </div>
+			   		 
+			   		 <div class="col-sm-9" id="num2">
+			   		 	<!-- 객실 수 2개일때 인원 수 합해서 보내기 위한 hidden -->
+				   		 <!-- <input type="hidden" name="adultNum" id="adultNum" value="" >
+				   		 <input type="hidden" name="childNum" id="childNum" value="" > -->
+			   		 	<label for="Chd" style="font-size:13px;color:white;"><strong>성인</strong><br/>
+										만 18세 이상</label>
+						<span class="ctrl-num">
+				        	<button type="button" id="decreaseQuantity" class="plus" style="margin-top:30px;"></button>
+								 <input style="font-size:15px;width:30px;height:45px;display: table-cell;margin-top:30px;margin-bottom:20px;text-align: center;vertical-align: middle;border: none;"
+								 		 id="numberUpDown" name="adultNum" type="text" value="1" >
+							<button type="button" id="increaseQuantity" class="del" style="margin-top:30px;"></button>
+						</span>
+						
+						<label for="Chd" style="font-size:13px;color:white;"><strong>아동</strong><br/>
+											만 17세 이하</label>
+						<span class="ctrl-num">
+				        	<button type="button" id="decreaseQuantity2" class="plus" style="margin-top:30px;"></button>
+								 <input style="font-size:15px;width:30px;height:45px;display: table-cell;margin-top:30px;margin-bottom:20px;text-align: center;vertical-align: middle;border: none;"
+								 		 id="numberUpDown2" name="childNum" type="text" value="0" > 
+							<button type="button" id="increaseQuantity2" class="del" style="margin-top:30px;"></button>
+						</span>
+			   		 </div>
+			   		 </div>
+			   		 
+			   		 <div class="row" id="hiding" style="display:none;">
+				 			<div class="col-sm-9" style="margin-left:170px;margin-top:5px;" id="num3">
+				   		 	<label for="Chd" style="font-size:13px;color:white;"><strong>성인</strong><br/>
+											만 18세 이상</label>
+							<span class="ctrl-num">
+					        	<button type="button" id="decreaseQuantity3" class="plus" style="margin-top:30px;"></button>
+									 <input style="font-size:15px;width:30px;height:45px;display: table-cell;margin-top:30px;margin-bottom:20px;text-align: center;vertical-align: middle;border: none;"
+									 		 id="numberUpDown3" name="adultNum2" type="text" value="0" >
+								<button type="button" id="increaseQuantity3" class="del" style="margin-top:30px;"></button>
+							</span>
+							
+							<label for="Chd" style="font-size:13px;color:white;"><strong>아동</strong><br/>
+											만 17세 이하</label>
+							<span class="ctrl-num">
+					        	<button type="button" id="decreaseQuantity4" class="plus" style="margin-top:30px;"></button>
+									 <input style="font-size:15px;width:30px;height:45px;display: table-cell;margin-top:30px;margin-bottom:20px;text-align: center;vertical-align: middle;border: none;"
+									 		 id="numberUpDown4" name="childNum2" type="text" value="0" > 
+								<button type="button" id="increaseQuantity4" class="del" style="margin-top:30px;"></button>
+							</span>
+				   		 </div>
+				 		</div>
+			   		 <br/><br/>
+			   		 <div class="btn-area" id="search">
+	                  <button type="button" id="searchButton" class="btn btn-info" title="숙소 검색">
+	                    <span class="ico-search">숙소 검색</span>
+	                  </button>
+	                </div> 
+			 		</div>
+		  			<div>
+			  </div> 
+			    
+		  			
+		  			
+			  		<!-- <table class="table" id="domestic" style="width: 300px; display: none;">
+					 <tbody>	
+						<tr>
+						<th rowspan="9" align="center">유럽</th>
+						</tr>			
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">파리</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">런던</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">아테네</td>
+							</tr>
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">로마</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">프라하</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">이스탄불</td>
+							</tr>
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">프랑크푸르트</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">마드리드</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">밀라노</td>
+							</tr>
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">바르셀로나</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">취리히</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">베르사유</td>
+							</tr>
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">나폴리</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">헬싱키</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">제네바</td>
+							</tr>
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">베니스</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">부다페스트</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">베를린</td>
+							</tr>
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">암스테르담</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">뮌헨</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">리스본</td>
+							</tr>
+							<tr>
+								<td onclick="javascript:domestic($(this).closest('td').text());">두브로브니크</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">모스크바</td>
+								<td onclick="javascript:domestic($(this).closest('td').text());">베오그라드</td>
+							</tr>
+						</tbody>
+					</table> -->
+			    </div><br>
+			</div>
+			
+			
+
+		
+<br><br><br>
+
+			
+
+		
+</div>	
+		<!-- Modal 안에 내용 -->
+		<!-- <div class="modal fade" id="flightNum" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content"  >
+		      <div class="modal-header" style="background-color:gray;">
+		        <h5 class="modal-title" id="exampleModalLabel" style="color:white;font-size:13px;">> 인원 및 좌석 등급 선택</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <div class="number">
+		        	<li>
+					<label for="Adt"><strong>성인</strong><br/>
+										만 12세 이상</label>
+					<span class="ctrl-num">
+			        	<button type="button" id="decreaseQuantity" class="plus"></button>
+							 <input style="font-size:15px;width:5%;display: table-cell;margin-bottom:20px;text-align: center;vertical-align: middle;border: none;" 
+							 		id="numberUpDown" name="adultNum" type="text" value="1" > 
+						<button type="button" id="increaseQuantity" class="del"></button>
+					</span>
+					<br/>
+					<li>
+					<label for="Chd"><strong>소아</strong><br/>
+										만 12세 미만</label>
+					<span class="ctrl-num">
+			        	<button type="button" id="decreaseQuantity2" class="plus"></button>
+							 <input style="font-size:15px;width:5%;display: table-cell;margin-bottom:20px;text-align: center;vertical-align: middle;border: none;"
+							 		 id="numberUpDown2" name="childNum" type="text" value="0" > 
+						<button type="button" id="increaseQuantity2" class="del"></button>
+					</span>
+					</li>
+					<li>
+					<label for="Inf"><strong>유아</strong><br/>
+										만 2세 미만</label>&nbsp;
+					<span class="ctrl-num">
+			        	<button type="button" id="decreaseQuantity3" class="plus"></button>
+							 <input style="font-size:15px;width:5%;display: table-cell;margin-bottom:20px;text-align: center;vertical-align: middle;border: none;"
+							 		 id="numberUpDown3" name="infantNum" type="text" value="0" > 
+						<button type="button" id="increaseQuantity3" class="del"></button>
+					</span>
+					</li>
+					<hr/>
+						<div class="input-group">
+						  <label for="seatGrade" id="seatGrade" style="text-align: center; font-size:14px;">좌석 등급 선택</label>
+						 &nbsp;&nbsp;&nbsp;&nbsp;
+						  <div class="input-group-append">
+							   <select class="form-control" id="grade" name="seatGrade" style="width:80%;">
+								 	<option value="0">일반석</option>
+									<option value="1">프리미엄 일반석</option>
+									<option value="2">비즈니스석</option>
+									<option value="3">일등석</option>
+								</select>
+						</div>
+						
+		           </div>
+				</div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
+		        <button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
+		      </div>
+		    </div>
+		  </div>
+		</div> -->
 	
-	<div class="container">
-		<div class="page-header">
-			<h3>Selenium</h3>
-		
-		
-		
-		
-		
-		
-		</div>
-		
-		
-		
-<form name="detailForm" class="form-horizontal">
-<table class="table table-hover table-striped" >		
-
-
-	
-	<div class="form-group">
-		<label for="roomCity" class="col-sm-offset-1 col-sm-3 control-label">도착 도시</label>
-		<div class="col-sm-4">
-		<input	type="text" name="roomCity" id="roomCity" class="form-control">
-		</div>
-	</div>
-
-	<div class="wrap">
-	<h4 align="center">기간 선택</h4>
-	 <label for="checkIn" class="col-sm-offset-1  control-label">출발일자</label>
-	  <div>
-	      <input type="text" id="from" name="checkIn">
-	  </div>
-	 <label for="checkOut" class="col-sm-offset-1control-label">도착일자</label>
-	  <div>
-	      <input type="text" id="to" name="checkOut">
-	  </div>  
-	</div>
-
-	<div class="form-group">
-		<label for="roomNum" class="col-sm-offset-1 col-sm-3 control-label">객실</label>
-		<div class="col-sm-4">
-			<select class="form-control" id="roomNum" name="roomNum" >
-				<c:set var="i" value="0" />
-				<c:forEach  begin="0" end="3">
-				<c:set var="i" value="${i+1}"/>
-				<option>${i}</option>
-				</c:forEach>
-			</select>
-		</div>
-	</div>
-	
-		<div class="form-group">
-		<label for="adultNum" class="col-sm-offset-1 col-sm-3 control-label">성인수</label>
-		<div class="col-sm-4">
-			<select class="form-control" id="adultNum" name="adultNum" >
-				<c:set var="i" value="0" />
-				<c:forEach  begin="0" end="9">
-				<c:set var="i" value="${i+1}"/>
-				<option>${i}</option>
-				</c:forEach>
-			</select>
-		</div>
-	</div>
-	
-	<div class="form-group">
-		<label for="childNum" class="col-sm-offset-1 col-sm-3 control-label">유아수</label>
-		<div class="col-sm-4">
-			<select class="form-control" id="childNum" name="childNum" >
-				<c:set var="i" value="0" />
-				<c:forEach  begin="0" end="8">
-				<option>${i}</option>
-				<c:set var="i" value="${i+1}"/>
-				</c:forEach>
-			</select>
-		</div>
-	</div>
-
-	<div class="form-group">
-   	 <div class="col-sm-offset-4  col-sm-4 text-center">
-      <button type="button" class="btn btn-primary"  >검&nbsp;색</button>
-     </div>
- 	</div>
-
-</table>
-</form>
-</div>
-
-
+</form>			
 </body>
 </html>

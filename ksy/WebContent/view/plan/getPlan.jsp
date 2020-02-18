@@ -154,11 +154,11 @@
       	border-style: solid;
       	border-width: thin;
       }
-      .party-member-img.K{
+      .party-member-img.on{
       	border-width: 2px;
       	border-color: #FA6124;
       }
-      .party-member-img.M{
+      .party-member-img.off{
       	border-color: #C6C6C6;
       }
       .plan-party-list-box{
@@ -196,7 +196,9 @@
       
       
       .list-container{
-      	margin-right: 200px;
+      	margin-right: 280px;
+      	//width:75%;
+      	//min-width: 550px;
       }
       
 	</style>
@@ -221,7 +223,7 @@
 		  top: 0;
 		  bottom: 0;
 		  left: 0;
-		  z-index: 100; /* Behind the navbar */
+		  z-index: 40; /* Behind the navbar */
 		  padding: 48px 0 0; /* Height of navbar */
 		  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 		}
@@ -781,8 +783,7 @@
 					if( JSONData==null || JSONData=="" ){ 	
 						console.log("리턴데이터 없음");	
 					}else{ 		
-						console.log("리턴데이터 있음1! => JSONData = "+JSON.stringify(JSONData));	
-
+						//console.log("리턴데이터 있음1! => JSONData = "+JSON.stringify(JSONData));	
 						var budget_total = 0;
 						
 						for( var i in JSONData ){
@@ -1281,10 +1282,12 @@
 			width: 230px;
 			height: 230px;
 			//border: 1px solid gray;
-			background-color:#FFF38B;
+			background-color:#FFD2C9;
 			//background: white;
-			//position: absolute;
+			position: absolute;
 			box-shadow:3px 2px 4px #898989;
+			z-index: 50;
+			resize: none;
 		}
 		
 		.memo > .top_nav{
@@ -1311,9 +1314,11 @@
 			margin: 0; padding: 10px;
 			box-sizing: border-box;
 			width: 218px; height: 180px;
-			background: #FFF38B;
+			background: #FFD2C9;
+			//background: #FFF38B;
 			border: none;
 			resize: inherit;
+			outline: none;
 		}
 		
 	</style>
@@ -1323,8 +1328,6 @@
 		/* -------------------------------------	Memo List 관련 함수들		------------------------------------- */
 		
 		$(function(){
-			
-			var number = 0;
 			
 			//메모장
 			var memo_html = '<div class="memo">' +
@@ -1352,24 +1355,8 @@
 					
 				//메모 추가 메소드
 				addMemo : function( ex, ey ){
-					
 					alert("win_width = "+$('#memo_wrap').width() + "/ win_height="+$('#memo_wrap').height());
-					
-					number = number+1;
-					
-					var memo_html2 = '<div class="memo">' + 
-										'<nav class="top_nav">' + number +
-											'<span class="addMemo"><i class="fa fa-plus"></i></span>' + 
-											'<span class="saveMemo"><i class="fa fa-save"></i></span>' + 
-											'<div class="right">' +
-												'<a href="#" class="getMemo"><i class="fa fa-list"></i></a>' +
-												'<a href="#" class="deleteMemo"><i class="fa fa-times"></i></a>' +
-											'</div>' +
-										'</nav>' +
-										'<textarea name="memoDetail" class="txt"></textarea>' + 
-										'<nav class="side_nav"><ol></ol></nav>' +
-									'</div>';
-									
+
 					var memo_html04 = '<div class="memo">'+
 											'<nav class="top_nav">'+
 												'<span class="addMemo"><i class="fa fa-plus"></i></span>'+
@@ -1405,7 +1392,6 @@
 					$new_memo.css('zIndex', '99');	//새 메모장을 상위 레이어로
 					
 				}	//addMemo
-				
 			};	//end Memo{}
 			
 			
@@ -1420,13 +1406,18 @@
 					ex = x - 125,
 					ey = y - 16;
 				
-				Memo.addMemo( ex, ey );
+				//Memo.addMemo( ex, ey );
+				
+				addMemo( '', x, y );
 			});
 			
 			//마우스 입력 : 마우스가 메모장 상단에 위치하면 드래그 활성화
-			$('#memo_wrap').on('mouseover', '.top_nav', function(){
+			/* $('#memo_wrap').on('mouseover', '.top_nav', function(){
+				console.log("mouseover")
 				$(this).parent().draggable();
-			});
+			}); */
+			
+			$('.top_nav').parent().draggable();
 			
 			//터치 입력
 			$('#memo_wrap').on('touchstart mousedown', '.memo', function(){	//복수 이벤트 지정
@@ -1434,23 +1425,60 @@
 				$(this).css('zIndex', '99');
 			});
 			
-			$('#memo_wrap').on('touchmove', '.top_nav', function(e){	//mousemove 복수로 지정시 에러발생..... 
+			//메모 이동..
+			$('#memo_wrap').on('mousemove', '.top_nav', function(e){
+				//console.log("touchmove!");
+				
 				var $memo = $(this).parent();	//메모 객체
 				var event = e.originalEvent;	//제이쿼리에서 기존 자바스크립트 이벤트 받을때 필요
-				var touchObj = event.changedTouches[0];		//터치 이벤트 객체
+				//var touchObj = event.changedTouches[0];		//터치 이벤트 객체
 				
 				//현재 손가락 위치
-				var x = parseInt(touchObj.clientX),
-					y = parseInt(touchObj.clientY),
+				/* var x = parseInt(touchObj.clientX),
+					y = parseInt(touchObj.clientY), */
+				var x = parseInt(event.pageX),
+					y = parseInt(event.pageY),
 					ex = x - 125,
 					ey = y - 16;
 				
 				//메모장 위치 지정
-				$memo.css('left', ex+'px');
-				$memo.css('top', ey+'px');
+				/* $memo.css('left', ex+'px');
+				$memo.css('top', ey+'px'); */
 				
-				console.log("memo left:"+ex+"px / top:"+ey+"px");
+				//console.log("memo left:"+ex+"px / top:"+ey+"px");
 			})
+			
+			//마우스 업 할시 좌표값 받아서 위치 저장!
+			$('#memo_wrap').on('mouseup', '.top_nav', function(e){
+				
+				var left_minus = $('.sidebar').width();
+				var top_minus = $('.fixed-top').height();
+				
+				var event = e.originalEvent;	//제이쿼리에서 기존 자바스크립트 이벤트 받을때 필요
+				var x2 = parseInt(event.pageX),
+					y2 = parseInt(event.pageY),
+					ex2 = x2 - 125,
+					ey2 = y2 - 16;
+				
+				console.log("mouseup => memo left:"+ex2+"px / top:"+ey2+"px");
+				
+				var $memo = $(this).parent();	//메모 객체
+				/* var memoLeft = $memo.position().left - left_minus;
+				var memoTop = $memo.position().top- top_minus;
+				console.log("mouseup position => memo left:"+memoLeft+"px / top:"+memoTop+"px"); */
+				
+				var coordinates = $memo.offset();
+				/* var memoLeft2 = coordinates.left - left_minus - 7.5;
+				var memoTop2 = coordinates.top - top_minus - 17.5; */
+				var memoLeft2 = coordinates.left - left_minus - 17;
+				var memoTop2 = coordinates.top - top_minus - 40;
+				console.log("coordinates = "+ memoLeft2 +"/"+ memoTop2 );
+				
+				var memoId = $memo.find('.memo_id').text();
+				updateMemoCoordinates( memoId, memoLeft2, memoTop2 );
+			});
+			
+			
 			
 			//메모 내용 변경시 update
 			$('#memo_wrap').on('change', '.memoDetail', function(){
@@ -1459,32 +1487,66 @@
 				var memoId = $(this).next().text();
 				console.log("currDetail="+currDetail + " / memoId="+memoId);
 
-				if( memoId == 'memoId'){
-					addMemo( currDetail );
-				}else{
-					updateMemoDetail( currDetail, memoId );
-				}
+				updateMemoDetail( currDetail, memoId );
 			});
 			
 			
-			/* $('.memo').hover(
+			$('.addMemoIcon').hover(
 				  function() {
-					    $( this ).find('span').css("color", "black");
-					  }, function() {
-					    $( this ).find('span').css("color", "#FFF38B");
-					  }
-			); */
+				    $( this ).css("color", "#047A7E");
+				  }, function() {
+				    $( this ).css("color", "black");
+				  }
+			);
 			
 		});
+
+
+		$(function() {
+			
+			var memoList = new Array;
+			
+			<c:forEach items="${plan.memoList}" var="memo">
+				var json = new Object();
+				json.memoId = "${memo.memoId}";
+				json.pageX = "${memo.pageX}";
+				json.pageY = "${memo.pageY}";
+				memoList.push(json);
+			</c:forEach>
+			
+			console.log("memo="+JSON.stringify(memoList) );
+			
+			for( var i in memoList ){
+				setMemoCoordinates( memoList[i].memoId, memoList[i].pageX, memoList[i].pageY );
+			}
+		});
 		
-		function addMemo( memoDetail ){
+		
+		
+		//메모 좌표값에 위치하기!
+		function setMemoCoordinates( memoId, pageX, pageY ){
+			
+			//메모장 위치 지정
+			/* $memo.css('left', ex+'px');
+			$memo.css('top', ey+'px'); */
+			$('.memo_id:contains("'+ memoId +'")').parent().css('left', pageX+'px');
+			$('.memo_id:contains("'+ memoId +'")').parent().css('top', pageY+'px');
+		}
+		
+		
+		function updateMemoCoordinates( memoId, pageX, pageY ) {
+			
+			console.log("updateMemoCoordinates! => memoId="+memoId+"/ pageX="+pageX+"/ pageY="+pageY );
+			
 			$.ajax({
-				url: "/planSub/json/addMemo",
+				url: "/planSub/json/updateMemoCoordinates",
 				method: "POST",
 				dataType: "json",
 				data: JSON.stringify({
 					planId: planId,
-					memoDetail: memoDetail
+					memoId: memoId,
+					pageX: pageX,
+					pageY: pageY
 				}),
 				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
 				success: function(JSONData, status){
@@ -1498,6 +1560,59 @@
 			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
 			    } 
 			});
+			
+		}
+		
+		function addMemo( memoDetail, x, y ){
+			
+			$.ajax({
+				url: "/planSub/json/addMemo",
+				method: "POST",
+				dataType: "json",
+				data: JSON.stringify({
+					planId: planId,
+					memoDetail: memoDetail
+				}),
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				success: function(JSONData, status){
+					if( JSONData==null || JSONData=="" ){
+						console.log("리턴데이터 없음");	
+					}else{
+						console.log("리턴데이터 있음! => "+JSONData.memoId);	
+						/* var newMemoId = JSONData.memoId;
+						alert( $('.memoDetail').index( $('.memoDetail:contains("'+memoDetail+'")') ) )
+						$('.memoDetail:contains("'+memoDetail+'")').next().text(newMemoId);
+						
+						var delHtml = '<span class="delMemo" onclick="deleteMemo(\''+ newMemoId +'\')"><i class="fa fa-trash"></i></span>';
+						$('.memoDetail:contains("'+memoDetail+'")').parent().find('.delMemo').remove();
+						$('.memoDetail:contains("'+memoDetail+'")').prev().append(delHtml); */
+						
+						var newMemoId = JSONData.memoId;
+						
+						var memo_html05 = '<div class="memo">'+
+											'<nav class="top_nav">'+
+												'<span class="addMemo"><i class="fa fa-plus"></i></span>'+
+												'<span class="delMemo" onclick="deleteMemo(\''+ newMemoId +'\')"><i class="fa fa-trash"></i></span>'+
+											'</nav>'+
+											'<textarea name="memoDetail" class="memoDetail">'+''+'</textarea>'+
+											'<div class="memo_id" hidden="hidden">'+ newMemoId +'</div>'+
+										'</div>';
+						
+						$('.memo_row').append(memo_html05);
+						
+						var $new_memo = $('.memo').last();	//새로 생성된 메모 객체
+						
+						$('.memo').css('zIndex', '50');	//메모장 레이어 초기화
+						$new_memo.css('zIndex', '99');	//새 메모장을 상위 레이어로
+						$new_memo.draggable();
+						$new_memo.offset({left: x, top: y});
+					}
+				},
+				error:function(request,status,error){
+			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			    } 
+			});
+			
 		} //addMemo
 	
 		function updateMemoDetail( memoDetail, memoId ){
@@ -1531,7 +1646,7 @@
 				
 				$.ajax({
 					url: "/planSub/json/deleteMemo/"+memoId+"/"+planId,
-					method: "POST",
+					method: "GET",
 					dataType: "json",
 					headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
 					success: function(JSONData, status){
@@ -1539,6 +1654,8 @@
 							console.log("리턴데이터 없음");	
 						}else{
 							console.log("리턴데이터 있음! => "+JSONData);	
+							
+							$('.memo_id:contains("'+ memoId +'")').parent().remove();
 						}
 					},
 					error:function(request,status,error){
@@ -1548,16 +1665,202 @@
 			}
 		} //deleteMemo
 		
+		
+		
 		/* -------------------------------------	Memo List 관련 함수들		------------------------------------- */
 		
 	</script>
 	
+	<style type="text/css">
+	
+		#click {
+			position: fixed;
+			right: 20px;
+			top : 70px;
+			border-radius: 50%;
+			background-color:#81e0fc;
+			box-sizing: border-box;
+			width: 50px;
+			height: 50px;
+			text-align:center;
+			line-height:60px;
+			z-index: 200;
+			opacity: 70%;
+		}
+         #planChat {
+            height: 90%;
+            width: 280px;
+            transition: all 0.5s;
+            color: #333;
+            font-size: 10px;
+            position: fixed;
+            right: -350px;
+            bottom: 20px;
+            border: 1px solid #ccc;
+            background-color: #E2F4F3;
+            z-index: 190;
+        }
+        #planChat.on {
+        	right: 10px;
+        }
+
+        .planChat.output {
+            height: 95%;
+            background-color: white;
+            overflow:auto;
+        }
+
+        .planChat.input {
+            height: 40px;
+            bottom: 0px;
+            background-color: #C5ECE9;
+        }
+	
+	</style>
 
 </head>
 <body>
 	<!-- ToolBar 시작 -->
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<!-- ToolBar 끝 -->
+	
+	<jsp:include page="/toolbar/pushBar_jay.jsp"></jsp:include>
+	
+	
+	<!-- ////////////////////////////////////////// 플래너 채팅 ////////////////////////////////////////// -->
+	
+	<%--플래너 채팅 클릭 버튼--%>
+	<div id="click">
+		<i class="fas fa-comment-dots  fa-flip-horizontal fa-2x" style="color:white;"></i>
+	</div>
+	
+	
+	
+	<script type="text/javascript">
+	/* -----------------------------------------  플래너 채팅 스크립트  --------------------------------------- */
+		var userId = '${user.userId}';
+		
+	    var planChatSocket;
+	    var planChatLayer = $(".planChat.output");
+	    var myChat = $("#myChat");
+	
+	    
+	    function connectPlanChat() {
+	        var addr = "ws://localhost:8080/planSocket/"+${plan.planId}+"/" + userId;
+	        planChatSocket = new WebSocket(addr);
+	        
+	        planChatSocket.onopen = function(message) {
+	        	console.log("접속했다."+addr);
+	
+	        	planChatSocket.onmessage = function(message) {
+	        		console.log("메시지 받았다.")
+	            	var json = JSON.parse(message.data);
+	            	if( Array.isArray(json) ) {
+	            		checkOnlineMembers(json);
+	            	} else {
+	                    receivePlanChat(json);
+	            	}
+	                $(".planChat.output").scrollTop($(".planChat.output")[0].scrollHeight);
+	            };
+	
+	        };
+	        planChatSocket.onclose = function(message) {
+	            console.log("접속이 끊어졌습니다.\n");
+	        };
+	        planChatSocket.onerror = function(message) {
+	            console.log("에러가 발생했습니다.\n");
+	        };
+	
+	    }
+	    
+	    function receivePlanChat(chat) {
+	    	var html = "";
+	        if(chat.senderId == 'system'){
+	            html += "<div style=\"text-align:center;margin: 20px;background-color:#D8D8D8;border-radius:10px;\">";
+	            html += "<font color='#424242' size=2>"+chat.chatContent+"</font>";
+	            html += "</div>"
+	        } else if(chat.senderId == userId) {
+	            html += "<div style=\"text-align:right;margin:10px;\">"
+	            html += "<font color='#cccccc' size=1>"+chat.sendTime+"&ensp;</font>";
+	            html += "<div style='display: inline-block;background-color:#C5ECE9;height:auto;min-height:25px;vertical-align:middle;border-radius:10px;padding:2px'>";
+	            html += "<font color='black' size=2>&ensp;"+chat.chatContent+"&ensp;</font>";
+	            html += "</div>"
+	          	html += "</div>"
+	        } else { 
+	            html += "<div style=\"text-align:left;margin:10px;\">"
+	            html += "<div style='text-align:center;display: inline-block;vertical-align: center;'>";
+	            html += chat.senderId+"<br/>";
+	           	html += "<img  style='border: 2px solid #C5ECE9;width:30px;height:30px;margin:2px;' class='rounded-circle' src=\"/resources/images/userImages/"+chat.user.userImg+"\">";
+	           	html += "</div>"
+	           	html += "<div style='display: inline-block;background-color:#F2F2F2;height:auto;min-height:25px;vertical-align:middle;border-radius:10px;padding:2px'>";
+	            html += "<font color='black' size=2>&ensp;"+chat.chatContent+"&ensp;</font>";
+	            html += "</div>"
+	            html += "<font color='#cccccc' size=1> "+chat.sendTime+"</font>";
+	            html += "</div>"
+	        }
+	        planChatLayer.append(html);
+	    }
+	    
+	    function checkOnlineMembers(data) {
+	    	// 온라인 멤버들 표시해주기
+	    	for( var i in data) {
+	    		$("#img_"+data[i].userId).addClass("on");
+	    	}
+	    }
+	   
+	    function sendMessage() {
+	    	if( myChat.val().trim() != "" ) {
+	        var chat = new Object();
+	        chat.senderId = userId;
+	        chat.chatContent = myChat.val();
+	                    
+	        planChatSocket.send(JSON.stringify({chat}));
+	    	}
+	        myChat.val('');
+	        $(".planChat.output").scrollTop($(".planChat.output")[0].scrollHeight);
+	    }
+	    
+	    /*      ---------------------------------------------------   */
+	    
+	    // document.ready
+   		jQuery(document).ready(function($) {
+
+        	connectPlanChat();
+        	$("#myChat").keydown(function (key) {
+                if(key.keyCode == 13){
+                	sendMessage();
+                	myChat.val();
+                }
+            });
+        	$("#click").on("mouseover", function() {
+        		$("#click").css({"background-color":"#2ECCFA"});
+        	}).on("mouseout", function() {
+        		$("#click").css({"background-color":"#81e0fc"});
+        	});
+        	
+        	$(".fa-comment-dots").on("click", function() {
+        		$("#planChat").toggleClass('on');
+        	});
+        	
+        });
+	
+	</script>
+
+	<%--플래너 채팅 UI--%>
+	<div id="planChat">
+		<div class="planChat output" style="padding:5px"></div>
+		<div class="planChat input" style="padding:5px">
+			<div class="input-group">
+			    <input type="text" class="form-control form-control-sm" id="myChat" placeholder="메시지를 입력하세요">
+			    <span class="input-group-btn">
+			        <button class="btn btn-default btn-sm" type="button"><i class="fab fa-telegram-plane"></i></button>
+			    </span>
+			</div>
+		 </div>
+	</div>
+   				  
+    <!-- ////////////////////////////////////////// 플래너 채팅 END ////////////////////////////////////////// -->
+	
 	
 	
 	<!-- 화면구성 div Start ///////////////////////////// -->
@@ -1602,6 +1905,7 @@
 		              <span data-feather="briefcase"></span>준비물
 		            </a>
 		          </li>
+		          
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoMemoList">
 		              <span data-feather="edit-3"></span>메모
@@ -1630,7 +1934,7 @@
 		        <ul class="nav flex-column mb-2" style="margin: 15px;">
 		          <c:forEach var="member" items="${plan.planPartyList}">
 		          	<li class="nav-item media party-member" style="margin-bottom: 10px;">
-		          		<img src="https://pds.joins.com/news/component/htmlphoto_mmdata/201903/01/faf54c9e-e268-440d-995c-eea6834d559a.jpg" class="rounded-circle align-self-center mr-2 party-member-img ${member.role}" alt="...">
+		          		<img src="https://pds.joins.com/news/component/htmlphoto_mmdata/201903/01/faf54c9e-e268-440d-995c-eea6834d559a.jpg" id="img_${member.userId}" class="rounded-circle align-self-center mr-2 party-member-img" alt="...">
 						    <div class="media-body" style="font-size:12px;">
 							    <h6 class="mt-0 mb-1">${member.userId}</h6>
 							      ${member.nickname}
@@ -1824,7 +2128,7 @@
 						<div class="row"> -->
 					<div class="d-flex justify-content-around flex-wrap flex-md-nowrap"  style="width: 99%;">
 						<div id="todo_list_container" style="width: 32%;">
-							<p style="margin: 0 10px; font-weight: bolder; float: right;">Todo &nbsp;<span data-feather="pen-tool" id="addTodoButton"></span></p>
+							<p style="border-bottom:1px solid #797979; margin: 0 10px; font-weight: bolder; float: right;">&nbsp;Todo &nbsp;<span data-feather="pen-tool" id="addTodoButton"></span></p>
 							<ul id="todo_list" class="connectedSortable">
 							
 								<c:if test="${plan.todoList.size()!=0}">
@@ -1841,7 +2145,7 @@
 						</div>
 						
 						<div id="doing_list_container" style="width: 32%;border-left: 1px #C1CDCC;">
-							<p style="margin: 0 10px; font-weight: bolder; float: right;">Doing</p> 
+							<p style="border-bottom:1px solid #797979; margin: 0 10px; font-weight: bolder; float: right;">Doing</p> 
 							<ul id="doing_list" class="connectedSortable">
 							
 								<c:if test="${plan.todoList.size()!=0}">
@@ -1857,7 +2161,7 @@
 						</div>
 						
 						<div id="done_list_container" style="width: 32%;border-left: 1px #C1CDCC;">
-							<p style="margin: 0 10px; font-weight: bolder; float: right;">Done</p> 
+							<p style="border-bottom:1px solid #797979; margin: 0 10px; font-weight: bolder; float: right;">Done</p> 
 							<ul id="done_list" class="connectedSortable">
 							
 								<c:if test="${plan.todoList.size()!=0}">
@@ -2039,10 +2343,11 @@
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom list-container" id="gotoMemoList">
 					<div class="container">
 						<!-- <h5>메모</h5> -->
-						<div style="font-weight: bolder;font-size: 20px;margin-bottom: 5px;">메모 <span class="addMemo">addMemo</span> </div>
+						<div style="font-weight: bolder;font-size: 20px;margin-bottom: 5px;">메모 <span class="addMemo"><i class="fa fa-marker addMemoIcon"></i></span> </div>
 						<div class="row memo_row">
 							
 							<br/>
+							<!-- memo list -->
 							<c:if test="${plan.memoList.size()!=0}">
 								<c:forEach var="memo" items="${plan.memoList}">
 								
@@ -2052,7 +2357,7 @@
 										${memo.memoDetail}<br/>
 									</div> --%>
 								
-									<div class="memo">
+									<div class="memo" id="memo_${memo.memoId}">
 										<nav class="top_nav">
 											<span class="addMemo"><i class="fa fa-plus"></i></span>
 											<span class="delMemo" onclick="deleteMemo('${memo.memoId}')"><i class="fa fa-trash"></i></span>
@@ -2062,9 +2367,33 @@
 										<textarea name="memoDetail" class="memoDetail">${memo.memoDetail}</textarea>
 										<div class="memo_id" hidden="hidden">${memo.memoId}</div>
 									</div>
-								
+									
 								</c:forEach>
 							</c:if>
+							
+							<!-- memo prev list -->
+							<div class="memo_prev_list" style="margin: 20px;">
+								<c:if test="${plan.memoList.size()!=0}">
+									<c:forEach var="memo" items="${plan.memoList}">
+								
+										<div class="memo_prev">
+											<span class="delMemo" onclick="deleteMemo('${memo.memoId}')"><i class="fa fa-trash"></i></span>
+											<span class="memoDetail_prev">
+												<a href="#memo_${memo.memoId}" >
+													<c:if test="${memo.memoDetail.length() > 20}">
+														${memo.memoDetail.substring(0,20)} . . .
+													</c:if>
+													<c:if test="${memo.memoDetail.length() <= 20}">
+														${memo.memoDetail}
+													</c:if>
+												</a>
+											</span>
+										</div>
+									
+									</c:forEach>
+								</c:if>
+							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -2457,6 +2786,12 @@
 	<!-- //////////////////////////////////////// 모달 모음 끝  //////////////////////////////////////// -->
 
 	
+	
+	
+	
+	
+
+	
 	<!-- body 로드 후 실행되어야 하는 스크립트 모음  -->
 	<script>
 	
@@ -2479,108 +2814,18 @@
 		        zoom: 3,			/* zoom: 1:World, 5:Landmass/continent, 10:City, 15:Streets, 20:Buildings */
 		        //mapTypeId :'terrain',
 		        styles: [
-		        	/* {
-		        	    "elementType": "geometry",
-		        	    "stylers": [
-		        	      {
-		        	        "color": "#ffffff"
-		        	      }
-		        	    ]
-		        	  }, */
-		        	  {
-		        	    "elementType": "labels.icon",
-		        	    "stylers": [
-		        	      {
-		        	        "color": "#e5e5e5"
-		        	      },
-		        	      {
-		        	        "visibility": "off"
-		        	      }
-		        	    ]
-		        	  },
-		        	  {
-		        	    "elementType": "labels.text.fill",
-		        	    "stylers": [
-		        	      {
-		        	        "color": "#c3c3c3"
-		        	      }
-		        	    ]
-		        	  },
-		        	  {
-		        	    "featureType": "administrative",
-		        	    "elementType": "geometry",
-		        	    "stylers": [
-		        	      {
-		        	        "visibility": "off"
-		        	      }
-		        	    ]
-		        	  },
-		        	  /* {
-		        	    "featureType": "administrative.land_parcel",
-		        	    "stylers": [
-		        	      {
-		        	        "visibility": "off"
-		        	      }
-		        	    ]
-		        	  }, */
-		        	  {
-		        	    "featureType": "administrative.locality",
-		        	    "stylers": [
-		        	      {
-		        	        "visibility": "simplified"
-		        	      }
-		        	    ]
-		        	  },
-		        	  {
-		        	    "featureType": "administrative.neighborhood",
-		        	    "stylers": [
-		        	      {
-		        	        "visibility": "off"
-		        	      }
-		        	    ]
-		        	  },
-		        	  /* {
-		        	    "featureType": "poi",
-		        	    "stylers": [
-		        	      {
-		        	        "visibility": "off"
-		        	      }
-		        	    ]
-		        	  }, */
-		        	  /* {
-		        	    "featureType": "road",
-		        	    "stylers": [
-		        	      {
-		        	        "visibility": "off"
-		        	      }
-		        	    ]
-		        	  }, */
-		        	  {
-		        	    "featureType": "transit",
-		        	    "stylers": [
-		        	      {
-		        	        "visibility": "off"
-		        	      }
-		        	    ]
-		        	  },
-		        	  {
-		        	    "featureType": "water",
-		        	    "elementType": "geometry",
-		        	    "stylers": [
-		        	      {
-		        	        "color": "#B5F8FF"
-		        	      }
-		        	    ]
-		        	  },
-		        	  /* {
-		        	    "featureType": "water",
-		        	    "elementType": "labels.text",
-		        	    "stylers": [
-		        	      {
-		        	        "visibility": "off"
-		        	      }
-		        	    ]
-		        	  } */
+		        	/* { "elementType": "geometry", "stylers": [ { "color": "#ffffff" } ] }, */
+		        	  { "elementType": "labels.icon", "stylers": [ { "color": "#e5e5e5" }, { "visibility": "off" } ] },
+		        	  { "elementType": "labels.text.fill", "stylers": [ { "color": "#c3c3c3" } ] },
+		        	  { "featureType": "administrative", "elementType": "geometry", "stylers": [ { "visibility": "off" } ] },
+		        	  /* { "featureType": "administrative.land_parcel", "stylers": [ { "visibility": "off" } ]}, */
+		        	  { "featureType": "administrative.locality", "stylers": [ { "visibility": "simplified" } ] },
+		        	  { "featureType": "administrative.neighborhood", "stylers": [ { "visibility": "off" } ] },
+		        	  /* { "featureType": "poi", "stylers": [ { "visibility": "off" } ] }, */
+		        	  /* { "featureType": "road", "stylers": [ { "visibility": "off" } ] }, */
+		        	  { "featureType": "transit", "stylers": [ { "visibility": "off" } ] },
+		        	  { "featureType": "water", "elementType": "geometry", "stylers": [ { "color": "#B5F8FF" } ] },
+		        	  /* { "featureType": "water", "elementType": "labels.text", "stylers": [ { "visibility": "off" } ] } */
 		        ]
 		    });
 		    /* marker = new google.maps.Marker({
@@ -2722,7 +2967,7 @@
 	
 	
 	<!-- Google Map API -->
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4&callback=initMap" type="text/javascript"></script>
 
 </body>
 </html>

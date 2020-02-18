@@ -118,7 +118,9 @@ public class RoomController {
 		String checkOut = room.getCheckOut().replace("-", "");
 		int roomNum = room.getRoomNum();
 		int adultNum = room.getAdultNum();
+		int adultNum2 = room.getAdultNum2();
 		int childNum = room.getChildNum();
+		int childNum2 = room.getChildNum2();
 		//checkIn
 		String year = checkIn.substring(0, 4); // 년도
 		String month = checkIn.substring(4, 6);// 월
@@ -218,16 +220,32 @@ public class RoomController {
 				driver.wait(500);
 			}
 			//유아수
-			driver.findElement(By.cssSelector("#qf-0q-room-0-children > option:nth-child("+childNum+")")).click();
-			synchronized (driver) {
-				driver.wait(500);
+			if (childNum > 0) {
+				driver.findElement(By.cssSelector("#qf-0q-room-0-children > option:nth-child("+childNum+")")).click();
+				synchronized (driver) {
+					driver.wait(500);
+				}
+			}
+			//성인수2
+			if (adultNum2 > 0) {
+				driver.findElement(By.cssSelector("#qf-0q-room-1-adults > option:nth-child("+adultNum2+")")).click();
+				synchronized (driver) {
+					driver.wait(300);
+				}
+			}
+			//유아수2
+			if (childNum2 > 0) {
+				driver.findElement(By.cssSelector("#qf-0q-room-1-children > option:nth-child("+childNum2+")")).click();
+				synchronized (driver) {
+					driver.wait(300);
+				}
 			}
 			// 검색 클릭
 			driver.findElement(By.xpath("//*[@id=\"hds-marquee\"]/div[2]/div[1]/div/form/div[4]/button")).click();
 			System.out.println("============");
 			System.out.println("자바스크립트 클릭 완료");
 			synchronized (driver) {
-				driver.wait(1000);
+				driver.wait(800);
 			}
 			int pageDown = 4;
 			webElement = driver.findElement(By.tagName("body"));
@@ -243,7 +261,7 @@ public class RoomController {
 			synchronized (driver) {
 				driver.wait(1000);
 			}
-			pageDown = 3;
+			pageDown = 2;
 			while (pageDown > 0) {
 				webElement = driver.findElement(By.tagName("body"));
 				webElement.sendKeys(Keys.PAGE_DOWN);
@@ -267,7 +285,7 @@ public class RoomController {
 				System.out.println("페이지 다운33");
 			}
 			synchronized (driver) {
-				driver.wait(1000);
+				driver.wait(800);
 			}
 			//숙소이름
 			List<WebElement> name = driver
@@ -301,7 +319,8 @@ public class RoomController {
 				  
 				  //경로 꼭 수정하기!!!
 				  String savePath =
-						  "C:\\Users\\User\\git\\repository\\Exhibition\\11.Model2MVCShop\\WebContent\\images\\uploadFiles\\";
+						  "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\orderImg\\";
+						  //"C:\\Users\\User\\git\\repository\\Exhibition\\11.Model2MVCShop\\WebContent\\images\\uploadFiles\\";
 				  String saveFileName = System.currentTimeMillis()+".jpg";
 				  String fileFormat = "jpg";
 				  
@@ -374,8 +393,8 @@ public class RoomController {
 				room.setRoomCity(roomCity);
 				room.setCheckIn(checkIn);
 				room.setCheckOut(checkOut);
-				room.setAdultNum(adultNum);
-				room.setChildNum(childNum);
+				room.setAdultNum(adultNum+adultNum2);
+				room.setChildNum(childNum+childNum2);
 				room.setRoomNum(roomNum);
 
 				roomList.add(room);
@@ -392,11 +411,11 @@ public class RoomController {
 			driver.close();
 		}
 		synchronized (driver) {
-			driver.wait(1500);
+			driver.wait(1000);
 		}
 		////////////////////////////////////////////////////////////
 
-		return "forward:/room/getRoomList.jsp";
+		return "forward:/view/room/getRoomList.jsp";
 
 	}
 	

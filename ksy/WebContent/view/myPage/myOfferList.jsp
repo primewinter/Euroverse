@@ -191,8 +191,10 @@
 			                    		${planOffer.planTitle}
 			                    		<small>
 			                    			<br>${planOffer.offerMsg} 
-			                    			<br>${planOffer.toUserId} 
-			                    			<br>${planOffer.offerDate}
+			                    			<br>${planOffer.fromUserId} 
+			                    			<br>
+			                    			 <c:set var="planOfferDate" value="${fn:split(planOffer.offerDate,' ')}"></c:set>
+					   						 <c:out value="${planOfferDate[0]}"></c:out>
 			                    		</small>
 			                    <div class="icon-block"><a href="#">수락</a><a href="#"> 거절</a></div>
 			                    </div>
@@ -224,7 +226,10 @@
 			      <h5 class="mt-0 mb-1">${partyOffer.postTitle}</h5>
 			      ${partyOffer.toUserId}<br>
 			      ${partyOffer.offerMsg}<br>
-			      ${partyOffer.offerDate}<br>
+			      
+			      <c:set var="partyOfferDate" value="${fn:split(partyOffer.offerDate,' ')}"></c:set>
+					   						 <c:out value="${partyOfferDate[0]}"></c:out>
+			      <br>
 					
 					<button type="button" class="btn btn-primary">수락</button>
 					<button type="button" class="btn btn-secondary">거절</button>			      

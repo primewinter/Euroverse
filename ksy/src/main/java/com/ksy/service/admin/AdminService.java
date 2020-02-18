@@ -3,6 +3,7 @@ package com.ksy.service.admin;
 import java.util.Map;
 
 import com.ksy.common.Search;
+import com.ksy.service.domain.Comment;
 
 public interface AdminService {
 
@@ -12,6 +13,8 @@ public interface AdminService {
 	
 	public void updateCommReport(String commId) throws Exception;
 		
-	public Map<String, Object> getQnaCommList(String postId) throws Exception;
+	public Comment getQnaComment(String postId) throws Exception;
+	
+	public void addQnaComment(Comment comment) throws Exception;
 	
 }

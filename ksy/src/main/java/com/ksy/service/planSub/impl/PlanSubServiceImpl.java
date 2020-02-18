@@ -151,6 +151,11 @@ public class PlanSubServiceImpl implements PlanSubService {
 		planSubDao.deleteMemo(memoId);
 	}
 
+	@Override
+	public void updateMemoCoordinates(Memo memo) throws Exception {
+		planSubDao.updateMemoCoordinates(memo);
+		
+	}
 	
 	
 	//city_info 관련 메소드
@@ -158,6 +163,8 @@ public class PlanSubServiceImpl implements PlanSubService {
 	public List<City> getCityListByScroll(int zoomLevel) throws Exception {
 		return planSubDao.getCityListByScroll(zoomLevel);
 	}
+
+
 
 
 
