@@ -1741,7 +1741,7 @@
 		var userId = '${user.userId}';
 		
 	    var planChatSocket;
-	    var planChatLayer = $(".planChat.output");
+	    var planChatLayer = $("div.planChat.output");
 	    var myChat = $("#myChat");
 	
 	    
@@ -1755,9 +1755,12 @@
 	        	planChatSocket.onmessage = function(message) {
 	        		console.log("메시지 받았다.")
 	            	var json = JSON.parse(message.data);
+	        		console.log(Array.isArray(json));
 	            	if( Array.isArray(json) ) {
 	            		checkOnlineMembers(json);
+	            		console.log("checkOnlineMembers")
 	            	} else {
+	            		console.log("receivePlanChat")
 	                    receivePlanChat(json);
 	            	}
 	                $(".planChat.output").scrollTop($(".planChat.output")[0].scrollHeight);
