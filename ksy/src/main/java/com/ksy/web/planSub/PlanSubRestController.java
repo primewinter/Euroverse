@@ -242,7 +242,7 @@ public class PlanSubRestController {
 	}
 	
 	@RequestMapping( value = "json/addMemo", method = RequestMethod.POST )
-	public List<Memo> addMemo( @RequestBody Memo memo, HttpSession session ) throws Exception {
+	public Memo addMemo( @RequestBody Memo memo, HttpSession session ) throws Exception {
 		
 		User user = (User)session.getAttribute("user");
 		//test용 if문 : 회원아이디 셋팅
@@ -256,7 +256,8 @@ public class PlanSubRestController {
 		planSubService.addMemo(memo);
 		
 		List<Memo> memoList = planSubService.getMemoList(memo.getPlanId());
-		return memoList;
+		Memo newMemo = memoList.get( 0 );
+		return newMemo;
 	}
 	
 	@RequestMapping( value = "json/updateMemo", method = RequestMethod.POST )
@@ -274,6 +275,15 @@ public class PlanSubRestController {
 		List<Memo> memoList = planSubService.getMemoList(planId);
 		return memoList;
 	}
+	
+	@RequestMapping( value = "json/updateMemoCoordinates", method = RequestMethod.POST )
+	public List<Memo> updateMemoCoordinates( @RequestBody Memo memo ) throws Exception {
+		planSubService.updateMemoCoordinates(memo);
+		
+		List<Memo> memoList = planSubService.getMemoList(memo.getPlanId());
+		return memoList;
+	}
+	
 	
 	
 	

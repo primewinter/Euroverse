@@ -60,7 +60,7 @@ public interface PlanSubDao {
 	
 	public void deleteMemo(String memoId) throws Exception;
 	
-	
+	public void updateMemoCoordinates(Memo memo) throws Exception;
 	
 	
 	//city_info ฐüทร..

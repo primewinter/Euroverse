@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.springframework.web.multipart.MultipartFile;
 
 public class ChatRoom {
 	
@@ -15,6 +16,8 @@ public class ChatRoom {
 	private String creator;
 	private List<String> chatMems; // 채팅 참여 회원 목록
 	private Date createdDate;
+	private String chatImg;
+	private MultipartFile chatRoomFile;
 
 	// 출력용 field
 	private Document lastChat; // 마지막 메시지
@@ -73,13 +76,24 @@ public class ChatRoom {
 	public void setUnreadMsgCount(int unreadMsgCount) {
 		this.unreadMsgCount = unreadMsgCount;
 	}
+	public String getChatImg() {
+		return chatImg;
+	}
+	public void setChatImg(String chatImg) {
+		this.chatImg = chatImg;
+	}
+	public MultipartFile getChatRoomFile() {
+		return chatRoomFile;
+	}
+	public void setChatRoomFile(MultipartFile chatRoomFile) {
+		this.chatRoomFile = chatRoomFile;
+	}
 	@Override
 	public String toString() {
 		return "ChatRoom [_id=" + _id + ", chatRoomId=" + chatRoomId + ", chatRoomName=" + chatRoomName
 				+ ", chatMemNum=" + chatMemNum + ", creator=" + creator + ", chatMems=" + chatMems + ", createdDate="
-				+ createdDate + ", lastChat=" + lastChat + ", unreadMsgCount=" + unreadMsgCount + "]";
+				+ createdDate + ", chatImg=" + chatImg + ", chatRoomFile=" + chatRoomFile + ", lastChat=" + lastChat
+				+ ", unreadMsgCount=" + unreadMsgCount + "]";
 	}
-	
-	
 
 }
