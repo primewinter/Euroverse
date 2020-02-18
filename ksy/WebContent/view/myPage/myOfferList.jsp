@@ -169,10 +169,11 @@
      </div> 
 		
 	
-	
- 		<input type="hidden" id="currentPage" name="currentPage" value=0 /> 
-	
+	<form id="myOfferListForm">
+ 		<input type="hidden" id="currentPage" name="currentPage" value=0 />
+ 		<input type="hidden" id="currentPage2" name="currentPage2" value=0 /> 
 
+	</form>
 
 
 <table class="table">
@@ -202,6 +203,7 @@
 	
 
 </table>
+<jsp:include page="../../common/pageNavigator_new.jsp"/>
 <hr class="one">
 
 
@@ -235,7 +237,7 @@
 
 
 
-<jsp:include page="../../common/pageNavigator_new.jsp"/>
+<jsp:include page="../../common/pageNavigator_new2.jsp"/>
 
 
 

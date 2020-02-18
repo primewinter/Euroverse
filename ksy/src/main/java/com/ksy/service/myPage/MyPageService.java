@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ksy.common.Search;
+import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Like;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Post;
@@ -44,5 +45,13 @@ public interface MyPageService {
 	
 	////////////////////////Offer//////////////////////////////////////////
 	public Map<String , Object> getOfferList(Search search , String userId) throws Exception;
+
+	
+	
+	////////////////////////QNA////////////////////////////////////////
+	public void addQna(Post post)throws Exception;
+	public Map<String , Object> getQnaList(Search search ,String userId)throws Exception;
+	
+	public List<Comment> getQnaCommentList(String postId)throws Exception;
 	
 }

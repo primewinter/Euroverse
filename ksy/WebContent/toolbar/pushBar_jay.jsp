@@ -4,9 +4,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
  
  <div class="footerBar">
- 	<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-  Popover on top
-</button>
  		<div class="pushToast">
  		</div>
  		<div class="bottom-bar push-layer" >
@@ -386,7 +383,9 @@
         	for(var i in list) {
         		html += "<tr onclick='enterRoom(\""+list[i].chatRoomId+"\")' style='height:60px;'>";
         		//html += "<input type='hidden' name='chatRoomId' value='"+list[i].chatRoomId+"'>";
-        		html += "<td class='td1' style='text-align:left;background-color:lightblue;padding:1px;width:40px;'>ㅋㅋㅋ";
+        		html += "<td class='td1' style='text-align:left;width:40px;'>";
+       			//=\"/resources/images/chatImg/"+list[i].chatImg+"\" 
+       			html += "<img style='border: 2px solid #ccc;border-radius: 7px;-moz-border-radius: 7px;-khtml-border-radius: 7px; -webkit-border-radius: 7px;width:35px;height:35px;' src=\"/resources/images/userImages/defaultUserImage.jpg\">"
         		html += "</td>"
         		html += "<td class='td2' style='text-align:left;min-width:150px;'>";
         		html += "<b><font size='3'>"+list[i].chatRoomName +"&ensp;</font></b><font color=gray>"+list[i].chatMems.length+"</font><br/>";
@@ -398,7 +397,7 @@
         		}
         		html += "</font>";
         		html += "</td>";
-        		html += " <td class='td3' style='padding:0;text-align:left;'>";
+        		html += " <td class='td3' style='padding:4;text-align:left;' valign='top'>";
         		html += "<font size=1 color=gray>"+ list[i].lastChat.sendTime+"</font>";
         		html += "</td>";
         		html += "</tr>";
@@ -643,11 +642,11 @@
 			  console.log("현재 로그인한 회원 : "+userId);
 			 
 			  if(userId != null && userId != '' ) {
-			  	getPushList(userId);
-			  	getUnreadCount(userId);
-			  	getChatRoomList();
+			  	setTimeout(() => getPushList(userId), 10);
+			  	setTimeout(() => getUnreadCount(userId), 10);
+			  	setTimeout(() => getChatRoomList(), 20);
 			  }
-
+			  
 	            $(".footerBar .fa-bell").click(function() {
 	            	// 로그인 했을 때만 실행
 	            	if(userId != null && userId != '' ) {
@@ -682,17 +681,16 @@
 	         	}).mouseover( function(){
 	         		$(this).css({'background-color':'#ccc'});
 	         	});
-
+	        	
+	        	
 	        });
-		  
-		  
 
 
 
 		
 	</script>  
 		<style>
-		*{margin:0; padding:0; list-style:none;}
+		/* *{margin:0; padding:0; list-style:none;} */
         .footerBar {
         	position: fixed;
         	right: 50px;
@@ -705,10 +703,11 @@
             opacity: 0;
             transition: all 0.3s;
             position: absolute;
-            bottom: -10px;
+            bottom: -600px;
 			border: 1px solid gray;
 			border-radius: 10px;
 			margin-bottom:20px;
+			
 		}
 		
 		.push-layer {
@@ -744,6 +743,7 @@
 		    width:100%;
 		    height:100%;
 		    position:absolute;
+		    margin:0; padding:0; list-style:none;
 		}
 		
 		#slider-wrap ul#slider li{

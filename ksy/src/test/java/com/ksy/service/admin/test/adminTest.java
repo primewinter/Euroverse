@@ -13,6 +13,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ksy.common.Search;
 import com.ksy.service.admin.AdminService;
+import com.ksy.service.community.CommunityService;
+import com.ksy.service.domain.Comment;
+import com.ksy.service.domain.Post;
 import com.ksy.service.domain.TripInfo;
 import com.ksy.service.tripInfo.TripInfoService;
 import com.ksy.web.tripInfo.InfinityClick;
@@ -31,9 +34,15 @@ public class adminTest {
 	@Autowired
 	@Qualifier("adminServiceImpl")
 	private AdminService service;
+	
+	
+	@Autowired
+	@Qualifier("communityServiceImpl")
+	private CommunityService comService;
+	
 
-	@Test
-	public void testgetUserList() throws Exception {
+//	@Test
+	public void testGetUserList() throws Exception {
 
 		System.out.println("getUserList Test start!");
 		
@@ -63,5 +72,35 @@ public class adminTest {
 //		Assert.assertEquals(3, list.size());
 		
 	}
+	
+//	@Test
+	public void testUpdatePostReport() throws Exception{
+		
+		System.out.println("testUpdatePostReport TEST START");
+		Post post = new Post();
+		
+//		service.updatePostReport("90000");
+		post = comService.getPost("90000", "admin", "A");
+//		comService.upda
+		
+		System.out.println("post.getBlocked ==>"+post.getBlocked());
+		Assert.assertEquals("T", post.getBlocked());
+	}
+	
+//	@Test
+	public void testUpdateCommReport() throws Exception{
+		
+		System.out.println("testUpdateCommReport TEST START");
+		Comment comment = new Comment();
+		
+		service.updateCommReport("90000");
+		comment = comService.getComment("90000");
+//		comService.upda
+		
+		System.out.println("comment.getBlocked ==>"+comment.getBlocked());
+		Assert.assertEquals("T", comment.getBlocked());
+	}
+	
+	
 
 }

@@ -50,15 +50,14 @@
 		});
 		
 		$(".nav-link:contains('1:1문의')").on("click" ,function(){
+			$(self.location).attr("href","/myPage/addQnaAndQnaList");
+		});
+		
+		/* $(".nav-link:contains('1:1문의목록')").on("click" ,function(){
 			alert("구현중");
 			//$(self.location).attr("href","/user/getUser");
 		});
-		
-		$(".nav-link:contains('1:1문의목록')").on("click" ,function(){
-			alert("구현중");
-			//$(self.location).attr("href","/user/getUser");
-		});
-		
+		 */
 	/* 	$(".nav-link:contains('출석체크')").on("click" ,function(){
 			$(self.location).attr("href","/user/getUser");
 		}); */
@@ -129,11 +128,11 @@
               	1:1문의
             </a>
           </li>
-          <li class="nav-item">
+<!--           <li class="nav-item">
             <a class="nav-link" href="#">
               	1:1문의목록
             </a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" href="#" data-toggle="modal" data-target="#choolCheckModal">
               	출석체크

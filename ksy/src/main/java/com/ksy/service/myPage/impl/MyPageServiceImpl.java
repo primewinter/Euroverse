@@ -154,12 +154,43 @@ public class MyPageServiceImpl implements MyPageService{
 	public Map<String,Object> getOfferList(Search search , String userId)throws Exception{
 		List<Offer> planOfferList = myPageDao.getPlanOfferList(search, userId);
 		List<Offer> partyOfferList = myPageDao.getPartyOfferList(search, userId);
+		int planOfferListTotalCount = myPageDao.getPlanOfferListTotalList(userId);
+		int partyOfferListTotalCount = myPageDao.getPartyOfferListTotalList(userId);
+		
+		
 		Map<String , Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("partyOfferList", partyOfferList);
 		returnMap.put("planOfferList", planOfferList);
+		returnMap.put("partyOfferListTotalCount",partyOfferListTotalCount);
+		returnMap.put("planOfferListTotalCount",planOfferListTotalCount);
 		
 		return returnMap;
 	}
+	
+	
+	
+	public void addQna(Post post)throws Exception{
+		myPageDao.addQna(post);
+	}
+
+
+	@Override
+	public Map<String , Object> getQnaList(Search search ,String userId) throws Exception {
+		List<Post> qnaList = myPageDao.getQnaList(search, userId);
+		int totalCount = myPageDao.getQnaListTotalCount(userId);
+		
+		Map<String , Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("qnaList", qnaList);
+		returnMap.put("totalCount",totalCount);
+		
+		 return returnMap; 
+	}
+	
+	public List<Comment> getQnaCommentList(String postId)throws Exception{
+		List<Comment> qnaCommentList = myPageDao.getQnaCommentList(postId);
+		return qnaCommentList;
+	}
+	
 	
 	
 }

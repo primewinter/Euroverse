@@ -51,6 +51,15 @@ public interface MyPageDao {
 	public List<Offer> getPlanOfferList(Search search , String userId) throws Exception;
 	public List<Offer> getPartyOfferList(Search search , String userId) throws Exception;
 	
+	public int getPlanOfferListTotalList(String userId)throws Exception;
+	public int getPartyOfferListTotalList(String userId)throws Exception;
 	
 	
+	
+	//////////////////////////////QNA////////////////////////////////
+	public void addQna(Post post)throws Exception;
+	public List<Post> getQnaList(Search search , String userId)throws Exception;
+	public int getQnaListTotalCount(String userId);
+	
+	public List<Comment> getQnaCommentList(String postId)throws Exception;
 }

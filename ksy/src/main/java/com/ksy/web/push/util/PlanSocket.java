@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import com.ksy.common.util.Util;
 import com.ksy.service.domain.Chat;
+import com.ksy.service.domain.User;
+import com.ksy.service.user.UserService;
 
 
 
@@ -28,8 +32,10 @@ import com.ksy.service.domain.Chat;
 public class PlanSocket {
 
 			private static Map<String, List<Session>> slMap = Collections.synchronizedMap(new HashMap<>());
+			private static Map<String, List<User>> users = Collections.synchronizedMap(new HashMap<>());
 			private Chat chat = new Chat();
 			private String msg;
+			private UserService userService = (UserService)Util.getBean("userServiceImpl");
 			
 			// 웹 소켓이 연결되면 호출되는 이벤트
 			@OnOpen
@@ -47,9 +53,24 @@ public class PlanSocket {
 				chat.setChatContent(userId+"님이 입장하셨습니다.");
 				msg = new ObjectMapper().writeValueAsString(chat);
 				System.out.println(">> 보낸 메시지 : "+msg);
-				
 				sendToPlan(planId, msg, session);
-		
+				
+				// 현재 입장인원 목록
+				List<User> userList = users.get(planId);
+				if( userList == null || userList.size() == 0 ) {
+					userList = new ArrayList<>();
+				}
+				//UserService userService = (UserService)Util.getBean("userServiceImpl");
+				userList.add(userService.getUser(userId));
+				System.out.println(planId+"에 현재 입장한 회원 ::");
+				for(User user : userList ) {
+					System.out.println(user);
+				}
+				System.out.println("===========");
+				users.put(planId, userList);
+				msg = new ObjectMapper().writeValueAsString(userList);
+				sendToPlan(planId, msg, session);
+						
 			}
 		
 			//웹 소켓으로부터 메시지가 오면 호출되는 이벤트
@@ -62,6 +83,8 @@ public class PlanSocket {
 						
 						ObjectMapper objectMapper = new ObjectMapper();
 						chat = objectMapper.readValue(jsonobj.get("chat").toString(), Chat.class);
+						//UserService userService = (UserService)Util.getBean("userServiceImpl");
+						chat.setUser(userService.getUser(chat.getSenderId()));
 						SimpleDateFormat sdf = new SimpleDateFormat("a hh:mm");
 						chat.setSendTime(sdf.format(new Date()));
 						msg = new ObjectMapper().writeValueAsString(chat);
@@ -79,7 +102,7 @@ public class PlanSocket {
 						msg = new ObjectMapper().writeValueAsString(chat);
 						System.out.println(">> 보낸 메시지 : "+msg);
 						for (Map.Entry<String, List<Session>> entry : slMap.entrySet()) {
-							System.out.println("퇴장하는 getKey :::: " + entry.getKey());
+							System.out.println(planId +"번 플래너를 퇴장하는 getKey :::: " + entry.getKey());
 							if (entry.getKey().equals(planId)) {
 								entry.getValue().remove(session);
 								for (Session se : entry.getValue()) {
@@ -87,6 +110,15 @@ public class PlanSocket {
 								}
 							}
 						}
+						System.out.println("삭제 시작!"+users.get(planId).size());
+						Iterator<User> iter = users.get(planId).iterator();
+						User quit = userService.getUser(userId);
+						while (iter.hasNext()) {
+						    quit = iter.next();
+						    iter.remove();
+						}
+						msg = new ObjectMapper().writeValueAsString(users.get(planId));
+						sendToPlan(planId, msg, session);
 			}
 			
 			
