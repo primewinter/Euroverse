@@ -55,12 +55,19 @@ public class AdminDaoImpl implements AdminDao {
 		sqlSession.update("AdminMapper.adminCmtBlocked", commId);
 	}
 	
-	public List<Comment> getQnaCommList(String postId) throws Exception{
+	public Comment getQnaComment(String postId) throws Exception{
 		
 		System.out.println("AdminDaoImpl getQnaCommList");
 		
-		return sqlSession.selectList("AdminMapper.getCommentList", postId);
+		return sqlSession.selectOne("AdminMapper.getQnaComment", postId);
 		
+	}
+	
+	public void addQnaComment(Comment comment) throws Exception{
+		
+		System.out.println("AdminDaoImpl addQnaComment");
+		
+		sqlSession.insert("AdminMapper.addQnaComment");
 	}
 	
 }

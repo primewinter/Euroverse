@@ -151,4 +151,6 @@ public class TripInfoController {
 		return "forward:/view/tripInfo/exchange.jsp";
 	
 	}
+	
+
 }
