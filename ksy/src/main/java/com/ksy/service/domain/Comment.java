@@ -18,7 +18,9 @@ public class Comment {
 	private String cmtImg;  
 	private String deleted; //deleted
 	private String postWriterId;
+	
 	private String postTitle;
+	private String boardName; 
 	
 	public Comment() {
 		
@@ -153,13 +155,25 @@ public class Comment {
 		this.postTitle = postTitle;
 	}
 
+	
+	
+	public String getBoardName() {
+		return boardName;
+	}
+
+	public void setBoardName(String boardName) {
+		this.boardName = boardName;
+	}
+
 	@Override
 	public String toString() {
 		return "Comment [postId=" + postId + ", cmtId=" + cmtId + ", parentCmtId=" + parentCmtId + ", cmtWriterId="
 				+ cmtWriterId + ", nickName=" + nickName + ", cmtContent=" + cmtContent + ", cmtDate=" + cmtDate
 				+ ", blocked=" + blocked + ", cmtLikeFlag=" + cmtLikeFlag + ", cmtLikeCount=" + cmtLikeCount
 				+ ", secret=" + secret + ", cmtImg=" + cmtImg + ", deleted=" + deleted + ", postWriterId="
-				+ postWriterId + ", postTitle=" + postTitle + "]";
+				+ postWriterId + ", postTitle=" + postTitle + ", boardName=" + boardName + "]";
 	}
+
+	
 
 }

@@ -43,6 +43,9 @@ public class OrderServiceImpl implements OrderService{
 	public Order getRoomOrder (String orderId) throws Exception {
 		return orderDao.getRoomOrder(orderId);
 	}
+	public void getOrderRefund(Order order) throws Exception{
+		orderDao.getOrderRefund(order);
+	}
 	
 	public Map<String,Object> getOrderList(Search search,String buyerId) throws Exception {
 		

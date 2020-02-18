@@ -8,6 +8,9 @@ public class Memo {
 	private String memoRegDate;		//memo_reg_date	:: SYSDATE
 	private String memoRegUser;		//memo_reg_user
 	
+	private String pageX;			//page_x
+	private String pageY;			//page_y
+	
 	private String regUserNickname;
 	
 	
@@ -19,6 +22,18 @@ public class Memo {
 	}
 
 
+	public String getPageX() {
+		return pageX;
+	}
+	public void setPageX(String pageX) {
+		this.pageX = pageX;
+	}
+	public String getPageY() {
+		return pageY;
+	}
+	public void setPageY(String pageY) {
+		this.pageY = pageY;
+	}
 	public Memo() {
 		super();
 	}
@@ -58,11 +73,17 @@ public class Memo {
 	public void setMemoRegUser(String memoRegUser) {
 		this.memoRegUser = memoRegUser;
 	}
+	
+	
 	@Override
 	public String toString() {
 		return "\nMemo [planId=" + planId + ", memoId=" + memoId + ", memoDetail=" + memoDetail + ", memoRegDate="
-				+ memoRegDate + ", memoRegUser=" + memoRegUser + ", regUserNickname=" + regUserNickname + "]";
+				+ memoRegDate + ", memoRegUser=" + memoRegUser + ", pageX=" + pageX + ", pageY=" + pageY
+				+ ", regUserNickname=" + regUserNickname + "]";
 	}
+
+
+	
 	
 
 }

@@ -42,29 +42,48 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
 <script>
-function addBookMark(postId){
 
+$(function(){
+
+	$( "td:nth-child(2)" ).on("click" , function() {
+		
+		var postId = $(this).next().next().next().next().val();
+		var boardName = $(this).next().next().next().next().next().val();
+		self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
+	});
+})
+
+
+function deleteBookMark(postId){
 	$.ajax({
-		url : '/community/json/addBookMark/'+postId ,
+		url : '/myPage/json/deleteBookMark/'+postId ,
 		type : "GET" ,
 		cache : false ,
 		dataType : "json" ,
-		success : function(data) {
-			var msg = '';
-			msg += data.msg;
-			alert(msg);
-			
-			if(data.likeCheck == 'F'){
-			  $(".fas.fa-bookmark").attr('class','far fa-bookmark fa-2x');
-			}else{
-			  $(".far.fa-bookmark").attr('class','fas fa-bookmark fa-2x');
-			}      
+		success : function(JSONData) {
+			var bookMarkList = JSONData.bookMarkList;
+				$("tbody").html("");
+			for(var i=0;i<bookMarkList.length;i++){
+				//alert(bookMarkList[i].postId);
+				$("tbody").append("<tr>");
+				$("tbody").append("<th scope='row'>"+(i+1)+"</th>");
+				$("tbody").append("<td>"+bookMarkList[i].postTitle+" </td>");
+				$("tbody").append("<td>"+bookMarkList[i].nickName+"</td>");
+				$("tbody").append("<td><i id=deleteBookMark"+i+" class='fas fa-bookmark fa-2x' onclick='javascript:deleteBookMark("+bookMarkList[i].postId+")'></i></td>");
+				$("tbody").append("<input type='hidden' value="+i+">");
+				$("tbody").append("<input type='hidden' name='postId' value="+bookMarkList[i].postId+"/>");
+				$("tbody").append("<input type='hidden' value="+bookMarkList[i].boardName+"/>");
+				$("tbody").append("</tr>");
+			}
+			     
 		},
 		error: function(request, status, error){
 			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		}
 	});
 }
+
+
 
 </script>
 
@@ -121,12 +140,21 @@ function addBookMark(postId){
   	<c:forEach var="bookMarkPost" items="${bookMarkList}" varStatus="status">
   		<tr>
   			<th scope="row">${status.count}</th>
-  			<input type="hidden" id="postId" name="postId" value="${bookMarkPost.postId}"/>
-  			<td>${bookMarkPost.postTitle}</td>
-  			<td>${bookMarkPost.nickName}</td>
-  			<td><i onclick="addBookMark(${bookMarkPost.postId})" class="far fa-bookmark fa-2x" style="float: right;"></i></td>
   			
-  		
+  			
+  			<c:set var="title" value="${bookMarkPost.postTitle}"/>
+			<td>${fn:substring(title,0,35)}
+			<c:if test="${fn:length(title)>35}">
+				......
+			</c:if>
+			</td>
+			
+			
+  			<td>${bookMarkPost.nickName}</td>
+  			<td><i id="deleteBookMark${status.index}" class="fas fa-bookmark fa-2x" onclick="javascript:deleteBookMark(${bookMarkPost.postId})"></i></td>
+  			<input type="hidden" value="${status.index}">
+  			<input type="hidden" value="${bookMarkPost.postId}"/>
+  			<input type="hidden" value="${bookMarkPost.boardName}"/>
   		</tr>
   	
   	

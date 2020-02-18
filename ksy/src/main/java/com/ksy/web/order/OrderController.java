@@ -37,6 +37,7 @@ import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Room;
 import com.ksy.service.domain.User;
 import com.ksy.service.flight.FlightService;
+import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.order.OrderService;
 import com.ksy.service.room.RoomService;
 import com.ksy.service.user.UserService;
@@ -64,7 +65,11 @@ public class OrderController {
 	@Autowired
 	@Qualifier("roomServiceImpl")
 	private RoomService roomService;
-
+	
+	@Autowired
+	@Qualifier("myPageServiceImpl")
+	private MyPageService myPageService;
+	
 	public OrderController() {
 		System.out.println(this.getClass());
 	}
@@ -160,15 +165,12 @@ public class OrderController {
 		System.out.println("order : "+order);
 		System.out.println("point : "+point);
 		
-		flight.setOrderStatus("1"); //주문상태
-		order.setOrderStatus("1");
+		order.setOrderStatus("1"); //주문상태
 		System.out.println("order : "+order);
 		System.out.println("flight : "+flight);
 		//flight 상품 insert
 		flightService.addFlight(flight);
 		//flight Order insert
-		System.out.println("orderDate : "+flight.getOrderDate());
-		order.setOrderDate(flight.getOrderDate());
 		orderService.addFlightOrder(order);
 		//포인트 적립
 		point.setUsedType("F");
@@ -179,6 +181,13 @@ public class OrderController {
 		point.setUsedType("U");
 		point.setUsedPoint(usedPoint);
 		orderService.addPoint(point);
+		//total에 합산하기
+		myPageService.updateTotalPoint(point);
+		//User Session 다시 받아오기
+		User reloadUser = userService.getUser(user.getUserId());
+		System.out.println("현재포인트는 "+reloadUser.getTotalPoint());
+		session.setAttribute("user", reloadUser);
+		
 		System.out.println("point 2 : "+point);
 		//view로 쏴주기
 		model.addAttribute("flight",flight);
@@ -295,15 +304,20 @@ public class OrderController {
 		return "forward:/view/order/getOrder.jsp";
 	}
 	
-	@RequestMapping(value = "getOrderRefund", method = RequestMethod.POST)
-	public String getOrderRefund(@RequestParam("flightId")String flightId, 
-						@RequestParam("roomId")String roomId,
-						HttpSession session, Model model) throws Exception {
+	@RequestMapping(value = "getOrderRefund", method = RequestMethod.GET)
+	public String getOrderRefund(@ModelAttribute("order") Order order,
+						@RequestParam("orderId")String orderId, 
+						@RequestParam("orderStatus")String orderStatus,
+						HttpSession session, Model model, HttpServletRequest request) throws Exception {
+		System.out.println("/getOrderRefund : GET");
 		
+		order.setOrderStatus(orderStatus);
+		order.setOrderId(orderId);
+		orderService.getOrderRefund(order);
 		
-		
-		
-		return "";
+		model.addAttribute("order",order);
+
+		return "forward:/order/getOrderList";
 	}
 	
 ///////////////////////////////////환불////////////////////////////////////////

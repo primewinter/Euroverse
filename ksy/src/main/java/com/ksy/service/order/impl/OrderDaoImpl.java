@@ -48,6 +48,9 @@ public class OrderDaoImpl implements OrderDao {
 		map.put("buyerId",buyerId);
 		return sqlSession.selectList("OrderMapper.getOrderList", map);
 	}
+	public void getOrderRefund(Order order)throws Exception{
+		sqlSession.selectOne("OrderMapper.updateStatus" , order);
+	}
 
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("OrderMapper.getTotalCount", search);

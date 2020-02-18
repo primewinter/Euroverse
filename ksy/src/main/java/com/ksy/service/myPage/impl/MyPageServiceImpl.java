@@ -190,7 +190,17 @@ public class MyPageServiceImpl implements MyPageService{
 		List<Comment> qnaCommentList = myPageDao.getQnaCommentList(postId);
 		return qnaCommentList;
 	}
+
+
+	@Override
+	public void deleteQna(String postId) throws Exception {
+		myPageDao.deleteQna(postId);
+		
+	}
 	
+	public void updateQna(Post post)throws Exception{
+		myPageDao.updateQna(post);
+	}
 	
 	
 }

@@ -129,6 +129,10 @@ public class PlanSubDaoImpl implements PlanSubDao {
 		sqlSession.delete("PlanSubMapper.deleteMemo", memoId);
 	}
 	
+	@Override
+	public void updateMemoCoordinates(Memo memo) throws Exception {
+		sqlSession.update("PlanSubMapper.updateMemoCoordinates", memo);
+	}
 	
 	
 	
@@ -138,10 +142,6 @@ public class PlanSubDaoImpl implements PlanSubDao {
 		return sqlSession.selectList("PlanSubMapper.getCityListByScroll", zoomLevel);
 	}
 
-	
-
-	
-	
 	
 
 }

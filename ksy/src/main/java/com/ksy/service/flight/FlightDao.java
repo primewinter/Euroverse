@@ -12,6 +12,8 @@ public interface FlightDao {
 		
 		public Flight getFlight(String flightId) throws Exception;
 		
+		public void getOrderRefund (Flight flight) throws Exception;
+		
 		public List<Flight> getFlightList(Search search, String buyerId) throws Exception;
 		
 		public int getTotalCount(Search search) throws Exception ;
