@@ -103,6 +103,14 @@
 							#{postTitle:VARCHAR} , #{postContent:CLOB} , SYSDATE , #{views:NUMERIC} , #{blocked:CHAR} , 'F' , #{postLikeCount:NUMERIC} , 0 , 0 , 0 )
 	</insert>
 	
+	<update id="deletePost" parameterType="string">
+		UPDATE post
+		<set>
+			deleted = 'T'
+		</set>
+		WHERE post_id = #{postId}
+	</update>
+	
 	<insert id="addTag" parameterType="list">
 		INSERT
 		INTO tag( tag_id , post_id , tag_content )

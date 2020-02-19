@@ -111,8 +111,8 @@
 							</where>
 							</if>
 							ORDER BY user_id ) inner_table
-							WHERE ROWNUM &lt;= #{endRowNum} )
-			WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+							WHERE ROWNUM <![CDATA[<=]]> #{currentPage}*#{pageSize} ) 
+			WHERE row_seq BETWEEN (#{currentPage}-1)*#{pageSize}+1 AND #{currentPage}*#{pageSize} 
 	</select>
 
 

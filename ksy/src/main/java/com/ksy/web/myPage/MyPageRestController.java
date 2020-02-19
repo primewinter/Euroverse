@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Like;
+import com.ksy.service.domain.Offer;
+import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.User;
@@ -155,6 +157,98 @@ public class MyPageRestController {
 		
 		
 		return map;
+	}
+	
+	@RequestMapping(value="json/planOfferAccept/{offerId}")
+	public Map planOfferAccept(@PathVariable String offerId , HttpSession session)throws Exception{
+		
+		User user = (User)session.getAttribute("user");
+		Map map = new HashMap();
+		
+		Offer offer = myPageService.getOffer(offerId);
+		System.out.println(offer);
+		
+		int havePlanCount = myPageService.getPlanCount(user.getUserId());
+		System.out.println(havePlanCount);
+		
+		if(user.getSlot() <= havePlanCount) {
+			System.out.println("안돼 포인트로 슬룻 구매해야함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+			map.put("resultMsg", "error");
+			return map;
+		}else if(user.getSlot() > havePlanCount) {
+			List<Offer> offerList = (List<Offer>)myPageService.getRefId(user.getUserId());
+			int result = 0;
+			for(int i=0;i<offerList.size();i++) {
+				if(offerList.get(i).getRefId().equals(offer.getRefId())) {
+					result++;
+				}
+			}
+			if(result==0) {
+				offer.setOfferStatus("A");
+				offer.setOfferType("P");
+				myPageService.updateOfferStatus(offer);
+				myPageService.addPartyMember(offer);
+				map.put("planId", offer.getRefId());
+				map.put("resultMsg", "ok");
+				return map;
+			}else if(result >= 1) {
+				map.put("resultMsg", "over");
+			}
+			
+		}
+		map.put("resultMsg", "error");
+		return map;
+	}
+	
+	
+	@RequestMapping(value="json/partyOfferAccept/{offerId}")
+	public Map partyOfferAccept(@PathVariable String offerId , HttpSession session)throws Exception{
+		System.out.println("partyOfferAccept%@%!$$$!$!$!$$!$!$!$");
+		User user = (User)session.getAttribute("user");
+		Map map = new HashMap();
+		Offer offer = myPageService.getOffer(offerId);
+		//accPerson이 최대인원
+		
+		Post post = (Post)communityService.getPost(offer.getRefId(), user.getUserId(), "D");
+		System.out.println(post);
+		System.out.println("에에에에에에에~~~");
+		System.out.println(post.getAccPerson());
+		System.out.println(post.getAccCount());
+		System.out.println(post.getAccPerson()==post.getAccCount());
+		if(post.getAccPerson()==post.getAccCount()) {
+			System.out.println("근데 이건 왜 안찍히냐?");
+			map.put("resultMsg", "over");
+			return map;
+		}else if(post.getAccPerson()>post.getAccCount()){
+			List<Party> partyList = myPageService.getPartyMember(offer.getRefId()); 
+			int count = 0;
+			for(int i=0;i<partyList.size();i++) {
+				if(partyList.get(i).getPartyUserId().equals(offer.getFromUserId())) {
+					count++;
+				}
+				
+			}
+			if(count==0) {
+				offer.setToUserId(offer.getFromUserId());
+				offer.setOfferStatus("A");
+				offer.setOfferType("A");
+				myPageService.updateOfferStatus(offer);
+				myPageService.addPartyMember(offer);
+				map.put("postId", offer.getRefId());
+				map.put("resultMsg", "ok");
+				return map;
+			}else {
+				map.put("resultMsg", "overLap");
+				return map;
+			}
+			
+		}else {
+			
+			map.put("resultMsg", "error");
+			return map;
+			
+		}
+		
 	}
 
 

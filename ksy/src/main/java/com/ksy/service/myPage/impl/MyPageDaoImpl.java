@@ -13,6 +13,7 @@ import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Like;
 import com.ksy.service.domain.Offer;
+import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.TripSurvey;
@@ -152,7 +153,7 @@ public class MyPageDaoImpl implements MyPageDao{
 	}
 	
 	
-	
+	/////////////////////////OFFER/////////////////////////////////////////
 	public List<Offer> getPlanOfferList(Search search , String userId)throws Exception{
 		System.out.println("myPageDaoImpl getPlanOfferList");
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -175,6 +176,30 @@ public class MyPageDaoImpl implements MyPageDao{
 		return sqlSession.selectList("UserMapper.getPartyOfferList",map);
 	}
 	
+	public int getPlanCount(String userId)throws Exception{
+		
+		return sqlSession.selectOne("UserMapper.getPlanCount",userId);
+	}
+	
+	
+	public void addPartyMember(Offer offer)throws Exception{
+		sqlSession.insert("UserMapper.addPartyMember",offer);
+		
+	}
+	
+	public Offer getOffer(String offerId)throws Exception{
+		
+		return sqlSession.selectOne("UserMapper.getOffer",offerId);
+	}
+	
+	public void updateOfferStatus(Offer offer)throws Exception{
+		 sqlSession.update("UserMapper.updateOfferStatus",offer);
+	}
+	
+	
+	
+	
+	
 	public int getMyPostListTotalCount(String userId)throws Exception{
 		
 		return sqlSession.selectOne("UserMapper.getMyPostListTotalCount",userId);
@@ -193,6 +218,14 @@ public class MyPageDaoImpl implements MyPageDao{
 	@Override
 	public int getPartyOfferListTotalList(String userId) throws Exception {
 		return sqlSession.selectOne("UserMapper.getPartyOfferListTotalCount",userId);
+	}
+	
+	public List<Offer> getRefId(String userId)throws Exception{
+		return sqlSession.selectList("UserMapper.getRefId",userId);
+	}
+	
+	public List<Party> getPartyMember(String postId)throws Exception{
+		return sqlSession.selectList("UserMapper.getPartyMember",postId);
 	}
 	
 	

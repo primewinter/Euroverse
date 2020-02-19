@@ -119,6 +119,10 @@ public class CommunityController {
 		post.setPostWriterId(user.getUserId());
 		post.setNickName(user.getNickname());
 		
+		if(post.getPostGrade() == null) {
+			post.setPostGrade("B");
+		}
+		
 		communityService.addPost(post);
 	
 		for(int i=0; i<tagContent.length; i++) {
@@ -255,5 +259,15 @@ public class CommunityController {
 		}else {
 			return "forward:/view/community/getPostList.jsp";
 		}
+	}
+	
+	@RequestMapping( value="deletePost", method=RequestMethod.GET)
+	public String deletePost( @RequestParam("postId") String postId, @RequestParam("boardName") String boardName) throws Exception {
+		
+		System.out.println("/community/deletePost : GET");
+		
+		communityService.deletePost(postId);
+		
+		return "redirect:/community/getPostList?boardName="+boardName;
 	}
 }

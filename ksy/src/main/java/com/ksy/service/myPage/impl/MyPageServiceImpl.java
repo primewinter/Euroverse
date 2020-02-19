@@ -13,6 +13,7 @@ import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Like;
 import com.ksy.service.domain.Offer;
+import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.TripSurvey;
@@ -151,6 +152,8 @@ public class MyPageServiceImpl implements MyPageService{
 		return bookMarkList;
 	}
 	
+	
+	/////////////////////////////OFFER///////////////////////////////
 	public Map<String,Object> getOfferList(Search search , String userId)throws Exception{
 		List<Offer> planOfferList = myPageDao.getPlanOfferList(search, userId);
 		List<Offer> partyOfferList = myPageDao.getPartyOfferList(search, userId);
@@ -165,7 +168,40 @@ public class MyPageServiceImpl implements MyPageService{
 		returnMap.put("planOfferListTotalCount",planOfferListTotalCount);
 		
 		return returnMap;
+	
 	}
+	
+	
+	
+	public int getPlanCount(String userId)throws Exception{
+		
+		return myPageDao.getPlanCount(userId);
+	}
+	
+	public void addPartyMember(Offer offer)throws Exception{
+		myPageDao.addPartyMember(offer);
+	}
+	
+	
+	public Offer getOffer(String offerId)throws Exception{
+		return myPageDao.getOffer(offerId);
+	}
+	
+	public void updateOfferStatus(Offer offer)throws Exception{
+		myPageDao.updateOfferStatus(offer);
+	}
+	
+	public List<Offer> getRefId(String userId)throws Exception{
+		return myPageDao.getRefId(userId);
+	}
+	
+	public List<Party> getPartyMember(String postId)throws Exception{
+		
+		return myPageDao.getPartyMember(postId);
+	}
+	
+	
+	
 	
 	
 	

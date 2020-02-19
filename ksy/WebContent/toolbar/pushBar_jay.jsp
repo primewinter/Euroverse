@@ -390,16 +390,20 @@
         		html += "<td class='td2' style='text-align:left;min-width:150px;'>";
         		html += "<b><font size='3'>"+list[i].chatRoomName +"&ensp;</font></b><font color=gray>"+list[i].chatMems.length+"</font><br/>";
         		html += "<font size=2 color=gray>";
-        		if( list[i].lastChat.chatContent.length > 12 ) {
-        			html += list[i].lastChat.chatContent.substring(0, 12)+'..';
-        		} else {
-        			html += list[i].lastChat.chatContent
+        		try{
+	        		if( list[i].lastChat.chatContent.length > 12 ) {
+	        			html += list[i].lastChat.chatContent.substring(0, 12)+'..';
+	        		} else {
+	        			html += list[i].lastChat.chatContent
+	        		}
+	        		html += "</font>";
+	        		html += "</td>";
+	        		html += " <td class='td3' style='padding:4;text-align:left;' valign='top'>";
+	        		html += "<font size=1 color=gray>"+ list[i].lastChat.sendTime+"</font>";
+	        		html += "</td>";
+        		}catch(e){
+        			console.log(e)
         		}
-        		html += "</font>";
-        		html += "</td>";
-        		html += " <td class='td3' style='padding:4;text-align:left;' valign='top'>";
-        		html += "<font size=1 color=gray>"+ list[i].lastChat.sendTime+"</font>";
-        		html += "</td>";
         		html += "</tr>";
         	}
         	html += "</table>"
@@ -511,11 +515,19 @@
 				 	dataType : "json",
 					headers : {	"Accept" : "application/json","Content-Type" : "application/json" },
 					success : function(result) {
-						console.log("getChat() 성공");
 						var list = JSON.stringify({result});
-						var html = "";
-						for(var i in result) {
-							receiveAccChat(result[i]);
+						console.log("getChat() 성공 : "+result.length + " || "+result);
+						if( result.length != 0 ) {
+							var html = "";
+							for(var i in result) {
+								receiveAccChat(result[i]);
+							}
+						} else {
+							var chat = new Object();
+		                	chat.senderId = "system";
+		                	chat.chatContent = "동행채팅이 개설되었습니다.";
+		                	chat.chatRoomId = roomNo;
+		                	accChatSocket.send(JSON.stringify({chat}));
 						}
 						$(".accChat.output").scrollTop($(".accChat.output")[0].scrollHeight);
 					},

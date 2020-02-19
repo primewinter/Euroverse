@@ -65,4 +65,6 @@ public interface CommunityDao {
 	public void weekBestReset() throws Exception ;
 	
 	public void monthBestReset() throws Exception ;
+	
+	public void deletePost(String postId) throws Exception;
 }

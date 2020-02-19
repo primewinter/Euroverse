@@ -15,6 +15,7 @@ public class ChatRoom {
 	private int chatMemNum; // chatMem_num 채팅 참여 인원
 	private String creator;
 	private List<String> chatMems; // 채팅 참여 회원 목록
+	private String[] joinMems;
 	private Date createdDate;
 	private String chatImg;
 	private MultipartFile chatRoomFile;
@@ -57,6 +58,12 @@ public class ChatRoom {
 	}
 	public void setChatMems(List<String> chatMems) {
 		this.chatMems = chatMems;
+	}
+	public String[] getJoinMems() {
+		return joinMems;
+	}
+	public void setJoinMems(String[] joinMems) {
+		this.joinMems = joinMems;
 	}
 	public Date getCreatedDate() {
 		return createdDate;

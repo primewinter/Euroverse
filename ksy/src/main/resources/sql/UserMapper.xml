@@ -173,6 +173,17 @@
 </resultMap>
 
 
+	<resultMap type="party" id="partySelectMap">
+		<result	jdbcType="VARCHAR"		column="party_id"		property="partyId"/>
+		<result	jdbcType="VARCHAR"		column="party_user_id"	property="partyUserId"/>
+		<result	jdbcType="CHAR"			column="party_type"		property="partyType"/>
+		<result	jdbcType="VARCHAR"		column="ref_id"			property="refId"/>
+		<result	jdbcType="CHAR"			column="party_role"		property="partyRole"/>
+	
+		<result	jdbcType="VARCHAR"		column="party_user_nickname"		property="partyUserNickname"/>
+	</resultMap>
+
+
 
 
 
@@ -517,6 +528,18 @@ WHERE post_id = #{value}
 
 
 <!--   offer     -->
+
+
+<select id="getOffer" parameterType="string" resultMap="offerSelectMap">
+SELECT 
+offer_id , offer_type , ref_id , offer_msg , offer_status , from_user_id , to_user_id , offer_date 
+FROM offer
+WHERE offer_id = #{offerId}
+</select>
+
+
+
+
 <select id="getPlanOfferList" parameterType="map" resultMap="offerSelectMap">
 SELECT *
 FROM (
@@ -526,7 +549,7 @@ FROM (
 				SELECT 
 				o.offer_id , o.offer_type , o.ref_id ,  o.offer_msg, o.offer_status, o.from_user_id, o.to_user_id, o.offer_date , p.plan_img , p.plan_title , u.user_img
 				FROM OFFER o , Plan p , Users u
-				WHERE o.to_user_id = #{userId} AND o.offer_type = 'P' AND p.plan_id = o.ref_id AND u.user_id = o.to_user_id) inner_table
+				WHERE o.to_user_id = #{userId} AND o.offer_type = 'P' AND p.plan_id = o.ref_id AND u.user_id = o.to_user_id AND o.offer_status = 'S') inner_table
 		WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
 	WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
 	AND #{search.currentPage}*#{search.pageSize}
@@ -552,7 +575,7 @@ SELECT inner_table.*, ROWNUM AS row_seq
 SELECT
 o.offer_id , o.offer_type , o.ref_id ,  o.offer_msg, o.offer_status, o.from_user_id, o.to_user_id, o.offer_date , p.plan_img , p.plan_title , u.user_img
 FROM OFFER o , Plan p , Users u
-WHERE o.to_user_id = #{userId} AND o.offer_type = 'P' AND p.plan_id = o.ref_id AND u.user_id = o.to_user_id) inner_table)
+WHERE o.to_user_id = #{userId} AND o.offer_type = 'P' AND p.plan_id = o.ref_id AND u.user_id = o.to_user_id AND o.offer_status = 'S') inner_table)
 </select>
 
 <!-- 	SELECT 
@@ -570,7 +593,7 @@ FROM(
 		SELECT 
 		o.offer_id , o.offer_type , o.ref_id ,  o.offer_msg, o.offer_status, o.from_user_id, o.to_user_id, o.offer_date , p.post_title , u.user_img
 		FROM OFFER o , Post p , Users u
-		WHERE o.to_user_id = #{userId} AND o.offer_type = 'A' AND p.post_id = o.ref_id AND u.user_id = o.to_user_id) inner_table
+		WHERE o.to_user_id = #{userId} AND o.offer_type = 'A' AND p.post_id = o.ref_id AND u.user_id = o.to_user_id AND o.offer_status = 'S') inner_table
  	WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage2}*#{search.pageSize} )
 WHERE row_seq BETWEEN (#{search.currentPage2}-1)*#{search.pageSize}+1
 AND #{search.currentPage2}*#{search.pageSize}
@@ -586,7 +609,49 @@ FROM (
 SELECT
 o.offer_id , o.offer_type , o.ref_id ,  o.offer_msg, o.offer_status, o.from_user_id, o.to_user_id, o.offer_date , p.post_title , u.user_img
 FROM OFFER o , Post p , Users u
-WHERE o.to_user_id = #{userId} AND o.offer_type = 'A' AND p.post_id = o.ref_id AND u.user_id = o.to_user_id) inner_table)
+WHERE o.to_user_id = #{userId} AND o.offer_type = 'A' AND p.post_id = o.ref_id AND u.user_id = o.to_user_id AND o.offer_status = 'S') inner_table)
+</select>
+
+
+
+<select id="getPlanCount" parameterType="string" resultType="int">
+SELECT 
+COUNT(*) 
+FROM (
+		SELECT 
+		a.plan_id , b.ref_id
+		FROM plan a , party b
+		WHERE a.deleted = 'F' AND b.party_type = 'P' AND a.plan_id = b.ref_id AND( a.plan_master_id =#{userId} OR b.party_user_id =#{userId})
+		GROUP BY a.plan_id , b.ref_id
+		)
+</select>
+
+<select id="getRefId" parameterType="string" resultMap="offerSelectMap">
+SELECT 
+b.ref_id
+FROM plan a , party b
+WHERE a.deleted = 'F' AND b.party_type = 'P' AND a.plan_id = b.ref_id AND( a.plan_master_id =#{userId} OR b.party_user_id =#{userId})
+GROUP BY a.plan_id , b.ref_id
+</select>
+
+
+<insert id="addPartyMember" parameterType="offer">
+		INSERT 
+		INTO party ( party_id, party_user_id, party_type, ref_id, party_role ) 
+		VALUES ( TO_CHAR(seq_party_party_id.NEXTVAL), #{toUserId}, #{offerType}, #{refId}, 'M' )
+</insert>
+
+<update id = "updateOfferStatus" parameterType="offer">
+UPDATE
+OFFER SET offer_status = #{offerStatus}
+WHERE offer_id = #{offerId}
+</update>
+
+<select id="getPartyMember" parameterType="string" resultMap="partySelectMap">
+SELECT 
+party_user_id 
+FROM PARTY
+WHERE ref_id = #{postId} AND party_type =  'A'
 </select>
 
 
@@ -595,10 +660,7 @@ WHERE o.to_user_id = #{userId} AND o.offer_type = 'A' AND p.post_id = o.ref_id A
 
 
 
-
-
-
-
+<!-- QNA -->
 
 <insert id="addQna" parameterType="post">
 INSERT

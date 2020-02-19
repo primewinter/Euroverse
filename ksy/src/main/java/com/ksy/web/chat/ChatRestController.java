@@ -1,25 +1,34 @@
 package com.ksy.web.chat;
 
+import java.io.File;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ksy.service.domain.Chat;
 import com.ksy.service.domain.ChatRoom;
@@ -47,7 +56,7 @@ import com.mongodb.client.MongoDatabase;
 		
 		public ChatRestController() {
 			System.out.println(this.getClass()+" MongoDB 연결됨-----------------------------");
-			this.mongoConn = new MongoClient("192.168.0.62", 27017);
+			this.mongoConn = new MongoClient("localhost", 27017);
 			this.mongoDB = mongoConn.getDatabase("Euroverse");
 			
 			}
@@ -159,31 +168,66 @@ import com.mongodb.client.MongoDatabase;
 			return map;
 		}
 		
+//		@RequestMapping(value="createRoom", method=RequestMethod.POST)
+//		public void createRoom(@RequestBody Map<String, Object> jsonMap, HttpServletResponse response) throws Exception {
+//			
+//			System.out.println("왔다");
+//			ObjectMapper objectmapper = new ObjectMapper();
+//			ChatRoom chatRoom = objectmapper.convertValue(jsonMap.get("chatRoom"), ChatRoom.class);
+//			
+//			System.out.println("createRoom :: ChatRoom :"+chatRoom);
+//			String[] joinMems = chatRoom.getJoinMems();
+//			List<String> chatMems = new ArrayList<>();
+//			for(String userId : joinMems) {
+//				chatMems.add(userId);
+//				System.out.println("들어온 회원 : "+userId);
+//			}
+//			coll = mongoDB.getCollection("ChatRoom");
+//			System.out.println("ChatRoom DB 갖고옴");
+//			
+//			Document doc = new Document("creator", chatRoom.getCreator())
+//													.append("chatMems", chatMems)
+//													.append("chatRoomName", chatRoom.getChatRoomName())
+//													.append("createdDate", new Date())
+//													.append("chatImg", chatRoom.getChatImg());
+//			
+//
+//			System.out.println("Document : "+doc);
+//			coll.insertOne(doc);
+//			System.out.println("insert한 Document "+doc);
+//			
+//		}
 		@RequestMapping(value="createRoom", method=RequestMethod.POST)
-		public void createRoom(@RequestBody ChatRoom chatRoom, HttpServletResponse response) throws Exception {
+		public void createRoom(@RequestParam(value="chatRoomFile", required=false) MultipartFile file, @RequestParam(value="joinMems") List<String> joinMems,
+				@RequestParam(value="creator") String creator, @RequestParam(value="chatRoomName") String chatRoomName, HttpServletRequest req) throws Exception {
 			
-//			response.setContentType("text/html;charset=utf-8");
-			
-			System.out.println("createRoom :: ChatRoom :"+chatRoom);
-			System.out.println();
-			List<String> chatMems = chatRoom.getChatMems();
-			for(String user : chatMems) {
-				System.out.println("들어온 회원 : "+user);
+			System.out.println("/chat/json/createRoom ::: creator : "+creator+" || chatRoomName : "+chatRoomName);
+			chatRoomName = URLDecoder.decode(chatRoomName,"UTF-8");
+			System.out.println("/chat/json/createRoom ::: creator : "+creator+" || chatRoomName : "+chatRoomName);
+			String fileName = "";
+			if( file != null) {
+				String filePath ="C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\chatImg\\";
+				fileName = UUID.randomUUID().toString().substring(0, 8)+System.currentTimeMillis();
+				File saveFile = new File(filePath+fileName);
+				file.transferTo(saveFile);
 			}
+			
 			coll = mongoDB.getCollection("ChatRoom");
 			System.out.println("ChatRoom DB 갖고옴");
 			
-			Document doc = new Document("creator", chatRoom.getCreator())
-													.append("chatMems", chatMems)
-													.append("chatRoomName", chatRoom.getChatRoomName())
+			Document doc = new Document("creator", creator)
+													.append("chatMems", joinMems)
+													.append("chatRoomName", chatRoomName)
 													.append("createdDate", new Date())
-													.append("chatImg", chatRoom.getChatImg());
-			
+													.append("chatImg", fileName);
 
 			System.out.println("Document : "+doc);
 			coll.insertOne(doc);
 			System.out.println("insert한 Document "+doc);
+			
 		}
+		
+		
 		
 		
 		@RequestMapping(value="joinChatRoom", method=RequestMethod.POST)
