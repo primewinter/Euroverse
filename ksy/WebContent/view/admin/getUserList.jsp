@@ -62,8 +62,9 @@
 		margin: 10px;
 		font-size: 30px;
 	}
-	.top{
-		border-radius : 10px;
+	/* 이거 왜안되지?????????  */
+	table thead > tr{
+		border-color: blue;
 	}
 	.text-right{
 		padding : 8px;
@@ -79,7 +80,7 @@
 	 function fncGetUserList(currentPage) {
 		$("#currentPage").val(currentPage)
 		$("form").attr("method" , "POST").attr("action" , "/admin/getUserList").submit();
-	};
+	};//end of getUserList(CurrentPage)
 	 
 	
 	/*======== 검색시 페이지를 1페이지로 돌리기위해] =============  */
@@ -87,17 +88,25 @@
 		 $( ".fas.fa-search" ).on("click" , function() {
 		 	fncGetUserList(1);
 		 }); 
-	});
+	});//end of function
+	
+	$(function() {
+		 $( "td:nth-child(2)" ).on("click" , function() {
+			 var userId = $(this).find($("input[name='userId']")).val();
+			 self.location = "/admin/getUser?userId="+userId;
+		 }); 
+	});//end of function
+	
+	
 	
 	$(function() {
 		 
 		$(".form-control").keyup(function(){
-			/* alert("keydown called"); */
 			
-			var searchKeyword = $(".form-control option:selected").val();
-			var searchCondition = $("#searchKeyword").val();
-			/* alert(searchKeyword);
-			alert(searchCondition); */
+			var searchCondition = $(".form-control option:selected").val();
+			var searchKeyword = $("#searchKeyword").val();
+			
+			// 회원목록을 검색할 경우 
 			$.ajax({
 				url: "/admin/json/getUserList",
 				method: "POST",
@@ -105,21 +114,45 @@
 				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
 				data: JSON.stringify({
 					searchKeyword: searchKeyword,
-				 searchCondition: searchCondition 
+			 		searchCondition: searchCondition  
 				}),
 				success: function(JSONData, status){
 					if( JSONData==null || JSONData=="" ){
 						console.log("리턴데이터 없음");	
 					}else{
 						console.log("리턴데이터 있음! => "+JSONData);	
-					}
-				},  
+						
+						$('.userTab').html("");
+						
+						for(var i=0; i<JSONData.list.length; i++){
+							
+							$('.userTab').append("<tr>");
+							$('.userTab').append("<th scope='row'>"+(i+1)+"</th>");
+							$('.userTab').append("<td style='font-weight: bold; color: dimgray;'>"+JSONData.list[i].userId);
+							$('.userTab').append("<input type='hidden' id='userId' name='userId' value='"+JSONData.list[i].userId+"'/></td>");
+							$('.userTab').append("<td>"+JSONData.list[i].userName+"</td>");
+							$('.userTab').append("<td>"+JSONData.list[i].nickname+"</td>");
+							$('.userTab').append("<td>"+JSONData.list[i].totalPoint+"</td>");
+							$('.userTab').append("<td>"+JSONData.list[i].sex+"</td>");
+							$('.userTab').append("<td>"+JSONData.list[i].regDate+"</td>");
+							
+						}/* end of for  */
+						
+						$('.userTab').append(changeHtml);
+						
+					}/* end of else  */
+					
+				},/* end of seccess  */
+				
 				error:function(request,status,error){
 			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-			    }
-			});
-		});  //updateMemoDetail 
-	});
+			    }/* end of error  */
+			    
+			});/* end of ajax  */
+			
+		}); /* keyUp event end  */
+		
+	}); /* function end  */
 		
 </script>
 
@@ -131,11 +164,13 @@
 <body>
 
 	<div class="container">
-
+	
+		<!-- =============== 유로버스 툴바 인클루드  ========== -->
 		<div class="tollbar">
 			<jsp:include page="/toolbar/toolBar.jsp"></jsp:include> 
 		</div>
-
+		<!-- =========== 이까지  ================ -->
+		
 	<div class="page-header text-info">
 
 		<h3>회원목록조회</h3>
@@ -160,9 +195,17 @@
 			      <input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" style="height: 30px; width: 85px; font-size: 13px; margin-right: 2px;" >
+						<c:if test="${empty search.searchCondition }">
+						<option class="from-option" value="0" selected="selected" >아이디</option>
+						<option class="from-option" value="1" >닉네임</option>
+						<option class="from-option" value="2"  >이름</option>
+						</c:if>
+						
+						<c:if test="${!empty search.searchCondition }">
 						<option class="from-option" value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>아이디</option>
 						<option class="from-option" value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>닉네임</option>
 						<option class="from-option" value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>이름</option>
+						</c:if>
 					</select>
 				  </div>
 				  <!-- ======================== 검색조건 선택창 끝  ========================= -->
@@ -198,7 +241,7 @@
 		<!-- =============================== 유저목록 게시판 테이블  시작 ============================-->
 			<table class="table table-hover">
 	        <thead>
-		        <tr class="top shadow-sm p-3 mb-5 bg-white rounded" style="font-size:small;">
+		        <tr class="top shadow-sm p-3 mb-5 bg-white rounded " style="font-size:small;">
 		            <th scope="col">번호</th>
 		            <th scope="col">회원아이디</th>
 		            <th scope="col">회원이름</th>
@@ -209,8 +252,7 @@
 		          </tr>
 	        </thead>
 		
-			<tbody style="font-size: small;">
-		
+			<tbody class="userTab" style="font-size: small;">
 			  <c:set var="i" value="0" />
 			  <c:forEach var="user" items="${list}">
 				<c:set var="i" value="${ i+1 }" />
@@ -218,14 +260,14 @@
 				  <th scope="row">${ i }</th>
 				  <td style="font-weight: bold; color: dimgray;">
 				  ${user.userId}
-				  <input type="hidden" id="userId" name="postId" value="${user.userId}"/></td>
+				  <input type="hidden" id="userId" name="userId" value="${user.userId}"/></td>
 				  <td>${user.userName}</td>
 				  <td>${user.nickname }</td>
 				  <td>${user.totalPoint }</td>
 				  <td>${user.sex }</td>
 				  <td>
 				  <c:set var="regDate" value="${fn:split(user.regDate,' ')}"></c:set>
-					    <c:out value="${regDate[0]}"></c:out></td>
+					<c:out value="${regDate[0]}"></c:out></td>
 				</tr>
 	          </c:forEach>
 		
