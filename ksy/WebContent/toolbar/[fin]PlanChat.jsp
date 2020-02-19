@@ -166,10 +166,10 @@
 
             };
             planChatSocket.onclose = function(message) {
-                planChatLayer.value += "접속이 끊어졌습니다.\n";
+                console.log("접속이 끊어졌습니다.")
             };
             planChatSocket.onerror = function(message) {
-                planChatLayer.value += "에러가 발생했습니다.\n";
+                console.log("에러가 발생했습니다.")
             };
 
         }
