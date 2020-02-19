@@ -15,8 +15,9 @@
 	
 	<!-- 부트스트랩 4.4 쓰려다가 빠꾸...............................했다가 다시 4.4로..  -->
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
+	
 	
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -25,14 +26,14 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	
 	<link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
 	
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
 	
 	
 	
@@ -82,6 +83,15 @@
 			border-color: #E0E0E0;
 			padding: 10px;
 		}
+		.fc-header-toolbar{
+			font-size: 12px;
+			size: 12px;
+		}
+		.fc-button{
+			padding: 3px;
+			size: 10px;
+		}
+		
 		
 	</style>
 
@@ -349,6 +359,13 @@
 	    padding: px 3px;
 	    width: 100%;
 	  }
+	  
+	  
+	  .budgetIcon{
+	  	width:30px; 
+	  	font-size: 20px;
+	  }
+	  
  	</style>
 
 	<!-- ICON 사용을 위한 스크립트 임포트 -->
@@ -422,7 +439,8 @@
 			$('#dayTime').val(dayTime);
 			
 			setTimeout(function(){
-				$("#dailyEdit").show()
+				//$("#dailyEdit").show();
+				$("#dailyEdit").modal();
 			},100);
 		}	//openDailyEdit
 		
@@ -944,7 +962,8 @@
 			});
 			
 			$('#exitPlanButton').on('click', function(){
-				$('#exitPlanAlert').show();
+				//$('#exitPlanAlert').show();
+				$('#exitPlanAlert').modal();
 			})
 			
 			$('#exitPlan').on('click', function(){
@@ -957,12 +976,14 @@
 			$('#offerMsgForm').hide();
 			$('#addOffer').hide();
 			$('.findUserResult').text('');
-			$("#inviteUser").show()
+			//$("#inviteUser").show()
+			$("#inviteUser").modal();
 		}
 		
 		function deletePlanPartyAlert(partyUserId, partyUserNickname){
 			$('#planMemberId').text(partyUserId);
-			$("#deletePlanPartyAlert").show();
+			//$("#deletePlanPartyAlert").show();
+			$("#deletePlanPartyAlert").modal();
 		}
 		
 		function deletePlanParty(condition){
@@ -1057,21 +1078,22 @@
 		/* ---------------------------------	Plan Information 관련 함수		--------------------------------- */
 		$(function(){
 			$('#updatePlanButton').on('click',function(){
-				$("#editPlan").show();
+				//$("#editPlan").show();
 			});		
 			$('#updatePlan').on('click', function(){
 				updatePlan();
 			});
 			
 			$('#deletePlanButton').on('click',function(){
-				$("#deletePlanAlert").show();
+				//$("#deletePlanAlert").show();
 			});	
 			$('#deletePlan').on('click', function(){
 				deletePlan();
 			});
 			
 			$('#planCompleteButton').on("click", function(){
-				$("#planCompleteAlert").show();
+				//$("#planCompleteAlert").show();
+				$("#planCompleteAlert").modal();
 			});
 			$('#planComplete').on('click', function(){
 				planComplete();
@@ -1246,7 +1268,7 @@
 		      center: 'title',
 		      right: 'next'
 		    },
-		    height: 420,	// 캘린더 크기... 높이 지정!
+		    height: 430,	// 캘린더 크기... 높이 지정!
 		    editable: false,
 		    droppable: false, // this allows things to be dropped onto the calendar
 		    //locale: 'ko',
@@ -1280,10 +1302,10 @@
 			font-size:small;
 			margin: 10px;
 			padding:5px;
-			width: 230px;
-			height: 230px;
+			width: 210px;
+			height: 210px;
 			//border: 1px solid gray;
-			background-color:#FFD2C9;
+			background-color:#FFD8D1;
 			//background: white;
 			position: absolute;
 			box-shadow:3px 2px 4px #898989;
@@ -1314,8 +1336,8 @@
 		.memo > textarea{
 			margin: 0; padding: 10px;
 			box-sizing: border-box;
-			width: 218px; height: 180px;
-			background: #FFD2C9;
+			width: 200px; height: 165px;
+			background: #FFD8D1;
 			//background: #FFF38B;
 			border: none;
 			resize: inherit;
@@ -1469,8 +1491,6 @@
 				console.log("mouseup position => memo left:"+memoLeft+"px / top:"+memoTop+"px"); */
 				
 				var coordinates = $memo.offset();
-				/* var memoLeft2 = coordinates.left - left_minus - 7.5;
-				var memoTop2 = coordinates.top - top_minus - 17.5; */
 				var memoLeft2 = coordinates.left - left_minus - 17;
 				var memoTop2 = coordinates.top - top_minus - 40;
 				console.log("coordinates = "+ memoLeft2 +"/"+ memoTop2 );
@@ -1494,7 +1514,7 @@
 			
 			$('.addMemoIcon').hover(
 				  function() {
-				    $( this ).css("color", "#047A7E");
+				    $( this ).css("color", "#FFD6CF");
 				  }, function() {
 				    $( this ).css("color", "black");
 				  }
@@ -1503,8 +1523,8 @@
 		});
 
 
+		//메모 좌표값에 위치하기! 빌드업
 		$(function() {
-			
 			var memoList = new Array;
 			
 			<c:forEach items="${plan.memoList}" var="memo">
@@ -1522,14 +1542,10 @@
 			}
 		});
 		
-		
-		
 		//메모 좌표값에 위치하기!
 		function setMemoCoordinates( memoId, pageX, pageY ){
 			
 			//메모장 위치 지정
-			/* $memo.css('left', ex+'px');
-			$memo.css('top', ey+'px'); */
 			$('.memo_id:contains("'+ memoId +'")').parent().css('left', pageX+'px');
 			$('.memo_id:contains("'+ memoId +'")').parent().css('top', pageY+'px');
 		}
@@ -1607,6 +1623,18 @@
 						$new_memo.css('zIndex', '99');	//새 메모장을 상위 레이어로
 						$new_memo.draggable();
 						$new_memo.offset({left: x, top: y});
+						
+						
+						
+						var memoPrevHtml = '<div class="memo_prev">'+
+											'<span class="delMemo" onclick="deleteMemo(\''+ newMemoId +'\')"><i class="fa fa-trash"></i></span>'+
+											'<span class="memoDetail_prev"> '+
+												'<a href="#memo_'+ newMemoId +'" id="memo_prev_'+ newMemoId +'" class="scroll">-'+
+												'</a>'+
+											'</span>'+
+										'</div>';
+						$('.memo_prev_list').prepend(memoPrevHtml);
+						
 					}
 				},
 				error:function(request,status,error){
@@ -1633,6 +1661,8 @@
 						console.log("리턴데이터 없음");	
 					}else{
 						console.log("리턴데이터 있음! => "+JSONData);	
+						
+						$('#memo_prev_'+ memoId ).text( memoDetail );
 					}
 				},
 				error:function(request,status,error){
@@ -1651,13 +1681,8 @@
 					dataType: "json",
 					headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
 					success: function(JSONData, status){
-						if( JSONData==null || JSONData=="" ){
-							console.log("리턴데이터 없음");	
-						}else{
-							console.log("리턴데이터 있음! => "+JSONData);	
-							
-							$('.memo_id:contains("'+ memoId +'")').parent().remove();
-						}
+						$('.memo_id:contains("'+ memoId +'")').parent().remove();
+						$('#memo_prev_'+memoId).parent().parent().remove();
 					},
 					error:function(request,status,error){
 				        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -1677,7 +1702,7 @@
 		#click {
 			position: fixed;
 			right: 20px;
-			top : 70px;
+			top : 12%;
 			border-radius: 50%;
 			background-color:#81e0fc;
 			box-sizing: border-box;
@@ -1698,7 +1723,7 @@
             right: -350px;
             bottom: 20px;
             border: 1px solid #ccc;
-            background-color: #E2F4F3;
+            background-color: #C5ECE9;
             z-index: 190;
         }
         #planChat.on {
@@ -1706,7 +1731,8 @@
         }
 
         .planChat.output {
-            height: 95%;
+            height: 94%;
+            bottom: 40px;
             background-color: white;
             overflow:auto;
         }
@@ -1794,22 +1820,30 @@
 	    	console.log("들어왔따~!")
 	    	var html = "";
 	        if(chat.senderId == 'system'){
-	            html += "<div style=\"text-align:center;margin: 20px;background-color:#D8D8D8;border-radius:10px;\">";
+	            html += "<div class='msg center' style=\"text-align:center;margin: 20px;background-color:#D8D8D8;border-radius:10px;\">";
 	            html += "<font color='#424242' size=2>"+chat.chatContent+"</font>";
 	            html += "</div>"
 	        } else if(chat.senderId == userId) {
-	            html += "<div style=\"text-align:right;margin:10px;\">"
+	            html += "<div class='msg right' style=\"text-align:right;margin:10px;\">"
 	            html += "<font color='#cccccc' size=1>"+chat.sendTime+"&ensp;</font>";
 	            html += "<div style='display: inline-block;background-color:#C5ECE9;height:auto;min-height:25px;vertical-align:middle;border-radius:10px;padding:2px'>";
 	            html += "<font color='black' size=2>&ensp;"+chat.chatContent+"&ensp;</font>";
 	            html += "</div>"
 	          	html += "</div>"
 	        } else { 
-	            html += "<div style=\"text-align:left;margin:10px;\">"
-	            html += "<div style='text-align:center;display: inline-block;vertical-align: center;'>";
-	            html += chat.senderId+"<br/>";
-	           	html += "<img  style='border: 2px solid #C5ECE9;width:30px;height:30px;margin:2px;' class='rounded-circle' src=\"/resources/images/userImages/"+chat.user.userImg+"\">";
-	           	html += "</div>"
+	            html += "<div class='msg left' style=\"text-align:left;margin:10px;\">"
+	            console.log("T ? F ? :: "+$("div.msg").last().hasClass('left') + " || "+$($("div.msg").last()).find('div.sender  font.senderId').html());
+	            if( $("div.msg").last().hasClass('left') == true && $($("div.msg").last()).find('div.sender font.senderId').html() == chat.senderId ) {
+	            	html += "<div class='sender' style='text-align:center;display: inline-block;vertical-align: center;'>";
+		            html += "<font class='senderId' style='display:none;'>"+chat.senderId+"</font>";
+		           	html += "<img  style='visibility:hidden;width:30px;height:2px;margin:5px 2px 5px 2px;' src=\"/resources/images/userImages/"+chat.user.userImg+"\">";
+		           	html += "</div>"
+	            } else {
+	            	html += "<div class='sender' style='text-align:center;display: inline-block;vertical-align: center;'>";
+		            html += "<font class='senderId'>"+chat.senderId+"</font><br/>";
+		           	html += "<img  style='border: 2px solid #C5ECE9;width:30px;height:30px;margin:2px;' class='rounded-circle' src=\"/resources/images/userImages/"+chat.user.userImg+"\">";
+		           	html += "</div>"
+	            }
 	           	html += "<div style='display: inline-block;background-color:#F2F2F2;height:auto;min-height:25px;vertical-align:middle;border-radius:10px;padding:2px'>";
 	            html += "<font color='black' size=2>&ensp;"+chat.chatContent+"&ensp;</font>";
 	            html += "</div>"
@@ -1999,7 +2033,7 @@
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" style="padding-top: 20px;" id="memo_wrap">
 				
 				<!--	 Plan Information START	//////////////////////// 	-->
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom list-container" >
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom list-container" >
 					<!-- <div class="container">
 						<h5>Plan Information</h5>
 						<div class="row" style="background-color: #F3F7F6; width: 100%; padding: 15px; border-radius: 5px; "> -->
@@ -2033,11 +2067,11 @@
 								<div>
 									<c:if test="${plan.planStatus != 'C' }">
 										<button type="button" class="btn btn-info" id="planCompleteButton" style="margin-left: 10px;">여행완료 확정</button>
-										<button type="button" class="btn btn-primary" id="updatePlanButton" style="margin-left: 10px;">플래너 수정</button> 
+										<button type="button" class="btn btn-primary" id="updatePlanButton" style="margin-left: 10px;"  data-toggle="modal" data-target="#editPlan">플래너 수정</button> 
 									</c:if>
 									
 									<c:if test="${ user.userId == plan.planMaster.userId }">
-										<button type="button" class="btn btn-danger" id="deletePlanButton" style="margin-left: 10px;">플래너 삭제</button> 
+										<button type="button" class="btn btn-danger" id="deletePlanButton" style="margin-left: 10px;" data-toggle="modal" data-target="#deletePlanAlert">플래너 삭제</button> 
 									</c:if>
 									<c:if test="${ user.userId != plan.planMaster.userId }">
 										<button type="button" class="btn btn-secondary" id="exitPlanButton" style="margin-left: 10px;">플래너 탈퇴</button> 
@@ -2132,11 +2166,11 @@
 							
 				<!--	 Todo List : 투두 리스트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light"  id="gotoTodoList"> -->
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-3 border-bottom list-container" id="gotoTodoList">
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-3 mb-3 border-bottom list-container" id="gotoTodoList">
 					<!-- <div class="container">
 						<h5>Todo List</h5>
 						<div class="row"> -->
-					<div class="d-flex justify-content-around flex-wrap flex-md-nowrap"  style="width: 99%;">
+					<div class="d-flex justify-content-around flex-wrap flex-md-nowrap"  style="width: 99%;margin-bottom: 5px;">
 						<div id="todo_list_container" style="width: 32%;">
 							<p style="border-bottom:1px solid #797979; margin: 0 10px; font-weight: bolder; float: right;">&nbsp;Todo &nbsp;<span data-feather="pen-tool" id="addTodoButton"></span></p>
 							<ul id="todo_list" class="connectedSortable">
@@ -2195,31 +2229,31 @@
 				
 				<!--	 CityRoute List : 여행루트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light" id="gotoCityRouteList"> -->
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 pl-2 mb-3 border-bottom list-container" id="gotoCityRouteList">
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 pl-2 mb-3 border-bottom list-container" style="height:650px;" id="gotoCityRouteList">
 					<!-- <div class="container">
 						<h5>여행루트</h5>
 						<div class="row"> -->
 						
-							<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;height:620px;float:left;width:55%;"></div>
+							<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;float:left;width:55%;height: 100%;"></div>
 							
-							<div id='calendar-container' style="float:right;width:45%; margin: 5px 10px;max-width: 900px;">
-							  <div id='calendar' style="margin-bottom:10px; height: 65%;"></div>
+							<div id='calendar-container' style="float:right;width:45%; height:100%; margin: 5px 10px;max-width: 900px;">
+							  <div id='calendar' style="margin-bottom:10px;"></div>
 							  
-							  <div class="text-center" style="border:solid thin #DDDDDD; border-radius:5px; padding: 5px 10px; background-color: white; height:auto; ">
+							  <div class="text-center" style="border:solid thin #DDDDDD; border-radius:5px; padding: 5px 10px; background-color: white; height:160px;"  id="gotoBudgetOverviewList">
 									<div class="d-flex justify-content-left mt-1 ml-3" style="font-weight: bolder; font-size: 16px;">예산 정보</div>
 									
 									<!-- 만들어두고 스크립트에서 포문돌려 셋팅하기 -->
 									<div class="budgetOverview d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center" style="padding: 0px 3px 0px 0px;font-size: 14px;width:100%;">
-										<div style="width:47%;margin: 3px;">
-											<div class="row" style="margin: 4px 0;"> <i class="fas fa-walking" 		style="width:40px; font-size: 20px;"></i>관광  <div class="budget_amount" id="budget_D" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="fas fa-bus" 			style="width:40px; font-size: 20px;"></i>교통  <div class="budget_amount" id="budget_T" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="fas fa-ticket-alt" 	style="width:40px; font-size: 20px;"></i>투어  <div class="budget_amount" id="budget_V" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="fas fa-ellipsis-h" 	style="width:40px; font-size: 20px;"></i>기타  <div class="budget_amount" id="budget_E" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+										<div style="width:46%;margin: 3px;">
+											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-walking" 		></i>관광  <div class="budget_amount" id="budget_D" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-bus" 			></i>교통  <div class="budget_amount" id="budget_T" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-ticket-alt" 	></i>투어  <div class="budget_amount" id="budget_V" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-ellipsis-h" 	></i>기타  <div class="budget_amount" id="budget_E" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
 										</div>
-										<div style="width:47%;margin: 3px;">
-											<div class="row" style="margin: 4px 0;"> <i class="fas fa-bed" 			style="width:40px; font-size: 20px;"></i>숙소  <div class="budget_amount" id="budget_R" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="fas fa-utensils" 	style="width:40px; font-size: 20px;"></i>식사  <div class="budget_amount" id="budget_F" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="fas fa-shopping-cart" style="width:40px; font-size:20px;"></i>쇼핑  <div class="budget_amount" id="budget_S" style="display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+										<div style="width:46%;margin: 3px;">
+											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-bed" 			></i>숙소  <div class="budget_amount" id="budget_R" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-utensils" 		></i>식사  <div class="budget_amount" id="budget_F" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-shopping-cart" ></i>쇼핑  <div class="budget_amount" id="budget_S" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
 											<div style="margin: 5px 0;text-align: right; color:#32D0BF; font-weight: bolder;"> 총  <div id="budget_total" style="font-size:23px; display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
 										</div>
 									</div>
@@ -2354,9 +2388,8 @@
 					<div class="container">
 						<!-- <h5>메모</h5> -->
 						<div style="font-weight: bolder;font-size: 20px;margin-bottom: 5px;">메모 <span class="addMemo"><i class="fa fa-marker addMemoIcon"></i></span> </div>
-						<div class="row memo_row">
+						<div class="memo_row">
 							
-							<br/>
 							<!-- memo list -->
 							<c:if test="${plan.memoList.size()!=0}">
 								<c:forEach var="memo" items="${plan.memoList}">
@@ -2382,19 +2415,22 @@
 							</c:if>
 							
 							<!-- memo prev list -->
-							<div class="memo_prev_list" style="margin: 20px;">
+							<div class="memo_prev_list" style="margin: 15px;">
 								<c:if test="${plan.memoList.size()!=0}">
 									<c:forEach var="memo" items="${plan.memoList}">
 								
-										<div class="memo_prev">
+										<div class="memo_prev mb-1">
 											<span class="delMemo" onclick="deleteMemo('${memo.memoId}')"><i class="fa fa-trash"></i></span>
 											<span class="memoDetail_prev">
-												<a href="#memo_${memo.memoId}" >
+												<a href="#memo_${memo.memoId}" id="memo_prev_${memo.memoId}" class="scroll">
 													<c:if test="${memo.memoDetail.length() > 20}">
 														${memo.memoDetail.substring(0,20)} . . .
 													</c:if>
 													<c:if test="${memo.memoDetail.length() <= 20}">
 														${memo.memoDetail}
+													</c:if>
+													<c:if test="${empty memo.memoDetail || memo.memoDetail == '' || memo.memoDetail.length() == 0}">
+														 -
 													</c:if>
 												</a>
 											</span>
@@ -2411,11 +2447,9 @@
 				<br/>
 				
 				<!-- Footer Start /////////////////////////// -->
-				<div class="album py-5 bg-white text-center" style="font-weight: bolder;"> ~~~ 여기는 Footer가 있어야 할 자리 ~~~ </div>
+				<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 				<!-- Footer End	/////////////////////////// -->
 			
-			
-				
 				
 				
 			</main>
@@ -2429,9 +2463,12 @@
 	<!-- 화면구성 div End ///////////////////////////// -->
 	
 	
+	
+	
+	
 	<!-- //////////////////////////////////////// 모달모달 모음  //////////////////////////////////////// -->
 	<!-- /////////////////////	Modal : editPlan 	///////////////////// -->
-	<div class="modal" id="editPlan">
+	<div class="modal fade" id="editPlan">
 	  <div class="modal-dialog" >
 	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 수정</h4>
 	  
@@ -2531,7 +2568,7 @@
 	<!-- /////////////////////	Modal : editPlan 끝	///////////////////// -->
 	
 	<!-- /////////////////////	Modal : dailyEdit 	///////////////////// -->
-	<div class="modal" id="dailyEdit" >
+	<div class="modal fade" id="dailyEdit" >
 	  <div class="modal-dialog">
 	  <h4 style="color: #FFFFFF; margin-top: 100px;">일정 등록</h4>
 	    <div class="modal-content">
@@ -2605,7 +2642,7 @@
 	
 	
 	<!-- /////////////////////	Modal : inviteUser	///////////////////// -->	
-	<div class="modal" id="inviteUser">
+	<div class="modal fade" id="inviteUser">
 	  <div class="modal-dialog modal-lg" >
 	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너에 친구 초대하기</h4>
 	  
@@ -2654,7 +2691,7 @@
 	
 	
 	<!-- /////////////////////	Alert Modal : 플래너 삭제 	///////////////////// -->	
-	<div class="modal" id="deletePlanAlert">
+	<div class="modal fade" id="deletePlanAlert">
 	  <div class="modal-dialog" >
 	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 삭제</h4>
 	  
@@ -2686,7 +2723,7 @@
 	
 	
 	<!-- /////////////////////	Alert Modal : 여행완료 확정	///////////////////// -->	
-	<div class="modal" id="planCompleteAlert">
+	<div class="modal fade" id="planCompleteAlert">
 	  <div class="modal-dialog modal-lg" >
 	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 여행완료 확정</h4>
 	  
@@ -2722,7 +2759,7 @@
 	
 	
 	<!-- /////////////////////	Alert Modal : 플래너 멤버 강퇴	///////////////////// -->	
-	<div class="modal" id="deletePlanPartyAlert">
+	<div class="modal fade" id="deletePlanPartyAlert">
 	  <div class="modal-dialog" >
 	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 멤버 강퇴</h4>
 	  
@@ -2762,7 +2799,7 @@
 
 
 	<!-- /////////////////////	Alert Modal : 플래너 탈퇴 	///////////////////// -->	
-	<div class="modal" id="exitPlanAlert">
+	<div class="modal fade" id="exitPlanAlert">
 	  <div class="modal-dialog" >
 	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 탈퇴</h4>
 	  
