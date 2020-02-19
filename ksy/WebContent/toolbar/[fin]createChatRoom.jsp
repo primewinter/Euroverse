@@ -60,19 +60,21 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="text-align:center">
+      	<div style="margin-top:20px;margin-bottom:30px">
+      		<img id="blah" src="/resources/images/icon/imageIcon.png" width="50px" height="50px" onclick='document.all.chatRoomFile.click(); document.all.file2.value=document.all.chatRoomFile.value'/>
+      	</div>
         <div class="form-group row">
-		    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">채팅방 이름</label>
-		    <div class="col-sm-9">
-		      <input type="text" class="form-control form-control-sm" name="chatRoomName" placeholder="${post.postTitle}">
-		    </div>
-		  </div>
-          <div class="form-group custom-file">
-			     <label class="custom-file-label col-form-label-sm" for="validatedCustomFile">채팅방 이미지(선택 사항)</label>
-                 <input type="file" class="custom-file-input" name="chatRoomFile">
-          </div>
-        <%--   <div class="form-group row">
-        		  <c:forEach var="userList" items="${userList}">
+			    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">채팅방 이름</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control form-control-sm" name="chatRoomName" placeholder="${post.postTitle}">
+			    </div>
+		 </div>
+		<div class="form-group">
+				<input type="file" id="file" name="chatRoomFile" onchange="readURL(this)" style="display:none;"/>
+  		</div>
+          <div class="form-group row">
+        	<c:forEach var="userList" items="${userList}">
 			    <c:forEach var="party"	items="${party}">
 			  	  <c:if test="${userList.userId == party.partyUserId}">
 			 	  <c:set var="i" value="${ i+1 }"/>
@@ -84,10 +86,10 @@
 					      </div>
 					      <div class="col p-4 d-flex flex-column position-static">
 					      <c:if test="${party.partyRole == 'K'}">
-					        <i class="fas fa-crown"><br>${userList.nickname}</i><input type="hidden" name="chatMems" value="${userList.userId}">
+					        <i class="fas fa-crown"><br>${userList.nickname}</i><input type="hidden" name="joinMems" value="${userList.userId}">
 					      </c:if>
 					      <c:if test="${party.partyRole == 'M'}">
-					      	<i class="fas fa-user"><br>${userList.nickname}</i><input type="hidden" name="chatMems" value="${userList.userId}">
+					      	<i class="fas fa-user"><br>${userList.nickname}</i><input type="hidden" name="joinMems" value="${userList.userId}">
 					      </c:if>
 					        <p class="mb-auto">${userList.totalPoint}</p>
 					      </div>
@@ -97,12 +99,8 @@
 			  	  </c:if>
 			    </c:forEach>
 			  </c:forEach>
-          </div> --%>
-          <input type="hidden" name="creator" value="admin">
-          <!-- <input type="hidden" name="chatMems" value="user01"> -->
-          <!-- <input type="hidden" name="chatMems" value="user02">
-          <input type="hidden" name="chatMems" value="user03"> -->
-          <%-- <input type="hidden" name="creator" value="${post.postWriterId}"> --%>
+          </div>
+          <input type="hidden" name="creator" value="${post.postWriterId}">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
@@ -114,6 +112,7 @@
 </form>
 
 <script>
+
 $('#createChat').on('show.bs.modal', function (event) {
 	  var button = $(event.relatedTarget)
 	  var modal = $(this)
@@ -121,33 +120,44 @@ $('#createChat').on('show.bs.modal', function (event) {
 	  modal.find('.modal-body input').val(recipient)
 	})
 	
-	
-	
+ function readURL(input) {
+	 if (input.files && input.files[0]) {
+	     var reader = new FileReader();
+
+	     reader.onload = function (e) {
+	             $('#blah').attr('src', e.target.result);
+	         }
+	       reader.readAsDataURL(input.files[0]);
+	     } 
+	 };
 	
 	$('button.btn-primary.create').on('click', function(){
-		var chatRoom = new Object();
-		chatRoom.creator = $('#roomInfo[name="creator"]').val();
-		chatRoom.chatRoomName = $('#roomInfo[name="chatRoomName"]').val();
-		chatRoom.chatImg =  
-		console.log($('#roomInfo').serialize());
-		var form = $('#roomInfo')[0];
-        var formData = new FormData(form);
-        console.log(formData);
 
+		var joinMems = new Array(memCount);
+	    for(var i=0; i<memCount; i++){                          
+	    	joinMems[i] = $("input[name='joinMems']")[i].value;
+	    }
 
+		var formData = new FormData();
+		formData.append("chatRoomFile", $('input[name="chatRoomFile"]')[0].files[0]);
+		formData.append("joinMems", joinMems);
+		formData.append("creator", $('input[name="creator"]').val());
+		formData.append("chatRoomName", encodeURIComponent($('input[name="chatRoomName"]').val()));
+		
 		$.ajax({
-			url : "/chat/json/createRoom",
-			type : "post",
-			enctype: 'multipart/form-data',
-			data :  formData,
-			headers : { "Accept" : "application/json", "Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"},
+			type: "POST",
+	        enctype: 'multipart/form-data',
+	        url : "/chat/json/createRoom",
+	        data: formData,
+	        processData: false,
+	        contentType: false,
+	        cache: false,
+	        timeout: 600000,
 			success : function() {
-				console.log("채팅방 개설 성공");
-			},error : function(err) {
-				console.log("채팅방 개설 실패");
-				console.log(err.responseText);
-			}
-				
+				console.log("채팅방 개설 성공 :: ");
+			}, error:function(request,status,error){
+		        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+		    }
 		})
 	}); 
 </script>
