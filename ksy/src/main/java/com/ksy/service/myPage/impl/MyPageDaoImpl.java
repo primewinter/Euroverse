@@ -13,6 +13,7 @@ import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Like;
 import com.ksy.service.domain.Offer;
+import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.TripSurvey;
@@ -181,8 +182,8 @@ public class MyPageDaoImpl implements MyPageDao{
 	}
 	
 	
-	public void addPlanPartyMember(Offer offer)throws Exception{
-		sqlSession.insert("UserMapper.addPlanPartyMember",offer);
+	public void addPartyMember(Offer offer)throws Exception{
+		sqlSession.insert("UserMapper.addPartyMember",offer);
 		
 	}
 	
@@ -217,6 +218,14 @@ public class MyPageDaoImpl implements MyPageDao{
 	@Override
 	public int getPartyOfferListTotalList(String userId) throws Exception {
 		return sqlSession.selectOne("UserMapper.getPartyOfferListTotalCount",userId);
+	}
+	
+	public List<Offer> getRefId(String userId)throws Exception{
+		return sqlSession.selectList("UserMapper.getRefId",userId);
+	}
+	
+	public List<Party> getPartyMember(String postId)throws Exception{
+		return sqlSession.selectList("UserMapper.getPartyMember",postId);
 	}
 	
 	

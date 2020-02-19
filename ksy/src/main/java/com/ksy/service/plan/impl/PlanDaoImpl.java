@@ -51,12 +51,12 @@ public class PlanDaoImpl implements PlanDao {
 		
 		sqlSession.insert("PlanMapper.addPlanPartyKing", plan.getPlanMaster().getUserId());
 		
-		String[] defaultTodos = {"항공권 예약하기", "여행루트 짜기", "일정표 작성하기", "환전하기"};
+		String[] defaultTodos = {"항공권 예약하기", "여행루트 짜기", "일정표 작성하기", "환전하기", "숙소 예약하기", "준비물 목록 확인하기", "여행자 보험 들기", "와이파이/유심 준비하기", "수하물 규정 알아보기"};
 		for (String string : defaultTodos) {
 			sqlSession.insert("PlanMapper.addDefaultTodos", string);
 		}
 		
-		String[] deafultStuffs = {"여권", "신분증", "신용카드", "비상약"};
+		String[] deafultStuffs = {"여권", "신분증", "신용카드/현금", "비상약", "셀카봉", "멀티어댑터", "스킨/로션", "세면도구", "자물쇠"};
 		for (String string : deafultStuffs) {
 			sqlSession.insert("PlanSubMapper.addDefaultStuffs", string);
 		}
