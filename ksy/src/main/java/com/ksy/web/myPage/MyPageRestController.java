@@ -28,6 +28,7 @@ import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Like;
 import com.ksy.service.domain.Offer;
+import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.User;
@@ -175,34 +176,79 @@ public class MyPageRestController {
 			map.put("resultMsg", "error");
 			return map;
 		}else if(user.getSlot() > havePlanCount) {
-			offer.setOfferStatus("A");
-			myPageService.updateOfferStatus(offer);
-			myPageService.addPlanPartyMember(offer);
-			map.put("resultMsg", "ok");
+			List<Offer> offerList = (List<Offer>)myPageService.getRefId(user.getUserId());
+			int result = 0;
+			for(int i=0;i<offerList.size();i++) {
+				if(offerList.get(i).getRefId().equals(offer.getRefId())) {
+					result++;
+				}
+			}
+			if(result==0) {
+				offer.setOfferStatus("A");
+				offer.setOfferType("P");
+				myPageService.updateOfferStatus(offer);
+				myPageService.addPartyMember(offer);
+				map.put("planId", offer.getRefId());
+				map.put("resultMsg", "ok");
+				return map;
+			}else if(result >= 1) {
+				map.put("resultMsg", "over");
+			}
+			
+		}
+		map.put("resultMsg", "error");
+		return map;
+	}
+	
+	
+	@RequestMapping(value="json/partyOfferAccept/{offerId}")
+	public Map partyOfferAccept(@PathVariable String offerId , HttpSession session)throws Exception{
+		System.out.println("partyOfferAccept%@%!$$$!$!$!$$!$!$!$");
+		User user = (User)session.getAttribute("user");
+		Map map = new HashMap();
+		Offer offer = myPageService.getOffer(offerId);
+		//accPerson이 최대인원
+		
+		Post post = (Post)communityService.getPost(offer.getRefId(), user.getUserId(), "D");
+		System.out.println(post);
+		System.out.println("에에에에에에에~~~");
+		System.out.println(post.getAccPerson());
+		System.out.println(post.getAccCount());
+		System.out.println(post.getAccPerson()==post.getAccCount());
+		if(post.getAccPerson()==post.getAccCount()) {
+			System.out.println("근데 이건 왜 안찍히냐?");
+			map.put("resultMsg", "over");
+			return map;
+		}else if(post.getAccPerson()>post.getAccCount()){
+			List<Party> partyList = myPageService.getPartyMember(offer.getRefId()); 
+			int count = 0;
+			for(int i=0;i<partyList.size();i++) {
+				if(partyList.get(i).getPartyUserId().equals(offer.getFromUserId())) {
+					count++;
+				}
+				
+			}
+			if(count==0) {
+				offer.setToUserId(offer.getFromUserId());
+				offer.setOfferStatus("A");
+				offer.setOfferType("A");
+				myPageService.updateOfferStatus(offer);
+				myPageService.addPartyMember(offer);
+				map.put("postId", offer.getRefId());
+				map.put("resultMsg", "ok");
+				return map;
+			}else {
+				map.put("resultMsg", "overLap");
+				return map;
+			}
+			
+		}else {
+			
+			map.put("resultMsg", "error");
 			return map;
 			
 		}
 		
-		//offer status 수락으로 업데이트하거나 거절하기
-		//그러면 get으로 값 하나 더 만들어야한다 (수락,거절)
-		//그리고 수락하면 party에 추가하기!!
-		
-		//아니 잠깐만 이거 get으로 해야하는게아니고 POST로 바꿔서 ref값이랑 이런거 다 가져와야함
-		
-		
-		//Offer offer = new Offer();
-		//offer.setToUserId(user.getUserId());
-		//offer.setRefId(); <<여기에는 이제 offer
-		//myPageService.addPlanPartyMember(offer);
-		
-		
-		
-		
-		
-		
-		
-		map.put("resultMsg", "error");
-		return map;
 	}
 
 

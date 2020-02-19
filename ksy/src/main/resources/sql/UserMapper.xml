@@ -173,6 +173,17 @@
 </resultMap>
 
 
+	<resultMap type="party" id="partySelectMap">
+		<result	jdbcType="VARCHAR"		column="party_id"		property="partyId"/>
+		<result	jdbcType="VARCHAR"		column="party_user_id"	property="partyUserId"/>
+		<result	jdbcType="CHAR"			column="party_type"		property="partyType"/>
+		<result	jdbcType="VARCHAR"		column="ref_id"			property="refId"/>
+		<result	jdbcType="CHAR"			column="party_role"		property="partyRole"/>
+	
+		<result	jdbcType="VARCHAR"		column="party_user_nickname"		property="partyUserNickname"/>
+	</resultMap>
+
+
 
 
 
@@ -610,16 +621,24 @@ FROM (
 		SELECT 
 		a.plan_id , b.ref_id
 		FROM plan a , party b
-		WHERE b.party_type = 'P' AND a.plan_id = b.ref_id AND( a.plan_master_id =#{userId} OR b.party_user_id =#{userId})
+		WHERE a.deleted = 'F' AND b.party_type = 'P' AND a.plan_id = b.ref_id AND( a.plan_master_id =#{userId} OR b.party_user_id =#{userId})
 		GROUP BY a.plan_id , b.ref_id
 		)
 </select>
 
+<select id="getRefId" parameterType="string" resultMap="offerSelectMap">
+SELECT 
+b.ref_id
+FROM plan a , party b
+WHERE a.deleted = 'F' AND b.party_type = 'P' AND a.plan_id = b.ref_id AND( a.plan_master_id =#{userId} OR b.party_user_id =#{userId})
+GROUP BY a.plan_id , b.ref_id
+</select>
 
-<insert id="addPlanPartyMember" parameterType="offer">
+
+<insert id="addPartyMember" parameterType="offer">
 		INSERT 
 		INTO party ( party_id, party_user_id, party_type, ref_id, party_role ) 
-		VALUES ( TO_CHAR(seq_party_party_id.NEXTVAL), #{toUserId}, 'P', #{refId}, 'M' )
+		VALUES ( TO_CHAR(seq_party_party_id.NEXTVAL), #{toUserId}, #{offerType}, #{refId}, 'M' )
 </insert>
 
 <update id = "updateOfferStatus" parameterType="offer">
@@ -627,6 +646,13 @@ UPDATE
 OFFER SET offer_status = #{offerStatus}
 WHERE offer_id = #{offerId}
 </update>
+
+<select id="getPartyMember" parameterType="string" resultMap="partySelectMap">
+SELECT 
+party_user_id 
+FROM PARTY
+WHERE ref_id = #{postId} AND party_type =  'A'
+</select>
 
 
 

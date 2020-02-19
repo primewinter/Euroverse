@@ -249,6 +249,21 @@ public class MyPageController {
 		return "redirect:/myPage/addQnaAndQnaList";
 	}
 	
+	@RequestMapping(value="offerReject")
+	public String planOfferReject(@RequestParam("offerId")String offerId  , HttpSession session   )throws Exception{
+		System.out.println("planOfferReject ~~~!!#@!#!");
+		
+		
+		
+		Offer offer = myPageService.getOffer(offerId);
+		System.out.println(offer);
+		offer.setOfferStatus("R");
+		myPageService.updateOfferStatus(offer);
+		
+		
+		return "redirect:/myPage/myOfferList";
+	}
+	
 	
 
 }
