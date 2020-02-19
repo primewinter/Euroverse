@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page pageEncoding="EUC-KR" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 
@@ -38,7 +38,6 @@
 		    overflow: hidden;
 		    width: 100%;
 		    height: 38px;
-		    margin-top: 15px;
 		    font-family: '굴림',Gulim;
 		    font-size: 13px;
 		    color: #333;
@@ -72,7 +71,6 @@
 		}
 		.cmt_nickbox {
 		    float: left;
-		    width: 110px;
 		    margin-top: 3px;
 		}
 		.gall_writer {
@@ -81,7 +79,6 @@
 		    cursor: pointer;
 		}
 		.nickname.me {
-		    background: #e5ebff;
 		    padding: 3px 1px 1px 2px;
 		}
 		.comment_box .nickname {
@@ -165,14 +162,11 @@
 		    font-weight: bold;
 		}
 		.view_comment .cmt_write_box {
-		    border-bottom: 1px solid silver;
-		    border-left: 1px solid silver;
-		    border-right: 1px solid silver;
+		  
 		}
 		.cmt_write_box {
 		    padding: 10px 10px 10px;
-		    background: whitesmoke;
-		    border-top: 1px solid silver;
+		    width: 910px;
 		}
 		.user_info_input:first-child {
 		    margin-top: 0px;
@@ -203,7 +197,7 @@
 		}
 		.cmt_txt_cont {
 		    float: right;
-		    width: 900px;
+		    width: 890px;
 		}
 		.cmt_write {
 		    position: relative;
@@ -219,7 +213,7 @@
 		.cmt_txt_cont textarea {
 			float: left;
 			margin: 10px 0 10px 0;
-		    width: 850px;
+		    width: 890px;
 		    height: 78px;
 		    padding: 13px;
 		    border: 1px solid #cecdce;
@@ -278,7 +272,7 @@
 		    overflow: hidden;
 		}
 		.usertxt, .comment_wrap .comment_dccon {
-		    width: 820px;
+		    width: 700px;
 		    cursor: pointer;
 		}
 		.cmt_like {
@@ -287,7 +281,7 @@
 		} 
 		.clear.cmt_txtbox.btn_reply_write_all {
 			clear: both;
-			padding-left: 115px;
+			width: 700px;
 		}
 		.container, .container-md, .container-sm {
 		    max-width: 930px;
@@ -321,6 +315,7 @@
 	<script type="text/javascript">
 	
 		var boardName = '${post.boardName}';
+		var postId = '${post.postId}';
 		
 		//============= 회원정보수정 Event  처리 =============	
 		$(function() {
@@ -479,7 +474,7 @@
 			if( typeof $("."+modalName)[0] != "undefined" ){
 				$("."+modalName)[0].reset();	
 			}
-			$("#"+modalName).hide();
+			$("#"+modalName).modal("hide");
 		}
 		
 		$('#createChat').on('show.bs.modal', function (event) {
@@ -652,10 +647,10 @@
 				       <div class="partyKing" style="max-width: 18rem;float: left;border-radius: 10px;width: 165px;height: 174px; margin-left:10px;">
 						 <img src="/resources/images/userImages/${userList.userImg}" class="card" style="margin: 20px 0 0 38px;border: 2px solid red;">
 						  <div class="card-body text-dark" style="padding:0;">
-						    <h5 class="card-title" style="font-size: 14px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
+						    <h5 class="card-title" style="font-size: 13px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
 			      		    <p class="card-text"><i class="fas fa-bus">
 			      		  <c:forEach var="tripStyle" items="${userList.tripStyle}">
-						    <span style="font-family: 'Gothic A1', sans-serif; font-size: 14px;">${tripStyle}</span>
+						    <span style="font-family: 'Gothic A1', sans-serif; font-size: 13px;">${tripStyle}</span>
 			  	  		  </c:forEach>
 			  	  		    </i></p>
 						  </div>
@@ -665,10 +660,10 @@
 				        <div class="partyMember" style="max-width: 18rem;float: left;border-radius: 10px;width: 165px;height: 174px; margin-left:30px;">
 						 <img src="/resources/images/userImages/${userList.userImg}" class="card" style="margin: 20px 0 0 38px;border: 2px solid silver;">
 						  <div class="card-body text-dark" style="padding:0;">
-						    <h5 class="card-title" style="font-size: 14px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
+						    <h5 class="card-title" style="font-size: 13px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
 						    <p class="card-text"><i class="fas fa-bus">
 						  <c:forEach var="tripStyle" items="${userList.tripStyle}">
-						    <span style="font-family: 'Gothic A1', sans-serif; font-size: 14px;">${tripStyle}</span>
+						    <span style="font-family: 'Gothic A1', sans-serif; font-size: 13px;">${tripStyle}</span>
 			  	  		  </c:forEach>  
 						    </i></p>
 						  </div>
@@ -679,9 +674,7 @@
 			  </c:forEach>
 			</div>
 		</div>
-	   
-	   <hr>
-	   
+	
 	   <ul class="list-group list-group-flush" style="font-size: 13px;">
 		  <li class="list-group-item">이전글 <i class="fas fa-angle-double-right" onclick="getPost('${post.prevId}')"> ${post.prevTitle}</i></li>
 		  <li class="list-group-item">다음글 <i class="fas fa-angle-double-right" onclick="getPost('${post.nextId}')"> ${post.nextTitle}</i></li>

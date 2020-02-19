@@ -139,7 +139,7 @@
 		
 	<div class="table-responsive">	
       <!--  table Start /////////////////////////////////////-->
-      <table class="table">
+      <table class="table table-hover">
       
         <thead>
           <tr>
