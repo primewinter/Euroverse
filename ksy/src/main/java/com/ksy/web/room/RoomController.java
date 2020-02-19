@@ -272,7 +272,7 @@ public class RoomController {
 				System.out.println("페이지 다운22");
 			}
 			synchronized (driver) {
-				driver.wait(1000);
+				driver.wait(1300);
 			}
 			pageDown = 3;
 			while (pageDown > 0) {
@@ -293,6 +293,15 @@ public class RoomController {
 			//숙소주소
 			List<WebElement> addr = driver
 					.findElements(By.cssSelector("#listings > ol > li > article > section > div > address > span"));
+			//숙소위치								
+			List<WebElement> load = driver     
+					.findElements(By.cssSelector("#listings > ol > li > article > section > div > div > div.additional-details.resp-module > div.location-info.resp-module > a"));
+			// 도심으로부터 거리
+			List<WebElement> point = driver   
+					.findElements(By.cssSelector("#listings > ol > li > article > section > div > div > div > div > ul > li:nth-child(1)"));
+			// 평점									
+			List<WebElement> info = driver
+					.findElements(By.cssSelector("#listings > ol > li > article > section > div > div > div.reviews-box.resp-module > strong"));
 			//가격
 			List<WebElement> price = driver.findElements(
 					By.cssSelector("#listings > ol > li > article > section > aside > div.price > a > ins"));
@@ -319,7 +328,7 @@ public class RoomController {
 				  
 				  //경로 꼭 수정하기!!!
 				  String savePath =
-						  "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\orderImg\\";
+						  "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\roomImg\\";
 						  //"C:\\Users\\User\\git\\repository\\Exhibition\\11.Model2MVCShop\\WebContent\\images\\uploadFiles\\";
 				  String saveFileName = System.currentTimeMillis()+".jpg";
 				  String fileFormat = "jpg";
@@ -369,9 +378,20 @@ public class RoomController {
 			for(WebElement list : detailLink){
 				detail5.add(list.getText()); 
 			}
-
-
-			System.out.println("detail : " + detail +"detail2 : "+ detail2 +"detail3 : "+ detail3+"detail4 : "+imgSrc);
+			List<String> detail6 = new ArrayList<String>(); 
+			for(WebElement list : load){
+				detail6.add(list.getText()); 
+			}
+			List<String> detail7 = new ArrayList<String>(); 
+			for(WebElement list : point){
+				detail7.add(list.getText()); 
+			}
+			List<String> detail8 = new ArrayList<String>(); 
+			for(WebElement list : info){
+				detail8.add(list.getText());
+			}
+			 
+			//System.out.println("detail : " + detail +"detail2 : "+ detail2 +"detail3 : "+ detail3+"detail4 : "+imgSrc);
 			for (int j = 0; j < detail.size(); j++) {
 				System.out.println("==============" + j + "번 숙소 =============");
 				for (int i = 0; i < 9; i++) {
@@ -380,6 +400,9 @@ public class RoomController {
 					System.out.println("t3(가격) :: " + detail3.get(i * j));
 					System.out.println("t4(이미지) :: "+detail4.get(i * j));
 					System.out.println("t5(링크) :: "+linkList.get(i*j));
+					System.out.println("t6(위치) :: "+detail6.get(i * j));
+					System.out.println("t7(포인트유무) :: "+detail7.get(i * j));
+					System.out.println("t8(부가정보) :: "+detail8.get(i * j));
 				}
 				List<Room> roomList = new ArrayList<Room>(); 
 				for(int i=0; i<detail.size();i++) { 
@@ -389,6 +412,10 @@ public class RoomController {
 				room.setPrice(Integer.parseInt(detail3.get(i)));
 				room.setRoomImg(detail4.get(i));
 				room.setDetailLink(linkList.get(i));
+				room.setLocation(detail6.get(i));
+				room.setPoint(detail7.get(i));
+				room.setInfo(detail8.get(i));
+				
 				//검색 시 가져온 정보
 				room.setRoomCity(roomCity);
 				room.setCheckIn(checkIn);
@@ -396,7 +423,7 @@ public class RoomController {
 				room.setAdultNum(adultNum+adultNum2);
 				room.setChildNum(childNum+childNum2);
 				room.setRoomNum(roomNum);
-
+				
 				roomList.add(room);
 				model.addAttribute("roomList",roomList);
 				System.out.println("Room :: "+room);
