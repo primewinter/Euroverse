@@ -269,7 +269,7 @@
 										  </where>
 										</if> 
 										GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count
-										ORDER BY p.post_date desc ) inner_table
+										ORDER BY DECODE ( p.post_grade, 'N', 1, 'B', 2 ) ) inner_table
   						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
   		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
   		AND #{search.currentPage}*#{search.pageSize}

@@ -309,23 +309,27 @@ public class CommunityRestController {
 		communityService.addComment(comment);
 		
 		String postWriterId = comment.getPostWriterId();
-		
-		if( !postWriterId.equals(comment.getCmtWriterId()) ) {
-			System.out.println("글 작성자 =/= 댓글 작성자");
+		String parentCmtWriterId ="";
+		if( !postWriterId.equals(comment.getCmtWriterId()) ) {			// 글 작성자 =/= 댓글 작성자
 			Push push = new Push();
 			push.setRefId(comment.getPostId()+"");
-			
-			if( comment.getParentCmtId().equals(null)) {
-				push.setPushType("C");
-			}else {
-				push.setPushType("R");
-			}
+			push.setPushType("C");
 			push.setReceiverId(postWriterId);
 			pushService.addPush(push);
+			if( !comment.getParentCmtId().equals(null)) {			//부모 댓글이 있다면 = 대댓글이라면
+				parentCmtWriterId = communityService.getComment(comment.getParentCmtId()).getCmtWriterId();
+				if( !parentCmtWriterId.equals(comment.getCmtWriterId()) ) { 		//부모 댓글 작성자 =/= 대댓글 작성자
+					push.setRefId(comment.getPostId()+"");
+					push.setPushType("C");
+					push.setReceiverId(parentCmtWriterId);
+					pushService.addPush(push);
+				}
+			}
 		}
 		
 		JSONObject obj = new JSONObject();
 		obj.put("postWriterId", postWriterId);
+		obj.put("parentCmtWriterId", parentCmtWriterId);
 		out.println(obj);
 	}
 	
