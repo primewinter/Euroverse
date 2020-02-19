@@ -79,11 +79,10 @@
   	
   	<select id="getRoomOrder" parameterType="String" resultMap="orderSelectMap">
   		SELECT 
-		r.room_id , r.room_name , r.price, r.check_in , r.check_out , r.room_num , r.adult_num , r.child_num , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date  
+		r.room_id, o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.room_id
 		FROM orders o , room r
-		WHERE order_id = #{orderId}
-					AND r.room_id(+)=o.room_id
-				    AND flight_id IS NOT NULL
+		WHERE order_id = #{value}
+					AND r.room_id=o.room_id(+)
 					
   	</select>
 

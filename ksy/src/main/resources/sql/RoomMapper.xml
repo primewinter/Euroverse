@@ -24,10 +24,6 @@
 		<result property="sights" 		column="SIGHTS"			jdbcType="VARCHAR"/>
 		<result property="hotelInfo" 	column="HOTEL_INFO"		jdbcType="VARCHAR"/>
 		<result property="roomInfo"	 	column="ROOM_INFO"		jdbcType="VARCHAR"/>
-
-  		<result property="orderDate" 		column="ORDER_DATE" 	jdbcType="TIMESTAMP"/>
-	 	<result property="orderStatus" 		column="ORDER_STATUS"	jdbcType="CHAR"/>
-		
   	</resultMap>
   	
   	 <insert id="addRoom" parameterType="room">
@@ -50,16 +46,15 @@
 					#{sights:VARCHAR},
 					#{hotelInfo:VARCHAR},
 					#{roomInfo:VARCHAR}
-					
 					)
 	</insert>
   	
   	<select id="getRoom" parameterType="String" resultMap="roomSelectMap">
   		SELECT 
-		room_id , room_name , price, roomImg, mainService, familyService ,sights,hotelInfo,roomInfo
-		FROM room r
+		r.room_id , r.room_name , r.price, r.roomImg, r.mainService, r.familyService , r.sights , r.hotelInfo, r.roomInfo , o.ORDER_DATE , o.ORDER_STATUS , o.order_id ,o.room_id
+		FROM room r , order o
 		WHERE room_id = #{roomId}
-					
+			AND r.room_id=o.room_id(+)		
   	</select>
   	
   	 <select id="getRoomList" parameterType="map" resultMap="roomSelectMap">

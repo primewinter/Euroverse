@@ -294,13 +294,13 @@ public class RoomController {
 			List<WebElement> addr = driver
 					.findElements(By.cssSelector("#listings > ol > li > article > section > div > address > span"));
 			//숙소위치								
-			List<WebElement> load = driver     
+			List<WebElement> location = driver     
 					.findElements(By.cssSelector("#listings > ol > li > article > section > div > div > div.additional-details.resp-module > div.location-info.resp-module > a"));
 			// 도심으로부터 거리
-			List<WebElement> point = driver   
+			List<WebElement> distance = driver   
 					.findElements(By.cssSelector("#listings > ol > li > article > section > div > div > div > div > ul > li:nth-child(1)"));
 			// 평점									
-			List<WebElement> info = driver
+			List<WebElement> grade = driver
 					.findElements(By.cssSelector("#listings > ol > li > article > section > div > div > div.reviews-box.resp-module > strong"));
 			//가격
 			List<WebElement> price = driver.findElements(
@@ -379,15 +379,15 @@ public class RoomController {
 				detail5.add(list.getText()); 
 			}
 			List<String> detail6 = new ArrayList<String>(); 
-			for(WebElement list : load){
+			for(WebElement list : location){
 				detail6.add(list.getText()); 
 			}
 			List<String> detail7 = new ArrayList<String>(); 
-			for(WebElement list : point){
+			for(WebElement list : distance){
 				detail7.add(list.getText()); 
 			}
 			List<String> detail8 = new ArrayList<String>(); 
-			for(WebElement list : info){
+			for(WebElement list : grade){
 				detail8.add(list.getText());
 			}
 			 
@@ -401,8 +401,8 @@ public class RoomController {
 					System.out.println("t4(이미지) :: "+detail4.get(i * j));
 					System.out.println("t5(링크) :: "+linkList.get(i*j));
 					System.out.println("t6(위치) :: "+detail6.get(i * j));
-					System.out.println("t7(포인트유무) :: "+detail7.get(i * j));
-					System.out.println("t8(부가정보) :: "+detail8.get(i * j));
+					System.out.println("t7(거리간격) :: "+detail7.get(i * j));
+					System.out.println("t8(평점) :: "+detail8.get(i * j));
 				}
 				List<Room> roomList = new ArrayList<Room>(); 
 				for(int i=0; i<detail.size();i++) { 
@@ -413,8 +413,8 @@ public class RoomController {
 				room.setRoomImg(detail4.get(i));
 				room.setDetailLink(linkList.get(i));
 				room.setLocation(detail6.get(i));
-				room.setPoint(detail7.get(i));
-				room.setInfo(detail8.get(i));
+				room.setDistance(detail7.get(i));
+				room.setGrade(detail8.get(i));
 				
 				//검색 시 가져온 정보
 				room.setRoomCity(roomCity);
@@ -452,12 +452,14 @@ public class RoomController {
 			@RequestParam("price")int price, @RequestParam("roomCity")String roomCity,
 			@RequestParam("checkIn")String checkIn, @RequestParam("checkOut")String checkOut,
 			@RequestParam("adultNum")int adultNum , @RequestParam("childNum")int childNum,
+			@RequestParam("location")String location ,@RequestParam("distance")String distance, @RequestParam("grade")String grade,
 //			@ModelAttribute("room")Room room,
 			Model model ) throws Exception {
 		System.out.println("/getRoom : POST");
 		Room room = new Room();
 		room.getDetailLink();
-		
+		System.out.println("room : "+room);
+		System.out.println("얍 : "+detailLink);
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
 		
 		// Driver SetUp
@@ -465,7 +467,6 @@ public class RoomController {
 		options.setCapability("ignoreProtectedModeSettings", true);
 		driver = new ChromeDriver(options);
 		
-		String keyword = "";
 		try {
 			// get page (= 브라우저에서 url을 주소창에 넣은 후 request 한 것과 같다)
 			driver.get(detailLink);
@@ -492,65 +493,138 @@ public class RoomController {
 			room.setChildNum(childNum);
 			//detailLink
 			room.setDetailLink(detailLink);
-			//무료wifi 주차 기타정보 											
-//			WebElement etc = driver.findElement(By.xpath("//*[@id=\"property-header\"]/div/div[3]/ul"));
-//			String etc2 = etc.getText();
-//			purchase.setReceiverName(etc2);
-//			System.out.println("etc : "+purchase.getReceiverName());
-			
+			//숙소 위치
+			room.setLocation(location);
+			//거리간격
+			room.setDistance(distance);
+			//평점
+			room.setGrade(grade);
 			//주요편의시설										
-			WebElement main = driver.findElement(By.xpath("//*[@id=\"overview-section-4\"]"));
+			WebElement main = driver.findElement(By.xpath("//*[@id=\"overview-section-4\"]/ul[1]"));
 			String mainService = main.getText();
 			room.setMainService(mainService);
 			//가족단위 편의시설
-			WebElement family = driver.findElement(By.xpath("//*[@id=\"overview-section-5\"]"));
+			WebElement family = driver.findElement(By.xpath("//*[@id=\"overview-section-5\"]/ul"));
 			String familyService = family.getText();
 			room.setFamilyService(familyService);
 			//주요 명소
-			WebElement sight = driver.findElement(By.xpath("//*[@id=\"overview-section-6\"]"));
+			WebElement sight = driver.findElement(By.xpath("//*[@id=\"overview-section-6\"]/ul"));
 			String sights = sight.getText();
 			room.setSights(sights);
 			//호텔 내 정보
-			WebElement hotel = driver.findElement(By.xpath("//*[@id=\"amenities\"]/div[2]/div/div[1]/div"));
+			WebElement hotel = driver.findElement(By.xpath("//*[@id=\"amenities\"]/div[2]/div/div[1]/div/div"));
 			String hotelInfo = hotel.getText();
 			room.setHotelInfo(hotelInfo);
 			//객실 내 정보
-			WebElement roomIn = driver.findElement(By.xpath("//*[@id=\"amenities\"]/div[2]/div/div[2]"));
+			WebElement roomIn = driver.findElement(By.xpath("//*[@id=\"amenities\"]/div[2]/div/div[2]/div/div"));
 			String roomInfo = roomIn.getText();
 			room.setRoomInfo(roomInfo);
 			//큰 이미지
-			WebElement image = driver.findElement(By.xpath("//*[@id=\"carousel-container\"]/div[1]/ul/li[1]"));
-			String roomImg = image.getAttribute("data-desktop");
+//			WebElement image = driver.findElement(By.xpath("//*[@id=\"carousel-container\"]/div[1]/ul/li[1]"));
+//			String roomImg = image.getAttribute("data-desktop");
 			
-			
+			model.addAttribute("room",room);
 			/////////////////////////////////////이미지////////////////////////////////////////////////////
-			  
+			List<String> detail = new ArrayList<String>();
+			for (int i = 0; i < 8; i++) {
+			
+			  //List<WebElement> roomImg = driver.findElements(By.cssSelector(
+					  //"#listings > ol > li > article > section > div > figure > a > img.u-photo.use-bgimage.featured-img-tablet"));
+			  WebElement roomImg = driver.findElement(By.cssSelector("#thumb-"+i+" > a"));
+			  roomImg.click();
+			  System.out.println("roomImg : "+roomImg);
+			  synchronized (driver) {
+					driver.wait(300);
+				}
+			  List<WebElement> bigImg = driver.findElements(By.cssSelector("#carousel-container > div.canvas.widget-carousel-enabled > ul > li:nth-child("+(i+1)+")"));
+			  System.out.println("bigImg : "+bigImg);
+			  List<String> styleList = new ArrayList<String>();
+			  for(WebElement down : bigImg) {
+				   styleList.add(down.getAttribute("data-desktop"));
+			  }
+			   List<String> imgSrc = new ArrayList<String>();
+				  for(String tempt : styleList) {
+					  //int start = tempt.indexOf("(")+2; 
+					  //int end = tempt.lastIndexOf(")")-1;
+					  //System.out.println("Start : "+start+"End : "+end); 
+					  String url =tempt;
+					  //System.out.println("URL : "+url);    .substring(start , end); 
+			
+					  System.out.println("url : "+url);
+			
 				  String savePath =
-						  "C:\\Users\\User\\git\\repository\\Exhibition\\11.Model2MVCShop\\WebContent\\images\\uploadFiles\\";
+						  "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\roomImg\\";
+						  //"C:\\Users\\User\\git\\repository\\Exhibition\\11.Model2MVCShop\\WebContent\\images\\uploadFiles\\";
 				  String saveFileName = System.currentTimeMillis()+".jpg";
 				  String fileFormat = "jpg";
 				  
+				  System.out.println(" DOWN ::: " + url); 
 				  System.out.println(" SAVE PATH ::: "+ savePath); 
 				  System.out.println(" SAVE FILE NAME ::: " + saveFileName);
 				  System.out.println(" FILE FORMAT ::: " + fileFormat);
 				  File saveFile = new File(savePath + saveFileName);
-				  //roomImg.add(saveFileName);
+				  imgSrc.add(saveFileName);
 				  //saveImage(down, saveFile, fileFormat);
 				  
-				  URL url2 = new URL(roomImg); 
+				  URL url2 = new URL(url); 
 				  // 다운로드 할 이미지 URL
 				  BufferedImage bi = ImageIO.read(url2); 
 				  ImageIO.write(bi, fileFormat, saveFile); // 저장할 파일 형식, 저장할 파일명
+				  
+			  }
+				 
+				  for(String FileName : imgSrc){
+					  detail.add(FileName); 
+					  room.setRoomImg(detail.get(0));
+					  System.out.println("detail :"+detail);
+					  System.out.println("detail size : "+detail.size());
+					  }
+					  List<Room> roomList = new ArrayList<Room>(); 
+					  for(int b=0; b<detail.size(); b++) {
+						  room = new Room();
+						  room.setRoomImg(detail.get(b));
+						  
+						  System.out.println("detail.get : "+detail.get(b));
+						  roomList.add(room);
+						  model.addAttribute("roomList",roomList);
+						  System.out.println("roomList : "+roomList);
+					  }
+					  synchronized (driver) {
+							driver.wait(300);
+						}
+				/*
+				 * for(int b=0; b<detail.size();b++) { room = new Room();
+				 * room.setRoomImg(detail.get(b)); roomList.add(room);
+				 * model.addAttribute("roomList",roomList);
+				 * System.out.println("roomList : "+roomList); }
+				 */
+				  
+		}
+//				  String savePath =
+//						  "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\roomImg\\";
+//				  String saveFileName = System.currentTimeMillis()+".jpg";
+//				  String fileFormat = "jpg";
+//				  
+//				  System.out.println(" SAVE PATH ::: "+ savePath); 
+//				  System.out.println(" SAVE FILE NAME ::: " + saveFileName);
+//				  System.out.println(" FILE FORMAT ::: " + fileFormat);
+//				  File saveFile = new File(savePath + saveFileName);
+//				  //roomImg.add(saveFileName);
+//				  //saveImage(down, saveFile, fileFormat);
+//				  
+//				  URL url2 = new URL(roomImg); 
+//				  // 다운로드 할 이미지 URL
+//				  BufferedImage bi = ImageIO.read(url2); 
+//				  ImageIO.write(bi, fileFormat, saveFile); // 저장할 파일 형식, 저장할 파일명
 			  /////////////////////////////////////이미지////////////////////////////////////////////////////
-				  room.setRoomImg(saveFileName);
+			
 			
 			
 //			 for (WebElement list : etc) {
 //				 System.out.println("ETC.. :: "+etc);
 //				 System.out.println("List :: "+list.getText());
 //			 }
-			model.addAttribute("room",room);
-			System.out.println("room :: "+room);
+			
 			Thread.sleep(1500);
 		} catch (IndexOutOfBoundsException ie) {
 			System.out.println("IndexOutOfBounds");
@@ -568,7 +642,7 @@ public class RoomController {
 		}
 		////////////////////////////////////////////////////////////
 	
-		return "forward:/room/getRoom.jsp";
+		return "forward:/view/room/getRoom.jsp";
 
 	}
 

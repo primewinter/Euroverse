@@ -84,7 +84,85 @@
 			box-sizing: border-box;
 			z-index : -1;
 	  } */
+	  /* 왕복 , 편도 배경 */
+		#roundTrip {
+		position: relative;
+		}
+		#roundTrip.basic:after {
+		content : "";
+	    display: block;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    background-color: lightgray; 
+	    width: 225px;
+	    height: 50px;
+	    opacity : 0.7;
+	    z-index: -2;
+	    margin-left: -5px;
+		}
+		
+		#roundTrip.change:after {
+		content : "";
+	    display: block;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    background-color: lightgray; 
+	    width: 0;
+	    height: 50px;
+	    opacity : 0.7;
+	    z-index: -2;
+	    margin-left: -5px;
+		}
+		
+		#right {
+		position: relative;
+		}
+		#right.basic:after {
+		content : "";
+	    display: block;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    background-color: lightgray; 
+	    width: 225px;
+	    height: 50px;
+	    opacity : 0.7;
+	    z-index: -2;
+	    margin-left: -5px;
+		}
+		
+		#right.change:after {
+		content : "";
+	    display: block;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    background-color: lightgray; 
+	    width: 0;
+	    height: 50px;
+	    opacity : 0.7;
+	    z-index: -2;
+	    margin-left: -5px;
+		}
 	  
+	  /* div 전체 container 배경 */
+	  .container{
+	  	position:relative;
+	  }
+	  .container:after{
+	  		content : "";
+		    display: block;
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    background-color: lightgray; 
+		    width: 90%;
+		    height: 200px;
+		    opacity : 0.7;
+		    z-index: -3;
+	  }
 
 	  
 	  /* 이미지 배경 css */
@@ -165,6 +243,8 @@
 		box-sizing: border-box;
 		text-align: center;
 		}
+		
+		
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -394,16 +474,24 @@ function europe(obj) {
 	$(function() {
 		$("#roundTrip").click(function() {
 			$("#arraw").attr("class","fas fa-arrows-alt-h");
+			$('#roundTrip').attr('class','col-sm-2 basic');
+			$('#right').attr('class','col-sm-2 change');
 			$("#tripCourses").val(1);
 		});
+	});
+	$(function() {
 		$("#right").click(function() {
 			$("#arraw").attr("class","fas fa-arrow-right");
+			$('#roundTrip').attr('class','col-sm-2 change');
+			$('#right').attr('class','col-sm-2 basic');
 			$("#tripCourses").val(2);
 		});
 		
 	});
-	
-	
+	window.onload = function () {
+		$('#roundTrip').attr('class','col-sm-2 basic');
+		$('#right').attr('class','col-sm-2 change');
+	}
 	
 </script>
 
@@ -422,20 +510,24 @@ function europe(obj) {
 <br>
 <br>
 			<div class="row" style="Padding-left:250px;">
-              		<button type="button" class="btn btn-outline-light" id="roundTrip" >왕복구간 검색</button>
+					<div class="col-sm-3" id="roundTrip">
+							<p class="roundTrip" style="color:white;margin-left:45px;Padding-top:10px;">왕복 구간 검색</p>
+              		<!-- <button type="button" class="btn btn-outline-light" id="roundTrip" >왕복구간 검색</button> -->
               				<input type="hidden" name="tripCourse" id="tripCourses" value="1" >
-              		&nbsp;&nbsp;&nbsp;&nbsp;
-                	<button type="button" class="btn btn-outline-light" id="right" >편도구간 검색</button>
+              		</div>
+              		<div class="col-sm-3" id="right">
+              			<p style="color:white;margin-left:45px;Padding-top:10px;">편도 구간 검색</p>
+              		</div>
+                	<!-- <button type="button" class="btn btn-outline-light" id="right" >편도구간 검색</button> -->
             </div>
-            <br/><br/>
 			<div class="container">
-			  <div class="row">
-			    <div class="col-md-6">
+			  <div class="row" >
+			    <div class="col-md-5" style="margin-top:50px;margin-left:50px;">
 			    <div class="row">
 			    	 <input type="text" class="form-control" placeholder="출발지역을 입력하세요" name="depCity" id="depCity" style="width:300px;height:30px;font-size:13px;float:left;" onclick="javascript:doShow();">
 					 <div class="input-group-append">
 					  <span class="input-group-text" id="basic-addon2"><i class="fas fa-plane" id="iconf" style="font-size:15px;"></i></span>
-			  			<i class="fas fa-arrows-alt-h" id="arraw" style="font-size:25px;Padding-left:100px;"></i>
+			  			<i class="fas fa-arrows-alt-h" id="arraw" style="font-size:25px;Padding-left:80px;"></i>
 			  		</div>
 			  		<table class="table" id="domestic" style="width: 300px; display: none;">
 						 <tbody>	
@@ -479,7 +571,7 @@ function europe(obj) {
 				   		 </div>
 						</div>
 			    </div>
-			    <div class="col-md-6">
+			    <div class="col-md-6" style="margin-top:50px;margin-left:30px;">
 			    <div class="row">
 			    	 <input type="text" class="form-control" placeholder="도착지역을 입력하세요" name="arrCity" id="arrCity" style="width:350px;height:30px;font-size:13px;float:left; " onclick="javascript:Show();">
 					 <div class="input-group-append" style="height:30px;">

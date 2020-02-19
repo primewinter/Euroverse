@@ -13,10 +13,17 @@ public class Room {
 	private int adultNum2;
 	private int childNum; //child_num
 	private int childNum2;
+	private int roomNum; //room_num
+	private String roomImg; //room_img
+	private String mainService; //main_service
+	private String familyService; //family_service
+	private String sights; //sights
+	private String hotelInfo; //hotel_info
+	private String roomInfo; //room_info
 	
 	private String location;
-	private String info;
-	private String point;
+	private String distance;
+	private String grade;
 	
 	public String getLocation() {
 		return location;
@@ -24,17 +31,18 @@ public class Room {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public String getInfo() {
-		return info;
+	
+	public String getDistance() {
+		return distance;
 	}
-	public void setInfo(String info) {
-		this.info = info;
+	public void setDistance(String distance) {
+		this.distance = distance;
 	}
-	public String getPoint() {
-		return point;
+	public String getGrade() {
+		return grade;
 	}
-	public void setPoint(String point) {
-		this.point = point;
+	public void setGrade(String grade) {
+		this.grade = grade;
 	}
 	public int getAdultNum2() {
 		return adultNum2;
@@ -48,16 +56,6 @@ public class Room {
 	public void setChildNum2(int childNum2) {
 		this.childNum2 = childNum2;
 	}
-	private int roomNum; //room_num
-	private String roomImg; //room_img
-	private String mainService; //main_service
-	private String familyService; //family_service
-	private String sights; //sights
-	private String hotelInfo; //hotel_info
-	private String roomInfo; //room_info
-	private String orderStatus;
-	private String OrderDate;
-	
 	public String getRoomId() { 
 		return roomId;
 	}
@@ -160,29 +158,14 @@ public class Room {
 	public void setRoomImg(String roomImg) {
 		this.roomImg = roomImg;
 	}
-	
-	public String getOrderStatus() {
-		return orderStatus;
-	}
-	public void setOrderStatus(String orderStatus) {
-		this.orderStatus = orderStatus;
-	}
-	public String getOrderDate() {
-		return OrderDate;
-	}
-	public void setOrderDate(String orderDate) {
-		OrderDate = orderDate;
-	}
 	@Override
 	public String toString() {
 		return "Room [roomId=" + roomId + ", roomName=" + roomName + ", roomAddr=" + roomAddr + ", price=" + price
 				+ ", roomCity=" + roomCity + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", detailLink="
 				+ detailLink + ", adultNum=" + adultNum + ", adultNum2=" + adultNum2 + ", childNum=" + childNum
-				+ ", childNum2=" + childNum2 + ", location=" + location + ", info=" + info + ", point=" + point
-				+ ", roomNum=" + roomNum + ", roomImg=" + roomImg + ", mainService=" + mainService + ", familyService="
-				+ familyService + ", sights=" + sights + ", hotelInfo=" + hotelInfo + ", roomInfo=" + roomInfo
-				+ ", orderStatus=" + orderStatus + ", OrderDate=" + OrderDate + "]";
+				+ ", childNum2=" + childNum2 + ", roomNum=" + roomNum + ", roomImg=" + roomImg + ", mainService="
+				+ mainService + ", familyService=" + familyService + ", sights=" + sights + ", hotelInfo=" + hotelInfo
+				+ ", roomInfo=" + roomInfo + ", location=" + location + ", distance=" + distance + ", grade=" + grade
+				+ "]";
 	}
-	
-	
 }

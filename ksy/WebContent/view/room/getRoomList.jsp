@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@page import="java.util.*" %>
 
 <html lang="ko">
 <head>
@@ -43,7 +44,7 @@ $(function() {
 		 
 	        
 	        //$("#merchant_uid").val()
-		 var url = $(this).val();
+		 var detailLink = $(this).val();
 	     var price = $(this).next().val();
 	     var roomCity = $(this).next().next().val();
 	     var roomNum = $(this).next().next().next().val();
@@ -51,12 +52,16 @@ $(function() {
 	     var adultNum = $("#adultNum").val();
 	     var childNum = $("#childNum").val();
 	     var checkOut = $("#checkOut").val();
+	     var location = $("#location").val();
+	     var distance = $("#distance").val();
+	     var grade = $("#grade").val();
 	     
 	     $("#checkIn").val(checkIn);
 	     
-		 alert(url+"price"+price+"room : "+roomCity+"checkIn : "+checkIn);
-		 self.location ="/room/getRoom?detailLink="+url+"&price="+price+"&roomCity="+roomCity+"&checkIn="+checkIn
-				 +"&roomNum="+roomNum+"&adultNum="+adultNum+"&childNum="+childNum+"&checkOut="+checkOut;
+		 alert(detailLink+"price"+price+"room : "+roomCity+"checkIn : "+checkIn);
+		 self.location ="/room/getRoom?detailLink="+detailLink+"&price="+price+"&roomCity="+roomCity+"&checkIn="+checkIn
+				 +"&roomNum="+roomNum+"&adultNum="+adultNum+"&childNum="+childNum+"&checkOut="+checkOut+"&location="+location
+				 +"&distance="+distance+"&grade="+grade;
 	  //$("form").attr("method" , "POST").attr("action" , "/room/getRoom").submit();
 
 	});
@@ -71,13 +76,6 @@ $(function() {
          dateFormat: "yymmdd"
     });
 });
-
-	/* var price = $("#price").val();
-	price.substring(1);
-	string.substring( start, end )
-	var replace = price.replace( 'Lorem', 'Amet' );
-	document.write( '<p>' + jbStrReplace + '</p>' ); */
-	
 </script>
 
 
@@ -91,7 +89,9 @@ $(function() {
 <jsp:include page="/toolbar/toolBar.jsp" />
 	<div class="container">
 		<c:forEach var="room" items = "${roomList}" >
+		<hr/>
 		<div class="row">
+		<br/>
 				<div class="col-sm-2" style="margin-left:50px;margin-right:20px;">
 					<img src = "/resources/images/roomImg/${room.roomImg}" width="180" height="120"/>
 				</div>
@@ -104,66 +104,36 @@ $(function() {
 					</div>
 						<br/>
 					<div class="row" style="margin-left:10px;margin-top:-20px;">
-							<div class="col">
+							<div class="col-sm-8">
 								<p style="margin-bottom:5px;font-size:13px;"><i class="fas fa-map-marker-alt" style="margin-left:2px;font-size:15px;"></i>&nbsp;&nbsp;${room.location}</p>
-								<p style="margin-bottom:5px;font-size:13px;"><i class="fas fa-road"></i>&nbsp;&nbsp;${room.point}</p>
-								<p style="font-size:18px;"><strong><i class="fas fa-heart"></i>&nbsp;&nbsp;${room.info}</strong></p>
+								<p style="margin-bottom:5px;font-size:13px;"><i class="fas fa-road"></i>&nbsp;&nbsp;${room.distance}</p>
+								<p style="font-size:18px;"><strong><i class="fas fa-heart"></i>&nbsp;&nbsp;${room.grade}</strong></p>
 							</div>
-							<div class="col" style="margin-left:170px;">
-								<div class="row" style="margin-left:10px;">
-									<i class="fas fa-won-sign" style="font-size:22px;">${room.price}원</i>
+							<div class="col-sm-4">
+								<div class="row" id="price" style="margin-left:10px;">
+										<i class="fas fa-won-sign" style="font-size:22px;"><fmt:formatNumber value="${room.price}" pattern="###,###" /> 원</i>
 								</div>
 								<br/>
-								<button type="button" class="btn btn-info" style="margin-top:-10px;width:120px;">상세보기</button>
+								<button type="button" class="btn btn-info"  value="${room.detailLink}" style="margin-top:-10px;width:120px;">상세보기</button>
+									<input type="hidden" name="price" value=" ${room.price}">
+							    	<input type="hidden" name="roomCity" value=" ${room.roomCity}">
+							    	<input type="hidden" name="roomNum" value=" ${room.roomNum}">
+							    	<input type="hidden" name="checkIn" value=" ${room.checkIn}">
+							    	<input type="hidden" name="adultNum" value=" ${room.adultNum}" id="adultNum">
+							    	<input type="hidden" name="childNum" value=" ${room.childNum}" id="childNum">
+							    	<input type="hidden" name="checkOut" value=" ${room.checkOut}" id="checkOut">
+							    	<input type="hidden" name="location" value=" ${room.location}" id="location">
+							    	<input type="hidden" name="distance" value=" ${room.distance}" id="distance">
+							    	<input type="hidden" name="grade" value=" ${room.grade}" id="grade">
 							</div>
 					</div>
 					</div>
-							<%-- <div class="col-sm-2" style="margin-top:40px;margin-left:100px;">
-								<div class="row" style="margin-left:10px;">
-									<i class="fas fa-won-sign" style="font-size:22px;">${room.price}원</i>
-								</div>
-								<br/>
-								<button type="button" class="btn btn-info" style="width:120px;">상세보기</button>
-							</div> --%>
+							
 					<br/>
 				</div>
-				<%-- <div class="col-sm-3">
-					<div class="row" style="margin-top:40px;margin-left:20px;margin-right:20px;margin-bottom:10px;">
-					<i class="fas fa-won-sign" style="font-size:15px;"></i>
-						<p>${room.price}원</p>
-					</div>
-					<button type="button" class="btn btn-info" style="margin-top:80px;width:100px;">상세보기</button>
-				</div>  --%>
-			<br/>
-			<hr/>	
+				
 		</c:forEach>
-			<%-- <table class="table">
-			  <thead>
-			    <tr>
-			      <th scope="col">도착지역</th>
-			      <th scope="col">숙소이름</th>
-			      <th scope="col">체크인</th>
-			      <th scope="col">체크아웃</th>
-			      <th scope="col">숙소주소</th>
-			      <th scope="col">이미지</th>
-			      <th scope="col">객실수</th>
-			      <th scope="col">인원수</th>
-			      <th scope="col">가격</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			  <c:forEach var="room" items = "${roomList}" >
-			    <tr>
-			      <th scope="row">${room.roomCity}</th>
-			      <td>${room.roomName}</td>
-			      <td>${room.checkIn}</td>
-			      <td>${room.checkOut}</td>
-			      <td>${room.roomAddr}</td>
-			      <td><img src = "/resources/images/orderImg/${room.roomImg}" width="50" height="50"/></td>
-			      <td>${room.roomNum}</td>
-			      <td>${room.adultNum} / ${room.childNum}</td>
-			      <td>${room.price}원</td>
-			      <td><i class="far fa-heart" style="font-size:15px;"></i></td>
+			<%-- 
 			      <td><button type="button" class="btn btn-info" style="width:40px;">상세보기</button>
 			    	<input type="hidden" name="price" value=" ${room.price}">
 			    	<input type="hidden" name="roomCity" value=" ${room.roomCity}">
