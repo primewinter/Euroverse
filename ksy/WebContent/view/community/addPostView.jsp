@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 
 <html lang="ko">
@@ -199,8 +201,16 @@
 		<form class="form-horizontal">
 			<input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>		
 		  <div class="form-group">
-		    <label for="postTitle" class="col-sm-1 control-label" style="font-size: 12px;">力格</label>
-		    <div class="col-sm-10">
+		   <c:if test="${user.userId != 'admin'}">
+		     <label for="postTitle" class="col-sm-1 control-label" style="font-size: 12px;">力格</label>
+		     <div class="col-sm-10">
+		   </c:if> 
+		   <c:if test="${user.userId == 'admin'}">
+		     <label for="postTitle" class="col-sm-1 control-label" style="font-size: 12px;padding-top: 33px;">力格</label>
+		     <div class="col-sm-10">
+		      <input type="checkbox" id="postGrade" name="postGrade" value="N" style="margin-top: 11px;">
+		      <label for="postTitle" class="col-sm-11 control-label" style="font-size: 14px;"><i class="fas fa-flag-checkered"></i> &nbsp;傍瘤殿废</label>
+		   </c:if>
 		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" placeholder="力格阑 涝仿窍技夸.">
 		    </div>
 		  </div>

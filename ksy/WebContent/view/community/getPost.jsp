@@ -24,6 +24,7 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 	<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'> 
+	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 		.view_comment {
@@ -37,7 +38,6 @@
 		    overflow: hidden;
 		    width: 100%;
 		    height: 38px;
-		    margin-top: 15px;
 		    font-family: '굴림',Gulim;
 		    font-size: 13px;
 		    color: #333;
@@ -60,9 +60,11 @@
 		}
 		.cmt_list li:first-child .cmt_info {
 		    border-top: none;
+		    margin-left: 65px;
+    		padding-top: 20px;
 		}
 		.view_comment .cmt_info {
-		    padding: 9px 3px 10px 3px;
+		    padding: 0;
 		}
 		.cmt_info {
 		    position: relative;
@@ -71,7 +73,6 @@
 		}
 		.cmt_nickbox {
 		    float: left;
-		    width: 110px;
 		    margin-top: 3px;
 		}
 		.gall_writer {
@@ -80,7 +81,6 @@
 		    cursor: pointer;
 		}
 		.nickname.me {
-		    background: #e5ebff;
 		    padding: 3px 1px 1px 2px;
 		}
 		.comment_box .nickname {
@@ -164,15 +164,11 @@
 		    font-weight: bold;
 		}
 		.view_comment .cmt_write_box {
-		    border-bottom: 1px solid silver;
-		    border-left: 1px solid silver;
-		    border-right: 1px solid silver;
+		  
 		}
 		.cmt_write_box {
 		    padding: 10px 10px 10px;
-		    background: whitesmoke;
-		    border-top: 1px solid silver;
-		    border-radius: 3px;
+		    width: 910px;
 		}
 		.user_info_input:first-child {
 		    margin-top: 0px;
@@ -203,7 +199,7 @@
 		}
 		.cmt_txt_cont {
 		    float: right;
-		    width: 730px;
+		    width: 890px;
 		}
 		.cmt_write {
 		    position: relative;
@@ -219,7 +215,7 @@
 		.cmt_txt_cont textarea {
 			float: left;
 			margin: 10px 0 10px 0;
-		    width: 730px;
+		    width: 890px;
 		    height: 78px;
 		    padding: 13px;
 		    border: 1px solid #cecdce;
@@ -278,16 +274,16 @@
 		    overflow: hidden;
 		}
 		.usertxt, .comment_wrap .comment_dccon {
-		    width: 820px;
+		    width: 700px;
 		    cursor: pointer;
 		}
 		.cmt_like {
-			clear: both;
 			float: left;
 		} 
 		.clear.cmt_txtbox.btn_reply_write_all {
 			clear: both;
-			padding-left: 115px;
+			width: 700px;
+			margin-left: 70px;
 		}
 		.container, .container-md, .container-sm {
 		    max-width: 930px;
@@ -333,7 +329,12 @@
 		$(function() {
 				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( ".fr .deletePost" ).on("click" , function() {
-					self.location = "/community/deletePost?postId=${post.postId}"
+
+				 var result = confirm("게시글을 삭제하시겠습니까?");
+
+				 if(result){
+				 	self.location = "/community/deletePost?postId=${post.postId}&boardName="+boardName;
+				 }
 			 });
 		});
 		
@@ -346,14 +347,15 @@
 				cache: false,
 				dataType: "json",
 				data: $('#likeform').serialize(), //아이디가 like_form인 곳의 모든 정보를 가져와 파라미터 전송 형태(표준 쿼리형태)로 만들어줌
-				success:
-				function(data){ //ajax통신 성공시 넘어오는 데이터 통째 이름 =data
-					alert("'좋아요'가 반영되었습니다!") ; // data중 put한 것의 이름 like
-					$(".up_num_box span").html(data.like); //id값이 like_result인 html을 찾아서 data.like값으로 바꿔준다.
+				success: function(data){ //ajax통신 성공시 넘어오는 데이터 통째 이름 =data
+					
+					if(data.like != null){
+						alert("'좋아요'가 반영되었습니다!"); // data중 put한 것의 이름 like
+						$(".up_num_box span").html(data.like); //id값이 like_result인 html을 찾아서 data.like값으로 바꿔준다.
+					}
 				},
-				error:
-				function (request, status, error){
-					alert("ajax실패")
+				error: function (request, status, error){
+					alert("게시글 좋아요는 한번만 가능합니다!");
 				}
 			});
 		}
@@ -361,7 +363,7 @@
 		function reportshow(refId, repTar){ 
 	    	$("#refId").attr('value',''+refId+'');
 	    	$("#reportTarget").attr('value',''+repTar+'');
-	    	$('#myModal').on('shown.bs.modal'); 
+	    	$('#sendReport').on('shown.bs.modal'); 
 	    };
 	    
 	    $(function(){
@@ -389,13 +391,19 @@
                 	data : $("#reportform").serialize() ,
                 	dataType : "json" ,
                 	success : function(JSONData , status){
-                		$(".myModal")[0].reset();
-                		$("#myModal").modal("hide");
+                		closeModal('sendReport');
                 		alert(JSONData.msg);
                 	}
                 });
 	    	});
 	    });
+	    
+		function closeModal(modalName) {
+			if( typeof $("."+modalName)[0] != "undefined" ){
+				$("."+modalName)[0].reset();	
+			}
+			$("#"+modalName).modal("hide");
+		}
 		
 		function addBookMark(postId){
 
@@ -436,18 +444,18 @@
    	<!-- ToolBar End /////////////////////////////////////-->
    	
    	
-   	<div class="modal" tabindex="-1" role="dialog" id="myModal" >
+   	<div class="modal" tabindex="-1" role="dialog" id="sendReport" >
 	  <div class="modal-dialog" role="document" >
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5 class="modal-title">신고 작성</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('sendReport');">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
 	      <div class="modal-body">
 	            <p>신고사유 선택</p>
-            <form id="reportform" class="myModal">
+            <form id="reportform" class="sendReport">
 				<div class="custom-control custom-radio">
 				  <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="F">
 				  <label class="custom-control-label" for="customRadio1" style="font-size:12px; padding-bottom:5px;">욕설</label>
@@ -470,7 +478,7 @@
 			</form>	      
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:50px;height:30px;font-size:11px;line-height:9px;">Close</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('sendReport');" style="width:50px;height:30px;font-size:11px;line-height:9px;">Close</button>
 	        <button type="button" class="btn btn-primary" style="width:50px;height:30px;font-size:11px;line-height:9px;" id="addReport">send report</button>
 	      </div>
 	    </div>
@@ -514,7 +522,7 @@
 	      <c:if test="${post.postLikeFlag == 'T' }">
 	  		<i onclick="addBookMark(${post.postId})" class="fas fa-bookmark fa-2x" style="float: right;"></i>
 	      </c:if>
-         	<div class="far fa-angry" data-toggle="modal" data-target="#myModal" onclick="reportshow('${post.postId}','P');" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</div>
+         	<div class="far fa-angry" data-toggle="modal" data-target="#sendReport" onclick="reportshow('${post.postId}','P');" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</div>
 	     	  <h4 class="title ub-word" style="margin-bottom: 40px;">
 		      	<span class="title_subject">${post.postTitle}</span>
 		      </h4>
