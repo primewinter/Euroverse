@@ -16,9 +16,7 @@
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 
@@ -33,6 +31,9 @@
 	<link href="/resources/summernote/summernote.css" rel="stylesheet">
 	<script src="/resources/summernote/summernote.min.js"></script>
 	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
+	
+	<link rel="stylesheet" href="/resources/css/kronos.css" />
+	<script src="/resources/javascript/kronos.js"></script>
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
@@ -84,7 +85,7 @@
 		             minHeight: null,             // set minimum height of editor
 		             maxHeight: null,             // set maximum height of editor
 		             focus: true,                 // set focus to editable area after initializing summernote
-		             lang : 'ko-KR',
+		             //lang : 'ko-KR',
 		             callbacks: {
 		                 onImageUpload: function(files, editor, welEditable) {
 		                   for (var i = files.length - 1; i >= 0; i--) {
@@ -179,27 +180,39 @@
 		}
 		
 		 $(function() {
+			 
             //시작일.
-            $('#startDate').datepicker({
-                dateFormat: "yy-mm-dd",             // 날짜의 형식
-                changeMonth: true,                  // 월을 이동하기 위한 선택상자 표시여부
-                minDate: 0,                       // 선택할수있는 최소날짜, ( 0 : 오늘 이전 날짜 선택 불가)
-                onClose: function( selectedDate ) {    
-                    // 시작일(fromDate) datepicker가 닫힐때
-                    // 종료일(toDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
-                    $("#endDate").datepicker( "option", "minDate", selectedDate );
-                }                
+            $('#startDate').kronos({
+                format: "yyyy-mm-dd", 
+                select: true,
+                selectYear: {
+	             	start: -1,
+	             	end: 1
+                },
+                button: {
+	                month :true,
+	            	year :true,
+	            	trigger :true,
+	            	today :true
+                },
+                periodTo: '#endDate'
             });
+            
             //종료일
-            $('#endDate').datepicker({
-                dateFormat: "yy-mm-dd",
-                changeMonth: true,
-                minDate: 0, // 오늘 이전 날짜 선택 불가
-                onClose: function( selectedDate ) {
-                    // 종료일(toDate) datepicker가 닫힐때
-                    // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
-                    $("#startDate").datepicker( "option", "maxDate", selectedDate );
-                }                
+            $('#endDate').kronos({
+                format: "yyyy-mm-dd",
+                select: true,
+                selectYear: {
+	             	start: -1,
+	             	end: 1
+                },
+                button: {
+	                month :true,
+	            	year :true,
+	            	trigger :true,
+	            	today :true
+                },
+                periodFrom: '#startDate'
             });
         });
 		
@@ -227,26 +240,27 @@
 			<input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>		
 		  <div class="form-group">
 		    <label for="postTitle" class="col-sm-1 control-label" style="font-size: 12px;">제목</label>
-		    <div class="col-sm-6">
+		    <div class="col-sm-10">
 		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" placeholder="제목을 입력하세요.">
 		    </div>
-		     <label for="accPerson" class="col-sm-1 control-label" style="font-size: 12px;">인원</label>
+		  </div>
+
+		<div class="form-group">
+		    <label for="accDate" class="col-sm-1 control-label" style="font-size: 12px;">동행<br>시작일</label>
+		    <div class="col-sm-3">
+		      <input type="text" class="form-control" id="startDate" name="accStartDateStr" placeholder="동행 시작날짜" style="font-size: 12px;">
+		    </div>
+		    <label for="accDate" class="col-sm-1 control-label" style="font-size: 12px;">동행<br>종료일</label>
 		     <div class="col-sm-3">
+		      <input type="text" class="form-control" id="endDate" name="accEndDateStr" placeholder="동행 종료날짜" style="font-size: 12px;">
+		    </div>
+		 	<label for="accPerson" class="col-sm-1 control-label" style="font-size: 12px;">인원</label>
+		     <div class="col-sm-2">
 		      <select class="form-control" id="accPerson" name="accPerson">
 			    <c:forEach var="i" begin="1" end="30" >
 			      <option value="${i}">${i}</option>
 			    </c:forEach>
 		      </select>
-		    </div>
-		  </div>
-	
-		<div class="form-group">
-		    <label for="accDate" class="col-sm-1 control-label" style="font-size: 12px;">동행날짜</label>
-		    <div class="col-sm-5">
-		      <input type="text" class="form-control" id="startDate" name="accStartDateStr" placeholder="동행 시작날짜를 입력하세요." style="font-size: 12px;">
-		    </div>
-		     <div class="col-sm-5">
-		      <input type="text" class="form-control" id="endDate" name="accEndDateStr" placeholder="동행 종료날짜를 입력하세요." style="font-size: 12px;">
 		    </div>
 		  </div>
 		

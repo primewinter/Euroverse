@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
+<%@ page pageEncoding="EUC-KR" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 
@@ -38,7 +38,6 @@
 		    overflow: hidden;
 		    width: 100%;
 		    height: 38px;
-		    margin-top: 15px;
 		    font-family: '굴림',Gulim;
 		    font-size: 13px;
 		    color: #333;
@@ -61,9 +60,11 @@
 		}
 		.cmt_list li:first-child .cmt_info {
 		    border-top: none;
+		    margin-left: 65px;
+    		padding-top: 20px;
 		}
 		.view_comment .cmt_info {
-		    padding: 9px 3px 10px 3px;
+		    padding: 0;
 		}
 		.cmt_info {
 		    position: relative;
@@ -72,7 +73,6 @@
 		}
 		.cmt_nickbox {
 		    float: left;
-		    width: 110px;
 		    margin-top: 3px;
 		}
 		.gall_writer {
@@ -81,7 +81,6 @@
 		    cursor: pointer;
 		}
 		.nickname.me {
-		    background: #e5ebff;
 		    padding: 3px 1px 1px 2px;
 		}
 		.comment_box .nickname {
@@ -165,14 +164,11 @@
 		    font-weight: bold;
 		}
 		.view_comment .cmt_write_box {
-		    border-bottom: 1px solid silver;
-		    border-left: 1px solid silver;
-		    border-right: 1px solid silver;
+		  
 		}
 		.cmt_write_box {
 		    padding: 10px 10px 10px;
-		    background: whitesmoke;
-		    border-top: 1px solid silver;
+		    width: 910px;
 		}
 		.user_info_input:first-child {
 		    margin-top: 0px;
@@ -203,7 +199,7 @@
 		}
 		.cmt_txt_cont {
 		    float: right;
-		    width: 900px;
+		    width: 890px;
 		}
 		.cmt_write {
 		    position: relative;
@@ -219,7 +215,7 @@
 		.cmt_txt_cont textarea {
 			float: left;
 			margin: 10px 0 10px 0;
-		    width: 850px;
+		    width: 890px;
 		    height: 78px;
 		    padding: 13px;
 		    border: 1px solid #cecdce;
@@ -278,16 +274,16 @@
 		    overflow: hidden;
 		}
 		.usertxt, .comment_wrap .comment_dccon {
-		    width: 820px;
+		    width: 700px;
 		    cursor: pointer;
 		}
 		.cmt_like {
-			clear: both;
 			float: left;
 		} 
 		.clear.cmt_txtbox.btn_reply_write_all {
 			clear: both;
-			padding-left: 115px;
+			width: 700px;
+			margin-left: 70px;
 		}
 		.container, .container-md, .container-sm {
 		    max-width: 930px;
@@ -321,6 +317,7 @@
 	<script type="text/javascript">
 	
 		var boardName = '${post.boardName}';
+		var postId = '${post.postId}';
 		
 		//============= 회원정보수정 Event  처리 =============	
 		$(function() {
@@ -331,9 +328,14 @@
 		});
 		
 		$(function() {
-				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( ".fr .deletePost" ).on("click" , function() {
-					self.location = "/community/deletePost?postId=${post.postId}"
+	
+				 var result = confirm("게시글을 삭제하시겠습니까?");
+	
+				 if(result){
+				 	self.location = "/community/deletePost?postId=${post.postId}&boardName="+boardName;
+				 }
 			 });
 		});
 		
@@ -346,14 +348,15 @@
 				cache: false,
 				dataType: "json",
 				data: $('#likeform').serialize(), //아이디가 like_form인 곳의 모든 정보를 가져와 파라미터 전송 형태(표준 쿼리형태)로 만들어줌
-				success:
-				function(data){ //ajax통신 성공시 넘어오는 데이터 통째 이름 =data
-					alert("'좋아요'가 반영되었습니다!") ; // data중 put한 것의 이름 like
-					$(".up_num_box span").html(data.like); //id값이 like_result인 html을 찾아서 data.like값으로 바꿔준다.
+				success: function(data){ //ajax통신 성공시 넘어오는 데이터 통째 이름 =data
+					
+					if(data.like != null){
+						alert("'좋아요'가 반영되었습니다!"); // data중 put한 것의 이름 like
+						$(".up_num_box span").html(data.like); //id값이 like_result인 html을 찾아서 data.like값으로 바꿔준다.
+					}
 				},
-				error:
-				function (request, status, error){
-					alert("ajax실패")
+				error: function (request, status, error){
+					alert("게시글 좋아요는 한번만 가능합니다!");
 				}
 			});
 		}
@@ -361,7 +364,7 @@
 		function reportshow(refId, repTar){ 
 	    	$("#refId").attr('value',''+refId+'');
 	    	$("#reportTarget").attr('value',''+repTar+'');
-	    	$('#myModal').on('shown.bs.modal'); 
+	    	$('#sendReport').on('shown.bs.modal'); 
 	    };
 	    
 	    $(function(){
@@ -389,8 +392,7 @@
                 	data : $("#reportform").serialize() ,
                 	dataType : "json" ,
                 	success : function(JSONData , status){
-                		$(".myModal")[0].reset();
-                		$("#myModal").modal("hide");
+                		closeModal('sendReport');
                 		alert(JSONData.msg);
                 	}
                 });
@@ -479,15 +481,57 @@
 			if( typeof $("."+modalName)[0] != "undefined" ){
 				$("."+modalName)[0].reset();	
 			}
-			$("#"+modalName).hide();
+			$("#"+modalName).modal("hide");
 		}
 		
 		$('#createChat').on('show.bs.modal', function (event) {
-			var button = $(event.relatedTarget) // Button that triggered the modal
-			var modal = $(this)
-			modal.find('.modal-title').text('New message to ' + recipient)
-			modal.find('.modal-body input').val(recipient)
+			  var button = $(event.relatedTarget)
+			  var modal = $(this)
+			  modal.find('.modal-title').text('New message to ' + recipient)
+			  modal.find('.modal-body input').val(recipient)
 		})
+			
+		function readURL(input) {
+			 if (input.files && input.files[0]) {
+			     var reader = new FileReader();
+
+			     reader.onload = function (e) {
+			             $('#blah').attr('src', e.target.result);
+			         }
+			       reader.readAsDataURL(input.files[0]);
+			 } 
+		};
+			
+		$('button.btn-primary.create').on('click', function(){
+
+			var joinMems = new Array(memCount);
+		    for(var i=0; i<memCount; i++){                          
+		    	joinMems[i] = $("input[name='joinMems']")[i].value;
+		    }
+
+			var formData = new FormData();
+			formData.append("chatRoomFile", $('input[name="chatRoomFile"]')[0].files[0]);
+			formData.append("joinMems", joinMems);
+			formData.append("creator", $('input[name="creator"]').val());
+			formData.append("chatRoomName", encodeURIComponent($('input[name="chatRoomName"]').val()));
+			
+			$.ajax({
+				type: "POST",
+		        enctype: 'multipart/form-data',
+		        url : "/chat/json/createRoom",
+		        data: formData,
+		        processData: false,
+		        contentType: false,
+		        cache: false,
+		        timeout: 600000,
+				success : function() {
+					console.log("채팅방 개설 성공");
+					closeModal('createChat');
+				}, error:function(request,status,error){
+			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			    }
+			})
+		}); 
 		
 	</script>
 	
@@ -499,18 +543,18 @@
 	<jsp:include page="/toolbar/toolBar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 
-   	<div class="modal" tabindex="-1" role="dialog" id="myModal" >
+   	<div class="modal" tabindex="-1" role="dialog" id="sendReport" >
 	  <div class="modal-dialog" role="document" >
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5 class="modal-title">신고 작성</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('sendReport');">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
 	      <div class="modal-body">
 	            <p>신고사유 선택</p>
-            <form id="reportform" class="myModal">
+            <form id="reportform" class="sendReport">
 				<div class="custom-control custom-radio">
 				  <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="F">
 				  <label class="custom-control-label" for="customRadio1" style="font-size:12px; padding-bottom:5px;">욕설</label>
@@ -533,7 +577,7 @@
 			</form>	      
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:50px;height:30px;font-size:11px;line-height:9px;">Close</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('sendReport');" style="width:50px;height:30px;font-size:11px;line-height:9px;">Close</button>
 	        <button type="button" class="btn btn-primary" style="width:50px;height:30px;font-size:11px;line-height:9px;" id="addReport">send report</button>
 	      </div>
 	    </div>
@@ -560,14 +604,14 @@
 	      <c:if test="${post.postLikeFlag == 'T' }">
 	  		<i onclick="addBookMark(${post.postId})" class="fas fa-bookmark fa-2x" style="float: right;"></i>
 	      </c:if>
-         	<div class="far fa-angry" data-toggle="modal" data-target="#myModal" onclick="reportshow('${post.postId}','P');" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</div>
+         	<div class="far fa-angry" data-toggle="modal" data-target="#sendReport" onclick="reportshow('${post.postId}','P');" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</div>
 	     	  <h4 class="title ub-word" style="margin-bottom: 40px;">
 		      	  <span class="title_subject">${post.postTitle}</span>
 		      	  <button type="button" class="btn btn-outline-info" style="width: 90px; font-size: 14px; height: 30px; line-height: 15px; margin: 0 0 8px 10px" onclick="inviteUser()">동행신청</button>
 		    <br><span style="font-size: 13px;">
-		          <i class="fas fa-walking"> 동행일자 <i class="fas fa-caret-right"></i> <fmt:formatDate value="${post.accStartDate}" pattern="yyyy-MM-dd"/>
-		          ~ <fmt:formatDate value="${post.accEndDate}" pattern="yyyy-MM-dd"/></i>
-	  &nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-shoe-prints"> 참여동행자수 : ${post.accCount} &nbsp;동행모집인원 : ${post.accPerson}</i>
+		          <i class="fas fa-walking" style="font-size: 15px;"></i> 동행일자 : <fmt:formatDate value="${post.accStartDate}" pattern="yyyy-MM-dd"/>
+		          ~ <fmt:formatDate value="${post.accEndDate}" pattern="yyyy-MM-dd"/>
+	  &nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-shoe-prints"></i> 참여동행자수 : ${post.accCount} &nbsp;동행모집인원 : ${post.accPerson}
 		        </span>
 		      </h4>
 	      </div>
@@ -652,10 +696,10 @@
 				       <div class="partyKing" style="max-width: 18rem;float: left;border-radius: 10px;width: 165px;height: 174px; margin-left:10px;">
 						 <img src="/resources/images/userImages/${userList.userImg}" class="card" style="margin: 20px 0 0 38px;border: 2px solid red;">
 						  <div class="card-body text-dark" style="padding:0;">
-						    <h5 class="card-title" style="font-size: 14px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
+						    <h5 class="card-title" style="font-size: 13px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
 			      		    <p class="card-text"><i class="fas fa-bus">
 			      		  <c:forEach var="tripStyle" items="${userList.tripStyle}">
-						    <span style="font-family: 'Gothic A1', sans-serif; font-size: 14px;">${tripStyle}</span>
+						    <span style="font-family: 'Gothic A1', sans-serif; font-size: 13px;">${tripStyle}</span>
 			  	  		  </c:forEach>
 			  	  		    </i></p>
 						  </div>
@@ -665,10 +709,10 @@
 				        <div class="partyMember" style="max-width: 18rem;float: left;border-radius: 10px;width: 165px;height: 174px; margin-left:30px;">
 						 <img src="/resources/images/userImages/${userList.userImg}" class="card" style="margin: 20px 0 0 38px;border: 2px solid silver;">
 						  <div class="card-body text-dark" style="padding:0;">
-						    <h5 class="card-title" style="font-size: 14px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
+						    <h5 class="card-title" style="font-size: 13px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
 						    <p class="card-text"><i class="fas fa-bus">
 						  <c:forEach var="tripStyle" items="${userList.tripStyle}">
-						    <span style="font-family: 'Gothic A1', sans-serif; font-size: 14px;">${tripStyle}</span>
+						    <span style="font-family: 'Gothic A1', sans-serif; font-size: 13px;">${tripStyle}</span>
 			  	  		  </c:forEach>  
 						    </i></p>
 						  </div>
@@ -679,9 +723,7 @@
 			  </c:forEach>
 			</div>
 		</div>
-	   
-	   <hr>
-	   
+	
 	   <ul class="list-group list-group-flush" style="font-size: 13px;">
 		  <li class="list-group-item">이전글 <i class="fas fa-angle-double-right" onclick="getPost('${post.prevId}')"> ${post.prevTitle}</i></li>
 		  <li class="list-group-item">다음글 <i class="fas fa-angle-double-right" onclick="getPost('${post.nextId}')"> ${post.nextTitle}</i></li>
@@ -728,8 +770,9 @@
 	    </div>
 	  </div>
 	</div>
-	
-	<!-- 동행채팅방 개설 모달 -->
+
+	<!-- 동행 채팅방 개설 모달 -->
+	<form class="createChat" enctype="multipart/form-data" accept-charset="euc-kr">
 	<div class="modal fade" id="createChat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
@@ -739,21 +782,21 @@
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
-	      <div class="modal-body">
-	        <form>
+	      <div class="modal-body" style="text-align:center">
+	      	<div style="margin-top:20px;margin-bottom:30px">
+	      		<img id="blah" src="/resources/images/icon/imageIcon.png" width="50px" height="50px" onclick='document.all.chatRoomFile.click(); document.all.file2.value=document.all.chatRoomFile.value'/>
+	      	</div>
 	        <div class="form-group row">
-			    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">채팅방 이름</label>
-			    <div class="col-sm-9">
-			      <input type="text" class="form-control form-control-sm" name="chatRoomName" placeholder="${post.postTitle}">
-			    </div>
-			  </div>
-	          <div class="form-group custom-file">
-				     <label class="custom-file-label col-form-label-sm" for="validatedCustomFile">채팅방 이미지(선택 사항)</label>
-	                 <input type="file" class="custom-file-input" name="chatRoomFile">
-	                 <input type="hidden" name="chatMems" value="">
-	          </div>
+				    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">채팅방 이름</label>
+				    <div class="col-sm-9">
+				      <input type="text" class="form-control form-control-sm" name="chatRoomName" placeholder="${post.postTitle}">
+				    </div>
+			 </div>
+			<div class="form-group">
+					<input type="file" id="file" name="chatRoomFile" onchange="readURL(this)" style="display:none;"/>
+	  		</div>
 	          <div class="form-group row">
-	        		  <c:forEach var="userList" items="${userList}">
+	        	<c:forEach var="userList" items="${userList}">
 				    <c:forEach var="party"	items="${party}">
 				  	  <c:if test="${userList.userId == party.partyUserId}">
 				 	  <c:set var="i" value="${ i+1 }"/>
@@ -761,14 +804,14 @@
 						  <div class="col-md-10">
 						    <div id="profile" class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
 						      <div class="col-auto d-none d-lg-block">
-						        <svg class="bd-placeholder-img" width="0" height="0" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><img class="imgFile" src="/resources/images/userImages/${userList.userImg}"><rect width="50%" height="5%" fill="#55595c"/></svg>
+						        <svg class="bd-placeholder-img" width="0" height="0" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><img class="imgFile" src="/resources/images/userImages/${userList.userImg}" style="width:30px;height:30px"><rect width="50%" height="5%" fill="#55595c"/></svg>
 						      </div>
 						      <div class="col p-4 d-flex flex-column position-static">
 						      <c:if test="${party.partyRole == 'K'}">
-						        <i class="fas fa-crown"><br>${userList.nickname}</i>
+						        <i class="fas fa-crown"><br>${userList.nickname}</i><input type="hidden" name="joinMems" value="${userList.userId}">
 						      </c:if>
 						      <c:if test="${party.partyRole == 'M'}">
-						      	<i class="fas fa-user"><br>${userList.nickname}</i>
+						      	<i class="fas fa-user"><br>${userList.nickname}</i><input type="hidden" name="joinMems" value="${userList.userId}">
 						      </c:if>
 						        <p class="mb-auto">${userList.totalPoint}</p>
 						      </div>
@@ -779,15 +822,16 @@
 				    </c:forEach>
 				  </c:forEach>
 	          </div>
-	        </form>
+	          <input type="hidden" name="creator" value="${post.postWriterId}">
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-	        <button type="button" class="btn btn-primary">개설</button>
+	        <button type="button" class="btn btn-primary create">개설</button>
 	      </div>
 	    </div>
 	  </div>
 	</div>
+	</form>
 	
 </body>
 

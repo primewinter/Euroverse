@@ -200,5 +200,9 @@ public class CommunityDaoImpl implements CommunityDao{
 	public void monthBestReset() throws Exception {
 		sqlSession.update("CommunityMapper.monthBestReset");
 	}
+	
+	public void deletePost(String postId) throws Exception {
+		sqlSession.update("CommunityMapper.deletePost", postId);
+	}
 
 }

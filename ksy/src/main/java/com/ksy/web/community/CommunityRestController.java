@@ -236,19 +236,30 @@ public class CommunityRestController {
 	}
 	
 	@RequestMapping( value="json/likeUpdate", method=RequestMethod.POST )
-	public void likeUpdate( String postId, HttpServletResponse response ) throws Exception {
+	public void likeUpdate( String postId, HttpServletResponse response, HttpSession session ) throws Exception {
 	
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
-	
-		communityService.updatePostLike(postId);
-		System.out.println("??????");
-		int like=communityService.selectLike(postId);
-		System.out.println("?????? : "+like);
-		JSONObject obj = new JSONObject();
-		System.out.println(like);
-		obj.put("like",like);
-		out.println(obj);
+
+		Like like = new Like();
+		User user=(User)session.getAttribute("user");
+	    like.setLikeUserId(user.getUserId());
+	    like.setRefId(postId);
+	    like.setLikeType("A");
+	    
+	    if(likeService.countByLike(like)==0){
+	    	
+	    	likeService.addLike(like);
+	    	communityService.updatePostLike(postId);
+	    	
+	    	int likes=communityService.selectLike(postId);
+	    	
+	    	JSONObject obj = new JSONObject();
+	    	obj.put("like", likes);
+	    	out.println(obj);
+	    }else {
+	    	
+	    }	
 	}
 	
 	@RequestMapping( value="json/addFile", method=RequestMethod.POST )

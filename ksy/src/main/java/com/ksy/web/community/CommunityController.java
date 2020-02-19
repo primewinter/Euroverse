@@ -119,6 +119,10 @@ public class CommunityController {
 		post.setPostWriterId(user.getUserId());
 		post.setNickName(user.getNickname());
 		
+		if(post.getPostGrade() == null) {
+			post.setPostGrade("B");
+		}
+		
 		communityService.addPost(post);
 	
 		for(int i=0; i<tagContent.length; i++) {
@@ -188,21 +192,24 @@ public class CommunityController {
 		model.addAttribute("tag", tag);
 		
 		List<User> userList = new ArrayList<User>();
-		List<String> tripStyle = new ArrayList<String>();
 		
 		if( boardName.equals("D") ) {
 			
 			List<Party> party = communityService.getParty(postId);
 		
 			for(int i=0; i<party.size(); i++) {
+				
 				User partyUser = userService.getUser(party.get(i).getPartyUserId());
 				List<TripSurvey> tripSurvey = myPageService.getTripSurveyList(party.get(i).getPartyUserId());
 				
+				List<String> tripStyle = new ArrayList<String>();
+				
 				for(int j=0; j<tripSurvey.size(); j++) {
+					
 					if(tripSurvey.get(j).getSurveyType().equals("T")) {
-					String surveyChoice = tripSurvey.get(j).getSurveyChoice();
-					tripStyle.add(surveyChoice);
-					partyUser.setTripStyle(tripStyle);
+						String surveyChoice = tripSurvey.get(j).getSurveyChoice();
+						tripStyle.add(surveyChoice);
+						partyUser.setTripStyle(tripStyle);
 					}
 				}
 				userList.add(partyUser);
@@ -252,5 +259,15 @@ public class CommunityController {
 		}else {
 			return "forward:/view/community/getPostList.jsp";
 		}
+	}
+	
+	@RequestMapping( value="deletePost", method=RequestMethod.GET)
+	public String deletePost( @RequestParam("postId") String postId, @RequestParam("boardName") String boardName) throws Exception {
+		
+		System.out.println("/community/deletePost : GET");
+		
+		communityService.deletePost(postId);
+		
+		return "redirect:/community/getPostList?boardName="+boardName;
 	}
 }

@@ -4,6 +4,43 @@
 <html>
 <head>
 
+<style>
+h6{
+	margin-left: 13px;
+	margin-top: -10px;
+}
+
+#loginModal .modal-dialog > h2{
+	
+color : #F0F8FF;
+position:absolute;
+top:58px;
+right:215px;
+}
+
+
+#loginModal .modal-content{
+
+width: 500px; 
+height: 300px;
+position: absolute; 
+top: 100px; 
+right: 10px;
+}
+
+#loginModal #modalForm .form-group > input{
+	padding:15px 20px;
+	border-radius:25px;
+	background:rgba(217, 242, 253);
+	border: 2px;
+}
+
+.useruser{
+	font-size: 12px;
+	
+}
+</style>
+
 
 <script>
 
@@ -141,84 +178,86 @@ var pwd = $('#loginPwd');
 var h6 = document.getElementsByClassName('loginH6');
 
 
+	$("#loginUserId").keydown(function (key) {
 
-
-	$(document).on('keyup', '#loginUserId', function() {
-		if(userId.val().length <4 || userId.val().length > 12 ){
-			h6[0].innerHTML ="아이디는 4~12자 입니다.";
-		}else{
-			h6[0].innerHTML ="";
-		}
-		h6[2].innerHTML ="";
+		if(userId.val()==""){
+			 return;
+		 } 
 		
-		
-				
-	});
-	
-	$(document).on('keyup','#loginPwd',function(){
-		if(pwd.val().length <6  || pwd.val().length >20 ){
-			h6[1].innerHTML = "비밀번호는 6~20자 입니다.";
-		}else{
-			h6[1].innerHTML = "";
-		}
-		h6[2].innerHTML ="";
-	
-	
-	});
-	
-	$("button:contains('Submit')").on("click",function(){
-		
-		
-		if(userId.val().length <4 || userId.val().length > 12 ){
-				//alert("아이디를 확인해주세요.")
-				h6[2].innerHTML ="아이디를 확인해주세요.";
+		if(pwd.val()==""){
 			return;
-		}else if(pwd.val().length <6  || pwd.val().length >20 ){
-				//alert("비밀번호를 확인해주세요.");
-				h6[2].innerHTML ="비밀번호를 확인해주세요.";
+		}
+		
+        if(key.keyCode == 13){
+    		loginAjax(userId,pwd);
+        }
+    });
+	 
+	$("#loginPwd").keydown(function (key) {
+		if(userId.val()==""){
+			 return;
+		 } 
+		
+		if(pwd.val()==""){
 			return;
-		}else{
-			
+		}
+		if(key.keyCode == 13){
+	    	loginAjax(userId,pwd);
+	    }
 		
-		$.ajax({
-			url : "/user/json/login",
-			method : "post",
-			dataType : "json",
-			headers : {
-				"Accept" : "application/json",
-				"Content-Type" : "application/json"
-			},
-			data : JSON.stringify({
-				userId : userId.val(),
-				pwd : pwd.val()
-			}),
-			success : function(JSONData){
-				console.log(JSONData);
-				if(JSONData.result == 'ok'){
-					//$("form").attr("method","get").attr("action","/user/login").submit();
-					$("#loginModal").modal("hide");
-					location.reload();
-				}else if(JSONData.result =='errorId'){
-					//alert("존재하지 않는 아이디입니다.");
-					h6[2].innerHTML = "존재하지 않는 아이디입니다.";
-				}else if(JSONData.result =='errorPwd'){
-					//alert("비밀번호가 틀렸습니다.");
-					h6[2].innerHTML = "비밀번호가 틀렸습니다.";
-				}else{
-					alert("띠용");
-				}
-			}//success
-		})//ajax
+        
+    });
+	
+	$("button:contains('로그인')").on("click",function(){
+		if(userId.val()==""){
+			 return;
+		 } 
 		
-		}//else
-		
-		
+		if(pwd.val()==""){
+			return;
+		}
+		 loginAjax(userId,pwd);
 	});
 	
 
 
 })
 
+
+function loginAjax(userId , pwd ){
+	var h6 = document.getElementsByClassName('loginH6');
+	$.ajax({
+		url : "/user/json/login",
+		method : "post",
+		dataType : "json",
+		headers : {
+			"Accept" : "application/json",
+			"Content-Type" : "application/json"
+		},
+		data : JSON.stringify({
+			userId : userId.val(),
+			pwd : pwd.val()
+		}),
+		success : function(JSONData){
+			console.log(JSONData);
+			if(JSONData.result == 'ok'){
+				//$("form").attr("method","get").attr("action","/user/login").submit();
+				$("#loginModal").modal("hide");
+				location.reload();
+			}else if(JSONData.result =='errorId'){
+				//alert("존재하지 않는 아이디입니다.");
+				h6[2].innerHTML = "존재하지 않는 아이디입니다.";
+			}else if(JSONData.result =='errorPwd'){
+				//alert("비밀번호가 틀렸습니다.");
+				h6[2].innerHTML = "비밀번호가 틀렸습니다.";
+			}else{
+				alert("띠용");
+			}
+		}//success
+	})//ajax
+	
+	
+}
 
 </script>
 
@@ -234,9 +273,9 @@ var h6 = document.getElementsByClassName('loginH6');
 <div class="modal fade " id="loginModal">
 	  <!-- <div class="modal-dialog modal-lg"> -->
 	  <div class="modal-dialog ">
-	  	<h2 style="color : #FFFFFF">Sign In</h2>
+	  	<h2 >Sign In</h2>
 	  
-		<div class="modal-content">
+		<div class="modal-content" >
 			 <!-- 	<div class="modal-header">
 				</div>modal header End 
  			-->
@@ -244,31 +283,45 @@ var h6 = document.getElementsByClassName('loginH6');
 				
 			
 		<div class="modal-body">
-			<form>
-					<div class="form-group">
-						<label for="id">Id</label> 
-						<input type="text"	class="form-control" placeholder="Enter Id" id="loginUserId" name="userId">
+			<form id="modalForm">
+					<div class="form-group" style="margin-bottom: -10px;">
+						<div >&nbsp;&nbsp;&nbsp;<b>ID</b></div>
+						<input type="text"	class="form-control" id="loginUserId" name="userId">
 						<h6 class="loginH6" style="color: #F00"></h6>
 					</div>
-					<div class="form-group">
-						<label for="pwd">Password</label>
-						 <input type="password"	class="form-control" placeholder="Enter password" id="loginPwd" name="pwd">
+					
+					<label class="form-check-label" style="margin-top: 0px;">
+					 <input class="form-check-input" type="checkbox" id="idSaveCheck" style="margin-left: 10px;"> 
+						 <span style="margin-left: 25px;"><small>아이디기억</small></span>
+					</label>
+					
+					<div class="form-group" style="margin-top: 25px">
+						<div >&nbsp;&nbsp;&nbsp;<b>Password</b></div>
+						 <input type="password"	class="form-control" id="loginPwd" name="pwd">
 						<h6 class="loginH6" style="color: #F00"></h6>
 					</div>
 						<h6 class="loginH6" style="color: #F00"></h6>
 						
 						
-							<div class="form-group form-check" >
-								<label class="form-check-label">
-									<input class="form-check-input" type="checkbox" id="idSaveCheck"> Remember me
-								</label>
+							<!-- <div class="form-group form-check" >
 								<a href="/user/addUser" class="badge badge-pill badge-primary pull-right">회원가입</a>
 								<a href="/user/searchId" class="badge badge-pill badge-primary pull-right">아이디찾기</a>
 								<a href="/user/findPwd" class="badge badge-pill badge-primary pull-right">비밀번호찾기</a>
 								<img id="kakaoLogin" src="/resources/images/userImages/kakaoImage.png" width="30" height="30" /> 
 								<img id="naverLogin" src="/resources/images/userImages/naverImage.PNG" width="30" height="30" /> 
 								<img id="googleLogin" src="/resources/images/userImages/googleImage.png" width="30" height="30">
+							</div> -->
+							<a href="/user/addUser">	<span class="useruser" style="margin-left: 20px; position:absolute; top:215px;right:420px;">회원가입</span> </a>
+							<a href="/user/searchId">	<span class="useruser" style="position:absolute; top:215px;right:355px;">아이디찾기</span> </a>
+							<a href="/user/findPwd">	<span class="useruser" style="position:absolute; top:215px;right:280px;">비밀번호찾기</span></a>
+							
+							<div style="text-align: right; position:absolute; top:215px;right:25px;font-size: 12px;">SNS간편회원가입</div>
+							<div style="text-align: right;position:absolute;top:235px;right:20px;">
+							<img id="kakaoLogin" src="/resources/images/userImages/kakaoImage.png" width="30" height="30" /> 
+							<img id="naverLogin" src="/resources/images/userImages/naverImage.PNG" width="30" height="30" /> 
+							<img id="googleLogin" src="/resources/images/userImages/googleImage.png" width="30" height="30">					
 							</div>
+							
 							
 				<!-- 		<div name="naverLogin">
 							네이버 아이디로 로그인 이미지
@@ -281,8 +334,9 @@ var h6 = document.getElementsByClassName('loginH6');
 						 -->
 					<h6 class="loginH6"></h6>
 					
-					<button type="button" class="btn btn-primary">Submit</button>
-	      			<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-outline-primary" style="margin-left: 20px; position:absolute; top:240px;right:395px;">로그인</button>
+	      			<!-- <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button> -->
+			
 			</form>
 
 

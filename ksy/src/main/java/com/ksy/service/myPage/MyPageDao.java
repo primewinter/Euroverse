@@ -6,6 +6,7 @@ import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Like;
 import com.ksy.service.domain.Offer;
+import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.TripSurvey;
@@ -54,8 +55,16 @@ public interface MyPageDao {
 	public int getPlanOfferListTotalList(String userId)throws Exception;
 	public int getPartyOfferListTotalList(String userId)throws Exception;
 	
+	public int getPlanCount(String userId)throws Exception;
+	public void addPartyMember(Offer offer)throws Exception;
 	
+	public Offer getOffer(String offerId)throws Exception;
 	
+	public void updateOfferStatus(Offer offer) throws Exception;
+	
+	public List<Offer> getRefId(String userId)throws Exception;
+	
+	public List<Party> getPartyMember(String postId)throws Exception;
 	//////////////////////////////QNA////////////////////////////////
 	public void addQna(Post post)throws Exception;
 	public List<Post> getQnaList(Search search , String userId)throws Exception;
@@ -66,4 +75,6 @@ public interface MyPageDao {
 	public void deleteQna(String postId)throws Exception;
 	
 	public void updateQna(Post post)throws Exception;
+	
+	
 }

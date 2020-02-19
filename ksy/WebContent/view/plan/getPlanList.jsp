@@ -105,7 +105,7 @@
 		$(function(){
 			
 			$('.showAddPlanModal').on('click', function(){
-				$('#addPlanModal').show();
+				//$('#addPlanModal').show();
 			});
 			
 			$('#addPlan').on('click', function(){
@@ -113,7 +113,7 @@
 			});
 			
 			$('#showUpdateSlotModal').on('click', function(){
-				$('#updateSlotModal').show();
+				//$('#updateSlotModal').show();
 			});
 			
 			$('#updateUserSlot').on('click', function(){
@@ -255,7 +255,7 @@
 			if( typeof $("."+modalName)[0] != "undefined" ){
 				$("."+modalName)[0].reset();		//form에 모달 이름과 같은 클래스명 주기
 			}
-			$("#"+modalName).hide();
+			//$("#"+modalName).hide();
 		}
 		
 	</script>
@@ -344,8 +344,8 @@
 				<!-- 플래너 등록 버튼 -->
 				<c:if test="${!empty user.slot }">
 					<c:forEach var="i" begin="1" end="${user.slot - list.size()}">
-						<div class="col-md-4">
-				          <div class="card mb-4 shadow-sm showAddPlanModal">
+						<div class="col-md-4" >
+				          <div class="card mb-4 shadow-sm showAddPlanModal" data-toggle="modal" data-target="#addPlanModal">
 				          
 				            <div class="card-body">
 				              <div class="card-text text-center"><br/><span data-feather="plus-circle"></span><br/><br/>새로운 플래너 만들기<br/><br/> </div>
@@ -359,7 +359,7 @@
 			
 				<!-- 슬롯 추가 버튼 -->
 				<div class="col-md-4">
-		          <div class="card mb-4 shadow-sm" id="showUpdateSlotModal">
+		          <div class="card mb-4 shadow-sm" id="showUpdateSlotModal" data-toggle="modal" data-target="#updateSlotModal">
 		            <div class="card-body">
 		              <p class="card-text text-center"><br/><span data-feather="lock"></span><br/><br/>슬롯 늘리기<br/><br/> </p>
 		            </div>
@@ -373,7 +373,7 @@
 	
 	
 	<!-- /////////////////////	Modal : addPlan	///////////////////// -->
-	<div class="modal" id="addPlanModal" >
+	<div class="modal fade" id="addPlanModal" >
 	  <div class="modal-dialog">
 	  <h4 style="color: #FFFFFF; margin-top: 100px;">플래너 만들기</h4>
 	    <div class="modal-content">
@@ -447,6 +447,7 @@
 	      </div>
 	      
 	      <div class="modal-footer">
+	        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('addPlanModal')">Close</button> -->
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('addPlanModal')">Close</button>
 	        <button type="button" class="btn btn-primary" id="addPlan">Add Plan</button>
 	      </div>
@@ -492,7 +493,7 @@
 	<!-- /////////////////////	Modal : editPlan 끝	///////////////////// -->
 	
 	<!-- /////////////////////	Modal : 슬롯 늘리기 	///////////////////// -->	
-	<div class="modal" id="updateSlotModal">
+	<div class="modal fade" id="updateSlotModal">
 	  <div class="modal-dialog" >
 	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 슬롯 구매</h4>
 	  
@@ -539,7 +540,6 @@
 		/* https://github.com/feathericons/feather#feather 참고 */
 		feather.replace();
 		
-	
 	</script>
 
 

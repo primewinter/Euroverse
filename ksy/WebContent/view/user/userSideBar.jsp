@@ -85,7 +85,7 @@
 <div class="container-fluid">
   <div class="row">
  <nav class="col-md-2 d-none d-md-block sidebar">
-      <div class="sidebar-sticky">
+      <div class="sidebar-sticky" style="  border-right: 1px solid black;height: 700px;">
         <ul class="nav flex-column" >
           
           <li class="nav-item">
@@ -143,6 +143,17 @@
               	È¸¿øÅ»Åð
             </a>
           </li>
+          
+		        <li class="active"><a href="#">Welcome</a></li>
+		        <li><a href="#">Who We Are</a></li>
+		        <li><a href="#">What We Do</a></li>
+		        <li><a href="#">Get In Touch</a></li>
+        
+        
+        
+        
+        
+        
         </ul>
 
         

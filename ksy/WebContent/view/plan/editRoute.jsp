@@ -1044,7 +1044,7 @@
 										</div> <!-- media-body -->
 									
 										<a href="javascript:showUpdateCityDuration('${cityRoute.cityId}','${cityRoute.cityDuration}')" class="city_duration_wrap">
-										<div class="cr_cityDuration_parent rounded-circle" style="border:3px solid #33B9B1; padding: 12px; font-weight: 600;">
+										<div class="cr_cityDuration_parent rounded-circle" style="border:1px solid #33B9B1; padding: 12px; font-weight: 600;">
 											<span class="cr_cityDuration">${cityRoute.cityDuration-1}</span>¹Ú
 										</div>
 										</a>

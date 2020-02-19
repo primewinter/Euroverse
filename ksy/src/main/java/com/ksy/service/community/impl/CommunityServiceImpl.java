@@ -166,5 +166,9 @@ public class CommunityServiceImpl implements CommunityService{
 	public void monthBestReset() throws Exception {
 		communityDao.monthBestReset();
 	}
+	
+	public void deletePost(String postId) throws Exception {
+		communityDao.deletePost(postId);
+	}
 
 }
