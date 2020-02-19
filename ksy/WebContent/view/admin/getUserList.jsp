@@ -49,33 +49,80 @@
  <!-- 부트스트랩 아이콘 사용 cdn fontawesome.com  -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
+
 <!-- CSS 속성값 -->
 <style>
-
-/*include한 툴바 ui 설정값  */
-.tollbar{
-	padding: 15px;
-}
-
-h3{
-	margin: 10px;
-	font-size: 30px;
-}
-.top{
-	border-radius : 10px;
-}
-.text-right{
-	padding : 8px;
-}
+	
+	/*include한 툴바 ui 설정값  */
+	.tollbar{
+		padding: 15px;
+	}
+	
+	h3{
+		margin: 10px;
+		font-size: 30px;
+	}
+	.top{
+		border-radius : 10px;
+	}
+	.text-right{
+		padding : 8px;
+	}
+	.table-hover{
+	}
 </style>
 
-<script>
-$(function(){
+
+<script type="text/javascript">
+
+	/* //=============    검색 / page 두가지 경우 모두  Event  처리 =============	 */
+	 function fncGetUserList(currentPage) {
+		$("#currentPage").val(currentPage)
+		$("form").attr("method" , "POST").attr("action" , "/admin/getUserList").submit();
+	};
+	 
 	
-	alert(${userId})
+	/*======== 검색시 페이지를 1페이지로 돌리기위해] =============  */
+	$(function() {
+		 $( ".fas.fa-search" ).on("click" , function() {
+		 	fncGetUserList(1);
+		 }); 
+	});
 	
-})
+	$(function() {
+		 
+		$(".form-control").keyup(function(){
+			/* alert("keydown called"); */
+			
+			var searchKeyword = $(".form-control option:selected").val();
+			var searchCondition = $("#searchKeyword").val();
+			/* alert(searchKeyword);
+			alert(searchCondition); */
+			$.ajax({
+				url: "/admin/json/getUserList",
+				method: "POST",
+				dataType: "json",
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				data: JSON.stringify({
+					searchKeyword: searchKeyword,
+				 searchCondition: searchCondition 
+				}),
+				success: function(JSONData, status){
+					if( JSONData==null || JSONData=="" ){
+						console.log("리턴데이터 없음");	
+					}else{
+						console.log("리턴데이터 있음! => "+JSONData);	
+					}
+				},  
+				error:function(request,status,error){
+			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			    }
+			});
+		});  //updateMemoDetail 
+	});
+		
 </script>
+
 
 
 </head>
@@ -83,46 +130,59 @@ $(function(){
 
 <body>
 
-<div class="container">
+	<div class="container">
 
-<div class="tollbar">
-<jsp:include page="/toolbar/toolBar.jsp"></jsp:include> 
-</div>
+		<div class="tollbar">
+			<jsp:include page="/toolbar/toolBar.jsp"></jsp:include> 
+		</div>
 
-<div class="page-header text-info">
+	<div class="page-header text-info">
 
-			<h3>회원목록조회</h3>
+		<h3>회원목록조회</h3>
 	
-	    </div>
+	 </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	    <div class="row">
 	    
+	    	<!-- 검색조건 총 몇 건, 현재 페이지 나타내는 글씨  -->
 		    <div class="col-md-6 text-left">
 		    	<p class="text-primary">
 		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
 		    	</p>
 		    </div>
 		    
+		    
+		    <!-- =========================== 검색조건 선택창 =========================== -->
 		    <div class="col-md-6 text-right d-flex justify-content-end">
+		    
 			    <form class="form-inline" name="detailForm">
 			      <input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>
 				  <div class="form-group">
-				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>아이디</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>닉네임</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>이름</option>
+				    <select class="form-control" name="searchCondition" style="height: 30px; width: 85px; font-size: 13px; margin-right: 2px;" >
+						<option class="from-option" value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>아이디</option>
+						<option class="from-option" value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>닉네임</option>
+						<option class="from-option" value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>이름</option>
 					</select>
 				  </div>
+				  <!-- ======================== 검색조건 선택창 끝  ========================= -->
 				  
+				  
+				  
+				  <!-- ========================== 유저를 검색할수 있는 검색창 ================================   -->
 				  <div class="form-group ">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
 				    <input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" 
+				    			 style="height: 30px; font-size: 13px;" onkeydown="javascript:if(event.keyCode == 13) {fncGetUserList(1)}">
 				  </div>
+				  <!--======================== 유저검색창 끝  =========================================== -->
+				  
+				  
 				  
 				  <!-- 돋보기 아이콘  fontawesome.com-->
 				  &nbsp;&nbsp;<i class="fas fa-search" style="font-size: x-large"></i>
+				  
 				  
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
@@ -132,35 +192,54 @@ $(function(){
 	    	
 		</div>
 		
-		<table class="table table-hover table-striped" >
-      
-        <thead>
-          <tr class="top shadow-sm p-3 mb-5 bg-white rounded" style="font-size:small;">
-            <th align="center">번호</th>
-            <th align="left" >회원아이디</th>
-            <th align="left" >회원이름</th>
-            <th align="left">닉네임</th>
-            <th align="left">포인트</th>
-            <th align="left">성별</th>
-            <th align="left">등록일자</th>
-          </tr>
-        </thead>
 		
-		<tbody style="font-size: small;">
-		  <c:set var="i" value="0" />
-		  <c:forEach var="post" items="${list}">
-			<c:set var="i" value="${ i+1 }" />
-			<tr>
-			  <td align="left">${ i }</td>
-			  <td align="left">${user.userId}</td>
-					
-		</c:forEach>
+		<div class="table-responsive">
 		
-		</tbody>
+		<!-- =============================== 유저목록 게시판 테이블  시작 ============================-->
+			<table class="table table-hover">
+	        <thead>
+		        <tr class="top shadow-sm p-3 mb-5 bg-white rounded" style="font-size:small;">
+		            <th scope="col">번호</th>
+		            <th scope="col">회원아이디</th>
+		            <th scope="col">회원이름</th>
+		            <th scope="col">닉네임</th>
+		            <th scope="col">포인트</th>
+		            <th scope="col">성별</th>
+		            <th scope="col">등록일자</th>
+		          </tr>
+	        </thead>
+		
+			<tbody style="font-size: small;">
+		
+			  <c:set var="i" value="0" />
+			  <c:forEach var="user" items="${list}">
+				<c:set var="i" value="${ i+1 }" />
+				<tr>
+				  <th scope="row">${ i }</th>
+				  <td style="font-weight: bold; color: dimgray;">
+				  ${user.userId}
+				  <input type="hidden" id="userId" name="postId" value="${user.userId}"/></td>
+				  <td>${user.userName}</td>
+				  <td>${user.nickname }</td>
+				  <td>${user.totalPoint }</td>
+				  <td>${user.sex }</td>
+				  <td>
+				  <c:set var="regDate" value="${fn:split(user.regDate,' ')}"></c:set>
+					    <c:out value="${regDate[0]}"></c:out></td>
+				</tr>
+	          </c:forEach>
+		
+			</tbody>
 
-</table>
-
-</div>	
+			</table>
+			</div>
+			<!--================================ 테이블끝   =====================================-->
+		
+	</div>
+	<!-- ================== div : Container End  ================-->	
+	
+	
+		<!-- pageNavigator include  -->
 		<jsp:include page="../../common/pageNavigator_new.jsp"/>
 
 </body>
