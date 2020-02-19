@@ -54,6 +54,13 @@ $(function(){
 })
 
 
+
+function getPost(postId , boardName){
+	self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
+} 
+
+
+
 function deleteBookMark(postId){
 	$.ajax({
 		url : '/myPage/json/deleteBookMark/'+postId ,
@@ -67,7 +74,16 @@ function deleteBookMark(postId){
 				//alert(bookMarkList[i].postId);
 				$("tbody").append("<tr>");
 				$("tbody").append("<th scope='row'>"+(i+1)+"</th>");
-				$("tbody").append("<td>"+bookMarkList[i].postTitle+" </td>");
+				
+				
+				var boardName= bookMarkList[i].boardName;
+				var postId = bookMarkList[i].postId;
+				
+				//alert(bookMarkList[i].postTitle.subString(0,10))
+				$("tbody").append("<td><span onclick='javascript:getPost("+postId+",\""+boardName+"\")'>"+bookMarkList[i].postTitle.substring(0,35)+"</span> </td>");
+				
+				//$("tbody").append("<td onclick='javascript:getPost("+bookMarkList[i].postId , bookMarkList[i].boardName+")'>"+bookMarkList[i].postTitle.substring(0,35)+" </td>");
+				
 				$("tbody").append("<td>"+bookMarkList[i].nickName+"</td>");
 				$("tbody").append("<td><i id=deleteBookMark"+i+" class='fas fa-bookmark fa-2x' onclick='javascript:deleteBookMark("+bookMarkList[i].postId+")'></i></td>");
 				$("tbody").append("<input type='hidden' value="+i+">");
@@ -82,6 +98,9 @@ function deleteBookMark(postId){
 		}
 	});
 }
+
+
+
 
 
 

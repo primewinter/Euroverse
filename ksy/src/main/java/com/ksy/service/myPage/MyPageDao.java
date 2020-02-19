@@ -54,7 +54,12 @@ public interface MyPageDao {
 	public int getPlanOfferListTotalList(String userId)throws Exception;
 	public int getPartyOfferListTotalList(String userId)throws Exception;
 	
+	public int getPlanCount(String userId)throws Exception;
+	public void addPlanPartyMember(Offer offer)throws Exception;
 	
+	public Offer getOffer(String offerId)throws Exception;
+	
+	public void updateOfferStatus(Offer offer) throws Exception;
 	
 	//////////////////////////////QNA////////////////////////////////
 	public void addQna(Post post)throws Exception;
@@ -66,4 +71,6 @@ public interface MyPageDao {
 	public void deleteQna(String postId)throws Exception;
 	
 	public void updateQna(Post post)throws Exception;
+	
+	
 }

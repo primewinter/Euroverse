@@ -151,6 +151,8 @@ public class MyPageServiceImpl implements MyPageService{
 		return bookMarkList;
 	}
 	
+	
+	/////////////////////////////OFFER///////////////////////////////
 	public Map<String,Object> getOfferList(Search search , String userId)throws Exception{
 		List<Offer> planOfferList = myPageDao.getPlanOfferList(search, userId);
 		List<Offer> partyOfferList = myPageDao.getPartyOfferList(search, userId);
@@ -165,7 +167,31 @@ public class MyPageServiceImpl implements MyPageService{
 		returnMap.put("planOfferListTotalCount",planOfferListTotalCount);
 		
 		return returnMap;
+	
 	}
+	
+	
+	
+	public int getPlanCount(String userId)throws Exception{
+		
+		return myPageDao.getPlanCount(userId);
+	}
+	
+	public void addPlanPartyMember(Offer offer)throws Exception{
+		myPageDao.addPlanPartyMember(offer);
+	}
+	
+	
+	public Offer getOffer(String offerId)throws Exception{
+		return myPageDao.getOffer(offerId);
+	}
+	
+	public void updateOfferStatus(Offer offer)throws Exception{
+		myPageDao.updateOfferStatus(offer);
+	}
+	
+	
+	
 	
 	
 	

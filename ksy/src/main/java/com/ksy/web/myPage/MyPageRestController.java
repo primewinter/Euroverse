@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Like;
+import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.User;
@@ -154,6 +155,53 @@ public class MyPageRestController {
 		map.put("bookMarkList", bookMarkList);
 		
 		
+		return map;
+	}
+	
+	@RequestMapping(value="json/planOfferAccept/{offerId}")
+	public Map planOfferAccept(@PathVariable String offerId , HttpSession session)throws Exception{
+		
+		User user = (User)session.getAttribute("user");
+		Map map = new HashMap();
+		
+		Offer offer = myPageService.getOffer(offerId);
+		System.out.println(offer);
+		
+		int havePlanCount = myPageService.getPlanCount(user.getUserId());
+		System.out.println(havePlanCount);
+		
+		if(user.getSlot() <= havePlanCount) {
+			System.out.println("안돼 포인트로 슬룻 구매해야함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+			map.put("resultMsg", "error");
+			return map;
+		}else if(user.getSlot() > havePlanCount) {
+			offer.setOfferStatus("A");
+			myPageService.updateOfferStatus(offer);
+			myPageService.addPlanPartyMember(offer);
+			map.put("resultMsg", "ok");
+			return map;
+			
+		}
+		
+		//offer status 수락으로 업데이트하거나 거절하기
+		//그러면 get으로 값 하나 더 만들어야한다 (수락,거절)
+		//그리고 수락하면 party에 추가하기!!
+		
+		//아니 잠깐만 이거 get으로 해야하는게아니고 POST로 바꿔서 ref값이랑 이런거 다 가져와야함
+		
+		
+		//Offer offer = new Offer();
+		//offer.setToUserId(user.getUserId());
+		//offer.setRefId(); <<여기에는 이제 offer
+		//myPageService.addPlanPartyMember(offer);
+		
+		
+		
+		
+		
+		
+		
+		map.put("resultMsg", "error");
 		return map;
 	}
 
