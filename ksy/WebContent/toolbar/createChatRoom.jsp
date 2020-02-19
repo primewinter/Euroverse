@@ -50,6 +50,7 @@
 <body>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createChat">채팅방 개설</button>
 
+<form id="roomInfo" enctype="multipart/form-data" accept-charset="euc-kr">
 <div class="modal fade" id="createChat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -60,7 +61,6 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
         <div class="form-group row">
 		    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">채팅방 이름</label>
 		    <div class="col-sm-9">
@@ -70,9 +70,8 @@
           <div class="form-group custom-file">
 			     <label class="custom-file-label col-form-label-sm" for="validatedCustomFile">채팅방 이미지(선택 사항)</label>
                  <input type="file" class="custom-file-input" name="chatRoomFile">
-                 <input type="hidden" name="chatMems" value="">
           </div>
-          <div class="form-group row">
+        <%--   <div class="form-group row">
         		  <c:forEach var="userList" items="${userList}">
 			    <c:forEach var="party"	items="${party}">
 			  	  <c:if test="${userList.userId == party.partyUserId}">
@@ -81,14 +80,14 @@
 					  <div class="col-md-10">
 					    <div id="profile" class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
 					      <div class="col-auto d-none d-lg-block">
-					        <svg class="bd-placeholder-img" width="0" height="0" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><img class="imgFile" src="/resources/images/userImages/${userList.userImg}"><rect width="50%" height="5%" fill="#55595c"/></svg>
+					        <svg class="bd-placeholder-img" width="0" height="0" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><img class="imgFile" src="/resources/images/userImages/${userList.userImg}" style="width:30px;height:30px"><rect width="50%" height="5%" fill="#55595c"/></svg>
 					      </div>
 					      <div class="col p-4 d-flex flex-column position-static">
 					      <c:if test="${party.partyRole == 'K'}">
-					        <i class="fas fa-crown"><br>${userList.nickname}</i>
+					        <i class="fas fa-crown"><br>${userList.nickname}</i><input type="hidden" name="chatMems" value="${userList.userId}">
 					      </c:if>
 					      <c:if test="${party.partyRole == 'M'}">
-					      	<i class="fas fa-user"><br>${userList.nickname}</i>
+					      	<i class="fas fa-user"><br>${userList.nickname}</i><input type="hidden" name="chatMems" value="${userList.userId}">
 					      </c:if>
 					        <p class="mb-auto">${userList.totalPoint}</p>
 					      </div>
@@ -98,24 +97,59 @@
 			  	  </c:if>
 			    </c:forEach>
 			  </c:forEach>
-          </div>
-        </form>
+          </div> --%>
+          <input type="hidden" name="creator" value="admin">
+          <!-- <input type="hidden" name="chatMems" value="user01"> -->
+          <!-- <input type="hidden" name="chatMems" value="user02">
+          <input type="hidden" name="chatMems" value="user03"> -->
+          <%-- <input type="hidden" name="creator" value="${post.postWriterId}"> --%>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-        <button type="button" class="btn btn-primary">개설</button>
+        <button type="button" class="btn btn-primary create">개설</button>
       </div>
     </div>
   </div>
 </div>
+</form>
 
 <script>
 $('#createChat').on('show.bs.modal', function (event) {
-	  var button = $(event.relatedTarget) // Button that triggered the modal
+	  var button = $(event.relatedTarget)
 	  var modal = $(this)
 	  modal.find('.modal-title').text('New message to ' + recipient)
 	  modal.find('.modal-body input').val(recipient)
 	})
+	
+	
+	
+	
+	$('button.btn-primary.create').on('click', function(){
+		var chatRoom = new Object();
+		chatRoom.creator = $('#roomInfo[name="creator"]').val();
+		chatRoom.chatRoomName = $('#roomInfo[name="chatRoomName"]').val();
+		chatRoom.chatImg =  
+		console.log($('#roomInfo').serialize());
+		var form = $('#roomInfo')[0];
+        var formData = new FormData(form);
+        console.log(formData);
+
+
+		$.ajax({
+			url : "/chat/json/createRoom",
+			type : "post",
+			enctype: 'multipart/form-data',
+			data :  formData,
+			headers : { "Accept" : "application/json", "Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8"},
+			success : function() {
+				console.log("채팅방 개설 성공");
+			},error : function(err) {
+				console.log("채팅방 개설 실패");
+				console.log(err.responseText);
+			}
+				
+		})
+	}); 
 </script>
 
 </body>

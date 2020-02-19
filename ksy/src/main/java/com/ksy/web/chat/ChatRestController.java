@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +47,7 @@ import com.mongodb.client.MongoDatabase;
 		
 		public ChatRestController() {
 			System.out.println(this.getClass()+" MongoDB 연결됨-----------------------------");
-			this.mongoConn = new MongoClient("localhost", 27017);
+			this.mongoConn = new MongoClient("192.168.0.62", 27017);
 			this.mongoDB = mongoConn.getDatabase("Euroverse");
 			
 			}
@@ -158,12 +160,16 @@ import com.mongodb.client.MongoDatabase;
 		}
 		
 		@RequestMapping(value="createRoom", method=RequestMethod.POST)
-		public void createRoom(@RequestBody ChatRoom chatRoom) throws Exception {
+		public void createRoom(@RequestBody ChatRoom chatRoom, HttpServletResponse response) throws Exception {
+			
+//			response.setContentType("text/html;charset=utf-8");
 			
 			System.out.println("createRoom :: ChatRoom :"+chatRoom);
-			
+			System.out.println();
 			List<String> chatMems = chatRoom.getChatMems();
-			
+			for(String user : chatMems) {
+				System.out.println("들어온 회원 : "+user);
+			}
 			coll = mongoDB.getCollection("ChatRoom");
 			System.out.println("ChatRoom DB 갖고옴");
 			
