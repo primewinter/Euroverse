@@ -72,7 +72,11 @@ $(function() {
     });
 });
 
-
+	/* var price = $("#price").val();
+	price.substring(1);
+	string.substring( start, end )
+	var replace = price.replace( 'Lorem', 'Amet' );
+	document.write( '<p>' + jbStrReplace + '</p>' ); */
 	
 </script>
 
@@ -88,26 +92,39 @@ $(function() {
 	<div class="container">
 		<c:forEach var="room" items = "${roomList}" >
 		<div class="row">
-				<div class="col-sm-8" style="background-color:whitesmoke;">
+				<div class="col-sm-2" style="margin-left:50px;margin-right:20px;">
+					<img src = "/resources/images/roomImg/${room.roomImg}" width="180" height="120"/>
+				</div>
+				<div class="col-sm-6" style="background-color:whitesmoke;">
 					<div class="row" style="color:gray;margin-top:10px;margin-left:20px;margin-right:20px;margin-bottom:10px;">
-						<p style="font-size:18px;">${room.roomName}</p>
+						<p style="font-size:18px;"><strong>${room.roomName}</strong></p>
 						<address class="contact">
 							<span style="font-size:13px;">${room.roomAddr}</span>
 						</address>
-						<br/>
 					</div>
-						<div class="row" style="margin-left:30px;">
-							<div class="col-sm-5">
-								<img src = "/resources/images/orderImg/${room.roomImg}" width="180" height="120"/>
+						<br/>
+					<div class="row" style="margin-left:10px;margin-top:-20px;">
+							<div class="col">
+								<p style="margin-bottom:5px;font-size:13px;"><i class="fas fa-map-marker-alt" style="margin-left:2px;font-size:15px;"></i>&nbsp;&nbsp;${room.location}</p>
+								<p style="margin-bottom:5px;font-size:13px;"><i class="fas fa-road"></i>&nbsp;&nbsp;${room.point}</p>
+								<p style="font-size:18px;"><strong><i class="fas fa-heart"></i>&nbsp;&nbsp;${room.info}</strong></p>
 							</div>
-							<div class="col-sm-7" style="Padding-left:250px;">
-								<div class="row" style="margin-top:40px;margin-left:20px;">
-								<i class="fas fa-won-sign" style="font-size:15px;"></i>
-									<p>${room.price}원</p>
+							<div class="col" style="margin-left:170px;">
+								<div class="row" style="margin-left:10px;">
+									<i class="fas fa-won-sign" style="font-size:22px;">${room.price}원</i>
 								</div>
-								<button type="button" class="btn btn-info" style="width:100px;">상세보기</button>
+								<br/>
+								<button type="button" class="btn btn-info" style="margin-top:-10px;width:120px;">상세보기</button>
 							</div>
-						</div>
+					</div>
+					</div>
+							<%-- <div class="col-sm-2" style="margin-top:40px;margin-left:100px;">
+								<div class="row" style="margin-left:10px;">
+									<i class="fas fa-won-sign" style="font-size:22px;">${room.price}원</i>
+								</div>
+								<br/>
+								<button type="button" class="btn btn-info" style="width:120px;">상세보기</button>
+							</div> --%>
 					<br/>
 				</div>
 				<%-- <div class="col-sm-3">
@@ -117,7 +134,6 @@ $(function() {
 					</div>
 					<button type="button" class="btn btn-info" style="margin-top:80px;width:100px;">상세보기</button>
 				</div>  --%>
-		</div>
 			<br/>
 			<hr/>	
 		</c:forEach>
