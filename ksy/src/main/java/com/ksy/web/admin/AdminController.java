@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ksy.common.Page;
 import com.ksy.common.Search;
@@ -39,10 +41,10 @@ public class AdminController {
 		System.out.println(this.getClass());
 	}
 
-	@Value("#{commonProperties['pageUnit']}")
+	@Value("#{commonProperties['postPageUnit']}")
 	int pageUnit;
 	
-	@Value("#{commonProperties['pageSize']}")
+	@Value("#{commonProperties['postPageSize']}")
 	int pageSize;
 	
 	@RequestMapping(value="getUserList")
@@ -52,7 +54,7 @@ public class AdminController {
 		
 		User user = new User();
 		
-		//현재 페이지를 항상 1로 유지
+		//현재 페이지가 null일 경우 디폴트 1로 유지
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
@@ -77,5 +79,23 @@ public class AdminController {
 		return "forward:/view/admin/getUserList.jsp";
 		
 	}// end of getUserList
+	
+	
+	@RequestMapping(value="getUser", method=RequestMethod.GET)
+	public String getUser(@RequestParam("userId") String userId, Model model) throws Exception {
+		
+		System.out.println(this.getClass()+"getUser");
+		
+		User user = new User();
+		user = userService.getUser(userId);
+		
+		//view(jsp)로 데이터전송
+		model.addAttribute("user", user);
+		
+		System.out.println("model ==>"+model);
+		
+		return "forward:/view/user/getUser.jsp";
+		
+	}// end of getUser
 	
 }//end of class

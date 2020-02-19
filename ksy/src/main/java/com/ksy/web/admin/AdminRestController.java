@@ -35,9 +35,9 @@ public class AdminRestController {
 	int pageSize;
 
 	@RequestMapping(value="json/getUserList", method = RequestMethod.POST)
-	public Map<String, Object> getUserList(Search search ) throws Exception {
+	public Map<String, Object> getUserList(@RequestBody Search search ) throws Exception {
 		
-		System.out.println("restController getUserList");
+		System.out.println("\n\n restController getUserList");
 		
 		User user = new User();
 //		Search search = new Search();
@@ -57,6 +57,7 @@ public class AdminRestController {
 		
 		map.put("resultPage", resultPage);
 		map.put("search", search);
+		
 		
 		return map;
 	}

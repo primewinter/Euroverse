@@ -193,9 +193,16 @@ $(function(){
 					alert('성공적으로 플래너에 참여했습니다.');
 					//self location
 					
+					var planId = JSONData.planId;
+					var string = "/plan/getPlan?planId="+planId;
+					$(self.location).attr("href", string);
+					
 					
 				}else if(JSONData.resultMsg = 'error'){
 					alert("슬롯이 부족합니다. 포인트로 구매해주세요.(500Point)")
+					return;
+				}else if(JSONData.resultMsg = 'over'){
+					alert("이미 참여중인 플래너입니다.");
 					return;
 				}
 				
@@ -215,14 +222,70 @@ $(function(){
 	
 	$(".partyAccept").on("click",function(){
 		alert("partyAccept")
+		var offerId = $(this).next().next().val();
+		var num = $(this).next().next().next().val();
+		
+		alert(offerId)
+		alert(num)
+		
+		$.ajax({
+			url : '/myPage/json/partyOfferAccept/'+offerId ,
+			type : "GET" ,
+			cache : false ,
+			dataType : "json" ,
+			success : function(JSONData) {
+				
+				//alert("일단 성공"+JSONData.offerId)
+				alert(JSONData.resultMsg);
+				if(JSONData.resultMsg =='ok'){
+					alert("성공적으로 동행에 참여했습니다.");
+					var postId = JSONData.postId;
+					var string = "/community/getPost?postId="+postId+"&boardName=D";
+					$(self.location).attr("href", string);
+				}else if(JSONData.resultMsg == 'error'){
+					alert("에러");
+					return;
+				}else if(JSONData.resultMsg=='overLap'){
+					alert("이미 참여중인 동행입니다.");
+					return;
+				}else if(JSONData.resultMsg == 'over'){
+					alert("모집이 마감되었습니다.");
+					return;
+				}
+				
+				
+				
+			},
+			error: function(request, status, error){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
 	})
+	
+	
+	
+	
 	
 	$(".planReject").on("click",function(){
 		alert("planReject")
+		var offerId = $(this).next().val();
+		var num = $(this).next().next().val();
+		
+		$(self.location).attr("href", "/myPage/offerReject?offerId="+offerId);
+		
+		
 	})
+	
+	
+	
 	
 	$(".partyReject").on("click",function(){
 		alert("partyReject")
+		var offerId = $(this).next().val();
+		var num = $(this).next().next().val();
+		
+		$(self.location).attr("href", "/myPage/offerReject?offerId="+offerId);
+		
 	})
 	
 })

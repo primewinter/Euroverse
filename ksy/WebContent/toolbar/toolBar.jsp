@@ -79,7 +79,12 @@
         		&ensp;&ensp;
         		
         		<li class="nav-item">
+        		<c:if test="${user.role != 'A'}">
         			<a class="nav-link" href="/user/getUser">내정보 조회</a>
+        		</c:if>
+        		<c:if test="${user.role == 'A'}">
+        			<a class="nav-link" href="/admin/getUserList">회원정보조회</a>
+        		</c:if>
         		</li>
         		
         		<!-- <li class="nav-item"> <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> </li> -->
@@ -91,7 +96,7 @@
 					<span>${user.nickname}&nbsp;&nbsp;</span> <button type="button" class="btn btn-dark">로그아웃</button>
 				</c:if>
 				<c:if test="${user.userId == null}">
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal" data-backdrop="static" data-keyboard="false">로그인</button>
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">로그인</button>
 				</c:if>
 			</div>
 				

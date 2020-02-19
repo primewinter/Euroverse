@@ -39,6 +39,7 @@ import com.ksy.service.domain.Todo;
 import com.ksy.service.domain.User;
 import com.ksy.service.plan.PlanService;
 import com.ksy.service.planSub.PlanSubService;
+import com.ksy.service.user.UserService;
 
 @Controller
 @RequestMapping("/plan/*")
@@ -51,6 +52,11 @@ public class PlanController {
 	@Autowired
 	@Qualifier("planSubServiceImpl")
 	private PlanSubService planSubService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
+	
 	
 //	@Resource(name="uploadPath")
 //	String uploadPath;
@@ -108,10 +114,9 @@ public class PlanController {
 	public String getPlanList (	/*@RequestParam("userId") String userId, */ Model model, HttpSession session	) throws Exception {
 		
 		User user = (User)session.getAttribute("user");
-		//test용 if문 : 회원아이디 셋팅
+
 		if(user == null) {
-			user = new User();
-			user.setUserId("admin");
+			return "redirect:/view/plan/planNotice.jsp";
 		}
 		
 		List<Plan> listPlan = planService.getPlanList(user.getUserId());
@@ -123,8 +128,14 @@ public class PlanController {
 	
 	
 	@RequestMapping( value = "getPlan", method = RequestMethod.GET )
-	public String getPlan (	@RequestParam("planId") String planId, Model model	) throws Exception {
-	
+	public String getPlan (	@RequestParam("planId") String planId, Model model, HttpSession session	) throws Exception {
+		
+		User user = (User)session.getAttribute("user");
+
+		if(user == null) {
+			return "redirect:/view/plan/planNotice.jsp";
+		}
+		
 		System.out.println("\n\n\n\n\n\n PLanID : "+planId);
 		
 		Plan plan = planService.getPlan(planId);
@@ -233,7 +244,7 @@ public class PlanController {
 		if(user != null) { 
 			plan.setPlanMaster(user); 
 		}else {
-			return "redirect:/index.jsp";
+			return "redirect:/view/plan/planNotice.jsp";
 		}
 		
 		MultipartFile mpFile = (MultipartFile)plan.getPlanImgFile();
@@ -323,10 +334,8 @@ public class PlanController {
 		
 		//페이지 네비게이션 어케..?
 		User user = (User)session.getAttribute("user");
-		//test용 if문 : 회원아이디 셋팅
 		if(user == null) {
-			user = new User();
-			user.setUserId("admin");
+			return "redirect:/view/plan/planNotice.jsp";
 		}
 		
 		return "redirect:/plan/getPlanList?userId="+user.getUserId();
@@ -343,10 +352,8 @@ public class PlanController {
 		planService.deletePlanParty(party);
 		
 		User user = (User)session.getAttribute("user");
-		//test용 if문 : 회원아이디 셋팅
 		if(user == null) {
-			user = new User();
-			user.setUserId("admin");
+			return "redirect:/view/plan/planNotice.jsp";
 		}
 		
 		if( party.getPartyRole().equals("S")) {		//셀프탈퇴
@@ -371,7 +378,14 @@ public class PlanController {
 		 * if(user == null) { user = new User(); user.setUserId("admin"); }
 		 */
 		
+		User newUser = userService.getUser(userId);
+		
 		//USER의 정보들(슬롯, 포인트)이 수정되기 때문에 업데이트 후 다시 세션에 박는것처럼 처리해주어야 함!!!!!!!!!!!!!!!!!!
+		String sessionId = ((User)session.getAttribute("user")).getUserId();
+		if( sessionId.equals( userId ) ){
+			session.setAttribute("user", newUser);
+		}
+		
 		
 		return "redirect:/plan/getPlanList?userId="+userId;
 	}
