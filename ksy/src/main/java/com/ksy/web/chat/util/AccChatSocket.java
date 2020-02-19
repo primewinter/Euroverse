@@ -148,7 +148,7 @@ public class AccChatSocket {
 	private void insertMongo(String json) throws Exception {
 				
 				// 몽고디비랑 연결 있으면 가져오고 없으면 만들기
-				MongoClient mongoConn = new MongoClient("localhost", 27017);
+				MongoClient mongoConn = new MongoClient("192.168.0.62", 27017);
 				MongoDatabase mongoDB = mongoConn.getDatabase("Euroverse");
 				System.out.println("insertMongo :: String json = "+json);
 				Chat chat = jsonToChat(json);

@@ -152,7 +152,7 @@ public class MyPageDaoImpl implements MyPageDao{
 	}
 	
 	
-	
+	/////////////////////////OFFER/////////////////////////////////////////
 	public List<Offer> getPlanOfferList(Search search , String userId)throws Exception{
 		System.out.println("myPageDaoImpl getPlanOfferList");
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -174,6 +174,30 @@ public class MyPageDaoImpl implements MyPageDao{
 		
 		return sqlSession.selectList("UserMapper.getPartyOfferList",map);
 	}
+	
+	public int getPlanCount(String userId)throws Exception{
+		
+		return sqlSession.selectOne("UserMapper.getPlanCount",userId);
+	}
+	
+	
+	public void addPlanPartyMember(Offer offer)throws Exception{
+		sqlSession.insert("UserMapper.addPlanPartyMember",offer);
+		
+	}
+	
+	public Offer getOffer(String offerId)throws Exception{
+		
+		return sqlSession.selectOne("UserMapper.getOffer",offerId);
+	}
+	
+	public void updateOfferStatus(Offer offer)throws Exception{
+		 sqlSession.update("UserMapper.updateOfferStatus",offer);
+	}
+	
+	
+	
+	
 	
 	public int getMyPostListTotalCount(String userId)throws Exception{
 		

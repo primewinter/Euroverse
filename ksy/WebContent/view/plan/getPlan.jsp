@@ -155,11 +155,12 @@
       	border-width: thin;
       }
       .party-member-img.on{
-      	border-width: 2px;
+      	border-width: 3px;
       	border-color: #FA6124;
       }
       .party-member-img.off{
       	border-color: #C6C6C6;
+      	border-width: 1px;
       }
       .plan-party-list-box{
       	border-radius: 5px;
@@ -1734,6 +1735,19 @@
 		<i class="fas fa-comment-dots  fa-flip-horizontal fa-2x" style="color:white;"></i>
 	</div>
 	
+
+	<%--플래너 채팅 UI--%>
+	<div id="planChat">
+		<div class="planChat output" style="padding:5px"></div>
+		<div class="planChat input" style="padding:5px">
+			<div class="input-group">
+			    <input type="text" class="form-control form-control-sm" id="myChat" placeholder="메시지를 입력하세요">
+			    <span class="input-group-btn">
+			        <button class="btn btn-default btn-sm" type="button"><i class="fab fa-telegram-plane"></i></button>
+			    </span>
+			</div>
+		 </div>
+	</div>
 	
 	
 	<script type="text/javascript">
@@ -1777,6 +1791,7 @@
 	    }
 	    
 	    function receivePlanChat(chat) {
+	    	console.log("들어왔따~!")
 	    	var html = "";
 	        if(chat.senderId == 'system'){
 	            html += "<div style=\"text-align:center;margin: 20px;background-color:#D8D8D8;border-radius:10px;\">";
@@ -1805,8 +1820,11 @@
 	    }
 	    
 	    function checkOnlineMembers(data) {
-	    	// 온라인 멤버들 표시해주기
+	    	<c:forEach var="member" items="${plan.planPartyList}">
+	    		$("#img_${member.userId}").removeClass("on");
+	    	</c:forEach>
 	    	for( var i in data) {
+	    		console.log("접속한 회원 id : "+data[i].userId);
 	    		$("#img_"+data[i].userId).addClass("on");
 	    	}
 	    }
@@ -1844,23 +1862,12 @@
         	$(".fa-comment-dots").on("click", function() {
         		$("#planChat").toggleClass('on');
         	});
-        	
+        	$(".fa-telegram-plane").on("click", function() {
+        		sendMessage();
+        	})
         });
 	
 	</script>
-
-	<%--플래너 채팅 UI--%>
-	<div id="planChat">
-		<div class="planChat output" style="padding:5px"></div>
-		<div class="planChat input" style="padding:5px">
-			<div class="input-group">
-			    <input type="text" class="form-control form-control-sm" id="myChat" placeholder="메시지를 입력하세요">
-			    <span class="input-group-btn">
-			        <button class="btn btn-default btn-sm" type="button"><i class="fab fa-telegram-plane"></i></button>
-			    </span>
-			</div>
-		 </div>
-	</div>
    				  
     <!-- ////////////////////////////////////////// 플래너 채팅 END ////////////////////////////////////////// -->
 	
@@ -1937,9 +1944,9 @@
 		        <ul class="nav flex-column mb-2" style="margin: 15px;">
 		          <c:forEach var="member" items="${plan.planPartyList}">
 		          	<li class="nav-item media party-member" style="margin-bottom: 10px;">
-		          		<img src="https://pds.joins.com/news/component/htmlphoto_mmdata/201903/01/faf54c9e-e268-440d-995c-eea6834d559a.jpg" id="img_${member.userId}" class="rounded-circle align-self-center mr-2 party-member-img" alt="...">
+		          		<img src="/resources/images/userImages/${member.userImg}" id="img_${member.userId}" class="rounded-circle align-self-center mr-2 party-member-img" alt="...">
 						    <div class="media-body" style="font-size:12px;">
-							    <h6 class="mt-0 mb-1">${member.userId}</h6>
+							    <h6 class="mt-0 mb-1">${member.userId} <c:if test="${member.role == 'K'}"> <i class="fa fa-crown" style="font-size: 13px;"></i></c:if></h6> 
 							      ${member.nickname}
 						    </div>
 						    <c:if test="${ user.userId == plan.planMaster.userId && member.role=='M' }">

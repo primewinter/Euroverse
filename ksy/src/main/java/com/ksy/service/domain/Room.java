@@ -1,7 +1,5 @@
 package com.ksy.service.domain;
 
-import java.sql.Timestamp;
-
 public class Room {
 	private String roomId; //room_id
 	private String roomName; //room_name
@@ -15,6 +13,29 @@ public class Room {
 	private int adultNum2;
 	private int childNum; //child_num
 	private int childNum2;
+	
+	private String location;
+	private String info;
+	private String point;
+	
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getInfo() {
+		return info;
+	}
+	public void setInfo(String info) {
+		this.info = info;
+	}
+	public String getPoint() {
+		return point;
+	}
+	public void setPoint(String point) {
+		this.point = point;
+	}
 	public int getAdultNum2() {
 		return adultNum2;
 	}
@@ -157,9 +178,11 @@ public class Room {
 		return "Room [roomId=" + roomId + ", roomName=" + roomName + ", roomAddr=" + roomAddr + ", price=" + price
 				+ ", roomCity=" + roomCity + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", detailLink="
 				+ detailLink + ", adultNum=" + adultNum + ", adultNum2=" + adultNum2 + ", childNum=" + childNum
-				+ ", childNum2=" + childNum2 + ", roomNum=" + roomNum + ", roomImg=" + roomImg + ", mainService="
-				+ mainService + ", familyService=" + familyService + ", sights=" + sights + ", hotelInfo=" + hotelInfo
-				+ ", roomInfo=" + roomInfo + ", orderStatus=" + orderStatus + ", OrderDate=" + OrderDate + "]";
+				+ ", childNum2=" + childNum2 + ", location=" + location + ", info=" + info + ", point=" + point
+				+ ", roomNum=" + roomNum + ", roomImg=" + roomImg + ", mainService=" + mainService + ", familyService="
+				+ familyService + ", sights=" + sights + ", hotelInfo=" + hotelInfo + ", roomInfo=" + roomInfo
+				+ ", orderStatus=" + orderStatus + ", OrderDate=" + OrderDate + "]";
 	}
+	
 	
 }

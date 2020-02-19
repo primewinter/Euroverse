@@ -7,6 +7,7 @@ import java.util.Map;
 import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Like;
+import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.TripSurvey;
@@ -46,6 +47,13 @@ public interface MyPageService {
 	////////////////////////Offer//////////////////////////////////////////
 	public Map<String , Object> getOfferList(Search search , String userId) throws Exception;
 
+	public int getPlanCount(String userId)throws Exception;
+	public void addPlanPartyMember(Offer offer)throws Exception;
+	
+	public Offer getOffer(String offerId)throws Exception;
+	
+	public void updateOfferStatus(Offer offer) throws Exception;
+	
 	
 	
 	////////////////////////QNA////////////////////////////////////////
@@ -57,5 +65,6 @@ public interface MyPageService {
 	public void deleteQna(String postId)throws Exception;
 	
 	public void updateQna(Post post)throws Exception;
+	
 	
 }
