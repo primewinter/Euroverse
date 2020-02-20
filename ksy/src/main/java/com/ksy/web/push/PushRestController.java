@@ -88,14 +88,13 @@ public class PushRestController {
 		search.setCurrentPage(1);
 		search.setPageSize(10);
 		Map<String , Object> map = pushService.getPushList(search, userId);
-		System.out.println(" :: pushServic.getPushList(search, userId) 완료");
-		//Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("list", map.get("list"));
-		//result.put("resultPage", resultPage);
+		result.put("resultPage", resultPage);
 		result.put("totalCount", map.get("totalCount"));
-		
+		System.out.println(":: pushService.getPushList(search, userId) 완료");
 		return result;
 	}
 	

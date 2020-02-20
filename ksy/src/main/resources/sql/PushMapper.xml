@@ -44,8 +44,12 @@
 		SELECT b.post_title title
 		FROM push p, post b
 		WHERE p.ref_id = b.post_id
+				AND p.push_id = #{pushId}
+		<!-- SELECT b.post_title title
+		FROM push p, post b
+		WHERE p.ref_id = b.post_id
 				AND p.push_type = 'C'
-				AND p.ref_id = #{refId} 
+				AND p.ref_id = #{refId}  -->
 	</select>
 	
 	<select id="getCmtContent" parameterType="push" resultType="String">
@@ -53,24 +57,37 @@
 		FROM push p, comments c1, comments c2
 		WHERE p.ref_id = c1.parent_cmt_id
 				AND c1.parent_cmt_id = c2.cmt_id
+				AND p.push_id = #{pushId} 
+		<!-- SELECT c2.cmt_content title
+		FROM push p, comments c1, comments c2
+		WHERE p.ref_id = c1.parent_cmt_id
+				AND c1.parent_cmt_id = c2.cmt_id
 				AND p.push_type = 'R'
-				AND p.ref_id = #{refId} 
+				AND p.ref_id = #{refId}  -->
 	</select>
 	
 	<select id="getPlanTitle" parameterType="push" resultType="String">
 		SELECT pl.plan_title title
 		FROM push p, plan pl
 		WHERE p.ref_id = pl.plan_id
+				AND p.push_id = #{pushId} 
+	<!-- 	SELECT pl.plan_title title
+		FROM push p, plan pl
+		WHERE p.ref_id = pl.plan_id
 				AND p.push_type = 'I'
-				AND p.ref_id = #{refId} 
+				AND p.ref_id = #{refId}  -->
 	</select>
 	
 	<select id="getAccTitle" parameterType="push" resultType="String">
 		SELECT b.post_title title
 		FROM push p, post b
 		WHERE p.ref_id = b.post_id
+				AND p.push_id = #{pushId} 
+		<!-- SELECT b.post_title title
+		FROM push p, post b
+		WHERE p.ref_id = b.post_id
 				AND p.push_type = 'A'
-				AND p.ref_id = #{refId} 
+				AND p.ref_id = #{refId}  -->
 	</select>
 	
 	<select id="getPushId" parameterType="push" resultType="String">

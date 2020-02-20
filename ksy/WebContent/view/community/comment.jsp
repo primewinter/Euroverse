@@ -45,8 +45,14 @@
 					
 					//글 작성자에게 push 하기
 					var receiverId = data.postWriterId;
-					var pushType = 'R';
+					var pushType = 'C';
 					sendPush(receiverId, pushType);
+					
+					//부모 댓글 작성자에게 push 하기
+					receiverId =  data.parentCmtWriterId;
+					pushType = 'R';
+					sendPush(receiverId, pushType);
+					
 				}
 			});
 		}

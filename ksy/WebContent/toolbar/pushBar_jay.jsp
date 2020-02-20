@@ -31,33 +31,28 @@
 						            	  var pushType = obj.pushType;
 						            	  console.log("pushType :: "+pushType);
 						            	  if(pushType=='P') {
-						            		  var pushMsg = obj.pushMsg+" 잊지 않으셨나요?";
-						            		  console.log(pushMsg);
-						            		  console.log(obj.refId)
-						            		  /* var html = '<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">';
-						            		  html += '<div class="toast-header">';
-						            		  html += '!';
-						            		  //<img src="..." class="rounded mr-2" alt="...">
-						            		  html += '<strong class="mr-auto">Bootstrap</strong>';
-						            		  html += '<small>'+obj.pushTime+'</small>';
-						            		  html += '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">';
-						            		  html += '<span aria-hidden="true">모지?</span>';
-						            		  html += '</button>';
-						            		  html += '</div>';
-						            		  html += '<div class="toast-body">';
-						            		  html += obj.pushMsg
-						            		  html += '</div>';
-						            		  html += '</div>';  */
-						            		  $('.pushToast').html(pushMsg);
-						            		  //$('.pushToast').html(html);
-						            		  
+						            		  const Toast = Swal.mixin({
+						            			  toast: true,
+						            			  position: 'top-end',
+						            			  showConfirmButton: false,
+						            			  timer: 5000,
+						            			  timerProgressBar: true,
+						            			  onOpen: (toast) => {
+						            				  toast.addEventListener('click', function() {
+							            				  self.location= "/plan/getPlan?planId="+obj.refId;
+						            				  })
+						            			  }
+						            			})
+
+						            			Toast.fire({
+						            			  icon: 'success',
+						            			  title: obj.pushMsg+', 잊지 않으셨나요?'
+						            			});
 						            	  } else {
-						            		
 							        	  	getPushList(userId);
 							        	  	getUnreadCount(userId);
 						            	  }
 							        };
-						            
 						        };
 					        
 						        //웹 소켓이 닫혔을 때 호출되는 이벤트
@@ -148,8 +143,8 @@
 				 success : function(result) {
 					 console.log(result);
 					 var list = result.list;
-					 //var resultPage = result.resultPage;
-					 //var search = result.search;
+					 var resultPage = result.resultPage;
+					 var search = result.search;
 					 var totalCount = result.totalCount;
 					 $(".totalCount").append(totalCount);
 					 console.log("totalCount : "+totalCount);
@@ -159,8 +154,8 @@
 						showList(vo, 0);
 					 })
 					
-					//console.log("resultPage : "+resultPage);
-					//console.log("search : "+search);
+					console.log("resultPage : "+resultPage);
+					console.log("search : "+search);
 				 },
 				 error : function(error, status) {
 					 console.log("알림 내역 출력 실패");
@@ -233,6 +228,7 @@
 		 
 		 // 리스트 호출 시 작동할 function : 리스트 화면에 출력
 		 function showList(vo, type) {
+			 console.log("showList !")
 			 var tag = "";
 				tag += "<table width=95%>"
 			 	tag += "<tr>"
@@ -319,7 +315,6 @@
 		 function deletePush() {
 			 console.log("삭제 시작")
 			 
-			// 배열 선언
 			 var arrayParam = new Array();
 			 //each로 loop를 돌면서 checkbox의 check된 값을 가져와 담아준다.
 			 $("input:checkbox[name='chk']:checked").each(function(){
@@ -334,10 +329,7 @@
 				url : "/push/json/deletePush",
 				type : "POST",
 				data : formData,
-				headers : {
-					"Accept" : "application/json",
-					"Content-Type" : "application/json"
-				},
+				headers : {"Accept" : "application/json","Content-Type" : "application/json"},
 				success : function() {
 					console.log("알림 삭제 성공");
 					getPushList(userId);
@@ -347,9 +339,7 @@
 					console.log(error);
 				}
 			 })
-			 
 		 }
-		 
 		 
 		 // 동행 채팅 관련 function ================================================
 		var chatRoomId;
@@ -420,9 +410,7 @@
 	        //웹 소켓이 연결되었을 때 호출되는 이벤트
 	        accChatSocket.onopen = function(message){
 	              console.log('[accChat] : connection opened. || 방 번호 : '+roomId)
-	              
             	  accChatLayer.html("");
-	              
 	              loadChat(roomId); // 웹소켓 연결 되면 이전 대화 내용 불러옴 
 	              loadChatRoomInfo(roomId); // 채팅방 정보 불러옴
 	              
@@ -436,7 +424,6 @@
 	                  $(".accChat.output").scrollTop($(".accChat.output")[0].scrollHeight);
 		        };
 	        };
-  
 	        //웹 소켓이 닫혔을 때 호출되는 이벤트
 	        accChatSocket.onclose = function(message){
 	        	accChatLayer.value += "접속이 끊어졌습니다.\n";
@@ -446,7 +433,6 @@
 	        	accChatLayer.value += "accChat 에러가 발생했습니다.\n";
 	        };
   		}
-        
         
         function receiveAccChat(chat) {
         	var html = "";
@@ -617,20 +603,18 @@
 	      						sendAccMessage(result);
 	      						getChatRoomList();
 	      						loadChatRoomInfo(chatRoomId);
-	      						
+			        		    Swal.fire(
+			        		      '완료',
+			        		      '해당 회원이 동행에서 제외되었습니다.'
+			        		    )
 	      					},
 	      					error: function(error) {
 	      						console.log("quitChatRoom() 실패")
 	      						console.log(error);
 	      					}
 	      				 })
-	        		    Swal.fire(
-	        		      '완료',
-	        		      '해당 회원이 동행에서 제외되었습니다.'
-	        		    )
 	        		  }
 	        		})
-	        	
 	        }
 	      
         var pos = 0;
@@ -662,7 +646,7 @@
 	            $(".footerBar .fa-bell").click(function() {
 	            	// 로그인 했을 때만 실행
 	            	if(userId != null && userId != '' ) {
-	            		readPush(userId);
+	            		setTimeout(() => readPush(userId), 20);
 						setTimeout(() => getUnreadCount(userId), 50);
 	            	}
 	                $(".chat-layer").removeClass('on');
