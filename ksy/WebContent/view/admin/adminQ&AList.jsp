@@ -255,13 +255,12 @@
 			<table class="table table-hover">
 	        <thead>
 		        <tr class="top shadow-sm p-3 mb-5 bg-white rounded " style="font-size:small;">
-		            <th scope="col">번호</th>
-		            <th scope="col">회원아이디</th>
-		            <th scope="col">회원이름</th>
-		            <th scope="col">닉네임</th>
-		            <th scope="col">포인트</th>
-		            <th scope="col">성별</th>
-		            <th scope="col">등록일자</th>
+		            <th scope="col" class="d-flex justify-content-start">번호</th>
+		            <th scope="col" class="d-flex justify-content-center">상태</th>
+		            <th scope="col" class="d-flex justify-content-end">제목</th>
+		            <th scope="col">글쓴이</th>
+		            <th scope="col">조회</th>
+		            <th scope="col">날짜</th>
 		          </tr>
 	        </thead>
 		
