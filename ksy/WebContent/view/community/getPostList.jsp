@@ -157,31 +157,20 @@
 		  <c:set var="i" value="0" />
 		  <c:forEach var="post" items="${list}">
 		  <c:if test="${post.deleted == 'F'}">
-		  
+			<tr>
 		  <c:if test="${post.postGrade == 'N'}">
-		    <c:set var="j" value="${ j+1 }" />
-			<tr>
-			  <th scope="row" style="color:red;">공지</th>
+		  	  <th scope="row" style="color:red;">공지 <i class="fas fa-bullhorn"></i></th>
 			  <td style="font-weight: bold; color: dimgray;">
-			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/><span style="color:red;">[공지사항]</span> ${post.postTitle} <span style="color:red;">(${post.comments})</span></td>
-			  <td>${post.nickName}</td>
-			  <td>${post.postDate}</td>
-			  <td>${post.views}</td>
-			  <td>${post.postLikeCount}</td>
-			</tr>
+			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/><span style="color:black;">${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
+			  <td style="font-weight:bold;">${post.nickName}</td>
 		  </c:if>
-		  
-		  
-		  
-		  
-		  
-		  
-			<c:set var="i" value="${ i+1 }" />
-			<tr>
+		  <c:if test="${post.postGrade == 'B' || post.postGrade == null}">
+		  <c:set var="i" value="${ i+1 }" />
 			  <th scope="row">${ i }</th>
 			  <td style="font-weight: bold; color: dimgray;">
 			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>${post.postTitle} <span style="color:red;">(${post.comments})</span></td>
 			  <td>${post.nickName}</td>
+		  </c:if>
 			  <td>${post.postDate}</td>
 			  <td>${post.views}</td>
 			  <td>${post.postLikeCount}</td>

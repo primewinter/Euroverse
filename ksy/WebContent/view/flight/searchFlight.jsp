@@ -25,6 +25,10 @@
 	<!-- jQuery UI toolTip 사용 JS-->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
+	<!-- 달력 CDN -->
+	<link rel="stylesheet" href="/resources/css/kronos.css" />
+	<script src="/resources/javascript/kronos.js"></script>
+	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	  body {
@@ -67,23 +71,7 @@
 		/*  border-collapse: separate;  */
 		border:5px solid white;
 	  }
-/* 	  .container{
-	   position: relative;
-	   
-	  }
-	   .container:after{
-	   		content : "";
-		    display: block;
-		    position: absolute;
-		    top: 0;
-		    left: 0;
-		    width: 100%;
-		    height: 300px;
-		    opacity : 0.7;
-	   		background-color: #646464;
-			box-sizing: border-box;
-			z-index : -1;
-	  } */
+
 	  /* 왕복 , 편도 배경 */
 		#roundTrip {
 		position: relative;
@@ -182,8 +170,10 @@
 		    opacity : 0.7;
 		    z-index: -2;
 		}
-		/* 달력 css */
+		/* 달력 css 
 		.ui-datepicker { width: 20em; padding: .2em .2em 0;font-size: 14px; height:10px;}
+		*/
+		
 		/* 인원 수량 */
 		#decreaseQuantity , #decreaseQuantity2 , #decreaseQuantity3{
 		word-break: break-all;
@@ -222,29 +212,7 @@
 		background: url("//openimage.interpark.com/tourpark/tour_ui/common/btn/plus.png") no-repeat 0 0;
 		
 		}
-		/*  #numberUpDown{
-		width: 300px;
-		  height: 50px;
-		  background-color: gray;
-		  border: none;
-		} */
-		.round-trip.on{
-		line-height: 1.2;
-		color: #646464;
-		word-break: break-all;
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		font-size: 13px;
-		font-family: "Nanum Gothic", malgun Gothic, dotum;
-		letter-spacing: -.3px;
-		display: table-cell;
-		width: 33.33%;
-		box-sizing: border-box;
-		text-align: center;
-		}
-		
-		
+		.ui-kronos{ font-size: 12px; width: 160px; }
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -263,9 +231,10 @@ $(function() {
 var rangeDate = 500; // set limit day
 var setSdate, setEdate;
 $(function() {
-$("#from").datepicker({
+$("#from").kronos({
     dateFormat: 'yy-mm-dd',
     minDate: 0,
+    
     onSelect: function(selectDate){
         var stxt = selectDate.split("-");
             stxt[1] = stxt[1] - 1;
@@ -273,10 +242,10 @@ $("#from").datepicker({
         var edate = new Date(stxt[0], stxt[1], stxt[2]);
             edate.setDate(sdate.getDate() + rangeDate);
         
-        $('#to').datepicker('option', {
+        $('#to').kronos('option', {
             minDate: selectDate,
             beforeShow : function () {
-                $("#to").datepicker( "option", "maxDate", edate );                
+                $("#to").kronos( "option", "maxDate", edate );                
                 setSdate = selectDate;
                 console.log(setSdate)
         }});
@@ -286,7 +255,7 @@ $("#from").datepicker({
 });
 });
 $(function() {
-	$("#to").datepicker({ 
+	$("#to").kronos({ 
 	    dateFormat: 'yy-mm-dd',
 	    onSelect : function(selectDate){
 	        setEdate = selectDate;
@@ -307,28 +276,7 @@ $(function() {
  
 	
 });
-///////////////////////////// table 숨기기, 나타내기
-/* function doShow() { 
-    if ($('#domestic').is(":visible")) { 
-        $('#domestic').hide(); // id값을 받아서 숨기기 
-        $('#icon').show();
-    } else { 
-        $('#domestic').show(); // id값을 받아서 보이기 
-        $('#icon').hide();
-       
-    } 
-} 
 
-function Show() { 
-    if ($('#europe').is(":visible")) { 
-        $('#europe').hide(); // id값을 받아서 숨기기 
-     //   $('#icon').show();
-    
-    } else { 
-        $('#europe').show(); // id값을 받아서 보이기 
-     //   $('#icon').hide();
-    } 
-}  */
 
 function doShow() { 
 		if ($('#domestic').css("display","none")) { 
@@ -528,7 +476,7 @@ function europe(obj) {
 					 <div class="input-group-append">
 					  <span class="input-group-text" id="basic-addon2"><i class="fas fa-plane" id="iconf" style="font-size:15px;"></i></span>
 			  			<i class="fas fa-arrows-alt-h" id="arraw" style="font-size:25px;Padding-left:80px;"></i>
-			  		</div>
+			  		 </div>
 			  		<table class="table" id="domestic" style="width: 300px; display: none;">
 						 <tbody>	
 							<tr>
@@ -556,14 +504,14 @@ function europe(obj) {
 						<br/><br/>
 						<div class="row">
 						 <div class="col-sm-4" id="depIcon" style="margin-left:-15px;">
-				    		<input type="text" class="form-control" placeholder="출발날짜 선택" style="width:120px;font-size:14px;height:30px;float:left;" id="from" name="depDate">
+				    		<input type="text" class="form-control" placeholder="출발날짜 선택" style="width:120px;float:left;" id="from" name="depDate">
 						  	<div class="input-group-append">
 						    	<span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
 						  	</div>
 						
 						</div>
 				   		 <div class="col-sm-4" id="arrIcon">
-				   		 	 <input type="text" class="form-control" placeholder="도착날짜 선택"  style="width:120px;font-size:14px;height:30px;float:left;" id="to" name="arrDate">
+				   		 	 <input type="text" class="form-control" placeholder="도착날짜 선택"  style="width:120px;float:left;" id="to" name="arrDate">
 							  <div class="input-group-append">
 							    <span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
 							  </div>

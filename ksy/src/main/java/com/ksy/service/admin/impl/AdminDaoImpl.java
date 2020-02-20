@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.ksy.common.Search;
 import com.ksy.service.admin.AdminDao;
 import com.ksy.service.domain.Comment;
+import com.ksy.service.domain.Post;
 import com.ksy.service.domain.User;
 
 @Repository("adminDaoImpl")
@@ -70,4 +71,10 @@ public class AdminDaoImpl implements AdminDao {
 		sqlSession.insert("AdminMapper.addQnaComment");
 	}
 	
+	public List<Post> getAdminQnAList(Search search) throws Exception{
+		
+		System.out.println("AdminDaoImpl getAdminQnAList");
+		
+		return sqlSession.selectList("adminMapper.getAdminQnAList", search);
+	}
 }

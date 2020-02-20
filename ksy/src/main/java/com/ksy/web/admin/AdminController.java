@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ksy.common.Page;
 import com.ksy.common.Search;
 import com.ksy.service.admin.AdminService;
+import com.ksy.service.domain.Post;
 import com.ksy.service.domain.User;
 import com.ksy.service.user.UserService;
 
@@ -95,6 +96,40 @@ public class AdminController {
 		System.out.println("model ==>"+model);
 		
 		return "forward:/view/user/getUser.jsp";
+		
+	}// end of getUser
+	
+	
+	@RequestMapping(value="getAdminQnAList", method=RequestMethod.GET)
+	public String getAdminQnAList(@RequestParam("search") Search search, Model model) throws Exception {
+		
+		System.out.println(this.getClass()+"getAdminQnaList");
+		
+		Post post = new Post();
+		
+		//현재 페이지가 null일 경우 디폴트 1로 유지
+		if(search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		//map에  getUserList 담기
+		Map<String, Object> map = adminservice.getAdminQnAList(search);
+		
+		//페이지를 눌렀을때 결과페이지의 페이지값을 찾아오는 작업 
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(),
+				pageUnit, pageSize);
+		System.out.println(resultPage);
+		System.out.println("map.get ==>"+map.get("list"));
+		
+		//view(jsp)로 데이터전송
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search",search);
+		
+		System.out.println("model ==>"+model);
+		
+		return "forward:/view/admin/getAdminQnAList.jsp";
 		
 	}// end of getUser
 	
