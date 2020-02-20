@@ -3,8 +3,8 @@ package com.ksy.web.admin;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
-import org.junit.validator.ValidateWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,11 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ksy.common.Page;
 import com.ksy.common.Search;
 import com.ksy.service.admin.AdminService;
-import com.ksy.service.domain.Post;
 import com.ksy.service.domain.User;
 import com.ksy.service.user.UserService;
-
-import net.bytebuddy.asm.Advice.This;
 
 @Controller
 @RequestMapping("/admin/*")
@@ -49,11 +46,22 @@ public class AdminController {
 	int pageSize;
 	
 	@RequestMapping(value="getUserList")
-	public String getUserList(@ModelAttribute("search") Search search, Model model, HttpServletRequest request) throws Exception {
+	public String getUserList(@ModelAttribute("search") Search search, Model model, HttpSession session) throws Exception {
 		
 		System.out.println(this.getClass()+"getUserList");
 		
+		
 		User user = new User();
+		
+//		계정이 admin이 아닐경우 접속을 막기위해
+		user= (User)session.getAttribute("user");
+		if(!user.getUserId().equals("admin")) {
+			return "redirect:/";
+		}
+		
+		System.out.println("getAttribute ==>"+session.getAttribute("user"));
+		
+		
 		
 		//현재 페이지가 null일 경우 디폴트 1로 유지
 		if(search.getCurrentPage() == 0) {
@@ -101,11 +109,17 @@ public class AdminController {
 	
 	
 	@RequestMapping(value="getAdminQnAList", method=RequestMethod.GET)
-	public String getAdminQnAList(@RequestParam("search") Search search, Model model) throws Exception {
+	public String getAdminQnAList(@ModelAttribute("search") Search search, Model model, HttpSession session ) throws Exception {
 		
 		System.out.println(this.getClass()+"getAdminQnaList");
 		
-		Post post = new Post();
+		User user = new User();
+		
+//		계정이 admin이 아닐경우 접속을 막기위해
+		user= (User)session.getAttribute("user");
+		if(!user.getUserId().equals("admin")) {
+			return "redirect:/";
+		}
 		
 		//현재 페이지가 null일 경우 디폴트 1로 유지
 		if(search.getCurrentPage() == 0) {
@@ -129,7 +143,7 @@ public class AdminController {
 		
 		System.out.println("model ==>"+model);
 		
-		return "forward:/view/admin/getAdminQnAList.jsp";
+		return "forward:/view/admin/adminQnaList.jsp";
 		
 	}// end of getUser
 	

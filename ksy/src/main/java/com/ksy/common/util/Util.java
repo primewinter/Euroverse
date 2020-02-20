@@ -90,7 +90,8 @@ public class Util {
 						}
 					}
 					//원래 cityList의 종료일자 세팅 :: fullCalendar의 마지막 일자는 달력에 표시가 안돼서 실제 종료일자 + 1 해서 셋팅!
-					cityList.get(i).setEndDateStr(  new Timestamp( ((Timestamp)startDate.clone()).getTime() + (1000*60*60*24) ).toString().substring(0,10) );
+					//cityList.get(i).setEndDateStr(  new Timestamp( ((Timestamp)startDate.clone()).getTime() + (1000*60*60*24) ).toString().substring(0,10) );
+					cityList.get(i).setEndDateStr(  new Timestamp( ((Timestamp)startDate.clone()).getTime()  ).toString().substring(0,10) );
 				}
 				
 				// 해당 도시의 마지막 체류일 전.....이면서 첫번째 체류일이 아닌 경우

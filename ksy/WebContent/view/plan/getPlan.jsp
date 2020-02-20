@@ -333,7 +333,7 @@
 	    min-height: 50%;
 	    max-height: 85%;
 	    list-style-type: none; 
-	    margin: 5px;
+	    margin: 8px;
 	    padding: 5px; 
 	    float: left;
 	    overflow: hidden auto;
@@ -347,10 +347,10 @@
 	  	background-color: #FAFAFA;
 	  }
 	  #doing_list{
-	  	background-color: #E2F4F3;
+	  	background-color: #EAF9FA;
 	  }
 	  #done_list{
-	  	background-color: #C5ECE9;
+	  	background-color: #D4F6F9;
 	  }
 	  
 	 
@@ -534,7 +534,8 @@
 									setDaily(dailyList[i]);
 								}
 							}
-							closeModal('dailyEdit');
+							//closeModal('dailyEdit');
+							$('#dailyEdit').modal('hide');
 						},
 						error:function(request,status,error){
 					        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -930,7 +931,7 @@
 			
 			$(document).on('mouseover', '.todo_item', 
 				function() {
-		            $(this).css('color', '#039088').css('fontWeight','bolder');
+		            $(this).css('color', '#03657E').css('fontWeight','bolder');
 		            $(this).find('.deleteTodo').show();
 		    	}
 			);
@@ -940,6 +941,18 @@
 		            $(this).find('.deleteTodo').hide();
 		        }
 			);
+		    
+		    
+		    $('#stuffMode').hover(
+	    		function() {
+		            $(this).css('color', '#08B5BA');
+		        },
+		        function() {
+		            $(this).css('color', 'black');
+		        }
+		    );
+		    
+		    
 		});
 		
 		/* ------------------------------------------------------------------------------------------------------ */
@@ -1212,7 +1225,8 @@
 			if( typeof $("."+modalName)[0] != "undefined" ){
 				$("."+modalName)[0].reset();		//form에 모달 이름과 같은 클래스명 주기
 			}
-			$("#"+modalName).hide();
+			//$("#"+modalName).hide();
+			$('#'+modalName).modal('hide');
 		}
 		
 		/* 글자 흔들기 */
@@ -1231,6 +1245,22 @@
 					}, 500); 
 			}); 
 		}); 
+		
+		
+		
+		//.show() -> .modal() 로 변경하면서 closeModal시 수행할 기능들 다시 이벤트 걸어주기...
+		$(function() {
+			
+			$('.modal').on('hidden.bs.modal', function(){
+				var modalId = $(this).attr('id');
+				//closeModal(modalId);
+				if( typeof $("."+modalId)[0] != "undefined" ){
+					$("."+modalId)[0].reset();		//form에 모달 이름과 같은 클래스명 주기
+				}
+				
+			});
+			
+		});
 		
 	</script>
 	
@@ -2094,7 +2124,7 @@
 							
 							if( $('#todo_list_container').find('.addTodo').text() == '' ){
 								todoListHeight = todoListHeight - 50;
-								var addTodoHtml = '<div class="addTodo row align-middle" style="width: 100%; margin-left:15px; margin-top:5px; padding-top:5px;"><i class="fas fa-pencil-alt" style="margin-top: 10px;width: 7%;"></i><input type="text" class="form-control" name="todoName" style="margin-left:5px; width: 70%; " placeholder="새로운 Todo 입력"> <button style="margin-bottom: 5px; margin-left: 5px;width: 13%;" type="button" class="btn btn-primary" onclick="addTodo()">+</button> </div>';
+								var addTodoHtml = '<div class="addTodo row align-middle" style="width: 100%; margin-left:15px; padding-top:10px;"><i class="fas fa-pencil-alt" style="margin-top: 10px;width: 7%;"></i><input type="text" class="form-control" name="todoName" style="margin-left:5px; width: 70%; " placeholder="새로운 Todo 입력"> <button style="margin-bottom: 5px; margin-left: 5px;width: 13%;" type="button" class="btn btn-primary" onclick="addTodo()">+</button> </div>';
 								$('#todo_list').before($(addTodoHtml));
 							}else{
 								todoListHeight = todoListHeight + 50;
@@ -2316,8 +2346,8 @@
 												<div style="margin-top: 10px;">
 													<c:forEach var="i" begin="9" end="20">
 														
-														<div class="dailys" style="border-top:1px solid #efefef; height:30px;font-size:8pt;color:#c0c0c0;padding-left:10px; padding: 5px;" onclick="openDailyEdit( '${day.cityNames}', '${day.dateString}' ,${day.dayNo},${i},${plan.planId});">
-															${i} <div style=" margin-left:10px; background-color: white; font-size:10pt; display:inline-block;" id="daily_${day.dayNo}_${i}"></div></div>
+														<div class="dailys" style="border-top:1px solid #efefef; height:30px;font-size:10pt;color:#9B9B9B;padding-left:10px; padding: 5px;" onclick="openDailyEdit( '${day.cityNames}', '${day.dateString}' ,${day.dayNo},${i},${plan.planId});">
+															${i} <div style=" margin-left:10px; background-color: inherit; color:black; font-size:10pt; display:inline-block;" id="daily_${day.dayNo}_${i}"></div></div>
 													</c:forEach>
 												</div>
 											</div>
@@ -2860,20 +2890,287 @@
 		        center: paris,
 		        zoom: 3,			/* zoom: 1:World, 5:Landmass/continent, 10:City, 15:Streets, 20:Buildings */
 		        //mapTypeId :'terrain',
-		        styles: [
+		        //styles: [
 		        	/* { "elementType": "geometry", "stylers": [ { "color": "#ffffff" } ] }, */
-		        	  { "elementType": "labels.icon", "stylers": [ { "color": "#e5e5e5" }, { "visibility": "off" } ] },
+		        	  /* { "elementType": "labels.icon", "stylers": [ { "color": "#e5e5e5" }, { "visibility": "off" } ] },
 		        	  { "elementType": "labels.text.fill", "stylers": [ { "color": "#c3c3c3" } ] },
-		        	  { "featureType": "administrative", "elementType": "geometry", "stylers": [ { "visibility": "off" } ] },
+		        	  { "featureType": "administrative", "elementType": "geometry", "stylers": [ { "visibility": "off" } ] }, */
 		        	  /* { "featureType": "administrative.land_parcel", "stylers": [ { "visibility": "off" } ]}, */
-		        	  { "featureType": "administrative.locality", "stylers": [ { "visibility": "simplified" } ] },
-		        	  { "featureType": "administrative.neighborhood", "stylers": [ { "visibility": "off" } ] },
+		        	  /* { "featureType": "administrative.locality", "stylers": [ { "visibility": "simplified" } ] },
+		        	  { "featureType": "administrative.neighborhood", "stylers": [ { "visibility": "off" } ] }, */
 		        	  /* { "featureType": "poi", "stylers": [ { "visibility": "off" } ] }, */
 		        	  /* { "featureType": "road", "stylers": [ { "visibility": "off" } ] }, */
-		        	  { "featureType": "transit", "stylers": [ { "visibility": "off" } ] },
-		        	  { "featureType": "water", "elementType": "geometry", "stylers": [ { "color": "#B5F8FF" } ] },
+		        	  /* { "featureType": "transit", "stylers": [ { "visibility": "off" } ] },
+		        	  { "featureType": "water", "elementType": "geometry", "stylers": [ { "color": "#B5F8FF" } ] }, */
 		        	  /* { "featureType": "water", "elementType": "labels.text", "stylers": [ { "visibility": "off" } ] } */
-		        ]
+		        //]
+		    	styles: [
+		    		  {
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#ebe3cd"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#79524f"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "elementType": "labels.text.stroke",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#f5f1e6"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "administrative",
+		    			    "elementType": "geometry.stroke",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#c9b2a6"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "administrative.land_parcel",
+		    			    "elementType": "geometry.stroke",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#dcd2be"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "administrative.land_parcel",
+		    			    "elementType": "labels",
+		    			    "stylers": [
+		    			      {
+		    			        "visibility": "off"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "administrative.land_parcel",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#ae9e90"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "landscape.natural",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#fcf9f5"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "poi",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#e7dec2"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "poi",
+		    			    "elementType": "labels.text",
+		    			    "stylers": [
+		    			      {
+		    			        "visibility": "off"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "poi",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#93817c"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "poi.business",
+		    			    "stylers": [
+		    			      {
+		    			        "visibility": "off"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "poi.park",
+		    			    "elementType": "geometry.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#e8edde"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "poi.park",
+		    			    "elementType": "labels.text",
+		    			    "stylers": [
+		    			      {
+		    			        "visibility": "off"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "poi.park",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#447530"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road",
+		    			    "stylers": [
+		    			      {
+		    			        "visibility": "off"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#f5f1e6"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road.arterial",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#fdfcf8"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road.highway",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#f8c967"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road.highway",
+		    			    "elementType": "geometry.stroke",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#e9bc62"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road.highway.controlled_access",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#e98d58"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road.highway.controlled_access",
+		    			    "elementType": "geometry.stroke",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#db8555"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road.local",
+		    			    "elementType": "labels",
+		    			    "stylers": [
+		    			      {
+		    			        "visibility": "off"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road.local",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#806b63"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "transit.line",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#dfd2ae"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "transit.line",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#a0938b"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "transit.line",
+		    			    "elementType": "labels.text.stroke",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#ebe3cd"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "transit.station",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#dfd2ae"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "water",
+		    			    "elementType": "geometry.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#daedec"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "water",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#83a39e"
+		    			      }
+		    			    ]
+		    			  }
+		    			]
 		    });
 		    /* marker = new google.maps.Marker({
 		    	 position: paris, 
@@ -2887,14 +3184,7 @@
 		    			coords: [1, 1, 1, 12, 12, 12, 12, 1],
 		    	        type: 'poly'
 	    	        };
-		 	var lineSymbol_TRAIN_RL = {
-		 			    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
-		 			    fillColor: '#696969',
-		 			    fillOpacity: 1,
-		 			    strokeWeight: 1,
-		 			    scale: 1
-		 			}
-		 	var lineSymbol_TRAIN_LR = {
+		 	var lineSymbol = {
 		 			    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
 		 			    fillColor: '#696969',
 		 			    fillOpacity: 1,
@@ -2912,13 +3202,15 @@
 				
 				var cityMarkerList = ${cityMarkerList};
 				
+				var myIconn = new google.maps.MarkerImage("/resources/images/icon/pin-red2.png", null, null, null, new google.maps.Size(25,25));
+				
 				for( var i in cityMarkerList ){
 					console.log("cityMarkerList[i] = "+cityMarkerList[i])
 					marker[i] = new google.maps.Marker({
 							position: cityMarkerList[i].position,
 							map: map,
-							//icon: icon,
-							shape: shape,
+							icon: myIconn,
+							//shape: shape,
 							title: cityMarkerList[i].title
 					});
 					
@@ -2931,7 +3223,7 @@
 					        strokeWeight:1,
 					        geodesic: false,
 					        icons: [{
-					            icon: lineSymbol_TRAIN_LR,
+					            icon: lineSymbol,
 					            offset: '95%'
 					        }]
 						});
@@ -2955,7 +3247,7 @@
 		    
 			/* 지도 내에 버튼 만들기 */ 
 			var leftControlDiv = document.createElement('div');
-			var thtml = '<div class="text-center" style="margin-bottom:5px;margin-left:10px;font-weight:bold; color:#395E62; font-size:10pt;border:solid thin #DDDDDD ; border-radius:5px; padding:10px; background-color: white;" onClick="controlClick()"><div style="margin:5px 0;"><i class="fas fa-globe-europe" style="font-size: 30px;"></i></div><div>여행루트 수정</div></div>';
+			var thtml = '<div class="text-center" style="margin-bottom:5px;margin-left:10px;font-weight:bold; color:#024B5D; font-size:10pt;border:solid thin #DDDDDD ; border-radius:5px; padding:10px; background-color: white;" onClick="controlClick()"><div style="margin:5px 0;"><i class="fas fa-globe-europe" style="font-size: 30px;"></i></div><div>여행루트 수정</div></div>';
 			leftControlDiv.innerHTML = thtml;
 			map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(leftControlDiv);
 		    
