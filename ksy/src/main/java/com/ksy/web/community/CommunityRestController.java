@@ -17,10 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -316,7 +318,7 @@ public class CommunityRestController {
 			push.setPushType("C");
 			push.setReceiverId(postWriterId);
 			pushService.addPush(push);
-			if( !comment.getParentCmtId().equals(null)) {			//부모 댓글이 있다면 = 대댓글이라면
+			if(comment.getParentCmtId() != null) {			//부모 댓글이 있다면 = 대댓글이라면
 				parentCmtWriterId = communityService.getComment(comment.getParentCmtId()).getCmtWriterId();
 				if( !parentCmtWriterId.equals(comment.getCmtWriterId()) ) { 		//부모 댓글 작성자 =/= 대댓글 작성자
 					push.setRefId(comment.getPostId()+"");
@@ -395,6 +397,40 @@ public class CommunityRestController {
 		map.put("resultPage", resultPage);
 		map.put("search", search);
 		map.put("postId", postId);
+		
+		return map;
+	}
+	
+	@RequestMapping( value="json/getPostList", method=RequestMethod.GET )
+	public Map<String, Object> getPostList( String boardName, Search search, HttpServletRequest request ) throws Exception{
+		
+		System.out.println("/community/getPostList : GET / POST");
+		System.out.println("boardName : "+boardName);
+		
+		String bestPost = request.getParameter("bestPost");
+		System.out.println(bestPost);
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		Map<String , Object> map = new HashMap<String, Object>();
+		
+		if( boardName.equals("C") ) {
+			if( search.getSorting() == null ) {
+				search.setSorting("0");
+			}
+			map = communityService.getBestPostList(search, boardName);
+		}else {
+			map = communityService.getPostList(search, boardName);
+		}
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		map.put("resultPage", resultPage);
+		map.put("search", search);
+		map.put("boardName", boardName);
 		
 		return map;
 	}

@@ -2,6 +2,14 @@
     pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         
+        
+<!-- ///////////////////////////// 로그인시 Forward  /////////////////////////////////////// -->
+	<c:if test="${ ! empty user }">
+		<jsp:forward page="/plan/getPlanList"/>
+	</c:if>
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+        
 <!DOCTYPE html>
 
 <html lang="ko">

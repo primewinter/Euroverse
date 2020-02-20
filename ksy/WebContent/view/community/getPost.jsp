@@ -491,7 +491,7 @@
 	<br>
 	
 	  <div class="page_head clear">
-		<div class="h3" style="text-align: center;font-weight: bold;">
+		<div class="h4" style="text-align: center;font-weight: bold;">
 	     <c:if test="${param.boardName=='A'}">
 		   자유게시판
 		 </c:if>
@@ -523,9 +523,9 @@
 	  		<i onclick="addBookMark(${post.postId})" class="fas fa-bookmark fa-2x" style="float: right;"></i>
 	      </c:if>
          	<div class="far fa-angry" data-toggle="modal" data-target="#sendReport" onclick="reportshow('${post.postId}','P');" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</div>
-	     	  <h4 class="title ub-word" style="margin-bottom: 40px;">
-		      	<span class="title_subject">${post.postTitle}</span>
-		      </h4>
+	     	  <h3 class="title ub-word" style="margin-bottom: 40px;">
+		      	<span class="title_subject" style="font-weight:bold;">${post.postTitle}</span>
+		      </h3>
 	     </div>
 		
 	<div class="view_content_wrap">
@@ -540,8 +540,8 @@
 	      </span>
 	    <div class="post_history" style="float: right;">
 	      <i class="far fa-eye" style="font-size: 13px;"> ${post.views}</i>
-	      &nbsp;<i class="far fa-thumbs-up" style="font-size: 13px;"> ${post.postLikeCount}</i>
-	      &nbsp;<i class="far fa-comments" style="font-size: 13px;"> ${post.comments}</i>
+	      &nbsp;&nbsp;&nbsp;<i class="far fa-thumbs-up" style="font-size: 13px;"> ${post.postLikeCount}</i>
+	      &nbsp;&nbsp;&nbsp;<i class="far fa-comments" style="font-size: 13px;"> ${post.comments}</i>
 	    </div>
 	    </div>
 	  </div>
@@ -607,6 +607,8 @@
  	
  	<!-- 댓글 jsp include -->
 	<jsp:include page="/view/community/comment.jsp"/>
+	
+	<jsp:include page="/toolbar/pushBar_jay.jsp"/>
 	
 </body>
 

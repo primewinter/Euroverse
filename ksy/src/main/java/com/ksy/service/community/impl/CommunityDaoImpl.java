@@ -189,15 +189,27 @@ public class CommunityDaoImpl implements CommunityDao{
 		sqlSession.insert("CommunityMapper.addReport", report);
 	}
 	
-	public void dayBestReset() throws Exception {
+	synchronized public void dayBestReset() throws Exception {
+		sqlSession.delete("CommuniryMapper.deleteDayBestPost");
+		
+		sqlSession.insert("CommunityMapper.insertDayBestPost");
+		
 		sqlSession.update("CommunityMapper.dayBestReset");
 	}
 	
-	public void weekBestReset() throws Exception {
+	synchronized public void weekBestReset() throws Exception {
+		sqlSession.delete("CommuniryMapper.deleteWeekBestPost");
+		
+		sqlSession.insert("CommunityMapper.insertWeekBestPost");
+		
 		sqlSession.update("CommunityMapper.weekBestReset");
 	}
 	
-	public void monthBestReset() throws Exception {
+	synchronized public void monthBestReset() throws Exception {
+		sqlSession.delete("CommuniryMapper.deleteMonthBestPost");
+		
+		sqlSession.insert("CommunityMapper.insertMonthBestPost");
+		
 		sqlSession.update("CommunityMapper.monthBestReset");
 	}
 	
