@@ -23,6 +23,7 @@
 		<result property="planId" 				column="plan_id" 					jdbcType="VARCHAR" /> 
 		<result property="qnaFirstCate" 				column="qna_first_cate" 					jdbcType="CHAR" />
 		<result property="qnaSecondCate" 				column="qna_second_cate" 					jdbcType="CHAR" />
+		<result property="qnaKategorie" 				column="qna_kategorie" 					jdbcType="CHAR" />
 		<result property="views" 				column="views" 					jdbcType="NUMERIC" />
 		<result property="comments" 				column="comments" 		jdbcType="NUMERIC"/>
 		<result property="blocked" 				column="blocked" 					jdbcType="CHAR" />
@@ -98,9 +99,9 @@
 	
 	<insert 	id="addPost"		parameterType="post" >
 		INSERT
-		INTO post( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_content , post_date , views , blocked , deleted , post_like_count , day_best , week_best , month_best ) 
+		INTO post( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_content , post_date , views , blocked , deleted , post_like_count , day_best , week_best , month_best , qna_kategorie ) 
 		VALUES	 ( SEQ_post_post_id.NEXTVAL , #{postWriterId:VARCHAR} , #{nickName:VARCHAR} , #{boardName:CHAR} , #{postGrade:CHAR} , 
-							#{postTitle:VARCHAR} , #{postContent:CLOB} , SYSDATE , #{views:NUMERIC} , #{blocked:CHAR} , 'F' , #{postLikeCount:NUMERIC} , 0 , 0 , 0 )
+							#{postTitle:VARCHAR} , #{postContent:CLOB} , SYSDATE , #{views:NUMERIC} , #{blocked:CHAR} , 'F' , #{postLikeCount:NUMERIC} , 0 , 0 , 0 , #{qnaKategorie:CHAR} )
 	</insert>
 	
 	<update id="deletePost" parameterType="string">
@@ -245,7 +246,7 @@
 	<select  id="getPostList"  parameterType="map"	resultMap="postSelectMap">
 	  	SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
+  						FROM ( SELECT p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count , p.qna_kategorie
 										FROM post p, comments c, tag t
 										<if test="search.searchCondition != null">
 										  <trim prefix="WHERE" prefixOverrides="AND | OR">
@@ -268,7 +269,7 @@
 											  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.board_name = #{boardName}
 										  </where>
 										</if> 
-										GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count
+										GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , p.qna_kategorie
 										ORDER BY DECODE ( p.post_grade, 'N', 1, 'B', 2 ) ) inner_table
   						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
   		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
@@ -278,8 +279,8 @@
 	<select  id="getBestPostList"  parameterType="map"	resultMap="postSelectMap">
 	  	SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count , p.day_best
-										FROM post p, comments c, tag t
+  						FROM ( SELECT p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count , p.day_best , p.week_best , p.month_best
+										FROM best_post p, comments c, tag t
 										<if test="search.searchCondition != null">
 										  <trim prefix="WHERE" prefixOverrides="AND | OR">
 											<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
@@ -292,17 +293,44 @@
 										 		t.tag_content LIKE '%${search.searchKeyword}%'
 											</if>
 											<if test="search.searchCondition != null">
-												AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.day_best IS NOT NULL
+												AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND
+												<if test="search.sorting == 0 and search.sorting !=''">
+												  day_best IS NOT NULL
+												</if> 
+												<if test="search.sorting == 1 and search.sorting !=''">
+												  week_best IS NOT NULL
+												</if> 
+												<if test="search.sorting == 2 and search.sorting !=''">
+												  month_best IS NOT NULL
+												</if> 
 											</if> 
 										  </trim>
 										</if>
 										<if test="search.searchCondition == null">
 										  <where>
-											  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.day_best IS NOT NULL
+											  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND
+											  <if test="search.sorting == 0 and search.sorting !=''">
+											    day_best IS NOT NULL
+										      </if> 
+											  <if test="search.sorting == 1 and search.sorting !=''">
+											    week_best IS NOT NULL
+											  </if> 
+											  <if test="search.sorting == 2 and search.sorting !=''">
+											    month_best IS NOT NULL
+											  </if> 
 										  </where>
 										</if>
-										GROUP BY p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , p.day_best
-										ORDER BY p.day_best desc ) inner_table
+										GROUP BY p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , p.day_best , p.week_best , p.month_best
+										ORDER BY 
+										<if test="search.sorting == 0 and search.sorting !=''">
+										  day_best desc
+										</if> 
+										<if test="search.sorting == 1 and search.sorting !=''">
+										  week_best desc
+										</if> 
+										<if test="search.sorting == 2 and search.sorting !=''">
+										  month_best desc
+										</if> ) inner_table
   						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
   		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
   		AND #{search.currentPage}*#{search.pageSize}
@@ -424,6 +452,39 @@
 				blocked = 'F'
 			</set>
 		WHERE cmt_id = ${value}
-	</update>	 
+	</update>
+	
+	<insert id="insertDayBestPost">
+    	INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best )
+    	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best
+    	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best
+    			FROM post WHERE day_best IS NOT NULL ORDER BY day_best desc ) WHERE ROWNUM <![CDATA[<=]]> 100
+	</insert>	 
+	
+	<insert id="insertWeekBestPost">
+		INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best )
+    	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best
+    	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best
+    			FROM post WHERE week_best IS NOT NULL ORDER BY week_best desc ) WHERE ROWNUM <![CDATA[<=]]> 100
+	</insert>	 
+	
+	<insert id="insertMonthBestPost">
+		INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best )
+    	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best
+    	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best
+    			FROM post WHERE month_best IS NOT NULL ORDER BY month_best desc ) WHERE ROWNUM <![CDATA[<=]]> 100
+	</insert>	 
+	
+	<delete id="deleteDayBestPost">
+		DELETE FROM best_post WHERE day_best IS NOT NULL
+	</delete>
+	
+	<delete id="deleteWeekBestPost">
+		DELETE FROM best_post WHERE week_best IS NOT NULL
+	</delete>
+	
+	<delete id="deleteMonthBestPost">
+		DELETE FROM best_post WHERE month_best IS NOT NULL
+	</delete>
 	
 </mapper>

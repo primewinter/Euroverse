@@ -55,13 +55,14 @@ $(function() {
 	     var location = $("#location").val();
 	     var distance = $("#distance").val();
 	     var grade = $("#grade").val();
+	     var roomAddr = $("#roomAddr").val();
 	     
 	     $("#checkIn").val(checkIn);
 	     
 		 alert(detailLink+"price"+price+"room : "+roomCity+"checkIn : "+checkIn);
 		 self.location ="/room/getRoom?detailLink="+detailLink+"&price="+price+"&roomCity="+roomCity+"&checkIn="+checkIn
 				 +"&roomNum="+roomNum+"&adultNum="+adultNum+"&childNum="+childNum+"&checkOut="+checkOut+"&location="+location
-				 +"&distance="+distance+"&grade="+grade;
+				 +"&distance="+distance+"&grade="+grade+"&roomAddr="+roomAddr;
 	  //$("form").attr("method" , "POST").attr("action" , "/room/getRoom").submit();
 
 	});
@@ -124,6 +125,7 @@ $(function() {
 							    	<input type="hidden" name="checkOut" value=" ${room.checkOut}" id="checkOut">
 							    	<input type="hidden" name="location" value=" ${room.location}" id="location">
 							    	<input type="hidden" name="distance" value=" ${room.distance}" id="distance">
+							    	<input type="hidden" name="roomAddr" value=" ${room.roomAddr}" id="roomAddr">
 							    	<input type="hidden" name="grade" value=" ${room.grade}" id="grade">
 							</div>
 					</div>

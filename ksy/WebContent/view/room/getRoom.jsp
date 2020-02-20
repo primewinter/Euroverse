@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- 가격 콤마 추가 -->
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="java.util.*" %>
 
@@ -49,14 +50,25 @@ $(function() {
 	     var checkOut = $("#checkOut").val();
 	     var checkIn = $("#checkIn").val();
 	     var roomNum = $("#roomNum").val();
+	     var roomAddr = $("#roomAddr").val();
+	     
+	     var mainService = $("#mainService").val();
+	     var familyService = $("#familyService").val();
+	     var sights = $("#sights").val();
+	     var hotelInfo = $("#hotelInfo").val();
+	     var roomInfo = $("#roomInfo").val();
+	     
+	     alert("price : "+price+"roomName : "+roomName+"adult : "+adultNum+"child : "+childNum+"checkOut : "+checkOut+"checkIn : "+checkIn+"roomNum : "+roomNum)
 	     //var location = $("#location").val();
 	     //var distance = $("#distance").val();
 	     //var grade = $("#grade").val();
 	     
 	     //$("#checkIn").val(checkIn);
 	     
-		 self.location ="/room/getRoom?roomName="+roomName+"&price="+price+"&roomCity="+roomCity+"&checkIn="+checkIn
-				 +"&roomNum="+roomNum+"&adultNum="+adultNum+"&childNum="+childNum+"&checkOut="+checkOut;
+		 self.location ="/order/addRoomOrder?roomName="+roomName+"&price="+price+"&roomCity="+roomCity+"&checkIn="+checkIn
+				 +"&roomNum="+roomNum+"&adultNum="+adultNum+"&childNum="+childNum+"&checkOut="+checkOut+"&mainService="+mainService
+				 +"&familyService="+familyService+"&sights="+sights+"&hotelInfo="+hotelInfo+"&roomInfo="+roomInfo;
+				 
 		 
 	});
 });	
@@ -105,7 +117,7 @@ $(function() {
 								<p style="font-size:18px;"><strong><i class="fas fa-heart"></i>&nbsp;&nbsp;${room.grade}</strong></p>
 							</div>
 							<div class="col-sm-4" style="Padding-left:30px">
-								<div class="row" id="price" style="margin-left:10px;">
+								<div class="row" style="margin-left:10px;">
 										<i class="fas fa-won-sign" style="font-size:22px;"><fmt:formatNumber value="${room.price}" pattern="###,###" /> 원</i>
 								</div>
 								<br/>
@@ -118,10 +130,14 @@ $(function() {
 							    	<input type="hidden" name="adultNum" value=" ${room.adultNum}" id="adultNum">
 							    	<input type="hidden" name="childNum" value=" ${room.childNum}" id="childNum">
 							    	<input type="hidden" name="roomNum" value=" ${room.roomNum}" id="roomNum">
-									
-							    	<input type="hidden" name="adultNum" value=" ${room.adultNum}" id="adultNum">
-							    	<input type="hidden" name="childNum" value=" ${room.childNum}" id="childNum">
-							    	<input type="hidden" name="roomNum" value=" ${room.roomNum}" id="roomNum">
+							    	<input type="hidden" name="roomName" value=" ${room.roomName}" id="roomName">
+							    	<input type="hidden" name="roomAddr" value=" ${room.roomAddr}" id="roomAddr">
+							    	
+							    	<input type="hidden" name="mainService" value=" ${room.mainService}" id="mainService">
+							    	<input type="hidden" name="familyService" value=" ${room.familyService}" id="familyService">
+							    	<input type="hidden" name="sights" value=" ${room.sights}" id="sights">
+							    	<input type="hidden" name="hotelInfo" value=" ${room.hotelInfo}" id="hotelInfo">
+							    	<input type="hidden" name="roomInfo" value=" ${room.roomInfo}" id="roomInfo">
 							</div>
 					</div>
 					</div>

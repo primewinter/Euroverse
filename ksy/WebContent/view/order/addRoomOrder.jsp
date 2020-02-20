@@ -2,7 +2,8 @@
     pageEncoding="EUC-KR"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@page import="java.util.*" %>    
 
 <html>
 <head>
@@ -73,21 +74,27 @@
     window.onload = function () {
     	var price = $("#prices").val(); //상품 가격
     	var total = $("#usertotalPoint").val(); // 원래 있던 총 보유 포인트
+    	var payPoint = $("#payPoint").val(); //사용할 포인트
+    	
     	console.log("total Point : "+total);
     	console.log("price"+$("#prices").val());
+    	
     	var totalAmount = $("#totalAmount").val(price); // 총결제금액
     	var actualAmount = $("#actualAmount").val(price); // 실결제금액
+    	
     	console.log("actualAmount : "+actualAmount);
     	
-    	$("#usedPoint").val("0");
-    	$("#addPoint").val("0");
+    	var calculation = price - payPoint; //상품가격 - 사용할 포인트 = 실결제금액 계산
+    	var addPoint = $("#addPoint").val(Math.floor(calculation * 0.01)); //적립예정 금액
+    	
+    	$("#usedPoint").val(0);
     	};	
     	
        function call(){
     	
     	var price = $("#prices").val(); //상품가격
- 	   var totalAmount = $("#totalAmount").text(); //총 가격
- 	   var total = $("#usertotalPoint").val();
+ 	   	var totalAmount = $("#totalAmount").text(); //총 가격
+ 	   	var total = $("#usertotalPoint").val();
      	var payPoint = $("#payPoint").val(); //사용할 포인트 
     	   
         	
@@ -112,25 +119,28 @@
     		var addPoint = $("#addPoint").val(Math.floor(calculation * 0.01)); //적립예정 금액
     		console.log("addPoint"+addPoint);
     		
-    		if ($("#usedPoint").val() == 0 & $("#addPoint").val() == 0) {
-    	    	$("#usedPoint").val("0");
-    	    	$("#addPoint").val("0");
-    			
+    		if ($("#usedPoint").val() == 0 ) {
+    	    	$("#usedPoint").val(0);
     		}
     };	
+    
     
     
     $( function () {
     	$('button.btn.btn-primary').on('click' , function () {
     		var actualAmount = $("#actualAmount").val();
+    		var payPoint = $("#payPoint").val(); //사용할 포인트
     		var buyerEmail = $("#buyerEmail").val();
     		var buyerName = $("#buyerName").val();
     		var buyerPhone = $("#buyerPhone").val();
+    		if ($("#payPoint").val() == null | $("#payPoint").val() == "" | $("#payPoint").val() == 0) {
+    			$("#zeroPoint").val(0);
+			}else{
+				$("#zeroPoint").val(payPoint);
+			}
     		
     		var buyerEmail = $("#str_email01").val()+$("#middle").text()+$("#selectEmail").val();
-        	console.log("buyerEmail : "+buyerEmail);
         	var buyerPhone = $("#mobile0").val()+$("#mobile1").val()+$("#mobile2").val();
-        	console.log("buyerPhone : "+buyerPhone);
         	
         	$("#email").val(buyerEmail);
         	$("#phone").val(buyerPhone);
@@ -159,7 +169,6 @@
     							        msg += '카드 승인번호 : ' + rsp.apply_num;
     									msg += '회원 아이디 : ' + '${user.userId}';
     									msg += '결제일시' + rsp.paid_at;
-    									msg += '??' + rsp.vbank_name;
     									msg += 'status '+ rsp.pay_method;
     									msg += '할부'+ rsp.card_quota;
     									
@@ -182,12 +191,12 @@
     							    } else {
     							        var msg = '결제에 실패하였습니다.';
     							        msg += '에러내용 : ' + rsp.error_msg;
-    	    							  $("form").attr("method" , "GET").attr("action" , "/view/order/addFlightOrder.jsp").submit();
+    	    							  $("form").attr("method" , "GET").attr("action" , "/view/room/getRoom.jsp").submit();
     							    }
     						        alert(msg);
     						        alert("input imp_uid : "+$("#userId").val());
     						    
-    							  $("form").attr("method" , "POST").attr("action" , "/order/addFlightOrder").submit();
+    							  $("form").attr("method" , "POST").attr("action" , "/order/addRoomOrder").submit();
     					});	
     				}); 
     	
@@ -203,15 +212,16 @@
 	<jsp:include page="/toolbar/toolBar.jsp" />
 <div class="container"><br/>
 	
-	<form >
+	<form>
 	<input type="hidden" name="orderId" value= "" id="orderId"/>
 	<input type="hidden" name="price" value= "" id="price"/>
 	<input type="hidden" name="userId" value= "" id="userId"/>
 	<input type="hidden" name="payInstal" value= "" id="payInstal"/>
 	<input type="hidden" name="buyerEmail" value= "" id="email"/>
 	<input type="hidden" name="buyerPhone" value= "" id="phone"/>
+	<input type="hidden" name="payPoint" value= "" id="zeroPoint"/>
 	
-	<i class="fas fa-plane" id="iconf" style="Padding-left:20px;font-size:40px;" ></i>
+	<i class="fas fa-bed" id="iconf" style="Padding-left:20px;font-size:40px;" ></i>
 	<br/>
 		<table class="table">
 			  <thead>
@@ -229,9 +239,9 @@
 			      <th scope="row">${room.roomName}</th>
 			      <td>${room.checkIn}</td>
 			      <td>${room.checkOut}</td>
-			      <td>${room.roomNum}</td>
+			      <td>${room.roomNum} 개</td>
 			      <td>성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
-			      <td>${room.price}원</td>
+			      <td><fmt:formatNumber value="${room.price}" pattern="###,###" /> 원</td>
 			    </tr>
 			  </tbody>
 			  
@@ -325,7 +335,6 @@
 					</div>
 				</div>
 			
-			</div>
 		<br/><br/>
 		<div class="form-group" align="center">
    		 <div class="col-sm-offset-4  col-sm-4 text-center">

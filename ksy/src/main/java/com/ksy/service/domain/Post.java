@@ -20,6 +20,7 @@ public class Post {
 	private int accPerson; //acc_person 
 	private Timestamp accStartDate; //acc_start_date
 	private Timestamp accEndDate; //acc_end_date
+	private String qnaKategorie;
 	
 	private String accStartDateStr;
 	private String accEndDateStr;
@@ -287,17 +288,25 @@ public class Post {
 		this.prevTitle = prevTitle;
 	}
 
+	public String getQnaKategorie() {
+		return qnaKategorie;
+	}
+
+	public void setQnaKategorie(String qnaKategorie) {
+		this.qnaKategorie = qnaKategorie;
+	}
+
 	@Override
 	public String toString() {
 		return "Post [boardName=" + boardName + ", postId=" + postId + ", postGrade=" + postGrade + ", postNo=" + postNo
 				+ ", postContent=" + postContent + ", postTitle=" + postTitle + ", postWriterId=" + postWriterId
 				+ ", nickName=" + nickName + ", postDate=" + postDate + ", accCount=" + accCount + ", accPerson="
-				+ accPerson + ", accStartDate=" + accStartDate + ", accEndDate=" + accEndDate + ", accStartDateStr="
-				+ accStartDateStr + ", accEndDateStr=" + accEndDateStr + ", postLikeCount=" + postLikeCount + ", views="
-				+ views + ", comments=" + comments + ", blocked=" + blocked + ", tags=" + tags + ", postLikeFlag="
-				+ postLikeFlag + ", deleted=" + deleted + ", planId=" + planId + ", qnaFirstCate=" + qnaFirstCate
-				+ ", qnaSecondCate=" + qnaSecondCate + ", nextId=" + nextId + ", nextTitle=" + nextTitle + ", prevId="
-				+ prevId + ", prevTitle=" + prevTitle + "]";
+				+ accPerson + ", accStartDate=" + accStartDate + ", accEndDate=" + accEndDate + ", qnaKategorie="
+				+ qnaKategorie + ", accStartDateStr=" + accStartDateStr + ", accEndDateStr=" + accEndDateStr
+				+ ", postLikeCount=" + postLikeCount + ", views=" + views + ", comments=" + comments + ", blocked="
+				+ blocked + ", tags=" + tags + ", postLikeFlag=" + postLikeFlag + ", deleted=" + deleted + ", planId="
+				+ planId + ", qnaFirstCate=" + qnaFirstCate + ", qnaSecondCate=" + qnaSecondCate + ", nextId=" + nextId
+				+ ", nextTitle=" + nextTitle + ", prevId=" + prevId + ", prevTitle=" + prevTitle + "]";
 	}
 
 }

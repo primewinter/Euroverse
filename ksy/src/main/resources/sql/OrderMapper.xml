@@ -72,7 +72,7 @@
   	<select id="getFlightOrder" parameterType="String" resultMap="orderSelectMap">
   		SELECT 
 		f.flight_id , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.flight_id
-		FROM orders o , flight f
+		FROM orders o , flight f 
 		WHERE f.flight_id = ${value}
 					AND f.flight_id=o.flight_id(+)
   	</select>
@@ -80,8 +80,8 @@
   	<select id="getRoomOrder" parameterType="String" resultMap="orderSelectMap">
   		SELECT 
 		r.room_id, o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.room_id
-		FROM orders o , room r
-		WHERE order_id = #{value}
+		FROM orders o , room r 
+		WHERE r.room_id = #{value}
 					AND r.room_id=o.room_id(+)
 					
   	</select>
@@ -97,21 +97,30 @@
 	 </update>
 
 	 <select id="getOrderList" parameterType="map" resultMap="orderSelectMap">
-  		SELECT *
-  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM (  SELECT f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over  ,  r.room_id , r.room_name , r.price, r.check_in , r.check_out , r.room_num , r.adult_num , r.child_num , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date  
-										FROM flight f, room r,  users u , orders o 
-										WHERE o.room_id  = r.room_id(+)
-										AND o.flight_id = f.flight_id(+)
-										AND o.buyer_id = u.user_id(+)
-										AND u.user_id = #{buyerId}
-										ORDER BY order_id  ) inner_table
-  						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
-  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
-  		AND #{search.currentPage}*#{search.pageSize}
-</select>
+	  		SELECT *
+	  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+	  						FROM (  SELECT f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over  ,  r.room_id , r.room_name , r.price, r.check_in , r.check_out , r.room_num , r.adult_num , r.child_num , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date  
+											FROM flight f, room r,  users u , orders o 
+											WHERE o.room_id  = r.room_id(+)
+											AND o.flight_id = f.flight_id(+)
+											AND o.buyer_id = u.user_id(+)
+											AND u.user_id = #{buyerId}
+											ORDER BY order_id  ) inner_table
+	  						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
+	  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
+	  		AND #{search.currentPage}*#{search.pageSize}
+	</select>
 	 
-	 
+	 	 <select id="getOrderListAdmin" parameterType="search" resultMap="orderSelectMap">
+		  		SELECT *
+		  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+		  						FROM (  SELECT  flight_id, room_id, order_id , order_date, order_status , buyer_id , buyer_name , buyer_phone , buyer_email , total_amount , pay_point , actual_amount , pay_opt , refund_date  
+												FROM orders o 
+												ORDER BY order_id  ) inner_table
+		  						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
+		  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
+		  		AND #{search.currentPage}*#{search.pageSize}
+		</select>
 	 
 	 
 	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">

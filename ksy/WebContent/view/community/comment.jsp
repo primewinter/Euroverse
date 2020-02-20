@@ -110,7 +110,7 @@
 						 output += "checked"
 					}	 
 						 output += "> 비밀글 <span onclick='updateComment("+JSONData.list[i].cmtId+");' class='btn btn-dark' id='addComment' style='font-size:11px;height:20px;line-height:8px;'>등록</span>&nbsp;<span onclick='cancel("+JSONData.list[i].cmtId+");' class='btn btn-dark' style='font-size:11px;height:20px;line-height:8px;'>취소</span></div></div></div></div></form>"
-						 + "<i class='fas fa-reply-all' onclick='showrcmt("+JSONData.list[i].cmtId+")' style='margin: 0 0 10px 70px; font-size: 10px; width: 300px;'> 댓글쓰기</i>"
+						 + "<p style='margin: 0 0 10px 70px; font-size: 12px; width: 300px;' onclick='showrcmt("+JSONData.list[i].cmtId+")'><i class='fas fa-reply-all fa-rotate-180'></i> 댓글쓰기</p>"
 						 + "<div class='container' style='width: 810px; margin-right: 0;'>"	
 					     + "<div class='view_comment'>"
 						 + "<form class='form-horizontal' id='"+JSONData.list[i].cmtId+"addRcmt'>"
@@ -248,7 +248,6 @@
 				dataType : "json" ,
 				success : function(JSONData , status){
 					getCommentList(1);
-					setTimeout("getRcmtList()", 100);
 				}
 			}); 
 		}
@@ -268,7 +267,6 @@
 	   			    },
 	   			    success : function(JSONData , status){
 	   			    	getCommentList(1);
-	   			    	setTimeout("getRcmtList()", 100);
 	   			    }
 				});
 			}
@@ -317,7 +315,7 @@
 			<div class="cmt_txt_cont">
 				<div class="cmt_write">
 				  <input type="text" name="nickName" id="nickName" value="${user.nickname}" readonly="readonly" style="text-align: center;font-size:13px;border: 1px solid #cecdce;color:gray;">
-			      &nbsp;<input type="checkbox" name="secret" id="secret" style="font-size:12px;"> 비밀글
+			      &nbsp;<input type="checkbox" name="secret" id="secret" value="T" style="font-size:12px;"> 비밀글
 				  <textarea id="cmtContent" name="cmtContent" maxlength="400"></textarea>
 				</div>
 				<div class="input-group mb-3">

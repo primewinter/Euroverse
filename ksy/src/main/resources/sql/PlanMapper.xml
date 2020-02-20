@@ -230,7 +230,7 @@
 		FROM plan p, todo t
 		WHERE p.deleted = 'F'
 			AND p.plan_id = t.plan_id 
-			AND t.todo_check = 'F'
+			AND t.todo_check IN ('T','I')
 			AND p.plan_status = 'R'
 			AND p.start_date > SYSDATE
 			AND p.plan_id IN ( SELECT ref_id FROM party WHERE party_user_id = #{userId} AND party_type = 'P' )
@@ -244,7 +244,7 @@
 		FROM todo t, plan p 
 		WHERE t.plan_id = p.plan_id 
 			AND t.plan_id = #{planId}
-			AND t.todo_check = 'F' 
+			AND t.todo_check IN ('T','I')
 		ORDER BY t.todo_id
 	</select>
 	
@@ -261,7 +261,7 @@
 		SELECT t.todo_name, t.todo_check
 		FROM plan p, todo t
 		WHERE p.plan_id = t.plan_id
-			AND t.todo_check = 'F'
+			AND t.todo_check IN ( 'T', 'I' )
 			AND p.plan_id = #{planId}
 	</select>
 	
@@ -280,7 +280,7 @@
 		FROM plan p, todo t
 		WHERE p.deleted = 'F' 
 			AND t.plan_id = p.plan_id
-			AND t.todo_check = 'F' 
+			AND t.todo_check IN ( 'T', 'I' )
 			AND p.plan_status = 'R'
 			AND p.start_date > SYSDATE
 			AND p.plan_id IN ( SELECT ref_id FROM party WHERE party_user_id = #{userId} AND party_type = 'P' )

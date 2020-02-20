@@ -241,6 +241,9 @@ public class CommunityController {
 		Map<String , Object> map = new HashMap<String, Object>();
 		
 		if( boardName.equals("C") ) {
+			if( search.getSorting() == null ) {
+				search.setSorting("0");
+			}
 			map = communityService.getBestPostList(search, boardName);
 		}else {
 			map = communityService.getPostList(search, boardName);

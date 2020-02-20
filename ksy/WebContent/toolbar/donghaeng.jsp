@@ -55,7 +55,6 @@
 	<style>
 
 		body {
-            padding-top : 90px;
             font-family:  'Noto Sans KR', sans-serif;
         }
          #accChat {

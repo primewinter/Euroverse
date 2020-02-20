@@ -246,75 +246,7 @@
 			  
 			</table>
 			<br/><br/>
-<!-- 			<div class="row">
-			<h4 align="left">주문자 정보</h4>
-			    <br/><br/>
-			    <table class="table" id="reserInfo" style="Padiing-right:100px;">
-                 
-                  <tbody>
-                    <tr>
-                      <th>이름
-                        <span class="point-txt">*</span>
-                      </th>
-					  	<td id="tdGName">
-					  		<input type="text" title="예약자명을 입력하세요" style="width:200px;" class="form-control" maxlength="20" name="buyerName" id="buyerName">
-					  	</td>
-					  <th>이메일
-                        <span class="point-txt">*</span>
-                      </th>
-	                      <td>
-	                        <input type="text" title="이메일주소 앞자리를 입력해주세요" style="width:200px;height:30px;"class="form-control" name="str_email01" id="str_email01" >
-	                      </td>
-	                      <td style="width:30px;Padding-left:30px;Padding-right:50px;">
-	                      	<span>@</span>
-	                      </td>
-                      <td>
-                       	 <select title="이메일 서비스 도메인을 선택해주세요." class="form-control" style="width:250px;" name="selectEmail" id="selectEmail">
-	                          <option value="">선택</option>
-	                          <option value="naver.com">naver.com</option>
-	                          <option value="gmail.com">gmail.com</option>
-	                          <option value="dreamwiz.com">dreamwiz.com</option>
-	                          <option value="freechal.com">freechal.com</option>
-	                          <option value="hanmail.net">hanmail.net</option>
-	                          <option value="hanmir.com">hanmir.com</option>
-	                          <option value="hotmail.com">hotmail.com</option>
-	                          <option value="korea.com">korea.com</option>
-	                          <option value="nate.com">nate.com</option>
-	                          <option value="paran.com">paran.com</option>
-	                          <option value="직접입력">직접입력</option>
-                        </select> 
-                      </td>
-                    </tr>
-                    
-                    <tr>
-                      <th>휴대폰
-                        <span class="point-txt">*</span>
-                      </th>
-                      <td>
-						<select title="휴대전화 식별번호를 선택해주세요."  class="form-control" style="width:200px;" name="mobile0" id="mobile0">
-                          <option value="">선택</option>
-                          <option value="010">010</option>
-                          <option value="011">011</option>
-                          <option value="016">016</option>
-                          <option value="017">017</option>
-                          <option value="018">018</option>
-                          <option value="019">019</option>
-                        </select>
-                       </td>
-                       <td style="width:20px;"> -
-                       </td>
-                       <td>
-                       	  <input type="text" title="휴대전화 국번을 입력해주세요." class="form-control" maxlength="4" name="mobile1" id="mobile1" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
-                       </td>
-                       <td style="width:20px;"> -
-                       </td>
-                       	<td >
-                         <input type="text" title="휴대전화 뒷자리를 입력해주세요." class="form-control" maxlength="4" name="mobile2" id="mobile2" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
-						</td>
-                    </tr>
-                </tbody>
-              </table>
-			</div> -->
+
 			<h4 align="left">주문자 정보</h4>
 			<hr/>
 					<div class="row">
@@ -403,7 +335,6 @@
 					</div>
 				</div>
 			
-			</div>
 		<br/><br/>
 		<div class="form-group" align="center">
    		 <div class="col-sm-offset-4  col-sm-4 text-center">

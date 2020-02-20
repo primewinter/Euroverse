@@ -590,7 +590,7 @@
 	<br>
 	
 	  <div class="page_head clear">
-		<div class="h3" style="text-align: center;font-weight: bold;">
+		<div class="h4" style="text-align: center;font-weight: bold;">
 	     동행찾기
 	    </div>
 	  </div>
@@ -605,15 +605,12 @@
 	  		<i onclick="addBookMark(${post.postId})" class="fas fa-bookmark fa-2x" style="float: right;"></i>
 	      </c:if>
          	<div class="far fa-angry" data-toggle="modal" data-target="#sendReport" onclick="reportshow('${post.postId}','P');" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</div>
-	     	  <h4 class="title ub-word" style="margin-bottom: 40px;">
-		      	  <span class="title_subject">${post.postTitle}</span>
-		      	  <button type="button" class="btn btn-outline-info" style="width: 90px; font-size: 14px; height: 30px; line-height: 15px; margin: 0 0 8px 10px" onclick="inviteUser()">동행신청</button>
-		    <br><span style="font-size: 13px;">
-		          <i class="fas fa-walking" style="font-size: 15px;"></i> 동행일자 : <fmt:formatDate value="${post.accStartDate}" pattern="yyyy-MM-dd"/>
-		          ~ <fmt:formatDate value="${post.accEndDate}" pattern="yyyy-MM-dd"/>
-	  &nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-shoe-prints"></i> 참여동행자수 : ${post.accCount} &nbsp;동행모집인원 : ${post.accPerson}
+	     	  <h3 class="title ub-word" style="margin-bottom: 40px;">
+		      	  <span class="title_subject" style="font-weight:bold;">${post.postTitle} </span> <span style="font-size:18px;"> [ ${post.accCount} / ${post.accPerson} ]</span>
+		    <br><span style="font-size: 15px;">
+		        <i class="fas fa-walking"></i> <fmt:formatDate value="${post.accStartDate}" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${post.accEndDate}" pattern="yyyy-MM-dd"/>
 		        </span>
-		      </h4>
+		      </h3>
 	      </div>
 		
 	<div class="view_content_wrap">
@@ -685,7 +682,10 @@
 	   <hr>
 		
 		<div class="row" style="font-family: 'Gothic A1', sans-serif;">
-		  <div class="col-xs-8 col-md-4"><i class="fas fa-user-plus">${post.accCount}</i><button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#createChat" style="width: 110px; font-size: 15px; height: 30px; line-height: 15px; margin: 0 0 3px 10px">채팅방 개설</button></div>
+		  <div class="col-xs-8 col-md-4"><i class="fas fa-user-times">${post.accCount}</i>
+		    <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#createChat" style="width: 110px; font-size: 15px; height: 30px; line-height: 15px; margin: 0 0 3px 10px">채팅방 개설</button>
+		    <button type="button" class="btn btn-outline-info" style="width: 100px; font-size: 15px; height: 30px; line-height: 15px; margin: 0 0 3px 10px" onclick="inviteUser()">동행신청</button>
+		  </div>
 			<div class="col-md-12" style="margin-top: 10px;border-top: 1px solid gainsboro;border-bottom: 1px solid gainsboro;border-left: 1px solid gainsboro;border-right: 1px solid gainsboro;height: 190px;">
 			  <c:set var="i" value="0"/>
 			  <c:forEach var="userList" items="${userList}">
@@ -697,7 +697,7 @@
 						 <img src="/resources/images/userImages/${userList.userImg}" class="card" style="margin: 20px 0 0 38px;border: 2px solid red;">
 						  <div class="card-body text-dark" style="padding:0;">
 						    <h5 class="card-title" style="font-size: 13px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
-			      		    <p class="card-text"><i class="fas fa-bus">
+			      		    <p class="card-text" style="text-align:center;"><i class="fas fa-bus">
 			      		  <c:forEach var="tripStyle" items="${userList.tripStyle}">
 						    <span style="font-family: 'Gothic A1', sans-serif; font-size: 13px;">${tripStyle}</span>
 			  	  		  </c:forEach>
@@ -710,7 +710,7 @@
 						 <img src="/resources/images/userImages/${userList.userImg}" class="card" style="margin: 20px 0 0 38px;border: 2px solid silver;">
 						  <div class="card-body text-dark" style="padding:0;">
 						    <h5 class="card-title" style="font-size: 13px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
-						    <p class="card-text"><i class="fas fa-bus">
+						    <p class="card-text" style="text-align:center;"><i class="fas fa-bus">
 						  <c:forEach var="tripStyle" items="${userList.tripStyle}">
 						    <span style="font-family: 'Gothic A1', sans-serif; font-size: 13px;">${tripStyle}</span>
 			  	  		  </c:forEach>  

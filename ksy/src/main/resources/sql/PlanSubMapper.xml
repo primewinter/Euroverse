@@ -145,7 +145,7 @@
 	</select> -->
 	
 	<select id="getCityRouteList"	parameterType="string"	resultMap="citySelectMap">
-		SELECT 	cr.city_id, cr.city_name, cr.visit_order, cr.city_duration, cr.tran_type 
+		SELECT 	cr.city_id, cr.city_name, cr.visit_order, cr.city_duration, cr.tran_type, ci.city_img
 				, ci.lat, ci. lng, ci.country, ci.city_content
 				,  TO_CHAR(ci.lat, 'fm90.0000000') lat_str, TO_CHAR(ci.lng, 'fm90.0000000') lng_str
 		FROM 	city_route cr , city_info ci 

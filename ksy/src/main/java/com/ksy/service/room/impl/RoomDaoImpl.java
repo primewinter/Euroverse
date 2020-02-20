@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.ksy.common.Search;
+import com.ksy.service.domain.Flight;
 import com.ksy.service.domain.Room;
 import com.ksy.service.room.RoomDao;
 
@@ -37,6 +38,10 @@ public class RoomDaoImpl implements RoomDao{
 		map.put("search", search);
 		map.put("buyerId",buyerId);
 		return sqlSession.selectList("RoomMapper.getRoomList", map);
+	}
+	
+	public List<Room> getRoomListAdmin(Search search) throws Exception {
+		return sqlSession.selectList("RoomMapper.getRoomListAdmin", search );
 	}
 
 	public int getTotalCount(Search search) throws Exception {

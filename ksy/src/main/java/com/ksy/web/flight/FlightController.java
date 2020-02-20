@@ -361,6 +361,7 @@ public class FlightController {
 					flight.setAdultNum(adultNum);
 					flight.setChildNum(childNum);
 					flight.setInfantNum(infantNum);
+					flight.setTripCourse(tripCourse);
 					flight.setDepCity(depCity);
 					flight.setArrCity(arrCity);
 					flight.setSeatGrade(seatGrade);

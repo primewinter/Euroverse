@@ -353,7 +353,9 @@ public class RoomController {
 			
 			List<String> linkList = new ArrayList<String>();
 			  for(WebElement link : detailLink) {
-				  linkList.add(link.getAttribute("href"));
+				  	if (link.getAttribute("href").length() < 1300) {
+				  		linkList.add(link.getAttribute("href"));
+					}
 			  }
 			  System.out.println("linkList : "+linkList);
 			
@@ -452,7 +454,8 @@ public class RoomController {
 			@RequestParam("price")int price, @RequestParam("roomCity")String roomCity,
 			@RequestParam("checkIn")String checkIn, @RequestParam("checkOut")String checkOut,
 			@RequestParam("adultNum")int adultNum , @RequestParam("childNum")int childNum,
-			@RequestParam("location")String location ,@RequestParam("distance")String distance, @RequestParam("grade")String grade,
+			@RequestParam("location")String location ,@RequestParam("distance")String distance,
+			@RequestParam("grade")String grade, @RequestParam("roomAddr")String roomAddr,
 //			@ModelAttribute("room")Room room,
 			Model model ) throws Exception {
 		System.out.println("/getRoom : POST");
@@ -476,6 +479,8 @@ public class RoomController {
 			WebElement name = driver.findElement(By.xpath("//*[@id=\"property-header\"]/div[1]/div[1]/h1"));
 			String roomName = name.getText();
 			room.setRoomName(roomName);
+			//숙소주소
+			room.setRoomAddr(roomAddr);
 			//가격
 			room.setPrice(price);
 			//도착지역
@@ -503,10 +508,14 @@ public class RoomController {
 			WebElement main = driver.findElement(By.xpath("//*[@id=\"overview-section-4\"]/ul[1]"));
 			String mainService = main.getText();
 			room.setMainService(mainService);
+			
 			//가족단위 편의시설
-			WebElement family = driver.findElement(By.xpath("//*[@id=\"overview-section-5\"]/ul"));
-			String familyService = family.getText();
-			room.setFamilyService(familyService);
+			if (driver.findElement(By.xpath("//*[@id=\"overview-section-5\"]/ul")) != null ) {
+				WebElement family = driver.findElement(By.xpath("//*[@id=\"overview-section-5\"]/ul"));
+				String familyService = family.getText();
+				room.setFamilyService(familyService);
+			}
+			
 			//주요 명소
 			WebElement sight = driver.findElement(By.xpath("//*[@id=\"overview-section-6\"]/ul"));
 			String sights = sight.getText();

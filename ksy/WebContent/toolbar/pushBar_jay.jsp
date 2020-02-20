@@ -247,13 +247,13 @@
 			 		tag += "</td>";
 			 		tag += "<td style='text-align:left;margin-left:10'>"
 	 				tag += "<font size='2'  font color='black'>"
-			 		tag += "<a href='/myPage' >"; // 초대 목록 리스트 링크
+			 		tag += "<a href='/plan/getPlanList' >"; // 초대 목록 리스트 링크
 			 	} else if (vo.pushType.trim() == 'A') {
 			 		tag += "<img src='/resources/images/icon/push_acc.png'>";
 			 		tag += "</td>";
 			 		tag += "<td style='text-align:left;margin-left:10'>"
 	 				tag += "<font size='2'  font color='black'>"
-			 		tag += "<a href='/myPage/' >" // 동행 신청 목록 리스트 링크
+			 		tag += "<a href='/community/getPost?postId="+vo.refId+"' >" // 동행 신청 목록 리스트 링크
 			 	}
 			 		tag += vo.pushMsg+"</font>";
 			 		tag += "</td>";
@@ -284,7 +284,7 @@
 				 },
 				 success : function(result) {
 					 console.log("안 읽은 알림 개수 출력 성공 : "+result+"개")
-					 var h = "<font color='red'>"+result+"</font>";
+					 var h = "<span class=\"badge badge-pill badge-danger\">"+result+"</span>";
 					 $(".unreadCount").html(h);
 				 },
 				 error : function(error) {

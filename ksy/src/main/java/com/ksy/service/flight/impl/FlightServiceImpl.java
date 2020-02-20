@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ksy.common.Search;
 import com.ksy.service.domain.Flight;
+import com.ksy.service.domain.Order;
 import com.ksy.service.flight.FlightDao;
 import com.ksy.service.flight.FlightService;
 
@@ -49,5 +50,18 @@ public class FlightServiceImpl implements FlightService{
 		System.out.println(map);
 		return map;
 	}
+	
+	
+	public Map<String,Object> getFlightListAdmin(Search search) throws Exception {
+		List<Flight> list= (List<Flight>) flightDao.getFlightListAdmin(search);
+		int totalCount = flightDao.getTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+
 
 }

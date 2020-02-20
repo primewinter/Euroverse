@@ -34,9 +34,11 @@ import com.ksy.service.domain.Day;
 import com.ksy.service.domain.Memo;
 import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Plan;
+import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Stuff;
 import com.ksy.service.domain.Todo;
 import com.ksy.service.domain.User;
+import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.plan.PlanService;
 import com.ksy.service.planSub.PlanSubService;
 import com.ksy.service.user.UserService;
@@ -56,6 +58,10 @@ public class PlanController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier("myPageServiceImpl")
+	private MyPageService myPageService;
 	
 	
 //	@Resource(name="uploadPath")
@@ -96,6 +102,8 @@ public class PlanController {
 			//cityMarker.put("icon", "");
 			//cityMarker.put("zIndex", 10000);
 			cityMarker.put("title", cityItem.getCityName());
+			cityMarker.put("cityImg", cityItem.getCityImg());
+			cityMarker.put("cityInfo", cityItem.getCityInfo());
 			
 			markerArray.add(cityMarker);
 		}
@@ -370,6 +378,12 @@ public class PlanController {
 		
 		System.out.println("\n\n\n\n\n\n\n updateUserSlot "+userId);
 		
+		Point usedPoint = new Point();
+		usedPoint.setUserId(userId);
+		usedPoint.setUsedType("S");
+		usedPoint.setUsedPoint(500);
+		
+		myPageService.addPoint(usedPoint);
 		planService.updateUserSlot(userId);
 		
 		//페이지 네비게이션 어케..?

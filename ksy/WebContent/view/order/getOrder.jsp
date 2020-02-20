@@ -6,7 +6,6 @@
 
 <html>
 <head>
-<title>Insert title here</title>
 <meta charset="EUC-KR">
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -67,7 +66,7 @@
 	<input type="hidden" name="flightId" id="flightIds" value= "${flight.flightId }"/>
 	<input type="hidden" name="roomId" id="roomIds" value= "${room.roomId }"/>
 <div class="container"><br/>
-			<h4 align="left">
+			<h4 align="left" style="margin-left:450px;">
 				  <c:if test="${order.orderStatus == '1' }">
 			      	주문완료
 			      </c:if>
@@ -78,7 +77,7 @@
 			      	환불완료
 				  </c:if>
 			</h4>
-		 <c:if test="${flight.flightId ne null }">
+		 <c:if test="${room.roomName == null }">
 		 	<hr/>
 			<i class="fas fa-plane" id="iconf" style="Padding-left:20px;font-size:40px;" ></i>
 				<br/>
@@ -105,7 +104,7 @@
 					  </tbody>
 				</table>
 		</c:if>
-		 <c:if test="${room.roomId ne null }">
+		 <c:if test="${flight.depCity == null }">
 		 	<hr/>
 			<i class="fas fa-bed" id="iconr" style="Padding-left:20px;font-size:40px;"></i>
 				<br/>
@@ -147,7 +146,7 @@
 	                    	<c:if test="${flight.depCity == null }">	
 	                   			<div id="totalAmount" style="Padding-left:30px;">${room.price}원</div> 
 	            			</c:if>
-	            			<c:if test="${room.roomCity == null }">	
+	            			<c:if test="${room.roomName == null }">	
 	                   			<div id="totalAmount" style="Padding-left:30px;">${flight.price}원</div>
 	            			</c:if>
 	            		</div>

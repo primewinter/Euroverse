@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ksy.common.Search;
 import com.ksy.service.domain.Flight;
+import com.ksy.service.domain.Order;
 import com.ksy.service.flight.FlightDao;
 
 @Repository("flightDaoImpl")
@@ -42,6 +43,11 @@ public class FlightDaoImpl implements FlightDao {
 		map.put("search", search);
 		map.put("buyerId",buyerId);
 		return sqlSession.selectList("FlightMapper.getFlightList", map);
+	}
+	
+	
+	public List<Flight> getFlightListAdmin(Search search) throws Exception {
+		return sqlSession.selectList("FlightMapper.getFlightListAdmin", search );
 	}
 
 	public int getTotalCount(Search search) throws Exception {

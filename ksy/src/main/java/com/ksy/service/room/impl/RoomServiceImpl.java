@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.ksy.common.Search;
+import com.ksy.service.domain.Flight;
 import com.ksy.service.domain.Room;
 import com.ksy.service.room.RoomDao;
 import com.ksy.service.room.RoomService;
@@ -41,6 +42,17 @@ public class RoomServiceImpl implements RoomService{
 		map.put("list", list);
 		map.put("totalCount", new Integer(totalCount));
 		System.out.println(map);
+		return map;
+	}
+	
+	public Map<String,Object> getRoomListAdmin(Search search) throws Exception {
+		List<Room> list= (List<Room>) roomDao.getRoomListAdmin(search);
+		int totalCount = roomDao.getTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("totalCount", new Integer(totalCount));
+		
 		return map;
 	}
 
