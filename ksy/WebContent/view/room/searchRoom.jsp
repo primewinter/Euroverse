@@ -25,16 +25,12 @@
 	<!-- jQuery UI toolTip 사용 JS-->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
+	<!-- 달력 CDN -->
+	<link rel="stylesheet" href="/resources/css/kronos.css" />
+	<script src="/resources/javascript/kronos.js"></script>
+	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-	  body {
-             padding-top : 50px;
-
-        }
-        h3{
-        	color: white;
-        	font-family : Consolas;
-        }
         
        /* 인원수 */
        row.justify-content-around {
@@ -43,17 +39,10 @@
 		  left:50%;
 		}
 
-	  th{
-	  	text-align: center;
-	  	 width: 70px;
-  		 height: 100px;
-   		line-height: 100px;
-   		     
-	  }
 	  td{
-	  font-size:13px;
+	  font-size:11px;
 	  text-align: center;
-	  width : 80px;
+	  width : 100px;
 	  }
 	  #domestic ,  #domestic  {
 	  	z-index: 3;
@@ -61,7 +50,7 @@
 	  #to , #from , div{
 	  	z-index: 2;
 	  }
-	  table {
+	  #domestic {
 	   text-ailgn : center;
 	   background-color: white;
 		/*  border-collapse: separate;  */
@@ -136,9 +125,9 @@
 		    z-index: -4;
 		}
 		/* 달력 css */
-		.ui-datepicker { width: 20em; padding: .2em .2em 0;font-size: 14px; height:10px;}
+		.ui-datepicker { width: auto; padding: .2em .2em 0;font-size: 14px; height:auto;}
 		/* 인원 수량 */
-		#decreaseQuantity , #decreaseQuantity2 , #decreaseQuantity3{
+		#decreaseQuantity , #decreaseQuantity2 , #decreaseQuantity3 , #decreaseQuantity4{
 		word-break: break-all;
 		list-style: none;
 		cursor: pointer;
@@ -156,7 +145,7 @@
 		line-height: 0;
 		background: url("//openimage.interpark.com/tourpark/tour_ui/common/btn/btn_del.png") no-repeat 0 0;
 		}
-		#increaseQuantity , #increaseQuantity2 , #increaseQuantity3{
+		#increaseQuantity , #increaseQuantity2 , #increaseQuantity3, #increaseQuantity4{
 		word-break: break-all;
 		list-style: none;
 		cursor: pointer;
@@ -196,6 +185,9 @@
 		box-sizing: border-box;
 		text-align: center;
 		}
+		
+		/* 달력 css */
+		.kronos-outer .kronos-inner { Padding-top:10px;Padding-left:10px;Padding-right:10px;Padding-bottom:10px;font-size: 14px; }
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -214,7 +206,7 @@ $(function() {
 var rangeDate = 500; // set limit day
 var setSdate, setEdate;
 $(function() {
-$("#from").datepicker({
+$("#from").kronos({
     dateFormat: 'yy-mm-dd',
     minDate: 0,
     onSelect: function(selectDate){
@@ -224,10 +216,10 @@ $("#from").datepicker({
         var edate = new Date(stxt[0], stxt[1], stxt[2]);
             edate.setDate(sdate.getDate() + rangeDate);
         
-        $('#to').datepicker('option', {
+        $('#to').kronos('option', {
             minDate: selectDate,
             beforeShow : function () {
-                $("#to").datepicker( "option", "maxDate", edate );                
+                $("#to").kronos( "option", "maxDate", edate );                
                 setSdate = selectDate;
                 console.log(setSdate)
         }});
@@ -237,7 +229,7 @@ $("#from").datepicker({
 });
 });
 $(function() {
-	$("#to").datepicker({ 
+	$("#to").kronos({ 
 	    dateFormat: 'yy-mm-dd',
 	    onSelect : function(selectDate){
 	        setEdate = selectDate;
@@ -419,7 +411,14 @@ $(function() {
 		$("#childNum").val(childNum);
 	}); */
 	
-	
+	$(function() {
+		$("#from").click(function() {
+			$(".kronos-inner").css("height","320");
+		});
+		$("#to").click(function() {
+			$(".kronos-inner").css("height","320");
+		});
+	});
 </script>
 
 
@@ -449,7 +448,7 @@ $(function() {
 				  	<table class="table" id="domestic" style="width: 380px; display: none;">
 					 <tbody>	
 						<tr>
-						<th rowspan="9" align="center">유럽</th>
+						<th rowspan="9" align="center" style="text-align: center;width: 70px;height: 100px;line-height: 100px;">유럽</th>
 						</tr>			
 							<tr>
 								<td onclick="javascript:domestic($(this).closest('td').text());">파리</td>

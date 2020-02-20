@@ -1,14 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <html lang="ko">
 <head>
-<title>±¸¸Å ¸ñ·ÏÁ¶È¸</title>
-<meta charset="EUC-KR">
+<title>êµ¬ë§¤ ëª©ë¡ì¡°íšŒ</title>
+<meta charset="UTF-8">
 	
-	<!-- ÂüÁ¶ : http://getbootstrap.com/css/   ÂüÁ¶ -->
+	<!-- ì°¸ì¡° : http://getbootstrap.com/css/   ì°¸ì¡° -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -20,9 +20,9 @@
 	<!-- asome icon CDN -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
 
-  	<!-- jQuery UI toolTip »ç¿ë CSS-->
+  	<!-- jQuery UI toolTip ì‚¬ìš© CSS-->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<!-- jQuery UI toolTip »ç¿ë JS-->
+	<!-- jQuery UI toolTip ì‚¬ìš© JS-->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
@@ -79,8 +79,8 @@ $(function() {
     $( "#testDatepicker" ).datepicker({
     	changeMonth: true, 
          changeYear: true,
-        // nextText: '´ÙÀ½ ´Ş',
-        // prevText: 'ÀÌÀü ´Ş' ,
+        // nextText: 'ë‹¤ìŒ ë‹¬',
+        // prevText: 'ì´ì „ ë‹¬' ,
          dateFormat: "yymmdd"
     });
 }); */
@@ -102,12 +102,12 @@ $(function() {
 			<table class="table">
 			  <thead>
 			    <tr>
-			      <th scope="col">Ç×°ø»ç</th>
-			      <th scope="col">Ãâ¹ß½Ã°£</th>
-			      <th scope="col">µµÂø½Ã°£</th>
-			      <th scope="col">°æÀ¯</th>
-			      <th scope="col">¼Ò¿ä½Ã°£</th>
-			      <th scope="col">°¡°İ</th>
+			      <th scope="col">í•­ê³µì‚¬</th>
+			      <th scope="col">ì¶œë°œì‹œê°„</th>
+			      <th scope="col">ë„ì°©ì‹œê°„</th>
+			      <th scope="col">ê²½ìœ </th>
+			      <th scope="col">ì†Œìš”ì‹œê°„</th>
+			      <th scope="col">ê°€ê²©</th>
 			      <th scope="col"></th>
 			      <th scope="col"></th>
 			    </tr>
@@ -120,9 +120,9 @@ $(function() {
 			      <td>${flight.arrTime}</td>
 			      <td>${flight.stopOver}</td>
 			      <td>${flight.leadTime}</td>
-			      <td>${flight.price}¿ø</td>
+			      <td>${flight.price}ì›</td>
 			      <td><i class="far fa-heart" style="font-size:15px;"></i></td>
-			      <td><button type="button" class="btn btn-info" style="width:100px;">¿¹¾àÇÏ±â</button>
+			      <td><button type="button" class="btn btn-info" style="width:100px;">ì˜ˆì•½í•˜ê¸°</button>
 			      	<input type="hidden" name="airline" id="airline" value="${flight.airline }" >
 					<input type="hidden" name="depCity" id="depCity" value="${flight.depCity }" >
 					<input type="hidden" name="arrCity" id="arrCity" value="${flight.arrCity }" >

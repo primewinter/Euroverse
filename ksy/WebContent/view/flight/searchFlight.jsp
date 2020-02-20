@@ -31,33 +31,17 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-	  body {
-             padding-top : 50px;
-
-        }
-        h3{
-        	color: white;
-        	font-family : Consolas;
-        }
-        
        /* 인원수 */
        row.justify-content-around {
         position:absolute;
  		 top:50%;
 		  left:50%;
 		}
-
-	  th{
-	  	text-align: center;
-	  	 width: 70px;
-  		 height: 100px;
-   		line-height: 100px;
-   		     
-	  }
-	  td{
-	  font-size:13px;
+	  /* 도착지역 table css */
+	   td{
+	  font-size:11px;
 	  text-align: center;
-	  width : 80px;
+	  width : 100px;
 	  }
 	  #domestic ,  #europe  {
 	  	z-index: 3;
@@ -65,7 +49,8 @@
 	  #to , #from , div{
 	  	z-index: 2;
 	  }
-	  table {
+	  /* 도착지역 table css */
+	  #europe, #domestic {
 	   text-ailgn : center;
 	   background-color: white;
 		/*  border-collapse: separate;  */
@@ -118,7 +103,7 @@
 	    height: 50px;
 	    opacity : 0.7;
 	    z-index: -2;
-	    margin-left: -5px;
+	    margin-left: -60px;
 		}
 		
 		#right.change:after {
@@ -132,14 +117,14 @@
 	    height: 50px;
 	    opacity : 0.7;
 	    z-index: -2;
-	    margin-left: -5px;
+	    margin-left: -60px;
 		}
 	  
 	  /* div 전체 container 배경 */
-	  .container{
+	  #total{
 	  	position:relative;
 	  }
-	  .container:after{
+	  #total:after{
 	  		content : "";
 		    display: block;
 		    position: absolute;
@@ -150,8 +135,8 @@
 		    height: 200px;
 		    opacity : 0.7;
 		    z-index: -3;
+		    margin-top:80px;
 	  }
-
 	  
 	  /* 이미지 배경 css */
 	  .wrapper {
@@ -170,9 +155,11 @@
 		    opacity : 0.7;
 		    z-index: -2;
 		}
-		/* 달력 css 
-		.ui-datepicker { width: 20em; padding: .2em .2em 0;font-size: 14px; height:10px;}
-		*/
+		/* 달력 css */
+		.kronos-outer .kronos-inner { Padding-top:10px;Padding-left:10px;Padding-right:10px;Padding-bottom:10px;font-size: 14px; }
+		element.style {
+		    height: 320px;
+		}
 		
 		/* 인원 수량 */
 		#decreaseQuantity , #decreaseQuantity2 , #decreaseQuantity3{
@@ -212,14 +199,14 @@
 		background: url("//openimage.interpark.com/tourpark/tour_ui/common/btn/plus.png") no-repeat 0 0;
 		
 		}
-		.ui-kronos{ font-size: 12px; width: 160px; }
+	
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 <script type="text/javascript">
 
 $(function() {
-	 $( '.btn.btn-info' ).on("click" , function() {
+	 $( '#searchButton' ).on("click" , function() {
 			$("form").attr("method" , "POST").attr("action" , "/flight/searchFlight").submit();
 
 	});
@@ -234,14 +221,12 @@ $(function() {
 $("#from").kronos({
     dateFormat: 'yy-mm-dd',
     minDate: 0,
-    
     onSelect: function(selectDate){
         var stxt = selectDate.split("-");
             stxt[1] = stxt[1] - 1;
         var sdate = new Date(stxt[0], stxt[1], stxt[2]);
         var edate = new Date(stxt[0], stxt[1], stxt[2]);
             edate.setDate(sdate.getDate() + rangeDate);
-        
         $('#to').kronos('option', {
             minDate: selectDate,
             beforeShow : function () {
@@ -262,7 +247,7 @@ $(function() {
 	        console.log(setEdate)
 	    }
 	});
-	 $('.btn.btn-info').on('click', function(e){
+	 $('#searchButton').on('click', function(e){
 	    if($('input#from').val() == ''){
 	        alert('시작일을 선택해주세요.');
 	        $('input#from').focus();
@@ -278,6 +263,7 @@ $(function() {
 });
 
 
+
 function doShow() { 
 		if ($('#domestic').css("display","none")) { 
 			$("#domestic").css("display","block");
@@ -285,8 +271,7 @@ function doShow() {
 			$("#depIcon").hide();
 			$("#arrIcon").hide();
 			$("#search").show();
-			//$("#totalNum").show();
-			//$("#totalNum").css("margin-left","51.3%");
+			$("#peopleChoice").show();
 		}
 }
 function Show() { 
@@ -296,7 +281,7 @@ function Show() {
 		$("#depIcon").show();
 		$("#arrIcon").show();
 		$("#search").hide();
-		//$("#totalNum").hide();
+		$("#peopleChoice").hide();
 	}
 }
 
@@ -314,7 +299,6 @@ function domestic(obj) {
 		//$("#totalNum").css("margin-left","18%");
 		
 	}
-	//alert(depCity);
 };
 
 function europe(obj) {
@@ -327,10 +311,9 @@ function europe(obj) {
 	if ($('#europe').css("display","block")) { 
 		$("#europe").css("display","none");
 		$("#search").show();
-		$("#totalNum").show();
+		$("#peopleChoice").show();
 		
 	}
-	//alert(depCity);
 };
 ///////////////////////////////// 인원수 증가, 감소
 	/* 성인 수 */
@@ -345,7 +328,7 @@ function europe(obj) {
 			num =1;
 		}
 		$('#numberUpDown').val(num);
-		$("#peopleChoice").val("총	 "+adult+child+inf);
+		
 		});
 			$('#increaseQuantity').click(function(e){
 			e.preventDefault();
@@ -358,8 +341,7 @@ function europe(obj) {
 					num=10;
 				}
 			var adult = $('#numberUpDown').val(num);
-			var grade = $("#grade").text();
-			$("#peopleChoice").val("총	 "+adult+child+inf);
+			
 			});
 		});
 		
@@ -375,7 +357,6 @@ function europe(obj) {
 			num =0;
 		}
 		$('#numberUpDown2').val(num);
-		$("#peopleChoice").val(total+"/소아"+num+"명 ")
 		});
 			$('#increaseQuantity2').click(function(e){
 			e.preventDefault();
@@ -388,7 +369,6 @@ function europe(obj) {
 					num=10;
 				}
 			var child = $('#numberUpDown2').val(num);
-			$("#peopleChoice").val("총	 "+adult+child+inf);
 			});
 		});
 	/* 유아수 */
@@ -415,31 +395,57 @@ function europe(obj) {
 					num=10;
 				}
 			var inf = $('#numberUpDown3').val(num);
-			$("#peopleChoice").val("총	 "+adult+child+inf);
 			});
 		});
 	/* 왕복 , 편도 function */
 	$(function() {
 		$("#roundTrip").click(function() {
 			$("#arraw").attr("class","fas fa-arrows-alt-h");
-			$('#roundTrip').attr('class','col-sm-2 basic');
-			$('#right').attr('class','col-sm-2 change');
+			$('#roundTrip').attr('class','col-sm-3 basic');
+			$('#right').attr('class','col-sm-3 change');
 			$("#tripCourses").val(1);
 		});
 	});
 	$(function() {
 		$("#right").click(function() {
 			$("#arraw").attr("class","fas fa-arrow-right");
-			$('#roundTrip').attr('class','col-sm-2 change');
-			$('#right').attr('class','col-sm-2 basic');
+			$('#roundTrip').attr('class','col-sm-3 change');
+			$('#right').attr('class','col-sm-3 basic');
 			$("#tripCourses").val(2);
 		});
 		
 	});
 	window.onload = function () {
-		$('#roundTrip').attr('class','col-sm-2 basic');
-		$('#right').attr('class','col-sm-2 change');
+		$('#roundTrip').attr('class','col-sm-3 basic');
+		$('#right').attr('class','col-sm-3 change');
 	}
+	/* 달력 사이즈 변경 */
+	$(function() {
+		$("#from").click(function() {
+			$(".kronos-inner").css("height","320");
+		});
+		$("#to").click(function() {
+			$(".kronos-inner").css("height","320");
+		});
+	});
+	
+	$(function() {
+		$(".btn.btn-secondary").click(function() {
+			var one =$("#numberUpDown").val();
+			var two =$("#numberUpDown2").val();
+			var three =$("#numberUpDown3").val();
+			
+			var plus = Number(one)+Number(two)+Number(three);
+			var grade = $("#grade option:selected").text();
+			$("#peopleChoice").val("총 "+plus+"명 / "+grade)
+			
+				/* 	$("#peopleChoice").val("성인	"+one+" 명");
+					alert("ㅜㅜ");
+					var plus = $("#numberUpDown").val()+$("#numberUpDown2").val()+$("#numberUpDown3").val();
+					$("#peopleChoice").val("총	"+plus+"명");  */
+				
+		})
+	});
 	
 </script>
 
@@ -457,18 +463,17 @@ function europe(obj) {
 <br>
 <br>
 <br>
-			<div class="row" style="Padding-left:250px;">
+			<div class="container" id="total">
+			<div class="row" style="Padding-left:5px;Padding-top:30px;">
 					<div class="col-sm-3" id="roundTrip">
 							<p class="roundTrip" style="color:white;margin-left:45px;Padding-top:10px;">왕복 구간 검색</p>
-              		<!-- <button type="button" class="btn btn-outline-light" id="roundTrip" >왕복구간 검색</button> -->
               				<input type="hidden" name="tripCourse" id="tripCourses" value="1" >
               		</div>
               		<div class="col-sm-3" id="right">
-              			<p style="color:white;margin-left:45px;Padding-top:10px;">편도 구간 검색</p>
+              			<p style="color:white;margin-left:-15px;Padding-top:10px;">편도 구간 검색</p>
               		</div>
-                	<!-- <button type="button" class="btn btn-outline-light" id="right" >편도구간 검색</button> -->
             </div>
-			<div class="container">
+            
 			  <div class="row" >
 			    <div class="col-md-5" style="margin-top:50px;margin-left:50px;">
 			    <div class="row">
@@ -480,7 +485,7 @@ function europe(obj) {
 			  		<table class="table" id="domestic" style="width: 300px; display: none;">
 						 <tbody>	
 							<tr>
-							<th rowspan="5" align="center">국내</th>
+							<th rowspan="5" align="center" style="text-align: center;width: 70px;height: 100px;line-height: 100px;">국내</th>
 							</tr>			
 								<tr>			
 									<td onclick="javascript:domestic($(this).closest('td').text());">인천</td>
@@ -503,19 +508,17 @@ function europe(obj) {
 						</div>
 						<br/><br/>
 						<div class="row">
-						 <div class="col-sm-4" id="depIcon" style="margin-left:-15px;">
-				    		<input type="text" class="form-control" placeholder="출발날짜 선택" style="width:120px;float:left;" id="from" name="depDate">
-						  	<div class="input-group-append">
-						    	<span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
-						  	</div>
-						
+						 <div class="col-sm-5" id="depIcon" style="margin-left:-15px;">
+				    		<input type="text" class="form-control" placeholder="출발날짜 선택" style="width:110px;font-size:13px;float:left;" id="from" name="depDate">
+					    	<div class="input-group-append">
+					    		<span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
+							</div>
 						</div>
-				   		 <div class="col-sm-4" id="arrIcon">
-				   		 	 <input type="text" class="form-control" placeholder="도착날짜 선택"  style="width:120px;float:left;" id="to" name="arrDate">
-							  <div class="input-group-append">
-							    <span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
-							  </div>
-				   	
+				   		 <div class="col-sm-5" id="arrIcon">
+				   		 	 <input type="text" class="form-control" placeholder="도착날짜 선택"  style="width:110px;font-size:13px;float:left;" id="to" name="arrDate">
+				   				<div class="input-group-append">
+				   					<span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
+				   		 		</div>
 				   		 </div>
 						</div>
 			    </div>
@@ -530,7 +533,7 @@ function europe(obj) {
 		  			<table id="europe" class="table" style="width: 350px; display: none;">
 					<tbody>	
 					<tr>
-					<th rowspan="9" align="center">유럽</th>
+					<th rowspan="9" align="center" style="text-align: center;width: 70px;Padding-top:100px;line-height: 100px;">유럽</th>
 					</tr>			
 						<tr>
 							<td onclick="javascript:europe($(this).closest('td').text());">파리</td>

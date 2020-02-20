@@ -13,5 +13,7 @@ public interface RoomService {
 	public Room getRoom(String roomId) throws Exception;
 	
 	public Map<String,Object> getRoomList(Search search,String buyerId) throws Exception;
+	
+	public Map<String,Object> getRoomListAdmin(Search search) throws Exception;
 
 }

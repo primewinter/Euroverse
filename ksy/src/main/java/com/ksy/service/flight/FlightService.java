@@ -16,5 +16,6 @@ public interface FlightService {
 	
 	public Map<String,Object> getFlightList(Search search,String buyerId) throws Exception;
  
+	public Map<String,Object> getFlightListAdmin(Search search) throws Exception;
 	
 }

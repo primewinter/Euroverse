@@ -67,6 +67,11 @@ function fncGetUserList(currentPage) {
 	 	fncGetUserList(1);
 	 });
  });
+ $(function(){
+	 $(".btn.btn-info").click(function(){
+		 self.location = "/order/getOrderListAdmin";
+	 })
+ })
 
  function doShow() { 
 	    if ($('#flight').is(":visible")) { 
@@ -89,11 +94,11 @@ function fncGetUserList(currentPage) {
  		$( function () {
 		$('#refund').on("click" , function (){
 			var flightId = $("#flightId").val();
+			self.location ="/order/getFlightOrder?flightId="+flightId;
+		})
+		$('#refund2').on("click" , function (){
 			var roomId = $("#roomId").val();
-			alert(flightId+roomId);
-			//xxx self.location = "/purchase/deletePurchase?tranNo="+$(this).next().val()+"&prodNo="+$(this).next().next().val();
-			self.location ="/order/getOrder?flightId="+flightId+"&roomId="+roomId;
-			//$("form").attr("method" , "GET").attr("action" , "/order/getOrder").submit();
+			self.location ="/order/getRoomOrder?roomId="+roomId;
 		})
 	})
 	
@@ -176,7 +181,7 @@ function fncGetUserList(currentPage) {
     <tr>
       <th scope="col">#</th>
       <th scope="col">항공사</th>
-      <th scope="col">출발도시/도착도시</th>
+      <th scope="col">출발도시 - 도착도시</th>
       <th scope="col">출발일시/도착일시</th>
       <th scope="col">경유/소요시간</th>
       <th scope="col">가격/결제일시</th>
@@ -224,7 +229,7 @@ function fncGetUserList(currentPage) {
 	      <th scope="col">#</th>
 	      <th scope="col">여행지</th>
 	      <th scope="col">숙소</th>
-	      <th scope="col">출발일시/도착일시</th>
+	      <th scope="col">출발일시 - 도착일시</th>
 	      <th scope="col">객실수/숙박인원</th>
 	      <th scope="col">가격/결제일시</th>
 	      <th scope="col">주문상태</th>
@@ -237,23 +242,23 @@ function fncGetUserList(currentPage) {
 		<c:forEach var="room" items = "${list2}" >
 		<c:set var="i" value="${i+1}"/>
 			 <tr>
-			    <th scope="row">
-			    <i class="fas fa-list" id="refund"></i>
+			    <th scope="row"  id="refund2" >
+			    <i class="fas fa-list"></i>
 			    	<input type="hidden" name="${room.roomId}" id="roomId" value="${room.roomId}"/>
 			    </th>
 			    <td>${room.roomCity }</td>
 			    <td>${room.roomName}</td>
-			    <td>${room.checkIn}/${room.checkOut }</td>
-			    <td>${room.roomNum}/${room.adultNum }</td>
-			    <td>${room.price}/${orderDate}</td>
+			    <td>${room.checkIn} - ${room.checkOut }</td>
+			    <td>${room.roomNum} 개 / 성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
+			    <td>${room.price} 원 /${room.orderDate}</td>
 			    <td> 
-			      <c:if test="${order.orderStatus eq '1' }">
+			      <c:if test="${room.orderStatus == '1' }">
 			      	주문완료
 			      </c:if>
-			      <c:if test="${order.orderStatus eq '2' }">
+			      <c:if test="${room.orderStatus == '2' }">
 			      	환불신청
 			      </c:if>
-			      <c:if test="${order.orderStatus eq '3' }">
+			      <c:if test="${room.orderStatus == '3' }">
 			      	환불완료
 				  </c:if>
 				 </td>
@@ -261,7 +266,7 @@ function fncGetUserList(currentPage) {
 	     </c:forEach>
 	  </tbody>
 	</table>
-
+		<button type="button" class="btn btn-info" style="margin-top:-10px;width:120px;" >Admin</button>
 </body>
 </form>
 </html>

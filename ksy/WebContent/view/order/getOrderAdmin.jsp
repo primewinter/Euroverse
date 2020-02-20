@@ -1,283 +1,255 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java"
     pageEncoding="EUC-KR"%>
-    
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 
 <html>
 <head>
-<title>Insert title here</title>
+<title>구매 목록조회</title>
 <meta charset="EUC-KR">
+	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	
-	<!-- asome icon CDN -->
+	
+	
+	<!-- Bootstrap Dropdown Hover CSS -->
+   <link href="/css/animate.min.css" rel="stylesheet">
+   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+    <!-- Bootstrap Dropdown Hover JS -->
+   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+   
+   
+   <!-- jQuery UI toolTip 사용 CSS-->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <!-- jQuery UI toolTip 사용 JS-->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
+  <!-- asome icon CDN -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
-
-  	<!-- jQuery UI toolTip 사용 CSS-->
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<!-- jQuery UI toolTip 사용 JS-->
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-	
-		body{
-		 padding-top : 50px;
-		}
-       body > div.container{
-        	border: 3px solid white;
-            margin-top: 10px;
-            
+	  body {
+            padding-top : 50px;
+
         }
-   
+        image {
+        	border : 1px solid lightpink;
+        }
+        h3{
+        	color: white;
+        	font-family : Consolas;
+        }
+      
+        #flight , #room {
+        	width: 80%;
+			margin:auto;
+        }
     </style>
-    <script type="text/javascript">
-    $( function () {
-	$("#refundApp2").on('click' , function () {
-		var orderId = $("#orderId").val();
-		var flightId = $("#flightIds").val();
-		var roomId = $("#roomIds").val("");
-		var orderStatus = $("#orderStatus").val();
-			orderStatus = 2;
-			
-		
-		//$("#refundApp1").hide();
-		
-		self.location ="/order/getOrderRefund?orderId="+orderId+"&orderStatus="+orderStatus;
-		
-		//$("form").attr("method" , "POST").attr("action" , "/order/getOrderRefund").submit();
-	});
-}); 
-    </script>
+    
+     <!--  ///////////////////////// JavaScript ////////////////////////// -->
+<script type="text/javascript">
+$(document).ready(function(){
+	Show();
+})
+
+function fncGetUserList(currentPage) {
+	$("#currentPage").val(currentPage)
+	$("form").attr("method" , "POST").attr("action" , "/order/getOrderList").submit();
+}
+
+ $(function() {
+	 $( "button.btn.btn-default" ).on("click" , function() {
+	 	fncGetUserList(1);
+	 });
+ });
+
+ function doShow() { 
+	    if ($('#flight').is(":visible")) { 
+	        $('#flight').hide();
+	        $('#iconf').hide();
+	        $('#room').show();
+	        $('#iconr').show();// id값을 받아서 숨기기 
+	    } 
+	} 
+
+	function Show() { 
+	    if ($('#room').is(":visible")) { 
+	        $('#room').hide(); 
+	        $('#iconr').hide();
+	        $('#flight').show();
+	        $('#iconf').show();// id값을 받아서 숨기기 
+	    } 
+	} 
+ 
+ 		$( function () {
+		$('#refund').on("click" , function (){
+			var flightId = $("#flightId").val();
+			self.location ="/order/getFlightOrder?flightId="+flightId;
+		})
+		$('#refund2').on("click" , function (){
+			var roomId = $("#roomId").val();
+			self.location ="/order/getRoomOrder?roomId="+roomId;
+		})
+	})
+	
+	////////////////////////////////////////////////////
+	
+	  
+/*     $( function () {
+		$('.delete:contains("배")').on("click" , function () {
+      jQuery.ajax({
+        "url": "http://www.myservice.com/payments/cancel",
+        "type": "POST",
+        "contentType": "application/json",
+        "data": JSON.stringify({
+          "merchant_uid": "mid_" + new Date().getTime(), // 주문번호
+          "cancel_request_amount": 100, // 환불금액
+          "reason": "테스트 결제 환불" // 환불사유
+          //"refund_holder": "홍길동", // [가상계좌 환불시 필수입력] 환불 가상계좌 예금주
+         // "refund_bank": "88" // [가상계좌 환불시 필수입력] 환불 가상계좌 은행코드(ex. KG이니시스의 경우 신한은행은 88번)
+          //"refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 가상계좌 번호
+        }),
+        "dataType": "json"
+      });
+    });
+    }); */
+	
+	
+	////////////////////////////////////////////////////
+
+
+</script>
 
 </head>
-
+<form>
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp" />
-	<form>
-	<input type="hidden" name="orderId" id="orderId" value= "${order.orderId }"/>
-	<input type="hidden" name="orderStatus" id="orderStatus" value= "${order.orderStatus }"/>
-	<input type="hidden" name="flightId" id="flightIds" value= "${flight.flightId }"/>
-	<input type="hidden" name="roomId" id="roomIds" value= "${room.roomId }"/>
-<div class="container"><br/>
-			<h4 align="left">
-				  <c:if test="${order.orderStatus == '1' }">
+	<div class="container">
+		<div class="page-header">
+			<h3>Order List</h3>
+		</div>
+	</div>
+		<br/>
+<div class="btn-group btn-group-toggle" data-toggle="buttons" style="Padding-left:180px;" >
+  <label class="btn btn-secondary active">
+    <input type="radio" name="flight" id="option1" checked onclick="javascript:Show();"> Flight
+  </label>
+  <label class="btn btn-secondary">
+    <input type="radio" name="room" id="option2" onclick="javascript:doShow();"> Room
+  </label>
+</div>
+
+	
+  	<br/><br/>
+  	<i class="fas fa-plane" id="iconf" style="Padding-left:180px;font-size:40px;" ></i>
+  	<i class="fas fa-bed" id="iconr" style="Padding-left:180px;font-size:40px;"></i>
+	 <table class="table table-bordered" id="flight" >
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">항공사</th>
+      <th scope="col">출발도시 - 도착도시</th>
+      <th scope="col">출발일시/도착일시</th>
+      <th scope="col">경유/소요시간</th>
+      <th scope="col">가격/결제일시</th>
+      <th scope="col">주문상태</th>
+    </tr>
+  </thead>
+ 
+  <tbody>
+   
+     <c:set var = "i" value="0"/>
+		<c:forEach var="flight" items = "${list}" >
+	<c:set var="i" value="${i+1}"/>
+			 <tr>
+			      <th scope="row">
+			      <i class="fas fa-list" id="refund"></i>
+			      <input type="hidden" name="${flight.flightId}" id="flightId" value="${flight.flightId}"/>
+			      </th>
+				      <td>${flight.airline}</td>
+				      <td>${flight.depCity}/${flight.arrCity }</td>
+				      <td>${flight.depTime} - ${flight.arrTime }</td>
+				      <td>${flight.stopOver}/${flight.leadTime}</td>
+				      <td>${flight.price}원/${flight.orderDate}</td>
+				      <td>
+					      <c:if test="${flight.orderStatus == '1' }">
+					      	주문완료
+					      </c:if>
+					      <c:if test="${flight.orderStatus == '2' }">
+					      	환불신청
+					      </c:if>
+					      <c:if test="${flight.orderStatus == '3' }">
+					      	환불완료
+						  </c:if>
+					  </td>
+		   	 </tr>
+    	 </c:forEach>
+  </tbody>
+</table>
+	 
+	
+	
+	 <table class="table table-bordered" id="room" >
+	 
+	  <thead>
+	    <tr>
+	      <th scope="col">#</th>
+	      <th scope="col">여행지</th>
+	      <th scope="col">숙소</th>
+	      <th scope="col">출발일시 - 도착일시</th>
+	      <th scope="col">객실수/숙박인원</th>
+	      <th scope="col">가격/결제일시</th>
+	      <th scope="col">주문상태</th>
+	    </tr>
+	  </thead>
+	 
+	  <tbody>
+	   
+	     <c:set var = "i" value="0"/>
+		<c:forEach var="room" items = "${list2}" >
+		<c:set var="i" value="${i+1}"/>
+			 <tr>
+			    <th scope="row"  id="refund2" >
+			    <i class="fas fa-list"></i>
+			    	<input type="hidden" name="${room.roomId}" id="roomId" value="${room.roomId}"/>
+			    </th>
+			    <td>${room.roomCity }</td>
+			    <td>${room.roomName}</td>
+			    <td>${room.checkIn} - ${room.checkOut }</td>
+			    <td>${room.roomNum} 개 / 성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
+			    <td>${room.price} 원 /${room.orderDate}</td>
+			    <td> 
+			    
+			      <c:if test="${room.orderStatus == '1' }">
 			      	주문완료
 			      </c:if>
-			      <c:if test="${order.orderStatus == '2' }">
-			      	환불신청
+			      <c:if test="${room.orderStatus == '2' }">
+			      	<select class="custom-select" name="orderStatus" id="orderStatus" style="width:80%;margin-top:30px;">
+					  <option selected value="2">환불신청</option>
+					  <option value="3">환불처리중</option>
+					  <option value="4">환불완료</option>
+					</select>
 			      </c:if>
-			      <c:if test="${order.orderStatus == '3' }">
+			         <c:if test="${room.orderStatus == '3' }">
+			         <select class="custom-select" name="orderStatus" id="orderStatus" style="width:80%;margin-top:30px;">
+					  <option selected value="3">환불처리중</option>
+					  <option value="4">환불완료</option>
+					</select>
+			         </c:if>
+			      <c:if test="${room.orderStatus == '4' }">
 			      	환불완료
 				  </c:if>
-			</h4>
-		 <c:if test="${flight.flightId ne null }">
-		 	<hr/>
-			<i class="fas fa-plane" id="iconf" style="Padding-left:20px;font-size:40px;" ></i>
-				<br/>
-				<table class="table">
-					  <thead>
-					    <tr>
-					      <th scope="col">항공사</th>
-					      <th scope="col">출발시간</th>
-					      <th scope="col">도착시간</th>
-					      <th scope="col">경유</th>
-					      <th scope="col">소요시간</th>
-					      <th scope="col">가격</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-					    <tr>
-					      <th scope="row">${flight.airline}</th>
-					      <td>${flight.depTime}</td>
-					      <td>${flight.arrTime}</td>
-					      <td>${flight.stopOver}</td>
-					      <td>${flight.leadTime}</td>
-					      <td>${flight.price}원</td>
-					    </tr>
-					  </tbody>
-				</table>
-		</c:if>
-		 <c:if test="${room.roomId ne null }">
-		 	<hr/>
-			<i class="fas fa-bed" id="iconr" style="Padding-left:20px;font-size:40px;"></i>
-				<br/>
-				<table class="table">
-					  <thead>
-					    <tr>
-					      <th scope="col">숙소</th>
-					      <th scope="col">체크인</th>
-					      <th scope="col">체크아웃</th>
-					      <th scope="col">객실수</th>
-					      <th scope="col">숙박인원</th>
-					      <th scope="col">가격</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-					    <tr>
-					      <th scope="row">${room.roomName}</th>
-					      <td>${room.checkIn}</td>
-					      <td>${room.checkOut}</td>
-					      <td>${room.roomNum}</td>
-					      <td>성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
-					      <td>${room.price}원</td>
-					    </tr>
-					  </tbody>
-				</table>
-		</c:if>
-		
-		<br/>
-		
-		<div class="row">
-			<i class="fas fa-won-sign" style="Padding-left:20px;font-size:40px;"></i>
-			<h4 align="left" style="margin-top:5px;margin-left:10px;font-size:17px;">결제 완료 내역</h4>
-		</div>	
-			<hr/>
-			<div class="row">
-	             <div class="col-sm-2">
-	            		 총 결제 금액
-	                    <div class="row">
-	                    	<c:if test="${flight.depCity == null }">	
-	                   			<div id="totalAmount" style="Padding-left:30px;">${room.price}원</div> 
-	            			</c:if>
-	            			<c:if test="${room.roomCity == null }">	
-	                   			<div id="totalAmount" style="Padding-left:30px;">${flight.price}원</div>
-	            			</c:if>
-	            		</div>
-	             </div>
-	             <div class="col-sm-1">
-	             	<i class="fas fa-minus-circle" style="margin-top:10px;"></i>
-	             </div>
-	             <div class="col-sm-2" style="Padding-left:30px;">
-	            		 포인트 할인
-	                    <div class="row">
-	                    	<div id="usedPoint" style="Padding-left:20px;"> - ${point.usedPoint} P</div>
-	            		</div>
-	             </div>
-	             <div class="col-sm-1">
-	             	<i class="fas fa-equals" style="margin-left:15px;margin-top:10px;"></i>
-	             </div>
-	             <div class="col-sm-2" style="Padding-left:40px;">
-	            		 실 결제 금액
-	                    <div class="row">
-	                    	<div id="actualAmount" style="Padding-left:20px;">${order.actualAmount}원</div>
-	            		</div>
-	             </div>
-			</div>
-			<br/>
-			<hr style="width:50%;float:left;margin-right:700px;" />
-			
-				<div class="row" style="Padding-left:190px;">
-					<div class="col-sm-1" style="margin-top:10px;">
-						<i class="fas fa-plus"></i>
-					</div>
-					<%-- <div class="col-sm-3">
-				 		사용한 포인트 
-						<div id="payPoint" style="Padding-left:20px;">${order.payPoint} P</div>
-					 <i class="fas fa-minus-circle" style="margin-top:10px;"></i>
-					</div> --%>
-					<div class="col-sm-2" style="margin-left:30px;">
-						<p>적립 된 포인트</p>
-							<%-- <c:if test="${point.usedType eq 'F' | point.usedType eq 'R' }"> --%>
-					 			<div id="addPoint" style="Padding-left:20px;">${point.usedPoint} P </div>
-					</div>
-					<div class="col-sm-1" style="margin-left:20px;">
-						<i class="fas fa-equals" style="margin-left:15px;margin-top:10px;"></i>
-					</div>
-					<div class="col-sm-2" style="margin-left:50px;">
-						<p>총 포인트</p>
-							<div id="totalPoint" style="margin-left:10px;">${user.totalPoint} P </div>
-					</div>
-				</div>
-			<br/>
-		<div class="row">
-			<i class="fas fa-user" style="Padding-left:20px;font-size:40px;"></i>
-			<h4 align="left" style="margin-top:5px;margin-left:10px;font-size:17px;">구매자 정보</h4>
-		</div>
-		<hr/>
-			<div>
-				<div class="row" style="margin-bottom: 15px" >
-						  <div class="col-md-3">구매자</div>
-						  <div class="col-md-9">${order.buyerName}</div>
-				</div>
-				<div class="row" style="margin-bottom: 15px" >
-						  <div class="col-md-3">연락처</div>
-						  <div class="col-md-9">${order.buyerPhone}</div>
-				</div>
-				<div class="row" style="margin-bottom: 15px" >
-						  <div class="col-md-3">Email</div>
-						  <div class="col-md-9">${order.buyerEmail}</div>
-				</div>
-			</div>
-		<hr/>
-	
-	   		 <div class="form-group" align="center">
-			<button type="button" class="btn btn-warning"  >확인</button>
-			<button type="button" class="btn btn-primary" id="refundApp1" data-toggle="modal" data-target="#refund">
-			   환불 신청
-			</button>
-			</div>
-</div>
-			
-<div class="modal fade" id="refund" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">환불 신청</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      	  예약한 상품을 환불 신청 하시겠습니까?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="reset" data-dismiss="modal">취소</button>
-        <button type="button" class="btn btn-primary" id="refundApp2">환불신청</button>
-      </div>
-    </div>
-  </div>
-</div>	
-			
-		
-		
-		
-<%-- 		<div class="row">
-		
-			<div class="col-xs-4 col-md-2"><strong>도착도시</strong></div>
-			<div class="col-xs-8 col-md-4">${flight.depCity }</div>
-		 <c:if test="${flight.depCity == null }">
-			<div class="col-xs-4 col-md-2"><strong>도착지역</strong></div>
-			<div class="col-xs-8 col-md-4">${room.roomCity }</div>
-		</c:if>
-		</div>
-	<hr/>
-	
-	<div class="row">
-	<c:if test="${flight.arrCity == null }">
-			<div class="col-xs-4 col-md-2"><strong>숙소이름</strong></div>
-			<div class="col-xs-8 col-md-4">${room.roomName }</div>
-	</c:if>
-	<c:if test="${room.roomName == null }">
-			<div class="col-xs-4 col-md-2"><strong>상품명</strong></div>
-			<div class="col-xs-8 col-md-4">${flight.arrCity }</div>
-	</c:if>
-		</div>
-	<hr/>
-	
-	<div class="row">
-			<div class="col-xs-4 col-md-2"><strong>orderId</strong></div>
-			<div class="col-xs-8 col-md-4">${order.orderId }</div>
-		</div>
-	<hr/> --%>
+				 </td>
+		   	 </tr>
+	     </c:forEach>
+	  </tbody>
+	</table>
 
-	</form>
 </body>
+</form>
 </html>

@@ -1,5 +1,7 @@
 package com.ksy.service.domain;
 
+import java.sql.Timestamp;
+
 public class Room {
 	private String roomId; //room_id
 	private String roomName; //room_name
@@ -24,6 +26,9 @@ public class Room {
 	private String location;
 	private String distance;
 	private String grade;
+	
+	private String orderStatus; //order_status
+	private Timestamp orderDate; //order_date
 	
 	public String getLocation() {
 		return location;
@@ -157,6 +162,19 @@ public class Room {
 	}
 	public void setRoomImg(String roomImg) {
 		this.roomImg = roomImg;
+	}
+	
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+	public Timestamp getOrderDate() {
+		return orderDate;
+	}
+	public void setOrderDate(Timestamp orderDate) {
+		this.orderDate = orderDate;
 	}
 	@Override
 	public String toString() {
