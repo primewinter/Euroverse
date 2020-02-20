@@ -30,4 +30,6 @@ public interface AdminDao {
 	
 	public List<Post> getAdminQnAList(Search search) throws Exception;
 	
+	public int getAdminQnaListTotalCount(Search search) throws Exception;
+	
 }

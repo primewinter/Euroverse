@@ -14,6 +14,8 @@ import com.ksy.service.admin.AdminService;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.User;
+import com.ksy.service.myPage.MyPageDao;
+import com.ksy.service.user.UserDao;
 
 @Service("adminServiceImpl")
 public class AdminServiceImpl implements AdminService {
@@ -85,7 +87,7 @@ public class AdminServiceImpl implements AdminService {
 		System.out.println("AdminServiceImpl getAdminQnAList");
 
 		List<Post> list = adminDao.getAdminQnAList(search);
-		int totalCount = adminDao.getTotalCount(search);
+		int totalCount = adminDao.getAdminQnaListTotalCount(search);
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("list", list);

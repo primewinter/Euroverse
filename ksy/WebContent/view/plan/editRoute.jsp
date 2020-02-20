@@ -15,8 +15,9 @@
 	
 	<!-- 부트스트랩 4.4 쓰려다가 빠꾸...............................했다가 다시 4.4로..  -->
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
+	
 	
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -25,14 +26,14 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	
 	<link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
 	
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
 	
 	
 	<!-- FontAwesome CDN -->
@@ -118,12 +119,29 @@
       .dura_circle{
       	width: 100px;
       	height: 100px;
-      	border: 1px solid gray;
+      	//border: 1px solid gray;
       	border-radius: 100%;
       	align-content: center;
       	text-align: center;
-      	padding-top: 10px;
+      	font-size:x-large;
+      	padding-top: 30px;
       	margin: 10px;
+      }
+      
+      
+      .tran_a, .tran_a:hover, .tran_a:focus{
+      	 color:inherit; 
+      	 text-decoration: none;
+      }
+      .city_duration_wrap, .city_duration_wrap:hover, .city_duration_wrap:focus{
+      	 color:inherit; 
+      	 text-decoration: none;
+      }
+      
+      .cr_cityDuration_parent{
+      	 border:2px solid #71BED1; 
+      	 padding: 12px; 
+      	 font-weight: 600;"
       }
       
 	</style>
@@ -171,11 +189,13 @@
 			
 			$('.city_route').hover(
 		        function() {
-		            $(this).find('.media').css('backgroundColor', '#F4FAFA');
+		            //$(this).find('.media').css('backgroundColor', '#F4FAFA');
+		            $(this).find('.media').css('outline', '2px solid #CDD8D8');
 		            $(this).find('.close').show();
 		        },
 		        function() {
-		            $(this).find('.media').css('background', 'none');
+		            //$(this).find('.media').css('background', 'none');
+		            $(this).find('.media').css('outline', 'none');
 		            $(this).find('.close').hide();
 		        }
 		    );
@@ -216,7 +236,8 @@
 			$('#durationCityName').text( $($('.cr_cityName')[index]).text() );
 			$('#dura_'+currDuration).css('backgroundColor', '#7CECE5').css('color', 'white');
 			
-			$('#updateDurationModal').show();
+			//$('#updateDurationModal').show();
+			$('#updateDurationModal').modal();
 		}
 		
 		function showUpdateTranType( cityId, currTranType ) {
@@ -230,7 +251,8 @@
 			$('#update_city_id').text(cityId);
 			$('#tran_type_'+currTranType).css('backgroundColor', '#7CECE5').css('color', 'white');
 
-			$('#updateTranModal').show();
+			//$('#updateTranModal').show();
+			$('#updateTranModal').modal();
 		}
 		
 		
@@ -311,11 +333,20 @@
 		
 		
 		
-		
+		function prependZero( number ){
+			
+			if( number < 10 ){
+				return '0'+number;
+			}else{
+				return number;
+			}
+		}
 		
 		
 		function reorder() {
 			console.log("reorder() 실행")
+			
+			var startDate = new Date('${plan.startDate}');
 			
 		    $(".city_route").each(function(i, box) {
 		    	var cityId = $(box).find(".city_id").text().trim();
@@ -330,10 +361,31 @@
 		        	$(box).find(".tran_type").show();
 		        }
 		        
+		        
+		        /* var mm = startDate.getMonth()+1;
+		        mm = ( mm < 10 ) ? '0'+ mm : mm;
+		        
+		        var dd = startDate.getDate(); 
+		        dd = (dd < 10) ? '0' + dd : dd; */
+
+		        var cr_term_string = startDate.getFullYear()+"-"+ prependZero(startDate.getMonth()+1) +"-"+ prependZero(startDate.getDate()) + " ~ ";
+		        
+		        var cityDuration = $(box).find('.cr_cityDuration').text();
+		        //alert(cityDuration)
+		        
+		        startDate.setDate( startDate.getDate() + parseInt(cityDuration) );
+		        
+		        cr_term_string = cr_term_string + startDate.getFullYear()+"-"+prependZero(startDate.getMonth()+1)+"-"+prependZero(startDate.getDate());
+		        
+		        $(box).find('.cr_term').text(cr_term_string);
+		        
 		        updateVisitOrder( cityId, visitOrder );
 		    });
 			
-			//getCityRouteList( planId );
+			setTimeout(function(){
+				getCityRouteList( planId );
+			},20);
+			
 		}
 		
 		function updateVisitOrder( cityId, visitOrder ){
@@ -435,9 +487,9 @@
 		
 		
 		function addCityRoute(cityName){
-			var nextVisitOrder = $(".city_route").size()+1;
+			var nextVisitOrder = $(".city_route").length + 1;
 			
-			if(confirm( "addCityRoute() 실행! : cityName="+cityName+" (planId="+planId+") / nextVisitOrder="+nextVisitOrder +"\n 경로를 추가하시겠습니까?" ))
+			if(confirm( "\n 경로를 추가하시겠습니까?" ))
 			{	
 				$.ajax({
 					url: "/planSub/json/addCityRoute",
@@ -457,7 +509,7 @@
 							
 							var crHtml = '<div class="city_route">';
 							crHtml = crHtml + '<div class="trans d-flex justify-content-center">';
-							crHtml = crHtml + '<a href="javascript:showUpdateTranType(\''+ JSONData.cityId +'\' , \''+ JSONData.tranType +'\')">';
+							crHtml = crHtml + '<a class="tran_a" href="javascript:showUpdateTranType(\''+ JSONData.cityId +'\' , \''+ JSONData.tranType +'\')">';
 							crHtml = crHtml + '<font class="tran_type" style="font: 7px gray;">';
 							
 							if( JSONData.tranType == 'T' ){
@@ -479,7 +531,7 @@
 							
 							crHtml = crHtml + '<button type="button" class="close hide" aria-label="Close" onclick="deleteCityRoute(\''+ JSONData.cityId +'\', 0 )"> <span aria-hidden="true">&times;</span> </button>';
 	
-							crHtml = crHtml + '<div class="media mt-4" style="border: 1px solid #CDD8D8; padding: 12px 30px 5px 30px;">';
+							crHtml = crHtml + '<div class="media mt-4" style="border: 1px solid #CDD8D8; border-radius:3px; padding: 12px 30px 5px 30px;">';
 							crHtml = crHtml + '<div hidden="hidden">방문순서: <span class="visit_order">'+ JSONData.visitOrder +'</span> , 도시ID: <span class="city_id">'+ JSONData.cityId +'</span></div>';
 							crHtml = crHtml + '<img alt="" src="/resources/images/planImg/defaultPlanImage.jpg" class="align-self-center mr-3 city_img" style="width: 50px; height: auto;" hidden="hidden">';
 							crHtml = crHtml + '<div class="media-body">';
@@ -487,7 +539,7 @@
 							crHtml = crHtml + '<p class="cr_term">'+ JSONData.startDateStr +' ~ '+ JSONData.endDateStr +'</p>';
 							crHtml = crHtml + '</div>';
 							crHtml = crHtml + '<a href="javascript:showUpdateCityDuration(\''+ JSONData.cityId +'\' ,\' '+ JSONData.cityDuration + '\')" class="city_duration_wrap">';
-							crHtml = crHtml + '<div class="cr_cityDuration_parent rounded-circle" style="border:3px solid #33B9B1; padding: 12px; font-weight: 600;">';
+							crHtml = crHtml + '<div class="cr_cityDuration_parent rounded-circle">';
 							crHtml = crHtml + '<span class="cr_cityDuration">'+ (JSONData.cityDuration-1) +'</span>박';
 							crHtml = crHtml + '</div>';
 							crHtml = crHtml + '</a>';
@@ -495,6 +547,7 @@
 							crHtml = crHtml + '</div>';
 							
 							$(crHtml).appendTo('.city_route_list');
+							
 						}
 					},
 					error:function(request,status,error){
@@ -502,7 +555,11 @@
 				    } 
 				}); //ajax
 				
-				//reorder();
+				setTimeout(function(){
+					reorder();
+				}, 50); // 날짜 null ~ null 로 떠서 셋타임아웃 해줌
+				
+				prv_infowindow.close();
 			}//confirm if
 		}
 		
@@ -541,6 +598,21 @@
 			}); 
 		});
 		
+		//.show() -> .modal() 로 변경하면서 closeModal시 수행할 기능들 다시 이벤트 걸어주기...
+		$(function() {
+			
+			$('#updateTranModal').on('hidden.bs.modal', function(){
+				$('.tran_circle').css('background', 'none').css('color', 'black');
+			});
+			
+			$('#updateDurationModal').on('hidden.bs.modal', function(){
+				$('.dura_circle').css('background', 'none').css('color', 'black');
+			});
+			
+		});
+		
+		
+		
 	</script>
 	
 	
@@ -567,6 +639,8 @@
 		
 		
 		
+ 		var lineSymbol2;
+		
 	
 		/* initMap !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 		function initMap(){
@@ -576,20 +650,287 @@
 		        center: korea,
 		        zoom: 3,			/* zoom: 1:World, 5:Landmass/continent, 10:City, 15:Streets, 20:Buildings */
 		        //mapTypeId :'terrain',
-		        styles: [
+		        //styles: [
 		        	/* { "elementType": "geometry", "stylers": [ { "color": "#ffffff" } ] }, */
-		        	  { "elementType": "labels.icon", "stylers": [ { "color": "#e5e5e5" }, { "visibility": "off" } ] },
+		        	  /* { "elementType": "labels.icon", "stylers": [ { "color": "#e5e5e5" }, { "visibility": "off" } ] },
 		        	  { "elementType": "labels.text.fill", "stylers": [ { "color": "#c3c3c3" } ] },
-		        	  { "featureType": "administrative", "elementType": "geometry", "stylers": [ { "visibility": "off" } ] },
+		        	  { "featureType": "administrative", "elementType": "geometry", "stylers": [ { "visibility": "off" } ] }, */
 		        	  /* { "featureType": "administrative.land_parcel", "stylers": [ { "visibility": "off" } ] },
 		        	  { "featureType": "administrative.locality", "stylers": [ { "visibility": "simplified" } ] },
 		        	  { "featureType": "administrative.neighborhood", "stylers": [ { "visibility": "off" } ] },
 		        	  { "featureType": "poi", "stylers": [ { "visibility": "off" } ] },
 		        	  /* { "featureType": "road", "stylers": [ { "visibility": "off" } ] }, */
-		        	  { "featureType": "transit", "stylers": [ { "visibility": "off" } ] },
-		        	  { "featureType": "water", "elementType": "geometry", "stylers": [ { "color": "#DAF8F6" } ] },
+		        	 /*  { "featureType": "transit", "stylers": [ { "visibility": "off" } ] },
+		        	  { "featureType": "water", "elementType": "geometry", "stylers": [ { "color": "#DAF8F6" } ] }, */
 		        	  /* { "featureType": "water", "elementType": "labels.text", "stylers": [ { "visibility": "off" } ] } */
-		        ]
+		        //]
+		    	styles:[
+		    		  {
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#ebe3cd"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#79524f"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "elementType": "labels.text.stroke",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#f5f1e6"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "administrative",
+		    			    "elementType": "geometry.stroke",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#c9b2a6"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "administrative.land_parcel",
+		    			    "elementType": "geometry.stroke",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#dcd2be"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "administrative.land_parcel",
+		    			    "elementType": "labels",
+		    			    "stylers": [
+		    			      {
+		    			        "visibility": "off"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "administrative.land_parcel",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#ae9e90"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "landscape.natural",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#fcf9f5"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "poi",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#e7dec2"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "poi",
+		    			    "elementType": "labels.text",
+		    			    "stylers": [
+		    			      {
+		    			        "visibility": "off"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "poi",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#93817c"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "poi.business",
+		    			    "stylers": [
+		    			      {
+		    			        "visibility": "off"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "poi.park",
+		    			    "elementType": "geometry.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#e8edde"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "poi.park",
+		    			    "elementType": "labels.text",
+		    			    "stylers": [
+		    			      {
+		    			        "visibility": "off"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "poi.park",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#447530"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road",
+		    			    "stylers": [
+		    			      {
+		    			        "visibility": "off"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#f5f1e6"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road.arterial",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#fdfcf8"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road.highway",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#f8c967"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road.highway",
+		    			    "elementType": "geometry.stroke",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#e9bc62"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road.highway.controlled_access",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#e98d58"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road.highway.controlled_access",
+		    			    "elementType": "geometry.stroke",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#db8555"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road.local",
+		    			    "elementType": "labels",
+		    			    "stylers": [
+		    			      {
+		    			        "visibility": "off"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "road.local",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#806b63"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "transit.line",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#dfd2ae"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "transit.line",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#a0938b"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "transit.line",
+		    			    "elementType": "labels.text.stroke",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#ebe3cd"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "transit.station",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#dfd2ae"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "water",
+		    			    "elementType": "geometry.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#daedec"
+		    			      }
+		    			    ]
+		    			  },
+		    			  {
+		    			    "featureType": "water",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [
+		    			      {
+		    			        "color": "#83a39e"
+		    			      }
+		    			    ]
+		    			  }
+		    			]
 		    });
 		    
 	    	 
@@ -656,17 +997,17 @@
 		 			    strokeWeight: 1,
 		 			    scale: 1
 		 			}
-		 	var lineSymbol_TRAIN_LR = {
+		 	var lineSymbol = {
 		 			    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
-		 			    fillColor: '#696969',
+		 			    fillColor: '#8A8A8A',
 		 			    fillOpacity: 1,
-		 			    strokeWeight: 1,
-		 			    scale: 1,
+		 			    strokeWeight: 2,
+		 			    scale: 2,
 		 				rotation: 0,
 		 				anchor: new google.maps.Point(0,0)
 		 			}
 		 	
-		 	var markerIcon = new google.maps.MarkerImage("/resources/images/icon/circle_red.png", null, null, null, new google.maps.Size(9,9));
+		 	var markerIcon = new google.maps.MarkerImage("/resources/images/icon/lb-circle.png", null, null, null, new google.maps.Size(9,9));
 		 	var myIcon = new google.maps.MarkerImage("/resources/images/icon/circle_blue.png", null, null, null, new google.maps.Size(12,12));
 			
 			
@@ -678,7 +1019,15 @@
 	    		
 	    		var makingMarker = new google.maps.Marker({
 					position: mPosition,
-					icon: markerIcon,
+					//icon: markerIcon,
+					icon: {
+						path: google.maps.SymbolPath.CIRCLE,
+			            scale: 5,
+			            strokeWeight:0.5,
+			            strokeColor: 'white',
+			            fillColor: '#0D84F5',
+			            fillOpacity: 0.9
+					},
 					shape: shape,
 					title: city
 					, zIndex: 1000 
@@ -696,7 +1045,7 @@
 					var contentHtml = '<div class="media" style="width:300px; height:120px; padding:5px;">';
 					contentHtml = contentHtml + '<img class="align-self-start mr-2" src="/resources/images/cityImg/'+img+'" width="60px" height="60px">';
 					contentHtml = contentHtml + '<div class="media-body">';
-					contentHtml = contentHtml + '<h5 class="mt-0">'+ makingMarker.title +  '<div class="badge badge-primary text-wrap" style="width: 3rem; margin-left:10px; margin-top:0;" onClick="addCityRoute(\'' + makingMarker.title + '\' )">'+'add'+'</div>'  +'</h5>';
+					contentHtml = contentHtml + '<h5 class="mt-0">'+ makingMarker.title +  '<div class="badge badge-primary text-wrap" style="width: 3rem; margin-left:10px; margin-top:0;" onClick="addCityRoute(\'' + makingMarker.title + '\' )">'+'추가'+'</div>'  +'</h5>';
 					contentHtml = contentHtml + '<p>'+  cityInfo  +'</p>';
 					contentHtml = contentHtml + '</div>';
 					contentHtml = contentHtml + '</div>';
@@ -717,13 +1066,16 @@
 	    		console.log("create My Marker.... city="+city+", country="+country+", mPosition="+mPosition+", img="+img+", cityInfo="+cityInfo );
 	    		
 	    		//var myIcon = new google.maps.MarkerImage("/resources/images/icon/circle_blue.png", null, null, null, new google.maps.Size(12,12));
+	    		var myIconn = new google.maps.MarkerImage("/resources/images/icon/pin-red2.png", null, null, null, new google.maps.Size(27,27));
 	    		
 	    		var myMarker = new google.maps.Marker({
 					position: mPosition,
-					icon: myIcon,
-					shape: shape,
+					//icon: myIcon,
+					icon: myIconn,
+					//shape: shape,
 					title: city
-					, zIndex: 2000 
+					, zIndex: 3000
+					, animation: google.maps.Animation.DROP
 				});
 	    		
 	    		google.maps.event.addListener(myMarker, 'click', function() {
@@ -739,9 +1091,9 @@
 					var contentHtml = '<div class="media" style="width:300px; height:120px; padding:5px;">';
 					contentHtml = contentHtml + '<img class="align-self-start mr-2" src="/resources/images/cityImg/'+img+'" width="60px" height="60px">';
 					contentHtml = contentHtml + '<div class="media-body">';
-					contentHtml = contentHtml + '<h5 class="mt-0">'+ city +  '<div class="badge badge-primary text-wrap" style="width: 3rem; margin-left:10px; margin-top:0;" onClick="addCityRoute(\'' + myMarker.title + '\' )">'+'add'+'</div>'  +'</h5>';
+					contentHtml = contentHtml + '<h5 class="mt-0">'+ city +  '<div class="badge badge-primary text-wrap" style="width: 3rem; margin-left:10px; margin-top:0;" onClick="addCityRoute(\'' + myMarker.title + '\' )">'+'추가'+'</div>'  +'</h5>';
 					
-					contentHtml = contentHtml + '<p> 시티루트에 담긴 도시입니다~~~~~ </p>';
+					contentHtml = contentHtml + '<p style="font-weight:900;font-size:14px;"> 여행루트에 추가된 도시입니다</p>';
 					contentHtml = contentHtml + '<p>'+  cityInfo  +'</p>';
 					contentHtml = contentHtml + '</div>';
 					contentHtml = contentHtml + '</div>';
@@ -781,12 +1133,12 @@
 						var path = [ myMarkers[i-1].getPosition() , myMarkers[i].getPosition() ];
 						routeLines[i-1] = new google.maps.Polyline({
 							map: map,
-							strokeColor: '#696969',
+							strokeColor: '#8A8A8A',
 					        strokeOpacity: 1.0,
-					        strokeWeight:1,
+					        strokeWeight:2,
 					        geodesic: false,
 					        icons: [{
-					            icon: lineSymbol_TRAIN_LR,
+					            icon: lineSymbol,
 					            offset: '95%'
 					        }]
 						});
@@ -808,10 +1160,25 @@
 			
 			/* 지도 내에 버튼 만들기 */ 
 			var leftControlDiv = document.createElement('div');
-			var thtml = '<div class="text-center" style="margin-bottom:5px;margin-left:10px;font-weight:bold; background-color:#29B4AC; font-size:10pt;border:solid thin #DDDDDD ; border-radius:5px; padding:10px; color: white;" onClick="controlClick()"><i class="fas fa-door-open" style="font-size: 35px; margin:5px;"></i><br/>플래너 페이지로</div>';
+			var thtml = '<div class="text-center" style="margin:20px; font-weight:bold; background-color:#024B5D; color: white; font-size:10pt;border:solid thin #DDDDDD ; border-radius:5px; padding:10px;" onClick="controlClick()"><i class="fas fa-door-open" style="font-size: 35px; margin:5px;"></i><br/>플래너 페이지로</div>';
 			leftControlDiv.innerHTML = thtml;
-			map.controls[google.maps.ControlPosition.LEFT_TOP].push(leftControlDiv);
+			map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(leftControlDiv);
 		    
+
+
+			
+	 		lineSymbol2 = {
+		 			//path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
+	 			    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
+	 			    fillColor: '#8A8A8A',
+	 			    fillOpacity: 1,
+	 			    strokeWeight: 2,
+	 			    scale: 2,
+	 				rotation: 0,
+	 				anchor: new google.maps.Point(0,0)
+	 			}
+			
+			
 		};	//initMap()
 		/* ------------------------------------ Google Map Script ------------------------------------ */
 		
@@ -831,7 +1198,7 @@
     		myMarkers=[];
     	}
 		function clearRouteLines() {
-    		alert("clearRouteLines......");
+    		console.log("clearRouteLines......");
     		for(i=0;i<routeLines.length;i++){
     			routeLines[i].setMap(null);
     		}
@@ -840,7 +1207,7 @@
 		
 		
 		function getCityRouteList( planId ){
-			alert("getCityRouteList("+ planId +") 실행! ");
+			console.log("getCityRouteList("+ planId +") 실행! ");
 			
 			$.ajax({
 				url: "/planSub/json/getCityRouteList/"+planId ,
@@ -851,7 +1218,7 @@
 					if( JSONData==null || JSONData=="" ){
 						alert("리턴데이터 없음");	
 					}else{
-						alert("리턴데이터 있음! => "+JSON.stringify(JSONData) );	
+						console.log("리턴데이터 있음! => "+JSON.stringify(JSONData) );	
 						
 						var bounds = new google.maps.LatLngBounds();
 						clearMyMarkers();
@@ -860,7 +1227,10 @@
 						var cityMarkerList = JSONData;
 						
 						for( var i in JSONData ){
-							var getMyMarker = createMyMarker( cityMarkerList[i].title, cityMarkerList[i].country, cityMarkerList[i].position, cityMarkerList[i].cityImg, cityMarkerList[i].cityInfo );
+							
+							var getPosition = new google.maps.LatLng( JSONData[i].cityLat , JSONData[i].cityLng );
+							
+							var getMyMarker = createMyMarker2( JSONData[i].cityName, JSONData[i].country, getPosition, JSONData[i].cityImg, JSONData[i].cityInfo );
 							getMyMarker.setMap(map);
 							myMarkers.push(getMyMarker);
 							
@@ -868,12 +1238,12 @@
 								var path = [ myMarkers[i-1].getPosition() , myMarkers[i].getPosition() ];
 								routeLines[i-1] = new google.maps.Polyline({
 									map: map,
-									strokeColor: '#696969',
+									strokeColor: '#8A8A8A',
 							        strokeOpacity: 1.0,
-							        strokeWeight:1,
+							        strokeWeight:2,
 							        geodesic: false,
 							        icons: [{
-							            icon: lineSymbol_TRAIN_LR,
+							            icon: lineSymbol2,
 							            offset: '95%'
 							        }]
 								});
@@ -891,7 +1261,69 @@
 			    } 
 			}); //ajax
 			
-		}
+		} //getCityRouteList( planId )
+		
+		
+		var shape2 = {
+	    			coords: [1, 1, 1, 12, 12, 12, 12, 1],
+	    	        type: 'poly'
+    	        };
+	 	
+		
+		
+		function createMyMarker2( city, country, mPosition, img, cityInfo ){
+	    		console.log("create My Marker2.... city="+city+", country="+country+", mPosition="+mPosition+", img="+img+", cityInfo="+cityInfo );
+	    		
+	    		var myIcon2 = new google.maps.MarkerImage("/resources/images/icon/circle_blue.png", null, null, null, new google.maps.Size(12,12));
+	    		var myIconn = new google.maps.MarkerImage("/resources/images/icon/pin-red2.png", null, null, null, new google.maps.Size(22,22));
+	    		
+	    		
+	    		var myMarker = new google.maps.Marker({
+					position: mPosition,
+					icon: myIconn,
+					/* icon: {
+			            path: google.maps.SymbolPath.CIRCLE,
+			            scale: 5,
+			            strokeWeight:1
+			        }, */
+					//shape: shape2,
+					title: city
+					, zIndex: 2000 
+					, animation: google.maps.Animation.BOUNCE
+				});
+	    		
+	    		
+	    		
+	    		google.maps.event.addListener(myMarker, 'click', function() {
+					console.log("city name = "+myMarker.title);
+					
+					if(prv_infowindow){ prv_infowindow.close(); }
+					
+					//var markerLatLng = new google.maps.LatLng( mPosition.lat() , mPosition.lng() );		//구글의 함수로 만든 LatLng 객체라서 lat() 이런식의 함수로 수 뽑아줘야 함
+					//console.log(mPosition.lat()+"/"+mPosition.lng() );
+					
+					var infowindow = new google.maps.InfoWindow();
+					
+					var contentHtml = '<div class="media" style="width:300px; height:120px; padding:5px;">';
+					contentHtml = contentHtml + '<img class="align-self-start mr-2" src="/resources/images/cityImg/'+img+'" width="60px" height="60px">';
+					contentHtml = contentHtml + '<div class="media-body">';
+					contentHtml = contentHtml + '<h5 class="mt-0">'+ city +  '<div class="badge badge-primary text-wrap" style="width: 3rem; margin-left:10px; margin-top:0;" onClick="addCityRoute(\'' + myMarker.title + '\' )">'+'추가'+'</div>'  +'</h5>';
+					
+					contentHtml = contentHtml + '<p> 시티루트에 담긴 도시입니다~~~~~ </p>';
+					contentHtml = contentHtml + '<p>'+  cityInfo  +'</p>';
+					contentHtml = contentHtml + '</div>';
+					contentHtml = contentHtml + '</div>';
+					
+					infowindow.setContent(contentHtml);
+					infowindow.setPosition(myMarker.position);	//infowindow.setPosition(markerLatLng);
+					infowindow.open(map);
+					
+					prv_infowindow = infowindow;
+				}); 
+	    		
+	    		return myMarker;
+	    	} //createMyMarker( city, country, mPosition, img, cityInfo )
+		
 		
 		
 		/* icon 사용을 위한 스크립트 */
@@ -921,12 +1353,12 @@
 		<!-- <div class="row"> -->
 			
 			<!-- 좌측 컨테이너 Start ///////////////////////////// -->
-			<div id="city_route_list_container" style="width: 25%; height:786px; float: left; border-right: 1 #DEDEDE solid; margin-left: 0px;margin-top: 0px;">
+			<div id="city_route_list_container" style="width: 25%; height:786px; float: left; border-right: 1 #C9C9C9 solid; margin-left: 0px;margin-top: 0px;">
 				
 				<!-- 좌측 컨테이너 상단 plan_info Start ///////////////////////////// -->
-				<div class="plan_info" style="background-color: #ADDFDC; width: 100%; padding: 7px; height: 16%;">
+				<div class="plan_info" style="background-color: #B0E2EE; width: 100%; padding: 5px; height: 16%;">
 				
-					<div class="media" style="width: 100%; padding: 10px;">
+					<div class="media" style="width: 100%;height:100%; padding: 10px;">
 					
 						<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border-width: 1px; border-color: #D1D1D1; border-style: solid; width: 100px; height: 100px;">
 
@@ -945,7 +1377,7 @@
 										<c:when test="${plan.planType == 'G'}">커플</c:when>
 									</c:choose>
 									
-									<span class="float-right">
+									<%-- <span class="float-right">
 										<i id="updatePlanButton" class="fas fa-globe-europe" style="font-size: 15px;"></i>
 										<c:if test="${ user.userId == plan.planMaster.userId }">
 											<i id="deletePlanButton" class="fas fa-globe-asia" style="font-size: 15px;"></i>
@@ -954,7 +1386,7 @@
 											<i id="exitPlanButton" class="fas fa-globe-asia" style="font-size: 15px;"></i>
 										</c:if>
 										<i id="planCompleteButton" class="fas fa-globe-asia" style="font-size: 15px;"></i>
-									</span>
+									</span> --%>
 								</div>
 								
 							      <div style="margin: 3px 0;">
@@ -1014,7 +1446,7 @@
 									
 									<!-- tran_type -->
 									<div class="trans d-flex justify-content-center"><!-- 가운데 정렬 -->
-										<a href="javascript:showUpdateTranType('${cityRoute.cityId}','${cityRoute.tranType}')">
+										<a class="tran_a" href="javascript:showUpdateTranType('${cityRoute.cityId}','${cityRoute.tranType}')">
 											<font class="tran_type" style="font: 7px gray;"><!-- div 안들어가서 font로.. -->
 												<c:choose>
 													<c:when test="${cityRoute.tranType == 'T'}">기차 <i class="tran_icon fas fa-train"></i></c:when>
@@ -1033,7 +1465,7 @@
 									
 									
 									<!-- city_route 정보 -->
-									<div class="media mt-4" style="border: 1px solid #CDD8D8; padding: 12px 30px 5px 30px;"> <!-- 상 우 하 좌 -->
+									<div class="media mt-4" style="border: 1px solid #CDD8D8; border-radius:3px; padding: 12px 30px 5px 30px;"> <!-- 상 우 하 좌 -->
 										<!-- hidden 정보 (방문순서, 도시ID) -->
 										<div hidden="hidden">방문순서: <span class="visit_order">${cityRoute.visitOrder}</span> , 도시ID: <span class="city_id">${cityRoute.cityId}</span></div>
 										<img alt="" src="/resources/images/planImg/defaultPlanImage.jpg" class="align-self-center mr-3 city_img" style="width: 50px; height: auto;" hidden="hidden">
@@ -1044,7 +1476,7 @@
 										</div> <!-- media-body -->
 									
 										<a href="javascript:showUpdateCityDuration('${cityRoute.cityId}','${cityRoute.cityDuration}')" class="city_duration_wrap">
-										<div class="cr_cityDuration_parent rounded-circle" style="border:1px solid #33B9B1; padding: 12px; font-weight: 600;">
+										<div class="cr_cityDuration_parent rounded-circle">
 											<span class="cr_cityDuration">${cityRoute.cityDuration-1}</span>박
 										</div>
 										</a>
@@ -1093,7 +1525,7 @@
 
 
 	<!-- /////////////////////	Modal : updateTranModal 	///////////////////// -->
-	<div class="modal" id="updateTranModal" >
+	<div class="modal fade" id="updateTranModal" >
 	  <div class="modal-dialog modal-lg">
 	  <h4 style="color: #FFFFFF; margin-top: 100px;">이동수단 변경</h4>
 	    <div class="modal-content">
@@ -1131,7 +1563,7 @@
 
 
 	<!-- /////////////////////	Modal : updateDurationModal 	///////////////////// -->
-	<div class="modal" id="updateDurationModal" >
+	<div class="modal fade" id="updateDurationModal" >
 	  <div class="modal-dialog modal-lg">
 	  <h4 style="color: #FFFFFF; margin-top: 100px;">체류기간 변경</h4>
 	    <div class="modal-content">
@@ -1186,6 +1618,18 @@
 		$($('.tran_type')[0]).hide();
 		
 	</script>
+	
+	
+	
+	
+	
+	
+	<script type="text/javascript">
+	
+	
+	
+	</script>
+	
 	
 </body>
 </html>

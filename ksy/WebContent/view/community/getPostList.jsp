@@ -159,7 +159,7 @@
 		  <c:if test="${post.deleted == 'F'}">
 			<tr>
 		  <c:if test="${post.postGrade == 'N'}">
-		  	  <th scope="row" style="color:red;">공지 <i class="fas fa-bullhorn"></i></th>
+		  	  <th scope="row" style="color:#CE1717;">공지 <i class="fas fa-bullhorn"></i></th>
 			  <td style="font-weight: bold; color: dimgray;">
 			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/><span style="color:black;">${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
 			  <td style="font-weight:bold;">${post.nickName}</td>
@@ -168,7 +168,31 @@
 		  <c:set var="i" value="${ i+1 }" />
 			  <th scope="row">${ i }</th>
 			  <td style="font-weight: bold; color: dimgray;">
-			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>${post.postTitle} <span style="color:red;">(${post.comments})</span></td>
+			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
+			  <span style="color:black;">
+			  <c:if test="${post.boardName=='G'}">
+				  <c:if test="${post.qnaKategorie=='M'}">
+					[루트]
+				  </c:if>
+				  <c:if test="${post.qnaKategorie=='H'}">
+					[도시]
+				  </c:if>
+				  <c:if test="${post.qnaKategorie=='I'}">
+					[교통]
+				  </c:if>
+				  <c:if test="${post.qnaKategorie=='J'}">
+					[숙소]
+				  </c:if>
+				  <c:if test="${post.qnaKategorie=='K'}">
+					[쇼핑,경비,환전]
+				  </c:if>
+				  <c:if test="${post.qnaKategorie=='L'}">
+					[기타]
+				  </c:if>
+			  </c:if>
+			  </span>
+			  ${post.postTitle} <span style="color:red;">(${post.comments})</span></td>
+			  
 			  <td>${post.nickName}</td>
 		  </c:if>
 			  <td>${post.postDate}</td>
