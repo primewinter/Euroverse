@@ -57,6 +57,7 @@ public class AdminRestController {
 		
 		map.put("resultPage", resultPage);
 		map.put("search", search);
+		System.out.println("map µğ¹ö±ë ==>"+map);
 		
 		
 		return map;

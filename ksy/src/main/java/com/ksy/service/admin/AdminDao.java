@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
+import com.ksy.service.domain.Post;
 import com.ksy.service.domain.Report;
 import com.ksy.service.domain.User;
 
@@ -26,5 +27,7 @@ public interface AdminDao {
 	public Comment getQnaComment(String postId) throws Exception;
 	
 	public void addQnaComment(Comment comment) throws Exception;
+	
+	public List<Post> getAdminQnAList(Search search) throws Exception;
 	
 }
