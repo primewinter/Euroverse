@@ -7,38 +7,109 @@
 <!DOCTYPE html>
 
 <html lang="ko">
-	
-<head>
-	<meta charset="EUC-KR">
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-	
+<head>
+    <meta charset="EUC-KR">
+    <title>Euroverse, 유럽 여행의 시작</title>
+    <!-- 참조 : http://getbootstrap.com/css/   참조 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+    <!-- sweetalert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+
+    <!-- Use Swiper from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
+    <script src="https://unpkg.com/swiper/js/swiper.js"></script>
+    <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
+
+
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
 </head>
 
 <body>
-	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-	<h5>Euroverse</h5><br/><br/>
 
-	<a href="https://www.naver.com/">네이버</a><br/>
-	<a href="http://192.168.0.60:8080">김서영</a><br/>
-	<a href="http://192.168.0.79:8080">김유경</a><br/>
-	<a href="http://192.168.0.54:8080">이승환</a><br/>
-	<a href="http://192.168.0.66:8080">이주하</a><br/>
-	<a href="http://192.168.0.70:8080">박지성</a><br/>
-	<a href="http://192.168.0.82:8080">차소영</a><br/>
-	
-	<br/><br/>
-	<a href="/view/plan/page.jsp">/view/plan/page.jsp </a> : 김서영<br/>
-	<a href="/view/planSub/page.jsp">/view/planSub/page.jsp </a><br/>
-	<a href="/user/getUser">/user/getUser </a> : 박지성<br/>
-	<a href="/view/myPage/page.jsp">/view/myPage/page.jsp </a><br/>
-	<a href="/view/community/page.jsp">/view/community/page.jsp </a> : 이주하<br/>
-	<a href="/view/order/page.jsp">/view/user/page.jsp </a> : 김유경<br/>
-	<a href="/view/tripInfo/page.jsp">/view/tripInfo/infinityClick </a> : 이승환<br/>
-	<a href="/toolbar/toolBar.jsp">/toolbar/toolBar.jsp </a> : 차소영<br/>
+
+
+
+
+    <div class="link-1">
+        <a href="#">
+            <span class="thin">link</span><span class="thick">one</span>
+        </a>
+        <p>underline slide</p>
+    </div>
+
+
+
+    <style>
+        a {
+            text-transform: uppercase;
+            text-decoration: none;
+            position: relative;
+            display: block;
+        }
+
+        [class^="link-"] {
+            display: inline-block;
+            margin: 2em
+        }
+
+        .link-1 a:before,
+        .link-1 a:after {
+            content: '';
+            border-bottom: solid 1px black;
+            position: absolute;
+            bottom: 0;
+            width: 0;
+        }
+
+        .link-1 a:before {
+            left: 0;
+        }
+
+        .link-1 a:after {
+            right: 0;
+        }
+
+        .link-1 a:hover:before,
+        .link-1 a:hover:after {
+            width: 50%;
+        }
+
+        .link-1 a:before,
+        .link-1 a:after {
+            -webkit-transition: all 0.2s ease;
+            transition: all 0.2s ease;
+        }
+
+    </style>
+
+
 </body>
 
 </html>
