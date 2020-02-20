@@ -12,6 +12,7 @@ import com.ksy.common.Search;
 import com.ksy.service.admin.AdminDao;
 import com.ksy.service.admin.AdminService;
 import com.ksy.service.domain.Comment;
+import com.ksy.service.domain.Post;
 import com.ksy.service.domain.User;
 
 @Service("adminServiceImpl")
@@ -76,6 +77,21 @@ public class AdminServiceImpl implements AdminService {
 		
 		adminDao.addQnaComment(comment);
 		
+	}
+	
+	//관리자qna 리스트 조회
+	public Map<String, Object> getAdminQnAList(Search search) throws Exception{
+		
+		System.out.println("AdminServiceImpl getAdminQnAList");
+
+		List<Post> list = adminDao.getAdminQnAList(search);
+		int totalCount = adminDao.getTotalCount(search);
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
 	}
 	
 	

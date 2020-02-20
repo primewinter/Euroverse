@@ -17,4 +17,6 @@ public interface AdminService {
 	
 	public void addQnaComment(Comment comment) throws Exception;
 	
+	public Map<String,Object> getAdminQnAList(Search search) throws Exception;
+	
 }
