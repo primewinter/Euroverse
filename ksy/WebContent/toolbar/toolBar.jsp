@@ -156,13 +156,25 @@
                 <li class="menu3"><a href="/view/room/searchRoom.jsp"><span>숙소</span></a></li>
                 <li class="menu4"><a href=""><span>커뮤니티</span></a>
                     <ul class="menu4_s submenu">
-                       <p></p>
-                        <li><a href="#"><p>인기글 게시판</p></a></li>
-                        <li><a href="#"><p>플래너 공유</p></a></li>
-                        <li><a href="#"><p>여행 후기</p></a></li>
-                        <li><a href="#"><p>여행 정보</p></a></li>
-                        <li><a href="#"><p>QnA</p></a></li>
-                        <li><a href="#"><p>자유게시판</p></a></li>
+                        <p></p>
+                        <li><a href="#">
+                                <p>인기글 게시판</p>
+                            </a></li>
+                        <li><a href="#">
+                                <p>플래너 공유</p>
+                            </a></li>
+                        <li><a href="#">
+                                <p>여행 후기</p>
+                            </a></li>
+                        <li><a href="#">
+                                <p>여행 정보</p>
+                            </a></li><br />
+                        <li><a href="#">
+                                <p>QnA</p>
+                            </a></li>
+                        <li><a href="#">
+                                <p>자유게시판</p>
+                            </a></li>
                         <!--<li><a href="#"><p>동행 찾기</p></a></li>-->
                     </ul>
                 </li>
@@ -194,28 +206,31 @@
         $(self.location).attr("href", "/community/getPostList?boardName=A");
     });
 
-    $("a:contains('정보공유')").on("click", function() {
+    $("a:contains('여행 정보')").on("click", function() {
         $(self.location).attr("href", "/community/getPostList?boardName=B");
     });
 
-    $("a:contains('인기글게시판')").on("click", function() {
+    $("a:contains('인기글 게시판')").on("click", function() {
         $(self.location).attr("href", "/community/getPostList?boardName=C");
     });
 
-    $("a:contains('동행찾기')").on("click", function() {
+    $("a:contains('동행 찾기')").on("click", function() {
         $(self.location).attr("href", "/community/getPostList?boardName=D");
     });
 
-    $("a:contains('플래너공유')").on("click", function() {
+    $("a:contains('플래너 공유')").on("click", function() {
         $(self.location).attr("href", "/community/getPostList?boardName=E");
     });
 
-    $("a:contains('여행후기')").on("click", function() {
+    $("a:contains('여행 후기')").on("click", function() {
         $(self.location).attr("href", "/community/getPostList?boardName=F");
     });
 
     $("a:contains('QnA')").on("click", function() {
         $(self.location).attr("href", "/community/getPostList?boardName=G");
+    });
+    $("a:contains('동행')").on("click", function() {
+        $(self.location).attr("href", "/community/getPostList?boardName=D");
     });
 
     $('li.menu4').find('ul').show().hide();

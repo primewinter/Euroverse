@@ -305,8 +305,8 @@ WHERE user_id = #{value}
 
 <insert id ="addPoint" parameterType="point">
 INSERT INTO POINT
-(point_id , user_id ,  used_type , used_point , used_date)
-VALUES ( TO_CHAR(seq_point_point_id.nextval), #{userId} ,  #{usedType} , #{usedPoint} , sysDate)
+(point_id , user_id ,  used_type , used_point , used_date , ref_id)
+VALUES ( TO_CHAR(seq_point_point_id.nextval), #{userId} ,  #{usedType} , #{usedPoint} , sysDate , #{refId:jdbcType=VARCHAR)
 </insert>
 
 <select id = "getPointList"  parameterType="map" resultMap="pointSelectMap">
