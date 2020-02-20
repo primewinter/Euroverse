@@ -75,6 +75,13 @@ public class AdminDaoImpl implements AdminDao {
 		
 		System.out.println("AdminDaoImpl getAdminQnAList");
 		
-		return sqlSession.selectList("adminMapper.getAdminQnAList", search);
+		return sqlSession.selectList("AdminMapper.getAdminQnAList", search);
+	}
+	
+	public int getAdminQnaListTotalCount(Search search) throws Exception{
+		
+		System.out.println("AdminDaoImpl getAdminQnaListTotalCount");
+		
+		return sqlSession.selectOne("AdminMapper.getAdminQnaListTotalCount", search);
 	}
 }

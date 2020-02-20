@@ -135,9 +135,10 @@
 									</if>
 								</where>
 							</if> ) countTable						
+							
+							
+							
 	</select>
-	
-	
 	
 	<!-- 관리자가 게시글에서 신고처리 버튼을 누를 경우 blocked 컬럼이 true로 플래그처리 -->
 	<update id="adminPostBlocked" parameterType="string">
@@ -213,11 +214,35 @@
 					SELECT 
 					post_id , post_writer_id , post_title , post_content , post_date , qna_first_cate , qna_second_cate ,post_grade
 					FROM post
-					WHERE qna_first_cate IS NOT NULL AND deleted IS NULL
+					<if test="searchCondition != null">
+						<where>
+							<if test="searchCondition != null and searchKeyword !='' ">
+					 			qna_first_cate LIKE '%${searchCondition}%'
+					 			AND qna_first_cate IS NOT NULL AND deleted IS NULL
+							</if>
+						</where>
+					</if>
+					<if test="searchCondition == null">
+						<where>
+							qna_first_cate IS NOT NULL AND deleted IS NULL
+						</where>
+					</if>
 					ORDER BY post_date DESC)inner_table
-						 WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
-			  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
-		  			AND #{search.currentPage}*#{search.pageSize}
+					WHERE ROWNUM <![CDATA[<=]]> #{currentPage}*#{pageSize} )
+			  		WHERE row_seq BETWEEN (#{currentPage}-1)*#{pageSize}+1
+		  			AND #{currentPage}*#{pageSize}
+	</select>
+	
+	
+	<select id="getAdminQnaListTotalCount" parameterType="search" resultType="int">
+		SELECT COUNT(*) FROM(
+			SELECT inner_table.*, ROWNUM AS row_seq		
+			FROM(
+					SELECT 
+					post_id , post_writer_id , post_title , post_content , post_date , qna_first_cate , qna_second_cate
+					FROM post
+					WHERE qna_first_cate IS NOT NULL AND deleted IS NULL
+					ORDER BY post_date DESC)inner_table)
 	</select>
  
 </mapper>

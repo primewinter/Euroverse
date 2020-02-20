@@ -137,7 +137,7 @@
 							splitDate += regdate.getDate();
 							
 							//var splitDate = regDate.split(' ');
-							alert(splitDate);
+							//alert(splitDate);
 							
 							$('.userTab').append("<tr>");
 							$('.userTab').append("<th scope='row'>"+(i+1)+"</th>");
@@ -201,9 +201,10 @@
 		    </div>
 		    
 		    
-		    <!-- =========================== 검색조건 선택창 =========================== -->
+		   
 		    <div class="col-md-6 text-right d-flex justify-content-end">
 		    
+		     <!-- =========================== 검색조건 선택창 =========================== -->
 			    <form class="form-inline" name="detailForm">
 			      <input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>
 				  <div class="form-group">
