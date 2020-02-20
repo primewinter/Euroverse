@@ -534,7 +534,7 @@ public class RoomController {
 			  roomImg.click();
 			  System.out.println("roomImg : "+roomImg);
 			  synchronized (driver) {
-					driver.wait(300);
+					driver.wait(200);
 				}
 			  List<WebElement> bigImg = driver.findElements(By.cssSelector("#carousel-container > div.canvas.widget-carousel-enabled > ul > li:nth-child("+(i+1)+")"));
 			  System.out.println("bigImg : "+bigImg);
@@ -590,7 +590,7 @@ public class RoomController {
 						  System.out.println("roomList : "+roomList);
 					  }
 					  synchronized (driver) {
-							driver.wait(300);
+							driver.wait(200);
 						}
 				/*
 				 * for(int b=0; b<detail.size();b++) { room = new Room();
