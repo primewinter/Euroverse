@@ -86,7 +86,22 @@ public class UserRestController {
 		
 		if ( dbUser == null ) { 
 			returnMap.put("result", "errorId");
-		}else { 
+		}else {
+			
+			
+			if(dbUser.getRole().equals("X")) {
+				returnMap.put("result", "unReg");
+				returnMap.put("userId",dbUser.getUserId());
+				
+				if(dbUser.getPwd().equals(user.getPwd())) {
+					returnMap.put("checkPwd", "errorPwd");
+				}
+				
+				return returnMap;
+				
+			}
+			
+			
 			if(!dbUser.getPwd().equals(user.getPwd())) {
 				returnMap.put("result", "errorPwd");
 			}
@@ -97,6 +112,7 @@ public class UserRestController {
 		}
 		return returnMap;
 	}
+	
 	
 	@RequestMapping(value = "json/checkDuplicate")
 	public Map Checkduplicate(@RequestBody Map jsonMap) throws Exception {

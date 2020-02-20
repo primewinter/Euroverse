@@ -27,7 +27,11 @@ public class UserServiceImpl implements UserService {
 		super();
 	}
 
-
+	public void comeBackUser(User user)throws Exception{
+		userDao.comeBackUser(user);
+	}
+	
+	
 	@Override
 	public void addUser(User user) throws Exception {
 		System.out.println(this.getClass()+"addUser");

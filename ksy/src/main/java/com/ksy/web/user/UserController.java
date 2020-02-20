@@ -89,7 +89,37 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	@RequestMapping(value="unRegUser")
+	public String unRegUser(HttpSession session)throws Exception{
+		System.out.println("È¸¿øÅ»Åð");
+		User user = (User)session.getAttribute("user");
+		userService.unRegister(user.getUserId());
+		
+		session.removeAttribute("user");
+		session.invalidate();
+		return "redirect:/view/user/unRegUserConfirm.jsp";
+	}
 	
+	@RequestMapping(value="comeBack",method = RequestMethod.GET)
+	public String comeBack(@RequestParam("userId")String userId , Model model)throws Exception{
+		System.out.println("comeBack@ GET@@@@@");
+		
+		
+		model.addAttribute("userId",userId);
+		
+		return"forward:/view/user/comeBack.jsp";
+	}
+	
+	@RequestMapping(value="comeBack" ,method = RequestMethod.POST)
+	public String comeBack(@ModelAttribute("user")User user , HttpSession session)throws Exception {
+		System.out.println("comeBack POST~~");
+		userService.comeBackUser(user);
+		User dbUser = userService.getUser(user.getUserId());
+		
+		session.setAttribute("user", dbUser);
+		
+		return "redirect:/";
+	}
 	
 	
 	@RequestMapping(value="addUser" , method = RequestMethod.GET)
@@ -304,6 +334,7 @@ public class UserController {
 		currentUser.setEmail(user.getEmail());
 		currentUser.setPhone(user.getPhone());
 		currentUser.setPushAgree(user.getPushAgree());
+		myPageService.deleteTripSurvey(currentUser.getUserId());
 		
 		
 		
@@ -320,7 +351,7 @@ public class UserController {
 		
 		if(user.getDreamCountry()!=null) {
 			
-		for(int i=0;i<(user.getDreamCountry().size())-1;i++) {
+		for(int i=0;i<(user.getDreamCountry().size());i++) {
 			System.out.println(user.getDreamCountry().get(i));
 			TripSurvey tripSurvey = new TripSurvey();
 			tripSurvey.setUserId(currentUser.getUserId());
@@ -335,7 +366,7 @@ public class UserController {
 		System.out.println(user.getTripStyle());
 		if(user.getTripStyle()!=null) {
 			
-		for(int j=0;j<(user.getTripStyle().size())-1;j++) {
+		for(int j=0;j<(user.getTripStyle().size());j++) {
 			System.out.println(user.getTripStyle().get(j));
 			TripSurvey tripSurvey = new TripSurvey();
 			tripSurvey.setUserId(currentUser.getUserId());
@@ -781,62 +812,62 @@ public class UserController {
 		
 		TripSurvey tripSurvey1 = new TripSurvey();
 		tripSurvey1.setSurveyChoice("¼ú");
-		tripSurvey1.setSurveyImg("");
+		tripSurvey1.setSurveyImg("sul.jpg");
 		tripStyleList.add(tripSurvey1);
 		
 		TripSurvey tripSurvey2 = new TripSurvey();
 		tripSurvey2.setSurveyChoice("Ä¿ÇÇ");
-		tripSurvey2.setSurveyImg("");
+		tripSurvey2.setSurveyImg("coffee.jpeg");
 		tripStyleList.add(tripSurvey2);
 		
 		TripSurvey tripSurvey3 = new TripSurvey();
 		tripSurvey3.setSurveyChoice("°ü±¤");
-		tripSurvey3.setSurveyImg("");
+		tripSurvey3.setSurveyImg("guanguang.jpeg");
 		tripStyleList.add(tripSurvey3);
 		
 		TripSurvey tripSurvey4 = new TripSurvey();
 		tripSurvey4.setSurveyChoice("Èú¸µ");
-		tripSurvey4.setSurveyImg("");
+		tripSurvey4.setSurveyImg("heeling.jpeg");
 		tripStyleList.add(tripSurvey4);
 		
 		TripSurvey tripSurvey5 = new TripSurvey();
 		tripSurvey5.setSurveyChoice("¸Ô¹æ");
-		tripSurvey5.setSurveyImg("");
+		tripSurvey5.setSurveyImg("mukbang.jpeg");
 		tripStyleList.add(tripSurvey5);
 		
 		TripSurvey tripSurvey6 = new TripSurvey();
 		tripSurvey6.setSurveyChoice("Á¾±³");
-		tripSurvey6.setSurveyImg("");
+		tripSurvey6.setSurveyImg("cross.jpeg");
 		tripStyleList.add(tripSurvey6);
 		
 		TripSurvey tripSurvey7 = new TripSurvey();
 		tripSurvey7.setSurveyChoice("¼÷¼Ò");
-		tripSurvey7.setSurveyImg("");
+		tripSurvey7.setSurveyImg("sukso.jpeg");
 		tripStyleList.add(tripSurvey7);
 		
 		TripSurvey tripSurvey8 = new TripSurvey();
 		tripSurvey8.setSurveyChoice("·»Æ®Ä«");
-		tripSurvey8.setSurveyImg("");
+		tripSurvey8.setSurveyImg("car.jpeg");
 		tripStyleList.add(tripSurvey8);
 		
 		TripSurvey tripSurvey9 = new TripSurvey();
 		tripSurvey9.setSurveyChoice("½ºÆ÷Ã÷");
-		tripSurvey9.setSurveyImg("");
+		tripSurvey9.setSurveyImg("sport.jpeg");
 		tripStyleList.add(tripSurvey9);
 		
 		TripSurvey tripSurvey10 = new TripSurvey();
 		tripSurvey10.setSurveyChoice("¼îÇÎ");
-		tripSurvey10.setSurveyImg("");
+		tripSurvey10.setSurveyImg("shoping.jpeg");
 		tripStyleList.add(tripSurvey10);
 		
 		TripSurvey tripSurvey11= new TripSurvey();
 		tripSurvey11.setSurveyChoice("¿ÍÀÎ");
-		tripSurvey11.setSurveyImg("");
+		tripSurvey11.setSurveyImg("wine.jpeg");
 		tripStyleList.add(tripSurvey11);
 		
 		TripSurvey tripSurvey12 = new TripSurvey();
 		tripSurvey12.setSurveyChoice("µðÀúÆ®");
-		tripSurvey12.setSurveyImg("");
+		tripSurvey12.setSurveyImg("desert.jpeg");
 		tripStyleList.add(tripSurvey12);
 		
 //		TripSurvey tripSurvey = new TripSurvey();

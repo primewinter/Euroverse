@@ -244,6 +244,15 @@ function loginAjax(userId , pwd ){
 				//$("form").attr("method","get").attr("action","/user/login").submit();
 				$("#loginModal").modal("hide");
 				location.reload();
+			}else if(JSONData.result=='unReg'){
+				
+				var result = confirm("탈퇴한회원입니다. 복구창으로 이동하시겠습니까?");
+				if(result){
+					$(self.location).attr("href","/user/comeBack?userId="+JSONData.userId);
+				}else{
+					
+				}
+				
 			}else if(JSONData.result =='errorId'){
 				//alert("존재하지 않는 아이디입니다.");
 				h6[2].innerHTML = "존재하지 않는 아이디입니다.";

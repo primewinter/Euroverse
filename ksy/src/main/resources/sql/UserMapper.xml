@@ -224,7 +224,7 @@ WHERE nickname = #{value} AND role != 'x'
 SELECT  
 user_id 
 FROM USERS
-WHERE user_id = #{value} AND role != 'x'
+WHERE user_id = #{value} 
 </select>
 
 
@@ -286,21 +286,20 @@ USERS SET role = 'Q'
 WHERE user_id = #{value}
 </update>
 
-
-
-
-
+<update id = "comeBackUser" parameterType="user">
+UPDATE
+USERS SET role = 'G' , nickname = #{nickname}
+WHERE user_id = #{userId}
+</update>
 
 
 
 <!-- 회원탈퇴 -->
 <update id = "unRegister" parameterType="String">
 UPDATE
-USERS SET role = 'X' AND nickname =  null
+USERS SET role = 'X' , nickname = 'x' , unreg_date = sysTimeStamp
 WHERE user_id = #{value}
 </update>
-
-
  
 <!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
@@ -395,6 +394,12 @@ WHERE
 	FROM TRIP_SURVEY
 	WHERE user_id = #{value}
 </select>
+
+<delete id="deleteTripSurvey" parameterType="string">
+DELETE 
+FROM trip_survey
+WHERE user_id = #{userId}
+</delete>
 
 
 

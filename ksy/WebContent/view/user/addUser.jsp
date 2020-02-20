@@ -49,54 +49,23 @@
 }
 
 
-.swiper-container{
-    height: 300px;
-    background-color:#E6E6E6;
-    padding: 50px;
-    padding-top: 30px;
-    padding-right: 30px;
-    margin-right:30px;
-}
-
-
-.s1 {
-    width: 500px;
-    height: 300px;
-     padding-right: 30px;
-      margin-right:30px;
-    
-} 
-
-
-.s2 {
-    width: 500px;
-    height: 300px;
-     padding-right: 30px;
-      margin-right:30px;
-} 
-
-
-
-
- .swiper-slide {
- 
-	margin:10px;
-	
-} 
-.swiper-slide img {
-}
-
 .card{
-	width: 80px;
-	height:90px;
-	margin: 10px;
+	width: 60px;
+	height:60px;
+	margin: 6px;
 }
 
  .custom-file-input ~ .custom-file-label::after {
     content: "프로필사진 등록";
 }
 
- 
+
+
+.form-group{
+	 content: ''; 
+	 dispaly: table;
+	 clear: both; 
+}
 
 #preview img{
 	border: 100px;
@@ -772,21 +741,11 @@ function readImg(input){
 	</div>
 
 	 <div class="form-group">
-	 	<div class="col-6 mx-auto">
-	 		<b>가고싶은 나라</b>(최대 5개)
-				<div class="swiper-container s1">
-    				<div class="swiper-wrapper">
+	 	<div class="col-6 mx-auto" id="dreamCountryDiv">
+	 		<div><b>가고싶은 나라</b>(최대 5개)</div>
      	 				 <c:forEach var="dreamCountry" items="${countryList}" varStatus="status">
-							<c:if test="${status.index%8 eq 0 && status.index ne 0}">
-								</div><!-- row row-cols-1 row-cols-md-5 -->
-								</div><!-- swiper-slide -->
-							</c:if>
-							<c:if test="${status.index%8 eq 0}">
-			     				<div class="swiper-slide">
-			     	 			<div class="row row-cols-1 row-cols-md-5">
-							</c:if>
-							<div class="card">
-							    <img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="90px" style="overflow: hidden;">
+							<div  class="card" style="float: left;">
+							    <img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="60px" height="30px" style="overflow: hidden;">
 					 			<p class="card-text" style="font-size: x-small;"> 
 					 				<input type="hidden" value="${status.count}">
 					   	 			<input  type="checkbox" id="dreamCountry${status.count}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
@@ -794,34 +753,23 @@ function readImg(input){
 					   	 	 		<label  for="dreamCountry${status.count}">${dreamCountry.surveyChoice}</label>
 		  						</p>
 							</div> 
-					
+							
+						<%-- 	<c:if test="${status.index%5==0}">
+							<br>
+							</c:if>
+					 --%>
 						</c:forEach> 
 						<div id="checkDreamCountry"></div>
 						<h6 class="addH6"></h6>
-					</div><!-- wrapper -->
-				</div><!-- s1 -->
    			 </div><!-- 가고싶은 도시 col-6 mx-auto  -->
-  				 <div class="swiper-pagination"></div>
-   				 <div class="swiper-scrollbar"></div>
 		</div><!-- 가고싶은 도시 form-group End  -->
-	</div><!-- 컨테이너 end 왜냐하면 스와이퍼 두개가 같은 컨테이너에 있으면 이름 다르게해도 자꾸 충돌일어남...  -->
 
-	 	<div class="form-group">
+	<div class="form-group">
 	 		<div class="col-6 mx-auto">
-	 			<b>여행스타일</b>(최대 3개)
-					<div class="swiper-container s2">
-    					<div class="swiper-wrapper">
+	 			<div><b>여행스타일</b>(최대 3개)</div>
      	 					 <c:forEach var="style" items="${tripStyleList}" varStatus="status">
-								<c:if test="${status.index%8 eq 0 && status.index ne 0}">
-									</div><!-- row row-cols-1 row-cols-md-5 -->
-									</div><!-- swiper-slide -->
-								</c:if>
-								<c:if test="${status.index%8 eq 0}">
-			     	 				<div class="swiper-slide">
-			     	 				<div class="row row-cols-1 row-cols-md-5">
-								</c:if>
-								<div class="card">
-						    		<img alt="" src="http://ipsumimage.appspot.com/50x60">
+								<div class="card"style="float: left;">
+						    		<img alt="" src="/resources/images/tripInfoimges/${style.surveyImg}" style="overflow: hidden";>
 				 						<p class="card-text"> 
 				 							<input type="hidden" value="${status.count}">
 								   	 		<input  type="checkbox" id="tripStyle${status.count}" value="${style.surveyChoice}" class="tripStyle">
@@ -832,8 +780,6 @@ function readImg(input){
 							</c:forEach> 
 							<div id="checkTripStyle"></div>
 							<h6 class="addH6"></h6>
-						</div><!-- wrapper -->
-					</div><!-- s2 -->
    				 </div><!--여행스타일 col-6 mx-auto End -->
 			</div><!-- 여행스타일 form-group End -->
 	
@@ -848,7 +794,7 @@ function readImg(input){
 			    <button type="button" class="close" >×</button>
 			    <strong></strong>&nbsp; 수정 후 다시 시도해주세요.
 			</div>
-	</div>
+	</div> 
 	
 	
 	
@@ -893,15 +839,7 @@ function readImg(input){
 	
 
 
- <script>
-	
-	$(".swiper-container").each(function(index, element){
-	    var $this = $(this);
-	    var swiper = new Swiper(this, {
-	        // your settings ...
-	    });
-	})
-  </script>
+
 </body>
 
 </html>

@@ -14,6 +14,8 @@ public void addUser(User user) throws Exception;
 	public void updatePwd(User user)throws Exception;
 	public void updateRole(String userId)throws Exception;
 	public void unRegister(String userId)throws Exception;
+	public void comeBackUser(User user)throws Exception;
+	
 	
 	public User getUser(String userId) throws Exception ;
 	

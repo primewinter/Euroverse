@@ -25,6 +25,11 @@ public class UserDaoImpl implements UserDao{
 	public UserDaoImpl() {
 		super();
 	}
+	
+	public void comeBackUser(User user)throws Exception{
+		System.out.println("UserDaoImpl comeBackUser");
+		sqlSession.update("UserMapper.comeBackUser",user);
+	}
 
 	@Override
 	public void addUser(User user) throws Exception {

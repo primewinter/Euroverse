@@ -14,6 +14,7 @@
 .sidebar{
 	width: 100px;
 	font-size: 12px;
+	z-index: 1000;
 }
 
 </style>
@@ -45,7 +46,7 @@
 			$(self.location).attr("href","/myPage/myOfferList");
 		});
 		$(".nav-link:contains('찜한 상품 목록')").on("click" ,function(){
-			alert("구현중");
+			//alert("구현중");
 			//$(self.location).attr("href","/user/getUser");
 		});
 		
@@ -61,11 +62,6 @@
 	/* 	$(".nav-link:contains('출석체크')").on("click" ,function(){
 			$(self.location).attr("href","/user/getUser");
 		}); */
-		
-		$(".nav-link:contains('회원탈퇴')").on("click" ,function(){
-			alert("구현중");
-			//$(self.location).attr("href","/user/getUser");
-		});
 		
 		
 		
@@ -85,8 +81,8 @@
 <div class="container-fluid">
   <div class="row">
  <nav class="col-md-2 d-none d-md-block sidebar">
-      <div class="sidebar-sticky" style="  border-right: 1px solid black;height: 700px;">
-        <ul class="nav flex-column" >
+      <div class="sidebar-sticky" style=" height: 300px; background-color: #f2f2f2;border-radius: 30px;">
+        <ul class="nav flex-column" style="text-align: center;" >
           
           <li class="nav-item">
             <a class="nav-link" href="#">
@@ -128,19 +124,9 @@
               	1:1문의
             </a>
           </li>
-<!--           <li class="nav-item">
-            <a class="nav-link" href="#">
-              	1:1문의목록
-            </a>
-          </li> -->
           <li class="nav-item">
             <a class="nav-link" href="#" data-toggle="modal" data-target="#choolCheckModal">
               	출석체크
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              	회원탈퇴
             </a>
           </li>
           

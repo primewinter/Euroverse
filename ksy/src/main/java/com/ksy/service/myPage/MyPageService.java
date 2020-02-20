@@ -27,7 +27,7 @@ public interface MyPageService {
 	
 	public void addTripSurvey(TripSurvey tripSurvey) throws Exception;
 	public List<TripSurvey> getTripSurveyList(String userId) throws Exception;
-	
+	public void deleteTripSurvey(String userId)throws Exception;
 	
 	
 	

@@ -100,6 +100,10 @@ public class MyPageDaoImpl implements MyPageDao{
 		return sqlSession.selectList("UserMapper.getTripSurveyList",userId);
 	}
 	
+	public void deleteTripSurvey(String userId)throws Exception{
+		sqlSession.delete("UserMapper.deleteTripSurvey",userId);
+	}
+	
 	
 	
 	

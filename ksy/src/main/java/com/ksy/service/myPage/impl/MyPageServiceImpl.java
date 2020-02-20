@@ -100,6 +100,9 @@ public class MyPageServiceImpl implements MyPageService{
 		System.out.println("UserDaoImpl getTripSurveyList");
 		return myPageDao.getTripSurveyList(userId);
 	}
+	public void deleteTripSurvey(String userId)throws Exception{
+		myPageDao.deleteTripSurvey(userId);
+	}
 
 	
 

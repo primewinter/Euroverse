@@ -91,6 +91,13 @@ function country(country){
 
 }
 
+function tripStyle(tripStyle){
+	$("#appendStyle").html("");
+	
+	$("#appendStyle").append(tripStyle);
+
+}
+
  
 </script>
 
@@ -106,7 +113,7 @@ function country(country){
       </div> 
       				<div id="userProfileDiv" style="position: relative; right: 450px; top:50px;">
 					    <img alt="" src="/resources/images/userImages/${user.userImg}" style="position:relative; top:10px;right:0px;left:535px; width: 200px;height: 200px;	border-radius: 100px;	-moz-border-radius: 100px;	-khtml-border-radius: 100px;	-webkit-border-radius: 100px;">
-					    <span class="nicknameClass" style="position:relative;width:300px; top:140px;right:0px;left:100px; text-align: center;">
+					    <span class="nicknameClass" style="position:relative;width:300px; top:140px;left:100px; text-align: center;">
 							 ${user.nickname}
 			  			</span>
 							<i class="far fa-address-card" style="position:relative; top:170px;right:0px;left:-10px; text-decoration: underline; cursor: help;">상세보기</i>
@@ -121,7 +128,7 @@ function country(country){
 	                    		<span class="badge badge-info" >관리자</span>
 	                    	</c:if>
 			  			</div>
-      				</div>
+      				</div> 
 		  			
 		  			<div id="userInfoDiv" style="width: 900px;height:350px; position: relative; top:-200px; left:350px; background-color: #ff9933; background-color: rgba( 255, 148, 77, 0.1 );border-radius: 100px;">
 		  				<div class="allInfo" id="pointDiv" style="top:50px;left: 120px;">
@@ -170,15 +177,29 @@ function country(country){
 		  			</div>
 		  			
 		  			
-		  			<div id="userInfoProfile" style="width: 1150px;height:150px;position: relative;left: 100px; top:-200px; display: none;">
+		  			<div id="userInfoProfile" class="row" style="width: 1150px;height:150px;position: relative;left: 100px; top:-200px; display: none;">
+						
+						<div class="col"  >
+						<h4>이름</h4>
+						<h4>닉네임</h4>
+						<h4>이메일</h4>
+						<h4>생일</h4>
+						<h4>핸드폰번호</h4>
+						<h4>성별</h4>
+						<h4>회원가입일자</h4>
+						<h4>알림수신여부</h4>
+						</div>
 
 
-		  				<h4>이름 <b style="text-decoration: underline;text-underline-position: under;">${user.userName}</b> </h4>
-                    	<h4>닉네임<b style="text-decoration: underline;text-underline-position: under;">${user.nickname}</b></h4>
-                    	<h4>이메일<b style="text-decoration: underline;text-underline-position: under;">${user.email}</b></h4>
-                    	<h4>생일<b style="text-decoration: underline;text-underline-position: under;">${user.birth}</b></h4>
-                    	<h4>핸드폰번호<b style="text-decoration: underline;text-underline-position: under;">${user.phone}</b></h4>
-                    	<h4>성별
+
+						<div class="col" style="position: relative;top: -280px; left:130px;  ">
+						
+		  				<h4> <b style="text-decoration: underline;text-underline-position: under;">${user.userName}</b> </h4>
+                    	<h4><b style="text-decoration: underline;text-underline-position: under;">${user.nickname}</b></h4>
+                    	<h4><b style="text-decoration: underline;text-underline-position: under;">${user.email}</b></h4>
+                    	<h4><b style="text-decoration: underline;text-underline-position: under;">${user.birth}</b></h4>
+                    	<h4><b style="text-decoration: underline;text-underline-position: under;">${user.phone}</b></h4>
+                    	<h4>
                     		<c:if test="${user.sex=='M'}">
 	                    		<b style="text-decoration: underline;text-underline-position: under;">남자</b>
 	                    	</c:if>
@@ -187,8 +208,8 @@ function country(country){
 	                    	</c:if>
                     	
                     	</h4>
-                    	<h4>회원가입일자<b style="text-decoration: underline;text-underline-position: under;">${user.regDate}</b></h4>
-                    	<h4>알림수신여부
+                    	<h4><b style="text-decoration: underline;text-underline-position: under;">${user.regDate}</b></h4>
+                    	<h4>
                     		<c:if test="${user.pushAgree == 'T'}">
 								<b style="text-decoration: underline;text-underline-position: under;">동의함</b>
 							</c:if>		
@@ -198,7 +219,7 @@ function country(country){
                     	
                     	</h4>
                     	
-                    	<div style="position: relative;top: -220px;right: -480px;">
+                    	<div style="position: relative;top: -220px;right: -330px;">
                     	<h4>가고싶은 도시</h4>
 				  		<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
 							<c:if test="${tripSurvey.surveyType=='D'}">
@@ -210,16 +231,16 @@ function country(country){
 		  			
 		  			
 		  			
-						<div style="position: absolute;top: 55px;right: 220px;">
+						<div style="position: absolute;top: 55px;right: 300px;">
 						<h4>여행스타일</h4>
 		  					<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
 									<c:if test="${tripSurvey.surveyType=='T'}">
-									    ${tripSurvey.surveyChoice}
+									 <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="40px" height="40px" onmouseover="tripStyle('${tripSurvey.surveyChoice}')" onmouseout="tripStyle('')" >
 									</c:if>
 							</c:forEach>
-							<p id="appendTripStyle"></p>
+							<p id="appendStyle"></p>
 						</div>		  			
-                    	
+                    	</div>
 		  			
 		  			</div>
 
