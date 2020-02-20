@@ -51,11 +51,9 @@
 		 });
 		
 		 $(function() {
-			 
-			var boardName = $("#boardName").val();
-		
 			$( "td:nth-child(2)" ).on("click" , function() {
-			     var postId = $(this).find($("input[name='postId']")).val();	
+			     var postId = $(this).find($("input[name='postId']")).val();
+			     var boardName = $(this).find($("input[name='boardName']")).val();
 				 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
 			});
 		});	
@@ -112,6 +110,14 @@
 				  </div>
 				  
 				  <div class="form-group">
+				    <select class="form-control" name="sorting" style="height: 30px; width: 120px; font-size: 13px; margin-right: 2px;" >
+						<option value="0"  ${ ! empty search.sorting && search.sorting==0 ? "selected" : "" }>일간인기글</option>
+						<option value="1"  ${ ! empty search.sorting && search.sorting==1 ? "selected" : "" }>주간인기글</option>
+						<option value="2"  ${ ! empty search.sorting && search.sorting==2 ? "selected" : "" }>월간인기글</option>
+					</select>
+				  </div>
+				  
+				  <div class="form-group">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
 				    <input type="text" class="form-control mr-sm-2" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" style="height: 30px; font-size: 13px;" >
@@ -150,9 +156,11 @@
 		  <c:if test="${post.deleted == 'F'}">
 			<tr>
 		  <c:if test="${post.postGrade == 'N'}">
-			  <th scope="row" style="color:red;">공지 <i class="fas fa-bullhorn"></i></th>
+			  <th scope="row" style="color:#CE1717;">공지 <i class="fas fa-bullhorn"></i></th>
 			  <td style="font-weight: bold; color: dimgray;">
-			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/><span style="color:black;">${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
+			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
+			  <input type="hidden" id="boardName" name="boardName" value="${post.boardName}"/>
+			  <span style="color:black;">${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
 			  <td style="font-weight:bold;">${post.nickName}</td>
 		  </c:if>
 		  <c:if test="${post.postGrade == 'B' || post.postGrade == null}">
@@ -160,25 +168,43 @@
 			  <th scope="row">${ i }</th>
 			  <td style="font-weight: bold; color: dimgray;">
 			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
+			  <input type="hidden" id="boardName" name="boardName" value="${post.boardName}"/>
 			    <span style="color:black;">
-			    <c:if test="${post.boardName=='A'}">
-					[자유게시판]
-				</c:if>
-				<c:if test="${post.boardName=='B'}">
-					[정보공유]
-				</c:if>
-				<c:if test="${post.boardName=='D'}">
-					[동행찾기]
-				</c:if>
-				<c:if test="${post.boardName=='E'}">
-					[플래너공유]
-				</c:if>
-				<c:if test="${post.boardName=='F'}">
-					[여행후기]
-				</c:if>
-				<c:if test="${post.boardName=='G'}">
-					[QnA]
-				</c:if>
+				    <c:if test="${post.boardName=='A'}">
+						[자유게시판]
+					</c:if>
+					<c:if test="${post.boardName=='B'}">
+						[정보공유]
+					</c:if>
+					<c:if test="${post.boardName=='D'}">
+						[동행찾기]
+					</c:if>
+					<c:if test="${post.boardName=='E'}">
+						[플래너공유]
+					</c:if>
+					<c:if test="${post.boardName=='F'}">
+						[여행후기]
+					</c:if>
+					<c:if test="${post.boardName=='G'}">
+					  <c:if test="${post.qnaKategorie=='M'}">
+						[QnA 루트]
+					  </c:if>
+					  <c:if test="${post.qnaKategorie=='H'}">
+						[QnA 도시]
+					  </c:if>
+					  <c:if test="${post.qnaKategorie=='I'}">
+						[QnA 교통]
+					  </c:if>
+					  <c:if test="${post.qnaKategorie=='J'}">
+						[QnA 숙소]
+					  </c:if>
+					  <c:if test="${post.qnaKategorie=='K'}">
+						[QnA 쇼핑,경비,환전]
+					  </c:if>
+					  <c:if test="${post.qnaKategorie=='L'}">
+						[QnA 기타]
+					  </c:if>
+					</c:if>
 				</span>
 			  	  ${post.postTitle} <span style="color:red;">(${post.comments})</span></td>
 			  	  
