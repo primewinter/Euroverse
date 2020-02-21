@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding|Noto+Sans+KR:300,400,500&display=swap&subset=korean" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding|Nanum+Gothic:400,700|Noto+Sans+KR:300,400,500&display=swap&subset=korean" rel="stylesheet">
 <style>
     body {
         font-family: 'Noto Sans KR', sans-serif;
@@ -53,6 +53,7 @@
     ul.myMenu>li {
         display: inline-block;
         width: 100px;
+        font-size: 15pt;
         text-align: center;
         position: relative;
     }
@@ -138,15 +139,14 @@
         </c:if>
         <c:if test="${user.userId != null}">
             <c:if test="${user.role == 'A'}">
-                <font>회원정보보기</font>|
+                <font><i class="fas fa-cog"></i>회원관리</font>|
             </c:if>
-            <font>마이페이지</font>|
-            <font>로그아웃</font>
+            <font>주문내역</font>|<font>마이페이지</font>|<font>로그아웃</font>
         </c:if>
     </span>
     <header class="blog-header py-3"></header>
     <div class="nav-scroller py-1 mb-2">
-        <nav class="nav d-flex justify-content-center toolbar-logo">
+        <nav class="nav d-flex justify-content-center toolbar-logo" style="font-size: 20pt;">
             <a href="/main.jsp">Euroverse</a>
         </nav>
     </div>
@@ -199,8 +199,11 @@
     $("font:contains('회원가입')").on("click", function() {
         location.href = "/user/addUser";
     });
-    $("font:contains('회원정보보기')").on("click", function() {
+    $("font:contains('회원관리')").on("click", function() {
         location.href = "/admin/getUserList";
+    });
+    $("font:contains('주문내역')").on("click", function() {
+        location.href = "/order/getOrderList";
     });
 
 
@@ -243,56 +246,3 @@
     });
 
 </script>
-
-
-
-
-<%-- 
-
-  <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="/plan/getPlanList"><span>플래너</span></a>
-            </li>
-            <li class="nav-item">
-                <a href="/view/flight/searchFlight.jsp"><span>항공</span></a>
-            </li>
-            <li class="nav-item">
-                <a href="/view/room/searchRoom.jsp"><span>숙소</span></a>
-            </li>
-            <li class="nav-item">
-                <a href=""><span>커뮤니티</span></a>
-            </li>
-            <li class="nav-item">
-                <a href="#"><span>동행</span></a>
-            </li>
-        </ul>
-
-<c:if test="${user.userName != null}">
-	<span> ${user.nickname}님 로그인중.... </span> <button type="button" class="btn btn-dark">로그아웃</button>
-</c:if>
-<c:if test="${user.userId == null}">
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal" data-backdrop="static" data-keyboard="false">로그인</button>
-</c:if>
-
-<br/>
-<a href="/view/flight/searchFlight.jsp">항공권 검색</a> &ensp;&ensp;
-<a href="/view/room/searchRoom.jsp">숙소 검색</a> &ensp;&ensp;
-<a href="/order/getOrderList">주문 목록</a> &ensp;&ensp; 
-<a href="/toolbar/donghaeng.jsp">동행 채팅</a> &ensp;&ensp;
-<a href="/plan/getPlanList">플래너 리스트</a> &ensp;&ensp;
-
-<ul class="nav nav-tabs">
-	  <li class="nav-item dropdown">
-	    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">커뮤니티</a>
-	    <div class="dropdown-menu">
-	      <a class="dropdown-item" href="#">인기글게시판</a>
-	      <a class="dropdown-item" href="#">플래너공유</a>
-	      <a class="dropdown-item" href="#">동행찾기</a>
-	      <a class="dropdown-item" href="#">여행후기</a>
-	      <a class="dropdown-item" href="#">정보공유</a>
-	      <a class="dropdown-item" href="#">QnA</a>
-	      <a class="dropdown-item" href="#">자유게시판</a>
-	    </div>
-	  </li>
-	</ul>
- --%>

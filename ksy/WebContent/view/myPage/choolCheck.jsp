@@ -5,10 +5,6 @@
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 
 
@@ -40,7 +36,30 @@
 	<script src='/javascript/timegrid/main.js'></script> -->
 	
 	
+<style type="text/css">
+      .fc-scroller {
+		   overflow-y: hidden !important;
+		}
 
+/* @media screen and (min-width: 768px) {
+          .modal:before {
+            display: inline-block;
+          vertical-align: middle;
+            height: 100%; 
+          }
+        } */
+/*         .modal-dialog {
+          display: inline-block;
+          vertical-align: middle;
+         
+        }
+        .modal-body{
+        
+        } */
+
+
+
+</style>
 
 
 </head>
@@ -51,159 +70,121 @@
 
 
 <div class="modal fade" id="choolCheckModal">
-	  <div class="modal-dialog">
+	  <div class="modal-dialog" id="modalBodyDiv" style="margin-top: 80px; display: none;">
 		<div class="modal-content">
-
-				
-				
-			 <!-- 	<div class="modal-header">
-					<h4 class="modal-title">출 석 체 크</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>modal header End 
- -->
-				 
-				
-				
-				<div class="modal-body">
+				<div class="modal-body"  >
 					<div id="calendar"></div>
-					
-					<div id="wait" style="display: none;">
-						<div class="spinner-grow text-primary" role="status">
-						  <span class="sr-only">Loading...</span>
-						</div>
-						<div class="spinner-grow text-secondary" role="status">
-						  <span class="sr-only">Loading...</span>
-						</div>
-						<div class="spinner-grow text-success" role="status">
-						  <span class="sr-only">Loading...</span>
-						</div>
-						<div class="spinner-grow text-danger" role="status">
-						  <span class="sr-only">Loading...</span>
-						</div>
-						<div class="spinner-grow text-warning" role="status">
-						  <span class="sr-only">Loading...</span>
-						</div>
-						<div class="spinner-grow text-info" role="status">
-						  <span class="sr-only">Loading...</span>
-						</div>
-						<div class="spinner-grow text-primary" role="status">
-						  <span class="sr-only">Loading...</span>
-						</div>
-						<div class="spinner-grow text-secondary" role="status">
-						  <span class="sr-only">Loading...</span>
-						</div>
-						<div class="spinner-grow text-success" role="status">
-						  <span class="sr-only">Loading...</span>
-						</div>
-						<div class="spinner-grow text-danger" role="status">
-						  <span class="sr-only">Loading...</span>
-						</div>
-						<div class="spinner-grow text-warning" role="status">
-						  <span class="sr-only">Loading...</span>
-						</div>
-						<div class="spinner-grow text-info" role="status">
-						  <span class="sr-only">Loading...</span>
-						</div>
-						
-					</div>
-					
-					
 					
 					
 				</div><!--modal body End  -->
-
-		<!-- 		<div class="modal-footer">
-      			  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-				</div>modal footer End 
- -->
-
-
 			</div><!--modal content End  --> 
 	  </div><!--modal dialog End  -->
 
+					<div id="wait" style="display: none; text-align: center; margin-top: 270px;">
+						<div class="spinner-grow text-info" style="width: 200px; height: 200px;" role="status">
+						  <span class="sr-only">Loading...</span>
+						</div>
+					</div>
 </div><!--myModal End  -->
 
 </body>
 
 <script type="text/javascript">
 
-$(function(){
-var wait = document.getElementById("wait");
-/* 아래쪽에 있었는데 자꾸 setimeout이 안되고 잘 안나와서 위로 올림 */
-wait.style.display = 'block';
-setTimeout(function() {
-	calendar.render(); 
-	wait.style.display = 'none';
-		}, 3000);	 
+function openCal(){
+	
 
-var Calendar = FullCalendar.Calendar;
-var Draggable = FullCalendarInteraction.Draggable;
+	var Calendar = FullCalendar.Calendar;
+	var Draggable = FullCalendarInteraction.Draggable;
 
-var containerEl = document.getElementById('external-events');
-var calendarEl = document.getElementById('calendar');
-var checkbox = document.getElementById('drop-remove');
+	var containerEl = document.getElementById('external-events');
+	var calendarEl = document.getElementById('calendar');
+	var checkbox = document.getElementById('drop-remove');
 
-var calendar = new Calendar(calendarEl, {
-    plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
-    customButtons: {
-        choolCheck: {
-          text: '출석체크',
-          click: function() {
-			var date = new Date();
-          	var currentDate = date.getFullYear() + "-"+ (date.getMonth()+1) + "-" +date.getDate();
-          	var stringDate = date.getFullYear() +""+(date.getMonth()+1) +date.getDate();
-			$(function(){
-				$.ajax({
-					url : "/myPage/json/choolChecking",
-					method : "post",
-					dataType : "json",
-					headers : {
-						"Accept" : "application/json",
-						"Content-Type" : "application/json"
-					},
-					data : JSON.stringify({
-						currentDate : currentDate,
-						year : date.getFullYear(),
-						month : date.getMonth()+1,
-						day : date.getDate(),
-						stringDate : stringDate
-					}),
-					success : function(JSONData, Status) {
-								
-							if(JSONData.error == 'error'){
-								alert("이미 출석체크 하셨습니다.");
-							}else{
-								calendar.addEvent(JSONData);
+	var calendar = new Calendar(calendarEl, {
+	    plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+	    customButtons: {
+	        choolCheck: {
+	          text: '출석체크',
+	          click: function() {
+				var date = new Date();
+	          	var currentDate = date.getFullYear() + "-"+ (date.getMonth()+1) + "-" +date.getDate();
+	          	var stringDate = date.getFullYear() +""+(date.getMonth()+1) +date.getDate();
+				$(function(){
+					$.ajax({
+						url : "/myPage/json/choolChecking",
+						method : "post",
+						dataType : "json",
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						data : JSON.stringify({
+							currentDate : currentDate,
+							year : date.getFullYear(),
+							month : date.getMonth()+1,
+							day : date.getDate(),
+							stringDate : stringDate
+						}),
+						success : function(JSONData, Status) {
+									
+								if(JSONData.error == 'error'){
+									alert("이미 출석체크 하셨습니다.");
+								}else{
+									calendar.addEvent(JSONData);
+								}
 							}
-						}
-				})	
-			})
-          }
-        }
-      },
-    header: {
-      left: 'title',
-      right : 'choolCheck'
-    },
-			eventSources: [{
+					})	
+				})
+	          }
+	        }
+	      },
+	    header: {
+	      left: 'title',
+	      right : 'choolCheck'
+	    },
+				eventSources: [{
 
-events: function(start, callback) {
-    $.ajax({
-        url     : '/myPage/json/choolCheck',
-        type    : 'get',
-        dataType: 'json',
-        success : function(doc) {
-            
-           	callback(doc);
-        }
-    });
+	events: function(start, callback) {
+	    $.ajax({
+	        url     : '/myPage/json/choolCheck',
+	        type    : 'get',
+	        dataType: 'json',
+	        success : function(doc) {
+	            
+	           	callback(doc);
+	        }
+	    });
+	}
+	}],
+	    editable: false,
+	    eventLimit : true,
+	    cache : true,
+	    locale: 'ko',
+	    height: 500
+	  });
+	
+	calendar.render(); 
+	
 }
-}],
-    editable: false,
-    eventLimit : true,
-    cache : true,
-    locale: 'ko'
-  });
+
+
+
+
+
+$(function(){
+		
+	var wait = document.getElementById("wait");
+	var modalBodyDiv = document.getElementById("modalBodyDiv");
+	/* 아래쪽에 있었는데 자꾸 setimeout이 안되고 잘 안나와서 위로 올림 */
+	
+	wait.style.display = 'block';
+	setTimeout(function() {
+		
+		wait.style.display = 'none';
+		openCal();
+		modalBodyDiv.style.display='block';
+			}, 3000);	 
 
 })
 

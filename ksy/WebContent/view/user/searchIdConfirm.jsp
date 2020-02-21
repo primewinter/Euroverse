@@ -45,7 +45,7 @@
 						var phone = $("${user.phone}");
 						var name = $("${user.userName}");
 						$.ajax({
-							url : "/user/json/getUserIdList",
+							url : "/user/json/getUserId",
 							method : "post",
 							dataType : "json",
 							headers : {
@@ -96,7 +96,7 @@
 						var email = "${user.email}";
 						var name = "${user.userName}";
 						$.ajax({
-							url : "/user/json/getUserIdList",
+							url : "/user/json/getUserId",
 							method : "post",
 							dataType : "json",
 							headers : {
@@ -239,7 +239,7 @@
 
 </head>
 <body>
- <jsp:include page="/view/user/userToolBar.jsp"></jsp:include>
+<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	
 	
 	

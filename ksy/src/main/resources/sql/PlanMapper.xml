@@ -58,6 +58,11 @@
 	
 
 
+	<!-- 구차하지만... -->
+	<select id="getPlanId" 	 resultType="string">
+		SELECT  TO_CHAR(seq_plan_plan_id.CURRVAL) 
+		FROM 	DUAL
+	</select>
 
 	
 	<insert id="addPlan"	parameterType="plan">
@@ -67,6 +72,17 @@
 		VALUES ( TO_CHAR(seq_plan_plan_id.NEXTVAL), #{planMaster.userId:VARCHAR}, #{planTitle:VARCHAR}, #{planImg:VARCHAR}, 
 						#{planType}, SYSDATE, TO_DATE( #{startDateString:VARCHAR} , 'yyyy-mm-dd'), 'R', 'F' )
 	</insert>
+	
+	<!-- 플래너 복사 -->
+	<insert id="copyPlan"	parameterType="string">
+		INSERT 
+		INTO 	plan ( plan_id, plan_master_id, plan_title, plan_img,  plan_type, plan_reg_date, start_date, plan_status, deleted ) 
+		
+		SELECT 	TO_CHAR(seq_plan_plan_id.NEXTVAL), p.plan_master_id, p.plan_title, p.plan_img,  p.plan_type, SYSDATE, p.start_date, 'P', 'F' 
+		FROM 	plan p 
+		WHERE 	p.plan_id = #{planId}
+	</insert>
+	
 	
 	<select id="getPlan"	parameterType="string"	resultMap="planSelectMap">
 		SELECT 	p.plan_id, p.plan_master_id, p.plan_title, p.plan_img, p.plan_type, p.start_date, p.plan_status, (cr.sum - (cr.cnt-1)) plan_total_days, pt.plan_party_size 

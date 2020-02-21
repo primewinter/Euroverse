@@ -266,19 +266,19 @@
         <div class="modal-content">
             <div class="modal-body">
                 <form id="modalForm">
-                    <div class="form-group" style="margin-bottom: -10px;">
-                        <div>&nbsp;&nbsp;&nbsp;<b>ID</b></div>
+                    <label class="form-check-label" style="position:relative; margin-top: 0px;top:70px;">
+                        <input class="form-check-input" type="checkbox" id="idSaveCheck" style="margin-left: 10px;margin-top: 8px;">
+                        <span style="margin-left: 25px;"><small>아이디저장</small></span>
+                    </label>
+                    <div class="form-group" style="margin-top: -20px;">
+                        <div style="margin-bottom: 5px;">&nbsp;&nbsp;&nbsp;<b>ID</b></div>
                         <input type="text" class="form-control" id="loginUserId" name="userId">
                         <h6 class="loginH6" style="color: #F00"></h6>
                     </div>
 
-                    <label class="form-check-label" style="margin-top: 0px;">
-                        <input class="form-check-input" type="checkbox" id="idSaveCheck" style="margin-left: 10px;">
-                        <span style="margin-left: 25px;"><small>아이디기억</small></span>
-                    </label>
 
-                    <div class="form-group" style="margin-top: 25px">
-                        <div>&nbsp;&nbsp;&nbsp;<b>Password</b></div>
+                    <div class="form-group" style="margin-top: 45px">
+                        <div style="margin-bottom: 5px;">&nbsp;&nbsp;&nbsp;<b>Password</b></div>
                         <input type="password" class="form-control" id="loginPwd" name="pwd">
                         <h6 class="loginH6" style="color: #F00"></h6>
                     </div>
@@ -293,8 +293,8 @@
 								<img id="naverLogin" src="/resources/images/userImages/naverImage.PNG" width="30" height="30" /> 
 								<img id="googleLogin" src="/resources/images/userImages/googleImage.png" width="30" height="30">
 							</div> -->
-                    <a href="/user/searchId"> <span class="useruser" style="position:absolute; top:215px;right:355px;">아이디찾기</span> </a>
-                    <a href="/user/findPwd"> <span class="useruser" style="position:absolute; top:215px;right:280px;">비밀번호찾기</span></a>
+                    <a href="/user/searchId"> <span class="useruser" style="position:absolute; top:215px;left:30px;">아이디찾기</span> </a>
+                    <a href="/user/findPwd"> <span class="useruser" style="position:absolute; top:215px;left:100px;">비밀번호찾기</span></a>
 
                     <div style="text-align: right; position:absolute; top:215px;right:25px;font-size: 12px;">SNS간편회원가입</div>
                     <div style="text-align: right;position:absolute;top:235px;right:20px;">
