@@ -51,6 +51,12 @@ public class PlanServiceImpl implements PlanService {
 		return planDao.getPlanPartyList(planId);
 	}
 
+
+	@Override
+	public String copyPlan(String planId) throws Exception {
+		return planDao.copyPlan(planId);
+	}
+	
 	@Override
 	public void addPlan(Plan plan) throws Exception {
 		planDao.addPlan(plan);
@@ -145,4 +151,5 @@ public class PlanServiceImpl implements PlanService {
 		}
 		return planList;
 	}
+
 }
