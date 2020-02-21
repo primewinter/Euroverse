@@ -241,19 +241,19 @@
 			 		tag += "</td>"
 		 			tag += "<td style='text-align:left;margin-left:10'>"
 	 				tag += "<font size='2'  font color='black'>"
-	 				tag += "<a href='/board/getBoard?boardNo="+vo.refId+"'>";
+	 				tag += "<a href='/community/getPost?postId="+vo.refId+"&boardName="+vo.boardName+"'>";
 			 	} else if (vo.pushType.trim() == 'I' ) {
 			 		tag += "<img src='/resources/images/icon/push_invite.png'>";
 			 		tag += "</td>";
 			 		tag += "<td style='text-align:left;margin-left:10'>"
 	 				tag += "<font size='2'  font color='black'>"
-			 		tag += "<a href='/plan/getPlanList' >"; // 초대 목록 리스트 링크
+			 		tag += "<a href='/myPage/myOfferList' >"; // 초대 목록 리스트 링크
 			 	} else if (vo.pushType.trim() == 'A') {
 			 		tag += "<img src='/resources/images/icon/push_acc.png'>";
 			 		tag += "</td>";
 			 		tag += "<td style='text-align:left;margin-left:10'>"
 	 				tag += "<font size='2'  font color='black'>"
-			 		tag += "<a href='/community/getPost?postId="+vo.refId+"' >" // 동행 신청 목록 리스트 링크
+			 		tag += "<a href='/community/getPost?postId="+vo.refId+"&boardName=D' >" // 동행 신청 목록 리스트 링크
 			 	}
 			 		tag += vo.pushMsg+"</font>";
 			 		tag += "</td>";
@@ -692,6 +692,9 @@
         	right: 50px;
         	bottom: 50px;
         	text-align: right;
+        }
+        .bottom-menu{
+        	z-index: 300;
         }
        
         .push-layer, .chat-layer {
