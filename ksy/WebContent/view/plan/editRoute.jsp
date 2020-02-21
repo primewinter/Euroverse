@@ -147,6 +147,13 @@
 	</style>
 	
 	
+	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding|Noto+Sans+KR:300,400,500&display=swap&subset=korean" rel="stylesheet">
+	<style>
+	    body {
+	        font-family: 'Noto Sans KR', sans-serif;
+	        font-weight: 400;
+	    }
+	</style>
 	
 	<!-- 함수들 모음집 -->
 	<script type="text/javascript">
@@ -283,6 +290,8 @@
 			$($('.city_duration_wrap')[index]).attr('href',jsStr);
 			$($('.city_duration_wrap')[index]).find('span').text( nights );
 			
+			$('#updateDurationModal').modal('hide');
+			reorder();
 		}
 		
 		function updateTranType( cityId, tranType ){
@@ -328,6 +337,8 @@
 			
 			/* $('.tran_circle').css('background', 'none').css('color', 'black');
 			closeModal('updateTranModal'); */
+			$('#updateTranModal').modal('hide');
+			
 		}
 		
 		
@@ -1356,7 +1367,7 @@
 			<div id="city_route_list_container" style="width: 25%; height:786px; float: left; border-right: 1 #C9C9C9 solid; margin-left: 0px;margin-top: 0px;">
 				
 				<!-- 좌측 컨테이너 상단 plan_info Start ///////////////////////////// -->
-				<div class="plan_info" style="background-color: #B0E2EE; width: 100%; padding: 5px; height: 16%;">
+				<div class="plan_info" style="background-color: #E1F4F9; width: 100%; padding: 5px; height: 16%; border: 2px solid white;">
 				
 					<div class="media" style="width: 100%;height:100%; padding: 10px;">
 					
