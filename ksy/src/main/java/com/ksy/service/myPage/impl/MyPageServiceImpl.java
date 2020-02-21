@@ -204,6 +204,10 @@ public class MyPageServiceImpl implements MyPageService{
 	}
 	
 	
+	public int partyCount(String userId)throws Exception{
+		return myPageDao.partyCount(userId);
+	}
+	
 	
 	
 	

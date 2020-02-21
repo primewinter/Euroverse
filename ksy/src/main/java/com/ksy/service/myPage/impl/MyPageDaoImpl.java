@@ -232,6 +232,12 @@ public class MyPageDaoImpl implements MyPageDao{
 		return sqlSession.selectList("UserMapper.getPartyMember",postId);
 	}
 	
+	public int partyCount(String userId)throws Exception{
+		
+		return sqlSession.selectOne("UserMapper.partyCount",userId);
+	}
+	
+	
 	
 	
 	////////////////////QNA///////////////////////////////////////

@@ -44,16 +44,34 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <style>
 
+
+.carousel{
+
+}
+
+    div.carousel-inner {
+        width:540px;
+        height: 320px;
+
+    }
+
+    .carousel-inner {
+        background-color: aquamarine;
+    }
+
+    .carousel-inner>.carousel-item {
+        width: 100%;
+        height: 450px;
+
+    }
+
+
+
 .addH6{
 	color: red;
 }
 
 
-.card{
-	width: 60px;
-	height:60px;
-	margin: 6px;
-}
 
  .custom-file-input ~ .custom-file-label::after {
     content: "프로필사진 등록";
@@ -358,7 +376,7 @@ $(function(){
 		for(var i=1;i<=$("input:checkbox[class=tripStyle]").length;i++){
 			if($("input:checkbox[id=tripStyle"+i+"]").is(":checked")==true){
 				var value = $("input:checkbox[id=tripStyle"+i+"]").val();
-				var styleImg = $("styleImg"+i).val();
+				var styleImg = $("#styleImg"+i).val();
 				
 				 $("#checkTripStyle").append("<input type='hidden' name='tripStyle' value='"+value+"'>");
 				 $("#checkTripStyle").append("<input type='hidden' name='styleImg' value='"+styleImg+"'>");
@@ -740,48 +758,221 @@ function readImg(input){
 		</div>
 	</div>
 
-	 <div class="form-group">
-	 	<div class="col-6 mx-auto" id="dreamCountryDiv">
-	 		<div><b>가고싶은 나라</b>(최대 5개)</div>
-     	 				 <c:forEach var="dreamCountry" items="${countryList}" varStatus="status">
-							<div  class="card" style="float: left;">
-							    <img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="60px" height="30px" style="overflow: hidden;">
-					 			<p class="card-text" style="font-size: x-small;"> 
-					 				<input type="hidden" value="${status.count}">
-					   	 			<input  type="checkbox" id="dreamCountry${status.count}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
-					   	 	 		<input type="hidden" id="countryImg${status.count}" value="${dreamCountry.surveyImg}">
-					   	 	 		<label  for="dreamCountry${status.count}">${dreamCountry.surveyChoice}</label>
-		  						</p>
-							</div> 
-							
-						<%-- 	<c:if test="${status.index%5==0}">
-							<br>
-							</c:if>
-					 --%>
-						</c:forEach> 
-						<div id="checkDreamCountry"></div>
-						<h6 class="addH6"></h6>
-   			 </div><!-- 가고싶은 도시 col-6 mx-auto  -->
-		</div><!-- 가고싶은 도시 form-group End  -->
+	
+	
+	
+	
+	
 
-	<div class="form-group">
-	 		<div class="col-6 mx-auto">
-	 			<div><b>여행스타일</b>(최대 3개)</div>
-     	 					 <c:forEach var="style" items="${tripStyleList}" varStatus="status">
-								<div class="card"style="float: left;">
-						    		<img alt="" src="/resources/images/tripInfoimges/${style.surveyImg}" style="overflow: hidden";>
+
+<div class="form-group">
+	 <div class="col-6 mx-auto ">	
+	
+      <div id="country-carousel" class="carousel slide" data-ride="carousel">
+            <!-- 슬라이드 쇼 -->
+            <div class="carousel-inner">
+                <!--첫번째 슬라이드-->
+                <div class="carousel-item active" style="background-color: #f2f2f2;">
+                    <!--<img class="d-block w-100" src="https://images.pexels.com/photos/213399/pexels-photo-213399.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="First slide">-->
+                    <!-- <div class="carousel-caption d-none d-md-block" style=""> -->
+                    <div class="row">
+
+						<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="0" end="9">
+								<div class="col" style="margin-top: 30px; text-align: center;">
+						    		 <img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;">
+				 							<input type="hidden" value="${status.index}">
+								   	 		<input  type="checkbox" id="dreamCountry${status.index}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
+								   	 		<input type="hidden" id="countryImg${status.index}" value="${dreamCountry.surveyImg}">
+								   	 	 	<label  for="dreamCountry${status.index}">${dreamCountry.surveyChoice}</label>
+								</div>
+							</c:forEach> 
+							 
+                    </div>
+                </div>
+                <!--두번째 슬라이드-->
+                <div class="carousel-item" style="background-color: #f2f2f2;">
+                     <div class="row">
+						
+						<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="10" end="19">
+								<div class="col" style="margin-top: 30px; text-align: center;">
+						    		 <img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;">
+				 							<input type="hidden" value="${status.index}">
+								   	 		<input  type="checkbox" id="dreamCountry${status.index}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
+								   	 		<input type="hidden" id="countryImg${status.index}" value="${dreamCountry.surveyImg}">
+								   	 	 	<label  for="dreamCountry${status.index}">${dreamCountry.surveyChoice}</label>
+								</div>
+							</c:forEach>                     
+
+
+                    </div>
+                </div>
+                
+                <div class="carousel-item" style="background-color: #f2f2f2;">
+                     <div class="row">
+						
+						<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="20" end="29">
+								<div class="col" style="margin-top: 30px; text-align: center;">
+						    		 <img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;">
+				 							<input type="hidden" value="${status.index}">
+								   	 		<input  type="checkbox" id="dreamCountry${status.index}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
+								   	 		<input type="hidden" id="countryImg${status.index}" value="${dreamCountry.surveyImg}">
+								   	 	 	<label  for="dreamCountry${status.index}">${dreamCountry.surveyChoice}</label>
+								</div>
+							</c:forEach>                     
+
+
+                    </div>
+                </div>
+                
+                
+                <div class="carousel-item" style="background-color: #f2f2f2;">
+                     <div class="row">
+						
+						<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="30" end="39">
+								<div class="col" style="margin-top: 30px; text-align: center;">
+						    		 <img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;">
+				 							<input type="hidden" value="${status.index}">
+								   	 		<input  type="checkbox" id="dreamCountry${status.index}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
+								   	 		<input type="hidden" id="countryImg${status.index}" value="${dreamCountry.surveyImg}">
+								   	 	 	<label  for="dreamCountry${status.index}">${dreamCountry.surveyChoice}</label>
+								</div>
+							</c:forEach>                     
+
+
+                    </div>
+                </div>
+                
+                
+                <div class="carousel-item" style="background-color: #f2f2f2;">
+                     <div class="row">
+						
+						<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="40" >
+								<div class="col" style="margin-top: 30px; text-align: center;">
+						    		 <img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;">
+				 							<input type="hidden" value="${status.index}">
+								   	 		<input  type="checkbox" id="dreamCountry${status.index}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
+								   	 		<input type="hidden" id="countryImg${status.index}" value="${dreamCountry.surveyImg}">
+								   	 	 	<label  for="dreamCountry${status.index}">${dreamCountry.surveyChoice}</label>
+								</div>
+							</c:forEach>                     
+
+
+                    </div>
+                </div>
+                
+                
+                <!--세번째 슬라이드-->
+<!--                 <div class="carousel-item" style="background-color: cornflowerblue;">
+                    다다다다다다다ㅏ
+                </div> -->
+                <!-- / 슬라이드 쇼 끝 -->
+
+                <!-- 왼쪽 오른쪽 화살표 버튼 시작 -->
+                <a class="carousel-control-prev" href="#country-carousel" data-slide="prev" style="height: 50px; vertical-align: middle; margin-top: 130px;">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <!-- <span>Previous</span> --> </a>
+
+                <a class="carousel-control-next" href="#country-carousel" data-slide="next" style="height: 50px; vertical-align: middle; margin-top: 130px;">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <!-- <span>Next</span> --> </a>
+                <!-- 왼쪽 오른쪽 화살표 버튼 끝 -->
+
+                <!-- 인디케이터 -->
+                <ul class="carousel-indicators">
+                    <li data-target="#country-carousel" data-slide-to="0" class="active"></li>
+                    <!--0번부터시작-->
+                    <li data-target="#country-carousel" data-slide-to="1"></li>
+                     <li data-target="#country-carousel" data-slide-to="2"></li>
+                      <li data-target="#country-carousel" data-slide-to="3"></li>
+                       <li data-target="#country-carousel" data-slide-to="4"></li>
+<!--                     <li data-target="#main-carousel" data-slide-to="2"></li>
+ -->                </ul>
+                <!-- 인디케이터 끝 -->
+            </div>
+        </div>
+	</div>
+</div>	
+
+
+	
+	
+
+<div class="form-group">
+	 <div class="col-6 mx-auto ">	
+	
+      <div id="main-carousel" class="carousel slide" data-ride="carousel">
+            <!-- 슬라이드 쇼 -->
+            <div class="carousel-inner">
+                <!--첫번째 슬라이드-->
+                <div class="carousel-item active" style="background-color: #f2f2f2;">
+                    <!--<img class="d-block w-100" src="https://images.pexels.com/photos/213399/pexels-photo-213399.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="First slide">-->
+                    <!-- <div class="carousel-caption d-none d-md-block" style=""> -->
+                    <div class="row">
+
+						<c:forEach var="style" items="${tripStyleList}" varStatus="status" begin="0" end="9">
+								<div class="col" style="margin-top: 30px; text-align: center;">
+						    		<img alt="" src="/resources/images/tripInfoimges/${style.surveyImg}" style="overflow: hidden" width="80px;"height="80px;">
+				 							<input type="hidden" value="${status.index}">
+								   	 		<input  type="checkbox" id="tripStyle${status.index}" value="${style.surveyChoice}" class="tripStyle">
+								   	 		<input type="hidden" id="styleImg${status.index}" value="${style.surveyImg}">
+								   	 	 	<label  for="tripStyle${status.index}">${style.surveyChoice}</label>
+
+								</div>
+							</c:forEach> 
+							 
+                    </div>
+                </div>
+                <!--두번째 슬라이드-->
+                <div class="carousel-item" style="background-color: #f2f2f2;">
+                     <div class="row">
+						
+						<c:forEach var="style" items="${tripStyleList}" varStatus="status" begin="10" >
+								<div class="col" style="margin-top: 60px; text-align: center;">
+						    		<img alt="" src="/resources/images/tripInfoimges/${style.surveyImg}" style="overflow: hidden" width="80px;"height="80px;">
 				 						<p class="card-text"> 
-				 							<input type="hidden" value="${status.count}">
-								   	 		<input  type="checkbox" id="tripStyle${status.count}" value="${style.surveyChoice}" class="tripStyle">
-								   	 		<input type="hidden" id="styleImg${status.count}" value="${style.surveyImg}">
-								   	 	 	<label  for="tripStyle${status.count}">${style.surveyChoice}</label>
+				 							<input type="hidden" value="${status.index}">
+								   	 		<input  type="checkbox" id="tripStyle${status.index}" value="${style.surveyChoice}" class="tripStyle">
+								   	 		<input type="hidden" id="styleImg${status.index}" value="${style.surveyImg}">
+								   	 	 	<label  for="tripStyle${status.index}">${style.surveyChoice}</label>
 				  						</p>
 								</div> 
-							</c:forEach> 
-							<div id="checkTripStyle"></div>
-							<h6 class="addH6"></h6>
-   				 </div><!--여행스타일 col-6 mx-auto End -->
-			</div><!-- 여행스타일 form-group End -->
+							</c:forEach>                       
+
+
+                    </div>
+                    <!--<img class="d-block w-100" src="https://images.pexels.com/photos/2355519/pexels-photo-2355519.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="Second slide">-->
+                </div>
+                <!--세번째 슬라이드-->
+<!--                 <div class="carousel-item" style="background-color: cornflowerblue;">
+                    다다다다다다다ㅏ
+                </div> -->
+                <!-- / 슬라이드 쇼 끝 -->
+
+                <!-- 왼쪽 오른쪽 화살표 버튼 시작 -->
+                <a class="carousel-control-prev" href="#main-carousel" data-slide="prev" style="height: 50px; vertical-align: middle; margin-top: 130px;">
+                    <span class="carousel-control-prev-icon" ></span>
+                    <!-- <span>Previous</span> --> </a>
+
+                <a class="carousel-control-next" href="#main-carousel" data-slide="next" style="height: 50px; vertical-align: middle; margin-top: 130px;">
+                    <span class="carousel-control-next-icon"></span>
+                    <!-- <span>Next</span> --> </a>
+                <!-- 왼쪽 오른쪽 화살표 버튼 끝 -->
+
+                <!-- 인디케이터 -->
+                <ul class="carousel-indicators">
+                    <li data-target="#main-carousel" data-slide-to="0" class="active"></li>
+                    <!--0번부터시작-->
+                    <li data-target="#main-carousel" data-slide-to="1"></li>
+<!--                     <li data-target="#main-carousel" data-slide-to="2"></li>
+ -->                </ul>
+                <!-- 인디케이터 끝 -->
+            </div>
+        </div>
+	</div>
+</div>
+
+
+
 	
 	<div class="form-group">
 	 		<div class="col-6 mx-auto ">
@@ -795,15 +986,10 @@ function readImg(input){
 			    <strong></strong>&nbsp; 수정 후 다시 시도해주세요.
 			</div>
 	</div> 
-	
-	
-	
-	
-	
-	
-	
-	<input type="hidden" name="dreamCountry">
-	<input type="hidden" name="tripStyle">
+		
+	<div id="checkDreamCountry"></div>
+	<div id="checkTripStyle"></div>	
+
 	
 	
 <!-- Modal -->

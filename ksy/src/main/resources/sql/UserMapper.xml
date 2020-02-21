@@ -659,8 +659,12 @@ FROM PARTY
 WHERE ref_id = #{postId} AND party_type =  'A'
 </select>
 
-
-
+<select id="partyCount" parameterType="string" resultType="int">
+select
+COUNT(p1.party_id)
+FROM party p1 , post p2
+WHERE party_user_id = #{userId} AND party_type = 'A' AND p1.ref_id = p2.post_id  AND p2.deleted = 'F'
+</select>
 
 
 

@@ -59,6 +59,9 @@ public interface MyPageService {
 	
 	public List<Party> getPartyMember(String postId)throws Exception; 
 	
+	public int partyCount(String userId)throws Exception;
+	
+	
 	////////////////////////QNA////////////////////////////////////////
 	public void addQna(Post post)throws Exception;
 	public Map<String , Object> getQnaList(Search search ,String userId)throws Exception;
