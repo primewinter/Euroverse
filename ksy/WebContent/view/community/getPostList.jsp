@@ -3,6 +3,7 @@
 
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 
@@ -31,7 +32,6 @@
 	<style>
 		.container, .container-md, .container-sm {
 		    max-width: 1000px;
-		    font-size: 14px;
 		}
 		
     </style>
@@ -53,12 +53,19 @@
 		 $(function() {
 			 
 			var boardName = $("#boardName").val();
-		
-			$( "td:nth-child(2)" ).on("click" , function() {
-			     var postId = $(this).find($("input[name='postId']")).val();	
-				 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
-			});
-		});	
+			
+			if(boardName == 'D'){
+				$( "td:nth-child(3)" ).on("click" , function() {
+				     var postId = $(this).find($("input[name='postId']")).val();	
+					 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
+				});
+			}else{
+				$( "td:nth-child(2)" ).on("click" , function() {
+				     var postId = $(this).find($("input[name='postId']")).val();	
+					 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
+				});
+			}
+		  });	
 	
 		$(function(){
 			
@@ -82,21 +89,15 @@
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
-		<div class="h3" style="font-weight: bold; margin-top: 40px;">
+		<div class="h4" style="font-weight: bold; margin-top: 40px;">
 			<c:if test="${param.boardName=='A'}">
 			자유게시판
 			</c:if>
 			<c:if test="${param.boardName=='B'}">
 			정보공유
 			</c:if>
-			<c:if test="${param.boardName=='C'}">
-			인기글게시판
-			</c:if>
 			<c:if test="${param.boardName=='D'}">
 			동행찾기
-			</c:if>
-			<c:if test="${param.boardName=='E'}">
-			플래너공유
 			</c:if>
 			<c:if test="${param.boardName=='F'}">
 			여행후기
@@ -113,7 +114,7 @@
 			    <form class="form-inline mt-2 mt-md-0" name="detailForm" style="float:right;">
 			      <input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>
 				  <div class="form-group">
-				    <select class="form-control" name="searchCondition" style="height: 30px; width: 85px; font-size: 13px; margin-right: 2px;" >
+				    <select class="form-control" name="searchCondition" style="height: 35px; width: 85px; font-size: 13px; margin-right: 2px;" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>제목</option>
 						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>닉네임</option>
 						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>태그</option>
@@ -123,7 +124,7 @@
 				  <div class="form-group">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
 				    <input type="text" class="form-control mr-sm-2" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" style="height: 30px; font-size: 13px;" >
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" style="height: 35px; font-size: 13px;" >
 				  </div>
 				  
 				  &nbsp;<i class="fas fa-search"></i>
@@ -137,13 +138,16 @@
 		</div>
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
-	<div class="table-responsive">	
+	<div class="table-responsive" style="font-size:14px;">	
       <!--  table Start /////////////////////////////////////-->
       <table class="table table-hover">
       
         <thead>
           <tr>
             <th scope="col">게시글번호</th>
+          <c:if test="${param.boardName=='D'}">
+            <th scope="col">동행날짜</th>
+          </c:if>
             <th scope="col">제목</th>
             <th scope="col">닉네임</th>
             <th scope="col">작성일</th>
@@ -167,6 +171,9 @@
 		  <c:if test="${post.postGrade == 'B' || post.postGrade == null}">
 		  <c:set var="i" value="${ i+1 }" />
 			  <th scope="row">${ i }</th>
+			<c:if test="${param.boardName == 'D'}">
+			  <td><fmt:formatDate value="${post.accStartDate}" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${post.accEndDate}" pattern="yyyy-MM-dd"/></td>
+			</c:if>
 			  <td style="font-weight: bold; color: dimgray;">
 			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
 			  <span style="color:black;">
@@ -191,7 +198,8 @@
 				  </c:if>
 			  </c:if>
 			  </span>
-			  ${post.postTitle} <span style="color:red;">(${post.comments})</span></td>
+			  ${post.postTitle} <span style="font-size:13px;color:black;">[${post.accCount}/${post.accPerson}]</span>
+			  <span style="color:red;">(${post.comments})</span></td>
 			  
 			  <td>${post.nickName}</td>
 		  </c:if>

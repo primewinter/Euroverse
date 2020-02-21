@@ -70,6 +70,8 @@
         background-color: white;
         text-align: left;
         z-index: 10;
+        border: solid 1px #E4E4E4;
+        box-shadow: 0px 0px 10px -5px GRAY;
     }
 
     ul.myMenu>li:hover ul.submenu {
@@ -128,7 +130,7 @@
 
 </style>
 
-<jsp:include page="/view/user/login_sy.jsp"></jsp:include>
+<jsp:include page="/view/user/login.jsp"></jsp:include>
 <div class="container toolbar">
     <span class="login-control">
         <c:if test="${user.userId == null}">
@@ -144,7 +146,7 @@
     </span>
     <header class="blog-header py-3"></header>
     <div class="nav-scroller py-1 mb-2">
-        <nav class="nav d-flex justify-content-center">
+        <nav class="nav d-flex justify-content-center toolbar-logo">
             <a href="/main.jsp">Euroverse</a>
         </nav>
     </div>
@@ -158,16 +160,16 @@
                     <ul class="menu4_s submenu">
                         <p></p>
                         <li><a href="#">
-                                <p>인기글 게시판</p>
+                                <p>인기글게시판</p>
                             </a></li>
                         <li><a href="#">
-                                <p>플래너 공유</p>
+                                <p>플래너공유</p>
                             </a></li>
                         <li><a href="#">
-                                <p>여행 후기</p>
+                                <p>여행후기</p>
                             </a></li>
                         <li><a href="#">
-                                <p>여행 정보</p>
+                                <p>여행정보</p>
                             </a></li><br />
                         <li><a href="#">
                                 <p>QnA</p>
@@ -206,23 +208,23 @@
         $(self.location).attr("href", "/community/getPostList?boardName=A");
     });
 
-    $("a:contains('여행 정보')").on("click", function() {
+    $("a:contains('여행정보')").on("click", function() {
         $(self.location).attr("href", "/community/getPostList?boardName=B");
     });
 
-    $("a:contains('인기글 게시판')").on("click", function() {
+    $("a:contains('인기글게시판')").on("click", function() {
         $(self.location).attr("href", "/community/getPostList?boardName=C");
     });
 
-    $("a:contains('동행 찾기')").on("click", function() {
+    $("a:contains('동행찾기')").on("click", function() {
         $(self.location).attr("href", "/community/getPostList?boardName=D");
     });
 
-    $("a:contains('플래너 공유')").on("click", function() {
+    $("a:contains('플래너공유')").on("click", function() {
         $(self.location).attr("href", "/community/getPostList?boardName=E");
     });
 
-    $("a:contains('여행 후기')").on("click", function() {
+    $("a:contains('여행후기')").on("click", function() {
         $(self.location).attr("href", "/community/getPostList?boardName=F");
     });
 

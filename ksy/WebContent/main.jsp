@@ -56,12 +56,13 @@
     }
 
     div.random-text {
-        display: block;
-        vertical-align: middle;
-        text-align: right;
+        display: inline-block;
+        vertical-align: bottom;
+        text-align: left;
         margin: 3em;
     }
 
+    /*메인 캐러셀*/
     div.carousel-inner {
         height: auto;
 
@@ -81,8 +82,8 @@
     /*무한클릭 이미지 mouseHover CSS*/
 
     .effect-wrap {
-        width: 400px;
-        height: 300px;
+        width: 600px;
+        height: 500px;
         display: inline-block;
         float: left;
         justify-content: center;
@@ -93,8 +94,8 @@
         position: relative;
         display: inline-block;
         vertical-align: middle;
-        width: 400px;
-        height: 300px;
+        width: 600px;
+        height: 500px;
         overflow: hidden;
         /*box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);*/
     }
@@ -246,7 +247,7 @@
                 사진을 클릭해보세요!
             </div>
         </div>
-        <div class="main-best" style="margin-bottom:500px;">
+        <div class="main-best">
         </div>
 
         <script type="text/javascript">
@@ -276,6 +277,7 @@
 
         </script>
     </main>
+    <jsp:include page="toolbar/pushBar_sy.jsp" />
 </body>
 
 </html>

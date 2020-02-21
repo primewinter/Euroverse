@@ -31,7 +31,6 @@
 	<style>
 		.container, .container-md, .container-sm {
 		    max-width: 1000px;
-		    font-size: 14px;
 		}
 		
     </style>
@@ -71,28 +70,8 @@
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
-		<div class="h3" style="font-weight: bold; margin-top: 40px;">
-			<c:if test="${param.boardName=='A'}">
-			자유게시판
-			</c:if>
-			<c:if test="${param.boardName=='B'}">
-			정보공유
-			</c:if>
-			<c:if test="${param.boardName=='C'}">
+		<div class="h4" style="font-weight: bold; margin-top: 40px;">
 			인기글게시판
-			</c:if>
-			<c:if test="${param.boardName=='D'}">
-			동행찾기
-			</c:if>
-			<c:if test="${param.boardName=='E'}">
-			플래너공유
-			</c:if>
-			<c:if test="${param.boardName=='F'}">
-			여행후기
-			</c:if>
-			<c:if test="${param.boardName=='G'}">
-			QnA
-			</c:if>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -102,7 +81,7 @@
 			    <form class="form-inline mt-2 mt-md-0" name="detailForm" style="float:right;">
 			      <input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>
 				  <div class="form-group">
-				    <select class="form-control" name="searchCondition" style="height: 30px; width: 85px; font-size: 13px; margin-right: 2px;" >
+				    <select class="form-control" name="searchCondition" style="height: 35px; width: 85px; font-size: 13px; margin-right: 2px;" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>제목</option>
 						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>닉네임</option>
 						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>태그</option>
@@ -110,7 +89,7 @@
 				  </div>
 				  
 				  <div class="form-group">
-				    <select class="form-control" name="sorting" style="height: 30px; width: 120px; font-size: 13px; margin-right: 2px;" >
+				    <select class="form-control" name="sorting" style="height: 35px; width: 120px; font-size: 13px; margin-right: 2px;" >
 						<option value="0"  ${ ! empty search.sorting && search.sorting==0 ? "selected" : "" }>일간인기글</option>
 						<option value="1"  ${ ! empty search.sorting && search.sorting==1 ? "selected" : "" }>주간인기글</option>
 						<option value="2"  ${ ! empty search.sorting && search.sorting==2 ? "selected" : "" }>월간인기글</option>
@@ -120,7 +99,7 @@
 				  <div class="form-group">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
 				    <input type="text" class="form-control mr-sm-2" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" style="height: 30px; font-size: 13px;" >
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" style="height: 35px; font-size: 13px;" >
 				  </div>
 				  
 				  &nbsp;<i class="fas fa-search"></i>
@@ -134,7 +113,7 @@
 		</div>
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
-	<div class="table-responsive">	
+	<div class="table-responsive" style="font-size:14px;">	
       <!--  table Start /////////////////////////////////////-->
       <table class="table table-hover">
       

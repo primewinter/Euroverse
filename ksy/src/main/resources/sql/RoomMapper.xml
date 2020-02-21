@@ -79,12 +79,13 @@
   		SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
   						FROM (  SELECT r.room_id ,r.room_city, r.room_name , r.price, r.check_in , r.check_out , r.room_num , r.adult_num , r.child_num , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date  
-										FROM  room r, orders o 
+										FROM  room r,  orders o 
 										WHERE o.room_id  = r.room_id(+)
+										 AND flight_id IS NULL
 										ORDER BY order_id  ) inner_table
-  						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
-  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
-  		AND #{search.currentPage}*#{search.pageSize}
+  						WHERE ROWNUM <![CDATA[<=]]> #{currentPage}*#{pageSize} )
+  		WHERE row_seq BETWEEN (#{currentPage}-1)*#{pageSize}+1
+  		AND #{currentPage}*#{pageSize}
 	</select> 
   	
 </mapper>

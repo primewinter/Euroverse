@@ -43,17 +43,27 @@
 
 <!-- CSS 속성값 -->
 <style>
+.q{
+	width :30px;
+	margin: 10px;
+}
 .outer{
-	background-color: gray;
-	padding: 20px; 
-	padding-top: 100px;
-	width:500px;
+	background-color: #E6E2E2;
+	padding: 30px; 
+	padding-top: 2px;
+	width:auto;
 	height: auto;
+	display: inline-block;
 }
 
 .inner{
+	display: inline-block;
 	background-color: white;
-	
+	border-bottom-left-radius : 15px;
+	border-bottom-right-radius : 15px;
+	box-shadow : 5px 5px 7px #C3C0C0;
+	height: auto;
+	width:940px;
 }
 </style>
 
@@ -70,27 +80,34 @@
 
 <body>
 
-
+	<form>
 		<!-- =============== 유로버스 툴바 인클루드  ========== -->
 		<div class="tollbar">
 			<jsp:include page="/toolbar/toolBar.jsp"></jsp:include> 
 		</div>
 		<!-- =========== 이까지  ================ -->
 		
-		<div class="outer">
-			<div class="inner">
-		asdfasdfasdf
+		<table class="outer">
+		  <tbody>
+			<tr class="inner" style="display: inline-block;">
+			<td>
+			<img class ="q" alt="" src="\resources\images\admin\Qicon.png">
+			</td>
+			<td>	
+			asdfasdfasdfAasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfadas
+			</td>
+			<td>
+			<div class="form-group">
+		   	 <label for="exampleFormControlTextarea1"></label>
+		     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+		  	</div>
+			</td>
+			
+		  	 </tr>
+			</tbody>
+		</table>
 		
-		asdfasdf
-		
-		asdfasdf
-		asdfasdfasdf
-		asdfasdfasdf
-		<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-		
-			</div>
-		</div>
-					 
+	</form>			 
 
 	
 

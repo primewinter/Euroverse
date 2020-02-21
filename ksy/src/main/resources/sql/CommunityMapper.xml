@@ -458,21 +458,21 @@
     	INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best )
     	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best
     	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best
-    			FROM post WHERE day_best IS NOT NULL ORDER BY day_best desc ) WHERE ROWNUM <![CDATA[<=]]> 100
+    			FROM post WHERE post_grade = 'B' AND day_best IS NOT NULL ORDER BY day_best desc ) WHERE ROWNUM <![CDATA[<=]]> 100
 	</insert>	 
 	
 	<insert id="insertWeekBestPost">
 		INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best )
     	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best
     	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best
-    			FROM post WHERE week_best IS NOT NULL ORDER BY week_best desc ) WHERE ROWNUM <![CDATA[<=]]> 100
+    			FROM post WHERE post_grade = 'B' AND week_best IS NOT NULL ORDER BY week_best desc ) WHERE ROWNUM <![CDATA[<=]]> 100
 	</insert>	 
 	
 	<insert id="insertMonthBestPost">
 		INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best )
     	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best
     	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best
-    			FROM post WHERE month_best IS NOT NULL ORDER BY month_best desc ) WHERE ROWNUM <![CDATA[<=]]> 100
+    			FROM post WHERE post_grade = 'B' AND month_best IS NOT NULL ORDER BY month_best desc ) WHERE ROWNUM <![CDATA[<=]]> 100
 	</insert>	 
 	
 	<delete id="deleteDayBestPost">
