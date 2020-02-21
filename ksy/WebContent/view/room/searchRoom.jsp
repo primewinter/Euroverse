@@ -205,8 +205,21 @@ $(function() {
 
 var rangeDate = 500; // set limit day
 var setSdate, setEdate;
+
+
 $(function() {
+$('#reset').on('click', function(){
+    $('#from').kronos('resetPeriod');
+    $('#to').kronos('resetPeriod');
+});
 $("#from").kronos({
+	
+	
+
+    visible : true,
+    periodTo : '#to',
+	
+	
     dateFormat: 'yy-mm-dd',
     minDate: 0,
     onSelect: function(selectDate){
@@ -217,6 +230,7 @@ $("#from").kronos({
             edate.setDate(sdate.getDate() + rangeDate);
         
         $('#to').kronos('option', {
+        	
             minDate: selectDate,
             beforeShow : function () {
                 $("#to").kronos( "option", "maxDate", edate );                
@@ -230,6 +244,8 @@ $("#from").kronos({
 });
 $(function() {
 	$("#to").kronos({ 
+		 visible : true,
+         periodFrom : '#from',
 	    dateFormat: 'yy-mm-dd',
 	    onSelect : function(selectDate){
 	        setEdate = selectDate;
@@ -513,6 +529,10 @@ $(function() {
 						    <i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
 						  </div>
 			   	
+			   		 </div>
+			   		 
+			   		 <div>
+			   		 	<button type="button" id="reset"></button>
 			   		 </div>
 			   		 </div>
 			  </div>

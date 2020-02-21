@@ -12,34 +12,20 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 	
+	 <!-- jQuery UI toolTip 사용 CSS-->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<!-- jQuery UI toolTip 사용 JS-->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
-	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
-   
-   <!-- jQuery UI toolTip 사용 CSS-->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip 사용 JS-->
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  
   <!-- asome icon CDN -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-	  body {
-            padding-top : 50px;
-
-        }
-        image {
-        	border : 1px solid lightpink;
-        }
         h3{
         	color: white;
         	font-family : Consolas;
@@ -97,9 +83,32 @@ function fncGetUserList(currentPage) {
 		})
 	})
 	
-	////////////////////////////////////////////////////
+	/* 환불 처리중 , 환불완료로 변경 modal */
+ 	$(function() {
+ 		
+ 		$('#orderStatus').change(function() {
+ 			var state = $('#orderStatus option:selected').val();
+	 			if ( state == '3' ) {
+	 				$( "#refundmodal3" ).modal('show');
+	 			} 
+ 				if (state == '4') {
+ 					$( "#refundmodal4" ).modal('show');
+				}
+ 		
+ 		});
+	}); 
+	
+ 	/* close modal */
+ 	function closeModal(modalName) {
+		if( typeof $("."+modalName)[0] != "undefined" ){
+			$("."+modalName)[0].reset();	
+		}
+		$("#"+modalName).modal("hide");
+	}
 	
 	  
+	
+	////////////////////////////////////////////////////
 /*     $( function () {
 		$('.delete:contains("배")').on("click" , function () {
       jQuery.ajax({
@@ -128,13 +137,14 @@ function fncGetUserList(currentPage) {
 </head>
 <form>
 <body>
+<div>
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	<div class="container">
 		<div class="page-header">
 			<h3>Order List</h3>
 		</div>
-	</div>
 		<br/>
+	</div>
 <div class="btn-group btn-group-toggle" data-toggle="buttons" style="Padding-left:180px;" >
   <label class="btn btn-secondary active">
     <input type="radio" name="flight" id="option1" checked onclick="javascript:Show();"> Flight
@@ -183,14 +193,14 @@ function fncGetUserList(currentPage) {
 					      <c:if test="${flight.orderStatus == '2' }">
 					      	<select class="custom-select" name="orderStatus" id="orderStatus" style="">
 							  <option selected value="2">환불신청</option>
-							  <option value="3">환불처리중</option>
-							  <option value="4">환불완료</option>
+							  <option value="3" id="3">환불처리중</option>
+							  <option value="4" id="4">환불완료</option>
 							</select>
 					      </c:if>
 					         <c:if test="${flight.orderStatus == '3' }">
 					         <select class="custom-select" name="orderStatus" id="orderStatus" style="">
 							  <option selected value="3">환불처리중</option>
-							  <option value="4">환불완료</option>
+							  <option value="4" id="4">환불완료</option>
 							</select>
 					         </c:if>
 					      <c:if test="${flight.orderStatus == '4' }">
@@ -241,13 +251,13 @@ function fncGetUserList(currentPage) {
 			      <c:if test="${room.orderStatus == '2' }">
 			      	<select class="custom-select" name="orderStatus" id="orderStatus" style="">
 					  <option selected value="2" id="2">환불신청</option>
-					  <option value="3" id="3">환불처리중</option>
+					  <option value="3" id="3" data-toggle="modal" data-target="#refund">환불처리중</option>
 					  <option value="4" id="4">환불완료</option>
 					</select>
 			      </c:if>
 			         <c:if test="${room.orderStatus == '3' }">
 			         <select class="custom-select" name="orderStatus" id="orderStatus" style="">
-					  <option selected value="3" id="3">환불처리중</option>
+					  <option selected value="3" id="3" >환불처리중</option>
 					  <option value="4" id="4">환불완료</option>
 					</select>
 			         </c:if>
@@ -259,7 +269,50 @@ function fncGetUserList(currentPage) {
 	     </c:forEach>
 	  </tbody>
 	</table>
-
+	</div>
+	<!-- <button type="button" class="btn btn-primary" id="refundApp1" data-toggle="modal" data-target="#refund">
+			   환불 신청
+			</button> -->
+	
+	<div class="modal fade" id="refundmodal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">환불 처리중으로 변경</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      	 환불 처리중으로 변경하시겠습니까?
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" onclick="closeModal('refundmodal3');" id="reset" data-dismiss="modal">취소</button>
+	        <button type="button" class="btn btn-primary" id="refundConfirm">확인</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>	
+	
+	<div class="modal fade" id="refundmodal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">환불 처리 완료</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      	 환불 처리를 완료 하시겠습니까?
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" onclick="closeModal('refundmodal4');" id="reset" data-dismiss="modal">취소</button>
+	        <button type="button" class="btn btn-primary" id="refundConfirm">확인</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>	
 </body>
 </form>
 </html>

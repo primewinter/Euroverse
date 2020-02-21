@@ -26,8 +26,8 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!-- 달력 CDN -->
-	<link rel="stylesheet" href="/resources/css/kronos.css" />
-	<script src="/resources/javascript/kronos.js"></script>
+	<!-- <link rel="stylesheet" href="/resources/css/kronos.css" />
+	<script src="/resources/javascript/kronos.js"></script> -->
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
@@ -158,7 +158,7 @@
 		/* 달력 css */
 		.kronos-outer .kronos-inner { Padding-top:10px;Padding-left:10px;Padding-right:10px;Padding-bottom:10px;font-size: 14px; }
 		element.style {
-		    height: 320px;
+		    height: 350px;
 		}
 		
 		/* 인원 수량 */
@@ -218,19 +218,31 @@ $(function() {
 var rangeDate = 500; // set limit day
 var setSdate, setEdate;
 $(function() {
-$("#from").kronos({
+$("#from").datepicker({
     dateFormat: 'yy-mm-dd',
     minDate: 0,
+    button: {
+    	    month :true,
+    	    year :true,
+    	    trigger :true,
+    	    today :true
+    	  },
+	  select :true,
+	    selectYear : {
+	      tart : -20,
+	      end : 20
+	    },
     onSelect: function(selectDate){
         var stxt = selectDate.split("-");
+        console.log("stxt : "+stxt);
             stxt[1] = stxt[1] - 1;
         var sdate = new Date(stxt[0], stxt[1], stxt[2]);
         var edate = new Date(stxt[0], stxt[1], stxt[2]);
             edate.setDate(sdate.getDate() + rangeDate);
-        $('#to').kronos('option', {
+        $('#to').datepicker('option', {
             minDate: selectDate,
             beforeShow : function () {
-                $("#to").kronos( "option", "maxDate", edate );                
+                $("#to").datepicker( "option", "maxDate", edate );                
                 setSdate = selectDate;
                 console.log(setSdate)
         }});
@@ -240,12 +252,13 @@ $("#from").kronos({
 });
 });
 $(function() {
-	$("#to").kronos({ 
+	$("#to").datepicker({ 
 	    dateFormat: 'yy-mm-dd',
 	    onSelect : function(selectDate){
 	        setEdate = selectDate;
 	        console.log(setEdate)
 	    }
+		
 	});
 	 $('#searchButton').on('click', function(e){
 	    if($('input#from').val() == ''){
@@ -447,6 +460,13 @@ function europe(obj) {
 		})
 	});
 	
+	function closeModal(modalName) {
+		if( typeof $("."+modalName)[0] != "undefined" ){
+			$("."+modalName)[0].reset();	
+		}
+		$("#"+modalName).modal("hide");
+	}
+	
 </script>
 
 
@@ -509,13 +529,13 @@ function europe(obj) {
 						<br/><br/>
 						<div class="row">
 						 <div class="col-sm-5" id="depIcon" style="margin-left:-15px;">
-				    		<input type="text" class="form-control" placeholder="출발날짜 선택" style="width:110px;font-size:13px;float:left;" id="from" name="depDate">
+				    		<input type="text" class="form-control" placeholder="출발날짜 선택" style="width:110px;height:30px;font-size:13px;float:left;" id="from" name="depDate">
 					    	<div class="input-group-append">
 					    		<span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
 							</div>
 						</div>
 				   		 <div class="col-sm-5" id="arrIcon">
-				   		 	 <input type="text" class="form-control" placeholder="도착날짜 선택"  style="width:110px;font-size:13px;float:left;" id="to" name="arrDate">
+				   		 	 <input type="text" class="form-control" placeholder="도착날짜 선택"  style="width:110px;height:30px;font-size:13px;float:left;" id="to" name="arrDate">
 				   				<div class="input-group-append">
 				   					<span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
 				   		 		</div>
@@ -664,8 +684,8 @@ function europe(obj) {
 				</div>
 		      </div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
-		        <button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
+		        <button type="button" class="btn btn-secondary"  data-dismiss="modal">확인</button>
+		        <button type="button" class="btn btn-primary" onclick="closeModal('flightNum');" data-dismiss="modal">취소</button>
 		      </div>
 		    </div>
 		  </div>

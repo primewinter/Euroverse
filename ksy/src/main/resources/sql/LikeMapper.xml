@@ -45,7 +45,12 @@
 	 
 	<insert id="addLike" parameterType="like">
 		INSERT INTO likes(like_id , like_type , ref_id , like_user_id , like_check) 
+		<if test="refId != null">
 		VALUES ( SEQ_likes_like_id.NEXTVAL , #{likeType} , #{refId} , #{likeUserId} , 'F' )
+		</if>
+		<if test="refId == null">
+		VALUES ( SEQ_likes_like_id.NEXTVAL , #{likeType} , seq_flight_FLIGHT_ID.CURRVAL , #{likeUserId} , 'F' )
+		</if>
     </insert>
 
 </mapper>

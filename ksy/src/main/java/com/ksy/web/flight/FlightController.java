@@ -63,6 +63,16 @@ public class FlightController {
 		return "forward:/flight/getFlight.jsp";
 	}
 	
+	@RequestMapping(value = "addFlight" , method = RequestMethod.GET)
+	public void addFlight(@ModelAttribute("flight")Flight flight , Model model) throws Exception {
+		System.out.println("/addFlight : GET");
+		
+		System.out.println("flight : "+flight);
+		flight = flightService.addFlight(flight);
+		
+		model.addAttribute("flight",flight);
+	}
+	
 
 	// Filed
 	private WebDriver driver;
