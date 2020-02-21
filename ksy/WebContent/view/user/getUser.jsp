@@ -19,44 +19,38 @@
 
 
 <!-- 구글웹폰트 -->
-<link href="https://fonts.googleapis.com/css?family=Hi+Melody&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding|Noto+Sans+KR:300,400,500&display=swap&subset=korean" rel="stylesheet">
 
 
 <style>
 
 #userInfoDiv .allInfo{
-text-align:center;
-width:150px; 
-height:100px; 
-background-color:#668cff; 
-position:relative; 
-/* border-radius: 100px; */
-color: #ffffff;
-box-shadow: 2px 10px 10px 0px gray;
-
+	display: inline-block;
+	width: 208px;
+	height: 100px;
+	text-align: center;
+	
 }
+
 	
 #userInfoDiv .allInfo  p{
-font-family: 'Hi Melody', cursive;
+font-family: 'Noto Sans KR', sans-serif;
 font-size: 23px;
+border-right: thin;
 }
 
 #userInfoProfile h4{
-font-family: 'Hi Melody', cursive;
+font-family: 'Noto Sans KR', sans-serif;
 font-size: 23px;
-position: relative;
+/* position: relative; */
 }
 
 
-.nicknameClass{
-
-font-family: 'Hi Melody', cursive;
-font-size: 30px;
-margin-left: 250px;
+ .nicknameClass{
+font-family: 'Noto Sans KR', sans-serif;
 }
 .badge{
-font-family: 'Hi Melody', cursive;
+font-family: 'Noto Sans KR', sans-serif;
 align-content: center;
 }
 
@@ -108,78 +102,85 @@ function tripStyle(tripStyle){
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 
  	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-      <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">내정보조회</h1>
-      </div> 
-      				<div id="userProfileDiv" style="position: relative; right: 450px; top:50px;">
-					    <img alt="" src="/resources/images/userImages/${user.userImg}" style="position:relative; top:10px;right:0px;left:535px; width: 200px;height: 200px;	border-radius: 100px;	-moz-border-radius: 100px;	-khtml-border-radius: 100px;	-webkit-border-radius: 100px;">
-					    <span class="nicknameClass" style="position:relative;width:300px; top:140px;left:100px; text-align: center;">
-							 ${user.nickname}
-			  			</span>
-							<i class="far fa-address-card" style="position:relative; top:170px;right:0px;left:-10px; text-decoration: underline; cursor: help;">상세보기</i>
-			  			<div style="position:relative; top:-210px;right:0px;left:610px;">
+      					<div>
 					 		<c:if test="${user.role == 'G' }">
-	                    		<span class="badge badge-secondary ">비인증회원</span>
+	                    		<div class="badge badge-secondary ">비인증회원</div>
 	                    	</c:if>
 	                    	<c:if test="${user.role == 'Q' }">
-	                    		<span class="badge badge-info">인증회원</span>
+	                    		<div class="badge badge-info">인증회원</div>
 	                    	</c:if>
 	                    	<c:if test="${user.role == 'A' }">
-	                    		<span class="badge badge-info" >관리자</span>
+	                    		<div class="badge badge-info" >관리자</div>
 	                    	</c:if>
+	                    </div>
+      				<div id="userProfileDiv" style="height:230px;background-color: #4d4d4d;color: white; padding-left: 20px;padding-top: 30px">
+					    <img alt="" src="/resources/images/userImages/${user.userImg}" style="display: inline-block; border-radius: 100px;width:170px;height: 170px;">
+					    <div class="nicknameClass" style="display: inline-block;" >
+							 ${user.nickname}
+							<i class="far fa-address-card" style=" text-decoration: underline; cursor: help;">상세보기</i>
 			  			</div>
       				</div> 
 		  			
-		  			<div id="userInfoDiv" style="width: 900px;height:350px; position: relative; top:-200px; left:350px; background-color: #ff9933; background-color: rgba( 255, 148, 77, 0.1 );border-radius: 100px;">
-		  				<div class="allInfo" id="pointDiv" style="top:50px;left: 120px;">
-		  					<p style="position:relative; top: 15px;">
+		  			<div id="userInfoDiv" style="width :100% ;">
+		  				<div class="allInfo" id="pointDiv">
+		  					<p >
+		  					<i class="fas fa-coins"></i>
 		  					포인트
 		  					<br>${user.totalPoint}P
 		  					</p>
 		  				</div>
 		  				
-		  				<div class="allInfo" id="tripDateDiv" style="left:400px; top:-50px;">
-		  					<p style="position:relative; top: 15px;">
+		  				<div class="allInfo" id="tripDateDiv">
+		  					<p>
+		  					<i class="far fa-flag"></i>
 		  					유럽에서
 		  					<br>${travelDate}일
 		  					</p>
 		  				</div>
 		  				
-		  				<div class="allInfo" id="slotDiv" style="left:680px; top:-150px;">
-		  					<p style="position:relative; top: 15px;">
-		  					슬룻
+		  				<div class="allInfo" id="slotDiv">
+		  					<p >
+		  					<i class="fab fa-buromobelexperte"></i>
+		  					슬롯
 		  					<br>${user.slot}개
 		  					</p>
 		  				</div>
 		  				
-		  				<div class="allInfo" id="postDiv" style="left:120px; top:-100px;">
-		  					<p style="position:relative; top: 15px;">
+		  				<div class="allInfo" id="postDiv">
+		  					<p >
+		  					<i class="far fa-clipboard"></i>
 		  					게시글
-		  					<br>0개
+		  					<br>${postCount}개
 		  					</p>
 		  				</div>
 		  				
-		  				<div class="allInfo" id="commentDiv" style="left:400px; top:-200px;">
-		  					<p style="position:relative; top: 15px;">
+		  				<div class="allInfo" id="commentDiv">
+		  					<p >
+		  					<i class="far fa-copy"></i>
 		  					댓글
-		  					<br>0개
+		  					<br>${commentCount}개
 		  					</p>
 		  				</div>
 		  				
-		  				<div class="allInfo" id="partyDiv" style="left:680px; top:-300px;">
-		  					<p style="position:relative; top: 15px;">
+		  				<div class="allInfo" id="partyDiv" >
+		  					<p >
+		  					<i class="fas fa-user-friends"></i>
 		  					동행
-		  					<br>0개
+		  					<br>${partyCount}개
 		  					</p>
 		  				</div>
 		  			
 		  			
 		  			</div>
 		  			
+		  			<hr class="one" >
 		  			
-		  			<div id="userInfoProfile" class="row" style="width: 1150px;height:150px;position: relative;left: 100px; top:-200px; display: none;">
+		  			
+		  			
+		  			
+		  			<div id="userInfoProfile" class="row" style=" display: none; ">
 						
-						<div class="col"  >
+				<%-- 		<div class="col"  >
 						<h4>이름</h4>
 						<h4>닉네임</h4>
 						<h4>이메일</h4>
@@ -192,7 +193,7 @@ function tripStyle(tripStyle){
 
 
 
-						<div class="col" style="position: relative;top: -280px; left:130px;  ">
+						<div class="col">
 						
 		  				<h4> <b style="text-decoration: underline;text-underline-position: under;">${user.userName}</b> </h4>
                     	<h4><b style="text-decoration: underline;text-underline-position: under;">${user.nickname}</b></h4>
@@ -208,7 +209,11 @@ function tripStyle(tripStyle){
 	                    	</c:if>
                     	
                     	</h4>
-                    	<h4><b style="text-decoration: underline;text-underline-position: under;">${user.regDate}</b></h4>
+                    	
+                    	<c:set var="regDate" value="${fn:split(user.regDate,' ')}"></c:set>
+                    	<h4><b style="text-decoration: underline;text-underline-position: under;">${regDate[0]}</b></h4>
+                    	
+                    	
                     	<h4>
                     		<c:if test="${user.pushAgree == 'T'}">
 								<b style="text-decoration: underline;text-underline-position: under;">동의함</b>
@@ -217,9 +222,9 @@ function tripStyle(tripStyle){
 								<b style="text-decoration: underline;text-underline-position: under;">거부함</b>
 							</c:if>
                     	
-                    	</h4>
+                    	</h4> --%>
                     	
-                    	<div style="position: relative;top: -220px;right: -330px;">
+                    	<div style="">
                     	<h4>가고싶은 도시</h4>
 				  		<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
 							<c:if test="${tripSurvey.surveyType=='D'}">
@@ -231,7 +236,7 @@ function tripStyle(tripStyle){
 		  			
 		  			
 		  			
-						<div style="position: absolute;top: 55px;right: 300px;">
+						<div style="">
 						<h4>여행스타일</h4>
 		  					<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
 									<c:if test="${tripSurvey.surveyType=='T'}">

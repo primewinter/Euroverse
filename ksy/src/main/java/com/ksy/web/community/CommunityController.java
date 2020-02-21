@@ -245,6 +245,8 @@ public class CommunityController {
 				search.setSorting("0");
 			}
 			map = communityService.getBestPostList(search, boardName);
+		}else if( boardName.equals("E") ) {
+			map = communityService.getPlanPostList(search, boardName);
 		}else {
 			map = communityService.getPostList(search, boardName);
 		}

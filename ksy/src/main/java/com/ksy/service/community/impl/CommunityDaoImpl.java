@@ -97,6 +97,16 @@ public class CommunityDaoImpl implements CommunityDao{
 		return sqlSession.selectList("CommunityMapper.getPostList", map);
 	}
 	
+	public List<Post> getPlanPostList(Search search, String boardName) throws Exception {
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("boardName", boardName);
+		
+		return sqlSession.selectList("CommunityMapper.getPlanPostList", map);
+	}
+	
 	public List<Post> getBestPostList(Search search, String boardName) throws Exception {
 		
 		Map<String, Object> map=new HashMap<String, Object>();

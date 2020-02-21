@@ -65,6 +65,10 @@ public interface MyPageDao {
 	public List<Offer> getRefId(String userId)throws Exception;
 	
 	public List<Party> getPartyMember(String postId)throws Exception;
+	
+	public int partyCount(String userId)throws Exception;
+	
+	
 	//////////////////////////////QNA////////////////////////////////
 	public void addQna(Post post)throws Exception;
 	public List<Post> getQnaList(Search search , String userId)throws Exception;

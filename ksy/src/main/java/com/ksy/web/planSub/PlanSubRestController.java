@@ -277,11 +277,13 @@ public class PlanSubRestController {
 	}
 	
 	@RequestMapping( value = "json/updateMemoCoordinates", method = RequestMethod.POST )
-	public List<Memo> updateMemoCoordinates( @RequestBody Memo memo ) throws Exception {
+	public void updateMemoCoordinates( @RequestBody Memo memo ) throws Exception {
 		planSubService.updateMemoCoordinates(memo);
 		
-		List<Memo> memoList = planSubService.getMemoList(memo.getPlanId());
-		return memoList;
+		/*
+		 * List<Memo> memoList = planSubService.getMemoList(memo.getPlanId()); return
+		 * memoList;
+		 */
 	}
 	
 	

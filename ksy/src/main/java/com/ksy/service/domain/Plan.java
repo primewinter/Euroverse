@@ -125,7 +125,7 @@ public class Plan {
 		
 		if(startDate != null) {
 			Date dateForDay = new Date(startDate.getTime());		//요일을 위한 dateForDay
-			this.startDateString = startDate.toString().substring(0,10) + " : "+dateForDay.toString().substring(0,3);
+			this.startDateString = startDate.toString().substring(0,10) + ", "+dateForDay.toString().substring(0,3);
 			this.planDday = Util.getDday(startDate);
 		}
 	}

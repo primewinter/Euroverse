@@ -166,7 +166,7 @@
       }
       .party-member-img.on{
       	border-width: 3px;
-      	border-color: #FA6124;
+      	border-color: #F98F8A;
       }
       .party-member-img.off{
       	border-color: #C6C6C6;
@@ -231,7 +231,7 @@
 		/* Sidebar */
 		.sidebar {
 		  position: fixed;
-		  top: 0;
+		  top: 130px;
 		  bottom: 0;
 		  left: 0;
 		  z-index: 40; /* Behind the navbar */
@@ -1505,7 +1505,7 @@
 			$('#memo_wrap').on('mouseup', '.top_nav', function(e){
 				
 				var left_minus = $('.sidebar').width();
-				var top_minus = $('.fixed-top').height();
+				//var top_minus = $('.fixed-top').height();	//상단툴바 바꾸면서 의미없어짐...
 				
 				var event = e.originalEvent;	//제이쿼리에서 기존 자바스크립트 이벤트 받을때 필요
 				var x2 = parseInt(event.pageX),
@@ -1521,8 +1521,8 @@
 				console.log("mouseup position => memo left:"+memoLeft+"px / top:"+memoTop+"px"); */
 				
 				var coordinates = $memo.offset();
-				var memoLeft2 = coordinates.left - left_minus - 17;
-				var memoTop2 = coordinates.top - top_minus - 40;
+				var memoLeft2 = coordinates.left - left_minus - 26;	// - 17
+				var memoTop2 = coordinates.top - 122;	// - top_minus - 40
 				console.log("coordinates = "+ memoLeft2 +"/"+ memoTop2 );
 				
 				var memoId = $memo.find('.memo_id').text();
@@ -1732,7 +1732,7 @@
 		#click {
 			position: fixed;
 			right: 20px;
-			top : 12%;
+			top : 2%;
 			border-radius: 50%;
 			background-color:#81e0fc;
 			box-sizing: border-box;
@@ -1744,7 +1744,7 @@
 			opacity: 70%;
 		}
          #planChat {
-            height: 90%;
+            height: 88%;
             width: 280px;
             transition: all 0.5s;
             color: #333;
@@ -1781,7 +1781,7 @@
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<!-- ToolBar 끝 -->
 	
-	<jsp:include page="/toolbar/pushBar_jay.jsp"></jsp:include>
+	
 	
 	
 	<!-- ////////////////////////////////////////// 플래너 채팅 ////////////////////////////////////////// -->
@@ -1944,7 +1944,7 @@
 		<div class="row">
 		
 			<!-- 좌측 Plan 툴바 구성 Start /////////////////////////////////////////////////////////// -->
-			<nav class="col-md-2 d-none d-md-block bg-light sidebar" style="padding-top:70px; padding-left:7px;">
+			<nav class="col-md-2 d-none d-md-block sidebar" style="padding-top:0px; padding-left:16px;">
 		      <div class="sidebar-sticky">
 		      
 		        <ul class="nav flex-column">
@@ -2112,7 +2112,7 @@
 						<!-- </div>
 					</div> -->
 				</div>
-				<!--	 Plan Information START	//////////////////////// 	-->
+				<!--	 Plan Information END	//////////////////////// 	-->
 				
 				<!-- <br/> -->
 				
@@ -2260,38 +2260,34 @@
 				<!--	 CityRoute List : 여행루트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light" id="gotoCityRouteList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 pl-2 mb-3 border-bottom list-container" style="height:650px;" id="gotoCityRouteList">
-					<!-- <div class="container">
-						<h5>여행루트</h5>
-						<div class="row"> -->
-						
-							<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;float:left;width:55%;height: 100%;"></div>
+					
+					
+					<div id='calendar-container' style="float:right;width:45%; height:100%; margin: 5px 10px;max-width: 900px;">
+					  <div id='calendar' style="margin-bottom:10px;"></div>
+					  
+					  <div class="text-center" style="border:solid thin #DDDDDD; border-radius:5px; padding: 5px 10px; background-color: white; height:160px;"  id="gotoBudgetOverviewList">
+							<div class="d-flex justify-content-left mt-1 ml-3" style="font-weight: bolder; font-size: 16px;">예산 정보</div>
 							
-							<div id='calendar-container' style="float:right;width:45%; height:100%; margin: 5px 10px;max-width: 900px;">
-							  <div id='calendar' style="margin-bottom:10px;"></div>
-							  
-							  <div class="text-center" style="border:solid thin #DDDDDD; border-radius:5px; padding: 5px 10px; background-color: white; height:160px;"  id="gotoBudgetOverviewList">
-									<div class="d-flex justify-content-left mt-1 ml-3" style="font-weight: bolder; font-size: 16px;">예산 정보</div>
-									
-									<!-- 만들어두고 스크립트에서 포문돌려 셋팅하기 -->
-									<div class="budgetOverview d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center" style="padding: 0px 3px 0px 0px;font-size: 14px;width:100%;">
-										<div style="width:46%;margin: 3px;">
-											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-walking" 		></i>관광  <div class="budget_amount" id="budget_D" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-bus" 			></i>교통  <div class="budget_amount" id="budget_T" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-ticket-alt" 	></i>투어  <div class="budget_amount" id="budget_V" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-ellipsis-h" 	></i>기타  <div class="budget_amount" id="budget_E" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
-										</div>
-										<div style="width:46%;margin: 3px;">
-											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-bed" 			></i>숙소  <div class="budget_amount" id="budget_R" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-utensils" 		></i>식사  <div class="budget_amount" id="budget_F" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-shopping-cart" ></i>쇼핑  <div class="budget_amount" id="budget_S" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
-											<div style="margin: 5px 0;text-align: right; color:#32D0BF; font-weight: bolder;"> 총  <div id="budget_total" style="font-size:23px; display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
-										</div>
-									</div>
+							<!-- 만들어두고 스크립트에서 포문돌려 셋팅하기 -->
+							<div class="budgetOverview d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center" style="padding: 0px 3px 0px 0px;font-size: 14px;width:100%;">
+								<div style="width:46%;margin: 3px;">
+									<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-walking" 		></i>관광  <div class="budget_amount" id="budget_D" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+									<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-bus" 			></i>교통  <div class="budget_amount" id="budget_T" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+									<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-ticket-alt" 	></i>투어  <div class="budget_amount" id="budget_V" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+									<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-ellipsis-h" 	></i>기타  <div class="budget_amount" id="budget_E" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
 								</div>
-							  
+								<div style="width:46%;margin: 3px;">
+									<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-bed" 			></i>숙소  <div class="budget_amount" id="budget_R" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+									<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-utensils" 		></i>식사  <div class="budget_amount" id="budget_F" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+									<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-shopping-cart" ></i>쇼핑  <div class="budget_amount" id="budget_S" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+									<div style="margin: 5px 0;text-align: right; color:#32D0BF; font-weight: bolder;"> 총  <div id="budget_total" style="font-size:23px; display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+								</div>
 							</div>
-						<!-- </div>
-					</div> -->
+						</div>
+					</div>
+					
+					<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;float:left;width:55%;height: 100%;"></div>
+				
 				</div>
 				<!--	 CityRoute List : 여행루트 END	//////////////////////// 	-->
 			
@@ -2476,9 +2472,7 @@
 				<!--	 Memo List : 메모 END	//////////////////////// 	-->
 				<br/>
 				
-				<!-- Footer Start /////////////////////////// -->
-				<jsp:include page="/toolbar/footer.jsp"></jsp:include>
-				<!-- Footer End	/////////////////////////// -->
+				
 			
 				
 				
@@ -2493,7 +2487,9 @@
 	<!-- 화면구성 div End ///////////////////////////// -->
 	
 	
-	
+	<!-- Footer Start /////////////////////////// -->
+	<jsp:include page="/toolbar/footer.jsp"></jsp:include>
+	<!-- Footer End	/////////////////////////// -->
 	
 	
 	<!-- //////////////////////////////////////// 모달모달 모음  //////////////////////////////////////// -->
@@ -3308,5 +3304,8 @@
 	<!-- Google Map API -->
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4&callback=initMap" type="text/javascript"></script>
 
+
+	<jsp:include page="/toolbar/pushBar_jay.jsp"></jsp:include>
+	
 </body>
 </html>

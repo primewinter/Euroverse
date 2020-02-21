@@ -93,6 +93,18 @@ public class CommunityServiceImpl implements CommunityService{
 		return map;
 	}
 	
+	public Map<String , Object> getPlanPostList(Search search, String boardName) throws Exception {
+		
+		List<Post> list = communityDao.getPlanPostList(search, boardName);
+		int totalCount = communityDao.getPostTotalCount(search, boardName);
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+	
 	public Map<String , Object > getBestPostList(Search search, String boardName) throws Exception {
 		
 		List<Post> list= communityDao.getBestPostList(search, boardName);
