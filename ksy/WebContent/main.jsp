@@ -46,8 +46,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 </head>
 <style>
-    main>div {
-        margin-top: 50px;
+    main div {
+        margin-top: 30px;
         margin-bottom: 50px;
     }
 
@@ -65,16 +65,13 @@
     /*메인 캐러셀*/
     div.carousel-inner {
         height: auto;
-
-    }
-
-    .carousel-inner {
-        background-color: aquamarine;
+        
     }
 
     .carousel-inner>.carousel-item {
         width: 100%;
-        height: 450px;
+        height: 400px;
+        vertical-align: baseline;
 
     }
 
@@ -188,25 +185,24 @@
             <!-- 슬라이드 쇼 -->
             <div class="carousel-inner">
                 <!--첫번째 슬라이드-->
-                <div class="carousel-item active" style="background-color: darkslategray;">
-                    <!--<img class="d-block w-100" src="https://images.pexels.com/photos/213399/pexels-photo-213399.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="First slide">-->
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="/resources/images/mainImg/london%20(2).jpg" alt="Second slide">
                     <div class="carousel-caption d-none d-md-block" style="text-align: left;">
-                        <h5>유럽여행의 시작</h5>
+                        <h2>유럽여행의 시작</h2>
                         <p>당신을 기다리는 백만 개의 플래너와 함께하세요.</p>
                     </div>
                 </div>
                 <!--두번째 슬라이드-->
-                <div class="carousel-item" style="background-color: dimgray;">
+                <div class="carousel-item">
                     <div class="carousel-caption d-none d-md-block" style="text-align: right;">
-                        <h5>유럽여행의 시작</h5>
-                        <p>당신을 기다리는 백만 개의 플래너와 함께하세요.</p>
+                        <h5 style="color:dimgray;">유럽여행의 시작</h5>
+                        <p style="color:dimgray;">당신을 기다리는 백만 개의 플래너와 함께하세요.</p>
                     </div>
-                    <!--<img class="d-block w-100" src="https://images.pexels.com/photos/2355519/pexels-photo-2355519.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="Second slide">-->
+                    <img class="d-block w-100" src="/resources/images/mainImg/paris_3840x2400%20(2).jpg" alt="First slide">
                 </div>
                 <!--세번째 슬라이드-->
-                <div class="carousel-item" style="background-color: cornflowerblue;">
-                    다다다다다다다ㅏ
-                    <!--<img class="d-block w-100" src="https://images.pexels.com/photos/2544554/pexels-photo-2544554.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Third slide">-->
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="/resources/images/mainImg/rome.jpg" alt="Third slide">
                 </div>
                 <!-- / 슬라이드 쇼 끝 -->
 
