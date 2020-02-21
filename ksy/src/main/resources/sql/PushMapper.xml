@@ -18,6 +18,7 @@
 		
 		<result property="title"						column="post_title"			jdbcType="VARCHAR"/>
 		<result property="title"						column="cmt_content"		jdbcType="VARCHAR"/>
+		<result property="boardName"		column="board_name"	jdbcType="VARCHAR"/>
 		
 	</resultMap>
 	
@@ -39,6 +40,21 @@
 		WHERE p.receiver_id = #{receiverId} AND p.deleted='F'
 		ORDER BY push_date DESC
 	</sql>
+	<select id="getBoardName1" parameterType="push" resultType="String">
+		SELECT b.board_name
+		FROM push p, post b
+		WHERE p.ref_id = b.post_id
+			AND p.push_id = #{pushId}
+	</select>
+	
+	<select id="getBoardName2" parameterType="push" resultType="String">
+		SELECT b.board_name
+		FROM push p, comments c1, comments pc, post b
+		WHERE p.ref_id = c1.cmt_id
+			AND c1.parent_cmt_id = pc.cmt_id
+			AND pc.post_id = b.post_id
+			AND p.push_id =  #{pushId}
+	</select>
 	
 	<select id="getPostTitle" parameterType="push" resultType="String">
 		SELECT b.post_title title
