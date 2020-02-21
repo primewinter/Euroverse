@@ -305,7 +305,7 @@
 	</script>
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">	
+	<div class="container" style="max-width: 930px;">	
 	<!-- ///////////////////////댓글 작성 view 화면/////////////////////////////// -->
 	<div class="view_comment">
 	

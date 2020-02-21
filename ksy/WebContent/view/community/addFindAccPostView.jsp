@@ -227,7 +227,7 @@
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container" style="width: 930px;">
+	<div class="container" style="max-width: 930px;">
 	
 	  <div class="page_head clear">
 		<div class="h4" style="text-align:left;font-weight:bold;margin: 40px 0 30px 80px;">

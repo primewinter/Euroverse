@@ -286,12 +286,7 @@ $(function(){
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 
-	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"  id="main">
 	
-	 <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">1:1¹®ÀÇ</h1>
-     </div> 
-     
      
 		
 <form id="qnaForm">		
@@ -487,14 +482,5 @@ $(function(){
 		
 		
 		
-		
-		
-		
-		
-		
-	
-</main>
-</div>
-</div>
 </body>
 </html>

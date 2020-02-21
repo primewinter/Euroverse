@@ -190,6 +190,7 @@ public class PlanController {
 			cityEvent.put("title", cityItem.getCityName());
 			cityEvent.put("start", cityItem.getStartDateStr());
 			cityEvent.put("end", cityItem.getEndDateStr());
+			cityEvent.put("textColor", "white");
 			if( cityItem.getCountry() != null ) {
 				if( cityItem.getCountry().equals("영국") ) {
 					cityEvent.put("color", "#F9A081");
@@ -282,6 +283,32 @@ public class PlanController {
 		
 		return "redirect:/plan/getPlanList?userId="+user.getUserId();
 	}
+	
+	@RequestMapping( value = "downloadPlan", method = RequestMethod.POST )
+	public String downloadPlan (	@ModelAttribute("plan") Plan plan, Model model, HttpSession session	) throws Exception {
+		
+		User user = (User)session.getAttribute("user");		
+		if(user != null) { 
+			plan.setPlanMaster(user); 
+		}else {
+			return "redirect:/view/plan/planNotice.jsp";
+		}
+		
+		MultipartFile mpFile = (MultipartFile)plan.getPlanImgFile();
+		if( mpFile.isEmpty() == false) {	//null 체크로 잡을 수 없음! 
+			
+			String fileName = mpFile.getOriginalFilename();
+			fileName = uploadFile(fileName, mpFile.getBytes());
+			plan.setPlanImg(fileName);
+		}else {
+			plan.setPlanImg("defaultPlanImage.jpg");
+		}
+
+		planService.copyPlan(plan);	
+		
+		return "redirect:/plan/getPlanList?userId="+user.getUserId();
+	}
+	
 	
 	//파일 이름 중복제거용 함수
 	private String uploadFile(String originalName, byte[] fileData) throws Exception{
@@ -400,5 +427,23 @@ public class PlanController {
 		
 		return "redirect:/plan/getPlanList?userId="+userId;
 	}
+	
+	
+	
+	
+	/*
+	 * @RequestMapping( value = "uploadPlan", method = RequestMethod.GET ) public
+	 * String uploadPlan ( @RequestParam("planId") String planId, Model model,
+	 * HttpSession session ) throws Exception {
+	 * 
+	 * User user = (User)session.getAttribute("user"); //음.. if(user == null) {
+	 * return "redirect:/view/plan/planNotice.jsp"; }
+	 * 
+	 * Plan plan = new Plan();
+	 * 
+	 * String copiedPlanId = planService.copyPlan(planId);
+	 * 
+	 * return "redirect:/plan/getPlan?planId="+copiedPlanId; }
+	 */
 	
 }
