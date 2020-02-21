@@ -79,7 +79,7 @@
 				 for(var i in JSONData.list){
 					if(JSONData.list[i].deleted == "F"){
 						 output += "<li id='comment_li_"+JSONData.list[i].cmtId+"' class='ub-content'>"
-						 + "<img src='../../resources/images/userImages/${user.userImg}' class='card' alt='...' style='height: 40px; width: 40px; float: left; margin-top: 10px;'>"
+						 + "<img src='../../resources/images/userImages/"+JSONData.list[i].userImg+"' class='card' alt='...' style='height: 40px; width: 40px; float: left; margin-top: 10px;'>"
 						 + "<div class='cmt_info clear' style='margin-left: 65px; padding-top: 20px;'><div class='cmt_nickbox'><span class='gall_writer ub-writer'>"
 						 + "<span class='nickname me in' title='"+JSONData.list[i].nickName+"'>"+JSONData.list[i].nickName+"</span></span></div><span class='date_time'>"+JSONData.list[i].cmtDate+"</span>"
 					if(JSONData.list[i].cmtWriterId == JSONData.userId){
@@ -187,7 +187,7 @@
 						 var output = '';
 							if(JSONData.list[i].deleted == "F"){
 								 output += "<li id='comment_li_"+JSONData.list[i].cmtId+"' class='ub-content' style='height:117px;'>"
-								 + "<img src='../../resources/images/userImages/${user.userImg}' class='card' alt='...' style='height: 40px; width: 40px; float: left; margin-top: 10px;'>"
+								 + "<img src='../../resources/images/userImages/"+JSONData.list[i].userImg+"' class='card' alt='...' style='height: 40px; width: 40px; float: left; margin-top: 10px;'>"
 								 + "<div class='cmt_info clear' style='margin-left: 65px; padding-top: 20px; border-top: 1px solid #eee;'><div class='cmt_nickbox'><span class='gall_writer ub-writer'>"
 								 + "<span class='nickname me in' title='"+JSONData.list[i].nickName+"'>"+JSONData.list[i].nickName+"</span></span></div><span class='date_time'>"+JSONData.list[i].cmtDate+"</span>"
 							if(JSONData.list[i].cmtWriterId == JSONData.userId){

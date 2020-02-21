@@ -50,6 +50,7 @@
 		<result property="cmtLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
 		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
 		<result property="postTitle"	column="post_title" 		jdbcType="VARCHAR" />
+		<result property="userImg"	column="user_img" 		jdbcType="VARCHAR" />		
 	</resultMap>
 	
 	<resultMap id="reportSelectMap" type="report">
@@ -400,18 +401,18 @@
 	
 	<select id="rcmtNum" parameterType="map" resultMap="commentSelectMap">
 		SELECT
-		row_number() over(partition by c.parent_cmt_id order by c.parent_cmt_id , c.cmt_id) num , p.post_writer_id , l.like_check , c.*
-		FROM comments c, post p, likes l
-		WHERE c.cmt_id = l.ref_id(+) AND c.post_id = p.post_id AND c.post_id = #{postId} AND l.like_user_id(+) = #{userId} AND c.parent_cmt_id IS NOT NULL
+		row_number() over(partition by c.parent_cmt_id order by c.parent_cmt_id , c.cmt_id) num , p.post_writer_id , l.like_check , c.* , u.user_img
+		FROM comments c, post p, likes l, users u
+		WHERE c.cmt_id = l.ref_id(+) AND c.post_id = p.post_id AND u.user_id = c.writer_id AND c.post_id = #{postId} AND l.like_user_id(+) = #{userId} AND c.parent_cmt_id IS NOT NULL
 		ORDER BY c.parent_cmt_id , c.cmt_id
 	</select>
 	
 	<select id="getCommentList" parameterType="map" resultMap="commentSelectMap">
   		SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT c.post_id , c.cmt_id , c.nickname , c.writer_id , p.post_writer_id , c.cmt_date , c.cmt_content , c.secret , c.deleted , c.blocked , c.cmt_like_count , l.like_check 
-										FROM comments c, likes l, post p
-										WHERE p.post_id = c.post_id AND c.cmt_id = l.ref_id(+) AND l.like_user_id(+) = #{userId} AND c.post_id = #{postId} AND parent_cmt_id IS NULL
+  						FROM ( SELECT c.post_id , c.cmt_id , c.nickname , c.writer_id , p.post_writer_id , c.cmt_date , c.cmt_content , c.secret , c.deleted , c.blocked , c.cmt_like_count , l.like_check , u.user_img
+										FROM comments c, likes l, post p, users u
+										WHERE p.post_id = c.post_id AND c.cmt_id = l.ref_id(+) AND u.user_id = c.writer_id AND l.like_user_id(+) = #{userId} AND c.post_id = #{postId} AND parent_cmt_id IS NULL
 										ORDER BY c.cmt_date DESC ) inner_table
   						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
   		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1

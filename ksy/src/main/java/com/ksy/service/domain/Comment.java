@@ -18,6 +18,7 @@ public class Comment {
 	private String cmtImg;  
 	private String deleted; //deleted
 	private String postWriterId;
+	private String userImg;
 	
 	private String postTitle;
 	private String boardName; 
@@ -165,15 +166,21 @@ public class Comment {
 		this.boardName = boardName;
 	}
 
+	public String getUserImg() {
+		return userImg;
+	}
+
+	public void setUserImg(String userImg) {
+		this.userImg = userImg;
+	}
+
 	@Override
 	public String toString() {
 		return "Comment [postId=" + postId + ", cmtId=" + cmtId + ", parentCmtId=" + parentCmtId + ", cmtWriterId="
 				+ cmtWriterId + ", nickName=" + nickName + ", cmtContent=" + cmtContent + ", cmtDate=" + cmtDate
 				+ ", blocked=" + blocked + ", cmtLikeFlag=" + cmtLikeFlag + ", cmtLikeCount=" + cmtLikeCount
 				+ ", secret=" + secret + ", cmtImg=" + cmtImg + ", deleted=" + deleted + ", postWriterId="
-				+ postWriterId + ", postTitle=" + postTitle + ", boardName=" + boardName + "]";
+				+ postWriterId + ", userImg=" + userImg + ", postTitle=" + postTitle + ", boardName=" + boardName + "]";
 	}
-
-	
 
 }
