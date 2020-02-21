@@ -42,17 +42,16 @@ public class PushDaoImpl implements PushDao {
 		for(Push push : pushList ) {
 			if(push.getPushType().equals("C")) {
 				push.setTitle(sqlSession.selectOne("PushMapper.getPostTitle", push));
-				System.out.println("C : setTitle :::"+push);
+				push.setBoardName(sqlSession.selectOne("PushMapper.getBoardName1", push));
 			} else if (push.getPushType().equals("R")) {
 				push.setTitle(sqlSession.selectOne("PushMapper.getCmtContent", push));
-				System.out.println("R : setTitle :::"+push);
+				push.setBoardName(sqlSession.selectOne("PushMapper.getBoardName2", push));
 			} else if (push.getPushType().equals("I")) {
 				push.setTitle(sqlSession.selectOne("PushMapper.getPlanTitle", push));
-				System.out.println("I : setTitle :::"+push);
 			} else if (push.getPushType().equals("A")) {
 				push.setTitle(sqlSession.selectOne("PushMapper.getAccTitle", push));
-				System.out.println("A : setTitle :::"+push);
 			}
+			System.out.println("set Title & boardName :::: "+push);
 		}
 		return pushList;
 	}

@@ -1,8 +1,10 @@
 package com.ksy.common.util;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -188,9 +190,19 @@ public class Util {
 	public static int getDday(Timestamp startDate) {
 		
 		Date today = new Date();
+
+		long diff = startDate.getTime()/(1000*60*60*24) - today.getTime()/(1000*60*60*24);
+		//diff = diff / (1000*60*60*24);
 		
-		long diff = startDate.getTime() - today.getTime();		
-		int dday = (int)( diff / (1000*60*60*24) + 1 );
+		int dday = (int)diff + 1;
+		
+//		Date datee  = new Date();
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//		try {
+//			datee = sdf.parse( today.toString().substring(0, 10) );
+//		}catch (ParseException e) {
+//			e.printStackTrace();
+//		} 
 		
 		return dday;
 	}
@@ -211,8 +223,10 @@ public class Util {
 		if (date == null)
 			return "";
 		else {
+			Date dateForDay = new Date(date.getTime());		//요일을 위한 dateForDay
+			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			return sdf.format(new Date(date.getTime()));
+			return sdf.format( new Date(date.getTime()) ) + ", "+dateForDay.toString().substring(0,3);
 		}
 	}
 	

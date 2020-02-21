@@ -210,7 +210,6 @@ public class PlanController {
 		//jsonObj.put("cityEventList", cityArray);
 		
 		
-		
 		/* GoogleMap API를 위한 JSON 만들기.. */
 		JSONArray markerArray = new JSONArray();
 		for (City cityItem : listCity) {
@@ -221,8 +220,6 @@ public class PlanController {
 			position.put("lng", Double.parseDouble( cityItem.getCityLng() ));
 			
 			cityMarker.put("position", position);
-			//cityMarker.put("icon", "");
-			//cityMarker.put("zIndex", 10000);
 			cityMarker.put("title", cityItem.getCityName());
 			
 			markerArray.add(cityMarker);
@@ -260,9 +257,9 @@ public class PlanController {
 			//String path = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\planImg";
 			
 			/*
-			 * Calendar cal = Calendar.getInstance() ; SimpleDateFormat dateFormat = new
-			 * SimpleDateFormat("yyyyMMdd_HHmmSS"); String time =
-			 * dateFormat.format(cal.getTime()); String fileName =
+			 * Calendar cal = Calendar.getInstance() ; 
+			 * SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmSS"); 
+			 * String time = dateFormat.format(cal.getTime()); String fileName =
 			 * mpFile.getOriginalFilename() + "_"+time;
 			 */
 			
