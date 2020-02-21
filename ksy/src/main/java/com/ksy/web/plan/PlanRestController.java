@@ -18,6 +18,7 @@ import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.Push;
 import com.ksy.service.domain.Todo;
 import com.ksy.service.domain.User;
+import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.plan.PlanService;
 import com.ksy.service.planSub.PlanSubService;
 import com.ksy.service.push.PushService;
@@ -37,6 +38,10 @@ public class PlanRestController {
 	@Autowired
 	@Qualifier("pushServiceImpl")
 	private PushService pushService;
+	
+	@Autowired
+	@Qualifier("myPageServiceImpl")
+	private MyPageService myPageService;
 	
 	public PlanRestController() {
 		System.out.println(this.getClass());
@@ -184,6 +189,15 @@ public class PlanRestController {
 	}
 	
 	
+	
+	
+	
+	@RequestMapping( value = "json/checkPlanCount/{userId}", method = RequestMethod.GET )
+	public int checkPlanCount( @PathVariable String userId ) throws Exception {
+		
+		 int planCount = myPageService.getPlanCount( userId );
+		 return planCount;
+	}
 	
 
 }

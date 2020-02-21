@@ -25,6 +25,28 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 	<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'> 
 	
+	
+	
+	
+	<!-- 플래너를 위한 CDN..... -->
+	<!-- Use Swiper from CDN -->
+	<!-- <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.css">
+	<link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
+	<script src="https://unpkg.com/swiper/js/swiper.js"></script>
+	<script src="https://unpkg.com/swiper/js/swiper.min.js"></script> -->
+
+	<!-- FullCalendar CDN -->
+	<link href='https://unpkg.com/@fullcalendar/core@4.3.1/main.min.css' rel='stylesheet' />
+  	<link href='https://unpkg.com/@fullcalendar/daygrid@4.3.0/main.min.css' rel='stylesheet' />
+  	<link href='https://unpkg.com/@fullcalendar/timegrid@4.3.0/main.min.css' rel='stylesheet' />
+	<link href='https://unpkg.com/@fullcalendar/list@4.3.0/main.min.css' rel='stylesheet' />
+	
+	<script src='https://unpkg.com/@fullcalendar/core@4.3.1/main.min.js'></script>
+	<script src='https://unpkg.com/@fullcalendar/daygrid@4.3.0/main.min.js'></script>
+	<script src='https://unpkg.com/@fullcalendar/interaction@4.3.0/main.min.js'></script>
+	<script src='https://unpkg.com/@fullcalendar/timegrid@4.3.0/main.min.js'></script>
+	<script src='https://unpkg.com/@fullcalendar/list@4.3.0/main.min.js'></script>
+	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 		.view_comment {
@@ -432,6 +454,321 @@
 		
 	</script>
 	
+	
+	
+	
+	<style type="text/css">
+		/* fullCalendar 스크롤 없애기 */
+      .fc-scroller {
+		   overflow-y: hidden !important;
+		}
+      
+      #calendar {
+			border-style: solid;
+			border-width: thin;
+			border-color: #E0E0E0;
+			padding: 10px;
+		}
+		.fc-header-toolbar{
+			font-size: 12px;
+			size: 12px;
+		}
+		.fc-button{
+			padding: 3px;
+			size: 10px;
+			background-color: white;
+			border: none;
+			color: black;
+		}
+			
+		.budgetIcon{
+		  	width:30px; 
+		  	font-size: 20px;
+		  }
+		  
+	</style>
+	
+	<script type="text/javascript">
+		
+		var planId = ${plan.planId};	//현재 조회중인 plan의 아이디 박아두기
+	
+		/* ---------------------------------		Daily List 관련 함수들		--------------------------------- */
+		function getDailyList(planId){
+			$.ajax({
+				url: "/planSub/json/getDailyList/"+planId ,
+				method: "GET",
+				dataType: "json",
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				success: function(JSONData, status){
+					if( JSONData==null || JSONData=="" ){		//alert("리턴데이터 없음");	
+					}else{		//alert("리턴데이터 있음! => JSONData = "+JSON.stringify(JSONData));	
+						var dailyList = JSONData;
+						for( var i in dailyList){
+							setDaily(dailyList[i]);
+						}
+					}
+				},
+				error:function(request,status,error){
+			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			    } 
+			});
+		} //getDailyList
+		
+		function setDaily( daily ){
+			var dailyIdString = '#daily_'+daily.dayNo+"_"+daily.dayTime;
+			
+			var bcolor;		//관광(D), 교통(T), 투어(V), 숙소(R), 식사(F), 쇼핑(S), 기타(E)
+			if( daily.dailyCate =='D' ){ bcolor = 'yellow';
+			}else if( daily.dailyCate =='T' ){ bcolor = 'red';
+			}else if( daily.dailyCate =='V' ){ bcolor = 'navy';
+			}else if( daily.dailyCate =='R' ){ bcolor = 'blue';
+			}else if( daily.dailyCate =='F' ){ bcolor = 'green';
+			}else if( daily.dailyCate =='S' ){ bcolor = 'orange';
+			}else if( daily.dailyCate =='E' ){ bcolor = 'purple'; }
+			
+			$(dailyIdString).text(daily.dailyDetail);		//$(dailyIdString).text(daily.dailyDetail).css("background-color", bcolor);
+			var appendString = '<span style="padding-left:5px; border-right-width:10px; border-right-style: solid; border-color: '+bcolor+';"></span>'
+			$(dailyIdString).append(appendString);
+		} //setDaily
+		
+		//getDailyList(planId);	//페이지 로드 후 ajax로 일정 리스트 가져와서 만들어진 일정표에 심어주기
+		setTimeout(function(){ 
+			getDailyList(planId); 
+		},50);
+		/* ------------------------------------------------------------------------------------------------------ */
+		
+		/* ---------------------------------		Stuff List 관련 함수들		--------------------------------- */
+		/* ------------------------------------------------------------------------------------------------------ */
+		
+		
+		/* ---------------------------------		BudgetOverview 관련 함수들		--------------------------------- */
+		function getBudgetOverviewList(planId){
+			console.log("getBudgetOverviewList("+planId+") 실행 ");
+			
+			$.ajax({
+				url: "/planSub/json/getBudgetOverviewList/"+planId ,
+				method: "GET",
+				dataType: "json",
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				success: function(JSONData, status){
+					//var budgetOverviewHtml = '';
+					if( JSONData==null || JSONData=="" ){ 	
+						console.log("리턴데이터 없음");	
+					}else{ 		
+						//console.log("리턴데이터 있음1! => JSONData = "+JSON.stringify(JSONData));	
+						var budget_total = 0;
+						
+						for( var i in JSONData ){
+							budget_total = budget_total + JSONData[i].budgetAmount;
+							switch ( JSONData[i].dailyCate ) {
+						        case 'D': $('#budget_D').text(JSONData[i].budgetAmount);	//관광
+						          break;
+						        case 'T': $('#budget_T').text(JSONData[i].budgetAmount);	//교통
+						          break;
+						        case 'V': $('#budget_V').text(JSONData[i].budgetAmount);	//투어
+						          break;
+						        case 'R': $('#budget_R').text(JSONData[i].budgetAmount);	//숙소
+						          break;
+						        case 'F': $('#budget_F').text(JSONData[i].budgetAmount);	//식사
+						          break;
+						        case 'S': $('#budget_S').text(JSONData[i].budgetAmount);	//쇼핑
+						          break;
+						        case 'E': $('#budget_E').text(JSONData[i].budgetAmount);	//기타
+						          break;
+						        default:
+						          var d = 'default';
+						    } //switch
+						}
+					} //if-else
+					$('#budget_total').text(budget_total);
+					
+				},
+				error:function(request,status,error){
+			        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			    } 
+			});
+		} //getBudgetOverviewList(planId) END
+		
+		//getBudgetOverviewList(planId);
+		setTimeout(function(){ 
+			getBudgetOverviewList(planId); 
+		},50);
+		/* ------------------------------------------------------------------------------------------------------ */
+		
+		
+		
+		$(function(){
+		
+			$('#downloadPlanButton').on('click', function(){
+				//alert("downloadPlanButton 클릭!");
+				
+				checkPlanCount('${user.userId}');
+			});
+			
+			$('#addPlan').on('click', function(){
+				addPlan();
+			});
+			
+			$( "#startDateString" ).datepicker({
+			      showOptions: { direction: "up" },
+				  defaultDate : '1995-02-10',
+			      changeYear : true ,
+			      changeMonth : true ,
+			      //buttonImage: "/resources/images/userImages/CalendarICON.png",
+			      dateFormat : "yy-mm-dd",
+			      showAnim : "bounce",
+			      autoclose: true
+			});
+			
+			/* 모달 뒤에 데이트피커가 가려지는 현상... 어거지로 해결 */
+			$('#startDateString').on('click', function(){
+				 $('#ui-datepicker-div').appendTo($('#addPlanModal'));
+				 $(this).datepicker();
+				 $(this).datepicker("show");
+			});
+
+
+			//지성이꺼 갖다씀 - 파일용량 체크
+			$(".custom-file-input").on("change",function(){
+				  var fileSize = this.files[0].size;
+				    var maxSize = 360 * 360;
+				    if(fileSize > maxSize) {
+				        $(".custom-file-label").html("<i class='fas fa-camera-retro'> size 360x360</i>");
+				        alert("파일용량을 초과하였습니다.");
+				        //$("#preview").html("");
+				        return;
+				    }else{
+						//readImg(this);
+				    }
+			});
+			
+			$(document).ready(function() {
+				  bsCustomFileInput.init();
+			});
+			
+			//alert-danger에서 x 클릭시 창 닫기
+			$(".alert-danger button").on("click",function(){
+				$(".alert-danger").prop("style","display:none");			
+			})
+			
+			$(document).on('keyup','#planTitle',function(){
+				if($('#planTitle').val().length > 0){
+					$(".alert-danger").prop("style","display:none");	
+				}
+			});
+			$(document).on('change','#startDateString',function(){
+				if($('#startDateString').val().length > 0){
+					$(".alert-danger").prop("style","display:none");	
+				}
+			});
+			
+		});
+		
+		function checkPlanCount( userId ){
+			console.log("checkPlanCount("+userId+") 실행!");
+			
+			$.ajax({
+				url: "/plan/json/checkPlanCount/"+userId,
+				method: "GET",
+				dataType: "text",
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				success: function(data, status){
+					var slot = '${user.slot}';
+					var slotCanUse = (slot - data);
+					
+					if( slotCanUse <= 0){
+						alert("슬롯 수가 부족합니다. 플래너 리스트에서 슬롯을 구매해주세요.");
+					}else{
+						$('#addPlanModal').modal();
+					}
+				},
+				error:function(request,status,error){
+			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			    } 
+			});
+		}
+		
+		function addPlan(){
+			console.log("addPlan(=downloadPlan) 실행");
+			
+			var submitAlert = $(".alert-danger");
+			var alertMessage = $(".alert-danger strong");
+			
+			var userId = $("input[name='userId']").val();
+			var planTitle = $("input[name='planTitle']").val();
+			var planImg = $("input[name='planImg']").val();
+			var planType = $("input[name='planType']").val();
+			var startDateString = $("input[name='startDateString']").val();
+			
+			//유효성 체크
+			if ($.trim(planTitle)=="") {
+				submitAlert.prop("style","display : block");
+				alertMessage.html("플래너 제목은 필수입니다.");
+				return;
+			}
+			if ($.trim(startDateString)=="") {
+				submitAlert.prop("style","display : block");
+				alertMessage.html("여행 시작일을 지정해주세요.");
+				return;
+			}
+			
+			$('form.addPlanModal').attr('method', 'POST').attr("action" , "/plan/downloadPlan").attr("enctype","multipart/form-data").submit();
+		}
+		
+		
+		
+	</script>
+	
+	
+	<!-- 캘린더 생성 -->
+	<script type="text/javascript">
+	
+		document.addEventListener('DOMContentLoaded', function() {
+		  var calendarEl = document.getElementById('calendar');
+		  var Calendar = FullCalendar.Calendar;
+		  
+		  var cityEventList = ${cityEventList};
+		
+		  var defaultDate = new Date();
+		  if( cityEventList[0] != null ){
+			  defaultDate = cityEventList[0].start;
+		  }
+		  
+		  var calendar = new FullCalendar.Calendar(calendarEl, {
+		    plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
+		    defaultView: 'dayGridMonth',
+		    defaultDate: defaultDate,
+		    header: {
+		      //left: 'prev, today',
+		      left: 'prev',
+		      center: 'title',
+		      right: 'next'
+		    },
+		    height: 430,	// 캘린더 크기... 높이 지정!
+		    editable: false,
+		    droppable: false, // this allows things to be dropped onto the calendar
+		    //locale: 'ko',
+		    buttonIcons: true, // show the prev/next text
+		    events:[
+		    	/* { title: '존나세 생일', start: '2020-02-10' } */
+		    	//eventString
+		    ]
+		  });
+		  
+		  for( var i in cityEventList ){
+			  console.log("    "+JSON.stringify(cityEventList[i]) );
+				calendar.addEvent( cityEventList[i] );
+			}
+		  
+		  calendar.render();
+		}); 
+	
+	</script>
+	
+	
+	
+	
+	
 </head>
 
 <body>
@@ -546,8 +883,160 @@
 	 
 	 <hr>
 	 
+	 
+	 
+	 
+	 <!-- ////////////////////////////////			플래너 영역 시작			/////////////////////////////// -->
+	 
+	 <div style="border: 1px solid gray;">
+	 	<div class="media" style="background-color: white; width: 100%; padding: 2px 15px; border-radius: 5px; font-size:14px; ">
+		
+			<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-1" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border: 1px #D1D1D1 solid; width: 120px; height: 95px;">
+		    <div class="media-body" style="margin-left: 13px; margin-top: 25px; height: 100px;">
+		    	
+		    	<div class="plan_type">
+					<c:choose>
+						<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
+						<c:when test="${plan.planType == 'B'}">남자혼자</c:when>
+						<c:when test="${plan.planType == 'C'}">여자끼리</c:when>
+						<c:when test="${plan.planType == 'D'}">남자끼리</c:when>
+						<c:when test="${plan.planType == 'E'}">단체</c:when>
+						<c:when test="${plan.planType == 'F'}">부모님과</c:when>
+						<c:when test="${plan.planType == 'G'}">커플</c:when>
+					</c:choose>
+				</div>
+			      <div style="margin: 2px 0;"><div style="font-weight: bolder; font-size: 19px; display: inline-block;">${plan.planTitle} </div> &emsp;</div>
+			      
+			      ${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate}</c:if> ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
+			      <%-- <c:if test="${plan.planDday == 0}"> D-Day </c:if>
+			      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if> --%>
+		    
+		    </div> <!-- media body -->
+			
+		</div>
+	 </div>
+	 
+	 
+	 <!--	 CityRoute List : 여행루트 START	//////////////////////// 	-->
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 pl-2 mb-3 border-bottom list-container" style="height:650px;" id="gotoCityRouteList">
+		
+		<div id='calendar-container' style="float:right;width:45%; height:100%; margin: 5px 10px;max-width: 900px;">
+		  <div id='calendar' style="margin-bottom:10px;"></div>
+		  
+		  <div class="text-center" style="border:solid thin #DDDDDD; border-radius:5px; padding: 5px 10px; background-color: white; height:160px;"  id="gotoBudgetOverviewList">
+				<div class="d-flex justify-content-left mt-1 ml-3" style="font-weight: bolder; font-size: 16px;">예산 정보</div>
+				
+				<!-- 만들어두고 스크립트에서 포문돌려 셋팅하기 -->
+				<div class="budgetOverview d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center" style="padding: 0px 3px 0px 0px;font-size: 14px;width:100%;">
+					<div style="width:46%;margin: 3px;">
+						<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-walking" 		></i>관광  <div class="budget_amount" id="budget_D" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+						<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-bus" 			></i>교통  <div class="budget_amount" id="budget_T" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+						<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-ticket-alt" 	></i>투어  <div class="budget_amount" id="budget_V" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+						<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-ellipsis-h" 	></i>기타  <div class="budget_amount" id="budget_E" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+					</div>
+					<div style="width:46%;margin: 3px;">
+						<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-bed" 			></i>숙소  <div class="budget_amount" id="budget_R" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+						<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-utensils" 		></i>식사  <div class="budget_amount" id="budget_F" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+						<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-shopping-cart" ></i>쇼핑  <div class="budget_amount" id="budget_S" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+						<div style="margin: 5px 0;text-align: right; color:#32D0BF; font-weight: bolder;"> 총  <div id="budget_total" style="font-size:23px; display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;float:left;width:55%;height: 100%;"></div>
+	
+	</div>
+	<!--	 CityRoute List : 여행루트 END	//////////////////////// 	-->
+	 
+	 
+	 
+	<!--	 Daily List : 일정표 START	//////////////////////// 	-->
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom list-container" id="gotoDailyList">
+		<div class="container">
+			<div style="font-weight: bolder;font-size: 20px;margin-bottom: 5px;">일정표</div>
+			<div class="row">
+			
+				<c:if test="${plan.dayList.size() != 0}">
+					<div class="swiper-container">
+					    <div class="swiper-wrapper">
+				    
+				    		<c:forEach var="day" items="${plan.dayList}">
+				    			<div class="swiper-slide">
+				    			<div >
+				    				<div class="dayInfo" style="padding-top:10px;padding-left:10px;text-align:left;padding-left:8px;font-size:14pt;color:#696969; font-weight: bold;">
+										${day.dateString}  <br/>
+										<span style="font-size:11pt;color:#32D0BF"> ${day.cityNames} &nbsp;&nbsp; ( ${day.dayNo} 일차 )</span>
+									</div>
+									
+									<div style="margin-top: 10px;">
+										<c:forEach var="i" begin="9" end="20">
+											
+											<div class="dailys" style="border-top:1px solid #efefef; height:30px;font-size:10pt;color:#9B9B9B;padding-left:10px; padding: 5px;">
+												${i} <div style=" margin-left:10px; background-color: inherit; color:black; font-size:10pt; display:inline-block;" id="daily_${day.dayNo}_${i}"></div>
+											</div>
+										</c:forEach>
+									</div>
+								</div>
+				    			</div>
+				    		</c:forEach>
+					    	
+					    </div>
+					    
+					    <div class="swiper-button-prev" ></div>
+					    <div class="swiper-button-next"></div>
+					</div>
+				</c:if>
+				
+			</div>
+		</div>
+	</div>
+	<!--	 Daily List : 일정표 END	//////////////////////// 	-->
+	
+	 
+	 
+	<!--	 Stuff List : 준비물 체크리스트 START	//////////////////////// 	-->
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom list-container" id="gotoStuffList">
+				
+				<div style="border:solid thin #DDDDDD ; border-radius:5px; padding:20px; background-color: white; width: 100%; ">
+					<span id="stuff_icon"><i class="fas fa-tasks" style="font-size: 25px; margin-right: 6px; margin-bottom: 15px;"></i></span> <span style="margin-left:10px; font-size:large; font-weight:bolder;"> 준비물 체크리스트</span>
+					&nbsp;&nbsp;<span style="font-weight: bolder; font-size: 18px;" id="stuffMode">Edit Mode</span>
+					<span id="stuffCount" style="margin-left: 15px;"></span>
+					<br/>
+					 
+					<div class="stuffItems"> <!-- 빈 div 만든 후 getStuffList() 바로 호출해서 세팅하기 -->
+						<%-- <c:forEach var="stuff" items="${plan.stuffList}">
+							<div class="stuffItem" style="margin: 7px;">
+								<c:if test="${stuff.stuffCheck=='T'}">
+									<input type="checkbox" name="stuff_${stuff.stuffId}" checked value="T" onchange="checkStuff('${stuff.stuffId}')"><span style="margin-left: 10px;"> ${stuff.stuffName}</span>
+								</c:if>
+								<c:if test="${stuff.stuffCheck=='F'}">
+									<input type="checkbox" name="stuff_${stuff.stuffId}" value="F" onchange="checkStuff('${stuff.stuffId}')"><span style="margin-left: 10px;"> ${stuff.stuffName}</span>
+								</c:if>
+							</div>
+						</c:forEach>
+						
+						<c:if test="${plan.stuffList.size() == 0}">
+							<div class="addStuff">
+								<i class="fas fa-pencil-alt" style="margin: 7px;"></i><input type="text" class="form-control" name="stuffName" style="margin-left:5px; margin-top:5px; width: 200px; display:inline-block;" placeholder="새로운 항목 입력">
+								<button style="margin-bottom: 5px; margin-left: 5px;" type="button" class="btn btn-primary" onclick="addStuff()">추가</button> 
+							</div>
+						</c:if> --%>
+					</div> 	
+				</div>
+				
+	</div>
+	<!--	 Stuff List : 준비물 체크리스트 END	//////////////////////// 	-->
+		 
+	 
+	 <!-- ////////////////////////////////			플래너 영역 끝			/////////////////////////////// -->
+	 
+	 
+	 
+	 <hr>
+	 
 	<div style="text-align:center;">
-	   <button type="button" class="btn btn-outline-info">플래너 내려받기</button>
+	   <button type="button" class="btn btn-outline-info" id="downloadPlanButton">플래너 내려받기</button>
 	</div>
 
 	  <div class="gallview_contents">
@@ -610,6 +1099,294 @@
 	<jsp:include page="/view/community/comment.jsp"/>
 	
 	<jsp:include page="/toolbar/pushBar_jay.jsp"/>
+	
+	
+	
+	<!-- /////////////////////	Modal : addPlan	///////////////////// -->
+	<div class="modal fade" id="addPlanModal" >
+	  <div class="modal-dialog">
+	  <h4 style="color: #FFFFFF; margin-top: 100px;">플래너 만들기</h4>
+	    <div class="modal-content">
+	    
+	      <div class="modal-header">
+	        <h5 class="modal-title">플래너를 내려받아 여행을 준비해보세요</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('addPlanModal')">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      
+	      
+	      <div class="modal-body">
+	        
+	        <form class="form-horizontal addPlanModal">
+	        	<input type="hidden" id="planId" name="planId" value="${plan.planId}">
+	        	<br/>
+				<div class="form-group row">
+				    <label for="planTitle" style="text-align: right;" class="col-sm-4 col-form-label ">플래너 제목</label>
+				    <div class="col-sm-7">
+				      <input type="text" class="form-control" id="planTitle" name="planTitle" placeholder="플래너 제목">
+				    </div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="planType" style="text-align: right;" class="col-sm-4 col-form-label ">여행 타입</label>
+				    <div class="col-sm-7">
+					    <select class="form-control" id="planType" name="planType">
+							<option value="A">여자혼자</option>
+							<option value="B">남자혼자</option>
+							<option value="C">여자끼리</option>
+							<option value="D">남자끼리</option>
+							<option value="E">단체</option>
+							<option value="F">부모님과</option>
+							<option value="G">커플</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+				    <label for="planImgFile" style="text-align: right;" class="col-sm-4 col-form-label ">플래너 이미지</label>
+				    <div class="col-sm-7 custom-file">
+				    	<div class="input-group mb-2">
+				    		<input type="file" class="form-control custom-file-input" id="planImgFile" name="planImgFile" placeholder="플래너 이미지" accept="image/*">
+				      		<label class="custom-file-label" for="customFile"><i class="fas fa-camera-retro"> size 360x360</i></label>  
+				    		<div class="input-group-append">
+						      	<div class="input-group-text"><i class="fas fa-camera-retro"></i></div>
+						    </div>
+				    	</div>
+				    </div>
+				</div>
+				
+				<div class="form-group row">
+				    <label for="startDateString" style="text-align: right;" class="col-sm-4 col-form-label ">여행 시작일</label>
+				    
+				    <div class="col-sm-7">
+					    <div class="input-group mb-2">
+					      <input type="text" class="form-control" id="startDateString" name="startDateString" placeholder="여행 시작일" readonly="readonly">
+					      <div class="input-group-append">
+					      	<div class="input-group-text"><span data-feather="calendar"></span></div>
+					      </div>
+					    </div>
+				    </div>
+				</div>
+				
+				<div class="alert alert-danger alert-dismissable" style="display: none;" >
+				    <button type="button" class="close" >×</button>
+				    <strong></strong><br/>수정 후 다시 시도해주세요.
+				</div>
+				
+	        </form>
+	        
+	      </div>
+	      
+	      <div class="modal-footer">
+	        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('addPlanModal')">Close</button> -->
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('addPlanModal')">Close</button>
+	        <button type="button" class="btn btn-primary" id="addPlan">Add Plan</button>
+	      </div>
+	      
+	    </div>
+	  </div>
+	</div>
+	<!-- /////////////////////	Modal : addPlan	///////////////////// -->
+	
+	
+	
+	
+	<script type="text/javascript">
+	
+		/* ------------------------------------ Google Map Script ------------------------------------ */
+		var map;
+		var geocoder;
+		var overlay;
+		var marker=[];
+		var routelines=[];
+		
+		var uluru = {lat: -25.344, lng: 131.036};
+		var paris = {lat: 48.856667, lng: 2.350833};
+		var korea = {lat:37.497957 , lng:127.027780};
+	
+		function initMap(){
+			
+			geocoder = new google.maps.Geocoder();
+		    map = new google.maps.Map(document.getElementById('map'), {
+		        center: paris,
+		        zoom: 3,			/* zoom: 1:World, 5:Landmass/continent, 10:City, 15:Streets, 20:Buildings */
+		        disableDefaultUI: true,
+		    	scrollwheel: false,
+		    	disableDoubleClickZoom: false,
+		    	styles: [
+		    		  {  "elementType": "geometry",
+		    			    "stylers": [ { "color": "#ebe3cd"  } ] },
+		    			  { "elementType": "labels.text.fill",
+		    			    "stylers": [ { "color": "#79524f" } ] },
+		    			  {  "elementType": "labels.text.stroke",
+		    			    "stylers": [  { "color": "#f5f1e6" } ] },
+		    			  { "featureType": "administrative",
+		    			    "elementType": "geometry.stroke",
+		    			    "stylers": [  { "color": "#c9b2a6" } ] },
+		    			  { "featureType": "administrative.land_parcel",
+		    			    "elementType": "geometry.stroke",
+		    			    "stylers": [ { "color": "#dcd2be" } ] },
+		    			  {  "featureType": "administrative.land_parcel",
+		    			    "elementType": "labels",
+		    			    "stylers": [ {  "visibility": "off" } ] },
+		    			  {  "featureType": "administrative.land_parcel",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [  { "color": "#ae9e90" } ] },
+		    			  { "featureType": "landscape.natural",
+		    			    "elementType": "geometry",
+		    			    "stylers": [ { "color": "#fcf9f5" } ] },
+		    			  {  "featureType": "poi",
+		    			    "elementType": "geometry",
+		    			    "stylers": [ { "color": "#e7dec2"  } ] },
+		    			  {  "featureType": "poi",
+		    			    "elementType": "labels.text",
+		    			    "stylers": [ { "visibility": "off" } ] },
+		    			  { "featureType": "poi",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [ { "color": "#93817c" } ] },
+		    			  { "featureType": "poi.business",
+		    			    "stylers": [ {  "visibility": "off" } ] },
+		    			  { "featureType": "poi.park",
+		    			    "elementType": "geometry.fill",
+		    			    "stylers": [ { "color": "#e8edde" } ] },
+		    			  { "featureType": "poi.park",
+		    			    "elementType": "labels.text",
+		    			    "stylers": [ {  "visibility": "off" }  ] },
+		    			  { "featureType": "poi.park",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [ {  "color": "#447530" }  ] },
+		    			  {  "featureType": "road",
+		    			    "stylers": [ { "visibility": "off" } ] },
+		    			  { "featureType": "road",
+		    			    "elementType": "geometry",
+		    			    "stylers": [ { "color": "#f5f1e6" } ] },
+		    			  {  "featureType": "road.arterial",
+		    			    "elementType": "geometry",
+		    			    "stylers": [ { "color": "#fdfcf8" } ] },
+		    			  {  "featureType": "road.highway",
+		    			    "elementType": "geometry",
+		    			    "stylers": [  { "color": "#f8c967" } ] },
+		    			  { "featureType": "road.highway",
+		    			    "elementType": "geometry.stroke",
+		    			    "stylers": [  { "color": "#e9bc62" } ] },
+		    			  { "featureType": "road.highway.controlled_access",
+		    			    "elementType": "geometry",
+		    			    "stylers": [ { "color": "#e98d58" } ] },
+		    			  { "featureType": "road.highway.controlled_access",
+		    			    "elementType": "geometry.stroke",
+		    			    "stylers": [ { "color": "#db8555" } ] },
+		    			  {  "featureType": "road.local",
+		    			    "elementType": "labels",
+		    			    "stylers": [  { "visibility": "off" } ] },
+		    			  {"featureType": "road.local",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [{"color": "#806b63"}]},
+		    			  {"featureType": "transit.line",
+		    			    "elementType": "geometry",
+		    			    "stylers": [{"color": "#dfd2ae" }]},
+		    			  {"featureType": "transit.line",
+		    			    "elementType": "labels.text.fill",
+		    			    "stylers": [ {"color": "#a0938b"}]},
+		    			  { "featureType": "transit.line",
+		    			    "elementType": "labels.text.stroke",
+		    			    "stylers": [{"color": "#ebe3cd"}]},
+		    			  { "featureType": "transit.station",
+		    			    "elementType": "geometry",
+		    			    "stylers": [
+		    			      {"color": "#dfd2ae"}]},
+		    			  { "featureType": "water",
+		    			    "elementType": "geometry.fill",
+		    			    "stylers": [{"color": "#daedec"}]},
+		    			  {"featureType": "water","elementType": "labels.text.fill", "stylers": [{"color": "#83a39e"}] }
+		    		]
+		    });
+		    
+	    	/* 도구모음! */
+	    	//var shape = { coords: [1, 1, 1, 12, 12, 12, 12, 1], type: 'poly'  };
+		 	var lineSymbol = {
+		 			    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
+		 			    fillColor: '#696969',
+		 			    fillOpacity: 1,
+		 			    strokeWeight: 1,
+		 			    scale: 1,
+		 				rotation: 0,
+		 				anchor: new google.maps.Point(0,0)
+		 			}
+	    	 
+		    /* GoogleMap 에 뿌릴 것들  */
+			function initMapItems(){
+				console.log("initMapItems() 실행");
+				
+				var bounds = new google.maps.LatLngBounds();
+				
+				var cityMarkerList = ${cityMarkerList};
+				
+				var myIconn = new google.maps.MarkerImage("/resources/images/icon/pin-red2.png", null, null, null, new google.maps.Size(25,25));
+				
+				for( var i in cityMarkerList ){
+					console.log("cityMarkerList[i] = "+cityMarkerList[i])
+					marker[i] = new google.maps.Marker({
+							position: cityMarkerList[i].position,
+							map: map,
+							icon: myIconn,
+							//shape: shape,
+							title: cityMarkerList[i].title
+					});
+					
+					if( i > 0 ){
+						var path = [ marker[i-1].getPosition() , marker[i].getPosition() ];
+						routelines[i-1] = new google.maps.Polyline({
+							map: map,
+							strokeColor: '#696969',
+					        strokeOpacity: 1.0,
+					        strokeWeight:1,
+					        geodesic: false,
+					        icons: [{
+					            icon: lineSymbol,
+					            offset: '95%'
+					        }]
+						});
+						routelines[i-1].setPath(path);
+					}
+					
+					bounds.extend(marker[i].getPosition());
+					
+					/* marker[i].addListener('click', function() {
+						alert(" 마커 클릭 => cityName="+cityMarkerList[i].title);
+					}); */
+				}
+				map.fitBounds(bounds);
+				
+			} //initMapItems 끝
+			
+			initMapItems();
+		};
+		/* ------------------------------------ Google Map Script ------------------------------------ */
+		
+
+	
+		/* icon 사용을 위한 스크립트 */
+		/* https://github.com/feathericons/feather#feather 참고 */
+		feather.replace();
+		
+		/* Swiper를 위한 스크립트 */
+		/* new Swiper ('.swiper-container', {
+		    //direction: 'vertical',
+		    //loop: true
+			navigation : {
+				nextEl : '.swiper-button-next', // 다음 버튼 클래스명
+				prevEl : '.swiper-button-prev', // 이번 버튼 클래스명
+			}
+		  }); */
+	
+	</script>
+	
+	
+	
+	<!-- Google Map API -->
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4&callback=initMap" type="text/javascript"></script>
+	
 	
 </body>
 

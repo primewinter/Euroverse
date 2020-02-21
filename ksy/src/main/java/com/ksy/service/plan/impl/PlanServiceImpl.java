@@ -53,8 +53,8 @@ public class PlanServiceImpl implements PlanService {
 
 
 	@Override
-	public String copyPlan(String planId) throws Exception {
-		return planDao.copyPlan(planId);
+	public String copyPlan(Plan plan) throws Exception {
+		return planDao.copyPlan(plan);
 	}
 	
 	@Override

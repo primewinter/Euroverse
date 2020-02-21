@@ -1177,7 +1177,8 @@
 		function uploadPlan( planId ) {
 			console.log("uploadPlan() 실행!");
 			
-			var string = "/plan/uploadPlan?planId="+planId;
+			//var string = "/plan/uploadPlan?planId="+planId;
+			var string = "/community/addPost?boardName=E";
 			$(self.location).attr("href", string);
 		}
 		
@@ -2077,54 +2078,50 @@
 				
 				<!--	 Plan Information START	//////////////////////// 	-->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-0 mb-2 border-bottom list-container" >
-					<!-- <div class="container">
-						<h5>Plan Information</h5>
-						<div class="row" style="background-color: #F3F7F6; width: 100%; padding: 15px; border-radius: 5px; "> -->
-							<div class="media" style="background-color: white; width: 100%; padding: 2px 15px; border-radius: 5px; font-size:14px; ">
-							
-								<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-1" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border: 1px #D1D1D1 solid; width: 120px; height: 95px;">
-							    <div class="media-body" style="margin-left: 13px; margin-top: 25px; height: 100px;">
-							    	<span style="color: #EE0D0D; font-weight: bolder;"><c:if test="${plan.planStatus == 'C'}">여행완료!</c:if></span>
-							    	<div class="plan_type">
-										<c:choose>
-											<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
-											<c:when test="${plan.planType == 'B'}">남자혼자</c:when>
-											<c:when test="${plan.planType == 'C'}">여자끼리</c:when>
-											<c:when test="${plan.planType == 'D'}">남자끼리</c:when>
-											<c:when test="${plan.planType == 'E'}">단체</c:when>
-											<c:when test="${plan.planType == 'F'}">부모님과</c:when>
-											<c:when test="${plan.planType == 'G'}">커플</c:when>
-										</c:choose>
-									</div>
-								      <div style="margin: 2px 0;"><div style="font-weight: bolder; font-size: 19px; display: inline-block;">${plan.planTitle} </div> &emsp;
-								      			<c:if test="${plan.planPartySize > 1}"><span data-feather="users"></span></c:if>
-								                <c:if test="${plan.planPartySize == 1}"><span data-feather="user"></span></c:if>
-								                 ${plan.planPartySize}
-								      </div>
-								      ${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate}</c:if> ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
-								      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
-								      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
-							    
-							    </div> <!-- media body -->
-								
-								<div>
-									<c:if test="${plan.planStatus != 'C' }">
-										<button type="button" class="btn btn-info" id="planCompleteButton" style="margin-left: 10px;">여행완료 확정</button>
-										<button type="button" class="btn btn-primary" id="updatePlanButton" style="margin-left: 10px;"  data-toggle="modal" data-target="#editPlan">플래너 수정</button> 
-									</c:if>
-									
-									<c:if test="${ user.userId == plan.planMaster.userId }">
-										<button type="button" class="btn btn-danger" id="deletePlanButton" style="margin-left: 10px;" data-toggle="modal" data-target="#deletePlanAlert">플래너 삭제</button> 
-									</c:if>
-									<c:if test="${ user.userId != plan.planMaster.userId }">
-										<button type="button" class="btn btn-secondary" id="exitPlanButton" style="margin-left: 10px;">플래너 탈퇴</button> 
-									</c:if>
-									<button type="button" class="btn btn-warning" id="uploadPlanButton" style="margin-left: 10px;">플래너 공유하기</button> 
-								</div>
-								
+
+					<div class="media" style="background-color: white; width: 100%; padding: 2px 15px; border-radius: 5px; font-size:14px; ">
+					
+						<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-1" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border: 1px #D1D1D1 solid; width: 120px; height: 95px;">
+					    <div class="media-body" style="margin-left: 13px; margin-top: 25px; height: 100px;">
+					    	<span style="color: #EE0D0D; font-weight: bolder;"><c:if test="${plan.planStatus == 'C'}">여행완료!</c:if></span>
+					    	<div class="plan_type">
+								<c:choose>
+									<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
+									<c:when test="${plan.planType == 'B'}">남자혼자</c:when>
+									<c:when test="${plan.planType == 'C'}">여자끼리</c:when>
+									<c:when test="${plan.planType == 'D'}">남자끼리</c:when>
+									<c:when test="${plan.planType == 'E'}">단체</c:when>
+									<c:when test="${plan.planType == 'F'}">부모님과</c:when>
+									<c:when test="${plan.planType == 'G'}">커플</c:when>
+								</c:choose>
 							</div>
-						<!-- </div>
-					</div> -->
+						      <div style="margin: 2px 0;"><div style="font-weight: bolder; font-size: 19px; display: inline-block;">${plan.planTitle} </div> &emsp;
+						      			<c:if test="${plan.planPartySize > 1}"><span data-feather="users"></span></c:if>
+						                <c:if test="${plan.planPartySize == 1}"><span data-feather="user"></span></c:if>
+						                 ${plan.planPartySize}
+						      </div>
+						      ${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate}</c:if> ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
+						      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
+						      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
+					    
+					    </div> <!-- media body -->
+						
+						<div>
+							<c:if test="${plan.planStatus != 'C' }">
+								<button type="button" class="btn btn-info" id="planCompleteButton" style="margin-left: 10px;">여행완료 확정</button>
+								<button type="button" class="btn btn-primary" id="updatePlanButton" style="margin-left: 10px;"  data-toggle="modal" data-target="#editPlan">플래너 수정</button> 
+							</c:if>
+							
+							<c:if test="${ user.userId == plan.planMaster.userId }">
+								<button type="button" class="btn btn-danger" id="deletePlanButton" style="margin-left: 10px;" data-toggle="modal" data-target="#deletePlanAlert">플래너 삭제</button> 
+							</c:if>
+							<c:if test="${ user.userId != plan.planMaster.userId }">
+								<button type="button" class="btn btn-secondary" id="exitPlanButton" style="margin-left: 10px;">플래너 탈퇴</button> 
+							</c:if>
+							<button type="button" class="btn btn-warning" id="uploadPlanButton" style="margin-left: 10px;">플래너 공유하기</button> 
+						</div>
+						
+					</div>
 				</div>
 				<!--	 Plan Information END	//////////////////////// 	-->
 				
@@ -2949,271 +2946,90 @@
 		        	  /* { "featureType": "water", "elementType": "labels.text", "stylers": [ { "visibility": "off" } ] } */
 		        //]
 		    	styles: [
-		    		  {
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#ebe3cd"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "elementType": "labels.text.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#79524f"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "elementType": "labels.text.stroke",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#f5f1e6"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "administrative",
-		    			    "elementType": "geometry.stroke",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#c9b2a6"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "administrative.land_parcel",
-		    			    "elementType": "geometry.stroke",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#dcd2be"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "administrative.land_parcel",
-		    			    "elementType": "labels",
-		    			    "stylers": [
-		    			      {
-		    			        "visibility": "off"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "administrative.land_parcel",
-		    			    "elementType": "labels.text.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#ae9e90"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "landscape.natural",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#fcf9f5"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "poi",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#e7dec2"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "poi",
-		    			    "elementType": "labels.text",
-		    			    "stylers": [
-		    			      {
-		    			        "visibility": "off"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "poi",
-		    			    "elementType": "labels.text.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#93817c"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "poi.business",
-		    			    "stylers": [
-		    			      {
-		    			        "visibility": "off"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "poi.park",
-		    			    "elementType": "geometry.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#e8edde"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "poi.park",
-		    			    "elementType": "labels.text",
-		    			    "stylers": [
-		    			      {
-		    			        "visibility": "off"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "poi.park",
-		    			    "elementType": "labels.text.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#447530"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road",
-		    			    "stylers": [
-		    			      {
-		    			        "visibility": "off"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#f5f1e6"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road.arterial",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#fdfcf8"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road.highway",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#f8c967"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road.highway",
-		    			    "elementType": "geometry.stroke",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#e9bc62"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road.highway.controlled_access",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#e98d58"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road.highway.controlled_access",
-		    			    "elementType": "geometry.stroke",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#db8555"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road.local",
-		    			    "elementType": "labels",
-		    			    "stylers": [
-		    			      {
-		    			        "visibility": "off"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road.local",
-		    			    "elementType": "labels.text.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#806b63"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "transit.line",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#dfd2ae"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "transit.line",
-		    			    "elementType": "labels.text.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#a0938b"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "transit.line",
-		    			    "elementType": "labels.text.stroke",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#ebe3cd"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "transit.station",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#dfd2ae"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "water",
-		    			    "elementType": "geometry.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#daedec"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "water",
-		    			    "elementType": "labels.text.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#83a39e"
-		    			      }
-		    			    ]
-		    			  }
+		    		{  "elementType": "geometry",
+	    			    "stylers": [ { "color": "#ebe3cd"  } ] },
+	    			  { "elementType": "labels.text.fill",
+	    			    "stylers": [ { "color": "#79524f" } ] },
+	    			  {  "elementType": "labels.text.stroke",
+	    			    "stylers": [  { "color": "#f5f1e6" } ] },
+	    			  { "featureType": "administrative",
+	    			    "elementType": "geometry.stroke",
+	    			    "stylers": [  { "color": "#c9b2a6" } ] },
+	    			  { "featureType": "administrative.land_parcel",
+	    			    "elementType": "geometry.stroke",
+	    			    "stylers": [ { "color": "#dcd2be" } ] },
+	    			  {  "featureType": "administrative.land_parcel",
+	    			    "elementType": "labels",
+	    			    "stylers": [ {  "visibility": "off" } ] },
+	    			  {  "featureType": "administrative.land_parcel",
+	    			    "elementType": "labels.text.fill",
+	    			    "stylers": [  { "color": "#ae9e90" } ] },
+	    			  { "featureType": "landscape.natural",
+	    			    "elementType": "geometry",
+	    			    "stylers": [ { "color": "#fcf9f5" } ] },
+	    			  {  "featureType": "poi",
+	    			    "elementType": "geometry",
+	    			    "stylers": [ { "color": "#e7dec2"  } ] },
+	    			  {  "featureType": "poi",
+	    			    "elementType": "labels.text",
+	    			    "stylers": [ { "visibility": "off" } ] },
+	    			  { "featureType": "poi",
+	    			    "elementType": "labels.text.fill",
+	    			    "stylers": [ { "color": "#93817c" } ] },
+	    			  { "featureType": "poi.business",
+	    			    "stylers": [ {  "visibility": "off" } ] },
+	    			  { "featureType": "poi.park",
+	    			    "elementType": "geometry.fill",
+	    			    "stylers": [ { "color": "#e8edde" } ] },
+	    			  { "featureType": "poi.park",
+	    			    "elementType": "labels.text",
+	    			    "stylers": [ {  "visibility": "off" }  ] },
+	    			  { "featureType": "poi.park",
+	    			    "elementType": "labels.text.fill",
+	    			    "stylers": [ {  "color": "#447530" }  ] },
+	    			  {  "featureType": "road",
+	    			    "stylers": [ { "visibility": "off" } ] },
+	    			  { "featureType": "road",
+	    			    "elementType": "geometry",
+	    			    "stylers": [ { "color": "#f5f1e6" } ] },
+	    			  {  "featureType": "road.arterial",
+	    			    "elementType": "geometry",
+	    			    "stylers": [ { "color": "#fdfcf8" } ] },
+	    			  {  "featureType": "road.highway",
+	    			    "elementType": "geometry",
+	    			    "stylers": [  { "color": "#f8c967" } ] },
+	    			  { "featureType": "road.highway",
+	    			    "elementType": "geometry.stroke",
+	    			    "stylers": [  { "color": "#e9bc62" } ] },
+	    			  { "featureType": "road.highway.controlled_access",
+	    			    "elementType": "geometry",
+	    			    "stylers": [ { "color": "#e98d58" } ] },
+	    			  { "featureType": "road.highway.controlled_access",
+	    			    "elementType": "geometry.stroke",
+	    			    "stylers": [ { "color": "#db8555" } ] },
+	    			  {  "featureType": "road.local",
+	    			    "elementType": "labels",
+	    			    "stylers": [  { "visibility": "off" } ] },
+	    			  {"featureType": "road.local",
+	    			    "elementType": "labels.text.fill",
+	    			    "stylers": [{"color": "#806b63"}]},
+	    			  {"featureType": "transit.line",
+	    			    "elementType": "geometry",
+	    			    "stylers": [{"color": "#dfd2ae" }]},
+	    			  {"featureType": "transit.line",
+	    			    "elementType": "labels.text.fill",
+	    			    "stylers": [ {"color": "#a0938b"}]},
+	    			  { "featureType": "transit.line",
+	    			    "elementType": "labels.text.stroke",
+	    			    "stylers": [{"color": "#ebe3cd"}]},
+	    			  { "featureType": "transit.station",
+	    			    "elementType": "geometry",
+	    			    "stylers": [
+	    			      {"color": "#dfd2ae"}]},
+	    			  { "featureType": "water",
+	    			    "elementType": "geometry.fill",
+	    			    "stylers": [{"color": "#daedec"}]},
+	    			  {"featureType": "water","elementType": "labels.text.fill", "stylers": [{"color": "#83a39e"}] }
 		    			]
 		    });
 		    /* marker = new google.maps.Marker({
