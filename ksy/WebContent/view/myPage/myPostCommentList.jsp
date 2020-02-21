@@ -91,11 +91,8 @@ $(function() {
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
-	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"  id="main">
 	
-	 <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">나의 게시글목록</h1>
-     </div> 
+        <h1  style="margin-left: 240px;">나의 게시글목록</h1>
 		
 	
 	
@@ -108,7 +105,7 @@ $(function() {
 
 
 
-<table class="table">
+<table class="table" style="margin-left: 240px; width: 75%">
 							
 	
   <thead>
@@ -153,13 +150,11 @@ $(function() {
 <hr class="one">
 
 
- <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">나의 댓글목록</h1>
-     </div> 
+        <h1 style="margin-left: 240px;">나의 댓글목록</h1>
      
 
 
-<table class="table">
+<table class="table" style="margin-left: 240px; width: 75%">
 	
   <thead>
     <tr>
@@ -200,8 +195,5 @@ $(function() {
 
 
 <jsp:include page="../../common/pageNavigator_new2.jsp"/>
-</main>
-</div>
-</div>
 </body>
 </html>

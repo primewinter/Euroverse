@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,12 +25,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ksy.common.Page;
 import com.ksy.common.Search;
+import com.ksy.common.util.Util;
 import com.ksy.service.community.CommunityService;
+import com.ksy.service.domain.City;
+import com.ksy.service.domain.Daily;
+import com.ksy.service.domain.Day;
 import com.ksy.service.domain.Party;
+import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.Post;
+import com.ksy.service.domain.Stuff;
 import com.ksy.service.domain.User;
 import com.ksy.service.like.LikeService;
 import com.ksy.service.myPage.MyPageService;
+import com.ksy.service.plan.PlanService;
+import com.ksy.service.planSub.PlanSubService;
 import com.ksy.service.user.UserService;
 import com.ksy.service.domain.Tag;
 import com.ksy.service.domain.TripSurvey;
@@ -52,6 +62,15 @@ public class CommunityController {
 	@Autowired
 	@Qualifier("myPageServiceImpl")
 	private MyPageService myPageService;
+	
+	@Autowired
+	@Qualifier("planServiceImpl")
+	private PlanService planService;
+	
+	@Autowired
+	@Qualifier("planSubServiceImpl")
+	private PlanSubService planSubService;
+	
 	
 	public CommunityController() {
 		System.out.println(this.getClass());
@@ -100,12 +119,24 @@ public class CommunityController {
 	}
 
 	@RequestMapping( value="addPost", method=RequestMethod.GET )
-	public String addPost( @RequestParam("boardName") String boardName ) throws Exception {
+	public String addPost( @RequestParam("boardName") String boardName, Model model, HttpSession session ) throws Exception {
 		
 		System.out.println("/community/addPost : GET");
 		
+		User user = (User)session.getAttribute("user");
+		if( user == null) {
+			return "redirect:/main.jsp";
+		}
+		
 		if( boardName.equals("D") ) {
 			return "forward:/view/community/addFindAccPostView.jsp";
+		}else if( boardName.equals("E") ) {	//플래너 게시할거임
+			
+			List<Plan> listPlan = planService.getPlanList(user.getUserId());
+			
+			model.addAttribute("planList", listPlan);
+			
+			return "forward:/view/community/addPlanPostView.jsp";
 		}
 		return "forward:/view/community/addPostView.jsp";
 	}
@@ -123,6 +154,20 @@ public class CommunityController {
 			post.setPostGrade("B");
 		}
 		
+		//플래너 아이디 있으면 카피해서 새로 세팅 (플래너 게시)
+		if( post.getPlanId() != null || post.getPlanId()=="" ) {
+			
+			String originPlanId = post.getPlanId();
+			
+			Plan copyPlan = new Plan();
+			copyPlan.setPlanId(originPlanId);
+			//copyPlan.setPlanMaster(user);
+			
+			String copiedPlanId = planService.copyPlan(copyPlan);	//plan에 planId만 담겨서 감!
+			
+			post.setPlanId(copiedPlanId);
+		}
+		
 		communityService.addPost(post);
 	
 		for(int i=0; i<tagContent.length; i++) {
@@ -131,6 +176,15 @@ public class CommunityController {
 		
 		model.addAttribute("post", post);
 		model.addAttribute("tagContent", tagContent);
+		
+		if( post.getPlanId() != null || post.getPlanId()=="" ) {
+			
+			Plan copiedPlan = planService.getPlan(post.getPlanId());
+			
+			model.addAttribute("plan", copiedPlan );
+			
+			return "forward:/view/community/getPlanPost.jsp";
+		}
 		
 		return "forward:/view/community/getPost.jsp";
 	}
@@ -221,7 +275,75 @@ public class CommunityController {
 			
 			return "forward:/view/community/getAccFindPost.jsp";
 		}else if( boardName.equals("E") ) {
-			return "forward:/view/comminity/getPlanPost.jsp";
+			//플래너 게시물 가져오기
+			String planId = post.getPlanId();
+			
+			Plan plan = planService.getPlan( planId );
+			List<Daily> dailyList = planSubService.getDailyList(planId);		//dailyList
+			List<Stuff> stuffList = planSubService.getStuffList(planId);		//stuffList
+			List<Daily> budgetOverviewList = planSubService.getBudgetOverview(planId);
+			List<City> listCity = planSubService.getCityRouteList(planId);
+			List<Day> dayList = Util.cityListToDayList(listCity, plan.getStartDate() );
+			plan.setDayList(dayList);
+			plan.setCityList(listCity);
+			plan.setBudgetOverviewList(budgetOverviewList);
+			plan.setDailyList(dailyList);
+			plan.setStuffList(stuffList);
+			
+			/* FullCalendar addEvent 위한 JSON 만들기.. */
+			JSONArray cityArray = new JSONArray();
+			
+			for (City cityItem : listCity) {
+				JSONObject cityEvent = new JSONObject();
+
+				cityEvent.put("title", cityItem.getCityName());
+				cityEvent.put("start", cityItem.getStartDateStr());
+				cityEvent.put("end", cityItem.getEndDateStr());
+				cityEvent.put("textColor", "white");
+				if( cityItem.getCountry() != null ) {
+					if( cityItem.getCountry().equals("영국") ) {
+						cityEvent.put("color", "#F9A081");
+					}else if(cityItem.getCountry().equals("스위스") ) {
+						cityEvent.put("color", "#98E657");
+					}else if(cityItem.getCountry().equals("프랑스") ) {
+						cityEvent.put("color", "#8886F4");
+					}else if(cityItem.getCountry().equals("이탈리아") ) {
+						cityEvent.put("color", "#76A0F3");
+					}
+				}else {
+					cityEvent.put("color", "#51bec9");
+				}
+
+				cityArray.add(cityEvent);
+			}
+			
+			/* GoogleMap API를 위한 JSON 만들기.. */
+			JSONArray markerArray = new JSONArray();
+			for (City cityItem : listCity) {
+				JSONObject cityMarker = new JSONObject();
+				
+				JSONObject position = new JSONObject();
+				position.put("lat", Double.parseDouble( cityItem.getCityLat() ));
+				position.put("lng", Double.parseDouble( cityItem.getCityLng() ));
+				
+				cityMarker.put("position", position);
+				cityMarker.put("title", cityItem.getCityName());
+				
+				markerArray.add(cityMarker);
+			}
+			
+			
+			plan.setPlanDday( Util.getDday(plan.getStartDate()));		//여행 D-Day
+			if( plan.getPlanTotalDays() != 0) {
+				plan.setEndDate( Util.getEndDate(plan.getStartDate(), plan.getPlanTotalDays()) );	//여행종료일자
+			}
+			
+			
+			model.addAttribute("plan", plan);
+			model.addAttribute("cityEventList", cityArray);
+			model.addAttribute("cityMarkerList", markerArray);
+			
+			return "forward:/view/community/getPlanPost.jsp";
 		}
 		return "forward:/view/community/getPost.jsp";
 	}

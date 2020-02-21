@@ -63,19 +63,26 @@ public class PlanDaoImpl implements PlanDao {
 	}
 	
 	@Override
-	synchronized public String copyPlan(String planId) throws Exception {
+	synchronized public String copyPlan(Plan plan) throws Exception {
 		
-		sqlSession.insert("PlanMapper.copyPlan", planId);
-		//sqlSession.insert("PlanMapper.addPlanPartyKing", plan.getPlanMaster().getUserId()); //필요 없음..?
+		//sqlSession.insert("PlanMapper.copyPlan", planId);
 		
-		String[] defaultTodos = {"항공권 예약하기", "여행루트 짜기", "일정표 작성하기", "환전하기", "숙소 예약하기", "준비물 목록 확인하기", "여행자 보험 들기", "와이파이/유심 준비하기", "수하물 규정 알아보기"};
-		for (String string : defaultTodos) {
-			sqlSession.insert("PlanMapper.addDefaultTodos", string);
+		if( plan.getPlanMaster() != null ) {
+			sqlSession.insert("PlanMapper.addPlan", plan);
+			
+			sqlSession.insert("PlanMapper.addPlanPartyKing", plan.getPlanMaster().getUserId() ); //필요 없음..?
+			
+			String[] defaultTodos = {"항공권 예약하기", "여행루트 짜기", "일정표 작성하기", "환전하기", "숙소 예약하기", "준비물 목록 확인하기", "여행자 보험 들기", "와이파이/유심 준비하기", "수하물 규정 알아보기"};
+			for (String string : defaultTodos) {
+				sqlSession.insert("PlanMapper.addDefaultTodos", string);
+			}
+		}else {
+			sqlSession.insert("PlanMapper.copyPlan", plan.getPlanId());
 		}
 		
-		sqlSession.insert("PlanSubMapper.copyStuff", planId);
-		sqlSession.insert("PlanSubMapper.copyCityRoute", planId);
-		sqlSession.insert("PlanSubMapper.copyDaily", planId);
+		sqlSession.insert("PlanSubMapper.copyStuff", plan.getPlanId());
+		sqlSession.insert("PlanSubMapper.copyCityRoute", plan.getPlanId());
+		sqlSession.insert("PlanSubMapper.copyDaily", plan.getPlanId());
 		
 		String copiedPlanId = sqlSession.selectOne("PlanMapper.getPlanId");
 		

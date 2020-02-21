@@ -20,7 +20,7 @@ public interface PlanService {
 	public List<User> getPlanPartyList(String planId) throws Exception;
 	
 	
-	public String copyPlan(String planId) throws Exception;
+	public String copyPlan(Plan plan) throws Exception;
 	
 	public void addPlan(Plan plan) throws Exception;
 	

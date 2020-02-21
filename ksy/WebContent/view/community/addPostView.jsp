@@ -203,54 +203,54 @@
 		  <div class="form-group">
 		    <label for="postTitle" class="col-sm-1 control-label" style="font-size: 12px;">제목</label>
 		  <c:if test="${user.role != 'A'}">
-		   <c:if test="${param.boardName == 'G'}">
-		    <div class="input-group mb-3" style="width: 743px;padding-left:15px;">
-			  <select class="custom-select" name="qnaKategorie" id="inputGroupSelect01" style="width:120px;float:left;height:34px;font-size:13px;">
-			    <option selected>카테고리 선택</option>
-			    <option value="G">루트</option>
-			    <option value="I">교통</option>
-			    <option value="J">숙소</option>
-			    <option value="H">도시</option>
-			    <option value="K">쇼핑,경비,환전</option>
-			    <option value="L">기타</option>
-			  </select>
-			  <div class="input-group-prepend" style="font-size: 12px;width:608px;">
-			    <input type="text" class="form-control" id="postTitle" name="postTitle" placeholder="제목을 입력하세요.">
-			  </div>
-			</div>
-		  </c:if>
-		  <c:if test="${param.boardName != 'G'}">
-		    <div class="col-sm-10">
-		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" placeholder="제목을 입력하세요.">
-		    </div>
-		  </c:if>
+			   <c:if test="${param.boardName == 'G'}">
+			    <div class="input-group mb-3" style="width: 743px;padding-left:15px;">
+				  <select class="custom-select" name="qnaKategorie" id="inputGroupSelect01" style="width:120px;float:left;height:34px;font-size:13px;">
+				    <option selected>카테고리 선택</option>
+				    <option value="G">루트</option>
+				    <option value="I">교통</option>
+				    <option value="J">숙소</option>
+				    <option value="H">도시</option>
+				    <option value="K">쇼핑,경비,환전</option>
+				    <option value="L">기타</option>
+				  </select>
+				  <div class="input-group-prepend" style="font-size: 12px;width:608px;">
+				    <input type="text" class="form-control" id="postTitle" name="postTitle" placeholder="제목을 입력하세요.">
+				  </div>
+				</div>
+			  </c:if>
+			  <c:if test="${param.boardName != 'G'}">
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" placeholder="제목을 입력하세요.">
+			    </div>
+			  </c:if>
 		  </c:if>  
 		  <c:if test="${user.role == 'A'}">
-		   <c:if test="${param.boardName == 'G'}">
-		    <div class="input-group mb-3" style="width: 743px;padding-left:15px;">
-			  <select class="custom-select" name="qnaKategorie" id="inputGroupSelect01" style="width:120px;float:left;height:34px;font-size:13px;">
-			    <option selected>카테고리 선택</option>
-			    <option value="G">루트</option>
-			    <option value="I">교통</option>
-			    <option value="J">숙소</option>
-			    <option value="H">도시</option>
-			    <option value="K">쇼핑,경비,환전</option>
-			    <option value="L">기타</option>
-			  </select>
-			  <div class="input-group-prepend" style="font-size: 12px;width:608px;">
-			    <input type="text" class="form-control" id="postTitle" name="postTitle" placeholder="제목을 입력하세요.">
-			   <label for="postTitle" class="col-sm-3 control-label" style="font-size: 14px;"><i class="fas fa-flag-checkered"></i> 공지등록
-		        <input type="checkbox" id="postGrade" name="postGrade" value="N"></label>
-			  </div>
-			</div>
-		  </c:if>
-		  <c:if test="${param.boardName != 'G'}">
-		    <div class="col-sm-8">
-		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" placeholder="제목을 입력하세요.">
-		    </div>
-		     <label for="postTitle" class="col-sm-2 control-label" style="font-size: 14px;padding-right: 40px;"><i class="fas fa-flag-checkered"></i> 공지등록
-		      <input type="checkbox" id="postGrade" name="postGrade" value="N"></label>
-		  </c:if>
+			   <c:if test="${param.boardName == 'G'}">
+			    <div class="input-group mb-3" style="width: 743px;padding-left:15px;">
+				  <select class="custom-select" name="qnaKategorie" id="inputGroupSelect01" style="width:120px;float:left;height:34px;font-size:13px;">
+				    <option selected>카테고리 선택</option>
+				    <option value="G">루트</option>
+				    <option value="I">교통</option>
+				    <option value="J">숙소</option>
+				    <option value="H">도시</option>
+				    <option value="K">쇼핑,경비,환전</option>
+				    <option value="L">기타</option>
+				  </select>
+				  <div class="input-group-prepend" style="font-size: 12px;width:608px;">
+				    <input type="text" class="form-control" id="postTitle" name="postTitle" placeholder="제목을 입력하세요.">
+				   <label for="postTitle" class="col-sm-3 control-label" style="font-size: 14px;"><i class="fas fa-flag-checkered"></i> 공지등록
+			        <input type="checkbox" id="postGrade" name="postGrade" value="N"></label>
+				  </div>
+				</div>
+			  </c:if>
+			  <c:if test="${param.boardName != 'G'}">
+			    <div class="col-sm-8">
+			      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" placeholder="제목을 입력하세요.">
+			    </div>
+			     <label for="postTitle" class="col-sm-2 control-label" style="font-size: 14px;padding-right: 40px;"><i class="fas fa-flag-checkered"></i> 공지등록
+			      <input type="checkbox" id="postGrade" name="postGrade" value="N"></label>
+			  </c:if>
 		  </c:if>
 		  </div>
 		 

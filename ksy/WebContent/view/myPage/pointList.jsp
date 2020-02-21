@@ -81,11 +81,8 @@
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
-	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"  id="main">
 	
-	 <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">포인트 사용 목록</h1>
-     </div> 
+        <h1 class="h2" style="text-align: center;">포인트 사용 목록</h1>
 		
 	
 	
@@ -95,9 +92,9 @@
 
 
 
-<table class="table">
-	<h3>보유포인트</h3>
-	<h2>${user.totalPoint} Point
+<table class="table" style="margin-left: 240px; width: 75%;">
+	<h3 style="margin-left: 240px;">보유포인트</h3>
+	<h2 style="margin-left: 240px;">${user.totalPoint} Point
 	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">최신순</button>
 	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">적립</button>
 	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">차감</button>
@@ -149,10 +146,6 @@
 
 
 <jsp:include page="../../common/pageNavigator_new.jsp"/>
-</main>
-</div>
-</div>
-
 
 
 

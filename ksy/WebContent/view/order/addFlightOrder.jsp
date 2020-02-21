@@ -2,6 +2,8 @@
     pageEncoding="EUC-KR"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@page import="java.util.*" %>    
     
 
 <html>
@@ -240,7 +242,7 @@
 			      <td>${flight.arrTime}</td>
 			      <td>${flight.stopOver}</td>
 			      <td>${flight.leadTime}</td>
-			      <td>${flight.price}¿ø</td>
+			      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" /> ¿ø</td>
 			    </tr>
 			  </tbody>
 			  

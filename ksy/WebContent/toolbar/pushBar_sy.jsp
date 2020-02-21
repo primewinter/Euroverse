@@ -3,51 +3,284 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<div class="footerBar">
-    <div class="pushToast">
-    </div>
-    <div class="bottom-bar push-layer">
-        <div class="deletePush">
-            <span class="totalCount" style="float:center;">내 소식 알림</span>
-            <a href='javascript:deletePush()'><i class="far fa-trash-alt" style="float:right;"></i></a>
-            <hr>
-            <div class="pushList" style="overflow-y:auto; width:300px; height:350px;"></div>
-        </div>
 
+<style>
+    /*동행 채팅 div 슬라이드*/
+    #acc-slide * {
+        margin: 0;
+        padding: 0;
+    }
+
+    ul,
+    li {
+        list-style: none;
+    }
+
+    #acc-slide {
+        font-weight: 400;
+        background-color: white;
+        display: none;
+        height: 500px;
+        width: 300px;
+        /*position: relative;*/
+        border: solid 1px #D2D2D2;
+        position: fixed;
+        right: 10px;
+        bottom: 30px;
+        overflow: hidden;
+        z-index: 300;
+    }
+
+    #acc-slide ul {
+        width: 200%;
+        height: 100%;
+        transition: 0.5s;
+    }
+
+    #acc-slide ul:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    #acc-slide li {
+        float: left;
+        width: 50%;
+        height: 100%;
+    }
+
+    #acc-slide input[type=radio] {
+        display: none;
+    }
+
+    #acc-slide label {
+        display: inline-block;
+        vertical-align: middle;
+        width: 10px;
+        height: 10px;
+        border: 2px solid #666;
+        background: #fff;
+        transition: 0.3s;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    #acc-slide .pos {
+        display: none;
+        text-align: center;
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    #pos1:checked~ul {
+        margin-left: 0%;
+    }
+
+    #pos2:checked~ul {
+        margin-left: -100%;
+    }
+
+
+    #pos1:checked~.pos>label:nth-child(1) {
+        background: #666;
+    }
+
+    #pos2:checked~.pos>label:nth-child(2) {
+        background: #666;
+    }
+
+    /*동행 채팅방 style*/
+    #accChat {
+        height: 100%;
+        width: 100%;
+        color: #333;
+        font-size: 10px;
+        background-color: #C5ECE9;
+        z-index: 190;
+    }
+
+    .accChat.info {
+        position: inherit;
+        height: 7%;
+        background-color: #C5ECE9;
+    }
+
+    .accChat.output {
+        font-family: 'Nanum Gothic', sans-serif;
+        font-weight: 700;
+        position: relative;
+        height: 85%;
+        width: 100%;
+        background-color: white;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .output::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .output::-webkit-scrollbar-thumb {
+        background-color: #858585;
+        border-radius: 10px;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+    }
+
+    .output::-webkit-scrollbar-track {
+        background-color: transparent;
+        border-radius: 10px;
+        box-shadow: inset 0px 0px 5px white;
+    }
+
+    .accChat.input {
+        position: relative;
+        height: auto;
+        background-color: #C5ECE9;
+    }
+
+
+    /*아이콘들*/
+    div.icon {
+        border: solid 2px #858585;
+        border-radius: 5px;
+        width: 40px;
+        height: 40px;
+        margin: 5px;
+        color: #858585;
+        font-size: 17pt;
+        text-align: center;
+    }
+
+    div.push-bar-menu {
+        opacity: 40%;
+        position: fixed;
+        top: 30px;
+        right: 10px;
+    }
+
+
+    /*푸시리스트*/
+    #push-layer {
+        background-color: white;
+        border: solid 1px #D2D2D2;
+        display: none;
+        height: 500px;
+        width: 300px;
+        position: fixed;
+        right: 10px;
+        bottom: 30px;
+        z-index: 300;
+    }
+
+    /*플래너채팅창*/
+    #plan-chat-layer {
+        display: none;
+        border: solid 1px #D2D2D2;
+        height: 500px;
+        width: 300px;
+        position: fixed;
+        right: 10px;
+        bottom: 30px;
+        background-color: white;
+        z-index: 300;
+    }
+
+    .planChat.output {
+        font-family: 'Nanum Gothic', sans-serif;
+        font-weight: 700;
+        height: 94%;
+        bottom: 40px;
+        background-color: white;
+        overflow: auto;
+    }
+
+    .planChat.input {
+        height: 40px;
+        bottom: 0px;
+        background-color: #C5ECE9;
+    }
+
+</style>
+
+
+<div class="push-bar-menu">
+    <div class="icon push-list">
+        <i class="far fa-bell" style="position:relative;"></i>
+        <span class="unreadCount" style="position:absolute;font-size: 3pt;right:7px"></span>
     </div>
-    <div class="bottom-bar chat-layer" id="slider-wrap">
-        <ul id="slider">
-            <li data-color="#1abc9c" style="overflow-y:auto;">
-                <!-- 채팅목록 -->
-                <div class="accLobby container">
-                </div>
-            </li>
-            <li data-color="#3498db">
-                <div id="accChat" style="width:300px; height:500px;">
-                    <div class="accChat-content">
-                        <div class="accChat info">
-                            <i class="fas fa-arrow-left fa-2x" style="float:left;margin:5px;"><span style="margin:5px;"></span></i>
-                            <p style="text-align:right;margin:5px;"><i class="fas fa-bars fa-2x" data-toggle="modal" data-target="#accModal"></i></p>
-                        </div>
-                        <div class="accChat output" style="overflow-y:auto;padding:5px"> </div>
-                        <div class="accChat input" style="padding:5px">
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="myAccChat" placeholder="메시지를 입력하세요">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" onclick="sendAccMessage()"><i class="fab fa-telegram-plane"></i></button>
-                                </span>
-                            </div>
+    <div class="icon acc-chat">
+        <i class="far fa-comments"></i>
+    </div>
+    <div class="icon plan-chat">
+        <i class="far fa-comment fa-flip-horizontal"></i>
+    </div>
+</div>
+
+<div id="acc-slide">
+    <input type="radio" name="pos" id="pos1" checked>
+    <input type="radio" name="pos" id="pos2">
+    <ul>
+        <!-- 채팅목록 -->
+        <li>
+            <div class="accLobby container">
+            </div>
+        </li>
+        <!--채팅방-->
+        <li>
+            <div id="accChat">
+                <div id="accChat">
+                    <div class="accChat info">
+                        <i class="fas fa-arrow-left fa-2x" style="float:left;margin:5px;"><span style="margin:5px;"></span></i>
+                        <p style="text-align:right;margin: 0 5px 0 5px;"><i class="fas fa-bars fa-2x" data-toggle="modal" data-target="#accModal"></i></p>
+                    </div>
+                    <div class="accChat output" style="padding:5px"></div>
+                    <div class="accChat input" style="padding:5px">
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-sm" id="input-accChat" placeholder="메시지를 입력하세요">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default btn-sm" onclick="sendAccMessage()" type="button"><i class="fab fa-telegram-plane"></i></button>
+                            </span>
                         </div>
                     </div>
                 </div>
-            </li>
-        </ul>
-    </div>
-    <div class="bottom-menu">
-        <i class="fas fa-bell" style="margin:10px;"></i><span class="unreadCount" style="display:table-col;vertical-align:top;"></span>
-        <i class="fas fa-comment-alt" style="margin:10px;"></i>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div id="push-layer">
+    <div class="deletePush">
+        <span class="totalCount" style="float:center;">내 소식 알림</span>
+        <a href='javascript:deletePush()'><i class="far fa-trash-alt" style="float:right;"></i></a>
+        <hr>
+        <div class="pushList" style="overflow-y:auto; width:300px; height:350px;"></div>
     </div>
 </div>
+
+
+<div id="plan-chat-layer">
+    <div class="planChat output" style="padding:5px"></div>
+    <div class="planChat input" style="padding:5px">
+        <div class="input-group">
+            <input type="text" class="form-control form-control-sm" id="myChat" placeholder="플래너 채팅 입력창">
+            <span class="input-group-btn">
+                <button class="btn btn-default btn-sm" type="button"><i class="fab fa-telegram-plane"></i></button>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!--채팅 참여자 목록 모달-->
 <div class="modal fade" id="accModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -66,9 +299,9 @@
     </div>
 </div>
 <script type="text/javascript">
-    var pushAddr = "ws://192.168.0.82:8080/userSocket/";
-    var webSocket;
     var userId = '${user.userId}';
+    var pushAddr = "ws://localhost:8080/userSocket/";
+    var webSocket;
 
     if (userId != null && userId != '') { // 로그인 했을 때만 웹소켓 연결
         pushAddr += userId;
@@ -135,8 +368,6 @@
         }));
     }
 
-    var userId = '${user.userId}';
-
     function getPushList(userId) {
         $.ajax({
             url: "/push/json/getPushList/" + userId,
@@ -182,7 +413,6 @@
         var scrollHeight = $(this).prop('scrollHeight'); // 스크롤 시키지 않았을 때의 전체 높이
         //console.log("ScrollTop : "+scrollTop+"|| innerHeight : "+innerHeight+"|| scrollHeight : "+scrollHeight);
         if (scrollTop + innerHeight >= scrollHeight) { // scrollTop() 과 innerHeight() 값을 더한 값이 scrollHeight() 보다 같거나 크게 되면 맨 아래 감지 가능
-            console.log("스크롤 최하단에 위치")
             scrollList();
         }
     })
@@ -190,14 +420,10 @@
     // 스크롤 최하단에 위치 시 작동할 function(무한스크롤) : 리스트 호출
     function scrollList() {
         if (end == true) { //더 이상 불러올 data가 없는 경우 return
-            console.log("if(end == true) 들어옴")
             return;
         }
-        console.log("scrollList 시작")
-
         var search = new Object();
         search.currentPage = pushPage;
-
         $.ajax({
             url: "/push/json/getPushList/" + userId,
             type: "POST",
@@ -210,17 +436,10 @@
                 "Content-Type": "application/json"
             },
             success: function(list) {
-                console.log(list);
-
                 var length = list.length;
-                console.log("받아온 data의 길이 : " + length);
-                console.log("currentPage : " + pushPage)
-
                 if (length < 5) {
                     isEnd = true;
-                    console.log("남은 데이터가 5개 미만이므로 isEnd = true;")
                 }
-
                 $.each(list, function(index, vo) {
                     showList(vo);
                 })
@@ -234,39 +453,26 @@
         })
     }
 
-    // 리스트 호출 시 작동할 function : 리스트 화면에 출력
+    // 푸시리스트 호출 시 작동할 function : 리스트 화면에 출력
     function showList(vo, type) {
-        console.log("showList !")
         var tag = "";
         tag += "<table width=95%>"
         tag += "<tr>"
         tag += "<td style='margin:auto;text-align:center' width='10%'>"
         tag += "<input type='checkbox' name='chk' id='" + vo.pushId + "' value='" + vo.pushId + "'>"; // style='display:none;'
         tag += "</td>"
-        tag += "<td style='margin:auto;text-align:center' width='10%'>"
+        tag += "<td style='text-align:left;margin-left:10'>"
+        tag += "<font size='2'  font color='black'>"
         if (vo.pushType.trim() == 'C' || vo.pushType.trim() == 'R') {
-            tag += "<img src='/resources/images/icon/push_reply9.png'>";
-            tag += "</td>"
-            tag += "<td style='text-align:left;margin-left:10'>"
-            tag += "<font size='2'  font color='black'>"
             tag += "<a href='/community/getPost?postId=" + vo.refId + "&boardName=" + vo.boardName + "'>";
         } else if (vo.pushType.trim() == 'I') {
-            tag += "<img src='/resources/images/icon/push_invite.png'>";
-            tag += "</td>";
-            tag += "<td style='text-align:left;margin-left:10'>"
-            tag += "<font size='2'  font color='black'>"
             tag += "<a href='/myPage/myOfferList' >"; // 초대 목록 리스트 링크
         } else if (vo.pushType.trim() == 'A') {
-            tag += "<img src='/resources/images/icon/push_acc.png'>";
-            tag += "</td>";
-            tag += "<td style='text-align:left;margin-left:10'>"
-            tag += "<font size='2'  font color='black'>"
             tag += "<a href='/community/getPost?postId=" + vo.refId + "&boardName=D' >" // 동행 신청 목록 리스트 링크
         }
-        tag += vo.pushMsg + "</font>";
-        tag += "</td>";
+        tag += vo.pushMsg + "</font></td>";
         tag += "<tr>";
-        tag += "<td></td><td></td><td style='vertical-align: middle;'>";
+        tag += "<td colspan='2' style='text-align:right;vertical-align:top;'>";
         tag += "<font size='1' font color='gray'>" + vo.pushTime + "</font></a>";
         tag += "</td>";
         tag += "</tr>";
@@ -356,7 +562,7 @@
     var chatRoomId;
     var accChatSocket;
     var accChatLayer = $(".accChat.output");
-    var myAccChat = $("#myAccChat");
+    var inputAccChat = $("#input-accChat");
     var chatRoomName;
 
     function getChatRoomList() {
@@ -416,10 +622,10 @@
 
 
     function enterRoom(roomId) {
-        slideRight();
+        $('#pos2').prop('checked', true);
         chatRoomId = roomId;
         console.log("입장한 채팅방 번호 : " + roomId);
-        var accChatAddr = "ws://192.168.0.82:8080/accSocket/" + roomId + "/" + userId;
+        var accChatAddr = "ws://localhost:8080/accSocket/" + roomId + "/" + userId;
         accChatSocket = new WebSocket(accChatAddr);
         //웹 소켓이 연결되었을 때 호출되는 이벤트
         accChatSocket.onopen = function(message) {
@@ -447,37 +653,43 @@
             accChatLayer.value += "accChat 에러가 발생했습니다.\n";
         };
     }
+    
+    var userNickname = '${user.nickname}';
 
     function receiveAccChat(chat) {
+        console.log("들어왔따~!")
         var html = "";
         if (chat.senderId == 'system') {
-            html += "<div class='chat system'>";
-            html += "<font color='white' size=1 class='msg content'>" + chat.chatContent + "</font>";
-        } else if (chat.senderId == userId) {
-            html += "<div class=\"chat mine container\">"
-            html += "<font size=1 class='msg nickname none'>" + chat.user.nickname + "</font>";
-            html += "<div class='row'><font color='#424242' size=1 class='mine msg sendTime'>" + chat.sendTime + "</font>";
-            html += "<div class='bubble mine' style='text-align:right;'>";
-            html += "<font color='black' size=2 class='mine msg content'>" + chat.chatContent + "</font>";
-            html += "</div></div>"
+            html += "<div class='msgA center' style=\"text-align:center;margin: 20px;background-color:#D8D8D8;border-radius:10px;\">";
+            html += "<font color='#424242' size=2>" + chat.chatContent + "</font>";
+            html += "</div>"
+        } else if (chat.user.nickname == userNickname) {
+            html += "<div class='msgA right' style=\"text-align:right;margin:10px;\">"
+            html += "<font color='#cccccc' size=1>" + chat.sendTime + "&ensp;</font>";
+            html += "<div style='display: inline-block;background-color:#C5ECE9;height:auto;min-height:25px;max-width:150px;vertical-align:middle;border-radius:10px;padding:2px;text-align:justify;word-wrap:break-word;'>";
+            html += "<font color='black' size=2>&ensp;" + chat.chatContent + "&ensp;</font>";
+            html += "</div>"
+            html += "</div>"
         } else {
-            html += "<div class=\"chat others\" style=\"text-align:left;margin:3px;\">"
-            if ($("div.chat font.msg.nickname").last().html() != chat.user.nickname) {
-                html += "<div class=\"chat info\">";
+            if ($("div.msgA").last().hasClass('left') == true && $($("div.msgA").last()).find('div.sender  font.senderId').html()==chat.user.nickname ) {
+                html += "<div class='msgA left' style=\"text-align:left;margin:10px;\">"
+                html += "<div class='sender' style='text-align:center;display: inline-block;vertical-align: center;'>";
+                html += "<font class='senderId' style='display:none;'>" + chat.user.nickname + "</font>";
+                html += "<img  style='visibility:hidden;width:30px;height:2px;margin:5px 2px 5px 2px;' src=\"/resources/images/userImages/" + chat.user.userImg + "\">";
+                html += "</div>"
             } else {
-                html += "<div class=\"chat info none\">";
+                html += "<div class='msgA left' style=\"text-align:left;margin:10px;\">"
+                html += "<div class='sender' style='text-align:center;display: inline-block;vertical-align: center;'>";
+                html += "<font class='senderId'>" + chat.user.nickname + "</font><br/>";
+                html += "<img  style='border: 2px solid #C5ECE9;width:30px;height:30px;margin:2px;' class='rounded-circle' src=\"/resources/images/userImages/" + chat.user.userImg + "\">";
+                html += "</div>"
             }
-            html += "<img  style='border: 2px solid gold;border-radius: 7px;-moz-border-radius: 7px;-khtml-border-radius: 7px; -webkit-border-radius: 7px;width:30px;height:30px;' src=\"/resources/images/userImages/" + chat.user.userImg + "\">";
-            html += "<font size=1 class='other msg nickname'>" + chat.user.nickname + "</font><br/>";
+            html += "<div style='display: inline-block;background-color:#F2F2F2;height:auto;min-height:25px;max-width:150px;vertical-align:middle;text-align:justify;border-radius:10px;padding:2px;word-wrap:break-word;'>";
+            html += "<font color='black' size=2>&ensp;" + chat.chatContent + "&ensp;</font>";
             html += "</div>"
-            html += "<div class='chat content container' style='margin:7px 0 7px; 2px;'><div class='row'>";
-            html += "<div class='bubble other'>";
-            html += "<font color='black' size=2 class='other msg content'>" + chat.chatContent + "</font>";
+            html += "<font color='#cccccc' size=1> " + chat.sendTime + "</font>";
             html += "</div>"
-            html += "<font color='#424242' size=1 class='other msg sendTime'>" + chat.sendTime + "</font>";
-            html += "</div></div>"
         }
-        html += "</div>"
         accChatLayer.append(html);
     }
 
@@ -494,17 +706,17 @@
             console.log(chat);
         }
 
-        if (myAccChat.val().trim() != "") {
+        if (inputAccChat.val().trim() != "") {
             console.log("공백 입력 > 전송");
             var chat = new Object();
             chat.senderId = userId;
-            chat.chatContent = myAccChat.val();
+            chat.chatContent = inputAccChat.val();
             chat.chatRoomId = chatRoomId;
             accChatSocket.send(JSON.stringify({
                 chat
             }));
         }
-        myAccChat.val('');
+        inputAccChat.val('');
         $(".accChat.output").scrollTop($(".accChat.output")[0].scrollHeight);
     }
 
@@ -652,31 +864,167 @@
         })
     }
 
-    var pos = 0;
-    var totalSlides = 2;
-    var sliderWidth = 300;
 
-    function slideLeft() {
-        pos--;
-        if (pos == -1) {
-            pos = totalSlides - 1;
-        }
-        $('#slider-wrap ul#slider').css('left', -(sliderWidth * pos));
+    /* -----------------------------------------  플래너 채팅 스크립트  --------------------------------------- */
+    var userId = '${user.userId}';
+    var planId = '${plan.planId}';
+    var planChatSocket;
+    var planChatLayer = $("div.planChat.output");
+    var myChat = $("#myChat");
+
+
+    function connectPlanChat() {
+        var addr = "ws://localhost:8080/planSocket/"+planId+"/" + userId;
+        planChatSocket = new WebSocket(addr);
+
+        planChatSocket.onopen = function(message) {
+            console.log("접속했다." + addr);
+
+            planChatSocket.onmessage = function(message) {
+                console.log("메시지 받았다.")
+                var json = JSON.parse(message.data);
+                console.log(Array.isArray(json));
+                if (Array.isArray(json)) {
+                    checkOnlineMembers(json);
+                    console.log("checkOnlineMembers")
+                } else {
+                    console.log("receivePlanChat")
+                    receivePlanChat(json);
+                }
+                $(".planChat.output").scrollTop($(".planChat.output")[0].scrollHeight);
+            };
+
+        };
+        planChatSocket.onclose = function(message) {
+            console.log("접속이 끊어졌습니다.\n");
+        };
+        planChatSocket.onerror = function(message) {
+            console.log("에러가 발생했습니다.\n");
+        };
+
     }
 
-    function slideRight() {
-        pos++;
-        if (pos == totalSlides) {
-            pos = 0;
+    function receivePlanChat(chat) {
+        console.log("들어왔따~!")
+        var html = "";
+        if (chat.senderId == 'system') {
+            html += "<div class='msg center' style=\"text-align:center;margin:20px;background-color:#D8D8D8;border-radius:10px;\">";
+            html += "<font color='#424242' size=2>" + chat.chatContent + "</font>";
+            html += "</div>"
+        } else if (chat.senderId == userId) {
+            html += "<div class='msg right' style=\"text-align:right;margin:10px;\">"
+            html += "<font color='#cccccc' size=1>" + chat.sendTime + "&ensp;</font>";
+            html += "<div style='display: inline-block;background-color:#C5ECE9;height:auto;min-height:25px;vertical-align:middle;border-radius:10px;padding:2px'>";
+            html += "<font color='black' size=2>&ensp;" + chat.chatContent + "&ensp;</font>";
+            html += "</div>"
+            html += "</div>"
+        } else {
+            html += "<div class='msg left' style=\"text-align:left;margin:10px;\">"
+            console.log("T ? F ? :: " + $("div.msg").last().hasClass('left') + " || " + $($("div.msg").last()).find('div.sender  font.senderId').html());
+            if ($("div.msg").last().hasClass('left') == true && $($("div.msg").last()).find('div.sender font.senderId').html() == chat.senderId) {
+                html += "<div class='sender' style='text-align:center;display: inline-block;vertical-align: center;'>";
+                html += "<font class='senderId' style='display:none;'>" + chat.senderId + "</font>";
+                html += "<img  style='visibility:hidden;width:30px;height:2px;margin:5px 2px 5px 2px;' src=\"/resources/images/userImages/" + chat.user.userImg + "\">";
+                html += "</div>"
+            } else {
+                html += "<div class='sender' style='text-align:center;display: inline-block;vertical-align: center;'>";
+                html += "<font class='senderId' style='font-size:8pt;font-weight:400;'>" + chat.senderId + "</font><br/>";
+                html += "<img  style='border: 2px solid #C5ECE9;width:30px;height:30px;margin:2px;' class='rounded-circle' src=\"/resources/images/userImages/" + chat.user.userImg + "\">";
+                html += "</div>"
+            }
+            html += "<div style='display: inline-block;background-color:#F2F2F2;height:auto;min-height:25px;vertical-align:middle;border-radius:10px;padding:2px'>";
+            html += "<font color='black' size=2>&ensp;" + chat.chatContent + "&ensp;</font>";
+            html += "</div>"
+            html += "<font color='#cccccc' size=1> " + chat.sendTime + "</font>";
+            html += "</div>"
         }
-        $('#slider-wrap ul#slider').css('left', -(sliderWidth * pos));
+        planChatLayer.append(html);
     }
 
+    function checkOnlineMembers(data) {
+       <c:forEach var="member" items="${plan.planPartyList}">
+	    	$("#img_${member.userId}").removeClass("on");
+        </c:forEach>
+        for( var i in data) {
+            console.log("접속한 회원 id : "+data[i].userId);
+            $("#img_"+data[i].userId).addClass("on");
+        }
+    }
 
+    function sendMessage() {
+        if (myChat.val().trim() != "") {
+            var chat = new Object();
+            chat.senderId = userId;
+            chat.chatContent = myChat.val();
+
+            planChatSocket.send(JSON.stringify({
+                chat
+            }));
+        }
+        myChat.val('');
+        $(".planChat.output").scrollTop($(".planChat.output")[0].scrollHeight);
+    }
+
+    /*      ---------------------------------------------------   */
 
 
     jQuery(document).ready(function($) {
         console.log("현재 로그인한 회원 : " + userId);
+
+        $("div.icon.push-list").click(function() {
+            $('#push-layer').slideToggle(300);
+            $('#acc-slide').fadeOut(300);
+            $('#plan-chat-layer').fadeOut(300);
+        });
+
+        $("div.icon.acc-chat").click(function() {
+            $('#acc-slide').slideToggle(300);
+            $('#push-layer').fadeOut(300);
+            $('#plan-chat-layer').fadeOut(300);
+        });
+
+        $("div.icon.plan-chat").click(function() {
+            $('#plan-chat-layer').slideToggle(300);
+            $('#push-layer').fadeOut(300);
+            $('#acc-slide').fadeOut(300);
+        })
+
+        if (planId.length == 0) {
+            $('div.icon.plan-chat').hide();
+        } else {
+            $('div.icon.plan-chat').show();
+            connectPlanChat();
+        }
+        
+        
+            $("#myChat").keydown(function(key) {
+                if (key.keyCode == 13) {
+                    sendMessage();
+                    myChat.val();
+                }
+            });
+            $("#click").on("mouseover", function() {
+                $("#click").css({
+                    "background-color": "#2ECCFA"
+                });
+            }).on("mouseout", function() {
+                $("#click").css({
+                    "background-color": "#81e0fc"
+                });
+            });
+
+            $(".fa-comment-dots").on("click", function() {
+                $("#planChat").toggleClass('on');
+            });
+            $(".fa-telegram-plane").on("click", function() {
+                sendMessage();
+            })
+        
+        
+        
+        
+
+
 
         if (userId != null && userId != '') {
             setTimeout(() => getPushList(userId), 10);
@@ -684,143 +1032,25 @@
             setTimeout(() => getChatRoomList(), 20);
         }
 
-        $(".footerBar .fa-bell").click(function() {
-            // 로그인 했을 때만 실행
-            if (userId != null && userId != '') {
-                setTimeout(() => readPush(userId), 20);
-                setTimeout(() => getUnreadCount(userId), 50);
-            }
-            $(".chat-layer").removeClass('on');
-            $(".push-layer").toggleClass('on');
-        });
-
-        $(".footerBar .fa-comment-alt").click(function() {
-            $(".push-layer").removeClass('on');
-            $(".chat-layer").toggleClass('on');
-        })
 
         $(".accChat.output").scrollTop($(".accChat.output")[0].scrollHeight);
-        $("#myAccChat").keydown(function(key) {
+        $("#input-accChat").keydown(function(key) {
             if (key.keyCode == 13) {
                 sendAccMessage();
-                myAccChat.val();
+                inputAccChat.val();
             }
         });
         $(".fas.fa-arrow-left").on("click", function() {
-            slideLeft();
+            $('#pos1').prop('checked', true);
             disconnectAcc();
-        })
-
-        $('#slider-wrap ul#slider').width(600);
-
-        $(".roomTable tr").mouseout(function() {
-            $(this).css({
-                'background-color': "white"
-            });
-        }).mouseover(function() {
-            $(this).css({
-                'background-color': '#ccc'
-            });
         });
+        
+        
+        
+
+
 
 
     });
 
 </script>
-<style>
-    /* *{margin:0; padding:0; list-style:none;} */
-    .footerBar {
-        position: fixed;
-        right: 50px;
-        bottom: 50px;
-        text-align: right;
-    }
-
-    .bottom-menu {
-        z-index: 300;
-    }
-
-    .push-layer,
-    .chat-layer {
-        background-color: white;
-        opacity: 0;
-        transition: all 0.3s;
-        position: absolute;
-        bottom: -600px;
-        border: 1px solid gray;
-        border-radius: 10px;
-        margin-bottom: 20px;
-
-    }
-
-    .push-layer {
-        right: 50px;
-        z-index: -10;
-    }
-
-    .chat-layer {
-        right: 10px;
-        z-index: -9;
-    }
-
-    .chat-layer.on,
-    .push-layer.on {
-        opacity: 1;
-        bottom: 40px;
-    }
-
-
-
-    #wrapper {
-        width: 300px;
-        height: 500px;
-        position: relative;
-        color: #fff;
-    }
-
-    #slider-wrap {
-        width: 300px;
-        height: 500px;
-        overflow: hidden;
-    }
-
-    #slider-wrap ul#slider {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    #slider-wrap ul#slider li {
-        float: left;
-        position: relative;
-        width: 300px;
-        height: 500px;
-    }
-
-    #slider-wrap ul#slider li>div {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-    }
-
-    #slider-wrap.active #next {
-        right: 0px;
-    }
-
-    #slider-wrap.active #previous {
-        left: 0px;
-    }
-
-    #slider-wrap ul,
-    #pagination-wrap ul li {
-        -webkit-transition: all 0.3s cubic-bezier(1, .01, .32, 1);
-        -moz-transition: all 0.3s cubic-bezier(1, .01, .32, 1);
-        -o-transition: all 0.3s cubic-bezier(1, .01, .32, 1);
-        -ms-transition: all 0.3s cubic-bezier(1, .01, .32, 1);
-        transition: all 0.3s cubic-bezier(1, .01, .32, 1);
-    }
-
-</style>

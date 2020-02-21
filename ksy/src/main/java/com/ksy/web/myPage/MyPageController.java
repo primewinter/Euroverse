@@ -265,5 +265,13 @@ public class MyPageController {
 	}
 	
 	
+	
+	@RequestMapping(value="likeOrderList")
+	public String likeOrderList()throws Exception{
+		
+		
+		
+		return "forward:/view/myPage/likeOrderList.jsp";
+	}
 
 }
