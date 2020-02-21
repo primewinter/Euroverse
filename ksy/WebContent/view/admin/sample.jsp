@@ -89,7 +89,7 @@
 		
 		<table class="outer">
 		  <tbody>
-			<tr class="inner" style="display: inline-block;">
+			<table class="inner" style="display: inline-block;">
 			<td>
 			<img class ="q" alt="" src="\resources\images\admin\Qicon.png">
 			</td>
@@ -102,6 +102,7 @@
 		     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 		  	</div>
 			</td>
+			</table>
 			
 		  	 </tr>
 			</tbody>
