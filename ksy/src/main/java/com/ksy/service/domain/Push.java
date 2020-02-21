@@ -18,6 +18,7 @@ public class Push {
 	private String pushMsg; //view단에 출력할 알림 메시지
 	private String pushTime; //ss초 전, mm분 전, hh시간 전, yyyy.mm.dd  
 	private String title; //게시글 제목, 댓글 내용, 플래너 이름
+	private String boardName;
 	
 	public String getPushId() {
 		return pushId;
@@ -129,13 +130,18 @@ public class Push {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	public String getBoardName() {
+		return boardName;
+	}
+	public void setBoardName(String boardName) {
+		this.boardName = boardName;
+	}
 	@Override
 	public String toString() {
 		return "Push [pushId=" + pushId + ", pushType=" + pushType + ", refId=" + refId + ", pushDate=" + pushDate
 				+ ", receiverId=" + receiverId + ", read=" + read + ", cmtCount=" + cmtCount + ", unread=" + unread
-				+ ", pushMsg=" + pushMsg + ", pushTime=" + pushTime + ", title=" + title + "]";
+				+ ", pushMsg=" + pushMsg + ", pushTime=" + pushTime + ", title=" + title + ", boardName=" + boardName
+				+ "]";
 	}
-
-	
 
 }
