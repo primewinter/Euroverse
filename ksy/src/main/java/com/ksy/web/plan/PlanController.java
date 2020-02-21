@@ -190,6 +190,7 @@ public class PlanController {
 			cityEvent.put("title", cityItem.getCityName());
 			cityEvent.put("start", cityItem.getStartDateStr());
 			cityEvent.put("end", cityItem.getEndDateStr());
+			cityEvent.put("textColor", "white");
 			if( cityItem.getCountry() != null ) {
 				if( cityItem.getCountry().equals("¿µ±¹") ) {
 					cityEvent.put("color", "#F9A081");
@@ -399,6 +400,22 @@ public class PlanController {
 		
 		
 		return "redirect:/plan/getPlanList?userId="+userId;
+	}
+	
+	
+	
+	
+	@RequestMapping( value = "uploadPlan", method = RequestMethod.GET )
+	public String uploadPlan (	@RequestParam("planId") String planId, Model model, HttpSession session	) throws Exception {
+		
+		User user = (User)session.getAttribute("user");		//À½..
+		if(user == null) { 
+			return "redirect:/view/plan/planNotice.jsp";
+		}
+
+		String copiedPlanId = planService.copyPlan(planId);
+		
+		return "redirect:/plan/getPlan?planId="+copiedPlanId;
 	}
 	
 }
