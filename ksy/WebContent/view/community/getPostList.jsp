@@ -3,6 +3,7 @@
 
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 
@@ -29,11 +30,7 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-		.container, .container-md, .container-sm {
-		    max-width: 1000px;
-		    font-size: 14px;
-		}
-		
+	
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -53,12 +50,19 @@
 		 $(function() {
 			 
 			var boardName = $("#boardName").val();
-		
-			$( "td:nth-child(2)" ).on("click" , function() {
-			     var postId = $(this).find($("input[name='postId']")).val();	
-				 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
-			});
-		});	
+			
+			if(boardName == 'D'){
+				$( "td:nth-child(3)" ).on("click" , function() {
+				     var postId = $(this).find($("input[name='postId']")).val();	
+					 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
+				});
+			}else{
+				$( "td:nth-child(2)" ).on("click" , function() {
+				     var postId = $(this).find($("input[name='postId']")).val();	
+					 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
+				});
+			}
+		  });	
 	
 		$(function(){
 			
@@ -68,6 +72,24 @@
 				self.location = "/community/addPost?boardName="+boardName;
 			});
 		});
+		
+		function qnaKategotie(sorting){
+			
+			if(sorting == 0){
+				$("select[name='sorting']").val("0").prop("selected", true);
+			}else if(sorting == 1){
+				$("select[name='sorting']").val("1").prop("selected", true);
+			}else if(sorting == 2){
+				$("select[name='sorting']").val("2").prop("selected", true);
+			}else if(sorting == 3){
+				$("select[name='sorting']").val("3").prop("selected", true);
+			}else if(sorting == 4){
+				$("select[name='sorting']").val("4").prop("selected", true);
+			}else{
+				$("select[name='sorting']").val("5").prop("selected", true);
+			}
+			fncGetUserList(1);
+		}
 		
 	</script>
 	
@@ -80,23 +102,17 @@
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
+	<div class="container" style="max-width: 1000px;">
 	
-		<div class="h3" style="font-weight: bold; margin-top: 40px;">
+		<div class="h4" style="font-weight: bold; margin-top: 40px;padding-left:10px;">
 			<c:if test="${param.boardName=='A'}">
 			자유게시판
 			</c:if>
 			<c:if test="${param.boardName=='B'}">
 			정보공유
 			</c:if>
-			<c:if test="${param.boardName=='C'}">
-			인기글게시판
-			</c:if>
 			<c:if test="${param.boardName=='D'}">
 			동행찾기
-			</c:if>
-			<c:if test="${param.boardName=='E'}">
-			플래너공유
 			</c:if>
 			<c:if test="${param.boardName=='F'}">
 			여행후기
@@ -110,10 +126,32 @@
 	    <div class="row">
 		    
 		    <div class="col-md-12 text-right" style="margin: 10px 0 15px 0">
+		    
+		      <c:if test="${param.boardName == 'G'}">
+		    	<div style="float:left;padding-top:15px;padding-left:10px;font-size:18px;">
+		    		<span class="badge badge-info" onclick="qnaKategotie('5')">루트</span> <span class="badge badge-info" onclick="qnaKategotie('1')">교통</span> <span class="badge badge-info" onclick="qnaKategotie('0')">도시</span>
+		    		<span class="badge badge-info" onclick="qnaKategotie('2')">숙소</span> <span class="badge badge-info" onclick="qnaKategotie('3')">쇼핑,경비,환전</span> <span class="badge badge-info" onclick="qnaKategotie('4')">기타</span>
+		    	</div>
+		      </c:if>
+		    
 			    <form class="form-inline mt-2 mt-md-0" name="detailForm" style="float:right;">
 			      <input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>
+			      
+			    <c:if test="${param.boardName == 'G'}">
+			      <div class="form-group" style="display:none;">
+				    <select class="form-control" name="sorting" style="height: 35px; width: 85px; font-size: 13px; margin-right: 2px;" >
+						<option value="0"  ${ ! empty search.sorting && search.sorting==0 ? "selected" : "" }>도시</option>
+						<option value="1"  ${ ! empty search.sorting && search.sorting==1 ? "selected" : "" }>교통</option>
+						<option value="2"  ${ ! empty search.sorting && search.sorting==2 ? "selected" : "" }>숙소</option>
+						<option value="3"  ${ ! empty search.sorting && search.sorting==3 ? "selected" : "" }>쇼핑,경비,환전</option>
+						<option value="4"  ${ ! empty search.sorting && search.sorting==4 ? "selected" : "" }>기타</option>
+						<option value="5"  ${ ! empty search.sorting && search.sorting==5 ? "selected" : "" }>루트</option>
+					</select>
+				  </div>
+			    </c:if>  
+			      
 				  <div class="form-group">
-				    <select class="form-control" name="searchCondition" style="height: 30px; width: 85px; font-size: 13px; margin-right: 2px;" >
+				    <select class="form-control" name="searchCondition" style="height: 35px; width: 85px; font-size: 13px; margin-right: 2px;" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>제목</option>
 						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>닉네임</option>
 						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>태그</option>
@@ -123,7 +161,7 @@
 				  <div class="form-group">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
 				    <input type="text" class="form-control mr-sm-2" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" style="height: 30px; font-size: 13px;" >
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" style="height: 35px; font-size: 13px;" >
 				  </div>
 				  
 				  &nbsp;<i class="fas fa-search"></i>
@@ -137,14 +175,20 @@
 		</div>
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
-	<div class="table-responsive">	
+	<div class="table-responsive" style="font-size:14px;">	
       <!--  table Start /////////////////////////////////////-->
-      <table class="table table-hover">
+      <table class="table table-hover" style="text-align:center;">
       
         <thead>
           <tr>
             <th scope="col">게시글번호</th>
+          <c:if test="${param.boardName=='D'}">
+            <th scope="col">동행날짜</th>
+          </c:if>
             <th scope="col">제목</th>
+          <c:if test="${param.boardName=='D'}">
+            <th scope="col">인원</th>
+          </c:if>
             <th scope="col">닉네임</th>
             <th scope="col">작성일</th>
             <th scope="col">조회수</th>
@@ -160,14 +204,16 @@
 			<tr>
 		  <c:if test="${post.postGrade == 'N'}">
 		  	  <th scope="row" style="color:#CE1717;">공지 <i class="fas fa-bullhorn"></i></th>
-			  <td style="font-weight: bold; color: dimgray;">
-			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/><span style="color:black;">${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
-			  <td style="font-weight:bold;">${post.nickName}</td>
+			  <td style="text-align:left;">
+			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/><span>${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
 		  </c:if>
 		  <c:if test="${post.postGrade == 'B' || post.postGrade == null}">
 		  <c:set var="i" value="${ i+1 }" />
 			  <th scope="row">${ i }</th>
-			  <td style="font-weight: bold; color: dimgray;">
+			<c:if test="${param.boardName == 'D'}">
+			  <td><fmt:formatDate value="${post.accStartDate}" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${post.accEndDate}" pattern="yyyy-MM-dd"/></td>
+			</c:if>
+			  <td style="text-align:left;">
 			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
 			  <span style="color:black;">
 			  <c:if test="${post.boardName=='G'}">
@@ -192,10 +238,17 @@
 			  </c:if>
 			  </span>
 			  ${post.postTitle} <span style="color:red;">(${post.comments})</span></td>
-			  
-			  <td>${post.nickName}</td>
+		  <c:if test="${param.boardName == 'D'}">
+		   	  <td>${post.accCount}/${post.accPerson}</td>
 		  </c:if>
+		  </c:if>
+			  <td>${post.nickName}</td>
+		  <c:if test="${param.boardName == 'D'}">
+		   	  <td><fmt:formatDate value="${post.postDate}" pattern="yyyy-MM-dd"/></td>
+		  </c:if>
+		  <c:if test="${param.boardName != 'D'}">
 			  <td>${post.postDate}</td>
+		  </c:if>
 			  <td>${post.views}</td>
 			  <td>${post.postLikeCount}</td>
 			</tr>

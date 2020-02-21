@@ -285,9 +285,6 @@
 			width: 700px;
 			margin-left: 70px;
 		}
-		.container, .container-md, .container-sm {
-		    max-width: 930px;
-		}
 		.modal {
         text-align: center;
 		}
@@ -305,8 +302,8 @@
 		        vertical-align: middle;
 		}
 		.card {
-			width: 85px;
-		    height: 85px; 
+			width: 70px;
+		    height: 70px; 
 		    border-radius: 70%;
 		    overflow: hidden;
 		    margin-left: 10px;
@@ -585,7 +582,7 @@
 	</div>
    
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
+	<div class="container" style="max-width: 930px;">
 	
 	<br>
 	
@@ -694,7 +691,7 @@
 			 	  <c:set var="i" value="${ i+1 }"/>
 				    <c:if test="${party.partyRole == 'K'}">
 				       <div class="partyKing" style="max-width: 18rem;float: left;border-radius: 10px;width: 165px;height: 174px; margin-left:10px;">
-						 <img src="/resources/images/userImages/${userList.userImg}" class="card" style="margin: 20px 0 0 38px;border: 2px solid red;">
+						 <img src="/resources/images/userImages/${userList.userImg}" class="card" style="margin-left: 46px;margin-top: 23px;border: 2px solid red;">
 						  <div class="card-body text-dark" style="padding:0;">
 						    <h5 class="card-title" style="font-size: 13px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
 			      		    <p class="card-text" style="text-align:center;"><i class="fas fa-bus">
@@ -707,7 +704,7 @@
 				    </c:if>
 				    <c:if test="${party.partyRole == 'M'}">
 				        <div class="partyMember" style="max-width: 18rem;float: left;border-radius: 10px;width: 165px;height: 174px; margin-left:30px;">
-						 <img src="/resources/images/userImages/${userList.userImg}" class="card" style="margin: 20px 0 0 38px;border: 2px solid silver;">
+						 <img src="/resources/images/userImages/${userList.userImg}" class="card" style="margin-left: 46px;margin-top: 23px;border: 2px solid silver;">
 						  <div class="card-body text-dark" style="padding:0;">
 						    <h5 class="card-title" style="font-size: 13px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
 						    <p class="card-text" style="text-align:center;"><i class="fas fa-bus">

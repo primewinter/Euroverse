@@ -177,13 +177,23 @@ function fncGetUserList(currentPage) {
 				      <td>${flight.stopOver}/${flight.leadTime}</td>
 				      <td>${flight.price}원/${flight.orderDate}</td>
 				      <td>
-					      <c:if test="${flight.orderStatus == '1' }">
+					     <c:if test="${flight.orderStatus == '1' }">
 					      	주문완료
 					      </c:if>
 					      <c:if test="${flight.orderStatus == '2' }">
-					      	환불신청
+					      	<select class="custom-select" name="orderStatus" id="orderStatus" style="">
+							  <option selected value="2">환불신청</option>
+							  <option value="3">환불처리중</option>
+							  <option value="4">환불완료</option>
+							</select>
 					      </c:if>
-					      <c:if test="${flight.orderStatus == '3' }">
+					         <c:if test="${flight.orderStatus == '3' }">
+					         <select class="custom-select" name="orderStatus" id="orderStatus" style="">
+							  <option selected value="3">환불처리중</option>
+							  <option value="4">환불완료</option>
+							</select>
+					         </c:if>
+					      <c:if test="${flight.orderStatus == '4' }">
 					      	환불완료
 						  </c:if>
 					  </td>
@@ -229,16 +239,16 @@ function fncGetUserList(currentPage) {
 			      	주문완료
 			      </c:if>
 			      <c:if test="${room.orderStatus == '2' }">
-			      	<select class="custom-select" name="orderStatus" id="orderStatus" style="width:80%;margin-top:30px;">
-					  <option selected value="2">환불신청</option>
-					  <option value="3">환불처리중</option>
-					  <option value="4">환불완료</option>
+			      	<select class="custom-select" name="orderStatus" id="orderStatus" style="">
+					  <option selected value="2" id="2">환불신청</option>
+					  <option value="3" id="3">환불처리중</option>
+					  <option value="4" id="4">환불완료</option>
 					</select>
 			      </c:if>
 			         <c:if test="${room.orderStatus == '3' }">
-			         <select class="custom-select" name="orderStatus" id="orderStatus" style="width:80%;margin-top:30px;">
-					  <option selected value="3">환불처리중</option>
-					  <option value="4">환불완료</option>
+			         <select class="custom-select" name="orderStatus" id="orderStatus" style="">
+					  <option selected value="3" id="3">환불처리중</option>
+					  <option value="4" id="4">환불완료</option>
 					</select>
 			         </c:if>
 			      <c:if test="${room.orderStatus == '4' }">

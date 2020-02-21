@@ -74,26 +74,6 @@
 	<!-- boot strap File upload CDN  -->
 	<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
 	
-	
-	<style>
-		
-		#calendar {
-			border-style: solid;
-			border-width: thin;
-			border-color: #E0E0E0;
-			padding: 10px;
-		}
-		.fc-header-toolbar{
-			font-size: 12px;
-			size: 12px;
-		}
-		.fc-button{
-			padding: 3px;
-			size: 10px;
-		}
-		
-		
-	</style>
 
 	<style>
       /* Always set the map height explicitly to define the size of the div
@@ -166,7 +146,7 @@
       }
       .party-member-img.on{
       	border-width: 3px;
-      	border-color: #FA6124;
+      	border-color: #F98F8A;
       }
       .party-member-img.off{
       	border-color: #C6C6C6;
@@ -205,6 +185,23 @@
 		   overflow-y: hidden !important;
 		}
       
+      #calendar {
+			border-style: solid;
+			border-width: thin;
+			border-color: #E0E0E0;
+			padding: 10px;
+		}
+		.fc-header-toolbar{
+			font-size: 12px;
+			size: 12px;
+		}
+		.fc-button{
+			padding: 3px;
+			size: 10px;
+			background-color: white;
+			border: none;
+			color: black;
+		}
       
       .list-container{
       	margin-right: 280px;
@@ -231,7 +228,7 @@
 		/* Sidebar */
 		.sidebar {
 		  position: fixed;
-		  top: 0;
+		  top: 130px;
 		  bottom: 0;
 		  left: 0;
 		  z-index: 40; /* Behind the navbar */
@@ -982,6 +979,7 @@
 			$('#exitPlan').on('click', function(){
 				deletePlanParty('S');
 			});
+
 		});
 		
 		function inviteUser() {
@@ -1113,6 +1111,15 @@
 			});
 			
 			
+			$('#uploadPlanButton').on('click', function(){
+				$('#uploadPlanAlert').modal();
+			});
+			
+			$('#uploadPlan').on('click', function(){
+				uploadPlan( planId );
+			});
+			
+			
 			$( "#startDateString" ).datepicker({
 			      showOptions: { direction: "up" },
 				  defaultDate : '1995-02-10',
@@ -1166,6 +1173,14 @@
 			});
 			
 		})
+		
+		function uploadPlan( planId ) {
+			console.log("uploadPlan() 실행!");
+			
+			//var string = "/plan/uploadPlan?planId="+planId;
+			var string = "/community/addPost?boardName=E";
+			$(self.location).attr("href", string);
+		}
 		
 		function updatePlan(){		//플래너 수정
 			console.log("updatePlan() 실행!");
@@ -1505,7 +1520,7 @@
 			$('#memo_wrap').on('mouseup', '.top_nav', function(e){
 				
 				var left_minus = $('.sidebar').width();
-				var top_minus = $('.fixed-top').height();
+				//var top_minus = $('.fixed-top').height();	//상단툴바 바꾸면서 의미없어짐...
 				
 				var event = e.originalEvent;	//제이쿼리에서 기존 자바스크립트 이벤트 받을때 필요
 				var x2 = parseInt(event.pageX),
@@ -1521,8 +1536,8 @@
 				console.log("mouseup position => memo left:"+memoLeft+"px / top:"+memoTop+"px"); */
 				
 				var coordinates = $memo.offset();
-				var memoLeft2 = coordinates.left - left_minus - 17;
-				var memoTop2 = coordinates.top - top_minus - 40;
+				var memoLeft2 = coordinates.left - left_minus - 26;	// - 17
+				var memoTop2 = coordinates.top - 122;	// - top_minus - 40
 				console.log("coordinates = "+ memoLeft2 +"/"+ memoTop2 );
 				
 				var memoId = $memo.find('.memo_id').text();
@@ -1732,7 +1747,7 @@
 		#click {
 			position: fixed;
 			right: 20px;
-			top : 12%;
+			top : 2%;
 			border-radius: 50%;
 			background-color:#81e0fc;
 			box-sizing: border-box;
@@ -1744,7 +1759,7 @@
 			opacity: 70%;
 		}
          #planChat {
-            height: 90%;
+            height: 88%;
             width: 280px;
             transition: all 0.5s;
             color: #333;
@@ -1776,12 +1791,12 @@
 	</style>
 
 </head>
+
 <body>
 	<!-- ToolBar 시작 -->
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<!-- ToolBar 끝 -->
 	
-	<jsp:include page="/toolbar/pushBar_jay.jsp"></jsp:include>
 	
 	
 	<!-- ////////////////////////////////////////// 플래너 채팅 ////////////////////////////////////////// -->
@@ -1931,8 +1946,7 @@
         	})
         });
 	
-	</script>
-   				  
+	</script>  
     <!-- ////////////////////////////////////////// 플래너 채팅 END ////////////////////////////////////////// -->
 	
 	
@@ -1944,7 +1958,7 @@
 		<div class="row">
 		
 			<!-- 좌측 Plan 툴바 구성 Start /////////////////////////////////////////////////////////// -->
-			<nav class="col-md-2 d-none d-md-block bg-light sidebar" style="padding-top:70px; padding-left:7px;">
+			<nav class="col-md-2 d-none d-md-block sidebar" style="padding-top:0px; padding-left:16px;">
 		      <div class="sidebar-sticky">
 		      
 		        <ul class="nav flex-column">
@@ -2063,56 +2077,53 @@
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" style="padding-top: 20px;" id="memo_wrap">
 				
 				<!--	 Plan Information START	//////////////////////// 	-->
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom list-container" >
-					<!-- <div class="container">
-						<h5>Plan Information</h5>
-						<div class="row" style="background-color: #F3F7F6; width: 100%; padding: 15px; border-radius: 5px; "> -->
-							<div class="media" style="background-color: white; width: 100%; padding: 10px 15px; border-radius: 5px; ">
-							
-								<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border-width: 1px; border-color: #D1D1D1; border-style: solid; width: 130px; height: 100px;">
-							    <div class="media-body" style="margin-left: 13px; margin-top: 25px; height: 100px;">
-							    	<span style="color: #EE0D0D; font-weight: bolder;"><c:if test="${plan.planStatus == 'C'}">여행완료!</c:if></span>
-							    	<div class="plan_type">
-										<c:choose>
-											<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
-											<c:when test="${plan.planType == 'B'}">남자혼자</c:when>
-											<c:when test="${plan.planType == 'C'}">여자끼리</c:when>
-											<c:when test="${plan.planType == 'D'}">남자끼리</c:when>
-											<c:when test="${plan.planType == 'E'}">단체</c:when>
-											<c:when test="${plan.planType == 'F'}">부모님과</c:when>
-											<c:when test="${plan.planType == 'G'}">커플</c:when>
-										</c:choose>
-									</div>
-								      <div style="margin: 3px 0;"><div style="font-weight: bolder; font-size: 21px; display: inline-block;">${plan.planTitle} </div> &emsp;
-								      			<c:if test="${plan.planPartySize > 1}"><span data-feather="users"></span></c:if>
-								                <c:if test="${plan.planPartySize == 1}"><span data-feather="user"></span></c:if>
-								                 ${plan.planPartySize}
-								      </div>
-								      ${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate}</c:if> ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
-								      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
-								      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
-							    
-							    </div> <!-- media body -->
-								
-								<div>
-									<c:if test="${plan.planStatus != 'C' }">
-										<button type="button" class="btn btn-info" id="planCompleteButton" style="margin-left: 10px;">여행완료 확정</button>
-										<button type="button" class="btn btn-primary" id="updatePlanButton" style="margin-left: 10px;"  data-toggle="modal" data-target="#editPlan">플래너 수정</button> 
-									</c:if>
-									
-									<c:if test="${ user.userId == plan.planMaster.userId }">
-										<button type="button" class="btn btn-danger" id="deletePlanButton" style="margin-left: 10px;" data-toggle="modal" data-target="#deletePlanAlert">플래너 삭제</button> 
-									</c:if>
-									<c:if test="${ user.userId != plan.planMaster.userId }">
-										<button type="button" class="btn btn-secondary" id="exitPlanButton" style="margin-left: 10px;">플래너 탈퇴</button> 
-									</c:if>
-								</div>
-								
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-0 mb-2 border-bottom list-container" >
+
+					<div class="media" style="background-color: white; width: 100%; padding: 2px 15px; border-radius: 5px; font-size:14px; ">
+					
+						<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-1" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border: 1px #D1D1D1 solid; width: 120px; height: 95px;">
+					    <div class="media-body" style="margin-left: 13px; margin-top: 25px; height: 100px;">
+					    	<span style="color: #EE0D0D; font-weight: bolder;"><c:if test="${plan.planStatus == 'C'}">여행완료!</c:if></span>
+					    	<div class="plan_type">
+								<c:choose>
+									<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
+									<c:when test="${plan.planType == 'B'}">남자혼자</c:when>
+									<c:when test="${plan.planType == 'C'}">여자끼리</c:when>
+									<c:when test="${plan.planType == 'D'}">남자끼리</c:when>
+									<c:when test="${plan.planType == 'E'}">단체</c:when>
+									<c:when test="${plan.planType == 'F'}">부모님과</c:when>
+									<c:when test="${plan.planType == 'G'}">커플</c:when>
+								</c:choose>
 							</div>
-						<!-- </div>
-					</div> -->
+						      <div style="margin: 2px 0;"><div style="font-weight: bolder; font-size: 19px; display: inline-block;">${plan.planTitle} </div> &emsp;
+						      			<c:if test="${plan.planPartySize > 1}"><span data-feather="users"></span></c:if>
+						                <c:if test="${plan.planPartySize == 1}"><span data-feather="user"></span></c:if>
+						                 ${plan.planPartySize}
+						      </div>
+						      ${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate}</c:if> ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
+						      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
+						      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
+					    
+					    </div> <!-- media body -->
+						
+						<div>
+							<c:if test="${plan.planStatus != 'C' }">
+								<button type="button" class="btn btn-info" id="planCompleteButton" style="margin-left: 10px;">여행완료 확정</button>
+								<button type="button" class="btn btn-primary" id="updatePlanButton" style="margin-left: 10px;"  data-toggle="modal" data-target="#editPlan">플래너 수정</button> 
+							</c:if>
+							
+							<c:if test="${ user.userId == plan.planMaster.userId }">
+								<button type="button" class="btn btn-danger" id="deletePlanButton" style="margin-left: 10px;" data-toggle="modal" data-target="#deletePlanAlert">플래너 삭제</button> 
+							</c:if>
+							<c:if test="${ user.userId != plan.planMaster.userId }">
+								<button type="button" class="btn btn-secondary" id="exitPlanButton" style="margin-left: 10px;">플래너 탈퇴</button> 
+							</c:if>
+							<button type="button" class="btn btn-warning" id="uploadPlanButton" style="margin-left: 10px;">플래너 공유하기</button> 
+						</div>
+						
+					</div>
 				</div>
-				<!--	 Plan Information START	//////////////////////// 	-->
+				<!--	 Plan Information END	//////////////////////// 	-->
 				
 				<!-- <br/> -->
 				
@@ -2260,38 +2271,34 @@
 				<!--	 CityRoute List : 여행루트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light" id="gotoCityRouteList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 pl-2 mb-3 border-bottom list-container" style="height:650px;" id="gotoCityRouteList">
-					<!-- <div class="container">
-						<h5>여행루트</h5>
-						<div class="row"> -->
-						
-							<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;float:left;width:55%;height: 100%;"></div>
+					
+					
+					<div id='calendar-container' style="float:right;width:45%; height:100%; margin: 5px 10px;max-width: 900px;">
+					  <div id='calendar' style="margin-bottom:10px;"></div>
+					  
+					  <div class="text-center" style="border:solid thin #DDDDDD; border-radius:5px; padding: 5px 10px; background-color: white; height:160px;"  id="gotoBudgetOverviewList">
+							<div class="d-flex justify-content-left mt-1 ml-3" style="font-weight: bolder; font-size: 16px;">예산 정보</div>
 							
-							<div id='calendar-container' style="float:right;width:45%; height:100%; margin: 5px 10px;max-width: 900px;">
-							  <div id='calendar' style="margin-bottom:10px;"></div>
-							  
-							  <div class="text-center" style="border:solid thin #DDDDDD; border-radius:5px; padding: 5px 10px; background-color: white; height:160px;"  id="gotoBudgetOverviewList">
-									<div class="d-flex justify-content-left mt-1 ml-3" style="font-weight: bolder; font-size: 16px;">예산 정보</div>
-									
-									<!-- 만들어두고 스크립트에서 포문돌려 셋팅하기 -->
-									<div class="budgetOverview d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center" style="padding: 0px 3px 0px 0px;font-size: 14px;width:100%;">
-										<div style="width:46%;margin: 3px;">
-											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-walking" 		></i>관광  <div class="budget_amount" id="budget_D" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-bus" 			></i>교통  <div class="budget_amount" id="budget_T" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-ticket-alt" 	></i>투어  <div class="budget_amount" id="budget_V" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-ellipsis-h" 	></i>기타  <div class="budget_amount" id="budget_E" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
-										</div>
-										<div style="width:46%;margin: 3px;">
-											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-bed" 			></i>숙소  <div class="budget_amount" id="budget_R" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-utensils" 		></i>식사  <div class="budget_amount" id="budget_F" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
-											<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-shopping-cart" ></i>쇼핑  <div class="budget_amount" id="budget_S" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
-											<div style="margin: 5px 0;text-align: right; color:#32D0BF; font-weight: bolder;"> 총  <div id="budget_total" style="font-size:23px; display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
-										</div>
-									</div>
+							<!-- 만들어두고 스크립트에서 포문돌려 셋팅하기 -->
+							<div class="budgetOverview d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center" style="padding: 0px 3px 0px 0px;font-size: 14px;width:100%;">
+								<div style="width:46%;margin: 3px;">
+									<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-walking" 		></i>관광  <div class="budget_amount" id="budget_D" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+									<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-bus" 			></i>교통  <div class="budget_amount" id="budget_T" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+									<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-ticket-alt" 	></i>투어  <div class="budget_amount" id="budget_V" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+									<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-ellipsis-h" 	></i>기타  <div class="budget_amount" id="budget_E" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
 								</div>
-							  
+								<div style="width:46%;margin: 3px;">
+									<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-bed" 			></i>숙소  <div class="budget_amount" id="budget_R" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+									<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-utensils" 		></i>식사  <div class="budget_amount" id="budget_F" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+									<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-shopping-cart" ></i>쇼핑  <div class="budget_amount" id="budget_S" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+									<div style="margin: 5px 0;text-align: right; color:#32D0BF; font-weight: bolder;"> 총  <div id="budget_total" style="font-size:23px; display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+								</div>
 							</div>
-						<!-- </div>
-					</div> -->
+						</div>
+					</div>
+					
+					<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;float:left;width:55%;height: 100%;"></div>
+				
 				</div>
 				<!--	 CityRoute List : 여행루트 END	//////////////////////// 	-->
 			
@@ -2347,7 +2354,8 @@
 													<c:forEach var="i" begin="9" end="20">
 														
 														<div class="dailys" style="border-top:1px solid #efefef; height:30px;font-size:10pt;color:#9B9B9B;padding-left:10px; padding: 5px;" onclick="openDailyEdit( '${day.cityNames}', '${day.dateString}' ,${day.dayNo},${i},${plan.planId});">
-															${i} <div style=" margin-left:10px; background-color: inherit; color:black; font-size:10pt; display:inline-block;" id="daily_${day.dayNo}_${i}"></div></div>
+															${i} <div style=" margin-left:10px; background-color: inherit; color:black; font-size:10pt; display:inline-block;" id="daily_${day.dayNo}_${i}"></div>
+														</div>
 													</c:forEach>
 												</div>
 											</div>
@@ -2476,9 +2484,7 @@
 				<!--	 Memo List : 메모 END	//////////////////////// 	-->
 				<br/>
 				
-				<!-- Footer Start /////////////////////////// -->
-				<jsp:include page="/toolbar/footer.jsp"></jsp:include>
-				<!-- Footer End	/////////////////////////// -->
+				
 			
 				
 				
@@ -2493,7 +2499,9 @@
 	<!-- 화면구성 div End ///////////////////////////// -->
 	
 	
-	
+	<!-- Footer Start /////////////////////////// -->
+	<jsp:include page="/toolbar/footer.jsp"></jsp:include>
+	<!-- Footer End	/////////////////////////// -->
 	
 	
 	<!-- //////////////////////////////////////// 모달모달 모음  //////////////////////////////////////// -->
@@ -2788,6 +2796,39 @@
 	<!-- /////////////////////	Alert Modal : 여행완료 확정 끝	///////////////////// -->	
 	
 	
+	<!-- /////////////////////	Alert Modal : 플래너 공유 게시판에 공유하기	///////////////////// -->	
+	<div class="modal fade" id="uploadPlanAlert">
+	  <div class="modal-dialog modal-lg" >
+	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 플래너 공유하기</h4>
+	  
+	    <div class="modal-content">
+	    
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="closeModal('uploadPlanAlert')">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      
+	      <div class="modal-body text-center">
+	        
+	        <br/>
+	        <span style="font-size:23px; color:#00AACC; font-weight:bold;">${plan.planTitle}</span> <!-- <span style="font-size:17px;"> 플래너 게시판에 공유할까요?</span> -->
+	        <br/><span style="font-size:13px;margin-top: 0;"> ${plan.startDateString} - ${plan.endDate} </span><br/><br/>
+	        
+	        <span style="font-weight:bold;">플래너 공유</span> 시 <br/>
+	        	플래너 공유 게시판에 플래너가 등록됩니다.<br/><br/>
+	      </div>
+	      
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('uploadPlanAlert')">Close</button>
+	        <button type="button" class="btn btn-primary" id="uploadPlan">플래너 공유</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- /////////////////////	Alert Modal : 플래너 공유 게시판에 공유하기 끝	///////////////////// -->	
+	
+	
 	<!-- /////////////////////	Alert Modal : 플래너 멤버 강퇴	///////////////////// -->	
 	<div class="modal fade" id="deletePlanPartyAlert">
 	  <div class="modal-dialog" >
@@ -2905,271 +2946,90 @@
 		        	  /* { "featureType": "water", "elementType": "labels.text", "stylers": [ { "visibility": "off" } ] } */
 		        //]
 		    	styles: [
-		    		  {
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#ebe3cd"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "elementType": "labels.text.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#79524f"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "elementType": "labels.text.stroke",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#f5f1e6"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "administrative",
-		    			    "elementType": "geometry.stroke",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#c9b2a6"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "administrative.land_parcel",
-		    			    "elementType": "geometry.stroke",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#dcd2be"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "administrative.land_parcel",
-		    			    "elementType": "labels",
-		    			    "stylers": [
-		    			      {
-		    			        "visibility": "off"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "administrative.land_parcel",
-		    			    "elementType": "labels.text.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#ae9e90"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "landscape.natural",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#fcf9f5"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "poi",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#e7dec2"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "poi",
-		    			    "elementType": "labels.text",
-		    			    "stylers": [
-		    			      {
-		    			        "visibility": "off"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "poi",
-		    			    "elementType": "labels.text.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#93817c"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "poi.business",
-		    			    "stylers": [
-		    			      {
-		    			        "visibility": "off"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "poi.park",
-		    			    "elementType": "geometry.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#e8edde"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "poi.park",
-		    			    "elementType": "labels.text",
-		    			    "stylers": [
-		    			      {
-		    			        "visibility": "off"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "poi.park",
-		    			    "elementType": "labels.text.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#447530"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road",
-		    			    "stylers": [
-		    			      {
-		    			        "visibility": "off"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#f5f1e6"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road.arterial",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#fdfcf8"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road.highway",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#f8c967"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road.highway",
-		    			    "elementType": "geometry.stroke",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#e9bc62"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road.highway.controlled_access",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#e98d58"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road.highway.controlled_access",
-		    			    "elementType": "geometry.stroke",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#db8555"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road.local",
-		    			    "elementType": "labels",
-		    			    "stylers": [
-		    			      {
-		    			        "visibility": "off"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "road.local",
-		    			    "elementType": "labels.text.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#806b63"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "transit.line",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#dfd2ae"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "transit.line",
-		    			    "elementType": "labels.text.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#a0938b"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "transit.line",
-		    			    "elementType": "labels.text.stroke",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#ebe3cd"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "transit.station",
-		    			    "elementType": "geometry",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#dfd2ae"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "water",
-		    			    "elementType": "geometry.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#daedec"
-		    			      }
-		    			    ]
-		    			  },
-		    			  {
-		    			    "featureType": "water",
-		    			    "elementType": "labels.text.fill",
-		    			    "stylers": [
-		    			      {
-		    			        "color": "#83a39e"
-		    			      }
-		    			    ]
-		    			  }
+		    		{  "elementType": "geometry",
+	    			    "stylers": [ { "color": "#ebe3cd"  } ] },
+	    			  { "elementType": "labels.text.fill",
+	    			    "stylers": [ { "color": "#79524f" } ] },
+	    			  {  "elementType": "labels.text.stroke",
+	    			    "stylers": [  { "color": "#f5f1e6" } ] },
+	    			  { "featureType": "administrative",
+	    			    "elementType": "geometry.stroke",
+	    			    "stylers": [  { "color": "#c9b2a6" } ] },
+	    			  { "featureType": "administrative.land_parcel",
+	    			    "elementType": "geometry.stroke",
+	    			    "stylers": [ { "color": "#dcd2be" } ] },
+	    			  {  "featureType": "administrative.land_parcel",
+	    			    "elementType": "labels",
+	    			    "stylers": [ {  "visibility": "off" } ] },
+	    			  {  "featureType": "administrative.land_parcel",
+	    			    "elementType": "labels.text.fill",
+	    			    "stylers": [  { "color": "#ae9e90" } ] },
+	    			  { "featureType": "landscape.natural",
+	    			    "elementType": "geometry",
+	    			    "stylers": [ { "color": "#fcf9f5" } ] },
+	    			  {  "featureType": "poi",
+	    			    "elementType": "geometry",
+	    			    "stylers": [ { "color": "#e7dec2"  } ] },
+	    			  {  "featureType": "poi",
+	    			    "elementType": "labels.text",
+	    			    "stylers": [ { "visibility": "off" } ] },
+	    			  { "featureType": "poi",
+	    			    "elementType": "labels.text.fill",
+	    			    "stylers": [ { "color": "#93817c" } ] },
+	    			  { "featureType": "poi.business",
+	    			    "stylers": [ {  "visibility": "off" } ] },
+	    			  { "featureType": "poi.park",
+	    			    "elementType": "geometry.fill",
+	    			    "stylers": [ { "color": "#e8edde" } ] },
+	    			  { "featureType": "poi.park",
+	    			    "elementType": "labels.text",
+	    			    "stylers": [ {  "visibility": "off" }  ] },
+	    			  { "featureType": "poi.park",
+	    			    "elementType": "labels.text.fill",
+	    			    "stylers": [ {  "color": "#447530" }  ] },
+	    			  {  "featureType": "road",
+	    			    "stylers": [ { "visibility": "off" } ] },
+	    			  { "featureType": "road",
+	    			    "elementType": "geometry",
+	    			    "stylers": [ { "color": "#f5f1e6" } ] },
+	    			  {  "featureType": "road.arterial",
+	    			    "elementType": "geometry",
+	    			    "stylers": [ { "color": "#fdfcf8" } ] },
+	    			  {  "featureType": "road.highway",
+	    			    "elementType": "geometry",
+	    			    "stylers": [  { "color": "#f8c967" } ] },
+	    			  { "featureType": "road.highway",
+	    			    "elementType": "geometry.stroke",
+	    			    "stylers": [  { "color": "#e9bc62" } ] },
+	    			  { "featureType": "road.highway.controlled_access",
+	    			    "elementType": "geometry",
+	    			    "stylers": [ { "color": "#e98d58" } ] },
+	    			  { "featureType": "road.highway.controlled_access",
+	    			    "elementType": "geometry.stroke",
+	    			    "stylers": [ { "color": "#db8555" } ] },
+	    			  {  "featureType": "road.local",
+	    			    "elementType": "labels",
+	    			    "stylers": [  { "visibility": "off" } ] },
+	    			  {"featureType": "road.local",
+	    			    "elementType": "labels.text.fill",
+	    			    "stylers": [{"color": "#806b63"}]},
+	    			  {"featureType": "transit.line",
+	    			    "elementType": "geometry",
+	    			    "stylers": [{"color": "#dfd2ae" }]},
+	    			  {"featureType": "transit.line",
+	    			    "elementType": "labels.text.fill",
+	    			    "stylers": [ {"color": "#a0938b"}]},
+	    			  { "featureType": "transit.line",
+	    			    "elementType": "labels.text.stroke",
+	    			    "stylers": [{"color": "#ebe3cd"}]},
+	    			  { "featureType": "transit.station",
+	    			    "elementType": "geometry",
+	    			    "stylers": [
+	    			      {"color": "#dfd2ae"}]},
+	    			  { "featureType": "water",
+	    			    "elementType": "geometry.fill",
+	    			    "stylers": [{"color": "#daedec"}]},
+	    			  {"featureType": "water","elementType": "labels.text.fill", "stylers": [{"color": "#83a39e"}] }
 		    			]
 		    });
 		    /* marker = new google.maps.Marker({
@@ -3247,15 +3107,12 @@
 		    
 			/* 지도 내에 버튼 만들기 */ 
 			var leftControlDiv = document.createElement('div');
-			var thtml = '<div class="text-center" style="margin-bottom:5px;margin-left:10px;font-weight:bold; color:#024B5D; font-size:10pt;border:solid thin #DDDDDD ; border-radius:5px; padding:10px; background-color: white;" onClick="controlClick()"><div style="margin:5px 0;"><i class="fas fa-globe-europe" style="font-size: 30px;"></i></div><div>여행루트 수정</div></div>';
+			var thtml = '<div class="text-center" style="margin-bottom:10px;margin-left:25px;font-weight:900; color:#024B5D; font-size:11pt;border:solid thin #DDDDDD ; border-radius:5px; padding:10px; background-color: white;" onClick="controlClick()"><div style="margin:5px 0;"><i class="fas fa-globe-europe" style="font-size: 30px;"></i></div><div>여행루트 수정</div></div>';
 			leftControlDiv.innerHTML = thtml;
 			map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(leftControlDiv);
 		    
 		};
 		/* ------------------------------------ Google Map Script ------------------------------------ */
-		
-		
-		
 		
 		
 		
@@ -3301,12 +3158,14 @@
 			}
 		  });
 		
-		
 	</script>
 	
 	
 	<!-- Google Map API -->
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4&callback=initMap" type="text/javascript"></script>
 
+
+	
+	
 </body>
 </html>

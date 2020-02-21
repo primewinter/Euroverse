@@ -40,6 +40,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.net.HttpHeaders;
+import com.ksy.common.Page;
+import com.ksy.common.Search;
 import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.TripSurvey;
 import com.ksy.service.domain.User;
@@ -133,9 +135,6 @@ public class UserController {
 		List<TripSurvey> countryList = countryList();
 		List<TripSurvey> tripStyleList = tripStyleList();
 		
-		for(int i=1;i<47;i++) {
-			System.out.println(countryList.get(i));
-		}
 		
 		model.addAttribute("countryList",countryList);
 		model.addAttribute("tripStyleList",tripStyleList);
@@ -236,10 +235,36 @@ public class UserController {
 		List<TripSurvey> tripSurveyList = myPageService.getTripSurveyList(user.getUserId());
 		
 		
+		Search search = new Search();
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		if(search.getCurrentPage2()==0) {
+			search.setCurrentPage2(1);
+		}
+		
+		search.setPageSize(10);
+		
+		Map<String,Object> postMap = myPageService.getMyPostList(search, user.getUserId());
+		Map<String , Object> commentMap = myPageService.getMyCommentList(search, user.getUserId());
+		int postCount = (int) postMap.get("totalCount");
+		int commentCount = (int)commentMap.get("totalCount");
+		
+		int partyCount = myPageService.partyCount(user.getUserId());
+		
+		
+		
+		
+		
+		
 		model.addAttribute("travelDate",travelDate);
 		model.addAttribute("travelHour",travelDate*24);
 		model.addAttribute("travelMin",travelDate*24*60);
 		model.addAttribute("tripSurveyList",tripSurveyList);
+		model.addAttribute("postCount",postCount);
+		model.addAttribute("commentCount",commentCount);
+		model.addAttribute("partyCount",partyCount);
+		
 		
 		return "forward:/view/user/getUser.jsp";
 	}
@@ -352,6 +377,10 @@ public class UserController {
 		if(user.getDreamCountry()!=null) {
 			
 		for(int i=0;i<(user.getDreamCountry().size());i++) {
+			if(user.getDreamCountry().get(i).equals("")) {
+				continue;
+			}
+			
 			System.out.println(user.getDreamCountry().get(i));
 			TripSurvey tripSurvey = new TripSurvey();
 			tripSurvey.setUserId(currentUser.getUserId());
@@ -367,6 +396,10 @@ public class UserController {
 		if(user.getTripStyle()!=null) {
 			
 		for(int j=0;j<(user.getTripStyle().size());j++) {
+			if(user.getTripStyle().get(j).equals("")) {
+				continue;
+			}
+			
 			System.out.println(user.getTripStyle().get(j));
 			TripSurvey tripSurvey = new TripSurvey();
 			tripSurvey.setUserId(currentUser.getUserId());

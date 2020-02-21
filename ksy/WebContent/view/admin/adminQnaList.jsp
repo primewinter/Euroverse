@@ -81,6 +81,25 @@
 	.b{
 		padding: 3px;
 	}
+	
+.outer{
+	background-color: #E6E2E2;
+	padding: 30px; 
+	padding-top: 2px;
+	width:auto;
+	height: auto;
+	display: inline-block;
+}
+
+.inner{
+	display: inline-block;
+	background-color: white;
+	border-bottom-left-radius : 15px;
+	border-bottom-right-radius : 15px;
+	box-shadow : 5px 5px 7px #C3C0C0;
+	height: auto;
+	width:940px;
+}
 </style>
 
 
@@ -99,6 +118,13 @@
 		 	fncGetUserList(1);
 		 }); 
 	});//end of function	
+	
+	$(function(){
+		$(".postId").on("click",function(){
+			
+			
+		});
+	});
 	
 </script>
 
@@ -206,7 +232,7 @@
 				  <!--========= END ========== -->
 				  
 				  <!--제목  -->
-				  <td style="text-align: left;">${post.postTitle }
+				  <td class="postId" style="text-align: left;">${post.postTitle }
 				  <input type="hidden" id="postId" name="postId" value=""/></td>
 				    <!--========= END ========== -->
 				  
@@ -242,13 +268,139 @@
 	</div>
 	<!-- ================== div : Container End  ================-->	
 	
-	<div id="userInfoProfile" style="width: 1150px;height:150px;position: relative;left: 100px; top:-200px;">
-	<h3>답글달기</h3>
-	</div>
-	
-	
-		<!-- pageNavigator include  -->
-		<jsp:include page="../../common/pageNavigator_new.jsp"/>
+
+	<!-- pageNavigator include  -->
+	<jsp:include page="../../common/pageNavigator_new.jsp"/>
+		
+		
+	<table class="outer" style="margin-top:15px; border-top:1px;" style=" display: none;">
+	  <tbody class="inner">
+		<tr>
+		<td valign="top">
+		  <table style="margin-top:15px;">
+		    <tbody>
+		      <tr>
+		        <td style="allign:center;">
+				  <img  style="width:40px; margin: 10px;" alt="" src="\resources\images\admin\Qicon.png">
+			    </td>
+			   </tr>
+			  <tr>
+			    <td align="center" height="33"></td>
+		      </tr>
+		    </tbody>
+		  </table>
+		</td>
+	   <td valign="top">
+	   	 <table style="margin-top:15px;">
+	   	   <tbody>
+	   	    <tr>
+	   	      <td width="680px;">
+	   	        <table>
+	   	          <tbody>
+	   	            <tr>
+	   	              <td colspan="2">
+	   	                <table>
+	   	                   <tbody>
+	   	                    <tr>
+	   	                      <td>
+							    <font>	
+							  	  asdfasdfasdfAasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfadas
+							    </font>
+							   </td>
+						     </tr>
+						     <tr>
+						      <td style="font-size:9pt;font-family:돋움; color:#4EC2F8;">관련</td>
+					   		  <td></td>
+						     </tr>
+						   </tbody>
+						  </table>
+						</td>
+					  </tr>
+					 <tr>
+					  <td>
+			 	       <font style= "font-size:11pt; color: rgb(240, 168, 72);">
+			 	         <i class="fas fa-clock"></i>
+ 					            ㅇㅇㅇ님이 분전에 질문하셨습니다.
+				       </font>
+				     </td>
+					</tr>
+				   </tbody>
+				  </table>
+				 </td>
+				</tr>
+			  <tr>
+			   <td>
+		         <table>
+		           <tbody>
+		             <tr>
+		               <td valign="top">
+		                 <img style="width :40px;margin: 10px;" src="\resources\images\admin\Aicon.png">
+		               </td>
+		               <td valign="top">
+		                <table>
+		                  <tbody>
+		                    <tr>
+		                      <td>
+		                       <label for="exampleFormControlTextarea1"></label>
+     			 		   	   <textarea class="form-control"  style="width:460px; transform: translate(0%,-15px);min-height: 100px" id="exampleFormControlTextarea1" rows="3"></textarea>
+     			 		   	  </td>
+     			 		   	  <td valign="top" >
+     			 		   	  	<button type="button" class="btn btn-primary"  style=" margin:10px; height: 70px;">답변하기</button>
+     			 		   	  </td>
+     			 		   	 </tr>
+     			 		   	</tbody>
+     			 		  </table>
+   	 			 		 </td>
+   	 			 		</tr>
+   	 			 	  </tbody>
+   	 			 	 </table>
+   	 			 </td>
+   	 			</tr>
+   	 			<!-- 답변한 글 띄우는 html -->
+   	 		  <tr>
+   	 			<td>
+   	 			 <table>
+   	 			  <tbody>
+   	 			  <!-- 여기부터 append -->
+   	 			   <tr>
+   	 			    <td valign="top">
+   	 			      <img style="width :40px;margin: 10px;" src="\resources\images\admin\Aicon.png">
+					</td>
+					 <td valign="bottom">
+					  <table>
+					   <tbody>
+					    <tr>
+					     <td>
+					      <font>
+					                 관리자 답변관리자 답변관리자 답변관리자 답변관리자 답변관리자 답변관리자 답변관리자 답변
+					      </font>
+					     </td>
+					    </tr>
+					     <tr>
+  	 			 			  <td>
+  	 			        	  <font style= "font-size:11pt; color: rgb(240, 168, 72);">
+  	 			        	   <i class="fas fa-user-clock"></i>
+					  		       관리자님이 분전에 답변하셨습니다.
+			    			</font>
+  	 			  			 </td>
+  	 			 			 </tr>
+					   </tbody>
+					  </table>
+					 </td>	   	 			   
+   	 			   </tr>
+   	 			  </tbody>
+   	 			 </table>
+   	 			</td>
+   	 	      </tr>
+   	 	      <!-- 관리자 답글 html 끝  -->
+   	 		</tbody>
+	   	   </table>
+	   	 </td>
+	   	</tr>
+	   </tbody>
+	  </table>
+	  
+	  
 
 </body>
 

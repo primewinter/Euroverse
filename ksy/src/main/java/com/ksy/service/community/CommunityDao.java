@@ -32,6 +32,8 @@ public interface CommunityDao {
 
 	public List<Post> getPostList(Search search, String boardName) throws Exception ;
 	
+	public List<Post> getPlanPostList(Search search, String boardName) throws Exception ;
+	
 	public List<Post> getBestPostList(Search search, String boardName) throws Exception ;
 	
 	public List<Comment> getCommentList(Search search, String postId, String userId) throws Exception ;

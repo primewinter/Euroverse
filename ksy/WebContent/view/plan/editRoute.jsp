@@ -147,6 +147,13 @@
 	</style>
 	
 	
+	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding|Noto+Sans+KR:300,400,500&display=swap&subset=korean" rel="stylesheet">
+	<style>
+	    body {
+	        font-family: 'Noto Sans KR', sans-serif;
+	        font-weight: 400;
+	    }
+	</style>
 	
 	<!-- 함수들 모음집 -->
 	<script type="text/javascript">
@@ -283,6 +290,8 @@
 			$($('.city_duration_wrap')[index]).attr('href',jsStr);
 			$($('.city_duration_wrap')[index]).find('span').text( nights );
 			
+			$('#updateDurationModal').modal('hide');
+			reorder();
 		}
 		
 		function updateTranType( cityId, tranType ){
@@ -328,6 +337,8 @@
 			
 			/* $('.tran_circle').css('background', 'none').css('color', 'black');
 			closeModal('updateTranModal'); */
+			$('#updateTranModal').modal('hide');
+			
 		}
 		
 		
@@ -1332,6 +1343,7 @@
 		
 		//$($('.tran_type')[0]).hide();	//맨 밑으로 보내야함(초기설정 위해)
 		
+		
 	</script>
 	
 	<!-- Google Map API -->
@@ -1350,13 +1362,14 @@
 	<!-- 화면구성 div Start ///////////////////////////// -->
 	<!-- <div class="container"> -->
 		<!-- 다단 레이아웃 Start ///////////////////////////// -->
-		<!-- <div class="row"> -->
+		<div class="boxx">
+		
 			
 			<!-- 좌측 컨테이너 Start ///////////////////////////// -->
-			<div id="city_route_list_container" style="width: 25%; height:786px; float: left; border-right: 1 #C9C9C9 solid; margin-left: 0px;margin-top: 0px;">
+			<div id="city_route_list_container" style="width: 25%; height:100%; float: left; border-right: 1 #C9C9C9 solid; margin-left: 0px;margin-top: 0px;">
 				
 				<!-- 좌측 컨테이너 상단 plan_info Start ///////////////////////////// -->
-				<div class="plan_info" style="background-color: #B0E2EE; width: 100%; padding: 5px; height: 16%;">
+				<div class="plan_info" style="background-color: #E1F4F9; width: 100%; padding: 5px; height: 16%; border: 2px solid white;">
 				
 					<div class="media" style="width: 100%;height:100%; padding: 10px;">
 					
@@ -1510,14 +1523,14 @@
 			
 			
 			<!-- 지도 컨테이너 Start ///////////////////////////// -->
-			<div id="map_container" style="width: 75%;height:786px;float: left;">
+			<div id="map_container" style="width: 75%;height:100%;float: left;">
 				<div id="map" style="border:1px solid #e5e5e5;width:100%;height: 100%;"></div>
 			</div>
 			<!-- 지도 컨테이너 End ///////////////////////////// -->
 			
 			
 			
-		<!-- </div> -->
+		</div>
 		<!-- 다단 레이아웃 End ///////////////////////////// -->
 	<!-- </div> -->
 	<!-- 화면구성 div End ///////////////////////////// -->
@@ -1626,8 +1639,19 @@
 	
 	<script type="text/javascript">
 	
-	
-	
+		var windowHeight = $(window).height();
+		console.log(windowHeight)
+		$('.boxx').height(windowHeight);
+		
+		$(function() {
+			$(window).resize( function(){
+				windowHeight = $(window).height();
+				$('.boxx').height(windowHeight);
+			});
+			
+		});
+		
+		
 	</script>
 	
 	
