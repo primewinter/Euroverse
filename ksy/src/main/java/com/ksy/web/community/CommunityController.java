@@ -220,6 +220,8 @@ public class CommunityController {
 			model.addAttribute("party", party);
 			
 			return "forward:/view/community/getAccFindPost.jsp";
+		}else if( boardName.equals("E") ) {
+			return "forward:/view/comminity/getPlanPost.jsp";
 		}
 		return "forward:/view/community/getPost.jsp";
 	}
@@ -245,8 +247,6 @@ public class CommunityController {
 				search.setSorting("0");
 			}
 			map = communityService.getBestPostList(search, boardName);
-		}else if( boardName.equals("E") ) {
-			map = communityService.getPlanPostList(search, boardName);
 		}else {
 			map = communityService.getPostList(search, boardName);
 		}
@@ -261,6 +261,8 @@ public class CommunityController {
 		
 		if( boardName.equals("C") ) {
 			return "forward:/view/community/getBestPostList.jsp";
+		}else if( boardName.equals("E") ) {
+			return "forward:/view/community/getPlanPostList.jsp";
 		}else {
 			return "forward:/view/community/getPostList.jsp";
 		}

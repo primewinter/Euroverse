@@ -545,7 +545,11 @@
 	 </div>
 	 
 	 <hr>
-	  
+	 
+	<div style="text-align:center;">
+	   <button type="button" class="btn btn-outline-info">플래너 내려받기</button>
+	</div>
+
 	  <div class="gallview_contents">
 	    <div class="inner clear">
 	      <div class="writing_view_box">

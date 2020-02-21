@@ -29,10 +29,7 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-		.container, .container-md, .container-sm {
-		    max-width: 1000px;
-		}
-		
+	
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -56,6 +53,18 @@
 				 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
 			});
 		});	
+		 
+		function bestPost(sorting){
+
+			if(sorting == 0){
+				$("select[name='sorting']").val("0").prop("selected", true);
+			}else if(sorting == 1){
+				$("select[name='sorting']").val("1").prop("selected", true);
+			}else{
+				$("select[name='sorting']").val("2").prop("selected", true);
+			}
+			fncGetUserList(1);
+		}
 		
 	</script>
 	
@@ -68,9 +77,9 @@
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
+	<div class="container" style="max-width: 1000px;">
 	
-		<div class="h4" style="font-weight: bold; margin-top: 40px;">
+		<div class="h4" style="font-weight: bold; margin-top: 40px;padding-left:10px;">
 			인기글게시판
 	    </div>
 	    
@@ -78,6 +87,11 @@
 	    <div class="row">
 		    
 		    <div class="col-md-12 text-right" style="margin: 10px 0 15px 0">
+
+		    	<div style="float:left;padding-top:20px;padding-left:10px;font-size:15px;">
+		    		<span onclick="bestPost('0');">일간인기글</span> | <span onclick="bestPost('1');">주간인기글</span> | <span onclick="bestPost('2');">월간인기글</span>
+		    	</div>
+
 			    <form class="form-inline mt-2 mt-md-0" name="detailForm" style="float:right;">
 			      <input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>
 				  <div class="form-group">
@@ -88,7 +102,7 @@
 					</select>
 				  </div>
 				  
-				  <div class="form-group">
+				  <div class="form-group" style="display:none;">
 				    <select class="form-control" name="sorting" style="height: 35px; width: 120px; font-size: 13px; margin-right: 2px;" >
 						<option value="0"  ${ ! empty search.sorting && search.sorting==0 ? "selected" : "" }>일간인기글</option>
 						<option value="1"  ${ ! empty search.sorting && search.sorting==1 ? "selected" : "" }>주간인기글</option>
@@ -115,7 +129,7 @@
 		
 	<div class="table-responsive" style="font-size:14px;">	
       <!--  table Start /////////////////////////////////////-->
-      <table class="table table-hover">
+      <table class="table table-hover" style="text-align:center;">
       
         <thead>
           <tr>
@@ -136,19 +150,17 @@
 			<tr>
 		  <c:if test="${post.postGrade == 'N'}">
 			  <th scope="row" style="color:#CE1717;">공지 <i class="fas fa-bullhorn"></i></th>
-			  <td style="font-weight: bold; color: dimgray;">
+			  <td style="text-align:left;">
 			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
 			  <input type="hidden" id="boardName" name="boardName" value="${post.boardName}"/>
-			  <span style="color:black;">${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
-			  <td style="font-weight:bold;">${post.nickName}</td>
+			  <span>${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
 		  </c:if>
 		  <c:if test="${post.postGrade == 'B' || post.postGrade == null}">
 		  <c:set var="i" value="${ i+1 }" />
 			  <th scope="row">${ i }</th>
-			  <td style="font-weight: bold; color: dimgray;">
+			  <td style="text-align:left;">
 			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
 			  <input type="hidden" id="boardName" name="boardName" value="${post.boardName}"/>
-			    <span style="color:black;">
 				    <c:if test="${post.boardName=='A'}">
 						[자유게시판]
 					</c:if>
@@ -184,11 +196,10 @@
 						[QnA 기타]
 					  </c:if>
 					</c:if>
-				</span>
 			  	  ${post.postTitle} <span style="color:red;">(${post.comments})</span></td>
 			  	  
-			  <td>${post.nickName}</td>
 			</c:if>
+			  <td>${post.nickName}</td>
 			  <td>${post.postDate}</td>
 			  <td>${post.views}</td>
 			  <td>${post.postLikeCount}</td>
