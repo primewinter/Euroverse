@@ -285,9 +285,6 @@
 			width: 700px;
 			margin-left: 70px;
 		}
-		.container, .container-md, .container-sm {
-		    max-width: 930px;
-		}
 		.modal {
         text-align: center;
 		}
@@ -585,7 +582,7 @@
 	</div>
    
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container">
+	<div class="container" style="max-width: 930px;">
 	
 	<br>
 	

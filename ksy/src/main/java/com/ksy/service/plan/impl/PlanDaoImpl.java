@@ -61,6 +61,34 @@ public class PlanDaoImpl implements PlanDao {
 			sqlSession.insert("PlanSubMapper.addDefaultStuffs", string);
 		}
 	}
+	
+	@Override
+	synchronized public String copyPlan(Plan plan) throws Exception {
+		
+		//sqlSession.insert("PlanMapper.copyPlan", planId);
+		
+		if( plan.getPlanMaster() != null ) {
+			sqlSession.insert("PlanMapper.addPlan", plan);
+			
+			sqlSession.insert("PlanMapper.addPlanPartyKing", plan.getPlanMaster().getUserId() ); //필요 없음..?
+			
+			String[] defaultTodos = {"항공권 예약하기", "여행루트 짜기", "일정표 작성하기", "환전하기", "숙소 예약하기", "준비물 목록 확인하기", "여행자 보험 들기", "와이파이/유심 준비하기", "수하물 규정 알아보기"};
+			for (String string : defaultTodos) {
+				sqlSession.insert("PlanMapper.addDefaultTodos", string);
+			}
+		}else {
+			sqlSession.insert("PlanMapper.copyPlan", plan.getPlanId());
+		}
+		
+		sqlSession.insert("PlanSubMapper.copyStuff", plan.getPlanId());
+		sqlSession.insert("PlanSubMapper.copyCityRoute", plan.getPlanId());
+		sqlSession.insert("PlanSubMapper.copyDaily", plan.getPlanId());
+		
+		String copiedPlanId = sqlSession.selectOne("PlanMapper.getPlanId");
+		
+		return copiedPlanId;
+	}
+	
 
 	public void updatePlan(Plan plan) throws Exception {
 		sqlSession.update("PlanMapper.updatePlan", plan);
@@ -106,6 +134,7 @@ public class PlanDaoImpl implements PlanDao {
 	
 	
 	
+	
 	//User Service에 가야하는 메소드.... 테스트용으로 여기서 만들어 씀 
 	
 	public void updateUserSlot(String userId) throws Exception {
@@ -141,5 +170,7 @@ public class PlanDaoImpl implements PlanDao {
 	public List<User> getPushPhoneList(String planId) throws Exception {
 		return sqlSession.selectList("PlanMapper.getPushPhoneList", planId);
 	}
+
+
 
 }

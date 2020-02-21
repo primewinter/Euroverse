@@ -119,6 +119,16 @@
 		WHERE 	daily_id = #{dailyId}
 	</delete>
 	
+	<!-- 일정 복사 -->
+	<insert id="copyDaily"	parameterType="string">
+		INSERT 
+		INTO 	daily ( plan_id, daily_id, daily_cate, daily_detail, day_no, day_time, budget_amount, budget_currency ) 
+		SELECT	TO_CHAR(seq_plan_plan_id.CURRVAL), TO_CHAR(seq_daily_daily_id.NEXTVAL), d.daily_cate, d.daily_detail, d.day_no, d.day_time, d.budget_amount, d.budget_currency 
+		FROM 	daily d
+		WHERE 	d.plan_id = #{planId}
+	</insert>	
+	
+	
 	
 	
 	
@@ -193,7 +203,14 @@
 		WHERE 	city_id = #{cityId:VARCHAR}
 	</update>
 	
-	
+	<!-- 여행루트 복사 -->
+	<insert id="copyCityRoute"	parameterType="string">
+		INSERT 
+		INTO 	city_route ( city_id, plan_id, city_name, visit_order, city_duration, tran_type ) 
+		SELECT  TO_CHAR(seq_city_route_city_id.NEXTVAL),  TO_CHAR(seq_plan_plan_id.CURRVAL), cr.city_name, cr.visit_order, cr.city_duration, cr.tran_type 
+		FROM 	city_route cr
+		WHERE 	cr.plan_id = #{planId}
+	</insert>
 	
 	
 	
@@ -236,6 +253,15 @@
 		INSERT 
 		INTO 	stuff ( plan_id, stuff_id, stuff_name, stuff_check ) 
 		VALUES 		( TO_CHAR(seq_plan_plan_id.CURRVAL), TO_CHAR(seq_stuff_stuff_id.NEXTVAL), #{stuffName}, 'F' )
+	</insert>
+	
+	<!-- 준비물 복사 -->
+	<insert id="copyStuff"	parameterType="string">
+		INSERT 
+		INTO 	stuff ( plan_id, stuff_id, stuff_name, stuff_check ) 
+		SELECT  TO_CHAR(seq_plan_plan_id.CURRVAL), TO_CHAR(seq_stuff_stuff_id.NEXTVAL), s.stuff_name, 'F'
+		FROM 	stuff s
+		WHERE 	s.plan_id = #{planId}
 	</insert>
 	
 	
