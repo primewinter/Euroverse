@@ -2,6 +2,9 @@
     pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:if test="${  !empty user }">
+		<jsp:forward page="/"/>
+	</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -561,7 +564,7 @@ function readImg(input){
 </head>
 <body>
 <%-- <jsp:include page="/toolbar/toolBar.jsp"></jsp:include> --%>
-<jsp:include page="/view/user/userToolBar.jsp"></jsp:include>
+<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <div class="col-md-7 mx-auto" > 
 				<h1 class="text-center">회원가입</h1>
 </div> 

@@ -16,7 +16,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpHost;
@@ -52,6 +54,29 @@ import com.ksy.service.domain.Point;
 import com.ksy.service.domain.User;
 import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.user.UserService;
+
+import java.io.File;
+import java.util.Properties;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.Address;
+import javax.mail.Authenticator;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Part;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
+
 
 
 @RestController
@@ -380,36 +405,78 @@ public class UserRestController {
 		// 메일 인증 시 입력할 값을 생성 
 		SecureRandom random = new SecureRandom();
 		String state = new BigInteger(45, random).toString(36);//36까지하면0~9 a~z까지 출력
-		
-		// Autowired된 JavaMailSender로 MailUtils 객체 생성 
-		MailUtils sendMail = new MailUtils(mailSender);
-		
-		// JavaMailSender.setSubject(title) :: 메일 제목 설정 
-		sendMail.setSubject("[Model2 MVC Shop] 회원가입 이메일 인증");
-		
-		// JavaMailSender.setText(text) :: 메일 내용 설정 
-		// StringBuffer로 작성 
-		sendMail.setText(new StringBuffer().append("<h1>[이메일 인증호호호홓!!!]</h1>")
-				.append("<p>아래 글자를 입력하시면 이메일 인증이 완료됩니다.</p>")
-				.append("<p>입력 문자 :: </p>&nbsp;")
-				// 본인인증을 위한 state를 메일로 발송 
-				.append("<h2><b>" + state +"</b></h2>")
-				.toString());
-		
-		// JavaMailSender.setFrom(senderEmail, senderName) :: 메일 작성자 설정 
-		//sendMail.setFrom("jiseong4577@gmail.com", "Model2 MVC Shop");
-		
-		// JavaMailSender.setTo(receiverEmail) :: 메일 수신자 설정 
-		sendMail.setTo(email);
+//		
+//		// Autowired된 JavaMailSender로 MailUtils 객체 생성 
+//		MailUtils sendMail = new MailUtils(mailSender);
+//		
+//		// JavaMailSender.setSubject(title) :: 메일 제목 설정 
+//		sendMail.setSubject("[Model2 MVC Shop] 회원가입 이메일 인증");
+//		
+//		// JavaMailSender.setText(text) :: 메일 내용 설정 
+//		// StringBuffer로 작성 
+//		sendMail.setText(new StringBuffer().append("<h1>[이메일 인증호호호홓!!!]</h1>")
+//				.append("<p>아래 글자를 입력하시면 이메일 인증이 완료됩니다.</p>")
+//				.append("<p>입력 문자 :: </p>&nbsp;")
+//				// 본인인증을 위한 state를 메일로 발송 
+//				.append("<h2><b>" + state +"</b></h2>")
+//				.toString());
+//		
+//		// JavaMailSender.setFrom(senderEmail, senderName) :: 메일 작성자 설정 
+//		//sendMail.setFrom("jiseong4577@gmail.com", "Model2 MVC Shop");
+//		
+//		// JavaMailSender.setTo(receiverEmail) :: 메일 수신자 설정 
+//		sendMail.setTo(email);
 		
 		// JavaMailSender.send :: 설정한 내용을 바탕으로 메일 전송
 		System.out.println("흐아아아아아아아!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		sendMail.send();
+		//sendMail.send();
 		System.out.println("하하하하!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		Map<String, String> returnMap = new HashMap<String, String>();
+		String host = "smtp.gmail.com";
+		int port=465;
 		
 		
+		Properties prop  = System.getProperties();
 		
+		prop.put("mail.smtp.host", host);
+		prop.put("mail.smtp.port",port);
+		prop.put("mail.smtp.auth","true");
+		prop.put("mail.smtp.ssl.enable","true");
+		prop.put("mail.smtp.ssl.trust",host);
+		
+		Session session = Session.getDefaultInstance(prop, new javax.mail.Authenticator() {
+					String un = "jiseong4577@gmail.com";
+					String pw = "qkrwltjd1";
+					protected PasswordAuthentication getPasswordAuthentication(){
+						return new PasswordAuthentication(un, pw);
+					}			
+		});
+		
+		session.setDebug(true);
+		
+		MimeMessage mimemessage = new MimeMessage(session);
+		mimemessage.setFrom(new InternetAddress("jiseong4577@gmail.com"));
+		mimemessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
+		mimemessage.setSubject("아아~~테스트!!!");
+		mimemessage.setText("셋텍스트 부분입니다 여러분~~");
+		
+		Multipart	multi = new MimeMultipart("related");
+		MimeBodyPart mbp = new MimeBodyPart();
+		String htmlText = "키키키";						 
+		mbp.setContent(htmlText, "text/html; charset=utf-8");
+		multi.addBodyPart(mbp);
+		
+		mbp = new MimeBodyPart();
+		FileDataSource fds = new FileDataSource("C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\tripInfoimges\\guanguang.jpeg");
+		
+		mbp.setDataHandler(new DataHandler(fds));
+		mbp.setHeader("Content-ID", "<image>");
+		
+		multi.addBodyPart(mbp);
+		mimemessage.setContent(multi);		
+		
+		System.out.println("mimemessage::::::::::::::::::::::::::::::::::::::::"+mimemessage);
+		Transport.send(mimemessage);	
 		
 		
 		

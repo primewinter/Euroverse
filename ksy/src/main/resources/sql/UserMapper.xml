@@ -306,7 +306,7 @@ WHERE user_id = #{value}
 <insert id ="addPoint" parameterType="point">
 INSERT INTO POINT
 (point_id , user_id ,  used_type , used_point , used_date , ref_id)
-VALUES ( TO_CHAR(seq_point_point_id.nextval), #{userId} ,  #{usedType} , #{usedPoint} , sysDate , #{refId:jdbcType=VARCHAR)
+VALUES ( TO_CHAR(seq_point_point_id.nextval), #{userId} ,  #{usedType} , #{usedPoint} , sysDate , #{refId,jdbcType=VARCHAR})
 </insert>
 
 <select id = "getPointList"  parameterType="map" resultMap="pointSelectMap">
@@ -554,7 +554,7 @@ FROM (
 				SELECT 
 				o.offer_id , o.offer_type , o.ref_id ,  o.offer_msg, o.offer_status, o.from_user_id, o.to_user_id, o.offer_date , p.plan_img , p.plan_title , u.user_img
 				FROM OFFER o , Plan p , Users u
-				WHERE o.to_user_id = #{userId} AND o.offer_type = 'P' AND p.plan_id = o.ref_id AND u.user_id = o.to_user_id AND o.offer_status = 'S') inner_table
+				WHERE o.to_user_id = #{userId} AND o.offer_type = 'P' AND p.plan_id = o.ref_id AND u.user_id = o.to_user_id AND o.offer_status = 'S' AND p.plan_status = 'R') inner_table
 		WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
 	WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
 	AND #{search.currentPage}*#{search.pageSize}

@@ -551,7 +551,7 @@
 </script>
 </head>
 <body>
- <jsp:include page="/view/user/userToolBar.jsp"></jsp:include>
+<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <h1>비밀번호찾기</h1>
 	<form action="/user/updatePwd" method="post" id="pwdForm">
 

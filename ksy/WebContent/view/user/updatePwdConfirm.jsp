@@ -20,7 +20,7 @@ $(function(){
 
 </head>
 <body>
- <jsp:include page="/view/user/userToolBar.jsp"></jsp:include>
+<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <h1><b>비밀번호 변경이 완료되었습니다.</b></h1>
 <a href="/user/login.jsp"><input type="button" value="로그인으로"></a>
 </body>

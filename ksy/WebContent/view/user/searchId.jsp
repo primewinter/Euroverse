@@ -220,7 +220,7 @@ h6{
 </head>
 <body>
 
- <jsp:include page="/view/user/userToolBar.jsp"></jsp:include>
+<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <div class="container">
 
 

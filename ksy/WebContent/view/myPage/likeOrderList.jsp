@@ -1,79 +1,23 @@
-<%@ page language="java"
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
+<!DOCTYPE html>
 <html>
 <head>
-<title>구매 목록조회</title>
 <meta charset="EUC-KR">
-	
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-	
-	
-	
-	<!-- Bootstrap Dropdown Hover CSS -->
-   <link href="/css/animate.min.css" rel="stylesheet">
-   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <!-- Bootstrap Dropdown Hover JS -->
-   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
-   
-   <!-- jQuery UI toolTip 사용 CSS-->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- jQuery UI toolTip 사용 JS-->
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  
-  <!-- asome icon CDN -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
-	  body {
-            padding-top : 50px;
+<title>Insert title here</title>
 
-        }
-        image {
-        	border : 1px solid lightpink;
-        }
-        h3{
-        	color: white;
-        	font-family : Consolas;
-        }
-      
-        #flight , #room {
-        	width: 80%;
-			margin:auto;
-        }
-    </style>
-    
-     <!--  ///////////////////////// JavaScript ////////////////////////// -->
-<script type="text/javascript">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+<script>
 $(document).ready(function(){
 	Show();
 })
 
-function fncGetUserList(currentPage) {
-	$("#currentPage").val(currentPage)
-	$("form").attr("method" , "POST").attr("action" , "/order/getOrderList").submit();
-}
-
- $(function() {
-	 $( "button.btn.btn-default" ).on("click" , function() {
-	 	fncGetUserList(1);
-	 });
- });
- $(function(){
-	 $(".btn.btn-info").click(function(){
-		 self.location = "/order/getOrderListAdmin";
-	 })
- })
-
- function doShow() { 
+function doShow() { 
 	    if ($('#flight').is(":visible")) { 
 	        $('#flight').hide();
 	        $('#iconf').hide();
@@ -90,50 +34,19 @@ function fncGetUserList(currentPage) {
 	        $('#iconf').show();// id값을 받아서 숨기기 
 	    } 
 	} 
- 
- 		$( function () {
-		$('#refund').on("click" , function (){
-			var flightId = $("#flightId").val();
-			self.location ="/order/getFlightOrder?flightId="+flightId;
-		})
-		$('#refund2').on("click" , function (){
-			var roomId = $("#roomId").val();
-			self.location ="/order/getRoomOrder?roomId="+roomId;
-		})
-	})
-	
-	////////////////////////////////////////////////////
-	
-	  
-/*     $( function () {
-		$('.delete:contains("배")').on("click" , function () {
-      jQuery.ajax({
-        "url": "http://www.myservice.com/payments/cancel",
-        "type": "POST",
-        "contentType": "application/json",
-        "data": JSON.stringify({
-          "merchant_uid": "mid_" + new Date().getTime(), // 주문번호
-          "cancel_request_amount": 100, // 환불금액
-          "reason": "테스트 결제 환불" // 환불사유
-          //"refund_holder": "홍길동", // [가상계좌 환불시 필수입력] 환불 가상계좌 예금주
-         // "refund_bank": "88" // [가상계좌 환불시 필수입력] 환불 가상계좌 은행코드(ex. KG이니시스의 경우 신한은행은 88번)
-          //"refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 가상계좌 번호
-        }),
-        "dataType": "json"
-      });
-    });
-    }); */
-	
-	
-	////////////////////////////////////////////////////
 
 
 </script>
 
+
 </head>
-<form>
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp" />
+	
+	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
+
+ 	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+	
 	<div class="container">
 		<div class="page-header">
 			<h3>Order List</h3>
@@ -163,7 +76,7 @@ function fncGetUserList(currentPage) {
 		</div> --%>
 		</div>
 		<br/>
-<div class="btn-group btn-group-toggle" data-toggle="buttons" style="Padding-left:180px;" >
+<div class="btn-group btn-group-toggle" data-toggle="buttons" >
   <label class="btn btn-secondary active">
     <input type="radio" name="flight" id="option1" checked onclick="javascript:Show();"> Flight
   </label>
@@ -174,8 +87,8 @@ function fncGetUserList(currentPage) {
 
 	
   	<br/><br/>
-  	<i class="fas fa-plane" id="iconf" style="font-size:40px;Padding-left:180px;" ></i>
-  	<i class="fas fa-bed" id="iconr" style="font-size:40px;Padding-left:180px;"></i>
+  	<i class="fas fa-plane" id="iconf" style="font-size:40px;" ></i>
+  	<i class="fas fa-bed" id="iconr" style="font-size:40px;"></i>
 	 <table class="table table-bordered" id="flight" >
   <thead>
     <tr>
@@ -191,7 +104,7 @@ function fncGetUserList(currentPage) {
  
   <tbody>
    
-     <c:set var = "i" value="0"/>
+  <%--    <c:set var = "i" value="0"/>
 		<c:forEach var="flight" items = "${list}" >
 	<c:set var="i" value="${i+1}"/>
 			 <tr>
@@ -216,7 +129,7 @@ function fncGetUserList(currentPage) {
 						  </c:if>
 					  </td>
 		   	 </tr>
-    	 </c:forEach>
+    	 </c:forEach> --%>
   </tbody>
 </table>
 	 
@@ -238,7 +151,7 @@ function fncGetUserList(currentPage) {
 	 
 	  <tbody>
 	   
-	     <c:set var = "i" value="0"/>
+	<%--      <c:set var = "i" value="0"/>
 		<c:forEach var="room" items = "${list2}" >
 		<c:set var="i" value="${i+1}"/>
 			 <tr>
@@ -263,10 +176,13 @@ function fncGetUserList(currentPage) {
 				  </c:if>
 				 </td>
 		   	 </tr>
-	     </c:forEach>
+	     </c:forEach> --%>
 	  </tbody>
 	</table>
-		<button type="button" class="btn btn-info" style="margin-top:-10px;width:120px;" >Admin</button>
+	</main>
+	</div>
+	</div>
+	
+	
 </body>
-</form>
 </html>

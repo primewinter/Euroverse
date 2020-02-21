@@ -91,7 +91,7 @@ h6[1].innerHTML = " ";
 
 </head>
 <body>
- <jsp:include page="/view/user/userToolBar.jsp"></jsp:include>
+<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <form>
 
 <h1><b>¡ØupdatePwd page¡Ø</b></h1>
