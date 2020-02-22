@@ -1537,7 +1537,7 @@
 				
 				var coordinates = $memo.offset();
 				var memoLeft2 = coordinates.left - left_minus - 26;	// - 17
-				var memoTop2 = coordinates.top - 122;	// - top_minus - 40
+				var memoTop2 = coordinates.top - 144;	// - top_minus - 40
 				console.log("coordinates = "+ memoLeft2 +"/"+ memoTop2 );
 				
 				var memoId = $memo.find('.memo_id').text();
@@ -1797,157 +1797,6 @@
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<!-- ToolBar 끝 -->
 	
-	
-	
-	<!-- ////////////////////////////////////////// 플래너 채팅 ////////////////////////////////////////// -->
-	
-	<%--플래너 채팅 클릭 버튼--%>
-	<div id="click">
-		<i class="fas fa-comment-dots  fa-flip-horizontal fa-2x" style="color:white;"></i>
-	</div>
-	
-
-	<%--플래너 채팅 UI--%>
-	<div id="planChat">
-		<div class="planChat output" style="padding:5px"></div>
-		<div class="planChat input" style="padding:5px">
-			<div class="input-group">
-			    <input type="text" class="form-control form-control-sm" id="myChat" placeholder="메시지를 입력하세요">
-			    <span class="input-group-btn">
-			        <button class="btn btn-default btn-sm" type="button"><i class="fab fa-telegram-plane"></i></button>
-			    </span>
-			</div>
-		 </div>
-	</div>
-	
-	
-	<script type="text/javascript">
-	/* -----------------------------------------  플래너 채팅 스크립트  --------------------------------------- */
-		var userId = '${user.userId}';
-		
-	    var planChatSocket;
-	    var planChatLayer = $("div.planChat.output");
-	    var myChat = $("#myChat");
-	
-	    
-	    function connectPlanChat() {
-	        var addr = "ws://localhost:8080/planSocket/"+${plan.planId}+"/" + userId;
-	        planChatSocket = new WebSocket(addr);
-	        
-	        planChatSocket.onopen = function(message) {
-	        	console.log("접속했다."+addr);
-	
-	        	planChatSocket.onmessage = function(message) {
-	        		console.log("메시지 받았다.")
-	            	var json = JSON.parse(message.data);
-	        		console.log(Array.isArray(json));
-	            	if( Array.isArray(json) ) {
-	            		checkOnlineMembers(json);
-	            		console.log("checkOnlineMembers")
-	            	} else {
-	            		console.log("receivePlanChat")
-	                    receivePlanChat(json);
-	            	}
-	                $(".planChat.output").scrollTop($(".planChat.output")[0].scrollHeight);
-	            };
-	
-	        };
-	        planChatSocket.onclose = function(message) {
-	            console.log("접속이 끊어졌습니다.\n");
-	        };
-	        planChatSocket.onerror = function(message) {
-	            console.log("에러가 발생했습니다.\n");
-	        };
-	
-	    }
-	    
-	    function receivePlanChat(chat) {
-	    	console.log("들어왔따~!")
-	    	var html = "";
-	        if(chat.senderId == 'system'){
-	            html += "<div class='msg center' style=\"text-align:center;margin: 20px;background-color:#D8D8D8;border-radius:10px;\">";
-	            html += "<font color='#424242' size=2>"+chat.chatContent+"</font>";
-	            html += "</div>"
-	        } else if(chat.senderId == userId) {
-	            html += "<div class='msg right' style=\"text-align:right;margin:10px;\">"
-	            html += "<font color='#cccccc' size=1>"+chat.sendTime+"&ensp;</font>";
-	            html += "<div style='display: inline-block;background-color:#C5ECE9;height:auto;min-height:25px;vertical-align:middle;border-radius:10px;padding:2px'>";
-	            html += "<font color='black' size=2>&ensp;"+chat.chatContent+"&ensp;</font>";
-	            html += "</div>"
-	          	html += "</div>"
-	        } else { 
-	            html += "<div class='msg left' style=\"text-align:left;margin:10px;\">"
-	            console.log("T ? F ? :: "+$("div.msg").last().hasClass('left') + " || "+$($("div.msg").last()).find('div.sender  font.senderId').html());
-	            if( $("div.msg").last().hasClass('left') == true && $($("div.msg").last()).find('div.sender font.senderId').html() == chat.senderId ) {
-	            	html += "<div class='sender' style='text-align:center;display: inline-block;vertical-align: center;'>";
-		            html += "<font class='senderId' style='display:none;'>"+chat.senderId+"</font>";
-		           	html += "<img  style='visibility:hidden;width:30px;height:2px;margin:5px 2px 5px 2px;' src=\"/resources/images/userImages/"+chat.user.userImg+"\">";
-		           	html += "</div>"
-	            } else {
-	            	html += "<div class='sender' style='text-align:center;display: inline-block;vertical-align: center;'>";
-		            html += "<font class='senderId'>"+chat.senderId+"</font><br/>";
-		           	html += "<img  style='border: 2px solid #C5ECE9;width:30px;height:30px;margin:2px;' class='rounded-circle' src=\"/resources/images/userImages/"+chat.user.userImg+"\">";
-		           	html += "</div>"
-	            }
-	           	html += "<div style='display: inline-block;background-color:#F2F2F2;height:auto;min-height:25px;vertical-align:middle;border-radius:10px;padding:2px'>";
-	            html += "<font color='black' size=2>&ensp;"+chat.chatContent+"&ensp;</font>";
-	            html += "</div>"
-	            html += "<font color='#cccccc' size=1> "+chat.sendTime+"</font>";
-	            html += "</div>"
-	        }
-	        planChatLayer.append(html);
-	    }
-	    
-	    function checkOnlineMembers(data) {
-	    	<c:forEach var="member" items="${plan.planPartyList}">
-	    		$("#img_${member.userId}").removeClass("on");
-	    	</c:forEach>
-	    	for( var i in data) {
-	    		console.log("접속한 회원 id : "+data[i].userId);
-	    		$("#img_"+data[i].userId).addClass("on");
-	    	}
-	    }
-	   
-	    function sendMessage() {
-	    	if( myChat.val().trim() != "" ) {
-	        var chat = new Object();
-	        chat.senderId = userId;
-	        chat.chatContent = myChat.val();
-	                    
-	        planChatSocket.send(JSON.stringify({chat}));
-	    	}
-	        myChat.val('');
-	        $(".planChat.output").scrollTop($(".planChat.output")[0].scrollHeight);
-	    }
-	    
-	    /*      ---------------------------------------------------   */
-	    
-	    // document.ready
-   		jQuery(document).ready(function($) {
-
-        	connectPlanChat();
-        	$("#myChat").keydown(function (key) {
-                if(key.keyCode == 13){
-                	sendMessage();
-                	myChat.val();
-                }
-            });
-        	$("#click").on("mouseover", function() {
-        		$("#click").css({"background-color":"#2ECCFA"});
-        	}).on("mouseout", function() {
-        		$("#click").css({"background-color":"#81e0fc"});
-        	});
-        	
-        	$(".fa-comment-dots").on("click", function() {
-        		$("#planChat").toggleClass('on');
-        	});
-        	$(".fa-telegram-plane").on("click", function() {
-        		sendMessage();
-        	})
-        });
-	
-	</script>  
-    <!-- ////////////////////////////////////////// 플래너 채팅 END ////////////////////////////////////////// -->
 	
 	
 	
@@ -2905,7 +2754,7 @@
 
 	
 	
-	
+	<jsp:include page="/toolbar/pushBar_sy.jsp"></jsp:include>
 	
 	
 
@@ -3122,7 +2971,7 @@
 		
 		/* Plan Information 여행완료 버튼  관련 함수 */
 		var now = new Date();
-		var planEndDate = "${plan.endDate}";
+		var planEndDate = "${plan.endDate.substring(0,10)}";
 		var newPlanEndDate = new Date(planEndDate);
 		
 		console.log("now="+now+" / endDate="+newPlanEndDate);
