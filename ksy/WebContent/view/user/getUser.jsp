@@ -148,10 +148,10 @@ function tripStyle(tripStyle){
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 
 
-      				<div id="userProfileDiv" style="width:70%;height:230px;background-color: #bfbfbf;color: white; padding-left: 400px;padding-top: 30px;margin-left: 240px;">
+      				<div id="userProfileDiv" style="width:70%;height:230px; padding-left: 400px;padding-top: 30px;margin-left: 240px;">
 					    <img alt="" src="/resources/images/userImages/${user.userImg}" style="border-radius: 100px;width:170px;height: 170px;">
 					 		
-						 	<div style="margin-left: 180px;margin-top:-170px;">
+						 	<div style="margin-left: 200px;margin-top:-170px;">
 						 		<c:if test="${user.role == 'G' }">
 		                    		<div class="badge badge-secondary ">비인증회원</div>
 		                    	</c:if>
@@ -161,25 +161,25 @@ function tripStyle(tripStyle){
 		                    	<c:if test="${user.role == 'A' }">
 		                    		<div class="badge badge-info" >관리자</div>
 		                    	</c:if>
-							    <div class="nicknameClass" style="" >
+							    <div class="nicknameClass" style="font-size: 27px" >
 									 ${user.nickname}
 									<!-- <i class="far fa-address-card" style=" text-decoration: underline; cursor: help;">상세보기</i> -->
 					  			</div>
 					  			
-					  			<div style="font-size: 5px;margin-top: spx;">
+					  			<div style="font-size: 14px;margin-top: 0px;">
 						  			<div>
 						  			${user.email}
 						  			</div>
 						  			
-						  			<div>
+						  			<div style="margin-bottom: 10px;">
 						  			${user.phone}
 						  			</div>
 						  			
-						  			<div>
+						  			<div style="margin-bottom: 8px;">
 						  			
 						  			<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
 										<c:if test="${tripSurvey.surveyType=='D'}">
-										 <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="20px" height="20px" onmouseover="country('${tripSurvey.surveyChoice}')" onmouseout="country('')" >
+										 <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="30px" height="25px" onmouseover="country('${tripSurvey.surveyChoice}')" onmouseout="country('')" style="margin-right: 3px;" >
 										</c:if>
 									</c:forEach> 
 						  			
@@ -188,7 +188,7 @@ function tripStyle(tripStyle){
 						  			<div>
 						  				<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
 												<c:if test="${tripSurvey.surveyType=='T'}">
-												 <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="20px" height="20px" onmouseover="tripStyle('${tripSurvey.surveyChoice}')" onmouseout="tripStyle('')" >
+												 <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="30px" height="25px" onmouseover="tripStyle('${tripSurvey.surveyChoice}')" onmouseout="tripStyle('')" style="margin-right: 3px;" >
 												</c:if>
 										</c:forEach>
 						  			
