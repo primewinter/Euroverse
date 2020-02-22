@@ -407,7 +407,7 @@ WHERE user_id = #{userId}
 
 
 
-<select id="getEndPlanList" parameterType="string"	resultMap="planSelectMap">
+<!-- <select id="getEndPlanList" parameterType="string"	resultMap="planSelectMap">
 		SELECT p.plan_id, p.plan_title, p.start_date, count(*)
 		FROM plan p, todo t
 		WHERE p.deleted = 'F'
@@ -416,7 +416,7 @@ WHERE user_id = #{userId}
 			AND p.plan_id IN ( SELECT ref_id FROM party WHERE party_user_id = #{userId} AND party_type = 'P' )
 		GROUP BY p.plan_id, p.plan_title, p.start_date
 		ORDER BY p.plan_id
-</select>
+</select> -->
 	
 
 
@@ -619,7 +619,7 @@ WHERE o.to_user_id = #{userId} AND o.offer_type = 'A' AND p.post_id = o.ref_id A
 
 
 
-<select id="getPlanCount" parameterType="string" resultType="int">
+<!-- <select id="getPlanCount" parameterType="string" resultType="int">
 SELECT 
 COUNT(*) 
 FROM (
@@ -629,7 +629,7 @@ FROM (
 		WHERE a.deleted = 'F' AND b.party_type = 'P' AND a.plan_id = b.ref_id AND( a.plan_master_id =#{userId} OR b.party_user_id =#{userId})
 		GROUP BY a.plan_id , b.ref_id
 		)
-</select>
+</select> -->
 
 <select id="getRefId" parameterType="string" resultMap="offerSelectMap">
 SELECT 
@@ -725,19 +725,36 @@ WHERE #{postId} = post_id
 
 
 
-<update id="deleteQna" parameterType="string">
-UPDATE 
-POST SET deleted = 'T'
-WHERE post_id = #{postId}
-</update>
+	<update id="deleteQna" parameterType="string">
+		UPDATE 
+		POST SET deleted = 'T'
+		WHERE post_id = #{postId}
+	</update>
+	
+	
+	<update id="updateQna" parameterType="post">
+		UPDATE 
+		POST 
+		SET post_title =  #{postTitle} , post_content = #{postContent} , qna_first_cate = #{qnaFirstCate} , qna_second_cate = #{qnaSecondCate,jdbcType=CHAR}
+		WHERE post_id = #{postId}
+	</update>
 
 
-<update id="updateQna" parameterType="post">
-UPDATE 
-POST 
-SET post_title =  #{postTitle} , post_content = #{postContent} , qna_first_cate = #{qnaFirstCate} , qna_second_cate = #{qnaSecondCate,jdbcType=CHAR}
-WHERE post_id = #{postId}
-</update>
+
+
+	<!-- plan mapper에서 테스트하고 온 것 -->
+	<update id="updateUserSlot"	parameterType="string">
+		UPDATE 	users 
+		SET 	slot = slot + 1,
+				total_point = total_point - 500
+		WHERE 	user_id = #{userId}
+	</update>
+	
+	<select id="findUserId"	parameterType="string" resultType="string">
+		SELECT 	user_id 
+		FROM 	users 
+		WHERE 	user_id = #{userId}
+	</select>
 
 
 </mapper>

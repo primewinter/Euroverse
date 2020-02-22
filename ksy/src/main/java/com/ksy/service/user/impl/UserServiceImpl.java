@@ -93,7 +93,9 @@ public class UserServiceImpl implements UserService {
 	
 	
 	
-	
+	public String findUserId(String userId) throws Exception {
+		return userDao.findUserId(userId);
+	}
 	
 	
 	
@@ -118,9 +120,10 @@ public class UserServiceImpl implements UserService {
 	
 	
 	////////////////////////////plan////////////////////////////////
-	public List<Plan> getEndPlanList(String userId)throws Exception{
-		System.out.println(this.getClass()+"getEndPlanList");
-		return userDao.getEndPlanList(userId);
-	}
+	/*
+	 * public List<Plan> getEndPlanList(String userId)throws Exception{
+	 * System.out.println(this.getClass()+"getEndPlanList"); return
+	 * userDao.getEndPlanList(userId); }
+	 */
 	
 }

@@ -79,7 +79,9 @@ public class MyPageDaoImpl implements MyPageDao{
 	}
 	
 	
-	
+	public void updateUserSlot(String userId) throws Exception {
+		sqlSession.update("UserMapper.updateUserSlot", userId);
+	}
 	
 	
 	
@@ -180,10 +182,11 @@ public class MyPageDaoImpl implements MyPageDao{
 		return sqlSession.selectList("UserMapper.getPartyOfferList",map);
 	}
 	
-	public int getPlanCount(String userId)throws Exception{
-		
-		return sqlSession.selectOne("UserMapper.getPlanCount",userId);
-	}
+	/*
+	 * public int getPlanCount(String userId)throws Exception{
+	 * 
+	 * return sqlSession.selectOne("UserMapper.getPlanCount",userId); }
+	 */
 	
 	
 	public void addPartyMember(Offer offer)throws Exception{

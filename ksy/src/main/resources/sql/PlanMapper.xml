@@ -222,7 +222,7 @@
 	
 	
 	<!-- 	User Mapper에 가야하는 SQL.... 테스트용으로 여기서 만들어 씀	 -->
-	<update id="updateUserSlot"	parameterType="string">
+	<!-- <update id="updateUserSlot"	parameterType="string">
 		UPDATE 	users 
 		SET 	slot = slot + 1,
 				total_point = total_point - 500
@@ -233,9 +233,32 @@
 		SELECT 	user_id 
 		FROM 	users 
 		WHERE 	user_id = #{userId}
+	</select> -->
+	
+	
+	<!-- UserMapper에서 만들어지고 여기로 온 SQL -->
+	<select id="getPlanCount" parameterType="string" resultType="int">
+		SELECT 
+		COUNT(*) 
+		FROM (
+				SELECT 
+				a.plan_id , b.ref_id
+				FROM plan a , party b
+				WHERE a.deleted = 'F' AND b.party_type = 'P' AND a.plan_id = b.ref_id AND( a.plan_master_id =#{userId} OR b.party_user_id =#{userId})
+				GROUP BY a.plan_id , b.ref_id
+				)
 	</select>
-	
-	
+
+	<select id="getEndPlanList" parameterType="string"	resultMap="planSelectMap">
+		SELECT p.plan_id, p.plan_title, p.start_date, count(*)
+		FROM plan p, todo t
+		WHERE p.deleted = 'F'
+			AND p.plan_id = t.plan_id 
+			AND p.plan_status = 'C'
+			AND p.plan_id IN ( SELECT ref_id FROM party WHERE party_user_id = #{userId} AND party_type = 'P' )
+		GROUP BY p.plan_id, p.plan_title, p.start_date
+		ORDER BY p.plan_id
+	</select>
 	
 	
 	

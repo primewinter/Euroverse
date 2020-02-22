@@ -84,7 +84,9 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectOne("UserMapper.checkUserId",userId);
 	}
 	
-	
+	public String findUserId(String userId) throws Exception {
+		return sqlSession.selectOne("UserMapper.findUserId", userId);
+	}
 
 	
 	
@@ -110,10 +112,11 @@ public class UserDaoImpl implements UserDao{
 	
 	
 	
-	public List<Plan> getEndPlanList(String userId)throws Exception{
-		System.out.println("getEndPlanList Dao");
-		
-		return sqlSession.selectList("UserMapper.getEndPlanList",userId);
-	}
+	/*
+	 * public List<Plan> getEndPlanList(String userId)throws Exception{
+	 * System.out.println("getEndPlanList Dao");
+	 * 
+	 * return sqlSession.selectList("UserMapper.getEndPlanList",userId); }
+	 */
 	
 }
