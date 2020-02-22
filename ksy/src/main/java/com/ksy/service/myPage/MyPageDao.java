@@ -24,7 +24,7 @@ public interface MyPageDao {
 	public void updateTotalPoint(Point point)throws Exception;
 	
 	
-	
+	public void updateUserSlot(String userId) throws Exception;
 	
 	
 	/////////////////////survey/////////////////////////////////////////
@@ -55,7 +55,7 @@ public interface MyPageDao {
 	public int getPlanOfferListTotalList(String userId)throws Exception;
 	public int getPartyOfferListTotalList(String userId)throws Exception;
 	
-	public int getPlanCount(String userId)throws Exception;
+	//public int getPlanCount(String userId)throws Exception;
 	public void addPartyMember(Offer offer)throws Exception;
 	
 	public Offer getOffer(String offerId)throws Exception;

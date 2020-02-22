@@ -25,11 +25,11 @@ public void addUser(User user) throws Exception;
 	
 	public List<String> getUserIdList(User user) throws Exception;
 	
-
+	public String findUserId(String userId) throws Exception;
 	
 	
 	
 	
-	public List<Plan> getEndPlanList(String userId)throws Exception;
+	//public List<Plan> getEndPlanList(String userId)throws Exception;
 	
 }

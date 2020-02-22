@@ -979,6 +979,13 @@
 			$('#exitPlan').on('click', function(){
 				deletePlanParty('S');
 			});
+			
+			
+			$('#findUserId').keydown(function(key){
+				if( key.keyCode == 13){
+					findUser($('#findUserId').val());
+				}
+			})
 
 		});
 		

@@ -357,30 +357,22 @@ public class PlanServiceTest {
 	
 	
 	
-	//@Test
-	public void testUpdateUserSlot() throws Exception {		//성공!
-		
-		planService.updateUserSlot("testMember");
-	}
-	
-	//@Test
-	public void testFindUserId() throws Exception {		//성공!
-		
-		String userId = planService.findUserId("testMember");
-		
-		if( userId != null ) {
-			System.out.println(userId + " 님은 존재하는 회원입니다 ");
-		}else {
-			System.out.println("testMember"+ " 는 존재하지 않습니다");
-		}
-		
-		String userId2 = planService.findUserId("nonono");
-		
-		if( userId2 != null ) {
-			System.out.println(userId2 + " 님은 존재하는 회원입니다 ");
-		}else {
-			System.out.println("nonono"+ " 는 존재하지 않습니다");
-		}
-	}
+	/*
+	 * //@Test public void testUpdateUserSlot() throws Exception { //성공!
+	 * 
+	 * planService.updateUserSlot("testMember"); }
+	 * 
+	 * //@Test public void testFindUserId() throws Exception { //성공!
+	 * 
+	 * String userId = planService.findUserId("testMember");
+	 * 
+	 * if( userId != null ) { System.out.println(userId + " 님은 존재하는 회원입니다 "); }else
+	 * { System.out.println("testMember"+ " 는 존재하지 않습니다"); }
+	 * 
+	 * String userId2 = planService.findUserId("nonono");
+	 * 
+	 * if( userId2 != null ) { System.out.println(userId2 + " 님은 존재하는 회원입니다 ");
+	 * }else { System.out.println("nonono"+ " 는 존재하지 않습니다"); } }
+	 */
 	
 }

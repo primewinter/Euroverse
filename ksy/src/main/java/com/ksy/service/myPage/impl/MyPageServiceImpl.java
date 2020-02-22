@@ -84,7 +84,10 @@ public class MyPageServiceImpl implements MyPageService{
 	}
 	
 	
-	
+
+	public void updateUserSlot(String userId) throws Exception {
+		myPageDao.updateUserSlot(userId);
+	}
 	
 	
 	
@@ -176,10 +179,11 @@ public class MyPageServiceImpl implements MyPageService{
 	
 	
 	
-	public int getPlanCount(String userId)throws Exception{
-		
-		return myPageDao.getPlanCount(userId);
-	}
+	/*
+	 * public int getPlanCount(String userId)throws Exception{
+	 * 
+	 * return myPageDao.getPlanCount(userId); }
+	 */
 	
 	public void addPartyMember(Offer offer)throws Exception{
 		myPageDao.addPartyMember(offer);
@@ -244,6 +248,7 @@ public class MyPageServiceImpl implements MyPageService{
 	public void updateQna(Post post)throws Exception{
 		myPageDao.updateQna(post);
 	}
-	
+
+
 	
 }
