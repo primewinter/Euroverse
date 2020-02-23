@@ -54,42 +54,34 @@
 <style>
 	
 	/*include한 툴바 ui 설정값  */
-	.tollbar{
-		padding: 15px;
-	}
-	
-	h3{
-	font-size: 27px;
-	}
-	/* 이거 왜안되지?????????  */
-	table thead > tr{
-		border-color: blue;
-	}
-	.text-right{
-		padding : 8px;
-	}
-	.table-hover{
-	}
-	
-	.text-primary{
-		font-size: 14px;
-	}
-	
-	.a{
-		padding: 3px;
-	}
-	.b{
-		padding: 3px;
-	}
-	
-.outer{
-	background-color: #E6E2E2;
-	padding: 30px; 
-	padding-top: 2px;
-	width:auto;
-	height: auto;
-	display: inline-block;
+.tollbar{
+	padding: 15px;
 }
+
+h3{
+font-size: 27px;
+}
+/* 이거 왜안되지?????????  */
+table thead > tr{
+	border-color: blue;
+}
+.text-right{
+	padding : 8px;
+}
+.table-hover{
+}
+
+.text-primary{
+	font-size: 14px;
+}
+
+.a{
+	padding: 3px;
+}
+.b{
+	padding: 3px;
+}
+
 
 .inner{
 	display: inline-block;
@@ -97,8 +89,8 @@
 	border-bottom-left-radius : 15px;
 	border-bottom-right-radius : 15px;
 	box-shadow : 5px 5px 7px #C3C0C0;
-	height: auto;
-	width:940px;
+	height: 100%;
+	width:100%;
 }
 </style>
 
@@ -117,12 +109,78 @@
 		 $( ".form-control" ).change(function() {
 		 	fncGetUserList(1);
 		 }); 
-	});//end of function	
+	});//end of function
+	
+	function answer(){
+			alert("click?")
+			
+			var appendHtml =
+			'<div style="padding:5px 25px" class="row">'+
+			'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
+			'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
+            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
+            '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">관리자 답변 '+
+            '<button type="button"class="btn btn-outline-danger btn-sm">삭제</button></div>'+
+            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
+            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
+        	'</div></div>';
+        	
+        	$("#append").append(appendHtml);
+	};
+	
+	function htmlDelete(){
+		alert("delete");
+		
+	};
 	
 	$(function(){
-		$(".postId").on("click",function(){
+		$(".postclick").on("click",function(){
 			
+			var postId = $(this).children("input[name=postId]").val();
+			var postTitle = $(this).children("input[name=postTitle]").val();
+			var qnaCate = $(this).children("input[id=qnaCate]").val();
+			var userId = $(this).children("input[id=userId]").val();
 			
+			if(qnaCate == "A"){
+				qnaCate = '주문관련';
+			}
+			if(qnaCate == "B"){
+				
+				qnaCate = '상품관련';
+			}
+			if(qnaCate == "C"){
+				
+				qnaCate = '기타';
+			}
+			
+			var road = '\resources\images\admin\Qicon.png';
+			alert(postId);
+			alert(postTitle);
+			alert(qnaCate);
+			
+			var display = 
+						'<div id="con" class="container">'+
+					        '<div class="inner">'+
+					            '<div style="padding:5px 25px" class="row">'+
+					                '<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
+					                    '<img id="qimg" style="width:40px; "alt="" src=\"/resources/images/admin/Qicon.png"\></div><div>'+
+					                    '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+postTitle+'</div>'+
+					                    '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">'+qnaCate+'</div>'+
+					                    '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-clock"></i>'+userId+'님이 ㅇ분전에 질문하셨습니다.</div></div></div>'+
+					            '<div id="append" style=" height: auto; padding:15px 25px" class="row">'+
+					                '<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
+					                '<div style="text-align:right;display: inline-block; height: 70px; width: 70px;">'+
+					                    '<img style="width:40px;" src=\"/resources/images/admin/Aicon.png"\></div><div>'+
+					                    '<div style="width: 600px; height:100%; margin: 0px 5px 5px 10px;"><textarea class="form-control" style="min-height: 100px">'+
+					                    '</textarea></div></div><div>'+
+					                    '<button type="button" class="btn btn-primary" onclick="answer()" style=" margin-left:5px; height:70px; display: inline-block">답변하기</button></div>'+
+					            '</div></div></div>';
+			
+           	$("#con").remove();
+            $("#"+postId+"").html(display);
+            /* $("#q").attr("src",road); */
+            
+            
 		});
 	});
 	
@@ -138,10 +196,15 @@
 	<div class="container">
 	
 		<!-- =============== 유로버스 툴바 인클루드  ========== -->
-		<div class="tollbar">
 			<jsp:include page="/toolbar/toolBar.jsp"></jsp:include> 
-		</div>
 		<!-- =========== 이까지  ================ -->
+		
+		<!-- 푸쉬바 인클루드  -->
+		<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
+		<!-- 인클루드 end--> 
+		
+		
+		
 		
 	<div class="page-header text-info">
 
@@ -230,12 +293,14 @@
 			   		</c:if>
 				  </td>
 				  <!--========= END ========== -->
-				  
 				  <!--제목  -->
-				  <td class="postId" style="text-align: left;">${post.postTitle }
-				  <input type="hidden" id="postId" name="postId" value=""/></td>
+				  <td class="postclick" style="text-align: left;">
+				  <input type="hidden" id="postId" name="postId" value="${post.postId }"/>
+				  <input type="hidden" id="postTitle" name="postTitle" value="${post.postTitle}"/>
+				  <input type="hidden" id="qnaCate" value="${post.qnaFirstCate}"/>
+				  <input type="hidden" id="userId" value="${post.postWriterId}"/>
+				  ${post.postTitle }</td>
 				    <!--========= END ========== -->
-				  
 				  <!-- 질문분류 종류  -->
 				  <td> 
 				  <c:if test="${post.qnaFirstCate=='A'}">
@@ -249,17 +314,19 @@
 				   </c:if>
 					</td>  
 					 <!--========= END ========== -->
-					 
 				  <!-- 작성자 ID  -->  
 				  <td>${post.postWriterId }</td>
 				   <!--========= END ========== -->
-				   
 				   <!-- 작성일자  -->
 				  <td><c:set var="regDate" value="${fn:split(post.postDate,' ')}"></c:set>
 					<c:out value="${regDate[0]}"></c:out></td>
 					   <!--========= END ========== -->
 				</tr>
+				<tr>
+	          		<td id="${post.postId }" colspan="6" bgcolor="#E6E2E2" style="margin:0px;padding:0px 0px 0px 0px;"></td>
+	          	</tr>
 	          </c:forEach>
+	     		
 			</tbody>
 			</table>
 				<!-- ========== 테이블 내용 끝 ============ -->
@@ -272,136 +339,10 @@
 	<!-- pageNavigator include  -->
 	<jsp:include page="../../common/pageNavigator_new.jsp"/>
 		
-		
-	<table class="outer" style="margin-top:15px; border-top:1px;" style=" display: none;">
-	  <tbody class="inner">
-		<tr>
-		<td valign="top">
-		  <table style="margin-top:15px;">
-		    <tbody>
-		      <tr>
-		        <td style="allign:center;">
-				  <img  style="width:40px; margin: 10px;" alt="" src="\resources\images\admin\Qicon.png">
-			    </td>
-			   </tr>
-			  <tr>
-			    <td align="center" height="33"></td>
-		      </tr>
-		    </tbody>
-		  </table>
-		</td>
-	   <td valign="top">
-	   	 <table style="margin-top:15px;">
-	   	   <tbody>
-	   	    <tr>
-	   	      <td width="680px;">
-	   	        <table>
-	   	          <tbody>
-	   	            <tr>
-	   	              <td colspan="2">
-	   	                <table>
-	   	                   <tbody>
-	   	                    <tr>
-	   	                      <td>
-							    <font>	
-							  	  asdfasdfasdfAasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfadas
-							    </font>
-							   </td>
-						     </tr>
-						     <tr>
-						      <td style="font-size:9pt;font-family:돋움; color:#4EC2F8;">관련</td>
-					   		  <td></td>
-						     </tr>
-						   </tbody>
-						  </table>
-						</td>
-					  </tr>
-					 <tr>
-					  <td>
-			 	       <font style= "font-size:11pt; color: rgb(240, 168, 72);">
-			 	         <i class="fas fa-clock"></i>
- 					            ㅇㅇㅇ님이 분전에 질문하셨습니다.
-				       </font>
-				     </td>
-					</tr>
-				   </tbody>
-				  </table>
-				 </td>
-				</tr>
-			  <tr>
-			   <td>
-		         <table>
-		           <tbody>
-		             <tr>
-		               <td valign="top">
-		                 <img style="width :40px;margin: 10px;" src="\resources\images\admin\Aicon.png">
-		               </td>
-		               <td valign="top">
-		                <table>
-		                  <tbody>
-		                    <tr>
-		                      <td>
-		                       <label for="exampleFormControlTextarea1"></label>
-     			 		   	   <textarea class="form-control"  style="width:460px; transform: translate(0%,-15px);min-height: 100px" id="exampleFormControlTextarea1" rows="3"></textarea>
-     			 		   	  </td>
-     			 		   	  <td valign="top" >
-     			 		   	  	<button type="button" class="btn btn-primary"  style=" margin:10px; height: 70px;">답변하기</button>
-     			 		   	  </td>
-     			 		   	 </tr>
-     			 		   	</tbody>
-     			 		  </table>
-   	 			 		 </td>
-   	 			 		</tr>
-   	 			 	  </tbody>
-   	 			 	 </table>
-   	 			 </td>
-   	 			</tr>
-   	 			<!-- 답변한 글 띄우는 html -->
-   	 		  <tr>
-   	 			<td>
-   	 			 <table>
-   	 			  <tbody>
-   	 			  <!-- 여기부터 append -->
-   	 			   <tr>
-   	 			    <td valign="top">
-   	 			      <img style="width :40px;margin: 10px;" src="\resources\images\admin\Aicon.png">
-					</td>
-					 <td valign="bottom">
-					  <table>
-					   <tbody>
-					    <tr>
-					     <td>
-					      <font>
-					                 관리자 답변관리자 답변관리자 답변관리자 답변관리자 답변관리자 답변관리자 답변관리자 답변
-					      </font>
-					     </td>
-					    </tr>
-					     <tr>
-  	 			 			  <td>
-  	 			        	  <font style= "font-size:11pt; color: rgb(240, 168, 72);">
-  	 			        	   <i class="fas fa-user-clock"></i>
-					  		       관리자님이 분전에 답변하셨습니다.
-			    			</font>
-  	 			  			 </td>
-  	 			 			 </tr>
-					   </tbody>
-					  </table>
-					 </td>	   	 			   
-   	 			   </tr>
-   	 			  </tbody>
-   	 			 </table>
-   	 			</td>
-   	 	      </tr>
-   	 	      <!-- 관리자 답글 html 끝  -->
-   	 		</tbody>
-	   	   </table>
-	   	 </td>
-	   	</tr>
-	   </tbody>
-	  </table>
-	  
-	  
-
+	  <!-- 푸터 인클루드  -->
+		<jsp:include page="/toolbar/footer.jsp"></jsp:include>
+		<!-- 인클루드 end--> 
+	
 </body>
 
 </html>
