@@ -30,7 +30,113 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-		
+		@import url(https://fonts.googleapis.com/css?family=Raleway:400,500,800);
+		figure.snip1200 {
+		  position: relative;
+		  overflow: hidden;
+		  min-width: 220px;
+		  max-height: 310px;
+		  width: 100%;
+		  background: #000000;
+		  color: #ffffff;
+		  text-align: center;
+		  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+		  font-size: 16px;
+		}
+		figure.snip1200 * {
+		  -webkit-box-sizing: border-box;
+		  box-sizing: border-box;
+		  -webkit-transition: all 0.45s ease-in-out;
+		  transition: all 0.45s ease-in-out;
+		}
+		figure.snip1200 img {
+		  max-width: 100%;
+		  position: relative;
+		  opacity: 0.9;
+		}
+		figure.snip1200 figcaption {
+		  position: absolute;
+		  top: 45%;
+		  left: 7%;
+		  right: 7%;
+		  bottom: 45%;
+		  border: 1px solid white;
+		  border-width: 1px 1px 0;
+		}
+		figure.snip1200 .heading {
+		  overflow: hidden;
+		  -webkit-transform: translateY(50%);
+		  transform: translateY(50%);
+		  position: absolute;
+		  bottom: 0;
+		  width: 100%;
+		}
+		figure.snip1200 h2 {
+		  display: table;
+		  margin: 0 auto;
+		  padding: 0 10px;
+		  position: relative;
+		  text-align: center;
+		  width: auto;
+		  text-transform: uppercase;
+		  font-weight: 400;
+		}
+		figure.snip1200 h2 span {
+		  font-weight: 800;
+		}
+		figure.snip1200 h2:before,
+		figure.snip1200 h2:after {
+		  position: absolute;
+		  display: block;
+		  width: 1000%;
+		  height: 1px;
+		  content: '';
+		  background: white;
+		  top: 50%;
+		}
+		figure.snip1200 h2:before {
+		  left: -1000%;
+		}
+		figure.snip1200 h2:after {
+		  right: -1000%;
+		}
+		figure.snip1200 p {
+		  top: 50%;
+		  -webkit-transform: translateY(-50%);
+		  transform: translateY(-50%);
+		  position: absolute;
+		  width: 100%;
+		  padding: 0 20px;
+		  margin: 0;
+		  opacity: 0;
+		  line-height: 1.6em;
+		  font-size: 0.9em;
+		}
+		figure.snip1200 a {
+		  left: 0;
+		  right: 0;
+		  top: 0;
+		  bottom: 0;
+		  position: absolute;
+		  z-index: 1;
+		}
+		figure.snip1200:hover img,
+		figure.snip1200.hover img {
+		  opacity: 0.25;
+		  -webkit-transform: scale(1.1);
+		  transform: scale(1.1);
+		}
+		figure.snip1200:hover figcaption,
+		figure.snip1200.hover figcaption {
+		  top: 7%;
+		  bottom: 7%;
+		}
+		figure.snip1200:hover p,
+		figure.snip1200.hover p {
+		  opacity: 1;
+		  -webkit-transition-delay: 0.35s;
+		  transition-delay: 0.35s;
+		}
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -51,7 +157,7 @@
 			 
 			var boardName = $("#boardName").val();
 		
-			$( "img" ).on("click" , function() {
+			$( "figure" ).on("click" , function() {
 			     var postId = $(this).next().val();	
 				 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
 			});
@@ -66,6 +172,10 @@
 			});
 		});
 		
+		 $(".hover").mouseleave(function() {
+		 	$(this).removeClass("hover");
+		 });
+		
 	</script>
 	
 </head>
@@ -74,7 +184,7 @@
 	
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp" />
-	<jsp:include page="/toolbar/pushBar.jsp" />
+	<%-- <jsp:include page="/toolbar/pushBar.jsp" /> --%>
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -119,7 +229,6 @@
       <!--  table Start /////////////////////////////////////-->
       <table class="table table-hover">
       
-  
 		<tbody>
 		
 		  <div class="album py-5">
@@ -132,16 +241,16 @@
 		  	<c:set var="i" value="${ i+1 }" />
 		  	<c:if test="${post.planId == plan.planId}">
        	  
-		        <div class="col-md-3">
+		        <div class="col-md-4">
 		          <div class="card mb-4 shadow-sm">
 		          
 		          <div style="position: relative;">
-		            <img style="border-top-right-radius:3px;border-top-left-radius:3px;" width="100%" height="200px" src="/resources/images/planImg/${plan.planImg}"/>
-				    <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
-				    <div style="bottom: 175px; left:10px; width:208px; position: absolute;">
-						${plan.planTitle}
-						<div class="plan_type" style="float:right;">
-							<c:choose>
+		          
+			          <figure class="snip1200">
+			            <img style="height:300px;" width="100%" height="200px" src="/resources/images/planImg/${plan.planImg}"/>
+					     <figcaption>
+						    <p>
+						    <c:choose>
 								<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
 								<c:when test="${plan.planType == 'B'}">남자혼자</c:when>
 								<c:when test="${plan.planType == 'C'}">여자끼리</c:when>
@@ -150,10 +259,16 @@
 								<c:when test="${plan.planType == 'F'}">부모님과</c:when>
 								<c:when test="${plan.planType == 'G'}">커플</c:when>
 							</c:choose>
-						</div>
-					</div>
-
-				    
+							<br>${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate} </c:if>
+						    </p>
+						    <div class="heading">
+						      <h2>${plan.planTitle}</h2>
+						    </div>
+						  </figcaption>
+						  <a href="#"></a>
+					  </figure>
+ 				      <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
+				   
 				  </div>	        
 					        
 		            <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg> -->
@@ -193,6 +308,7 @@
 	<jsp:include page="../../common/pageNavigator_new.jsp"/>
 	<!-- PageNavigation End... -->
 	<jsp:include page="/toolbar/footer.jsp" />
+	
 </body>
 
 </html>
