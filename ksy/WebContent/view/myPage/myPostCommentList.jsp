@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-    <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:if test="${  empty user }">
+		<jsp:forward page="/"/>
+	</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -91,14 +94,16 @@ $(function() {
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
+	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>	
 	
+	<div style="height: 100px;"></div>
         <h1  style="margin-left: 240px;">나의 게시글목록</h1>
 		
 	
 	
 	<form id="myPostCommentListForm">
- 		<input type="hidden" id="currentPage" name="currentPage" value=0 />
- 		<input type="hidden" id="currentPage2" name="currentPage2" value=0 /> 
+ 		<input type="hidden" id="currentPage" name="currentPage" value="${resultPage.currentPage}" />
+ 		<input type="hidden" id="currentPage2" name="currentPage2" value="${resultPage2.currentPage }" /> 
 
 	</form>
 	
@@ -147,10 +152,12 @@ $(function() {
   </tbody>
 </table>
 <jsp:include page="../../common/pageNavigator_new.jsp"/>
-<hr class="one">
+<!-- <hr class="one" width="1190px" style="margin-left: 230px;"> -->
 
 
-        <h1 style="margin-left: 240px;">나의 댓글목록</h1>
+
+
+        <h1 style="margin-left: 240px; margin-top: 40px;">나의 댓글목록</h1>
      
 
 
@@ -196,4 +203,5 @@ $(function() {
 
 <jsp:include page="../../common/pageNavigator_new2.jsp"/>
 </body>
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

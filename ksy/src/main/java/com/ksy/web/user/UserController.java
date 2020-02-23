@@ -125,8 +125,12 @@ public class UserController {
 	
 	
 	@RequestMapping(value="addUser" , method = RequestMethod.GET)
-	public String addUser(Model model)throws Exception{
+	public String addUser(Model model , HttpSession session)throws Exception{
 		System.out.println(this.getClass()+"addUser");
+		if(session.getAttribute("user")!=null) {
+			return"redirect:/main.jsp";
+		}
+		
 //		List cityList = new ArrayList();
 //		List tripStyleList = new ArrayList();
 //		List cityImgList = new ArrayList();
@@ -147,6 +151,13 @@ public class UserController {
 		System.out.println(user);
 		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 
+		if(session.getAttribute("user")!=null) {
+			return"redirect:/main.jsp";
+		}
+		
+		
+		
+		
 		//다른방법
 //		if(user.getImage().isEmpty()==false) {
 //			MultipartFile mhsr = (MultipartFile)user.getImage();
@@ -211,7 +222,7 @@ public class UserController {
 	@RequestMapping(value = "getUser" , method=RequestMethod.GET)
 	public String getUser(HttpSession session , Model model) throws Exception {
 		if(session.getAttribute("user")==null) {
-			return "redirect:/";
+			return "redirect:/main.jsp";
 		}
 		
 		System.out.println(this.getClass()+"getUser Start");
@@ -271,17 +282,29 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "searchId",method=RequestMethod.GET)
-	public String searchUserId() {
+	public String searchUserId(HttpSession session) {
 		System.out.println("UserController GET searchUserId!");
+		
+		if(session.getAttribute("user")!=null) {
+			return"redirect:/main.jsp";
+		}
+		
+		
+		
 		
 		return"redirect:/view/user/searchId.jsp";
 	}
 	
 	@RequestMapping(value="searchId",method=RequestMethod.POST)
-	public String searchUserId(@ModelAttribute("user") User user , Model model) throws Exception {
+	public String searchUserId(@ModelAttribute("user") User user , Model model , HttpSession session) throws Exception {
 		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		System.out.println("UserController POST searchUserId");
 		List<String> idList = new ArrayList<String>();
+		if(session.getAttribute("user")!=null) {
+			return"redirect:/main.jsp";
+		}
+		
+		
 		
 		String authType="";
 		
@@ -335,8 +358,13 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="updateUser" , method = RequestMethod.GET)
-	public String updateUser(Model model) {
+	public String updateUser(Model model , HttpSession session) {
 		System.out.println("userController updateUser GET");
+		
+		if(session.getAttribute("user")==null) {
+			return"redirect:/main.jsp";
+		}
+		
 		
 		List<TripSurvey> countryList = countryList();
 		List<TripSurvey> tripStyleList = tripStyleList();
@@ -353,6 +381,11 @@ public class UserController {
 	public String updateUser(@ModelAttribute("user") User user ,HttpSession session, Model model) throws Exception {
 		System.out.println("userController updateUser POST");
 		System.out.println(user);
+		
+		if(session.getAttribute("user")==null) {
+			return"redirect:/main.jsp";
+		}
+		
 		//닉네임 , 이메일 , 폰 , 이미지 , pushagree
 		User currentUser = (User)session.getAttribute("user");
 		currentUser.setNickname(user.getNickname());
@@ -541,22 +574,36 @@ public class UserController {
 	
 	
 	@RequestMapping(value="findPwd")
-	public String findPwd() {
+	public String findPwd(HttpSession session) {
+		if(session.getAttribute("user")!=null) {
+			return"redirect:/main.jsp";
+		}
+		
 		
 		return "redirect:/view/user/findPwd.jsp";
 	}
 	
 	@RequestMapping(value="updatePwd" , method=RequestMethod.GET)
-	public String updatePwd(@RequestParam("userId") String userId , Model model) {
+	public String updatePwd(@RequestParam("userId") String userId , Model model,HttpSession session) {
+		if(session.getAttribute("user")!=null) {
+			return"redirect:/main.jsp";
+		}
+		
 		
 		model.addAttribute("userId" , userId);
 		return "forward:/view/user/updatePwd.jsp";
 	}
 	
 	@RequestMapping(value="updatePwd" , method=RequestMethod.POST)
-	public String updatePwd(@ModelAttribute("user")User user , Model model)throws Exception {
+	public String updatePwd(@ModelAttribute("user")User user , Model model , HttpSession session)throws Exception {
 		System.out.println("updatePwd");
 		System.out.println(user);
+		
+		if(session.getAttribute("user")!=null) {
+			return"redirect:/main.jsp";
+		}
+		
+		
 		
 		if(userService.getUser(user.getUserId())==null){
 			System.out.println("일치하는 데이터가 없음");
@@ -566,7 +613,7 @@ public class UserController {
 		}
 		
 		
-		return "redirect:/user/updatePwdConfirm.jsp";
+		return "redirect:/view/user/updatePwdConfirm.jsp";
 	}
 	
 	@RequestMapping( value = "naverLoginLogic" )
@@ -984,6 +1031,7 @@ public class UserController {
 		
 		TripSurvey tripSurvey8 = new TripSurvey();
 		tripSurvey8.setSurveyChoice("룩셈부르크");
+		
 		tripSurvey8.setSurveyImg("Luxembourg.gif");
 		dreamCountryList.add(tripSurvey8);
 		

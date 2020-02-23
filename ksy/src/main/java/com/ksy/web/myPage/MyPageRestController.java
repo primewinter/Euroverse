@@ -177,7 +177,6 @@ public class MyPageRestController {
 		System.out.println(havePlanCount);
 		
 		if(user.getSlot() <= havePlanCount) {
-			System.out.println("안돼 포인트로 슬룻 구매해야함@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 			map.put("resultMsg", "error");
 			return map;
 		}else if(user.getSlot() > havePlanCount) {
@@ -198,6 +197,7 @@ public class MyPageRestController {
 				return map;
 			}else if(result >= 1) {
 				map.put("resultMsg", "over");
+				return map;
 			}
 			
 		}

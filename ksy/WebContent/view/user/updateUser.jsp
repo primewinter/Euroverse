@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-    <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:if test="${ empty user }">
+		<jsp:forward page="/"/>
+	</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,7 +54,6 @@
     }
 
     .carousel-inner {
-        background-color: aquamarine;
     }
 
     .carousel-inner>.carousel-item {
@@ -102,6 +104,12 @@
     content: " 프로필사진 등록 ";
 }
  */
+ 
+ 
+ .col{
+font-size: 12px;
+
+}
 </style>
 
 
@@ -336,14 +344,14 @@ $(function(){
 		
 			var pwd = $("input[id='pwdId']");
 			var main = $("#main");
-			var h6 = $("#pwdMessage");
+			var errorMsg = $("#pwdMessage");
 			if('${user.pwd}' == pwd.val()){
 				$("#checkPwd").modal("hide");
 				main.prop("style","display : block");
 				
 				
 			}else{
-				h6.text("비밀번호가 틀렸습니다.");
+				errorMsg.text("비밀번호가 틀렸습니다.");
 			}
 		})
 		
@@ -351,15 +359,6 @@ $(function(){
 			
 			
 			enterConfirm(key);
-			/* var pwd = $("input[id='pwdId']");
-			var main = $("#main");
-			var h6 = $("#pwdMessage");
-			if('${user.pwd}' == pwd.val()){
-				
-			}else{
-				h6.text("비밀번호가 틀렸습니다.");
-			} */
-			
 			
 		})
 	 
@@ -411,28 +410,14 @@ function unReg(){
 function enterConfirm(key){
 	var pwd = $("input[id='pwdId']");
 	var main = $("#main");
-	var h6 = $("#pwdMessage");
-	
-/* 	$("input[id='pwdId']").keydown(function (key) {
-		var pwd = $("input[id='pwdId']");
-		var main = $("#main");
-		var h6 = $("#pwdMessage");
-    if(key.keyCode == 13){
-    	if('${user.pwd}' == pwd.val()){
-			$("#checkPwd").modal("hide");
-			main.prop("style","display : block");
-		}else{
-			h6.text("비밀번호가 틀렸습니다.");
-		}
-    }
-}); */
+	var errorMsg = $("#pwdMessage");
 
 	if(key.keyCode == 13){
 		if('${user.pwd}' == pwd.val()){
 			$("#checkPwd").modal("hide");
 			main.prop("style","display : block");
 		}else{
-			h6.text("비밀번호가 틀렸습니다.");
+			errorMsg.text("비밀번호가 틀렸습니다.");
 		}
 	}
 
@@ -447,110 +432,71 @@ function enterConfirm(key){
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
-	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" style="display: none" id="main">
+<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
+<div id="main" style="display: none">
+<p style="font-size:30px; margin-left:500px; margin-top: 50px; margin-bottom: -20px" >
+내정보수정<br><hr style="width: 600px;margin-bottom: -5px;">
+<small style="margin-left:500px;margin-right: 400px; ">정보를 입력해주세요.</small>
+	<small>
 	
-      <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">내정보수정</h1>
-      </div> 
-        
-        <div style="text-align: right; margin-right: 30px;">
-        <i class="fas fa-user-times" onclick="unReg()">회원탈퇴</i>
-        </div>
-     	
+ <i class="fas fa-user-times" onclick="unReg()">회원탈퇴</i>
+	</small>
+
+</p>
+
+<div class="row">
+	<div style="width: 380px;">	</div>
+	
+	<div>
+	
      	<form id="updateForm">
      
-      <div class="row">
-      		<div class="col-5">
-     		</div>
-     		<div id="userImgDiv" class="col-2" style="text-align: center;">
-				<div class="form-row">
-     			<img alt="" id="imgTag" src="/resources/images/userImages/${user.userImg}" style="width: 200px;height: 200px; border: 3px solid black; border-radius: 100px;-moz-border-radius: 100px;-khtml-border-radius: 100px;-webkit-border-radius: 100px;" >
-				
-					<div class="custom-file">
+		      <div style="text-align: center;">
+		     		<div id="userImgDiv" style="text-align: center;">
+		     			<img alt="" id="imgTag" src="/resources/images/userImages/${user.userImg}" style="width: 200px;height: 200px;border-radius: 100px;" >
+						
+		     		</div>
+					<div class="custom-file" style="width: 150px;">
 					  <input type="file" class="custom-file-input" id="image" name="image" accept="image/*" >
 					  <label class="custom-file-label" for="customFile"data-browse="프로필이미지 변경" ></label>  
-	     			</div>
-	     			<h6 class="h6Class"></h6>
-     			</div>
-     		</div>
-     		<div class="col">
-     		</div>
-     		<div class="col">
-     		</div>
-      </div>
+		   			</div>
+		   			<h6 class="h6Class"></h6>
+		      </div>
       
-      <div class="row">
-      	<div class="col" >
-      		</br><p></p>
-      	</div>
-      </div>
+		      <div style="width: 350px;" >
+		      			닉네임
+		     		<div  style="text-align: center;">
+		     			<div class="form-row">
+						    <div class="form-group col">
+		     					<input type="text" class="form-control" value="${user.nickname}" name="nickname" id="nickname">
+		     				</div>
+		     			</div>
+		     				<h6 class="h6Class" id="nicknameh6"></h6>
+		     		
+		     		</div>
+		      </div>
       
-      <div class="row">
-      		<div class="col-5" style="text-align: right;">
-      			닉네임
+      		<div>
+		     			핸드폰번호
+		     			  <div class="row" style="text-align: center;">
+		     			<div class="col-3">
+		     			 <div class="form-row">
+						    <div class="form-group col">
+						      <input type="text" class="form-control" value="${user.phone1}" id="phone1" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3" > 
+						    </div>
+						    <div class="form-group col">
+						    <input type="text" class="form-control" value="${user.phone2}" id="phone2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"> 
+						    </div>
+						    <div class="form-group col">
+						      <input type="text" class="form-control" value="${user.phone3}" id="phone3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4">
+						    </div>
+						  <h6 class="h6Class"></h6>
+						  </div>
+				        <input type="hidden" name="phone"> 
+		     		</div>
+		    	  </div>
+		      
      		</div>
-     		<div class="col-2" style="text-align: center;">
-     			<div class="form-row">
-				    <div class="form-group col">
-     					<input type="text" class="form-control" value="${user.nickname}" name="nickname" id="nickname">
-     				</div>
-     			</div>
-     				<h6 class="h6Class" id="nicknameh6"></h6>
-     		
-     		</div>
-     		<div class="col">
-     		</div>
-     		<div class="col">
-     		</div>
-      </div>
-      
-      <%--  <div class="row">
-      	
-     		<div class="col-5" style="text-align: right;">
-     			비밀번호
-     		</div>
-     		<div class="col-2" style="text-align: center;">
-     			<div class="form-row">
-				    <div class="form-group col">
-     					<input type="password" class="form-control" value="${user.nickname}" name="pwd" id="pwd">
-     				</div>
-     			</div>
-     		</div>
-     		<div class="col-2">
-     		삼
-     		</div>
-     		<div class="col-2">
-     		사
-     		</div>
-     	
-      </div> --%>
-      
-      
-       <div class="row">
-      		<div class="col-5" style="text-align: right;">
-     			핸드폰번호
-     		</div>
-     		<div class="col-3" style="text-align: center;">
-     			 <div class="form-row">
-				    <div class="form-group col">
-				      <input type="text" class="form-control" value="${user.phone1}" id="phone1" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3" > 
-				    </div>
-				    <div class="form-group col">
-				    <input type="text" class="form-control" value="${user.phone2}" id="phone2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"> 
-				    </div>
-				    <div class="form-group col">
-				      <input type="text" class="form-control" value="${user.phone3}" id="phone3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4">
-				    </div>
-				  <h6 class="h6Class"></h6>
-				  </div>
-		        <input type="hidden" name="phone"> 
-     		</div>
-     		<div class="col">
-     		</div>
-     		<div class="col">
-     		</div>
-      </div>
-      
       
        <div class="row">
       		<div class="col-5" style="text-align: right;">
@@ -618,10 +564,6 @@ function enterConfirm(key){
      			</div>
      		
      		</div>
-     		<div class="col">
-     		</div>
-     		<div class="col">
-     		</div>
       </div>
       
       
@@ -658,104 +600,20 @@ function enterConfirm(key){
 			</c:if>	
 				
 		
-				
-				
-     		</div>
-     		<div class="col">
-     			
-	 	
-     		
-     		</div>
-     		<div class="col">
-     		</div>
       </div>
-      
+     </div> 
       
        
       
-      
-       <div class="row">
-      		<div class="col">
-      			<p></p>
-     		</div>
-     		<div class="col">
-     		</div>
-     		<div class="col">
-     		</div>
-     		<div class="col">
-     		</div>
-      </div>
-      
-       <div class="row">
-      		<div class="col">
-     		</div>
-     		<div class="col">
-     		</div>
-     		<div class="col">
-     		</div>
-     		<div class="col">
-     		</div>
-      </div>
-      
-<%-- 
-      
-
- 		
- 				 <div class="form-group">
-	 	<div class="col-6 mx-auto">
-	 		<div><b>가고싶은 나라</b>(최대 5개)</div>
-     	 				 <c:forEach var="dreamCountry" items="${countryList}" varStatus="status">
-							<div class="card" style="float: left;">
-							    <img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}"width="60px" height="30px" style="overflow: hidden;">
-					 			<p class="card-text" style="font-size: x-small;"> 
-					 				<input type="hidden" value="${status.count}">
-					   	 			<input  type="checkbox" id="dreamCountry${status.count}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
-					   	 	 		<input type="hidden" id="countryImg${status.count}" value="${dreamCountry.surveyImg}">
-					   	 	 		<label  for="dreamCountry${status.count}">${dreamCountry.surveyChoice}</label>
-		  						</p>
-							</div> 
-					
-						</c:forEach> 
-						<div id="checkDreamCountry"></div>
-						<h6 class="addH6"></h6>
-   			 </div><!-- 가고싶은 도시 col-6 mx-auto  -->
-		</div><!-- 가고싶은 도시 form-group End  -->
-				
-				
- 
-
-     
-     
-     <div class="form-group">
-	 		<div class="col-6 mx-auto">
-	 				<div><b>여행스타일</b>(최대 3개)</div>
-     	 					 <c:forEach var="style" items="${tripStyleList}" varStatus="status">
-								<div class="card" style="float: left;">
-						    		<img alt="" src="/resources/images/tripInfoimges/${style.surveyImg}"width="60px" height="30px" style="overflow: hidden;">
-				 						<p class="card-text"> 
-				 							<input type="hidden" value="${status.count}">
-								   	 		<input  type="checkbox" id="tripStyle${status.count}" value="${style.surveyChoice}" class="tripStyle">
-								   	 		<input type="hidden" id="styleImg${status.count}" value="${style.surveyImg}">
-								   	 	 	<label  for="tripStyle${status.count}">${style.surveyChoice}</label>
-				  						</p>
-								</div> 
-							</c:forEach> 
-							<div id="checkTripStyle"></div>
-							<h6 class="addH6"></h6>
-   				 </div><!--여행스타일 col-6 mx-auto End -->
-			</div><!-- 여행스타일 form-group End -->
- --%>
-
-     
      
 <div class="form-group">
 	 <div class="col-6 mx-auto ">	
-	
+	<b>가고싶은 나라</b><small>(최대5개)</small>
       <div id="country-carousel" class="carousel slide" data-ride="carousel">
             <!-- 슬라이드 쇼 -->
             <div class="carousel-inner">
                 <!--첫번째 슬라이드-->
-                <div class="carousel-item active" style="background-color: #f2f2f2;">
+                <div class="carousel-item active">
                     <!--<img class="d-block w-100" src="https://images.pexels.com/photos/213399/pexels-photo-213399.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="First slide">-->
                     <!-- <div class="carousel-caption d-none d-md-block" style=""> -->
                     <div class="row">
@@ -773,7 +631,7 @@ function enterConfirm(key){
                     </div>
                 </div>
                 <!--두번째 슬라이드-->
-                <div class="carousel-item" style="background-color: #f2f2f2;">
+                <div class="carousel-item" >
                      <div class="row">
 						
 						<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="10" end="19">
@@ -790,7 +648,7 @@ function enterConfirm(key){
                     </div>
                 </div>
                 
-                <div class="carousel-item" style="background-color: #f2f2f2;">
+                <div class="carousel-item" >
                      <div class="row">
 						
 						<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="20" end="29">
@@ -808,7 +666,7 @@ function enterConfirm(key){
                 </div>
                 
                 
-                <div class="carousel-item" style="background-color: #f2f2f2;">
+                <div class="carousel-item" >
                      <div class="row">
 						
 						<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="30" end="39">
@@ -826,7 +684,7 @@ function enterConfirm(key){
                 </div>
                 
                 
-                <div class="carousel-item" style="background-color: #f2f2f2;">
+                <div class="carousel-item">
                      <div class="row">
 						
 						<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="40" >
@@ -851,26 +709,15 @@ function enterConfirm(key){
                 <!-- / 슬라이드 쇼 끝 -->
 
                 <!-- 왼쪽 오른쪽 화살표 버튼 시작 -->
-                <a class="carousel-control-prev" href="#country-carousel" data-slide="prev" style="height: 50px; vertical-align: middle; margin-top: 130px;">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <a class="carousel-control-prev" href="#country-carousel" data-slide="prev" style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
+                   <i class="far fa-caret-square-left"></i>
                     <!-- <span>Previous</span> --> </a>
 
-                <a class="carousel-control-next" href="#country-carousel" data-slide="next" style="height: 50px; vertical-align: middle; margin-top: 130px;">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <a class="carousel-control-next" href="#country-carousel" data-slide="next" style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
+                  <i class="far fa-caret-square-right"></i>
                     <!-- <span>Next</span> --> </a>
                 <!-- 왼쪽 오른쪽 화살표 버튼 끝 -->
 
-                <!-- 인디케이터 -->
-                <ul class="carousel-indicators">
-                    <li data-target="#country-carousel" data-slide-to="0" class="active"></li>
-                    <!--0번부터시작-->
-                    <li data-target="#country-carousel" data-slide-to="1"></li>
-                     <li data-target="#country-carousel" data-slide-to="2"></li>
-                      <li data-target="#country-carousel" data-slide-to="3"></li>
-                       <li data-target="#country-carousel" data-slide-to="4"></li>
-<!--                     <li data-target="#main-carousel" data-slide-to="2"></li>
- -->                </ul>
-                <!-- 인디케이터 끝 -->
             </div>
         </div>
 	</div>
@@ -882,12 +729,12 @@ function enterConfirm(key){
 
 <div class="form-group">
 	 <div class="col-6 mx-auto ">	
-	
+	<b>나의 여행스타일</b><small>(최대3개)</small>
       <div id="main-carousel" class="carousel slide" data-ride="carousel">
             <!-- 슬라이드 쇼 -->
             <div class="carousel-inner">
                 <!--첫번째 슬라이드-->
-                <div class="carousel-item active" style="background-color: #f2f2f2;">
+                <div class="carousel-item active" >
                     <!--<img class="d-block w-100" src="https://images.pexels.com/photos/213399/pexels-photo-213399.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="First slide">-->
                     <!-- <div class="carousel-caption d-none d-md-block" style=""> -->
                     <div class="row">
@@ -902,13 +749,11 @@ function enterConfirm(key){
 
 								</div>
 							</c:forEach> 
-							 
                     </div>
                 </div>
                 <!--두번째 슬라이드-->
-                <div class="carousel-item" style="background-color: #f2f2f2;">
+                <div class="carousel-item" >
                      <div class="row">
-						
 						<c:forEach var="style" items="${tripStyleList}" varStatus="status" begin="10" >
 								<div class="col" style="margin-top: 60px; text-align: center;">
 						    		<img alt="" src="/resources/images/tripInfoimges/${style.surveyImg}" style="overflow: hidden" width="80px;"height="80px;">
@@ -920,35 +765,16 @@ function enterConfirm(key){
 				  						</p>
 								</div> 
 							</c:forEach>                       
-
-
                     </div>
-                    <!--<img class="d-block w-100" src="https://images.pexels.com/photos/2355519/pexels-photo-2355519.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="Second slide">-->
                 </div>
-                <!--세번째 슬라이드-->
-<!--                 <div class="carousel-item" style="background-color: cornflowerblue;">
-                    다다다다다다다ㅏ
-                </div> -->
-                <!-- / 슬라이드 쇼 끝 -->
-
-                <!-- 왼쪽 오른쪽 화살표 버튼 시작 -->
-                <a class="carousel-control-prev" href="#main-carousel" data-slide="prev" style="height: 50px; vertical-align: middle; margin-top: 130px;">
-                    <span class="carousel-control-prev-icon" ></span>
+                <a class="carousel-control-prev" href="#main-carousel" data-slide="prev"  style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
+                   <i class="far fa-caret-square-left"></i>
                     <!-- <span>Previous</span> --> </a>
 
-                <a class="carousel-control-next" href="#main-carousel" data-slide="next" style="height: 50px; vertical-align: middle; margin-top: 130px;">
-                    <span class="carousel-control-next-icon"></span>
+                <a class="carousel-control-next" href="#main-carousel" data-slide="next" style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
+                   <i class="far fa-caret-square-right"></i>
                     <!-- <span>Next</span> --> </a>
                 <!-- 왼쪽 오른쪽 화살표 버튼 끝 -->
-
-                <!-- 인디케이터 -->
-                <ul class="carousel-indicators">
-                    <li data-target="#main-carousel" data-slide-to="0" class="active"></li>
-                    <!--0번부터시작-->
-                    <li data-target="#main-carousel" data-slide-to="1"></li>
-<!--                     <li data-target="#main-carousel" data-slide-to="2"></li>
- -->                </ul>
-                <!-- 인디케이터 끝 -->
             </div>
         </div>
 	</div>
@@ -966,27 +792,23 @@ function enterConfirm(key){
       </div>
      
      
-     
+</div><!-- id main Div End -->    
      
      
      
       
 	 
-      
-     </main>
-     </div><!-- row -->
- 
  
  
 	
      	</form>
-       </div><!-- container -->  
-       
-       
+     	</div>
    </div>
-   </div>    
-       
-       
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
+   
+   
+   
+   
        
        
 <div class="modal fade " id="checkPwd">
@@ -1007,7 +829,7 @@ function enterConfirm(key){
 						<label for="pwd" style="margin-bottom: 15px;">Password</label>
 						 <input type="password"	class="form-control" placeholder="Enter password" id="pwdId" name="pwd" style="width: 180px;">
 						 <input type="text" style="display: none;" >
-						<h6 id="pwdMessage" style="color: #F00"></h6>
+						 <div id="pwdMessage" style="color: red;"></div>
 					</div>
 						
 						

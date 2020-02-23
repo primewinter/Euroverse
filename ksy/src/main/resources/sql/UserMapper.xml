@@ -580,7 +580,7 @@ SELECT inner_table.*, ROWNUM AS row_seq
 SELECT
 o.offer_id , o.offer_type , o.ref_id ,  o.offer_msg, o.offer_status, o.from_user_id, o.to_user_id, o.offer_date , p.plan_img , p.plan_title , u.user_img
 FROM OFFER o , Plan p , Users u
-WHERE o.to_user_id = #{userId} AND o.offer_type = 'P' AND p.plan_id = o.ref_id AND u.user_id = o.to_user_id AND o.offer_status = 'S') inner_table)
+WHERE o.to_user_id = #{userId} AND o.offer_type = 'P' AND p.plan_id = o.ref_id AND u.user_id = o.to_user_id AND o.offer_status = 'S' AND p.plan_status = 'R') inner_table)
 </select>
 
 <!-- 	SELECT 
@@ -598,7 +598,7 @@ FROM(
 		SELECT 
 		o.offer_id , o.offer_type , o.ref_id ,  o.offer_msg, o.offer_status, o.from_user_id, o.to_user_id, o.offer_date , p.post_title , u.user_img
 		FROM OFFER o , Post p , Users u
-		WHERE o.to_user_id = #{userId} AND o.offer_type = 'A' AND p.post_id = o.ref_id AND u.user_id = o.to_user_id AND o.offer_status = 'S') inner_table
+		WHERE o.to_user_id = #{userId} AND o.offer_type = 'A' AND p.post_id = o.ref_id AND u.user_id = o.to_user_id AND o.offer_status = 'S' AND p.deleted = 'F') inner_table
  	WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage2}*#{search.pageSize} )
 WHERE row_seq BETWEEN (#{search.currentPage2}-1)*#{search.pageSize}+1
 AND #{search.currentPage2}*#{search.pageSize}
@@ -614,7 +614,7 @@ FROM (
 SELECT
 o.offer_id , o.offer_type , o.ref_id ,  o.offer_msg, o.offer_status, o.from_user_id, o.to_user_id, o.offer_date , p.post_title , u.user_img
 FROM OFFER o , Post p , Users u
-WHERE o.to_user_id = #{userId} AND o.offer_type = 'A' AND p.post_id = o.ref_id AND u.user_id = o.to_user_id AND o.offer_status = 'S') inner_table)
+WHERE o.to_user_id = #{userId} AND o.offer_type = 'A' AND p.post_id = o.ref_id AND u.user_id = o.to_user_id AND o.offer_status = 'S' AND p.deleted = 'F') inner_table)
 </select>
 
 

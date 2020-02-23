@@ -139,6 +139,67 @@ public class UserRestController {
 	}
 	
 	
+	
+	@RequestMapping(value = "json/checkUser")
+	public Map checkUser(@RequestBody Map jsonMap)throws Exception {
+		System.out.println("checkUser========");
+		ObjectMapper objectMapper = new ObjectMapper();
+		String mapString = objectMapper.writeValueAsString(jsonMap);
+		JSONObject jsonObject = (JSONObject)JSONValue.parse(mapString);
+		Map<String, String> profileMap = objectMapper.readValue(jsonObject.toString(), new TypeReference<Map<String, String>>(){});
+		System.out.println("userID"+profileMap.get("userId"));
+		System.out.println("userName"+profileMap.get("userName"));
+		System.out.println("email"+profileMap.get("email"));
+		System.out.println("phone"+profileMap.get("phone"));
+		
+		Map<String, String> returnMap = new HashMap<String, String>();
+		
+		User dbUser = userService.getUser(profileMap.get("userId"));
+		System.out.println("디비속 유저!"+dbUser);
+		
+		
+		
+		if(dbUser != null) {
+			if(dbUser.getUserName().equals(profileMap.get("userName"))) {
+				System.out.println("뭐야? 이거 찍히면 좀 이상한데?");
+			
+				if(profileMap.get("phone")=="" || profileMap.get("phone")==null) {
+				
+					if(dbUser.getEmail().equals(profileMap.get("email"))) {
+						returnMap.put("result", "ok");
+						return returnMap;
+					}else{
+						returnMap.put("result", "이메일이 일치하지 않습니다.");
+						return returnMap;
+					}
+					
+				}else if(profileMap.get("email")==""|| profileMap.get("email")==null) {
+					if(dbUser.getPhone().equals(profileMap.get("phone"))){
+						returnMap.put("result","ok");
+						return returnMap;
+					}else {
+						returnMap.put("result", "휴대폰번호가 일치하지 않습니다.");
+						return returnMap;
+					}
+					
+				}else {
+					returnMap.put("result","휴대폰 또는 이메일을 다시 확인 하세요.");
+					return returnMap;
+				}
+
+			}else {
+				returnMap.put("result","이름을 잘못 입력하였습니다.");
+				return returnMap;
+			}
+		}else {
+			returnMap.put("result", "일치하는 회원이 없습니다.");
+			return returnMap;
+		}
+		
+	}
+	
+	
+	
 	@RequestMapping(value = "json/checkDuplicate")
 	public Map Checkduplicate(@RequestBody Map jsonMap) throws Exception {
 		ObjectMapper objMap = new ObjectMapper();
@@ -457,13 +518,26 @@ public class UserRestController {
 		MimeMessage mimemessage = new MimeMessage(session);
 		mimemessage.setFrom(new InternetAddress("jiseong4577@gmail.com"));
 		mimemessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
-		mimemessage.setSubject("아아~~테스트!!!");
-		mimemessage.setText("셋텍스트 부분입니다 여러분~~");
+		mimemessage.setSubject("Euroverse 이메일 인증");
+		mimemessage.setText("");
 		
 		Multipart	multi = new MimeMultipart("related");
 		MimeBodyPart mbp = new MimeBodyPart();
-		String htmlText = "키키키";						 
-		mbp.setContent(htmlText, "text/html; charset=utf-8");
+		StringBuffer str = new StringBuffer();
+		str.append("<div style='width:1000px;height:1000px;border:1px solid'>");
+			str.append("<div style='font-size:30px;margin:20px;text-align:center'>");
+			str.append("<img alt='에러러럴' src='cid:image'><br>");
+			str.append("유럽여행의 모든것 Euroverse<br>");
+			str.append("<b>"+state+"</b>");
+			str.append("</div>");
+		str.append("</div>");
+		
+		
+		//String htmlText = "<h1>이게 먹히나?</h1>이게 되는거면 이미지도 되는거겠지?"+state;						 
+		
+		
+		
+		mbp.setContent(str.toString(), "text/html; charset=utf-8");
 		multi.addBodyPart(mbp);
 		
 		mbp = new MimeBodyPart();

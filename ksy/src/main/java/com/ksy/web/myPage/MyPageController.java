@@ -56,6 +56,11 @@ public class MyPageController {
 
 	@RequestMapping(value="pointList" )
 	public String pointList(HttpSession session , @ModelAttribute("search") Search search, Model model)throws Exception {
+		if(session.getAttribute("user")==null) {
+			return"redirect:/main.jsp";
+		}
+		
+		
 		System.out.println("myPageController pointList");
 		User user = (User)session.getAttribute("user");
 		System.out.println(search);
@@ -84,6 +89,10 @@ public class MyPageController {
 	
 	@RequestMapping(value="myPostCommentList")
 	public String myPostCommentList(@ModelAttribute("search") Search search,HttpSession session , Model model)throws Exception{
+		if(session.getAttribute("user")==null) {
+			return"redirect:/main.jsp";
+		}
+		
 		System.out.println("虐农农农农农农农农@~~~");
 		User user = (User)session.getAttribute("user");
 		System.out.println(search);
@@ -123,6 +132,11 @@ public class MyPageController {
 	
 	@RequestMapping(value="myBookMarkList")
 	public String myBookMarkList(HttpSession session , Model model)throws Exception{
+		if(session.getAttribute("user")==null) {
+			return"redirect:/main.jsp";
+		}
+		
+		
 		System.out.println("合付农府胶飘 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		User user = (User)session.getAttribute("user");
 		List<Post> likeList = myPageService.getBookMarkList(user.getUserId());
@@ -138,6 +152,10 @@ public class MyPageController {
 	
 	@RequestMapping(value="myOfferList")
 	public String myOfferList(@ModelAttribute("search") Search search , HttpSession session , Model model)throws Exception {
+		if(session.getAttribute("user")==null) {
+			return"redirect:/main.jsp";
+		}
+		
 		System.out.println("坷欺府胶飘@!~!~~!@#!#@!@~@~@!~!@~@!~@!~@!~");
 		User user = (User)session.getAttribute("user");
 		
@@ -188,6 +206,10 @@ public class MyPageController {
 	
 	@RequestMapping(value ="addQnaAndQnaList")
 	public String addQnaAndQnaList(@ModelAttribute("search") Search search ,HttpSession session , Model model)throws Exception {
+		if(session.getAttribute("user")==null) {
+			return"redirect:/main.jsp";
+		}
+		
 		System.out.println("@@@@@@@@@@@addQnaAndQnaList");
 		User user = (User)session.getAttribute("user");
 		

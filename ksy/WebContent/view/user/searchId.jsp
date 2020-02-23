@@ -1,5 +1,12 @@
+<%@page import="com.ksy.service.domain.User"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+	<c:if test="${ ! empty user }">
+		<jsp:forward page="/main.jsp"/>
+	</c:if>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -218,7 +225,14 @@ h6{
 <body>
 
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-<div class="container" style="margin-top: 100px;">
+<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
+
+<p style="font-size:30px; margin-left:500px; margin-top: 50px; margin-bottom: -20px" >
+아이디찾기<br><hr style="width: 600px;margin-bottom: -5px;">
+<small style="margin-left:500px; ">원하시는 방법을 선택해주세요.</small>
+</p>
+
+<div class="container" style="margin-top: 70px;">
 
 
 		<!-- <div class="row justify-content-center"> -->
@@ -257,7 +271,7 @@ h6{
 			      <input type="text" class="form-control" id="phone2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"> - 
 			      <input type="text" class="form-control" id="phone3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4">
 			      <input type="hidden" name="phone" id="phone"> 
-			      <input type="button" value="아이디찾기" onclick="javascript:next()" class="btn btn-primary">
+			      <input type="button" value="아이디찾기" onclick="javascript:next()" class="btn btn-outline-primary">
 			    </div>
 			    <h6></h6>
 			</div>
@@ -309,7 +323,7 @@ h6{
 			    <!--이메일 잘 정리하기 email잡은다음에 밸류에 +@+choiceEmail.val() 더하기  -->
 			 	</select>
 			 	<input type="hidden" name="email" id="email">
-			 	<input type="button" onclick="javascript:next()" value="아이디찾기" class="btn btn-primary">
+			 	<input type="button" onclick="javascript:next()" value="아이디찾기"  class="btn btn-outline-primary">
 			</div>
 			<h6></h6>
 		</div>
@@ -339,4 +353,5 @@ h6{
 
 
 </body>
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

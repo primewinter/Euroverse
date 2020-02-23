@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:if test="${  empty user }">
+		<jsp:forward page="/"/>
+	</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,6 +50,7 @@ function doShow() {
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	
 	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
+	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 
  	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 	
@@ -185,4 +192,5 @@ function doShow() {
 	
 	
 </body>
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

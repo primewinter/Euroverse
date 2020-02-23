@@ -1,9 +1,11 @@
 <%@page import="com.ksy.service.domain.User"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<%User user = (User)session.getAttribute("user"); %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:if test="${  empty user }">
+		<jsp:forward page="/"/>
+	</c:if>
 
 <!DOCTYPE html>
 <html>
@@ -62,8 +64,10 @@ align-content: center;
 
 /* entire container, keeps perspective */
 .flip-container {
+margin:40px;
     perspective: 1000px;
    border:2px solid rgba(0,0,0,0) !important;
+   
 }
 
 /* front pane, placed above back */
@@ -72,11 +76,16 @@ align-content: center;
   /* for firefox 31 */
   transform: rotateY(0deg);
  /*  background-size:100% 100%; */
+ box-shadow: 5px 5px 7px gray;
+ border-radius :15px; 
 }
 /* back, initially hidden pane */
 .back {
     transform: rotateY(180deg);
   /* background-size:100% 100%; */
+  box-shadow: 5px 5px 7px gray;
+  border-radius :15px;
+  
 }
 
 /* flip the pane when hovered */
@@ -146,12 +155,15 @@ function tripStyle(tripStyle){
 
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
-
-
-      				<div id="userProfileDiv" style="width:70%;height:230px; padding-left: 400px;padding-top: 30px;margin-left: 240px;">
-					    <img alt="" src="/resources/images/userImages/${user.userImg}" style="border-radius: 100px;width:170px;height: 170px;">
+<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
+				
+      				<div id="userProfileDiv" style="width:70%;height:230px; padding-left: 120px;padding-top: 30px;margin-left: 240px;">
+						
+					<div class="row">
+						<div style="display: inline-block;">
+					    <img alt="" src="/resources/images/userImages/${user.userImg}" style="border-radius: 180px;width:210px;height: 210px;">
 					 		
-						 	<div style="margin-left: 200px;margin-top:-170px;">
+						 	<div style="margin-left: 250px;margin-top:-190px;">
 						 		<c:if test="${user.role == 'G' }">
 		                    		<div class="badge badge-secondary ">비인증회원</div>
 		                    	</c:if>
@@ -161,41 +173,78 @@ function tripStyle(tripStyle){
 		                    	<c:if test="${user.role == 'A' }">
 		                    		<div class="badge badge-info" >관리자</div>
 		                    	</c:if>
-							    <div class="nicknameClass" style="font-size: 27px" >
+							    <div class="nicknameClass" style="font-size: 25px;"  >
 									 ${user.nickname}
 									<!-- <i class="far fa-address-card" style=" text-decoration: underline; cursor: help;">상세보기</i> -->
 					  			</div>
 					  			
-					  			<div style="font-size: 14px;margin-top: 0px;">
-						  			<div>
+					  			<div style="font-size: 16px;display: inline-block;">
+						  			<div style="">
+						  			${user.userName}
+						  			</div>
+						  			
+						  			<div style="font-size: 16px;">
+						  			<c:if test="${user.sex == 'M'}">
+						  				남자<i class="fas fa-male"></i>
+						  			</c:if>
+						  			<c:if test="${user.sex == 'F'}">
+						  				여자<i class="fas fa-female"></i>
+						  			</c:if>
+						  			</div>
+						  			
+						  			<div style="font-size: 16px;">
 						  			${user.email}
 						  			</div>
 						  			
-						  			<div style="margin-bottom: 10px;">
+						  			<div style="font-size: 16px;">
 						  			${user.phone}
 						  			</div>
 						  			
-						  			<div style="margin-bottom: 8px;">
+					  			</div>
+					  			
+					  		</div>	
+					  		</div>
+					  				<div style=" display: inline-block; margin-left: 60px;">
+					  					<div style="width:369px;height: 20px;">
+					  					
+					  					</div>
+					  					<div class="row" >
+						  				<div style="display: inline-block;  width: 240px;">
+						  				<div>
+						  					가고싶은 나라
+						  				</div>
+						  				
+						  				
+						  				<div>
+								  			<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
+												<c:if test="${tripSurvey.surveyType=='D'}">
+												 <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="60px" height="47px" onmouseover="country('${tripSurvey.surveyChoice}')" onmouseout="country('')" style="margin:3px;"  >
+												</c:if>
+											</c:forEach> 
+						  				</div>
+						  				</div>
+						  				<div style="display: inline-block; width: 10px;">
+						  				</div>
+						  				
+						  				<div style="display: inline-block; width: 150px;">
+						  				<div>
+						  					여행스타일
+						  				</div>
 						  			
-						  			<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
-										<c:if test="${tripSurvey.surveyType=='D'}">
-										 <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="30px" height="25px" onmouseover="country('${tripSurvey.surveyChoice}')" onmouseout="country('')" style="margin-right: 3px;" >
-										</c:if>
-									</c:forEach> 
-						  			
-						  			</div>
 						  			
 						  			<div>
 						  				<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
 												<c:if test="${tripSurvey.surveyType=='T'}">
-												 <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="30px" height="25px" onmouseover="tripStyle('${tripSurvey.surveyChoice}')" onmouseout="tripStyle('')" style="margin-right: 3px;" >
+												 <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="60px" height="47px" onmouseover="tripStyle('${tripSurvey.surveyChoice}')" onmouseout="tripStyle('')" style="margin: 3px;" >
 												</c:if>
 										</c:forEach>
+						  			</div>
+						  				</div>
+						  			</div>
 						  			
 						  			</div>
 						  			
-						  			
-					  			</div>
+						</div>  			
 					  			
 					  			
 			<%--   			<div >	
@@ -222,28 +271,10 @@ function tripStyle(tripStyle){
 			  			
       				</div> 
 		  			
+		  			<div style="text-align: center;">
 		  			
 		  			
 		  			
-		  			<table class="table" id="" style="margin-left:240px;width: 70%; text-align:center;  border-collapse: collapse; border-spacing: 0" >
-  <thead>
-<!--       <th scope="col"><i class="fas fa-coins"></i>포인트</th>
-      <th scope="col"><i class="far fa-flag"></i>유럽에서</th>
-      <th scope="col"><i class="fab fa-buromobelexperte"></i>슬롯</th>
-      <th scope="col"><i class="far fa-clipboard"></i>게시글</th>
-      <th scope="col"><i class="far fa-copy"></i>댓글</th>
-      <th scope="col"><i class="fas fa-user-friends"></i>동행</th> -->
-      
-      <th></th>
-      <th></th>
-      <th></th>
-      
-      
-  </thead>
- 
-  <tbody>
-  <tr>
-				      <td>
 				      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;">
 	  					  <div class="flipper">
 	       					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
@@ -257,10 +288,8 @@ function tripStyle(tripStyle){
 	    				</div>
 					</div>
 
-					</td>
 					
 					
-					<td>
 				      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;">
 	  					  <div class="flipper">
 	       					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
@@ -274,10 +303,8 @@ function tripStyle(tripStyle){
 	    				</div>
 					</div>
 
-					</td>
 				     
 				     
-				      <td>
 				      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;">
 	  					  <div class="flipper">
 	       					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
@@ -291,15 +318,11 @@ function tripStyle(tripStyle){
 	    				</div>
 					</div>
 
-					</td>
 				     
-				     
-				     
-	</tr>			      
-	<tr>
+				     </div>
+				     <div style="text-align: center;">
 	
 	
-				       <td>
 				      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;">
 	  					  <div class="flipper">
 	       					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
@@ -313,11 +336,9 @@ function tripStyle(tripStyle){
 	    				</div>
 					</div>
 
-					</td>
 				     
 				     
 				     
-				     <td>
 				      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;">
 	  					  <div class="flipper">
 	       					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
@@ -330,11 +351,8 @@ function tripStyle(tripStyle){
 	       					 </div>
 	    				</div>
 					</div>
-
-					</td>
 					
 					
-					 <td>
 				      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;">
 	  					  <div class="flipper">
 	       					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
@@ -348,23 +366,7 @@ function tripStyle(tripStyle){
 	    				</div>
 					</div>
 
-					</td>
-				     
-				     
-				     
-				     
-				     
-				     
-				     
-				     
-				      
-				      
-	</tr>
-				      
-	
-  </tbody>
-</table>
-		  			
+		  			</div>
 		  	
 		  	
 		  	
@@ -578,8 +580,10 @@ function tripStyle(tripStyle){
 
 
 
+
       
 
 
 </body>
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

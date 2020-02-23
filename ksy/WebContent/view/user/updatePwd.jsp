@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+	<c:if test="${ ! empty user }">
+		<jsp:forward page="/main.jsp"/>
+	</c:if>
 
 <!DOCTYPE html>
 <html>
@@ -25,32 +30,28 @@ var h6 = document.getElementsByTagName("h6");
 var updatePwd = document.getElementById("updatePwd");
 //h6[0].style.display = "none";
 //h6[1].style.display = "none";
+var firstPwd = $("#firstPwd");
+var secondPwd = $("#secondPwd");
 
-h6[0].innerHTML = "";
-h6[1].innerHTML = " ";
 
 	pwd.onkeyup = function(event) {
 		if(pwd.value.length<6 || pwd.value.length>20){
-			//h6[0].style.display = "";
-			//h6[0].show();
-			h6[0].innerHTML = "비밀번호는 6자~20자 입니다."
+			firstPwd.html("비밀번호는 6자~20자 입니다.");
 			return;
 			//updatePwd.setAttribute("type","hidden");
 		}else if(/^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/.test(pwd.value) == false){
-			h6[0].innerHTML = "비밀번호는 최소 하나의 소문자,대문자 와 숫자가 포함되어야 합니다."
+				firstPwd.html( "비밀번호는 최소 하나의 소문자,대문자 와 숫자가 포함되어야 합니다.");
 			return;
 		
 		}else{
-			//h6[0].style.display = "none";
-			h6[0].innerHTML = " ";
+			firstPwd.html("");
 		}
 	
 	}
 	
 	pwdConfirm.onkeyup = function(event){
 		if(pwd.value != pwdConfirm.value){
-			//h6[1].style.display = "";
-			h6[1].innerHTML = "비밀번호가 일치하지 않습니다."
+			secondPwd.html("비밀번호가 일치하지 않습니다.");
 		 	//updatePwd.setAttribute("type","hidden");
 		}else{
 		    h6[1].innerHTML = " ";
@@ -58,7 +59,7 @@ h6[1].innerHTML = " ";
 			//h6[1].style.display = "none";
 		    	//updatePwd.setAttribute("type","hidden");
 		    }else{
-		    //updatePwd.setAttribute("type","button");
+		    	secondPwd.html("");
 		    }
 		}
 		
@@ -76,10 +77,10 @@ h6[1].innerHTML = " ";
 			alert("비밀번호는 최소 하나의 소문자,대문자 와 숫자가 포함되어야 합니다.");
 		}else{
 			
-		var form = document.getElementsByTagName("form");
-		form[0].setAttribute("action","/user/updatePwd");
-		form[0].setAttribute("method","post");
-		form[0].submit();
+		var form = $("#pwdUpdateForm")
+		form.attr("action","/user/updatePwd");
+		form.attr("method","post");
+		form.submit();
 		}
 	}
 	
@@ -92,22 +93,38 @@ h6[1].innerHTML = " ";
 </head>
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-<form>
+<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 
-<h1><b>※updatePwd page※</b></h1>
-
-<input type="hidden" name="userId" id="userId" value="${userId}">
-변경할 비밀번호<input type="text" name="password" id="pwd"></br>
-<h6></h6>
-
-변경할 비밀번호 확인<input type="text" id="pwdConfirm"></br>
-<h6></h6>
-
-<input type="button" id="updatePwd" value="비밀번호 변경">
-
- 
+<div class="container" style="margin-top: 70px;">
+<p style="font-size:30px;margin-left:300px; margin-top: 50px; margin-bottom: -20px" >
+비밀번호변경<br><hr style="width: 530px;margin-bottom: -5px;">
+<small style="margin-left:300px; ">새로운 비밀번호를 입력해주세요.</small>
+</p>
 
 
-</form>
+	<form  id="pwdUpdateForm">
+		<div class="row">
+			<div style="width: 300px;"></div>
+		
+			<div class="form-group" style="width: 540px;">
+				<input type="hidden" name="userId" id="userId" value="${userId}">
+				변경할 비밀번호<input type="text" class="form-control"  name="pwd" id="pwd">
+				<div id="firstPwd" style="height: 20px; color: red;"></div>
+				<br>				
+				변경할 비밀번호 확인<input type="text" class="form-control"  id="pwdConfirm">
+				<div id="secondPwd" style="height: 20px; color: red;"></div>
+				<br>
+								
+				<div style="text-align: center;">
+				<input type="button"  class="btn btn-outline-primary" id="updatePwd" value="비밀번호 변경">
+				</div>
+			</div>
+			
+		</div>
+	</form>
+	
+</div>
+
 </body>
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

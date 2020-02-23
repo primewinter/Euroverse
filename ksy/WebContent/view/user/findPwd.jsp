@@ -1,6 +1,11 @@
 
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+	<c:if test="${ ! empty user }">
+		<jsp:forward page="/main.jsp"/>
+	</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,11 +32,11 @@
 		var phone3 = document.getElementById("phone3");
 		var phone = document.getElementById("phone");
 		
-		var emailFirst = document.getElementById("emailFirst");
-		var emailSecond = document.getElementById("emailSecond");
+		var emailId = document.getElementById("emailId");
+		var choiceEmail = document.getElementById("choiceEmail");
 		
 		
-		var email = emailFirst.value + '@' + emailSecond.value;
+		var email = emailId.value + '@' + choiceEmail.value;
 		
 		
 		
@@ -41,12 +46,10 @@
 			userName1.setAttribute('name', 'userName');
 			userName2.setAttribute('name', '');
 			userName2.setAttribute('value', '');
-			
-			//userId1.setAttribute('name' , 'userId');
-			//userId2.setAttribute('name','');
-			
 			userId2.setAttribute('value','');
-			//email.setAttribute('value','');
+			emailId.setAttribute('value' , '');
+			choiceEmail.setAttribute('value' , '');
+			eamil = '';
 			
 		}
 
@@ -56,14 +59,11 @@
 			userName1.setAttribute('name', '');
 			userName1.setAttribute('value', '');
 			userName2.setAttribute('name', 'userName');
-			
-			//userId2.setAttribute('name','userId');
-			//userId1.setAttribute('name','');
-			
 			userId1.setAttribute('value','');
 			phone1.setAttribute('value','');
 			phone2.setAttribute('value','');
 			phone3.setAttribute('value','');
+			phone.setAttribute('value','');
 			
 		}
 
@@ -71,22 +71,39 @@
 	
 	
 	function pwd(){
-		var userId1 = document.getElementById("userId1");
-		var userId2 = document.getElementById("userId2");
+		/* var userId1 = document.getElementById("userId1");
+		var userId2 = document.getElementById("userId2"); */
 		
 		var userName1 = document.getElementById("userName1");
 		var userName2 = document.getElementById("userName2");
 		
 		var phone = document.getElementById("phone");
-		var emailFirst = document.getElementById("emailFirst");
-		var emailSecond = document.getElementById("emailSecond");
+		var emailId = document.getElementById("emailId");
+		var choiceEmail = document.getElementById("choiceEmail");
 		
 		
-		var email = emailFirst.value + '@' + emailSecond.value;
+		var email = emailId.value + '@' + choiceEmail.value;
+		
+		
+		var userId1 = $("#userId1");
+		var userId2 = $("#userId2");
+		if(userId1.val()=="" || userId2.val()!=""){
+			
+			alert("이메일로 하는 비밀번호 변경이고! 유저 아이디는!"+userId2.val());
+			$(location).attr("href","/user/updatePwd?userId="+userId2.val());
+		}
+		
+		else if(userId1.val()!="" || userId2.val()==""){
+			alert("핸드폰으로 하는 비밀번호 변경이고! 유저 아이디는!"+userId1.val());
+			$(location).attr("href","/user/updatePwd?userId="+userId1.val());
+		}
+		
 		
 		/* 		$(self.location).attr("href","/myPage/pointList?userId="+$("input[name='userId']")); */
 //		location.href="/myPage/pointList?userId="+$("input[name='userId']");
-		$(location).attr("href","/user/updatePwd?userId="+$("input[name='userId']").val());
+		
+		
+		
 		// self.location ="/myPage/updatePwdGet?userId="+userId;
 		
 		/* var form = document.getElementById("pwdForm");
@@ -204,8 +221,16 @@
 	$(function() {
 
 		$('#phoneConfirm').click(
+				
+				
 				function() {
 
+				$("#userId1").attr("readonly",true);
+				$("#userName1").attr("readonly",true);
+				$("#phone1").attr("readonly",true);
+				$("#phone2").attr("readonly",true);
+				$("#phone3").attr("readonly",true);
+				
 					var phoneCheck = $("input[name='phoneCheck']").val();
 					var phoneValue = $("input[name='phoneValue']").val();
 					console.log("phoneCheck=" + phoneCheck);
@@ -214,7 +239,7 @@
 
 					if (phoneCheck == phoneValue) {
 						alert("인증성공!");
-						$("h6").text("비밀번호를 변경할 수 있습니다.");
+						$("#phoneAppendDiv").text("비밀번호를 변경할 수 있습니다.");
 						var emailCheck = document.getElementById("emailCheck");
 
 						var phone = $("${user.phone}");
@@ -252,8 +277,15 @@
 						
 
 		$('#confirm').click(
-				
 				function() {
+				$("#userId2").attr("readonly",true);
+				$("#userName2").attr("readonly",true);
+				$("#emailId").attr("readonly",true);
+				$("#choiceEmail").attr("readonly",true);
+				var value = $("#choiceEmail").val();
+				
+				$("#choiceEmail option[value!= '"+value+"']").remove();
+				
 					var mailCheck = $("input[name='mailCheck']").val();
 					var mailValue = $("input[name='mailValue']").val();
 					console.log("mailCheck=" + mailCheck);
@@ -261,7 +293,7 @@
 
 					if (mailCheck == mailValue) {
 						alert("인증성공!");
-						$("h6").text("비밀번호를 변경할 수 있습니다.");
+						$("#mailAppendDiv").text("비밀번호를 변경할 수 있습니다.");
 						
 						var email = "${user.email}";
 						var name = "${user.userName}";
@@ -270,11 +302,11 @@
 						var userId2 =document.getElementById("userId2");
 						var name2 = document.getElementById("userName2");
 						
-						var emailFirst = document.getElementById("emailFirst");
-						var emailSecond = document.getElementById("emailSecond");
+						var emailId = document.getElementById("emailId");
+						var choiceEmail = document.getElementById("choiceEmail");
 						
 						
-						var email = emailFirst.value + '@' + emailSecond.value;
+						var email = emailId.value + '@' + choiceEmail.value;
 						
 													
 						var updatePwd2 = document.getElementById("updatePwd2");
@@ -285,8 +317,8 @@
 						
 						//userId2.readOnly = true;
 						//name2.readOnly = true;
-						emailFirst.readOnly = true;
-						emailSecond.readOnly = true;
+						emailId.readOnly = true;
+						choiceEmail.readOnly = true;
 						
 						$('#mailValue').hide();
 						$('#confirm').hide();
@@ -312,29 +344,15 @@
 
 		$('#sendPhone').click(
 				function() {
-					//var userId1 = document.getElementById("userId1");
 					var userId1 = $('#userId1');
-					//alert(userId1);
-					//alert(userId1.val());
-					//var name1 = document.getElementById("name1");
 					var name1 = $('#userName1');
-					
 					$("#emailRadio").hide();
-					
-					//var phoneRadio = document.getElementById('phoneCheck');
-					//var phoneRadio = $('#phoneCheck');
-					
-					//var emailRadio = document.getElementById('emailCheck');
-					//var emailRadio = $('#emailCheck');
-					
-					
 					var phone1 = document.getElementById("phone1");
 					var phone2 = document.getElementById("phone2");
 					var phone3 = document.getElementById("phone3");
 					var phone = document.getElementById("phone");
 							phone.value = phone1.value + "-" + phone2.value + "-"
 									+ phone3.value;
-
 						if (userId1.val() == null || userId1.val()=="") {
 							alert("아이디는 반드시 입력하셔야 합니다.")
 							return;
@@ -375,12 +393,7 @@
 								phone : phone.value
 							}),
 							success : function(JSONData, Status) {
-								
-
-								
 								if(JSONData.result == 'ok'){
-									
-								
 								$.ajax({
 									url : "/user/json/checkPhone",
 									method : "post",
@@ -393,7 +406,7 @@
 										phone : phone.value
 									}),
 									beforeSend : function() {
-										$("h6").text("문자 발송 중입니다... 잠시만 기다려 주세요.");
+										$("#phoneAppendDiv").text("문자 발송 중입니다.");
 									},
 									success : function(JSONData, Status) {
 										console.log(Status);
@@ -401,7 +414,7 @@
 										if (JSONData.result == "done") {
 											$("input[name='phoneCheck']").val(
 													JSONData.phoneCheck);
-											$("h6").text("입력하신 번호로 문자 발송이 완료되었습니다.");
+											$("#phoneAppendDiv").text("입력하신 번호로 문자 발송이 완료되었습니다.");
 
 											$("input[name='phoneValue']").attr("type",
 													"text").attr("placeholder", "인증번호 입력").attr("id","phoneValue");
@@ -415,7 +428,7 @@
 								})
 								
 								}else{
-									$("h6").text(JSONData.result);
+									$("#phoneAppendDiv").text(JSONData.result);
 								}
 								
 							}
@@ -435,11 +448,11 @@
 
 							var name2 = document.getElementById("userName2");
 
-							var emailFirst = document.getElementById("emailFirst");
-							var emailSecond = document.getElementById("emailSecond");
+							var emailId = document.getElementById("emailId");
+							var choiceEmail = document.getElementById("choiceEmail");
 							
 							
-							var email = emailFirst.value + '@' + emailSecond.value;
+							var email = emailId.value + '@' + choiceEmail.value;
 							
 							$("#phoneRadio").hide();
 							
@@ -504,9 +517,7 @@
 											email : email
 										}),
 										beforeSend : function() {
-											$("h6")
-													.text(
-															"메일 발송 중입니다...");
+										 $("#mailAppendDiv").text("메일 발송 중입니다.");
 										},
 										success : function(JSONData, Status) {
 											console.log(Status);
@@ -514,9 +525,7 @@
 											if (JSONData.result == "done") {
 												$("input[name='mailCheck']")
 														.val(JSONData.mailCheck);
-												$("h6")
-														.text(
-																"메일 발송이 완료되었습니다.");
+											$("#mailAppendDiv").text("메일 발송이 완료되었습니다."); 
 
 												$("input[name='mailValue']")
 														.attr("type", "text")
@@ -533,7 +542,7 @@
 									})
 								
 								}else{
-									$("h6").text(JSONData.result);
+									$("#mailAppendDiv").text(JSONData.result);
 								}
 								
 							}
@@ -552,61 +561,137 @@
 </head>
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-<h1>비밀번호찾기</h1>
+<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
+<p style="font-size:30px; margin-left:500px; margin-top: 50px; margin-bottom: -20px" >
+비밀번호찾기<br><hr style="width: 600px;margin-bottom: -5px;">
+<small style="margin-left:500px; ">원하시는 방법을 선택해주세요.</small>
+</p>
+
+<div class="container" style="margin-top: 70px;">
+
 	<form action="/user/updatePwd" method="post" id="pwdForm">
-
-		<div id="phoneRadio">
-		<input type="radio" name="searchId" id="phoneCheck">핸드폰번호로
-		비밀번호찾기</br>
+		<div class="form-group">
+		
+			<div class="col-md-7 mx-auto" style="margin-bottom: 24px;" > 
+	<div class="custom-control custom-radio ">
+	
+	  <input type="radio" id="phoneCheck" name="searchId" class="custom-control-input">
+	  <label class="custom-control-label" for="phoneCheck"><h3>핸드폰번호로 비밀번호찾기</h3></label>
+	</div>
+	</div>
+		
+		<div id="phoneDiv" style="display:none">
+		<div class="form-group">
+			<div class="col-7 mx-auto">
+				<b>ID</b>
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="fas fa-user"></i></span>
+					<input type="text" class="form-control" placeholder="ID" id="userId1">
+				</div>
+				<h6></h6>
+			</div>
 		</div>
-		<div id="phoneDiv" style="display: none">
-			아이디<input type="text" id="userId1"> </br> 
-			이름 <input type="text" id="userName1"></br> 
-			핸드폰번호<input type="text" id="phone1" name="phone1">
-			-<input type="text" id="phone2"	name="phone2">
-			-<input type="text" id="phone3" name="phone3">&nbsp;&nbsp;
-			<!-- <input type="button" value="아이디찾기" onclick="javascript:next()"> -->
-			<input type="hidden" id="phone" name="phone"> 
-			<input type="button" value="인증하기" id="sendPhone">  
-			<input type="hidden" id="updatePwd" onclick="javascript:pwd()">
+		
+		
+		<div class="form-group">
+			<div class="col-7 mx-auto">
+				<b>Name</b>
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="fas fa-user"></i></span>
+					<input type="text" class="form-control" placeholder="Name" id="userName1">
+				</div>
+				<h6></h6>
+			</div>
+		</div>
+	
+		<div class="form-group">
+		 	<div class="col-7 mx-auto" style="margin-bottom: 40px;">
+		 		<b>Phone</b>
+		 		<div class="input-group-prepend">
+		 		  <span class="input-group-text"><i class="fas fa-phone"></i></span>
+			      <input type="text" class="form-control" id="phone1" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"> - 
+			      <input type="text" class="form-control" id="phone2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"> - 
+			      <input type="text" class="form-control" id="phone3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4">
+			      <input type="hidden" name="phone" id="phone"> 
+			      <input type="button" value="인증하기" id="sendPhone" class="btn btn-outline-primary">  
+			<input type="hidden" id="updatePwd" onclick="javascript:pwd()" class="btn btn-outline-primary">
 			<br/>
-			<input type="hidden" name="phoneValue" value="">
-			<button type="button" id="phoneConfirm">인증번호확인</button>
-			<h6></h6>
 			<input type="hidden" name="phoneCheck" value="">
-
-		</div>
-
-
-
-		<div id="emailRadio">
-		<input type="radio" name="searchId" id="emailCheck">이메일로
-		비밀번호찾기</br>
-		</div>
-		<div id="emailDiv" style="display: none">
-			아이디<input type="text" id="userId2"></br> 
-			이름 <input type="text" id="userName2"></br>
-			이메일 <input type="text" name="emailFirst" id="emailFirst"> 
-			@ <select name="emailSecond" id="emailSecond">
-				<option value="">선택</option>
-				<option value="gmail.com">gmail.com</option>
-				<option value="naver.com">naver.com</option>
-				<option value="daum.net">daum.net</option>
-			</select>
+			    </div>
+			    <div id="phoneAppendDiv" style="margin-top: 20px;"></div>
+			<div style="height: 10px;"></div>
+			<input type="hidden" name="phoneValue" value="">
+			<button type="button" id="phoneConfirm" class="btn btn-outline-primary">인증번호확인</button>
 			
-			&nbsp;&nbsp;
-			<!-- <input type="button" value="아이디찾기" onclick="javascript:next()"> -->
-			<input type="button" value="인증하기" id="sendMail"> 
-			<input type="hidden" id="updatePwd2" onclick="javascript:pwd()"></br>
-			<input type="hidden" name="mailValue" value="">
-			<button type="button" id="confirm">인증번호확인</button>
-			<h6></h6>
-			<input type="hidden" name="mailCheck" value="">
+			</div>
+	 	 </div>
+	
+	</div>
+		
+		
+		
 
+			<div class="form-group">
+	<div class="col-md-7 mx-auto" > 
+	<div class="custom-control custom-radio">
+	  <input type="radio" id="emailCheck" name="searchId" class="custom-control-input">
+	  <label class="custom-control-label" for="emailCheck"><h3>이메일로 아이디찾기</h3></label>
+	</div>
+	</div>
+	<div id="emailDiv" style="display:none">
+		<div class="form-group">
+			<div class="col-7 mx-auto">
+				<b>ID</b>
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="fas fa-user"></i></span>
+					<input type="text" class="form-control" placeholder="ID" id="userId2">
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-7 mx-auto">
+				<b>Name</b>
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="fas fa-user"></i></span>
+					<input type="text" class="form-control" placeholder="Name"  id="userName2" >
+				</div>
+			</div>
 		</div>
 		
+		<div class="form-group">
+		<div class="col-7 mx-auto">
+		<b>Email</b>
+			<div class="input-group-prepend">
+				<span class="input-group-text"><i class="fas fa-globe"></i></span>
+				<input type="text" class="form-control" placeholder="email" id="emailId">
+				<span class="input-group-append">&nbsp;<i class="fas fa-at"></i>&nbsp;</span>
+				<select class="custom-select" id="choiceEmail">
+				<option value="" disabled selected hidden>please choice....</option>
+			    <option value="gmail.com">gmail.com</option>
+			    <option value="naver.com">naver.com</option>
+			    <option value="daum.net">daum.net</option>
+			 	</select>
+			 	<input type="hidden" name="email" id="email">
+			    <input type="button" value="인증하기" id="sendMail" class="btn btn-outline-primary">  
+				<input type="hidden" id="updatePwd2" onclick="javascript:pwd()" class="btn btn-outline-primary" >
+				<br/>
+			<input type="hidden" name="mailCheck" value="">
+			 	
+			</div>
+			<div id="mailAppendDiv" style="margin-top: 20px;"></div>
+			<div style="height: 10px;"></div>
+				<input type="hidden" name="mailValue" value="">
+				<button type="button" id="confirm" class="btn btn-outline-primary">인증번호확인</button>
+		</div>
+		</div>
+			</div>
+			</div>
 		
 		
+		
+		</div>
+		</div>
 	</form>
 </body>
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

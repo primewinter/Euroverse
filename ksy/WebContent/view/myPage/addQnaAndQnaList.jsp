@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-            <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:if test="${  empty user }">
+		<jsp:forward page="/"/>
+	</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -285,37 +288,46 @@ $(function(){
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
-
+<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
-     
+   <div style="height: 100px;"></div>
 		
 <form id="qnaForm">		
  	<input type="hidden" id="currentPage" name="currentPage" value=0 />
 		
 	<div class="container mt-3">
 		  <div class="d-flex flex-column mb-3">
-		    <div class="p-2 ">
-		    <h2>1:1문의 작성</h2>
-		 		<input type="text" id="postTitle" name="postTitle" placeholder="제목을 입력해주세요." class="form-control" style="width: 200px;margin-bottom: 5px;">
-		    <select id="qnaFirstCate" name="qnaFirstCate" class="form-control" style="width: 150px;height: 35px;float: left; margin-right: 20px;">
-		        <option disabled selected hidden>1차분류</option>
-		        <option value="A">주문관련</option>
-		        <option value="B">상품관련</option>
-		        <option value="C">기타</option>
-		    </select>
+		   
+		   <div class="row">
+		   
+		   <div style="width: 230px;"></div>
+		   
+		   <div style="">
 		    
-		    
-		    <select id="qnaSecondCate" name="qnaSecondCate" class="form-control" style="width: 150px;height: 35px; display: none;">
-		        
-		    </select>
-		    
-  	 	 </div><!--1:1문의작성  -->
-		 <div class="p-2 ">
-		 	<div class="md-form">
-			  	<textarea id="postContent" name="postContent" placeholder="문의사항을 작성해주세요." class="md-textarea form-control" rows="3" style="width: 700px;margin-bottom: 10px;"></textarea>
-				<button id="yes" type="button" class="btn btn-primary" style="margin-left: 575px;margin-right:17px; float: left;">작성</button>
-		 		<button id="no" type="button" class="btn btn-secondary">취소</button>
-			</div>
+			    <div class="p-2 ">
+			    <h2>1:1문의 작성</h2>
+			 		<input type="text" id="postTitle" name="postTitle" placeholder="제목을 입력해주세요." class="form-control" style="width: 200px;margin-bottom: 5px;">
+			    <select id="qnaFirstCate" name="qnaFirstCate" class="form-control" style="width: 150px;height: 35px;float: left; margin-right: 20px;">
+			        <option disabled selected hidden>1차분류</option>
+			        <option value="A">주문관련</option>
+			        <option value="B">상품관련</option>
+			        <option value="C">기타</option>
+			    </select>
+			    
+			    
+			    <select id="qnaSecondCate" name="qnaSecondCate" class="form-control" style="width: 150px;height: 35px; display: none;">
+			        
+			    </select>
+			    
+	  	 	 </div><!--1:1문의작성  -->
+			 <div class="p-2 ">
+			 	<div class="md-form">
+				  	<textarea id="postContent" name="postContent" placeholder="문의사항을 작성해주세요." class="md-textarea form-control" rows="3" style="width: 700px;margin-bottom: 10px;"></textarea>
+					<button id="yes" type="button" class="btn btn-primary" style="margin-left: 575px;margin-right:17px; float: left;">작성</button>
+			 		<button id="no" type="button" class="btn btn-secondary">취소</button>
+				</div>
+			 </div>
+			 </div>
 		 </div>
 </form>			
 			<hr class="one">
@@ -483,4 +495,5 @@ $(function(){
 		
 		
 </body>
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

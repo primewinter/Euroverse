@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-        <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:if test="${  empty user }">
+		<jsp:forward page="/"/>
+	</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -111,12 +114,11 @@ function deleteBookMark(postId){
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
-	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"  id="main">
-	
-	 <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">북마크목록</h1>
-     </div> 
+	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>	
+	<div style="height: 100px;"></div>
+        <h1  style="margin-left: 240px; width: 1000px">나의 게시글목록</h1>
 		
+	
 	
 	
 	<form id="myBookMarkListForm">
@@ -125,7 +127,7 @@ function deleteBookMark(postId){
 
 
 
-<table class="table">
+<table class="table" style="margin-left: 240px; width: 1200px;">
 <!-- 	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">최신순</button>
 	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">적립</button>
 	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">차감</button>
@@ -185,9 +187,6 @@ function deleteBookMark(postId){
 
 
 
-
-</main>
-</div>
-</div>
 </body>
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

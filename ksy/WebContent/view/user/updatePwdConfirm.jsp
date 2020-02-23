@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+	<c:if test="${ ! empty user }">
+		<jsp:forward page="/main.jsp"/>
+	</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,15 +18,38 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
 <script>
+
 $(function(){
-	$(".nav-link:contains('비밀번호찾기')").addClass("disabled");
-});
+	$("#goMain").on("click",function(){
+		$(self.location).attr("href","/main.jsp");
+		
+	})
+	
+})
+
 </script>
 
 </head>
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-<h1><b>비밀번호 변경이 완료되었습니다.</b></h1>
-<a href="/user/login.jsp"><input type="button" value="로그인으로"></a>
+<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
+
+<div class="container" style="margin-top: 70px;">
+<p style="font-size:30px;text-align:center; margin-top: 50px; margin-bottom: -20px" >
+비밀번호변경완료했습니다.<br><hr style="width: 530px;margin-bottom: -5px;">
+<small style="margin-left:300px; "></small>
+</p>
+
+<div >
+	<!-- <div style="width: 350px;">	</div> -->
+
+	<div style="text-align: center;">
+	<button type="button" class="btn btn-outline-primary" id="goMain">메인화면</button>
+	</div>
+
+</div>
+	
+</div>
 </body>
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

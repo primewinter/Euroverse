@@ -62,6 +62,8 @@
 </style>
 
 
+
+
 </head>
 <body>
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
@@ -69,8 +71,9 @@
 </button> -->
 
 
-<div class="modal fade" id="choolCheckModal">
+<div class="modal fade" id="choolCheckModal">	
 	  <div class="modal-dialog" id="modalBodyDiv" style="margin-top: 80px; display: none;">
+		<h2 style="color: white;text-align: center;">Euroverse출석체크</h2>
 		<div class="modal-content">
 				<div class="modal-body"  >
 					<div id="calendar"></div>
@@ -129,7 +132,7 @@ function openCal(){
 						success : function(JSONData, Status) {
 									
 								if(JSONData.error == 'error'){
-									alert("이미 출석체크 하셨습니다.");
+									alert("출석은 하루에 한번만 하실수 있습니다.");
 								}else{
 									calendar.addEvent(JSONData);
 								}
@@ -205,6 +208,5 @@ $(function(){
 
 
 </script>
-
 
 </html>

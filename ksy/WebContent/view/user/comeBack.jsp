@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+	<c:if test="${ ! empty user }">
+		<jsp:forward page="/main.jsp"/>
+	</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,9 +48,13 @@
 							return;
 						}
 						
-						alert("복구해주기")
+						//$("#yesOrNoDiv").css("display","none");
+						pwd.attr("readonly","true");
+						$("#comeBackDiv").css("display","none");
 						$("#nicknameDiv").css("display","block");
-						$("#yesOrNoDiv").css("display","none");
+						$("#realComeBackDiv").css("display","block");
+						
+						
 						//$("form").attr("method","get").attr("action","/user/login").submit();
 						
 					}else if(JSONData.result =='errorId'){
@@ -82,7 +91,6 @@ $(function(){
 			}),
 			success : function(JSONData){
 				if(JSONData.result == 'ok'){
-					//h6[4].innerHTML ="";
 					$("#comeBackForm").attr("action","/user/comeBack").attr("method","post").submit();
 				}else{
 					alert("닉네임이 중복됩니다.")
@@ -93,7 +101,49 @@ $(function(){
 		
 	})
 	
+	
+	
+	$(document).on('keyup','#comeBackNickname',function(){
+		var nickname = 	$("#comeBackNickname");
+		var errorNickname = $("#errorNickname")
+		for(var i=0;i<nickname.val().length;i++){
+			if(nickname.val()[i] == " "){
+				nickname.val(nickname.val().replace(" ", ""));
+			}
+		}
+		if(nickname.val().length <2 || nickname.val().length > 10){
+			errorNickname.html("닉네임은 2~10자 입니다.");
+		}else{
+			errorNickname.html("");
+		}
+		
+		if(nickname.val().length >=2 || nickname.val().length <= 10){
+
+		$.ajax({
+			url : "/user/json/checkDuplicate",
+			method : "post",
+			dataType : "json",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			data : JSON.stringify({
+				nickname : nickname.val()
+			}),
+			success : function(JSONData){
+				if(JSONData.result == 'ok'){
+					//h6[4].innerHTML ="";
+				}else{
+					errorNickname.html("중복된 닉네임입니다.");
+				}
+			}//success
+		})//ajax
+		
+		}
+	})
+	
 })
+
 
 
 </script>
@@ -104,10 +154,11 @@ $(function(){
 
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
+<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 
 <form id="comeBackForm" >
 
-아이디<input name="userId" id="comeBackUserId" type="text" value="${userId}">
+<%-- 아이디<input name="userId" id="comeBackUserId" type="text" value="${userId}">
 <br>비밀번호<input name="pwd" id="comeBackPwd" type="password" >
 
 <div id="nicknameDiv" style="display: none;">
@@ -115,12 +166,62 @@ $(function(){
 <button type="button" id="realComeBack" class="btn btn-outline-primary">복구하기</button>
 </div>
 
-</form>
+ --%>
 
-<div id="yesOrNoDiv">
-<button type="button" id="comeBack" class="btn btn-outline-primary">확인</button>
-<button type="button" class="btn btn-outline-secondary">취소</button>
+
+<div class="container" style="margin-top: 70px;">
+<p style="font-size:30px;margin-left:300px; margin-top: 50px; margin-bottom: -20px" >
+아이디 복구하기<br><hr style="width: 530px;margin-bottom: -5px;">
+<small style="margin-left:300px; ">기존에 사용하던 아이디를 복구합니다.</small>
+</p>
+
+
+
+<div class="row">
+			<div style="width: 300px;"></div>
+		
+			<div class="form-group" style="width: 540px;">
+				아이디<input type="text" class="form-control" readonly="readonly"  name="userId" id="comeBackUserId" value="${userId}">
+				<div id="errorId" style="height: 20px; color: red;"></div>
+				<br>				
+				비밀번호<input type="password" class="form-control" placeholder="기존에 사용하던 비밀번호를 입력해주세요." id="comeBackPwd"  name="pwd">
+				<div id="errorPwd" style="height: 20px; color: red;"></div>
+				<br>
+				
+				<div id="nicknameDiv" style="display: none;">
+				닉네임<input type="text" class="form-control"  name="nickname" id="comeBackNickname">
+				<div id="errorNickname" style="height: 20px; color: red;"></div>
+				<br>	
+				</div>
+							
+				
+				
+				<div id="comeBackDiv" style="text-align: center;">
+					<input type="button"  class="btn btn-outline-primary" id="comeBack" value="확인">
+					<button type="button" class="btn btn-outline-secondary">취소</button>
+				</div>
+				
+				<div id="realComeBackDiv" style="display: none;">
+					<input type="button"  class="btn btn-outline-primary" id="realComeBack" value="복구">
+					<button type="button" class="btn btn-outline-secondary">취소</button>
+				</div>
+				
+			</div>
+			
+		</div>
+
+
+
 </div>
 
+
+</form>
+
+<!-- <div id="yesOrNoDiv">
+<button type="button" id="comeBack" class="btn btn-outline-primary">확인</button>
+<button type="button" class="btn btn-outline-secondary">취소</button>
+</div> -->
+
 </body>
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+	<c:if test="${ ! empty user }">
+		<jsp:forward page="/main.jsp"/>
+	</c:if>
+	<!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
@@ -68,11 +72,11 @@
 								
 								for (var i = 0; i < JSONData.length; i++) {
 									$('#onTheATag').append(
-											JSONData[i] + "</br>");
+											"<div style='font-size: 20px; margin-bottom: 30px;'><b>"+	JSONData[i] + "</b></div>");
 
 								}
-								$("input[name='loginButton']").attr("type",
-										"button").attr("value", "로그인으로");
+								$('#onTheATag').append("<a href='/'><button type='button' class='btn btn-outline-secondary'>메인으로</button></a>");
+								
 
 							}
 						})
@@ -115,11 +119,13 @@
 								console.log(JSONData.length);
 								for (var i = 0; i < JSONData.length; i++) {
 									$('#onTheATag').append(
-											JSONData[i] + "</br>");
+										"<div style='font-size: 20px; margin-bottom: 30px;'><b>"+	JSONData[i] + "</b></div>");
 
 								}
-								$("input[name='loginButton']").attr("type",
-										"button").attr("value", "로그인으로");
+								
+								
+								$('#onTheATag').append("<a href='/'><button type='button' class='btn btn-outline-secondary'>메인으로</button></a>");
+								
 							}
 						})
 
@@ -240,14 +246,19 @@
 </head>
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
+<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
 	<div style="text-align:center;margin-top: 50px;">
 	
-	<h1 style="">검색된 아이디</h1>
+	<div style="margin-bottom: 30px;">
+	<h1 style="margin-bottom: -10px;">검색된 아이디</h1>
+	<hr style="width: 600px; margin-bottom: -4px">
+	<small>*표를 없애고 아이디를 보시려면  인증해주세요.</small>
+	</div>
 	
 	<form action="" id="formId" >
 		  
-		<div id="userIdListDiv" style="font-size: 20px;">
+		<div id="userIdListDiv" style="font-size: 20px; margin-bottom: 30px;">
 			<%-- <h1>${authType}</h1> --%>
 			
 			<c:forEach items="${starIdList}" var="userId">
@@ -273,7 +284,7 @@
 				<button type="button" id="sendPhone" class="btn btn-outline-primary">인증하기</button>
 				<!-- <input type="button"  value="인증하기" id="sendPhone"> -->
 				<input type="hidden" id="phone" name="phone"> <input type="hidden" name="phoneValue" value="">
-				<button type="button" class="btn btn-outline-primary" id="phoneConfirm">인증번호확인</button>
+				<button type="button"  class="btn btn-outline-primary" id="phoneConfirm">인증번호확인</button>
 				<h6 style="margin: 20px;"></h6>
 				<input type="hidden" name="phoneCheck" value="">
 			</div>
@@ -300,7 +311,8 @@
 		</br>
 	</form>
 	
-	<div id="onTheATag"></div>
+	<div id="onTheATag" style="font-size: 20px; margin-bottom: 30px;text-align:center;"></div>
+	
 
 	<a href="/user/login.jsp"> <input type="hidden" name="loginButton">
 	</a> 
@@ -321,4 +333,5 @@
 	</div>
 	
 </body>
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

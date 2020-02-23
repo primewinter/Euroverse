@@ -6,18 +6,18 @@
  
 <div class="container text-center">
 		 
-		 <nav>
+		 <nav aria-label="Page navigation example">
 		  <!-- 크기조절 :  pagination-lg pagination-sm-->
-		  <ul class="pagination" >
+		  <ul class="pagination justify-content-center" >
 		    
 		    <!--  <<== 좌측 nav -->
 		  	<c:if test="${ resultPage2.currentPage <= resultPage.pageUnit }">
-		 		<li class="disabled">
+		 		<li class="page-item">
 			</c:if>
 			<c:if test="${ resultPage2.currentPage > resultPage.pageUnit }">
 			</c:if>
-				<li>
-		      <a href="javascript:fncGetUserList2('${ resultPage2.currentPage-1}')" aria-label="Previous">
+				<li class="page-item">
+		      <a  class="page-link" href="javascript:fncGetUserList2('${ resultPage2.currentPage-1}')" aria-label="Previous">
 		        <span aria-hidden="true">&laquo;</span>
 		      </a>
 		    </li>
@@ -27,26 +27,26 @@
 				
 				<c:if test="${ resultPage2.currentPage == i }">
 					<!--  현재 page 가르킬경우 : active -->
-				    <li class="active">
-				    	<a href="javascript:fncGetUserList2('${ i }');">${ i }<span class="sr-only">(current)</span></a>
+				    <li class="page-item">
+				    	<a class="page-link" href="javascript:fncGetUserList2('${ i }');">${ i }<span class="sr-only">(current)</span></a>
 				    </li>
 				</c:if>	
 				
 				<c:if test="${ resultPage2.currentPage != i}">	
-					<li>
-						<a href="javascript:fncGetUserList2('${ i }');">${ i }</a>
+					<li class="page-item">
+						<a class="page-link" href="javascript:fncGetUserList2('${ i }');">${ i }</a>
 					</li>
 				</c:if>
 			</c:forEach>
 		    
 		     <!--  우측 nav==>> -->
 		     <c:if test="${ resultPage2.endUnitPage >= resultPage2.maxPage }">
-		  		<li class="disabled">
+		  		<li class="page-item">
 			</c:if>
 			<c:if test="${ resultPage2.endUnitPage < resultPage2.maxPage }">
 			</c:if>
-				<li>
-		      <a href="javascript:fncGetUserList2('${resultPage2.endUnitPage+1}')" aria-label="Next">
+				<li class="page-item">
+		      <a class="page-link" href="javascript:fncGetUserList2('${resultPage2.endUnitPage+1}')" aria-label="Next">
 		        <span aria-hidden="true">&raquo;</span>
 		      </a>
 		    </li>

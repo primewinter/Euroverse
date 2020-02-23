@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:if test="${  empty user }">
+		<jsp:forward page="/"/>
+	</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,8 +84,8 @@
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
-	
-        <h1 class="h2" style="text-align: center;">포인트 사용 목록</h1>
+	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>	
+       <div style="height: 100px;"></div>
 		
 	
 	
@@ -92,7 +95,7 @@
 
 
 
-<table class="table" style="margin-left: 240px; width: 75%;">
+<table class="table" style="margin-left: 240px; width: 75%; text-align: center;">
 	<h3 style="margin-left: 240px;">보유포인트</h3>
 	<h2 style="margin-left: 240px;">${user.totalPoint} Point
 	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">최신순</button>
@@ -121,7 +124,7 @@
       <th scope="col">사용일시</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody >
   	<c:forEach var="point" items="${pointList}" varStatus="status">
 	    <tr>
 	      <th scope="row">${status.count}</th>
@@ -129,10 +132,10 @@
 	      	<td>${point.usedContent}</td>
 	      	
 	      	<c:if test="${point.usedData=='적립'}">
-	      	<td><i class="fas fa-plus"></i>${point.usedPoint}</td>
+	      	<td><i class="fas fa-plus" style="font-size: 10px; vertical-align: middle;"></i>${point.usedPoint}</td>
 	      	</c:if>
       		<c:if test="${point.usedData=='차감'}">
-      		<td><i class="fas fa-minus"></i>${point.usedPoint}</td>
+      		<td><i class="fas fa-minus" style="font-size: 10px; vertical-align: middle;"></i>${point.usedPoint}</td>
       		</c:if>
 	      	
 	      	
@@ -155,4 +158,5 @@
 
 
 </body>
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

@@ -47,7 +47,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <style>
 
-
 .carousel{
 
 }
@@ -59,7 +58,6 @@
     }
 
     .carousel-inner {
-        background-color: aquamarine;
     }
 
     .carousel-inner>.carousel-item {
@@ -72,6 +70,7 @@
 
 .addH6{
 	color: red;
+	margin: 10px;
 }
 
 
@@ -91,6 +90,11 @@
 #preview img{
 	border: 100px;
 	border-color: #E6E6E6;
+}
+
+.col{
+font-size: 12px;
+
 }
 
 </style>
@@ -563,11 +567,13 @@ function readImg(input){
 
 </head>
 <body>
-<%-- <jsp:include page="/toolbar/toolBar.jsp"></jsp:include> --%>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-<div class="col-md-7 mx-auto" > 
-				<h1 class="text-center">회원가입</h1>
-</div> 
+<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
+
+<p style="font-size:30px; margin-left:500px; margin-top: 50px; margin-bottom: -20px" >
+회원가입<br><hr style="width: 600px;margin-bottom: -5px;">
+<small style="margin-left:500px; ">정보를 입력해주세요.</small>
+</p>
 
 <div class="container">
 
@@ -770,12 +776,12 @@ function readImg(input){
 
 <div class="form-group">
 	 <div class="col-6 mx-auto ">	
-	
       <div id="country-carousel" class="carousel slide" data-ride="carousel">
+		<b>가고싶은 나라</b><small>(최대5개)</small>
             <!-- 슬라이드 쇼 -->
             <div class="carousel-inner">
                 <!--첫번째 슬라이드-->
-                <div class="carousel-item active" style="background-color: #f2f2f2;">
+                <div class="carousel-item active" style="">
                     <!--<img class="d-block w-100" src="https://images.pexels.com/photos/213399/pexels-photo-213399.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="First slide">-->
                     <!-- <div class="carousel-caption d-none d-md-block" style=""> -->
                     <div class="row">
@@ -793,7 +799,7 @@ function readImg(input){
                     </div>
                 </div>
                 <!--두번째 슬라이드-->
-                <div class="carousel-item" style="background-color: #f2f2f2;">
+                <div class="carousel-item" style="">
                      <div class="row">
 						
 						<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="10" end="19">
@@ -810,7 +816,7 @@ function readImg(input){
                     </div>
                 </div>
                 
-                <div class="carousel-item" style="background-color: #f2f2f2;">
+                <div class="carousel-item" style="">
                      <div class="row">
 						
 						<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="20" end="29">
@@ -828,7 +834,7 @@ function readImg(input){
                 </div>
                 
                 
-                <div class="carousel-item" style="background-color: #f2f2f2;">
+                <div class="carousel-item" style="">
                      <div class="row">
 						
 						<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="30" end="39">
@@ -846,7 +852,7 @@ function readImg(input){
                 </div>
                 
                 
-                <div class="carousel-item" style="background-color: #f2f2f2;">
+                <div class="carousel-item" style="">
                      <div class="row">
 						
 						<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="40" >
@@ -871,25 +877,16 @@ function readImg(input){
                 <!-- / 슬라이드 쇼 끝 -->
 
                 <!-- 왼쪽 오른쪽 화살표 버튼 시작 -->
-                <a class="carousel-control-prev" href="#country-carousel" data-slide="prev" style="height: 50px; vertical-align: middle; margin-top: 130px;">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <a class="carousel-control-prev" href="#country-carousel" data-slide="prev" style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
+                   		<i class="far fa-caret-square-left"></i>
                     <!-- <span>Previous</span> --> </a>
 
-                <a class="carousel-control-next" href="#country-carousel" data-slide="next" style="height: 50px; vertical-align: middle; margin-top: 130px;">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <a class="carousel-control-next" href="#country-carousel" data-slide="next" style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
+                    		<i class="far fa-caret-square-right"></i>
                     <!-- <span>Next</span> --> </a>
                 <!-- 왼쪽 오른쪽 화살표 버튼 끝 -->
 
                 <!-- 인디케이터 -->
-                <ul class="carousel-indicators">
-                    <li data-target="#country-carousel" data-slide-to="0" class="active"></li>
-                    <!--0번부터시작-->
-                    <li data-target="#country-carousel" data-slide-to="1"></li>
-                     <li data-target="#country-carousel" data-slide-to="2"></li>
-                      <li data-target="#country-carousel" data-slide-to="3"></li>
-                       <li data-target="#country-carousel" data-slide-to="4"></li>
-<!--                     <li data-target="#main-carousel" data-slide-to="2"></li>
- -->                </ul>
                 <!-- 인디케이터 끝 -->
             </div>
         </div>
@@ -902,12 +899,12 @@ function readImg(input){
 
 <div class="form-group">
 	 <div class="col-6 mx-auto ">	
-	
+	<b>나의 여행스타일</b><small>(최대3개)</small>
       <div id="main-carousel" class="carousel slide" data-ride="carousel">
             <!-- 슬라이드 쇼 -->
             <div class="carousel-inner">
                 <!--첫번째 슬라이드-->
-                <div class="carousel-item active" style="background-color: #f2f2f2;">
+                <div class="carousel-item active" style="">
                     <!--<img class="d-block w-100" src="https://images.pexels.com/photos/213399/pexels-photo-213399.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="First slide">-->
                     <!-- <div class="carousel-caption d-none d-md-block" style=""> -->
                     <div class="row">
@@ -926,7 +923,7 @@ function readImg(input){
                     </div>
                 </div>
                 <!--두번째 슬라이드-->
-                <div class="carousel-item" style="background-color: #f2f2f2;">
+                <div class="carousel-item" style="">
                      <div class="row">
 						
 						<c:forEach var="style" items="${tripStyleList}" varStatus="status" begin="10" >
@@ -952,22 +949,16 @@ function readImg(input){
                 <!-- / 슬라이드 쇼 끝 -->
 
                 <!-- 왼쪽 오른쪽 화살표 버튼 시작 -->
-                <a class="carousel-control-prev" href="#main-carousel" data-slide="prev" style="height: 50px; vertical-align: middle; margin-top: 130px;">
-                    <span class="carousel-control-prev-icon" ></span>
+                <a class="carousel-control-prev" href="#main-carousel" data-slide="prev" style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
+					<i class="far fa-caret-square-left"></i>
                     <!-- <span>Previous</span> --> </a>
 
-                <a class="carousel-control-next" href="#main-carousel" data-slide="next" style="height: 50px; vertical-align: middle; margin-top: 130px;">
-                    <span class="carousel-control-next-icon"></span>
+                <a class="carousel-control-next" href="#main-carousel" data-slide="next" style="height: 50px; vertical-align: middle; margin-top: 130px;color:black; font-size: 30px;">
+					<i class="far fa-caret-square-right"></i>
                     <!-- <span>Next</span> --> </a>
                 <!-- 왼쪽 오른쪽 화살표 버튼 끝 -->
 
                 <!-- 인디케이터 -->
-                <ul class="carousel-indicators">
-                    <li data-target="#main-carousel" data-slide-to="0" class="active"></li>
-                    <!--0번부터시작-->
-                    <li data-target="#main-carousel" data-slide-to="1"></li>
-<!--                     <li data-target="#main-carousel" data-slide-to="2"></li>
- -->                </ul>
                 <!-- 인디케이터 끝 -->
             </div>
         </div>
@@ -978,10 +969,10 @@ function readImg(input){
 
 	
 	<div class="form-group">
-	 		<div class="col-6 mx-auto ">
+	 		<div class="col-6 mx-auto"style="text-align: center;">
 				<!-- <button type="button" class="btn btn-primary">회원가입</button> -->
-				<button type="button" class="btn btn-primary"  data-backdrop="static" data-keyboard="false">회원가입</button>
-				<button type="button" class="btn btn-secondary">취소</button>
+				<button type="button" class="btn btn-outline-primary"  data-backdrop="static" data-keyboard="false">회원가입</button>
+				<button type="button" class="btn btn-outline-secondary">취소</button>
 	
 			</div>
 			<div class="alert alert-danger alert-dismissable" style="display: none;" >
@@ -1030,5 +1021,5 @@ function readImg(input){
 
 
 </body>
-
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

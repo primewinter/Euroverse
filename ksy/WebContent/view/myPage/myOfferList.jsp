@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-            <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:if test="${  empty user }">
+		<jsp:forward page="/"/>
+	</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,7 +47,6 @@
 
 <style>
 .profile-card-3 {
-  font-family: 'Open Sans', Arial, sans-serif;
   position: relative;
   float: left;
   overflow: hidden;
@@ -177,9 +179,6 @@ $(function(){
 		var offerId = $(this).next().next().val();
 		var num = $(this).next().next().next().val();
 		
-		alert(offerId)
-		alert(num)
-		
 		$.ajax({
 			url : '/myPage/json/planOfferAccept/'+offerId ,
 			type : "GET" ,
@@ -188,7 +187,6 @@ $(function(){
 			success : function(JSONData) {
 				
 				//alert("일단 성공"+JSONData.offerId)
-				
 				if(JSONData.resultMsg =='ok'){
 					alert('성공적으로 플래너에 참여했습니다.');
 					//self location
@@ -197,12 +195,13 @@ $(function(){
 					var string = "/plan/getPlan?planId="+planId;
 					$(self.location).attr("href", string);
 					
-					
-				}else if(JSONData.resultMsg = 'error'){
-					alert("슬롯이 부족합니다. 포인트로 구매해주세요.(500Point)")
-					return;
-				}else if(JSONData.resultMsg = 'over'){
+				
+				}else if(JSONData.resultMsg == 'over'){
 					alert("이미 참여중인 플래너입니다.");
+					return;	
+					
+				}else if(JSONData.resultMsg == 'error'){
+					alert("슬롯이 부족합니다. 포인트로 구매해주세요.(500Point)")
 					return;
 				}
 				
@@ -301,11 +300,11 @@ $(function(){
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
-	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"  id="main">
+	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 		
-	<div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">플래너 초대 목록</h1>
-     </div> 
+
+	<div style="height: 100px;"></div>
+        <h1  style="margin-left: 240px; width: 1000px">플래너 초대목록</h1>
 		
 	
 	<form id="myOfferListForm">
@@ -314,11 +313,16 @@ $(function(){
 
 	</form>
 
+<div class="row">
 
+<div style="width: 300px;"></div>
+
+<div>
 <table class="table">
 
+					<div class="row">
 			<c:forEach var="planOffer" items="${planOfferList}" varStatus="status" >
-						<div class="col-md-3" style="float: left;">
+						<div style="width: 300px;" >
 			    		    <div class="card profile-card-3">
 			    		        <div class="background-block">
 			    		            <img src="/resources/images/planImg/${planOffer.planImg}" alt="profile-sample1" class="background"/>
@@ -327,10 +331,10 @@ $(function(){
 			    		            <img src="/resources/images/userImages/${planOffer.userImg}" alt="profile-image" class="profile"/>
 			    		        </div>
 			    		        <div class="card-content">
-			                    		${planOffer.planTitle}
+			                    		<b>${planOffer.planTitle}</b>
 			                    		<small>
 			                    			<br>${planOffer.offerMsg} 
-			                    			<br>${planOffer.fromUserId} 
+			                    			<br>초대자  ${planOffer.fromUserId} 
 			                    			<br>
 			                    			 <c:set var="planOfferDate" value="${fn:split(planOffer.offerDate,' ')}"></c:set>
 					   						 <c:out value="${planOfferDate[0]}"></c:out>
@@ -344,24 +348,29 @@ $(function(){
 			                </div>
 			    		</div>
 			</c:forEach>
+			    	</div>
 		
 	
 
 </table>
+</div>
+
+
+</div>
+
 <jsp:include page="../../common/pageNavigator_new.jsp"/>
 <hr class="one">
 
 
- <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">동행 초대목록</h1>
-     </div> 
-     
+	<div style="height: 100px;"></div>
+        <h1  style="margin-left: 240px; width: 1000px">동행 신청목록</h1>
+		
  		<input type="hidden" id="currentPage" name="currentPage" value=0 /> 
 	
 
 
 	
-	<ul class="list-unstyled">
+	<ul class="list-unstyled" style="margin-left: 240px;">
 		<c:forEach var="partyOffer" items="${partyOfferList}" varStatus="status" >
 			<li class="media">
 			    <img src="/resources/images/userImages/${partyOffer.userImg}" class="mr-3" alt="..." >
@@ -391,10 +400,6 @@ $(function(){
 
 
 
-
-</main>
-</div>
-</div>
-
 </body>
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

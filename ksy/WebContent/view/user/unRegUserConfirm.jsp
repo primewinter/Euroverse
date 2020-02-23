@@ -14,8 +14,8 @@
 
 $(function(){
 	
-	$("button:contains('메인으로')").on("click",function(){
-		$(self.location).attr("href","/");
+	$("#goMain").on("click",function(){
+		$(self.location).attr("href","/main.jsp");
 		
 	})
 })
@@ -25,8 +25,28 @@ $(function(){
 </head>
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
+<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 
-<h1 style="margin-top: 100px; text-align: center;">회원탈퇴가 완료되었습니다.</h1>
-<button type="button" class="btn btn-outline-primary" style="margin-left: 720px;margin-top: 30px;">메인으로</button>
+<div class="container" style="margin-top: 70px;">
+<p style="font-size:30px;text-align:center; margin-top: 50px; margin-bottom: -20px" >
+회원탈퇴가 완료되었습니다.<br><hr style="width: 530px;margin-bottom: -5px;">
+<small style="margin-left:300px; "></small>
+</p>
+
+<div >
+	<!-- <div style="width: 350px;">	</div> -->
+
+	<div style="text-align: center;">
+	<button type="button" class="btn btn-outline-primary" id="goMain">메인화면</button>
+	</div>
+
+</div>
+	
+</div>
+
+
+
+
 </body>
+<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>
