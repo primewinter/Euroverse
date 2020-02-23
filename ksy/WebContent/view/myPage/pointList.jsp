@@ -88,14 +88,14 @@
        <div style="height: 100px;"></div>
 		
 	
-	
-	<form id="pointListForm">
- <input type="hidden" id="currentPage" name="currentPage" value=0 /> 
-	
 
 
 
 <table class="table" style="margin-left: 240px; width: 75%; text-align: center;">
+	
+	<form id="pointListForm">
+	 <input type="hidden" id="currentPage" name="currentPage" value=0 /> 
+	
 	<h3 style="margin-left: 240px;">보유포인트</h3>
 	<h2 style="margin-left: 240px;">${user.totalPoint} Point
 	  <button type="button" class="btn btn-outline-warning waves-effect btn-sm">최신순</button>

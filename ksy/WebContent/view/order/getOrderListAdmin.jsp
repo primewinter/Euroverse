@@ -169,7 +169,7 @@ function fncGetUserList(currentPage) {
  		});
  	
  		/* ------------------------- 여기까징 ------------------------ */	
- 	/* close modal */
+ 	/* -----------------------close modal----------------------- */
  	$(function() {
  		$("#resetmodal4").click(function() {
  			/* if(  $("#refundmodal4")[0] != "undefined" ){
@@ -177,7 +177,7 @@ function fncGetUserList(currentPage) {
  			} */
  			$("#refundmodal4").modal("hide");
  			var orderId = $(this).next().next().val();
- 			$('select #'+orderId+' option[value=3]').prop('selected', 'selected').change();
+ 			$('#'+orderId+' option[value=3]').prop('selected', 'selected').change();
  		})
  		$("#resetmodal3").click(function() {
  			/* if( typeof $("#refundmodal3")[0] != "undefined" ){
@@ -186,7 +186,7 @@ function fncGetUserList(currentPage) {
  			var orderId = $(this).next().next().val();
  			alert(orderId);
  			$("#refundmodal3").modal("hide");
- 			$('select #'+orderId+' option[value=2]').prop('selected', 'selected').change();
+ 			$('#'+orderId+' option[value=2]').prop('selected', 'selected').change();
  		})
  	})
  
@@ -217,8 +217,8 @@ function fncGetUserList(currentPage) {
 </script>
 
 </head>
-<form>
 <body>
+<form>
 <div>
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	 <jsp:include page="/toolbar/pushBar.jsp" />
@@ -356,7 +356,7 @@ function fncGetUserList(currentPage) {
 	     </c:forEach>
 	  </tbody>
 	</table>
-	 <jsp:include page="/toolbar/footer.jsp" />
+
 	</div>
 	<!-- <button type="button" class="btn btn-primary" id="refundApp1" data-toggle="modal" data-target="#refund">
 			   환불 신청
@@ -405,6 +405,7 @@ function fncGetUserList(currentPage) {
 	    </div>
 	  </div>
 	</div>	
-</body>
 </form>
+</body>
+	 <jsp:include page="/toolbar/footer.jsp" />
 </html>

@@ -128,8 +128,8 @@ function fncGetUserList(currentPage) {
 </script>
 
 </head>
-<form>
 <body>
+<form>
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	 <jsp:include page="/toolbar/pushBar.jsp" />
 	<div class="container">
@@ -270,8 +270,8 @@ function fncGetUserList(currentPage) {
 	     </c:forEach>
 	  </tbody>
 	</table>
-	 <jsp:include page="/toolbar/footer.jsp" />
 		<!-- <button type="button" class="btn btn-info" style="margin-top:-10px;width:120px;" >Admin</button> -->
-</body>
 </form>
+	 <jsp:include page="/toolbar/footer.jsp" />
+</body>
 </html>

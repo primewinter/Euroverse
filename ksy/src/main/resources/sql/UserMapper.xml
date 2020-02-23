@@ -319,10 +319,10 @@ from(
 		from Point
 		WHERE user_id = #{userId}
 		<if test="search.searchKeyword == 'use'">
-			AND used_type = 'U' OR used_type = 'S'
+			AND (used_type = 'U' OR used_type = 'S')
 		</if>
 		<if test="search.searchKeyword == 'save'">
-			AND used_type = 'C' OR used_type = 'F' OR used_type = 'R'
+			AND (used_type = 'C' OR used_type = 'F' OR used_type = 'R')
 		</if>
 		order By used_date DESC) inner_table
 	WHERE rownum<![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} ) 
@@ -427,6 +427,19 @@ WHERE user_id = #{userId}
 
 
 
+
+<!-- <select id="getMyPostList" parameterType="map"	resultMap="postSelectMap">
+SELECT *
+  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+  						FROM ( SELECT p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
+										FROM post p, comments c
+										where p.post_id = c.post_id(+) AND p.post_writer_id = #{userId} AND p.qna_first_cate IS NULL AND p.deleted = 'F'
+										GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count 
+										ORDER BY p.post_date DESC) inner_table    
+			    WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
+	  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
+  		AND #{search.currentPage}*#{search.pageSize}
+</select> -->
 
 <select id="getMyPostList" parameterType="map"	resultMap="postSelectMap">
 SELECT *
