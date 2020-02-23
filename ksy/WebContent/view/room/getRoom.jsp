@@ -207,9 +207,9 @@ $(function() {
 					</div>
 					<br/><hr/>
 					
-					 <jsp:include page="/toolbar/footer.jsp" />
 </div>
 </form>
 
+				 <jsp:include page="/toolbar/footer.jsp" />
 </body>
 </html>

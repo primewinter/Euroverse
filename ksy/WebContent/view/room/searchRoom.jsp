@@ -125,7 +125,6 @@
 		    z-index: -4;
 		}
 		/* ดÞทย css */
-		 .kronos-outer .kronos-inner { Padding-top:10px;Padding-left:10px;Padding-right:10px;Padding-bottom:10px;font-size: 14px; }
 		element.style {
 		    height: 350px;
 		} 
@@ -708,14 +707,14 @@ $(function() {
 			
 
 		
-<br><br><br><br><br>
+<br><br><br>
 
 			
 
-			  <jsp:include page="/toolbar/footer.jsp" />
 </div>	
 
 	
 </form>			
+			  <jsp:include page="/toolbar/footer.jsp" />
 </body>
 </html>

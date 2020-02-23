@@ -175,6 +175,9 @@ public class AdminController {
 	@RequestMapping(value="getQnaComment", method=RequestMethod.GET)
 	public String getQnaComment(@ModelAttribute("comment") Comment comment, Model model) {
 		
+		System.out.println("AdminController getQnaComment");
+		
+//		comment.get
 		
 		
 		return "forward:/view/admin/adminQnaList.jsp";

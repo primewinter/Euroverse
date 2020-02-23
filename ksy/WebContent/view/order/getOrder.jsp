@@ -232,7 +232,7 @@
 			   환불 신청
 			</button>
 			</div>
-		 <jsp:include page="/toolbar/footer.jsp" />	
+
 </div>
 			
 <div class="modal fade" id="refund" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -249,7 +249,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" id="reset" data-dismiss="modal">취소</button>
-        <button type="button" class="btn btn-primary" id="refundApp2">환불신청</button>
+        <!-- <button type="button" class="btn btn-primary" id="refundApp2">환불신청</button> -->
       </div>
     </div>
   </div>
@@ -288,5 +288,6 @@
 	<hr/> --%>
 
 	</form>
+			 <jsp:include page="/toolbar/footer.jsp" />	
 </body>
 </html>
