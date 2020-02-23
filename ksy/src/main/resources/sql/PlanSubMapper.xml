@@ -63,11 +63,11 @@
 	<!-- 		Daily SQL		 -->
 	
 	<!--  resultType map..??? -->
-	<select id="getBudgetOverview"	parameterType="string"	resultMap="dailySelectMap">
+	<select id="getBudgetOverview"	parameterType="plan"	resultMap="dailySelectMap">
 		SELECT 	SUM(b.won) budget_amount, b.daily_cate  
 		FROM 	( SELECT daily_cate, 
 						DECODE(budget_currency, 'K', budget_amount, 'E', budget_amount*1300, 'G', budget_amount*1500, budget_amount) AS won 
-					FROM daily WHERE plan_id = #{planId} ) b 
+					FROM daily WHERE plan_id = #{planId} AND TO_NUMBER(day_no) &lt;= #{planTotalDays:NUMERIC} ) b 
 		GROUP BY b.daily_cate
 	</select>
 	
@@ -79,10 +79,11 @@
 	</select>
 	
 	
-	<select id="getDailyList"	parameterType="string"	resultMap="dailySelectMap">
+	<select id="getDailyList"	parameterType="plan"	resultMap="dailySelectMap">
 		SELECT 	d.daily_id, d.daily_cate, d.daily_detail, d.day_no, d.day_time, d.budget_amount, d.budget_currency 
 		FROM 	daily d 
 		WHERE 	d.plan_id = #{planId} 
+		AND		TO_NUMBER(d.day_no) &lt;= #{planTotalDays:NUMERIC}
 		ORDER BY 	day_no, day_time
 	</select>
 	

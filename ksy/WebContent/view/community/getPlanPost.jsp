@@ -766,7 +766,7 @@
 		      center: 'title',
 		      right: 'next'
 		    },
-		    height: 430,	// 캘린더 크기... 높이 지정!
+		    height: 420,	// 캘린더 크기... 높이 지정!
 		    editable: false,
 		    droppable: false, // this allows things to be dropped onto the calendar
 		    //locale: 'ko',
@@ -971,15 +971,18 @@
 	 
 	 
 	 <!--	 CityRoute List : 여행루트 START	//////////////////////// 	-->
-	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center p-2 mb-2 list-container" style="height:650px;">
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center p-3 mb-2 list-container" style="height:485px;">
 		
-		<div id='calendar-container' style="float:right;width:45%; height:100%; margin-right: 10px;margin-top:10px; max-width: 900px;">
+		<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;float:left;width:50%;height: 98%;"></div>
+	
+	
+		<div id='calendar-container' style="float:right;width:50%; height:100%; margin-left: 15px;margin-top:10px; max-width: 900px;">
 		  <div id='calendar' style="margin-bottom:10px;"></div>
 		  
-		  <div class="text-center" style="border:solid thin #DDDDDD; border-radius:5px; padding: 5px 10px; background-color: white; height:160px;"  id="gotoBudgetOverviewList">
+		  <!-- <div class="text-center" style="border:solid thin #DDDDDD; border-radius:5px; padding: 5px 10px; background-color: white; height:160px;"  id="gotoBudgetOverviewList">
 				<div class="d-flex justify-content-left mt-1 ml-3" style="font-weight: bolder; font-size: 16px;">예산 정보</div>
 				
-				<!-- 만들어두고 스크립트에서 포문돌려 셋팅하기 -->
+				만들어두고 스크립트에서 포문돌려 셋팅하기
 				<div class="budgetOverview d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center" style="padding: 0px 3px 0px 0px;font-size: 14px;width:100%;">
 					<div style="width:46%;margin: 3px;">
 						<div class="row" style="margin: 4px 0;"> <i class="budgetIcon fas fa-walking" 		></i>관광  <div class="budget_amount" id="budget_D" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
@@ -994,11 +997,9 @@
 						<div style="margin: 5px 0;text-align: right; color:#32D0BF; font-weight: bolder;"> 총  <div id="budget_total" style="font-size:23px; display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		
-		<div id="map" style="border:1px solid #e5e5e5;margin-bottom:0px;float:left;width:55%;height: 98%;"></div>
-	
 	</div>
 	<!--	 CityRoute List : 여행루트 END	//////////////////////// 	-->
 	 
@@ -1006,60 +1007,104 @@
 	 
 	<!--	 Daily List : 일정표 START	//////////////////////// 	-->
 	<!-- <div style="font-weight: bolder;font-size: 20px;margin-bottom: 5px;">일정표</div> -->
-	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center p-2 mb-2 list-container">
-		<!-- <div class="container"> -->
-			
-			<!-- <div class="row"> -->
-			
-				<c:if test="${plan.dayList.size() != 0}">
-					<div class="swiper-container">
-					    <div class="swiper-wrapper">
-				    
-				    		<c:forEach var="day" items="${plan.dayList}">
-				    			<div class="swiper-slide">
-				    			<div >
-				    				<div class="dayInfo" style="padding-top:10px;padding-left:10px;text-align:left;padding-left:8px;font-size:14pt;color:#696969; font-weight: bold;">
-										${day.dateString}  <br/>
-										<span style="font-size:11pt;color:#32D0BF"> ${day.cityNames} &nbsp;&nbsp; ( ${day.dayNo} 일차 )</span>
-									</div>
+	<%-- <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center p-2 mb-2 list-container">
+
+		<c:if test="${plan.dayList.size() != 0}">
+			<div class="swiper-container">
+			    <div class="swiper-wrapper">
+		    
+		    		<c:forEach var="day" items="${plan.dayList}">
+		    			<div class="swiper-slide">
+		    			<div >
+		    				<div class="dayInfo" style="padding-top:10px;padding-left:10px;text-align:left;padding-left:8px;font-size:14pt;color:#696969; font-weight: bold;">
+								${day.dateString}  <br/>
+								<span style="font-size:11pt;color:#32D0BF"> ${day.cityNames} &nbsp;&nbsp; ( ${day.dayNo} 일차 )</span>
+							</div>
+							
+							<div style="margin-top: 10px;">
+								<c:forEach var="i" begin="9" end="20">
 									
-									<div style="margin-top: 10px;">
-										<c:forEach var="i" begin="9" end="20">
-											
-											<div class="dailys" style="border-top:1px solid #efefef; height:30px;font-size:10pt;color:#9B9B9B;padding-left:10px; padding: 5px;">
-												${i} <div style=" margin-left:10px; background-color: inherit; color:black; font-size:10pt; display:inline-block;" id="daily_${day.dayNo}_${i}"></div>
-											</div>
-										</c:forEach>
+									<div class="dailys" style="border-top:1px solid #efefef; height:30px;font-size:10pt;color:#9B9B9B;padding-left:10px; padding: 5px;">
+										${i} <div style=" margin-left:10px; background-color: inherit; color:black; font-size:10pt; display:inline-block;" id="daily_${day.dayNo}_${i}"></div>
 									</div>
-								</div>
-				    			</div>
-				    		</c:forEach>
-					    	
-					    </div>
-					    
-					    <div class="swiper-button-prev" ></div>
-					    <div class="swiper-button-next"></div>
-					</div>
-				</c:if>
+								</c:forEach>
+							</div>
+						</div>
+		    			</div>
+		    		</c:forEach>
+			    	
+			    </div>
+			    
+			    <div class="swiper-button-prev" ></div>
+			    <div class="swiper-button-next"></div>
+			</div>
+		</c:if>
 				
-			<!-- </div>
-		</div>-->
+	</div> --%>
+	
+	
+	<div style="padding: 10px 30px;">
+		<c:forEach var="day" items="${plan.dayList}">
+			<div class="day_container" style="margin: 5px;border-bottom: 1px solid gray; padding: 5px;">
+			
+				<div class="dayInfo" style="padding-left:10px;text-align:left;font-size:14pt;color:#696969; font-weight: bold; margin-right: 10px;width: 30%;">
+					${day.dateString}  <br/>
+					<span style="font-size:11pt;color:#32D0BF"> ${day.cityNames} &nbsp;&nbsp; ( ${day.dayNo} 일차 )</span>
+				</div>
+				
+				<div class="daily_list" style="padding-top: 10px;padding-left: 140px;">
+					<c:forEach var="daily" items="${plan.dailyList}">
+						<c:if test="${daily.dayNo eq day.dayNo}">
+							<div style="margin: 2px;">
+								${daily.dayTime} 시 : ${daily.dailyDetail}
+							</div>
+						</c:if>
+					</c:forEach>
+				</div>
+				
+			</div>
+		</c:forEach>
+		
 	</div>
+	
+	
 	<!--	 Daily List : 일정표 END	//////////////////////// 	-->
 	
 	 
 	 
 	<!--	 Stuff List : 준비물 체크리스트 START	//////////////////////// 	-->
-	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center p-2 mb-2 list-container">
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center p-2 mb-2 list-container" style="height: 200px;">
 				
-				<div style="border:solid thin #DDDDDD ; border-radius:3px; padding:20px; background-color: white; width: 100%; ">
-					<span id="stuff_icon"><i class="fas fa-tasks" style="font-size: 25px; margin-right: 6px; margin-bottom: 15px;"></i></span> <span style="margin-left:10px; font-size:large; font-weight:bolder;"> 준비물 리스트</span>
+				
+				
+				<div class="text-center" style="border:solid thin #DDDDDD; border-radius:5px; padding: 5px 10px; background-color: white; height:100%;width: 49%;margin-right: 5px;"  id="gotoBudgetOverviewList">
+					<div class="d-flex justify-content-left mt-1 ml-3" style="font-weight: bolder; font-size: 16px;">예산 정보</div>
+										
+					<div class="budgetOverview d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center" style="padding: 0px 3px 0px 0px;font-size: 14px;width:100%;">
+						<div style="width:46%;margin: 3px;">
+							<div class="row" style="margin: 7px 0;"> <i class="budgetIcon fas fa-walking" 		></i>관광  <div class="budget_amount" id="budget_D" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+							<div class="row" style="margin: 7px 0;"> <i class="budgetIcon fas fa-bus" 			></i>교통  <div class="budget_amount" id="budget_T" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+							<div class="row" style="margin: 7px 0;"> <i class="budgetIcon fas fa-ticket-alt" 	></i>투어  <div class="budget_amount" id="budget_V" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+							<div class="row" style="margin: 7px 0;"> <i class="budgetIcon fas fa-ellipsis-h" 	></i>기타  <div class="budget_amount" id="budget_E" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+						</div>
+						<div style="width:46%;margin: 3px;">
+							<div class="row" style="margin: 7px 0;"> <i class="budgetIcon fas fa-bed" 			></i>숙소  <div class="budget_amount" id="budget_R" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+							<div class="row" style="margin: 7px 0;"> <i class="budgetIcon fas fa-utensils" 		></i>식사  <div class="budget_amount" id="budget_F" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+							<div class="row" style="margin: 7px 0;"> <i class="budgetIcon fas fa-shopping-cart" ></i>쇼핑  <div class="budget_amount" id="budget_S" style="display: inline-block; width: 55%; text-align: right;">0</div> 원</div>
+							<div style="margin: 5px 0;text-align: right; color:#32D0BF; font-weight: bolder;"> 총  <div id="budget_total" style="font-size:23px; display: inline-block; width: 50%; text-align: right;">0</div> 원</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				<div style="border:solid thin #DDDDDD ; border-radius:3px; padding:10px 15px; background-color: white; width: 49%;height:100%; ">
+					<span id="stuff_icon"><i class="fas fa-tasks" style="font-size: 20px; margin-right: 6px; margin-bottom: 15px;"></i></span> <span style="margin-left:5px; font-size: 16px; font-weight:bolder;"> 준비물 리스트</span>
 		
 					<br/>
 					 
-					<div class="stuffItems"> 
+					<div class="stuffItems" style="overflow:auto;"> 
 						<c:forEach var="stuff" items="${plan.stuffList}">
-							<div class="stuffItem" style="margin: 3px;">
+							<div class="stuffItem">
 								<i class="fas fa-check"></i> <span style="margin-left: 10px;"> ${stuff.stuffName}</span>
 							</div>
 								
@@ -1140,7 +1185,7 @@
  	<!-- 댓글 jsp include -->
 	<jsp:include page="/view/community/comment.jsp"/>
 	
-	<jsp:include page="/toolbar/pushBar_jay.jsp"/>
+	<!-- <jsp:include page="/toolbar/pushBar_jay.jsp"/> -->
 	
 	
 	
@@ -1231,7 +1276,12 @@
 	</div>
 	<!-- /////////////////////	Modal : addPlan	///////////////////// -->
 	
+	<!-- Footer Start /////////////////////////// -->
+	<jsp:include page="/toolbar/footer.jsp"></jsp:include>
+	<!-- Footer End	/////////////////////////// -->
 	
+	
+	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
 	
 	<script type="text/javascript">

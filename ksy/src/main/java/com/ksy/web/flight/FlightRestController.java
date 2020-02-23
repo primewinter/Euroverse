@@ -122,7 +122,6 @@ public class FlightRestController {
 		
 		Map<String, String> checkMap = objMap.readValue(jsonObj.toString(), new TypeReference<Map<String, String>>(){});
 		
-		
 		System.out.println("check : "+checkMap);
 		flight.setAirline(checkMap.get("airline").trim());
 		flight.setPrice(Integer.parseInt(checkMap.get("price")));
@@ -140,40 +139,37 @@ public class FlightRestController {
 		flight.setLeadTime(checkMap.get("leadTime"));
 		flight.setStopOver(checkMap.get("stopOver"));
 		
-		
 		//produces="text/html; charset=utf-8",
 		PrintWriter out = response.getWriter();
 		 
 		flightService.addFlight(flight);
 		
-		
-	  Like like = new Like(); 
-	  User user=(User)session.getAttribute("user");
-	  like.setLikeUserId(user.getUserId()); 
-	  like.setLikeType("F");
-	  if (flight.getFlightId() == null) {
-		  likeService.addLike(like);
-	  } else {
-		  like=likeService.getLike(like);
-	  }
-//	  if(likeService.countByLike(like)==0){
-//		  likeService.addLike(like); 
-//		  }
-//	  like=likeService.getLike(like);
+		Like like = new Like(); 
+		User user=(User)session.getAttribute("user");
+		like.setLikeUserId(user.getUserId()); 
+		like.setLikeType("F");
+		if (flight.getFlightId() == null) {
+			likeService.addLike(like);
+		} 
+		like=likeService.getLike(like);
+	    System.out.println("악 : "+like.getRefId());
+//	    if(likeService.countByLike(like)==0){
+//			likeService.addLike(like); 
+//		}
+//	    like=likeService.getLike(like);
 //		  
-	  String likeCheck = like.getLikeCheck(); //좋아요 체크 값
-	  List<String> msgs = new ArrayList<String>();
+	    String likeCheck = like.getLikeCheck(); //좋아요 체크 값
+	    List<String> msgs = new ArrayList<String>();
 		  
-	  if(likeCheck.equals("F")) { 
-		  msgs.add("북마크에 추가되었습니다.");
-		  likeService.like_check(like); 
-		  likeCheck="T"; 
-	  }else{
-		  msgs.add("북마크 취소!");
-		  likeService.like_check_cancel(like); 
-		  likeCheck="F";
-		  
-	  }
+	    if(likeCheck.equals("F")) { 
+		    msgs.add("북마크에 추가되었습니다.");
+		    likeService.like_check(like); 
+		    likeCheck="T"; 
+	    }else{
+		    msgs.add("북마크 취소!");
+		    likeService.like_check_cancel(like); 
+		    likeCheck="F";
+	    }
 		 
 		JSONObject obj = new JSONObject();
 		obj.put("flightId", like.getRefId());

@@ -30,7 +30,6 @@
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	  body {
-             padding-top : 50px;
 			font-family: "Nanum Gothic", "Malgun Gothic", "돋움", Dotum, "돋움", Dotum, Arial, Helvetica, sans-serif;
         }
         
@@ -97,6 +96,7 @@ $(function() {
 <body>
 <form>
 	<jsp:include page="/toolbar/toolBar.jsp" />
+	 <jsp:include page="/toolbar/pushBar.jsp" />
 	<div class="container" style="margin-left:300px;">
 		<hr/>
 		<div class="row">
@@ -206,6 +206,8 @@ $(function() {
 	    				</div>
 					</div>
 					<br/><hr/>
+					
+					 <jsp:include page="/toolbar/footer.jsp" />
 </div>
 </form>
 

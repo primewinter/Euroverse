@@ -33,10 +33,6 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-	  body {
-            padding-top : 50px;
-
-        }
         image {
         	border : 1px solid lightpink;
         }
@@ -92,12 +88,13 @@ function fncGetUserList(currentPage) {
 	} 
  
  		$( function () {
-		$('#refund').on("click" , function (){
-			var flightId = $("#flightId").val();
+		$('.fas.fa-list').on("click" , function (){
+			//var flightId = $("#flightId").val();
+			var flightId = $(this).next().val();
 			self.location ="/order/getFlightOrder?flightId="+flightId;
 		})
-		$('#refund2').on("click" , function (){
-			var roomId = $("#roomId").val();
+		$('.fas.fa-list-ul').on("click" , function (){
+			var roomId = $(this).next().val();
 			self.location ="/order/getRoomOrder?roomId="+roomId;
 		})
 	})
@@ -134,6 +131,7 @@ function fncGetUserList(currentPage) {
 <form>
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp" />
+	 <jsp:include page="/toolbar/pushBar.jsp" />
 	<div class="container">
 		<div class="page-header">
 			<h3>Order List</h3>
@@ -196,10 +194,10 @@ function fncGetUserList(currentPage) {
 	<c:set var="i" value="${i+1}"/>
 			 <tr>
 			      <th scope="row">
-			      <i class="fas fa-list" id="refund"></i>
+			      <i class="fas fa-list" id="f"></i>
 			      <input type="hidden" name="${flight.flightId}" id="flightId" value="${flight.flightId}"/>
 			      </th>
-				      <td>${flight.airline}</td>
+				       <td id="refund">${flight.airline}</td>
 				      <td>${flight.depCity}/${flight.arrCity }</td>
 				      <td>${flight.depTime} - ${flight.arrTime }</td>
 				      <td>${flight.stopOver}/${flight.leadTime}</td>
@@ -212,6 +210,9 @@ function fncGetUserList(currentPage) {
 					      	환불신청
 					      </c:if>
 					      <c:if test="${flight.orderStatus == '3' }">
+					      	환불 처리중
+					      </c:if>
+					      <c:if test="${flight.orderStatus == '4' }">
 					      	환불완료
 						  </c:if>
 					  </td>
@@ -242,8 +243,8 @@ function fncGetUserList(currentPage) {
 		<c:forEach var="room" items = "${list2}" >
 		<c:set var="i" value="${i+1}"/>
 			 <tr>
-			    <th scope="row"  id="refund2" >
-			    <i class="fas fa-list"></i>
+			    <th scope="row">
+			    <i class="fas fa-list-ul"></i>
 			    	<input type="hidden" name="${room.roomId}" id="roomId" value="${room.roomId}"/>
 			    </th>
 			    <td>${room.roomCity }</td>
@@ -259,6 +260,9 @@ function fncGetUserList(currentPage) {
 			      	환불신청
 			      </c:if>
 			      <c:if test="${room.orderStatus == '3' }">
+			      	환불 처리중
+			      </c:if>
+			      <c:if test="${room.orderStatus == '4' }">
 			      	환불완료
 				  </c:if>
 				 </td>
@@ -266,7 +270,8 @@ function fncGetUserList(currentPage) {
 	     </c:forEach>
 	  </tbody>
 	</table>
-		<button type="button" class="btn btn-info" style="margin-top:-10px;width:120px;" >Admin</button>
+	 <jsp:include page="/toolbar/footer.jsp" />
+		<!-- <button type="button" class="btn btn-info" style="margin-top:-10px;width:120px;" >Admin</button> -->
 </body>
 </form>
 </html>

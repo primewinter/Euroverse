@@ -125,7 +125,10 @@
 		    z-index: -4;
 		}
 		/* 달력 css */
-		.ui-datepicker { width: auto; padding: .2em .2em 0;font-size: 14px; height:auto;}
+		 .kronos-outer .kronos-inner { Padding-top:10px;Padding-left:10px;Padding-right:10px;Padding-bottom:10px;font-size: 14px; }
+		element.style {
+		    height: 350px;
+		} 
 		/* 인원 수량 */
 		#decreaseQuantity , #decreaseQuantity2 , #decreaseQuantity3 , #decreaseQuantity4{
 		word-break: break-all;
@@ -206,8 +209,53 @@ $(function() {
 var rangeDate = 500; // set limit day
 var setSdate, setEdate;
 
-
 $(function() {
+	$("#from").datepicker({
+	    dateFormat: 'yy-mm-dd',
+	    minDate: 0,
+	    onSelect: function(selectDate){
+	        var stxt = selectDate.split("-");
+	        console.log("stxt : "+stxt);
+	            stxt[1] = stxt[1] - 1;
+	        var sdate = new Date(stxt[0], stxt[1], stxt[2]);
+	        var edate = new Date(stxt[0], stxt[1], stxt[2]);
+	            edate.setDate(sdate.getDate() + rangeDate);
+	        $('#to').datepicker('option', {
+	            minDate: selectDate,
+	            beforeShow : function () {
+	                $("#to").datepicker( "option", "maxDate", edate );                
+	                setSdate = selectDate;
+	                console.log(setSdate)
+	        }});
+	        //to 설정
+	    }
+	    //from 선택되었을 때
+	});
+	});
+	$(function() {
+		$("#to").datepicker({ 
+		    dateFormat: 'yy-mm-dd',
+		    onSelect : function(selectDate){
+		        setEdate = selectDate;
+		        console.log(setEdate)
+		    }
+			
+		});
+		 $('#searchButton').on('click', function(e){
+		    if($('input#from').val() == ''){
+		        alert('시작일을 선택해주세요.');
+		        $('input#from').focus();
+		        return false;
+		    }else if($('input#to').val() == ''){
+		        alert('종료일을 선택해주세요.');
+		        $('input#to').focus();
+		        return false;
+		    }
+		 });
+	 
+		
+	});
+/* $(function() {
 $('#reset').on('click', function(){
     $('#from').kronos('resetPeriod');
     $('#to').kronos('resetPeriod');
@@ -265,7 +313,7 @@ $(function() {
 	 });
  
 	
-});
+}); */
 
 	function doShow() { 
 		if ($('#domestic').css("display","none")) { 
@@ -446,8 +494,10 @@ $(function() {
 
 <body>
  	<jsp:include page="/toolbar/toolBar.jsp" />
+ 	 <jsp:include page="/toolbar/pushBar.jsp" />
+ 
 <form>
-<div class="wrapper">	
+<div class="wrapper" style="margin-top:60px;">	
 <br>
 <br>
 <br>
@@ -652,83 +702,19 @@ $(function() {
 							</tr>
 						</tbody>
 					</table> -->
-			    </div><br>
+			    </div><br><br>
 			</div>
 			
 			
 
 		
-<br><br><br>
+<br><br><br><br><br>
 
 			
 
-		
+			  <jsp:include page="/toolbar/footer.jsp" />
 </div>	
-		<!-- Modal 안에 내용 -->
-		<!-- <div class="modal fade" id="flightNum" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content"  >
-		      <div class="modal-header" style="background-color:gray;">
-		        <h5 class="modal-title" id="exampleModalLabel" style="color:white;font-size:13px;">> 인원 및 좌석 등급 선택</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-		        <div class="number">
-		        	<li>
-					<label for="Adt"><strong>성인</strong><br/>
-										만 12세 이상</label>
-					<span class="ctrl-num">
-			        	<button type="button" id="decreaseQuantity" class="plus"></button>
-							 <input style="font-size:15px;width:5%;display: table-cell;margin-bottom:20px;text-align: center;vertical-align: middle;border: none;" 
-							 		id="numberUpDown" name="adultNum" type="text" value="1" > 
-						<button type="button" id="increaseQuantity" class="del"></button>
-					</span>
-					<br/>
-					<li>
-					<label for="Chd"><strong>소아</strong><br/>
-										만 12세 미만</label>
-					<span class="ctrl-num">
-			        	<button type="button" id="decreaseQuantity2" class="plus"></button>
-							 <input style="font-size:15px;width:5%;display: table-cell;margin-bottom:20px;text-align: center;vertical-align: middle;border: none;"
-							 		 id="numberUpDown2" name="childNum" type="text" value="0" > 
-						<button type="button" id="increaseQuantity2" class="del"></button>
-					</span>
-					</li>
-					<li>
-					<label for="Inf"><strong>유아</strong><br/>
-										만 2세 미만</label>&nbsp;
-					<span class="ctrl-num">
-			        	<button type="button" id="decreaseQuantity3" class="plus"></button>
-							 <input style="font-size:15px;width:5%;display: table-cell;margin-bottom:20px;text-align: center;vertical-align: middle;border: none;"
-							 		 id="numberUpDown3" name="infantNum" type="text" value="0" > 
-						<button type="button" id="increaseQuantity3" class="del"></button>
-					</span>
-					</li>
-					<hr/>
-						<div class="input-group">
-						  <label for="seatGrade" id="seatGrade" style="text-align: center; font-size:14px;">좌석 등급 선택</label>
-						 &nbsp;&nbsp;&nbsp;&nbsp;
-						  <div class="input-group-append">
-							   <select class="form-control" id="grade" name="seatGrade" style="width:80%;">
-								 	<option value="0">일반석</option>
-									<option value="1">프리미엄 일반석</option>
-									<option value="2">비즈니스석</option>
-									<option value="3">일등석</option>
-								</select>
-						</div>
-						
-		           </div>
-				</div>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
-		        <button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
-		      </div>
-		    </div>
-		  </div>
-		</div> -->
+
 	
 </form>			
 </body>

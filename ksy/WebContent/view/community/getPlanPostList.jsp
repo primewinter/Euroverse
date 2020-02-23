@@ -3,6 +3,7 @@
 
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 
@@ -50,8 +51,8 @@
 			 
 			var boardName = $("#boardName").val();
 		
-			$( "td:nth-child(2)" ).on("click" , function() {
-			     var postId = $(this).find($("input[name='postId']")).val();	
+			$( "img" ).on("click" , function() {
+			     var postId = $(this).next().val();	
 				 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
 			});
 		});	
@@ -73,6 +74,7 @@
 	
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp" />
+	<jsp:include page="/toolbar/pushBar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -117,93 +119,65 @@
       <!--  table Start /////////////////////////////////////-->
       <table class="table table-hover">
       
-        <thead>
-          <tr>
-            <th scope="col">게시글번호</th>
-            <th scope="col">제목</th>
-            <th scope="col">닉네임</th>
-            <th scope="col">작성일</th>
-            <th scope="col">조회수</th>
-            <th scope="col">추천수</th>
-          </tr>
-        </thead>
-       
+  
 		<tbody>
 		
-		  <c:set var="i" value="0" />
-		  <c:forEach var="post" items="${list}">
-		  <c:set var="i" value="${ i+1 }" />
-		  
-          </c:forEach>
-          
-       	  
 		  <div class="album py-5">
 		    <div class="container">
 		      <div class="row">
+
+		  	<c:set var="i" value="0" />
+		  	<c:forEach var="post" items="${list}">
+		  	<c:forEach var="plan" items="${plan}">
+		  	<c:set var="i" value="${ i+1 }" />
+		  	<c:if test="${post.planId == plan.planId}">
+       	  
 		        <div class="col-md-3">
 		          <div class="card mb-4 shadow-sm">
-		            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-		            <div class="card-body">
-		              <p class="card-text">게시글 제목<br>게시글날짜</p>
+		          
+		          <div style="position: relative;">
+		            <img style="border-top-right-radius:3px;border-top-left-radius:3px;" width="100%" height="200px" src="/resources/images/planImg/${plan.planImg}"/>
+				    <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
+				    <div style="bottom: 175px; left:10px; width:208px; position: absolute;">
+						${plan.planTitle}
+						<div class="plan_type" style="float:right;">
+							<c:choose>
+								<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
+								<c:when test="${plan.planType == 'B'}">남자혼자</c:when>
+								<c:when test="${plan.planType == 'C'}">여자끼리</c:when>
+								<c:when test="${plan.planType == 'D'}">남자끼리</c:when>
+								<c:when test="${plan.planType == 'E'}">단체</c:when>
+								<c:when test="${plan.planType == 'F'}">부모님과</c:when>
+								<c:when test="${plan.planType == 'G'}">커플</c:when>
+							</c:choose>
+						</div>
+					</div>
+
+				    
+				  </div>	        
+					        
+		            <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg> -->
+		            
+		            <div class="card-body" style="font-size:13px;">
+		              <p class="card-text"><span style="font-size:14px;">${post.postTitle}</span> <span style="color:red;">(${post.comments})</span><br>${post.nickName}<br><fmt:formatDate value="${post.postDate}" pattern="yyyy-MM-dd"/></p>
+		              <div style="text-align:right;"><i class="far fa-eye"> ${post.views} </i>&nbsp; <i class="far fa-thumbs-up"> ${post.postLikeCount}</i></div>
 		              <div class="d-flex justify-content-between align-items-center">
 		                <div class="btn-group">
-		                  <button type="button" class="btn btn-sm btn-outline-secondary">플래너가져오기</button>
-		                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+		                 <!--  <button type="button" class="btn btn-sm btn-outline-secondary">플래너가져오기</button>
+		                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
 		                </div>
-		                <small class="text-muted">9 mins</small>
+		                <small class="text-muted"></small>
 		              </div>
 		            </div>
 		          </div>
 		        </div>
-		        <div class="col-md-3">
-		          <div class="card mb-4 shadow-sm">
-		            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-		            <div class="card-body">
-		              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-		              <div class="d-flex justify-content-between align-items-center">
-		                <div class="btn-group">
-		                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-		                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-		                </div>
-		                <small class="text-muted">9 mins</small>
-		              </div>
-		            </div>
-		          </div>
-		        </div>
-		        <div class="col-md-3">
-		          <div class="card mb-4 shadow-sm">
-		            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-		            <div class="card-body">
-		              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-		              <div class="d-flex justify-content-between align-items-center">
-		                <div class="btn-group">
-		                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-		                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-		                </div>
-		                <small class="text-muted">9 mins</small>
-		              </div>
-		            </div>
-		          </div>
-		        </div>
-		        <div class="col-md-3">
-		          <div class="card mb-4 shadow-sm">
-		            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-		            <div class="card-body">
-		              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-		              <div class="d-flex justify-content-between align-items-center">
-		                <div class="btn-group">
-		                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-		                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-		                </div>
-		                <small class="text-muted">9 mins</small>
-		              </div>
-		            </div>
-		          </div>
-		        </div>
+		    </c:if>
+		    </c:forEach> 
+	      	</c:forEach>
+
 		       </div>
 		      </div>
 		     </div>
-		   
 	
         </tbody>
       
@@ -218,7 +192,7 @@
  	<!-- PageNavigation Start... -->
 	<jsp:include page="../../common/pageNavigator_new.jsp"/>
 	<!-- PageNavigation End... -->
-	
+	<jsp:include page="/toolbar/footer.jsp" />
 </body>
 
 </html>

@@ -43,8 +43,13 @@ public class OrderServiceImpl implements OrderService{
 	public Order getRoomOrder (String orderId) throws Exception {
 		return orderDao.getRoomOrder(orderId);
 	}
-	public void getOrderRefund(Order order) throws Exception{
-		orderDao.getOrderRefund(order);
+	public Map<String, Object> getOrderRefund(Order order) throws Exception{
+		List<Order> list= (List<Order>) orderDao.getOrderRefund(order);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("list", list);
+		System.out.println(map);
+		return map;
 	}
 	
 	public Map<String,Object> getOrderList(Search search,String buyerId) throws Exception {

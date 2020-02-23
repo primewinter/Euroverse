@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ksy.service.domain.City;
 import com.ksy.service.domain.Daily;
 import com.ksy.service.domain.Memo;
+import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.Stuff;
 import com.ksy.service.domain.User;
 import com.ksy.service.plan.PlanService;
@@ -25,9 +26,9 @@ import com.ksy.service.planSub.PlanSubService;
 @RequestMapping("/planSub/*")
 public class PlanSubRestController {
 
-//	@Autowired
-//	@Qualifier("planServiceImpl")
-//	private PlanService planService;
+	@Autowired
+	@Qualifier("planServiceImpl")
+	private PlanService planService;
 	
 	@Autowired
 	@Qualifier("planSubServiceImpl")
@@ -42,8 +43,10 @@ public class PlanSubRestController {
 	
 	@RequestMapping( value = "json/getDailyList/{planId}", method = RequestMethod.GET )
 	public List<Daily> getDailyList( @PathVariable String planId ) throws Exception {
+		Plan plan = planService.getPlan(planId);
 		
-		List<Daily> dailyList = planSubService.getDailyList(planId);
+		//plan.setPlanTotalDays(planTotalDays);
+		List<Daily> dailyList = planSubService.getDailyList(plan);
 		
 		return dailyList;
 	}
@@ -66,7 +69,9 @@ public class PlanSubRestController {
 		
 		planSubService.addDaily(daily);
 		
-		List<Daily> dailyList = planSubService.getDailyList(daily.getPlanId());
+		Plan plan = planService.getPlan(daily.getPlanId());
+		
+		List<Daily> dailyList = planSubService.getDailyList(plan);
 		return dailyList;
 	}
 	
@@ -85,7 +90,9 @@ public class PlanSubRestController {
 		
 		planSubService.updateDaily(daily);
 		
-		List<Daily> dailyList = planSubService.getDailyList(daily.getPlanId());		//planId 어디서 갖고올지?
+		Plan plan = planService.getPlan(daily.getPlanId());
+		List<Daily> dailyList = planSubService.getDailyList(plan);
+		//List<Daily> dailyList = planSubService.getDailyList(daily.getPlanId());		//planId 어디서 갖고올지?
 		return dailyList;
 	}
 	
@@ -290,10 +297,14 @@ public class PlanSubRestController {
 	
 	
 	
-	@RequestMapping( value = "json/getBudgetOverviewList/{planId}", method = RequestMethod.GET )
-	public List<Daily> getBudgetOverviewList( @PathVariable String planId ) throws Exception {
+	@RequestMapping( value = "json/getBudgetOverviewList/{planId}/{planTotalDays}", method = RequestMethod.GET )
+	public List<Daily> getBudgetOverviewList( @PathVariable String planId, @PathVariable int planTotalDays ) throws Exception {
 		
-		List<Daily> budgetOverviewList = planSubService.getBudgetOverview(planId);
+		Plan plan = new Plan();
+		plan.setPlanId(planId);
+		plan.setPlanTotalDays(planTotalDays);
+		
+		List<Daily> budgetOverviewList = planSubService.getBudgetOverview(plan);
 		return budgetOverviewList;
 	}
 	

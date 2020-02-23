@@ -8,7 +8,7 @@
 
 <head>
 	<meta charset="EUC-KR">
-	<title>editRoute</title>
+	<title>${plan.planTitle} : 여행루트 변경</title>
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />

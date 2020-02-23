@@ -159,7 +159,7 @@ public class Plan {
 	public void setPlanTotalDays(int planTotalDays) {
 		this.planTotalDays = planTotalDays;
 		
-		if(planTotalDays != 0) {
+		if(planTotalDays != 0 && startDate!=null) {
 			this.endDate = Util.getEndDate(startDate, planTotalDays);
 		}
 	}

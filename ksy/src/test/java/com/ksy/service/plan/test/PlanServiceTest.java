@@ -144,10 +144,10 @@ public class PlanServiceTest {
 		plan.setTodoList(todoList);
 		
 	
-		List<Daily> dailyList = planSubService.getDailyList(planId);		//dailyList
+		//List<Daily> dailyList = planSubService.getDailyList(planId);		//dailyList
 		List<Stuff> stuffList = planSubService.getStuffList(planId);		//stuffList
 		List<Memo> memoList = planSubService.getMemoList(planId);			//memoList
-		plan.setDailyList(dailyList);
+		//plan.setDailyList(dailyList);
 		plan.setStuffList(stuffList);
 		plan.setMemoList(memoList);
 		
@@ -163,9 +163,9 @@ public class PlanServiceTest {
 		
 		
 		//버짓 요약을 위한 리스트 : model에 심어서 보내주기
-		List<Daily> budgetOverviewList = planSubService.getBudgetOverview(planId);
-		/* */plan.setBudgetOverviewList(budgetOverviewList);
-		model.addAttribute("budgetOverviewList", budgetOverviewList);
+		//List<Daily> budgetOverviewList = planSubService.getBudgetOverview(planId);
+		/* *///plan.setBudgetOverviewList(budgetOverviewList);
+		//model.addAttribute("budgetOverviewList", budgetOverviewList);
 		
 		model.addAttribute("plan", plan);
 		

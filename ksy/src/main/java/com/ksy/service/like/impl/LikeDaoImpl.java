@@ -39,6 +39,12 @@ public class LikeDaoImpl implements LikeDao{
 	}
 	
 	public Like getLike(Like like) throws Exception {
+
+		if(like.getRefId() == null) {
+			String refId = sqlSession.selectOne("LikeMapper.getFlightRefId");
+			like.setRefId(refId);
+		}
+
 		return sqlSession.selectOne("LikeMapper.getLike", like);
 	}
 	

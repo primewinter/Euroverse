@@ -73,41 +73,123 @@ function fncGetUserList(currentPage) {
 	} 
  
  		$( function () {
-		$('#refund').on("click" , function (){
-			var flightId = $("#flightId").val();
+		$('.fas.fa-list').on("click" , function (){
+			//var flightId = $("#flightId").val();
+			var flightId = $(this).next().val();
 			self.location ="/order/getFlightOrder?flightId="+flightId;
 		})
-		$('#refund2').on("click" , function (){
-			var roomId = $("#roomId").val();
+		$('.fas.fa-list-ul').on("click" , function (){
+			var roomId = $(this).next().val();
 			self.location ="/order/getRoomOrder?roomId="+roomId;
 		})
 	})
 	
-	/* 환불 처리중 , 환불완료로 변경 modal */
- 	$(function() {
+	/* ------------------------- 환불 처리중  변경 modal ------------------------- */
+	function order(orderId){
+ 			var orderState = $('#'+orderId+' option:selected').val();
+ 			console.log("orderId "+orderId);
+ 			 if ( orderState == '3' ) {
+ 				
+ 				$( "#refundmodal3" ).modal('show');
+	 			var orderIds = $("#confirmModal3Id").val(orderId);
+ 				
+ 			} 
+ 		}
  		
- 		$('#orderStatus').change(function() {
- 			var state = $('#orderStatus option:selected').val();
-	 			if ( state == '3' ) {
-	 				$( "#refundmodal3" ).modal('show');
-	 			} 
- 				if (state == '4') {
- 					$( "#refundmodal4" ).modal('show');
-				}
- 		
+ 		$(function() {
+ 			$("#refundConfirm3").click(function(){
+ 				var orderId = $(this).next().val();	
+ 				console.log("orderID : "+orderId);
+ 	 			$.ajax (
+ 	 					{
+ 	 						url : "/order/json/updateOrderStatus/"+orderId ,
+ 	 						method : "GET",
+ 	 						dataType : "json",
+ 	 						headers : {
+ 	 							"Accept" : "application/json",
+ 	 							"Content-Type" : "application/json"
+ 	 						},
+ 	 						success : function (JSONData, status ) {
+ 	 							var displayValue = "<select class='custom-select' name='orderStatus' id='${flight.orderId}' onChange='order2('${flight.orderId}')' >"
+ 	 							 displayValue +=  "<option selected value='3' >환불처리중</option>"
+ 	 							+ "<option value='4'>환불완료</option>"
+ 	 							+ "</select>";
+ 	 					
+ 	 							$("td #"+JSONData.orderId+"").html(displayValue);
+ 	 						}
+ 	 					})
+ 	 					$("#refundmodal3").modal("hide");
+ 			});
  		});
-	}); 
-	
+ 	/* ------------------------- 여기까징 ------------------------ */	
+ 	
+ 	
+ 	/* ------------------------- 환불완료로 변경 modal ------------------------- */
+ 	function order2(orderId){
+ 			
+ 			var orderState = $('#'+orderId+' option:selected').val();
+ 			console.log("orderId "+orderId);
+ 			 if ( orderState == '4' ) {
+ 				
+ 				$( "#refundmodal4" ).modal('show');
+	 			var orderIds = $("#confirmModal4Id").val(orderId);
+ 				
+ 			} 
+ 		}
+ 		
+ 		$(function() {
+ 			$("#refundConfirm4").click(function(){
+ 				var orderId = $(this).next().val();	
+ 				console.log("orderID : "+orderId);
+ 	 			$.ajax (
+ 	 					{
+ 	 						url : "/order/json/payRefund/"+orderId ,
+ 	 						method : "GET",
+ 	 						dataType : "json",
+ 	 						headers : {
+ 	 							"Accept" : "application/json",
+ 	 							"Content-Type" : "application/json"
+ 	 						},
+ 	 						success : function (JSONData, status ) {
+ 	 							console.log("시무룩...");
+ 	 							var displayValue = "<select class='custom-select' name='orderStatus' id='${flight.orderId}' onChange='order2('${flight.orderId}')' >"
+ 	 	 							 displayValue +=   "<option selected value='4'>환불완료</option>"
+ 	 	 							+ "</select>";
+ 	 							
+ 	 								
+ 	 								
+ 	 					
+ 	 							$("td #"+JSONData.orderId+"").html(displayValue);
+ 	 							
+ 	 						}
+ 	 						
+ 	 					})
+ 	 					$("#refundmodal4").modal("hide");
+ 			});
+ 		});
+ 	
+ 		/* ------------------------- 여기까징 ------------------------ */	
  	/* close modal */
- 	function closeModal(modalName) {
-		if( typeof $("."+modalName)[0] != "undefined" ){
-			$("."+modalName)[0].reset();	
-		}
-		$("#"+modalName).modal("hide");
-	}
-	
-	  
-	
+ 	$(function() {
+ 		$("#resetmodal4").click(function() {
+ 			/* if(  $("#refundmodal4")[0] != "undefined" ){
+ 				$("#refundmodal4")[0].reset();	
+ 			} */
+ 			$("#refundmodal4").modal("hide");
+ 			var orderId = $(this).next().next().val();
+ 			$('select #'+orderId+' option[value=3]').prop('selected', 'selected').change();
+ 		})
+ 		$("#resetmodal3").click(function() {
+ 			/* if( typeof $("#refundmodal3")[0] != "undefined" ){
+ 				$("#refundmodal3")[0].reset();	
+ 			} */
+ 			var orderId = $(this).next().next().val();
+ 			alert(orderId);
+ 			$("#refundmodal3").modal("hide");
+ 			$('select #'+orderId+' option[value=2]').prop('selected', 'selected').change();
+ 		})
+ 	})
+ 
 	////////////////////////////////////////////////////
 /*     $( function () {
 		$('.delete:contains("배")').on("click" , function () {
@@ -139,6 +221,7 @@ function fncGetUserList(currentPage) {
 <body>
 <div>
 	<jsp:include page="/toolbar/toolBar.jsp" />
+	 <jsp:include page="/toolbar/pushBar.jsp" />
 	<div class="container">
 		<div class="page-header">
 			<h3>Order List</h3>
@@ -178,27 +261,28 @@ function fncGetUserList(currentPage) {
 	<c:set var="i" value="${i+1}"/>
 			 <tr>
 			      <th scope="row">
-			      <i class="fas fa-list" id="refund"></i>
-			      <input type="hidden" name="${flight.flightId}" id="flightId" value="${flight.flightId}"/>
+			      <i class="fas fa-list"></i>
+			      <input type="hidden" name="${flight.flightId}"  value="${flight.flightId}"/>
+			      <input type="hidden" name="${flight.orderId }"  value="${flight.orderId}" />
 			      </th>
-				      <td>${flight.airline}</td>
+				      <td id="refund">${flight.airline}</td>
 				      <td>${flight.depCity}/${flight.arrCity }</td>
 				      <td>${flight.depTime} - ${flight.arrTime }</td>
 				      <td>${flight.stopOver}/${flight.leadTime}</td>
-				      <td>${flight.price}원/${flight.orderDate}</td>
-				      <td>
+				      <td id="appendStatus">${flight.price}원/${flight.orderDate}</td>
+				      <td id="${flight.orderId }">
 					     <c:if test="${flight.orderStatus == '1' }">
 					      	주문완료
 					      </c:if>
 					      <c:if test="${flight.orderStatus == '2' }">
-					      	<select class="custom-select" name="orderStatus" id="orderStatus" style="">
+					      	<select class="custom-select" onChange="order('${flight.orderId}')" name="orderStatus"  id="${flight.orderId }" style="">
 							  <option selected value="2">환불신청</option>
-							  <option value="3" id="3">환불처리중</option>
+							  <option value="3">환불처리중</option>
 							  <option value="4" id="4">환불완료</option>
 							</select>
 					      </c:if>
 					         <c:if test="${flight.orderStatus == '3' }">
-					         <select class="custom-select" name="orderStatus" id="orderStatus" style="">
+					         <select class="custom-select" name="orderStatus" id="${flight.orderId }" onChange="order2('${flight.orderId}')"  style="">
 							  <option selected value="3">환불처리중</option>
 							  <option value="4" id="4">환불완료</option>
 							</select>
@@ -206,7 +290,9 @@ function fncGetUserList(currentPage) {
 					      <c:if test="${flight.orderStatus == '4' }">
 					      	환불완료
 						  </c:if>
+					  
 					  </td>
+					   
 		   	 </tr>
     	 </c:forEach>
   </tbody>
@@ -235,29 +321,30 @@ function fncGetUserList(currentPage) {
 		<c:set var="i" value="${i+1}"/>
 			 <tr>
 			    <th scope="row"  id="refund2" >
-			    <i class="fas fa-list"></i>
-			    	<input type="hidden" name="${room.roomId}" id="roomId" value="${room.roomId}"/>
+			    <i class="fas fa-list-ul"></i>
+			    	<input type="hidden" name="${room.roomId}" value="${room.roomId}"/>
+			    	<input type="hidden" name="${room.orderId }"  value="${room.orderId}" />
 			    </th>
 			    <td>${room.roomCity }</td>
 			    <td>${room.roomName}</td>
 			    <td>${room.checkIn} - ${room.checkOut }</td>
 			    <td>${room.roomNum} 개 / 성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
 			    <td>${room.price} 원 /${room.orderDate}</td>
-			    <td> 
+			    <td id="${room.orderId }"> 
 			    
 			      <c:if test="${room.orderStatus == '1' }">
 			      	주문완료
 			      </c:if>
 			      <c:if test="${room.orderStatus == '2' }">
-			      	<select class="custom-select" name="orderStatus" id="orderStatus" style="">
+			      	<select class="custom-select" name="orderStatus" onChange="order('${room.orderId}')"  id="${room.orderId }" style="">
 					  <option selected value="2" id="2">환불신청</option>
-					  <option value="3" id="3" data-toggle="modal" data-target="#refund">환불처리중</option>
+					  <option value="3" id="3">환불처리중</option>
 					  <option value="4" id="4">환불완료</option>
 					</select>
 			      </c:if>
 			         <c:if test="${room.orderStatus == '3' }">
-			         <select class="custom-select" name="orderStatus" id="orderStatus" style="">
-					  <option selected value="3" id="3" >환불처리중</option>
+			         <select class="custom-select" name="orderStatus" onChange="order2('${room.orderId}')"  id="${room.orderId }" style="">
+					  <option selected value="3">환불처리중</option>
 					  <option value="4" id="4">환불완료</option>
 					</select>
 			         </c:if>
@@ -269,12 +356,13 @@ function fncGetUserList(currentPage) {
 	     </c:forEach>
 	  </tbody>
 	</table>
+	 <jsp:include page="/toolbar/footer.jsp" />
 	</div>
 	<!-- <button type="button" class="btn btn-primary" id="refundApp1" data-toggle="modal" data-target="#refund">
 			   환불 신청
 			</button> -->
 	
-	<div class="modal fade" id="refundmodal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="refundmodal3" value="" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -287,8 +375,11 @@ function fncGetUserList(currentPage) {
 	      	 환불 처리중으로 변경하시겠습니까?
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" onclick="closeModal('refundmodal3');" id="reset" data-dismiss="modal">취소</button>
-	        <button type="button" class="btn btn-primary" id="refundConfirm">확인</button>
+	        <button type="button" class="btn btn-secondary" id="resetmodal3" data-dismiss="modal">취소</button>
+	        <button type="button" class="btn btn-primary"
+	        		id="refundConfirm3">확인</button>
+	        <input type="hidden" name="orderId" id="confirmModal3Id" value="" />
+	     
 	      </div>
 	    </div>
 	  </div>
@@ -307,8 +398,9 @@ function fncGetUserList(currentPage) {
 	      	 환불 처리를 완료 하시겠습니까?
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" onclick="closeModal('refundmodal4');" id="reset" data-dismiss="modal">취소</button>
-	        <button type="button" class="btn btn-primary" id="refundConfirm">확인</button>
+	        <button type="button" class="btn btn-secondary" id="resetmodal4" data-dismiss="modal">취소</button>
+	        <button type="button" class="btn btn-primary" id="refundConfirm4">확인</button>
+	        <input type="hidden" name="orderId" id="confirmModal4Id" value="" />
 	      </div>
 	    </div>
 	  </div>
