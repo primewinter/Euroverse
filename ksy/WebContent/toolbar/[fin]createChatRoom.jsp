@@ -62,7 +62,7 @@
       </div>
       <div class="modal-body" style="text-align:center">
       	<div style="margin-top:20px;margin-bottom:30px">
-      		<img id="blah" src="/resources/images/icon/imageIcon.png" width="50px" height="50px" onclick='document.all.chatRoomFile.click(); document.all.file2.value=document.all.chatRoomFile.value'/>
+      		<img id="blah" src="/resources/images/icon/imageIcon.png" width="50px" height="50px" onclick='document.all.chatRoomFile.click(); document.all.file.value=document.all.chatRoomFile.value'/>
       	</div>
         <div class="form-group row">
 			    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">채팅방 이름</label>
@@ -91,7 +91,6 @@
 					      <c:if test="${party.partyRole == 'M'}">
 					      	<i class="fas fa-user"><br>${userList.nickname}</i><input type="hidden" name="joinMems" value="${userList.userId}">
 					      </c:if>
-					        <p class="mb-auto">${userList.totalPoint}</p>
 					      </div>
 					    </div>
 					  </div>

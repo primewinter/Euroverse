@@ -3,6 +3,7 @@ package com.ksy.web.chat;
 import java.io.File;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -35,6 +36,7 @@ import com.ksy.service.domain.ChatRoom;
 import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.User;
 import com.ksy.service.user.UserService;
+import com.ksy.web.chat.util.AccChatSocket;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -207,7 +209,7 @@ import com.mongodb.client.MongoDatabase;
 			String fileName = "";
 			if( file != null) {
 				String filePath ="C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\chatImg\\";
-				fileName = UUID.randomUUID().toString().substring(0, 8)+System.currentTimeMillis();
+				fileName += UUID.randomUUID().toString().substring(0, 8)+System.currentTimeMillis();
 				File saveFile = new File(filePath+fileName);
 				file.transferTo(saveFile);
 			}
@@ -245,13 +247,31 @@ import com.mongodb.client.MongoDatabase;
 			Document doc = cur.first();
 			System.out.println("_id 가 "+chatRoom.getChatRoomId()+"인 채팅방 :: "+doc);
 			List<String> arr = (List<String>) doc.get("chatMems");
-			arr.add(chatRoom.getChatMems().get(0));
 			
 			BasicDBObject updateQuery = new BasicDBObject();
 			updateQuery.append("$set", 
 				new BasicDBObject().append("chatMems", arr));
-			coll.updateMany(searchQuery, updateQuery);			
+			coll.updateMany(searchQuery, updateQuery);
 			
+			// 채팅방에 초대 완료 메시지 보내기
+			String newMems = "";
+			for(String member : chatRoom.getChatMems()) {
+				arr.add(member);
+				newMems +=","+ member+" 님";
+			}
+			System.out.println("초대된 멤버 :: "+newMems.substring(1));
+			SimpleDateFormat sdf = new SimpleDateFormat("a hh:mm");
+			Date date = new Date();
+			Chat chat = new Chat();
+			chat.setChatContent( newMems.substring(1)+"이 채팅에 초대되었습니다.");
+			chat.setChatDate(date);
+			chat.setSendTime(sdf.format(date));
+			chat.setSenderId("system");
+			chat.setChatRoomId(chatRoom.getChatRoomId());
+
+			AccChatSocket accSocket = new AccChatSocket();
+			accSocket.sendChat(chat);
+
 		}
 		
 		@RequestMapping(value="quitChatRoom", method=RequestMethod.POST)

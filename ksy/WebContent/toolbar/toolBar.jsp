@@ -4,9 +4,17 @@
 
 <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding|Nanum+Gothic:400,700|Noto+Sans+KR:300,400,500&display=swap&subset=korean" rel="stylesheet">
 <style>
+    @font-face { font-family: 'BBTreeGB'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/BBTreeGB.woff') format('woff'); font-weight: normal; font-style: normal; }
+    @font-face { font-family: 'Handon3gyeopsal600g'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/Handon3gyeopsal600g.woff') format('woff'); font-weight: normal; font-style: normal; }
+    @font-face { font-family: 'NanumBarunGothic'; font-style: normal; font-weight: 400; src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot'); src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.ttf') format('truetype'); } @font-face { font-family: 'NanumBarunGothic'; font-style: normal; font-weight: 700; src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot'); src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.ttf') format('truetype') } @font-face { font-family: 'NanumBarunGothic'; font-style: normal; font-weight: 300; src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot'); src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf') format('truetype'); } .nanumbarungothic * { font-family: 'NanumBarunGothic', sans-serif; }
+    
     body {
-        font-family: 'Noto Sans KR', sans-serif;
+/*        font-family: 'BBTreeGB';*/
+/*        font-family: 'Handon3gyeopsal600g'*/
+/*        font-family: 'Noto Sans KR', sans-serif;*/
+        font-family: 'NanumBarunGothic';
         font-weight: 500;
+        overflow-y: scroll;
     }
 
     ul.submenu {
@@ -37,8 +45,8 @@
         text-decoration: none;
     }
 
-    a:hover {
-        color: #858585;
+    .login-control>font:hover, a:hover {
+        color: #339999;
         text-decoration: none;
     }
 
@@ -139,7 +147,7 @@
         </c:if>
         <c:if test="${user.userId != null}">
             <c:if test="${user.role == 'A'}">
-                <font><i class="fas fa-cog"></i>회원관리</font>|
+                <font><i class="fas fa-cog"></i>회원관리</font>|<font><i class="fas fa-cog"></i>주문관리</font>|<font><i class="fas fa-cog"></i>QnA</font>
             </c:if>
             <font>주문내역</font>|<font>마이페이지</font>|<font>로그아웃</font>
         </c:if>
@@ -156,7 +164,7 @@
                 <li class="menu1"><a href="/plan/getPlanList"><span>플래너</span></a></li>
                 <li class="menu2"><a href="/view/flight/searchFlight.jsp"><span>항공</span></a></li>
                 <li class="menu3"><a href="/view/room/searchRoom.jsp"><span>숙소</span></a></li>
-                <li class="menu4"><a href=""><span>커뮤니티</span></a>
+                <li class="menu4"><a href="#"><span>커뮤니티</span></a>
                     <ul class="menu4_s submenu">
                         <p></p>
                         <li><a href="#">
@@ -188,7 +196,6 @@
 
 
 
-
 <script type="text/javascript">
     $("font:contains('마이페이지')").on("click", function() {
         location.href = "/user/getUser";
@@ -201,6 +208,12 @@
     });
     $("font:contains('회원관리')").on("click", function() {
         location.href = "/admin/getUserList";
+    });
+    $("font:contains('QnA')").on("click", function() {
+	    location.href = "/admin/getAdminQnAList";
+    });
+    $("font:contains('주문관리')").on("click", function() {
+        location.href = "/order/getOrderListAdmin";
     });
     $("font:contains('주문내역')").on("click", function() {
         location.href = "/order/getOrderList";

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ksy.common.Page;
 import com.ksy.common.Search;
 import com.ksy.service.admin.AdminService;
+import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.User;
 import com.ksy.service.user.UserService;
 
@@ -146,5 +147,38 @@ public class AdminController {
 		return "forward:/view/admin/adminQnaList.jsp";
 		
 	}// end of getUser
+	
+	@RequestMapping(value="addQnaComment", method=RequestMethod.GET)
+	public String addQnaComment(@ModelAttribute("comment") Comment comment, Model model) {
+		
+		
+		
+		return "forward:/view/admin/adminQnaList.jsp";
+	}
+	
+	@RequestMapping(value="updateQnaGrade", method=RequestMethod.GET)
+	public String updateQnaGrade(@ModelAttribute("comment") Comment comment, Model model) {
+		
+		
+		
+		return "forward:/view/admin/adminQnaList.jsp";
+	}
+
+	@RequestMapping(value="deleteQnaComm", method=RequestMethod.GET)
+	public String deleteQnaComm(@ModelAttribute("comment") Comment comment, Model model) {
+		
+		
+		
+		return "forward:/view/admin/adminQnaList.jsp";
+	}
+	
+	@RequestMapping(value="getQnaComment", method=RequestMethod.GET)
+	public String getQnaComment(@ModelAttribute("comment") Comment comment, Model model) {
+		
+		
+		
+		return "forward:/view/admin/adminQnaList.jsp";
+	}
+	
 	
 }//end of class

@@ -8,7 +8,7 @@
 
 <head>
 	<meta charset="EUC-KR">
-	<title>editRoute</title>
+	<title>${plan.planTitle} : 여행루트 변경</title>
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -194,7 +194,7 @@
 			
 			$('.close.hide').hide();
 			
-			$('.city_route').hover(
+			/* $('.city_route').hover(
 		        function() {
 		            //$(this).find('.media').css('backgroundColor', '#F4FAFA');
 		            $(this).find('.media').css('outline', '2px solid #CDD8D8');
@@ -205,7 +205,21 @@
 		            $(this).find('.media').css('outline', 'none');
 		            $(this).find('.close').hide();
 		        }
-		    );
+		    ); */
+			
+			
+			$(document).on('mouseover', '.city_route', 
+				function() {
+					$(this).find('.media').css('outline', '2px solid #CDD8D8');
+		            $(this).find('.close').show();
+		    	}
+			);
+		    $(document).on('mouseout', '.city_route', 
+		        function() {
+			    	$(this).find('.media').css('outline', 'none');
+		            $(this).find('.close').hide();
+		        }
+			);
 			
 			
 			//updateTranType을 위한 클릭이벤트 걸어주기...
@@ -518,6 +532,8 @@
 						}else{
 							console.log("리턴데이터 있음! => "+JSON.stringify(JSONData) );	
 							
+						
+							
 							var crHtml = '<div class="city_route">';
 							crHtml = crHtml + '<div class="trans d-flex justify-content-center">';
 							crHtml = crHtml + '<a class="tran_a" href="javascript:showUpdateTranType(\''+ JSONData.cityId +'\' , \''+ JSONData.tranType +'\')">';
@@ -541,7 +557,7 @@
 							crHtml = crHtml + '</div>';
 							
 							crHtml = crHtml + '<button type="button" class="close hide" aria-label="Close" onclick="deleteCityRoute(\''+ JSONData.cityId +'\', 0 )"> <span aria-hidden="true">&times;</span> </button>';
-	
+												
 							crHtml = crHtml + '<div class="media mt-4" style="border: 1px solid #CDD8D8; border-radius:3px; padding: 12px 30px 5px 30px;">';
 							crHtml = crHtml + '<div hidden="hidden">방문순서: <span class="visit_order">'+ JSONData.visitOrder +'</span> , 도시ID: <span class="city_id">'+ JSONData.cityId +'</span></div>';
 							crHtml = crHtml + '<img alt="" src="/resources/images/planImg/defaultPlanImage.jpg" class="align-self-center mr-3 city_img" style="width: 50px; height: auto;" hidden="hidden">';
@@ -558,6 +574,7 @@
 							crHtml = crHtml + '</div>';
 							
 							$(crHtml).appendTo('.city_route_list');
+							$('.close.hide').hide();
 							
 						}
 					},

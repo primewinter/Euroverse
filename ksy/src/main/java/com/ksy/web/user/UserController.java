@@ -216,7 +216,7 @@ public class UserController {
 		
 		System.out.println(this.getClass()+"getUser Start");
 		User user = (User)session.getAttribute("user");
-		List<Plan> planList = userService.getEndPlanList(user.getUserId());
+		List<Plan> planList = planService.getEndPlanList(user.getUserId());
 		List<Plan> endPlanList = new ArrayList<Plan>();
 		int travelDate =0;
 		

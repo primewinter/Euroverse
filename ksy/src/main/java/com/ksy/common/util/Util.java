@@ -41,9 +41,6 @@ public class Util {
 				if( j==0 && cityArray[i].getCityDuration() != 1 ) {	
 					if( i==0 ) {	//첫번째 도시인 경우 
 						day.setCityNames(cityArray[i].getCityName());
-						
-						
-
 					}else {		//첫번째 도시가 아닌 경우
 						day.setCityNames(day.getCityNames()+", "+cityArray[i].getCityName());	
 						
@@ -71,6 +68,15 @@ public class Util {
 							day.setCityNames(cityArray[i].getCityName());
 						}else {			//첫번째가 아닌 도시의 첫번째 체류일인 경우 = 앞에 도시 하나 더 있음!
 							day.setCityNames(day.getCityNames()+", "+cityArray[i].getCityName());
+							if( i==cityArray.length-1 ) {
+								//day.setCityNameList(cityNames);
+								day.setDate((Timestamp)startDate.clone());
+								dayNoo++;
+								//startDate.setTime(startDate.getTime() + (1000*60*60*24));
+								day.setDayNo(dayNoo);
+								dayList.add(day);
+								day = new Day();
+							}
 						}
 						
 						//원래 cityList의 시작일자 세팅

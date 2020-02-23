@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.ksy.service.domain.City;
 import com.ksy.service.domain.Daily;
 import com.ksy.service.domain.Memo;
+import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.Stuff;
 import com.ksy.service.planSub.PlanSubDao;
 
@@ -29,16 +30,16 @@ public class PlanSubDaoImpl implements PlanSubDao {
 
 
 
-	public List<Daily> getBudgetOverview(String planId) throws Exception {
-		return sqlSession.selectList("PlanSubMapper.getBudgetOverview", planId);
+	public List<Daily> getBudgetOverview(Plan plan) throws Exception {
+		return sqlSession.selectList("PlanSubMapper.getBudgetOverview", plan);
 	}
 
 	public List<Daily> getBudgetList(String planId) throws Exception {
 		return sqlSession.selectList("PlanSubMapper.getBudgetList", planId);
 	}
 
-	public List<Daily> getDailyList(String planId) throws Exception {
-		return sqlSession.selectList("PlanSubMapper.getDailyList", planId);
+	public List<Daily> getDailyList(Plan plan) throws Exception {
+		return sqlSession.selectList("PlanSubMapper.getDailyList", plan);
 	}
 
 	public Daily getDaily(Daily daily) throws Exception {

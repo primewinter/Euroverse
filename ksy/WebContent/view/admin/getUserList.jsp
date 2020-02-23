@@ -179,10 +179,15 @@
 	<div class="container">
 	
 		<!-- =============== 유로버스 툴바 인클루드  ========== -->
-		<div class="tollbar">
 			<jsp:include page="/toolbar/toolBar.jsp"></jsp:include> 
-		</div>
 		<!-- =========== 이까지  ================ -->
+		
+		<!-- 푸쉬바 인클루드  -->
+		<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
+		<!-- 인클루드 end--> 
+		
+
+		
 		
 	<div class="page-header text-info">
 
@@ -297,6 +302,10 @@
 	
 		<!-- pageNavigator include  -->
 		<jsp:include page="../../common/pageNavigator_new.jsp"/>
+		
+				<!-- 푸터 인클루드  -->
+		<jsp:include page="/toolbar/footer.jsp"></jsp:include>
+		<!-- 인클루드 end--> 
 
 </body>
 

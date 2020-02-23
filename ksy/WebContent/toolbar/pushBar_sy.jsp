@@ -17,6 +17,7 @@
     }
 
     #acc-slide {
+        font-family: 'NanumBarunGothic';
         font-weight: 400;
         background-color: white;
         display: none;
@@ -103,7 +104,7 @@
     }
 
     .accChat.info {
-        position: inherit;
+        position: static;
         height: 7%;
         background-color: #C5ECE9;
     }
@@ -111,7 +112,7 @@
     .accChat.output {
         font-family: 'Nanum Gothic', sans-serif;
         font-weight: 700;
-        position: relative;
+        position: static;
         height: 85%;
         width: 100%;
         background-color: white;
@@ -137,35 +138,38 @@
     }
 
     .accChat.input {
-        position: relative;
-        height: auto;
+        position: static;
+        height: 40px;
         background-color: #C5ECE9;
     }
 
 
     /*아이콘들*/
+    div.push-bar-menu {
+        opacity: 40%;
+        position: fixed;
+        display: table;
+        top: 30px;
+        right: 10px;
+    }
     div.icon {
+        display: table-cell;
+        vertical-align: bottom;
         border: solid 2px #858585;
         border-radius: 5px;
         width: 40px;
         height: 40px;
-        margin: 5px;
         color: #858585;
         font-size: 17pt;
         text-align: center;
     }
 
-    div.push-bar-menu {
-        opacity: 40%;
-        position: fixed;
-        top: 30px;
-        right: 10px;
-    }
 
 
     /*푸시리스트*/
     #push-layer {
         background-color: white;
+        font-weight: 300;
         border: solid 1px #D2D2D2;
         display: none;
         height: 500px;
@@ -192,33 +196,56 @@
     .planChat.output {
         font-family: 'Nanum Gothic', sans-serif;
         font-weight: 700;
-        height: 94%;
-        bottom: 40px;
+        height: 92%;
+        position: static;
         background-color: white;
         overflow: auto;
     }
 
     .planChat.input {
         height: 40px;
-        bottom: 0px;
+        position: static;
         background-color: #C5ECE9;
+    }
+
+    .push-bar-menu>div>div:hover {
+        color: #339999;
+        border-color: #339999;
     }
 
 </style>
 
 
 <div class="push-bar-menu">
-    <div class="icon push-list">
-        <i class="far fa-bell" style="position:relative;"></i>
-        <span class="unreadCount" style="position:absolute;font-size: 3pt;right:7px"></span>
+   <div style=“display:table-row;margin:5px;”>
+        <div class="icon push-list" title="활동알림">
+            <i class="far fa-bell" ></i>
+            <span class="unreadCount" style='position: absolute; right: 10px; top:-5px; '></span>
+        </div>
     </div>
-    <div class="icon acc-chat">
-        <i class="far fa-comments"></i>
+    <div style=“display:table-row;margin:5px;”>
+        <div class="icon acc-chat" title="동행채팅">
+            <i class="far fa-comments" ></i>
+        </div>
     </div>
-    <div class="icon plan-chat">
-        <i class="far fa-comment fa-flip-horizontal"></i>
+    <div style=“display:table-row;margin:5px;”>
+        <div class="icon plan-chat" title="플래너 채팅">
+            <i class="far fa-comment fa-flip-horizontal"></i>
+        </div>
     </div>
 </div>
+
+
+<div id="push-layer">
+    <div class="deletePush" style='padding: 5%;background-color:#7cc1d0;font-weight: 700'>
+        <span class="totalCount">활동 알림&ensp;</span>
+        <span style='float:right;'><a href='javascript:deletePush()'><i class="far fa-trash-alt" style="color:white;"></i></a></span>
+    </div>
+    <div class="pushList" style="overflow-y:auto; width:298px; height:88%;"></div>
+</div>
+
+
+
 
 <div id="acc-slide">
     <input type="radio" name="pos" id="pos1" checked>
@@ -226,8 +253,10 @@
     <ul>
         <!-- 채팅목록 -->
         <li>
-            <div class="accLobby container">
+            <div class="accLobby title" style='padding: 5%;background-color:#7cc1d0;font-weight:700'>
+                동행 채팅
             </div>
+            <div class="accLobby content" style="overflow-y:auto; width:300px; height:350px;"></div>
         </li>
         <!--채팅방-->
         <li>
@@ -235,14 +264,14 @@
                 <div id="accChat">
                     <div class="accChat info">
                         <i class="fas fa-arrow-left fa-2x" style="float:left;margin:5px;"><span style="margin:5px;"></span></i>
-                        <p style="text-align:right;margin: 0 5px 0 5px;"><i class="fas fa-bars fa-2x" data-toggle="modal" data-target="#accModal"></i></p>
+                        <p style="float:right;margin: 5px;"><i class="fas fa-bars fa-2x" data-toggle="modal" data-target="#accModal"></i></p>
                     </div>
                     <div class="accChat output" style="padding:5px"></div>
                     <div class="accChat input" style="padding:5px">
                         <div class="input-group">
                             <input type="text" class="form-control form-control-sm" id="input-accChat" placeholder="메시지를 입력하세요">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default btn-sm" onclick="sendAccMessage()" type="button"><i class="fab fa-telegram-plane"></i></button>
+                            <span class="input-group-btn" onclick="sendAccMessage()">
+                                <button class="btn btn-default btn-sm" type="button"><i class="fab fa-telegram-plane"></i></button>
                             </span>
                         </div>
                     </div>
@@ -252,21 +281,13 @@
     </ul>
 </div>
 
-<div id="push-layer">
-    <div class="deletePush">
-        <span class="totalCount" style="float:center;">내 소식 알림</span>
-        <a href='javascript:deletePush()'><i class="far fa-trash-alt" style="float:right;"></i></a>
-        <hr>
-        <div class="pushList" style="overflow-y:auto; width:300px; height:350px;"></div>
-    </div>
-</div>
 
 
 <div id="plan-chat-layer">
     <div class="planChat output" style="padding:5px"></div>
     <div class="planChat input" style="padding:5px">
         <div class="input-group">
-            <input type="text" class="form-control form-control-sm" id="myChat" placeholder="플래너 채팅 입력창">
+            <input type="text" class="form-control form-control-sm" id="myChat" placeholder="메시지를 입력하세요">
             <span class="input-group-btn">
                 <button class="btn btn-default btn-sm" type="button"><i class="fab fa-telegram-plane"></i></button>
             </span>
@@ -274,14 +295,8 @@
     </div>
 </div>
 
-
-
-
-
-
-
 <!--채팅 참여자 목록 모달-->
-<div class="modal fade" id="accModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="accModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -456,19 +471,20 @@
     // 푸시리스트 호출 시 작동할 function : 리스트 화면에 출력
     function showList(vo, type) {
         var tag = "";
-        tag += "<table width=95%>"
+        tag += "<table style='margin:5%;width:90%;'>"
+        tag += "<tbody style='width:100%;'>"
         tag += "<tr>"
-        tag += "<td style='margin:auto;text-align:center' width='10%'>"
+        tag += "<td style='text-align:center;width:10%;'>"
         tag += "<input type='checkbox' name='chk' id='" + vo.pushId + "' value='" + vo.pushId + "'>"; // style='display:none;'
         tag += "</td>"
-        tag += "<td style='text-align:left;margin-left:10'>"
+        tag += "<td style='text-align:left;width:90%;'>"
         tag += "<font size='2'  font color='black'>"
         if (vo.pushType.trim() == 'C' || vo.pushType.trim() == 'R') {
             tag += "<a href='/community/getPost?postId=" + vo.refId + "&boardName=" + vo.boardName + "'>";
         } else if (vo.pushType.trim() == 'I') {
             tag += "<a href='/myPage/myOfferList' >"; // 초대 목록 리스트 링크
         } else if (vo.pushType.trim() == 'A') {
-            tag += "<a href='/community/getPost?postId=" + vo.refId + "&boardName=D' >" // 동행 신청 목록 리스트 링크
+            tag += "<a href='/myPage/myOfferList' >" // 동행 신청 목록 리스트 링크
         }
         tag += vo.pushMsg + "</font></td>";
         tag += "<tr>";
@@ -476,7 +492,7 @@
         tag += "<font size='1' font color='gray'>" + vo.pushTime + "</font></a>";
         tag += "</td>";
         tag += "</tr>";
-
+        tag += "</tbody>"
         tag += "</table>"
         tag += "<style>"
         tag += "label { font-weight: normal; font-color: white; }"
@@ -498,8 +514,8 @@
             },
             success: function(result) {
                 console.log("안 읽은 알림 개수 출력 성공 : " + result + "개")
-                var h = "<span class=\"badge badge-pill badge-danger\">" + result + "</span>";
-                $(".unreadCount").html(h);
+                var h = "<sup class=\"badge badge-pill badge-danger\" style='font-size: 3pt;'>" + result + "</sup>";
+                $(".unreadCount").append(h);
             },
             error: function(error) {
                 console.log("안 읽은 알림 개수 출력 실패");
@@ -588,14 +604,17 @@
     function showRoomList(list) {
         var html = "";
         console.log("채팅방 목록 개수 : " + list.length);
-        html += "<h5>동행 채팅 <i class=\"fas fa-comment-alt\"></i></h5><hr>"
-        html += "<table class='roomTable' style='border-spacing: 0 10px;width:100%;'>"
+        html += "<table class='roomTable' style='border-collapse: separate;border-spacing:0 15px;width:90%;margin:5%;' >"
         for (var i in list) {
-            html += "<tr onclick='enterRoom(\"" + list[i].chatRoomId + "\")' style='height:60px;'>";
+            html += "<tr onclick='enterRoom(\"" + list[i].chatRoomId + "\")'>";
             //html += "<input type='hidden' name='chatRoomId' value='"+list[i].chatRoomId+"'>";
             html += "<td class='td1' style='text-align:left;width:40px;'>";
             //=\"/resources/images/chatImg/"+list[i].chatImg+"\" 
-            html += "<img style='border: 2px solid #ccc;border-radius: 7px;-moz-border-radius: 7px;-khtml-border-radius: 7px; -webkit-border-radius: 7px;width:35px;height:35px;' src=\"/resources/images/userImages/defaultUserImage.jpg\">"
+            if( list[i].chatImg != null ) {
+                html += "<img style='border: 2px solid #ccc;border-radius: 50%;width:35px;height:35px;' src=\"/resources/images/userImages/"+list[i].chatImg+"\">"
+            } else {
+                html += "<img style='border: 2px solid #ccc;border-radius: 50%;width:35px;height:35px;' src=\"/resources/images/userImages/defaultUserImage.jpg\">"
+            }
             html += "</td>"
             html += "<td class='td2' style='text-align:left;min-width:150px;'>";
             html += "<b><font size='3'>" + list[i].chatRoomName + "&ensp;</font></b><font color=gray>" + list[i].chatMems.length + "</font><br/>";
@@ -617,7 +636,7 @@
             html += "</tr>";
         }
         html += "</table>"
-        $(".accLobby").html(html);
+        $(".accLobby.content").html(html);
     }
 
 
@@ -653,7 +672,7 @@
             accChatLayer.value += "accChat 에러가 발생했습니다.\n";
         };
     }
-    
+
     var userNickname = '${user.nickname}';
 
     function receiveAccChat(chat) {
@@ -666,12 +685,12 @@
         } else if (chat.user.nickname == userNickname) {
             html += "<div class='msgA right' style=\"text-align:right;margin:10px;\">"
             html += "<font color='#cccccc' size=1>" + chat.sendTime + "&ensp;</font>";
-            html += "<div style='display: inline-block;background-color:#C5ECE9;height:auto;min-height:25px;max-width:150px;vertical-align:middle;border-radius:10px;padding:2px;text-align:justify;word-wrap:break-word;'>";
-            html += "<font color='black' size=2>&ensp;" + chat.chatContent + "&ensp;</font>";
+            html += "<div style='display: inline-block;background-color:#C5ECE9;height:auto;min-height:25px;max-width:150px;vertical-align:middle;border-radius:10px;padding:2px;text-align:justify;word-wrap:break-word;padding:5px;'>";
+            html += "<font color='black' size=2>" + chat.chatContent + "</font>";
             html += "</div>"
             html += "</div>"
         } else {
-            if ($("div.msgA").last().hasClass('left') == true && $($("div.msgA").last()).find('div.sender  font.senderId').html()==chat.user.nickname ) {
+            if ($("div.msgA").last().hasClass('left') == true && $($("div.msgA").last()).find('div.sender  font.senderId').html() == chat.user.nickname) {
                 html += "<div class='msgA left' style=\"text-align:left;margin:10px;\">"
                 html += "<div class='sender' style='text-align:center;display: inline-block;vertical-align: center;'>";
                 html += "<font class='senderId' style='display:none;'>" + chat.user.nickname + "</font>";
@@ -684,8 +703,8 @@
                 html += "<img  style='border: 2px solid #C5ECE9;width:30px;height:30px;margin:2px;' class='rounded-circle' src=\"/resources/images/userImages/" + chat.user.userImg + "\">";
                 html += "</div>"
             }
-            html += "<div style='display: inline-block;background-color:#F2F2F2;height:auto;min-height:25px;max-width:150px;vertical-align:middle;text-align:justify;border-radius:10px;padding:2px;word-wrap:break-word;'>";
-            html += "<font color='black' size=2>&ensp;" + chat.chatContent + "&ensp;</font>";
+            html += "<div style='display: inline-block;background-color:#F2F2F2;height:auto;min-height:25px;max-width:150px;vertical-align:middle;text-align:justify;border-radius:10px;padding:2px;word-wrap:break-word;padding:5px;'>";
+            html += "<font color='black' size=2>" + chat.chatContent + "</font>";
             html += "</div>"
             html += "<font color='#cccccc' size=1> " + chat.sendTime + "</font>";
             html += "</div>"
@@ -786,6 +805,8 @@
                     tag += userList[i].nickname;
                     if (userId == result.creator && userId != userList[i].userId) {
                         tag += "<button type='button' class='btn btn-outline-danger' style='float:right;' onclick='quitAcc(\"" + userList[i].userId + "\")'>강퇴</button>";
+                    } else if(userId != result.creator && userId == userList[i].userId){
+                         tag += "<button type='button' class='btn btn-outline-danger' style='float:right;' onclick='quitAcc(\"" + userList[i].userId + "\")'>나가기</button>";
                     }
                     tag += "</div>"
                 }
@@ -820,53 +841,95 @@
     }
 
     function quitAcc(quitId) {
-        console.log("강퇴시킬 user : " + quitId);
-        Swal.fire({
-            title: '정말 강제 퇴장 시키시겠습니까?',
-            text: "한 번 퇴장시키시면 채팅방뿐만 아니라 동행에서도 빠지게 됩니다.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '예, 강제 퇴장시키겠습니다.',
-            cancelButtonText: '아니오!',
-        }).then((result) => {
-            if (result.value) {
-                var chatRoom = new Object();
-                chatRoom.chatRoomId = chatRoomId;
-                chatRoom.chatMems = [quitId];
-                $.ajax({
-                    url: "/chat/json/quitChatRoom/",
-                    type: "POST",
-                    data: JSON.stringify(chatRoom),
-                    dataType: "text",
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json"
-                    },
-                    success: function(result) {
-                        console.log(result);
-                        console.log("quitChatRoom() 성공 :: " + quitId + " || db에서 가져온 닉네임 : " + result);
-                        sendAccMessage(result);
-                        getChatRoomList();
-                        loadChatRoomInfo(chatRoomId);
-                        Swal.fire(
-                            '완료',
-                            '해당 회원이 동행에서 제외되었습니다.'
-                        )
-                    },
-                    error: function(error) {
-                        console.log("quitChatRoom() 실패")
-                        console.log(error);
-                    }
-                })
-            }
-        })
+        console.log("퇴장시킬 user : " + quitId);
+        if ( userId != quitId ) {
+            Swal.fire({
+                title: '정말 내보내시겠습니까?',
+//                text: "한 번 퇴장시키시면 채팅방뿐만 아니라 동행에서도 빠지게 됩니다.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '예',
+                cancelButtonText: '아니오',
+            }).then((result) => {
+                if (result.value) {
+                    var chatRoom = new Object();
+                    chatRoom.chatRoomId = chatRoomId;
+                    chatRoom.chatMems = [quitId];
+                    $.ajax({
+                        url: "/chat/json/quitChatRoom/",
+                        type: "POST",
+                        data: JSON.stringify(chatRoom),
+                        dataType: "text",
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        },
+                        success: function(result) {
+                            console.log(result);
+                            console.log("quitChatRoom() 성공 :: " + quitId + " || db에서 가져온 닉네임 : " + result);
+                            sendAccMessage(result);
+                            getChatRoomList();
+                            loadChatRoomInfo(chatRoomId);
+                            Swal.fire(
+                                '완료',
+                                '해당 회원이 동행에서 제외되었습니다.'
+                            )
+                        },
+                        error: function(error) {
+                            console.log("quitChatRoom() 실패")
+                            console.log(error);
+                        }
+                    })
+                }
+            })
+        } else {
+            Swal.fire({
+                title: '정말 나가시겠습니까?',
+//                text: "한 번 퇴장시키시면 채팅방뿐만 아니라 동행에서도 빠지게 됩니다.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '예',
+                cancelButtonText: '아니오',
+            }).then((result) => {
+                if (result.value) {
+                    var chatRoom = new Object();
+                    chatRoom.chatRoomId = chatRoomId;
+                    chatRoom.chatMems = [quitId];
+                    $.ajax({
+                        url: "/chat/json/quitChatRoom/",
+                        type: "POST",
+                        data: JSON.stringify(chatRoom),
+                        dataType: "text",
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        },
+                        success: function(result) {
+                            console.log(result);
+                            console.log("quitChatRoom() 성공 :: " + quitId + " || db에서 가져온 닉네임 : " + result);
+                            sendAccMessage(result);
+                            getChatRoomList();
+                            loadChatRoomInfo(chatRoomId);
+                            Swal.fire(
+                                '완료'
+                            )
+                        },
+                        error: function(error) {
+                            console.log("quitChatRoom() 실패")
+                            console.log(error);
+                        }
+                    })
+                }
+            })
+        }
     }
 
 
     /* -----------------------------------------  플래너 채팅 스크립트  --------------------------------------- */
-    var userId = '${user.userId}';
     var planId = '${plan.planId}';
     var planChatSocket;
     var planChatLayer = $("div.planChat.output");
@@ -874,7 +937,7 @@
 
 
     function connectPlanChat() {
-        var addr = "ws://localhost:8080/planSocket/"+planId+"/" + userId;
+        var addr = "ws://localhost:8080/planSocket/" + planId + "/" + userId;
         planChatSocket = new WebSocket(addr);
 
         planChatSocket.onopen = function(message) {
@@ -914,8 +977,8 @@
         } else if (chat.senderId == userId) {
             html += "<div class='msg right' style=\"text-align:right;margin:10px;\">"
             html += "<font color='#cccccc' size=1>" + chat.sendTime + "&ensp;</font>";
-            html += "<div style='display: inline-block;background-color:#C5ECE9;height:auto;min-height:25px;vertical-align:middle;border-radius:10px;padding:2px'>";
-            html += "<font color='black' size=2>&ensp;" + chat.chatContent + "&ensp;</font>";
+            html += "<div style='display: inline-block;background-color:#C5ECE9;height:auto;min-height:25px;vertical-align:middle;border-radius:10px;padding:5px'>";
+            html += "<font color='black' size=2;" + chat.chatContent + "</font>";
             html += "</div>"
             html += "</div>"
         } else {
@@ -932,8 +995,8 @@
                 html += "<img  style='border: 2px solid #C5ECE9;width:30px;height:30px;margin:2px;' class='rounded-circle' src=\"/resources/images/userImages/" + chat.user.userImg + "\">";
                 html += "</div>"
             }
-            html += "<div style='display: inline-block;background-color:#F2F2F2;height:auto;min-height:25px;vertical-align:middle;border-radius:10px;padding:2px'>";
-            html += "<font color='black' size=2>&ensp;" + chat.chatContent + "&ensp;</font>";
+            html += "<div style='display: inline-block;background-color:#F2F2F2;height:auto;min-height:25px;vertical-align:middle;border-radius:10px;padding:5px'>";
+            html += "<font color='black' size=2>" + chat.chatContent + "</font>";
             html += "</div>"
             html += "<font color='#cccccc' size=1> " + chat.sendTime + "</font>";
             html += "</div>"
@@ -942,12 +1005,12 @@
     }
 
     function checkOnlineMembers(data) {
-       <c:forEach var="member" items="${plan.planPartyList}">
-	    	$("#img_${member.userId}").removeClass("on");
+        <c:forEach var="member" items="${plan.planPartyList}">
+            $("#img_${member.userId}").removeClass("on");
         </c:forEach>
-        for( var i in data) {
-            console.log("접속한 회원 id : "+data[i].userId);
-            $("#img_"+data[i].userId).addClass("on");
+        for (var i in data) {
+            console.log("접속한 회원 id : " + data[i].userId);
+            $("#img_" + data[i].userId).addClass("on");
         }
     }
 
@@ -991,38 +1054,41 @@
 
         if (planId.length == 0) {
             $('div.icon.plan-chat').hide();
+            connectPlanChat();
         } else {
-            $('div.icon.plan-chat').show();
+            $('div.icon.plan-chat').hide();
+            $('div.icon.plan-chat').fadeIn(200).effect( "shake", { direction: "up", times: 3, distance: 1} );
+            
             connectPlanChat();
         }
-        
-        
-            $("#myChat").keydown(function(key) {
-                if (key.keyCode == 13) {
-                    sendMessage();
-                    myChat.val();
-                }
-            });
-            $("#click").on("mouseover", function() {
-                $("#click").css({
-                    "background-color": "#2ECCFA"
-                });
-            }).on("mouseout", function() {
-                $("#click").css({
-                    "background-color": "#81e0fc"
-                });
-            });
 
-            $(".fa-comment-dots").on("click", function() {
-                $("#planChat").toggleClass('on');
-            });
-            $(".fa-telegram-plane").on("click", function() {
+
+        $("#myChat").keydown(function(key) {
+            if (key.keyCode == 13) {
                 sendMessage();
-            })
-        
-        
-        
-        
+                myChat.val();
+            }
+        });
+        $("#click").on("mouseover", function() {
+            $("#click").css({
+                "background-color": "#2ECCFA"
+            });
+        }).on("mouseout", function() {
+            $("#click").css({
+                "background-color": "#81e0fc"
+            });
+        });
+
+        $(".fa-comment-dots").on("click", function() {
+            $("#planChat").toggleClass('on');
+        });
+        $(".fa-telegram-plane").on("click", function() {
+            sendMessage();
+        })
+
+
+
+
 
 
 
@@ -1044,9 +1110,9 @@
             $('#pos1').prop('checked', true);
             disconnectAcc();
         });
-        
-        
-        
+
+
+
 
 
 

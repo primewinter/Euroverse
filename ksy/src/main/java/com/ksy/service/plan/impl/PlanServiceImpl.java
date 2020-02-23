@@ -113,17 +113,12 @@ public class PlanServiceImpl implements PlanService {
 	}
 	
 	
-	
-	
-	
-	//User Service에 가야하는 메소드.... 테스트용으로 여기서 만들어 씀 
-	
-	public void updateUserSlot(String userId) throws Exception {
-		planDao.updateUserSlot(userId);
+	public List<Plan> getEndPlanList(String userId)throws Exception{
+		return planDao.getEndPlanList(userId);
 	}
 
-	public String findUserId(String userId) throws Exception {
-		return planDao.findUserId(userId);
+	public int getPlanCount(String userId)throws Exception{
+		return planDao.getPlanCount(userId);
 	}
 	
 	
@@ -152,4 +147,16 @@ public class PlanServiceImpl implements PlanService {
 		return planList;
 	}
 
+
+	
+	
+	//User Service에 가야하는 메소드.... 테스트용으로 여기서 만들어 씀 
+	/*
+	 * public void updateUserSlot(String userId) throws Exception {
+	 * planDao.updateUserSlot(userId); }
+	 * 
+	 * public String findUserId(String userId) throws Exception { return
+	 * planDao.findUserId(userId); }
+	 */
+	
 }

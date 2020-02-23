@@ -50,8 +50,6 @@
 	
 		var planId = $('select[name="planId"]').val();
 		
-		
-		
 		if(postTitle == null || postTitle.length<1){
 			alert("제목은 반드시 입력하여야 합니다.");
 			return;
@@ -65,7 +63,6 @@
 			alert("플래너를 선택해주세요.");
 			return;
 		}
-		
 		
 		if($('dd').length == 0){
 			tag = "<input type='hidden' name='tagContent' value=''>";
@@ -235,6 +232,7 @@
 
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
+	<jsp:include page="/toolbar/pushBar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -266,22 +264,18 @@
 		  </div>
 
 		<div class="form-group">
-		    <!-- <label for="planName" class="col-sm-1 control-label" style="font-size: 12px;">동행<br>시작일</label>
-		    <div class="col-sm-3">
-		      <input type="text" class="form-control" id="startDate" name="accStartDateStr" placeholder="동행 시작날짜" style="font-size: 12px;">
-		    </div>
-		    <label for="accDate" class="col-sm-1 control-label" style="font-size: 12px;">동행<br>종료일</label>
-		     <div class="col-sm-3">
-		      <input type="text" class="form-control" id="endDate" name="accEndDateStr" placeholder="동행 종료날짜" style="font-size: 12px;">
-		    </div> -->
-		    
-		    
-		 	<label for="planId" class="col-sm-1 control-label" style="font-size: 12px;">플래너 제목</label>
+	
+		 	<label for="planId" class="col-sm-1 control-label" style="font-size: 12px;">플래너 선택</label>
 		     <div class="col-sm-5">
 		     
 		      <select class="form-control" id="planId" name="planId">
 			    <c:forEach items="${planList}" var="plan">
+			    <c:if test="${planId == plan.planId}">
+			    	<option value="${plan.planId}" selected>${plan.planTitle}</option>
+			    </c:if>
+			    <c:if test="${planId != plan.planId}">
 			    	<option value="${plan.planId}">${plan.planTitle}</option>
+			    </c:if>
 			    </c:forEach>
 		      </select>
 		    </div>
@@ -308,12 +302,14 @@
 		<div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 		      <button type="button" class="btn btn-primary">등 &nbsp;록</button>
-			  <a id="cancel" class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+			  <a id="cancel" class="btn btn-primary btn" href="#" role="button" style="color:white;">취&nbsp;소</a>
 		    </div>
 		  </div>
 		</form>
 		
 	</div>
+
+	<jsp:include page="/toolbar/footer.jsp"/>
 
 </body>
 </html>

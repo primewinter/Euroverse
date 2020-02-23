@@ -247,8 +247,8 @@
 	<select  id="getPostList"  parameterType="map"	resultMap="postSelectMap">
 	  	SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT p.post_id , p.post_writer_id , p.plan_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count , p.qna_kategorie
-										FROM post p, comments c, tag t, party t
+  						FROM ( SELECT p.post_id , p.post_writer_id , p.plan_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(r.party_user_id) acc_count , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count , p.qna_kategorie
+										FROM post p, comments c, tag t, party r
 										<if test="search.searchCondition != null">
 										  <trim prefix="WHERE" prefixOverrides="AND | OR">
 											<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
@@ -279,13 +279,13 @@
 												AND p.qna_kategorie = 'M'
 											</if>
 											<if test="search.searchCondition != null">
-												AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.board_name = #{boardName}
+												AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.post_id = r.ref_id(+) AND p.board_name = #{boardName}
 											</if> 
 										  </trim>
 										</if>
 										<if test="search.searchCondition == null">
 										  <where>
-											  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.board_name = #{boardName}
+											  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.post_id = r.ref_id(+) AND p.board_name = #{boardName}
 										  </where>
 										</if> 
 										GROUP BY p.post_id , p.plan_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , p.qna_kategorie

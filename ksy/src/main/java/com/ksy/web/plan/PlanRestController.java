@@ -22,6 +22,7 @@ import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.plan.PlanService;
 import com.ksy.service.planSub.PlanSubService;
 import com.ksy.service.push.PushService;
+import com.ksy.service.user.UserService;
 
 @RestController
 @RequestMapping("/plan/*")
@@ -42,6 +43,10 @@ public class PlanRestController {
 	@Autowired
 	@Qualifier("myPageServiceImpl")
 	private MyPageService myPageService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
 	
 	public PlanRestController() {
 		System.out.println(this.getClass());
@@ -65,7 +70,7 @@ public class PlanRestController {
 	@RequestMapping( value = "json/updateUserSlot/{userId}", method = RequestMethod.GET )
 	public void updateUserSlot( @PathVariable String userId ) throws Exception {
 		
-		planService.updateUserSlot(userId);
+		myPageService.updateUserSlot(userId);
 	}
 	
 	
@@ -98,7 +103,7 @@ public class PlanRestController {
 		String findUserId[] = new String[2];
 		
 		findUserId[0] = "A";
-		findUserId[1] = planService.findUserId(userId);
+		findUserId[1] = userService.findUserId(userId);
 		
 		Party party = new Party();
 		party.setRefId(planId);
@@ -195,7 +200,7 @@ public class PlanRestController {
 	@RequestMapping( value = "json/checkPlanCount/{userId}", method = RequestMethod.GET )
 	public int checkPlanCount( @PathVariable String userId ) throws Exception {
 		
-		 int planCount = myPageService.getPlanCount( userId );
+		 int planCount = planService.getPlanCount( userId );
 		 return planCount;
 	}
 	
