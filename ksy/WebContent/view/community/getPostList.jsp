@@ -99,6 +99,7 @@
 	
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp" />
+	<jsp:include page="/toolbar/pushBar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -129,8 +130,42 @@
 		    
 		      <c:if test="${param.boardName == 'G'}">
 		    	<div style="float:left;padding-top:15px;padding-left:10px;font-size:18px;">
-		    		<span class="badge badge-info" onclick="qnaKategotie('5')">루트</span> <span class="badge badge-info" onclick="qnaKategotie('1')">교통</span> <span class="badge badge-info" onclick="qnaKategotie('0')">도시</span>
-		    		<span class="badge badge-info" onclick="qnaKategotie('2')">숙소</span> <span class="badge badge-info" onclick="qnaKategotie('3')">쇼핑,경비,환전</span> <span class="badge badge-info" onclick="qnaKategotie('4')">기타</span>
+			    	<c:if test="${search.sorting == 5}">
+			    		<span class="badge badge-info" onclick="qnaKategotie('5')">루트</span>
+			    	</c:if>
+			    	<c:if test="${search.sorting != 5}">
+			    		<span class="badge badge-secondary" onclick="qnaKategotie('5')">루트</span>
+			        </c:if>
+			        <c:if test="${search.sorting == 0}">
+			    		<span class="badge badge-info" onclick="qnaKategotie('0')">도시</span>
+			    	</c:if>
+			    	<c:if test="${search.sorting != 0}">
+			    		<span class="badge badge-secondary" onclick="qnaKategotie('0')">도시</span>
+			        </c:if>
+			        <c:if test="${search.sorting == 1}">
+			    		<span class="badge badge-info" onclick="qnaKategotie('1')">교통</span>
+			    	</c:if>
+			    	<c:if test="${search.sorting != 1}">
+			    		<span class="badge badge-secondary" onclick="qnaKategotie('1')">교통</span>
+			        </c:if>
+			         <c:if test="${search.sorting == 2}">
+			    		<span class="badge badge-info" onclick="qnaKategotie('2')">숙소</span>
+			    	</c:if>
+			    	<c:if test="${search.sorting != 2}">
+			    		<span class="badge badge-secondary" onclick="qnaKategotie('2')">숙소</span>
+			        </c:if>
+			         <c:if test="${search.sorting == 3}">
+			    		<span class="badge badge-info" onclick="qnaKategotie('3')">쇼핑,경비,환전</span>
+			    	</c:if>
+			    	<c:if test="${search.sorting != 3}">
+			    		<span class="badge badge-secondary" onclick="qnaKategotie('3')">쇼핑,경비,환전</span>
+			        </c:if>
+			         <c:if test="${search.sorting == 4}">
+			    		<span class="badge badge-info" onclick="qnaKategotie('4')">기타</span>
+			    	</c:if>
+			    	<c:if test="${search.sorting != 4}">
+			    		<span class="badge badge-secondary" onclick="qnaKategotie('4')">기타</span>
+			        </c:if>
 		    	</div>
 		      </c:if>
 		    
@@ -268,7 +303,7 @@
  	<!-- PageNavigation Start... -->
 	<jsp:include page="../../common/pageNavigator_new.jsp"/>
 	<!-- PageNavigation End... -->
-	
+	<jsp:include page="/toolbar/footer.jsp" />
 </body>
 
 </html>

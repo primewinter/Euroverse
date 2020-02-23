@@ -45,16 +45,16 @@
 	function fncAddPost(){
 		//Form 유효성 검증
 	 	var postTitle = $("input[name='postTitle']").val();
-		/* var postContent = $("input[name='postContent']").val(); */
+		var postContent = $("textarea").val(); 
 	
-		if(postTitle == null || postTitle.length<1){
+		if(postTitle.trim() == 0 || postTitle.length<1){
 			alert("제목은 반드시 입력하여야 합니다.");
 			return;
 		}
-		/* if(postContent == null || postContent.length<1){
+		if(postContent.trim() == 0 || postContent.length<1){
 			alert("내용은 반드시 입력하셔야 합니다.");
 			return;
-		} */
+		} 
 		if($('dd').length == 0){
 			tag = "<input type='hidden' name='tagContent' value=''>";
 			$(".tagList").append(tag);
@@ -84,7 +84,7 @@
 		             minHeight: null,             // set minimum height of editor
 		             maxHeight: null,             // set maximum height of editor
 		             focus: true,                 // set focus to editable area after initializing summernote
-		             lang : 'ko-KR',
+		             //lang : 'ko-KR',
 		             callbacks: {
 		                 onImageUpload: function(files, editor, welEditable) {
 		                   for (var i = files.length - 1; i >= 0; i--) {
@@ -186,6 +186,7 @@
 
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
+	<jsp:include page="/toolbar/pushBar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -266,7 +267,7 @@
 		<div class="form-group">
 		    <label for="tagContent" class="control-label" style="font-size: 12px; float: left; margin-left: 30px;">태그등록</label>
 		    <div class="col-sm-5">
-		      <input type="text" class="form-control" id="appendTag" value="" style="font-size: 12px; height:23px; width:200px; float:left;">
+		      <input type="text" class="form-control" id="appendTag" maxlength="10" value="" style="font-size: 12px; height:23px; width:200px; float:left;">
 		      <i class="fas fa-plus" onclick="addTag()" style="float:left; margin-left:10px; margin-top:4px; font-size:12px;">등록</i>
 		      <div class="tagList" id="tagList" style="width:800px;float:left;margin-top:10px;"></div>
 		    </div>
@@ -275,12 +276,14 @@
 		<div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 		      <button type="button" class="btn btn-primary">등 &nbsp;록</button>
-			  <a id="cancel" class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+			  <a id="cancel" class="btn btn-primary btn" href="#" role="button" style="color:white;">취&nbsp;소</a>
 		    </div>
 		  </div>
 		</form>
 		
 	</div>
+
+	<jsp:include page="/toolbar/footer.jsp"/>
 
 </body>
 </html>

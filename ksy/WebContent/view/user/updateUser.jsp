@@ -994,7 +994,7 @@ function enterConfirm(key){
 	  <div class="modal-dialog ">
 	  	<!-- <h2 style="color : #FFFFFF">Sign In</h2> -->
 	  
-		<div class="modal-content" style="border-radius: 100px; ">
+		<div class="modal-content" style="border-radius: 5px; padding:  10px 20px;">
 			 <!-- 	<div class="modal-header">
 				</div>modal header End 
  			-->
@@ -1004,15 +1004,15 @@ function enterConfirm(key){
 		<div class="modal-body" >
 			<form>
 					<div class="form-group  text-center">
-						<label for="pwd">Password</label>
-						 <input type="password"	class="form-control" placeholder="Enter password" id="pwdId" name="pwd">
+						<label for="pwd" style="margin-bottom: 15px;">Password</label>
+						 <input type="password"	class="form-control" placeholder="Enter password" id="pwdId" name="pwd" style="width: 180px;">
 						 <input type="text" style="display: none;" >
 						<h6 id="pwdMessage" style="color: #F00"></h6>
 					</div>
 						
 						
-					<div class="form-group text-center">
-					<button type="button" class="btn btn-primary" >비밀번호체크</button>
+					<div class="form-group text-center" style="padding-top: 5px;">
+					<button type="button" class="btn btn-primary" style="margin-right: 5px;">비밀번호체크</button>
 					<button type="button" class="btn btn-primary">취소 </button>
 					</div>
 			</form>

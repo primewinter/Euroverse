@@ -119,7 +119,7 @@ public class CommunityController {
 	}
 
 	@RequestMapping( value="addPost", method=RequestMethod.GET )
-	public String addPost( @RequestParam("boardName") String boardName, Model model, HttpSession session ) throws Exception {
+	public String addPost( @RequestParam("boardName") String boardName, @RequestParam(required=false) String planId, Model model, HttpSession session ) throws Exception {
 		
 		System.out.println("/community/addPost : GET");
 		
@@ -135,6 +135,7 @@ public class CommunityController {
 			List<Plan> listPlan = planService.getPlanList(user.getUserId());
 			
 			model.addAttribute("planList", listPlan);
+			model.addAttribute("planId", planId);
 			
 			return "forward:/view/community/addPlanPostView.jsp";
 		}
@@ -235,6 +236,10 @@ public class CommunityController {
 		System.out.println("/community/getPost : GET");
 		
 		User user=(User)session.getAttribute("user");
+		
+		if(user == null) {
+			return "forward:/view/community/check.jsp";
+		}
 
 		Post post = communityService.getPost(postId, user.getUserId(), boardName);
 		List<Tag> tag = communityService.getTagList(postId);
@@ -248,6 +253,10 @@ public class CommunityController {
 		List<User> userList = new ArrayList<User>();
 		
 		if( boardName.equals("D") ) {
+			
+			if(user.getRole().equals("G")) {
+				return "forward:/view/community/check.jsp";
+			}
 			
 			List<Party> party = communityService.getParty(postId);
 		
@@ -279,9 +288,9 @@ public class CommunityController {
 			String planId = post.getPlanId();
 			
 			Plan plan = planService.getPlan( planId );
-			List<Daily> dailyList = planSubService.getDailyList(planId);		//dailyList
+			List<Daily> dailyList = planSubService.getDailyList(plan);		//dailyList
 			List<Stuff> stuffList = planSubService.getStuffList(planId);		//stuffList
-			List<Daily> budgetOverviewList = planSubService.getBudgetOverview(planId);
+			List<Daily> budgetOverviewList = planSubService.getBudgetOverview(plan);
 			List<City> listCity = planSubService.getCityRouteList(planId);
 			List<Day> dayList = Util.cityListToDayList(listCity, plan.getStartDate() );
 			plan.setDayList(dayList);
@@ -384,6 +393,16 @@ public class CommunityController {
 		if( boardName.equals("C") ) {
 			return "forward:/view/community/getBestPostList.jsp";
 		}else if( boardName.equals("E") ) {
+			
+			List<Post> postList = (List<Post>)map.get("list");
+			List<Plan> planList = new ArrayList<Plan>();
+			
+			for(int i=0; i<postList.size(); i++) {
+			Plan plan = planService.getPlan(postList.get(i).getPlanId());
+			planList.add(plan);
+			
+			model.addAttribute("plan", planList);
+			}
 			return "forward:/view/community/getPlanPostList.jsp";
 		}else {
 			return "forward:/view/community/getPostList.jsp";

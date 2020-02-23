@@ -144,10 +144,10 @@ public class PlanServiceTest {
 		plan.setTodoList(todoList);
 		
 	
-		List<Daily> dailyList = planSubService.getDailyList(planId);		//dailyList
+		//List<Daily> dailyList = planSubService.getDailyList(planId);		//dailyList
 		List<Stuff> stuffList = planSubService.getStuffList(planId);		//stuffList
 		List<Memo> memoList = planSubService.getMemoList(planId);			//memoList
-		plan.setDailyList(dailyList);
+		//plan.setDailyList(dailyList);
 		plan.setStuffList(stuffList);
 		plan.setMemoList(memoList);
 		
@@ -163,9 +163,9 @@ public class PlanServiceTest {
 		
 		
 		//버짓 요약을 위한 리스트 : model에 심어서 보내주기
-		List<Daily> budgetOverviewList = planSubService.getBudgetOverview(planId);
-		/* */plan.setBudgetOverviewList(budgetOverviewList);
-		model.addAttribute("budgetOverviewList", budgetOverviewList);
+		//List<Daily> budgetOverviewList = planSubService.getBudgetOverview(planId);
+		/* *///plan.setBudgetOverviewList(budgetOverviewList);
+		//model.addAttribute("budgetOverviewList", budgetOverviewList);
 		
 		model.addAttribute("plan", plan);
 		
@@ -357,30 +357,22 @@ public class PlanServiceTest {
 	
 	
 	
-	//@Test
-	public void testUpdateUserSlot() throws Exception {		//성공!
-		
-		planService.updateUserSlot("testMember");
-	}
-	
-	//@Test
-	public void testFindUserId() throws Exception {		//성공!
-		
-		String userId = planService.findUserId("testMember");
-		
-		if( userId != null ) {
-			System.out.println(userId + " 님은 존재하는 회원입니다 ");
-		}else {
-			System.out.println("testMember"+ " 는 존재하지 않습니다");
-		}
-		
-		String userId2 = planService.findUserId("nonono");
-		
-		if( userId2 != null ) {
-			System.out.println(userId2 + " 님은 존재하는 회원입니다 ");
-		}else {
-			System.out.println("nonono"+ " 는 존재하지 않습니다");
-		}
-	}
+	/*
+	 * //@Test public void testUpdateUserSlot() throws Exception { //성공!
+	 * 
+	 * planService.updateUserSlot("testMember"); }
+	 * 
+	 * //@Test public void testFindUserId() throws Exception { //성공!
+	 * 
+	 * String userId = planService.findUserId("testMember");
+	 * 
+	 * if( userId != null ) { System.out.println(userId + " 님은 존재하는 회원입니다 "); }else
+	 * { System.out.println("testMember"+ " 는 존재하지 않습니다"); }
+	 * 
+	 * String userId2 = planService.findUserId("nonono");
+	 * 
+	 * if( userId2 != null ) { System.out.println(userId2 + " 님은 존재하는 회원입니다 ");
+	 * }else { System.out.println("nonono"+ " 는 존재하지 않습니다"); } }
+	 */
 	
 }

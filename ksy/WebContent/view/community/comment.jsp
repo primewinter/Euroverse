@@ -12,6 +12,13 @@
 	$(function(){
 		$("#addComment").on("click" , function() {
 			
+			var content = $("textarea").val();
+
+			if( content.trim() == 0 ){
+				alert("댓글을 입력해주세요.");
+				return false;
+			}
+			
 			$.ajax({
 				url : '/community/json/addComment' ,
 				type : "POST" ,
@@ -32,6 +39,13 @@
 	});
 	
 	function addRecomment(cmtId) {
+
+			var content = $("textarea").val();
+	
+			if( content.trim() == 0 ){
+				alert("댓글을 입력해주세요.");
+				return false;
+			}
 		
 			$.ajax({
 				url : '/community/json/addComment' ,
@@ -240,6 +254,13 @@
 		}
 		
 		function updateComment(cmtId){
+			
+			var content = $("#"+cmtId+"new").val();
+
+			if(content.trim() == 0){
+				alert("댓글을 입력해주세요.");
+				return false;
+			}
 			
 			$.ajax({
 				url : '/community/json/updateComment' ,

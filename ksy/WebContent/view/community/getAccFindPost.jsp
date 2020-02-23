@@ -538,6 +538,7 @@
 
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp" />
+	<jsp:include page="/toolbar/pushBar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 
    	<div class="modal" tabindex="-1" role="dialog" id="sendReport" >
@@ -567,15 +568,15 @@
 				<div class="custom-control custom-radio">
 				  <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input" value="E">
 				  <label class="custom-control-label" for="customRadio4" style="font-size:12px;">기타</label>
-				  <input type="text" class="form-control" id="reportContent" name="reportContent" placeholder="기타 내용을 입력하세요." style="font-size:12px;"/>
+				  <input type="text" class="form-control" maxlength="30" id="reportContent" name="reportContent" placeholder="기타 내용을 입력하세요." style="font-size:12px;"/>
 				</div>
 				  <input type="hidden" id="refId" name="refId" value="">
 	              <input type="hidden" id="reportTarget" name="reportTarget" value="">
 			</form>	      
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('sendReport');" style="width:50px;height:30px;font-size:11px;line-height:9px;">Close</button>
-	        <button type="button" class="btn btn-primary" style="width:50px;height:30px;font-size:11px;line-height:9px;" id="addReport">send report</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('sendReport');">닫기</button>
+	        <button type="button" class="btn btn-primary" id="addReport">신고하기</button>
 	      </div>
 	    </div>
 	  </div>
@@ -680,8 +681,14 @@
 		
 		<div class="row" style="font-family: 'Gothic A1', sans-serif;">
 		  <div class="col-xs-8 col-md-4"><i class="fas fa-user-times">${post.accCount}</i>
+		  <c:if test="${user.userId == post.postWriterId && post.accCount >= 2}">
 		    <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#createChat" style="width: 110px; font-size: 15px; height: 30px; line-height: 15px; margin: 0 0 3px 10px">채팅방 개설</button>
+		  </c:if>
+		  <c:forEach var="party" items="${party}">
+		  <c:if test="${user.userId != party.partyUserId && post.accCount < post.accPerson}">
 		    <button type="button" class="btn btn-outline-info" style="width: 100px; font-size: 15px; height: 30px; line-height: 15px; margin: 0 0 3px 10px" onclick="inviteUser()">동행신청</button>
+		  </c:if>
+		  </c:forEach>
 		  </div>
 			<div class="col-md-12" style="margin-top: 10px;border-top: 1px solid gainsboro;border-bottom: 1px solid gainsboro;border-left: 1px solid gainsboro;border-right: 1px solid gainsboro;height: 190px;">
 			  <c:set var="i" value="0"/>
@@ -732,10 +739,11 @@
  	
  	<!-- 댓글 jsp include -->
 	<jsp:include page="/view/community/comment.jsp"/>
+	<jsp:include page="/toolbar/footer.jsp" />
 	
 	<!-- 동행신청 모달 -->
 	<div class="modal" id="accOffer">
-	  <div class="modal-dialog modal-lg" >
+	  <div class="modal-dialog modal-lg" style="width:600px;" >
 	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> <i class="far fa-grin-alt"></i> <i class="far fa-handshake"></i> <i class="far fa-grin-wink"></i></h4>
 	  
 	    <div class="modal-content">
@@ -754,7 +762,7 @@
 	        <form class="accOffer" style="margin: 10px;">
 				<div class="form-group" id="offerMsgForm" style="margin: 30px 10px 10px 10px; width:auto;">
 				    <label for="offerMsg" class="control-label" style="font-weight: bold; margin-bottom: 7px;">${post.nickName} 님에게 보낼 메세지</label><br/>
-				    <input type="text" class="form-control" id="offerMsg" name="offerMsg" placeholder="동행신청 메세지를 입력하세요." style="width:100%; height: 100px;">
+				    <input type="text" maxlength="100" class="form-control" id="offerMsg" name="offerMsg" placeholder="동행신청 메세지를 입력하세요." style="width:100%; height: 100px;">
 				    <input type="hidden" id="postWriterId" name="postWriterId" value="${post.postWriterId}"/>
 				</div>
 	        </form>
@@ -781,7 +789,7 @@
 	      </div>
 	      <div class="modal-body" style="text-align:center">
 	      	<div style="margin-top:20px;margin-bottom:30px">
-	      		<img id="blah" src="/resources/images/icon/imageIcon.png" width="50px" height="50px" onclick='document.all.chatRoomFile.click(); document.all.file2.value=document.all.chatRoomFile.value'/>
+	      		<img id="blah" src="/resources/images/icon/imageIcon.png" width="50px" height="50px" onclick='document.all.chatRoomFile.click(); document.all.file.value=document.all.chatRoomFile.value'/>
 	      	</div>
 	        <div class="form-group row">
 				    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">채팅방 이름</label>

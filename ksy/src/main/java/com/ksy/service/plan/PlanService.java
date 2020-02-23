@@ -47,11 +47,10 @@ public interface PlanService {
 	public void deleteTodo(String todoId) throws Exception;
 	
 	
+	public int getPlanCount(String userId)throws Exception;
 	
-	//User Service에 가야하는 메소드.... 테스트용으로 여기서 만들어 씀 
-	public void updateUserSlot(String userId) throws Exception;
-		
-	public String findUserId(String userId) throws Exception;
+	public List<Plan> getEndPlanList(String userId)throws Exception;
+	
 	
 	
 	// 미완료 todo 리스트 있는지 체크
@@ -63,5 +62,12 @@ public interface PlanService {
 	// D-nn 인 플랜(todo+User) 리스트 조회
 	public List<Plan> getSoonPlan(int leftDay) throws Exception;
 
+
+	//User Service에 가야하는 메소드.... 테스트용으로 여기서 만들어 씀 
+	/*
+	 * public void updateUserSlot(String userId) throws Exception; public String
+	 * findUserId(String userId) throws Exception;
+	 */
+	
 	
 }

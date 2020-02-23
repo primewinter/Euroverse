@@ -8,7 +8,7 @@
 
 <head>
 	<meta charset="EUC-KR">
-	<title>getPlan</title>
+	<title>${plan.planTitle }</title>
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -114,12 +114,13 @@
       	border: 1px gray;
       	//padding: 5px;
       	height: 500px;
+      	width: 100%;
       }
       .swiper-wrapper {
       }
       .swiper-slide {
       	height: 480px;
-      	width: 40px;
+      	width: 270px;
       	background-color: white;
       	margin: 4px;
       	padding: 10px;
@@ -128,6 +129,7 @@
       	border-color: #DDDDDD;
       	border-style: solid;
       	border-width: 1px;
+      	position: relative;
       }
       
       
@@ -570,9 +572,13 @@
 		function getDailyList(planId){
 			
 			$.ajax({
-				url: "/planSub/json/getDailyList/"+planId ,
+				url: "/planSub/json/getDailyList/"+planId,
 				method: "GET",
 				dataType: "json",
+				/* data: JSON.stringify({
+					planId: planId,
+					planTotalDays: '${plan.planTotalDays}'
+				}), */
 				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
 				success: function(JSONData, status){
 					if( JSONData==null || JSONData=="" ){		//alert("리턴데이터 없음");	
@@ -648,8 +654,10 @@
 			
 			if(checked =='T'){
 				checked = 'F';
+				$('#stuffChecked').text( ( parseInt($('#stuffChecked').text()) - 1) );
 			}else if(checked=='F'){
 				checked = 'T';
+				$('#stuffChecked').text( ( parseInt($('#stuffChecked').text()) + 1) );
 			}
 			$("input[name='stuff_"+stuffId+"']").val(checked);
 			
@@ -702,7 +710,9 @@
 									stuffItemsHtml += '<div class="stuffItem" style="margin: 7px;"> <input type="checkbox" name="stuff_'+JSONData[i].stuffId+'" value="F" onchange="checkStuff('+JSONData[i].stuffId+')"><span style="margin-left: 10px;"> '+JSONData[i].stuffName+'</span> </div>';
 								}
 							}
-							$('#stuffCount').text( "( "+stuffCheckedCnt+" / "+(stuffUncheckedCnt+stuffCheckedCnt)+" )");
+							//$('#stuffCount').text( "( "+stuffCheckedCnt+" / "+(stuffUncheckedCnt+stuffCheckedCnt)+" )");
+							$('#stuffChecked').text(stuffCheckedCnt);
+							$('#stuffUnchecked').text((stuffUncheckedCnt+stuffCheckedCnt));
 							$('#stuffCount').show();
 							
 						}else if(mode == 'Edit Mode'){
@@ -790,8 +800,10 @@
 		function getBudgetOverviewList(planId){
 			console.log("getBudgetOverviewList("+planId+") 실행 ");
 			
+			var planTotalDays = '${plan.planTotalDays}';
+			
 			$.ajax({
-				url: "/planSub/json/getBudgetOverviewList/"+planId ,
+				url: "/planSub/json/getBudgetOverviewList/"+planId+"/"+planTotalDays ,
 				method: "GET",
 				dataType: "json",
 				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
@@ -850,6 +862,20 @@
 				alert("#todoMode 클릭 => changeTodoMode() 실행");
 				changeTodoMode($(this).text());
 			});
+			
+			/* $("#addTodoName").keydown(function(key){
+				if( key.keyCode == 13){
+					addTodo();
+				}
+			}); */
+			
+			$(document).on('keydown', '#addTodoName', 
+				function(key) {
+					if(key.keyCode == 13){
+						addTodo();
+					}
+		    	}
+			);
 
 		});
 		
@@ -979,6 +1005,12 @@
 			$('#exitPlan').on('click', function(){
 				deletePlanParty('S');
 			});
+			
+			$('#findUserId').keydown(function(key){
+				if( key.keyCode == 13){
+					findUser($('#findUserId').val());
+				}
+			})
 
 		});
 		
@@ -1537,7 +1569,7 @@
 				
 				var coordinates = $memo.offset();
 				var memoLeft2 = coordinates.left - left_minus - 26;	// - 17
-				var memoTop2 = coordinates.top - 122;	// - top_minus - 40
+				var memoTop2 = coordinates.top - 144;	// - top_minus - 40
 				console.log("coordinates = "+ memoLeft2 +"/"+ memoTop2 );
 				
 				var memoId = $memo.find('.memo_id').text();
@@ -1736,8 +1768,6 @@
 			}
 		} //deleteMemo
 		
-		
-		
 		/* -------------------------------------	Memo List 관련 함수들		------------------------------------- */
 		
 	</script>
@@ -1799,157 +1829,6 @@
 	
 	
 	
-	<!-- ////////////////////////////////////////// 플래너 채팅 ////////////////////////////////////////// -->
-	
-	<%--플래너 채팅 클릭 버튼--%>
-	<div id="click">
-		<i class="fas fa-comment-dots  fa-flip-horizontal fa-2x" style="color:white;"></i>
-	</div>
-	
-
-	<%--플래너 채팅 UI--%>
-	<div id="planChat">
-		<div class="planChat output" style="padding:5px"></div>
-		<div class="planChat input" style="padding:5px">
-			<div class="input-group">
-			    <input type="text" class="form-control form-control-sm" id="myChat" placeholder="메시지를 입력하세요">
-			    <span class="input-group-btn">
-			        <button class="btn btn-default btn-sm" type="button"><i class="fab fa-telegram-plane"></i></button>
-			    </span>
-			</div>
-		 </div>
-	</div>
-	
-	
-	<script type="text/javascript">
-	/* -----------------------------------------  플래너 채팅 스크립트  --------------------------------------- */
-		var userId = '${user.userId}';
-		
-	    var planChatSocket;
-	    var planChatLayer = $("div.planChat.output");
-	    var myChat = $("#myChat");
-	
-	    
-	    function connectPlanChat() {
-	        var addr = "ws://localhost:8080/planSocket/"+${plan.planId}+"/" + userId;
-	        planChatSocket = new WebSocket(addr);
-	        
-	        planChatSocket.onopen = function(message) {
-	        	console.log("접속했다."+addr);
-	
-	        	planChatSocket.onmessage = function(message) {
-	        		console.log("메시지 받았다.")
-	            	var json = JSON.parse(message.data);
-	        		console.log(Array.isArray(json));
-	            	if( Array.isArray(json) ) {
-	            		checkOnlineMembers(json);
-	            		console.log("checkOnlineMembers")
-	            	} else {
-	            		console.log("receivePlanChat")
-	                    receivePlanChat(json);
-	            	}
-	                $(".planChat.output").scrollTop($(".planChat.output")[0].scrollHeight);
-	            };
-	
-	        };
-	        planChatSocket.onclose = function(message) {
-	            console.log("접속이 끊어졌습니다.\n");
-	        };
-	        planChatSocket.onerror = function(message) {
-	            console.log("에러가 발생했습니다.\n");
-	        };
-	
-	    }
-	    
-	    function receivePlanChat(chat) {
-	    	console.log("들어왔따~!")
-	    	var html = "";
-	        if(chat.senderId == 'system'){
-	            html += "<div class='msg center' style=\"text-align:center;margin: 20px;background-color:#D8D8D8;border-radius:10px;\">";
-	            html += "<font color='#424242' size=2>"+chat.chatContent+"</font>";
-	            html += "</div>"
-	        } else if(chat.senderId == userId) {
-	            html += "<div class='msg right' style=\"text-align:right;margin:10px;\">"
-	            html += "<font color='#cccccc' size=1>"+chat.sendTime+"&ensp;</font>";
-	            html += "<div style='display: inline-block;background-color:#C5ECE9;height:auto;min-height:25px;vertical-align:middle;border-radius:10px;padding:2px'>";
-	            html += "<font color='black' size=2>&ensp;"+chat.chatContent+"&ensp;</font>";
-	            html += "</div>"
-	          	html += "</div>"
-	        } else { 
-	            html += "<div class='msg left' style=\"text-align:left;margin:10px;\">"
-	            console.log("T ? F ? :: "+$("div.msg").last().hasClass('left') + " || "+$($("div.msg").last()).find('div.sender  font.senderId').html());
-	            if( $("div.msg").last().hasClass('left') == true && $($("div.msg").last()).find('div.sender font.senderId').html() == chat.senderId ) {
-	            	html += "<div class='sender' style='text-align:center;display: inline-block;vertical-align: center;'>";
-		            html += "<font class='senderId' style='display:none;'>"+chat.senderId+"</font>";
-		           	html += "<img  style='visibility:hidden;width:30px;height:2px;margin:5px 2px 5px 2px;' src=\"/resources/images/userImages/"+chat.user.userImg+"\">";
-		           	html += "</div>"
-	            } else {
-	            	html += "<div class='sender' style='text-align:center;display: inline-block;vertical-align: center;'>";
-		            html += "<font class='senderId'>"+chat.senderId+"</font><br/>";
-		           	html += "<img  style='border: 2px solid #C5ECE9;width:30px;height:30px;margin:2px;' class='rounded-circle' src=\"/resources/images/userImages/"+chat.user.userImg+"\">";
-		           	html += "</div>"
-	            }
-	           	html += "<div style='display: inline-block;background-color:#F2F2F2;height:auto;min-height:25px;vertical-align:middle;border-radius:10px;padding:2px'>";
-	            html += "<font color='black' size=2>&ensp;"+chat.chatContent+"&ensp;</font>";
-	            html += "</div>"
-	            html += "<font color='#cccccc' size=1> "+chat.sendTime+"</font>";
-	            html += "</div>"
-	        }
-	        planChatLayer.append(html);
-	    }
-	    
-	    function checkOnlineMembers(data) {
-	    	<c:forEach var="member" items="${plan.planPartyList}">
-	    		$("#img_${member.userId}").removeClass("on");
-	    	</c:forEach>
-	    	for( var i in data) {
-	    		console.log("접속한 회원 id : "+data[i].userId);
-	    		$("#img_"+data[i].userId).addClass("on");
-	    	}
-	    }
-	   
-	    function sendMessage() {
-	    	if( myChat.val().trim() != "" ) {
-	        var chat = new Object();
-	        chat.senderId = userId;
-	        chat.chatContent = myChat.val();
-	                    
-	        planChatSocket.send(JSON.stringify({chat}));
-	    	}
-	        myChat.val('');
-	        $(".planChat.output").scrollTop($(".planChat.output")[0].scrollHeight);
-	    }
-	    
-	    /*      ---------------------------------------------------   */
-	    
-	    // document.ready
-   		jQuery(document).ready(function($) {
-
-        	connectPlanChat();
-        	$("#myChat").keydown(function (key) {
-                if(key.keyCode == 13){
-                	sendMessage();
-                	myChat.val();
-                }
-            });
-        	$("#click").on("mouseover", function() {
-        		$("#click").css({"background-color":"#2ECCFA"});
-        	}).on("mouseout", function() {
-        		$("#click").css({"background-color":"#81e0fc"});
-        	});
-        	
-        	$(".fa-comment-dots").on("click", function() {
-        		$("#planChat").toggleClass('on');
-        	});
-        	$(".fa-telegram-plane").on("click", function() {
-        		sendMessage();
-        	})
-        });
-	
-	</script>  
-    <!-- ////////////////////////////////////////// 플래너 채팅 END ////////////////////////////////////////// -->
-	
-	
 	
 	<!-- 화면구성 div Start ///////////////////////////// -->
 	<div class="container-fluid">
@@ -2000,22 +1879,13 @@
 		            </a>
 		          </li>
 		        </ul>
-		        <!-- navigation-list  -->
-				<!-- <div class="list-group navigation-list" style="display:scroll; position:fixed; top:40px; left:20px; margin: 15px; width: 165px;">
-				  <a href="/index.jsp" class="list-group-item list-group-item-action">메인으로</a>
-				  <a href="#gotoTodoList" class="list-group-item list-group-item-action scroll">Todo 리스트</a>
-				  <a href="#gotoCityRouteList" class="list-group-item list-group-item-action scroll">여행루트</a>
-				  <a href="#gotoBudgetOverviewList" class="list-group-item list-group-item-action  scroll">예산</a>
-				  <a href="#gotoDailyList" class="list-group-item list-group-item-action  scroll">일정표</a>
-				  <a href="#gotoStuffList" class="list-group-item list-group-item-action  scroll">준비물</a>
-				  <a href="#gotoMemoList" class="list-group-item list-group-item-action  scroll">메모</a>
-				</div> -->
-		
 		
 		        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 		          <span>Plan Members</span>
 		          <!-- <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new member"> -->
-		            <span data-feather="plus-circle" onclick="inviteUser()"></span>
+		          	<c:if test="${plan.planStatus == 'R' }">
+		           		<span data-feather="plus-circle" onclick="inviteUser()"></span>
+		            </c:if>
 		          <!-- </a> -->
 		        </h6>
 		        
@@ -2135,7 +2005,7 @@
 							
 							if( $('#todo_list_container').find('.addTodo').text() == '' ){
 								todoListHeight = todoListHeight - 50;
-								var addTodoHtml = '<div class="addTodo row align-middle" style="width: 100%; margin-left:15px; padding-top:10px;"><i class="fas fa-pencil-alt" style="margin-top: 10px;width: 7%;"></i><input type="text" class="form-control" name="todoName" style="margin-left:5px; width: 70%; " placeholder="새로운 Todo 입력"> <button style="margin-bottom: 5px; margin-left: 5px;width: 13%;" type="button" class="btn btn-primary" onclick="addTodo()">+</button> </div>';
+								var addTodoHtml = '<div class="addTodo row align-middle" style="width: 100%; margin-left:15px; padding-top:10px;"><i class="fas fa-pencil-alt" style="margin-top: 10px;width: 7%;"></i><input type="text" class="form-control" name="todoName" id="addTodoName" style="margin-left:5px; width: 70%; " placeholder="새로운 Todo 입력"> <button style="margin-bottom: 5px; margin-left: 5px;width: 13%;" type="button" class="btn btn-primary" onclick="addTodo()">+</button> </div>';
 								$('#todo_list').before($(addTodoHtml));
 							}else{
 								todoListHeight = todoListHeight + 50;
@@ -2208,9 +2078,7 @@
 				<!--	 Todo List : 투두 리스트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light"  id="gotoTodoList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-3 mb-3 border-bottom list-container" id="gotoTodoList">
-					<!-- <div class="container">
-						<h5>Todo List</h5>
-						<div class="row"> -->
+	
 					<div class="d-flex justify-content-around flex-wrap flex-md-nowrap"  style="width: 99%;margin-bottom: 5px;">
 						<div id="todo_list_container" style="width: 32%;">
 							<p style="border-bottom:1px solid #797979; margin: 0 10px; font-weight: bolder; float: right;">&nbsp;Todo &nbsp;<span data-feather="pen-tool" id="addTodoButton"></span></p>
@@ -2261,8 +2129,6 @@
 						</div>
 					</div>
 						
-						<!-- </div>
-					</div> -->
 				</div>
 				<!--	 Todo List : 투두 리스트 END	//////////////////////// 	-->
 				<!-- <br/> -->
@@ -2271,7 +2137,6 @@
 				<!--	 CityRoute List : 여행루트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light" id="gotoCityRouteList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 pl-2 mb-3 border-bottom list-container" style="height:650px;" id="gotoCityRouteList">
-					
 					
 					<div id='calendar-container' style="float:right;width:45%; height:100%; margin: 5px 10px;max-width: 900px;">
 					  <div id='calendar' style="margin-bottom:10px;"></div>
@@ -2339,12 +2204,13 @@
 						<div class="row">
 						
 							<c:if test="${plan.dayList.size() != 0}">
-								<div class="swiper-container">
+								<div class="swiper-container swiper">
+								    <!-- <div class="swiper-wrapper"> -->
 								    <div class="swiper-wrapper">
 							    
 							    		<c:forEach var="day" items="${plan.dayList}">
 							    			<div class="swiper-slide">
-							    			<div >
+							    			<div>
 							    				<div class="dayInfo" style="padding-top:10px;padding-left:10px;text-align:left;padding-left:8px;font-size:14pt;color:#696969; font-weight: bold;">
 													${day.dateString}  <br/>
 													<span style="font-size:11pt;color:#32D0BF"> ${day.cityNames} &nbsp;&nbsp; ( ${day.dayNo} 일차 )</span>
@@ -2381,40 +2247,37 @@
 				<!--	 Stuff List : 준비물 체크리스트 START	//////////////////////// 	-->
 				<!-- <div class="album py-5 bg-light"  id="gotoStuffList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom list-container" id="gotoStuffList">
-					<!-- <div class="container"> -->
-						<!-- <h5>준비물 체크리스트</h5>  -->
-						
-						<!-- <div class="row"> -->
+					
+					<div style="border:solid thin #DDDDDD ; border-radius:5px; padding:20px; background-color: white; width: 100%; ">
+						<span id="stuff_icon"><i class="fas fa-tasks" style="font-size: 25px; margin-right: 6px; margin-bottom: 15px;"></i></span> <span style="margin-left:10px; font-size:large; font-weight:bolder;"> 준비물 체크리스트</span>
+						&nbsp;&nbsp;<span style="font-weight: bolder; font-size: 18px;" id="stuffMode">Edit Mode</span>
+						<span id="stuffCount" style="margin-left: 15px;">( <span id="stuffChecked"></span> / <span id="stuffUnchecked"></span> )</span>
+						<br/>
+						 
+						<div class="stuffItems"> <!-- 빈 div 만든 후 getStuffList() 바로 호출해서 세팅하기 -->
+							<%-- <c:forEach var="stuff" items="${plan.stuffList}">
+								<div class="stuffItem" style="margin: 7px;">
+									<c:if test="${stuff.stuffCheck=='T'}">
+										<input type="checkbox" name="stuff_${stuff.stuffId}" checked value="T" onchange="checkStuff('${stuff.stuffId}')"><span style="margin-left: 10px;"> ${stuff.stuffName}</span>
+									</c:if>
+									<c:if test="${stuff.stuffCheck=='F'}">
+										<input type="checkbox" name="stuff_${stuff.stuffId}" value="F" onchange="checkStuff('${stuff.stuffId}')"><span style="margin-left: 10px;"> ${stuff.stuffName}</span>
+									</c:if>
+								</div>
+							</c:forEach>
 							
-							<div style="border:solid thin #DDDDDD ; border-radius:5px; padding:20px; background-color: white; width: 100%; ">
-								<span id="stuff_icon"><i class="fas fa-tasks" style="font-size: 25px; margin-right: 6px; margin-bottom: 15px;"></i></span> <span style="margin-left:10px; font-size:large; font-weight:bolder;"> 준비물 체크리스트</span>
-								&nbsp;&nbsp;<span style="font-weight: bolder; font-size: 18px;" id="stuffMode">Edit Mode</span>
-								<span id="stuffCount" style="margin-left: 15px;"></span>
-								<br/>
-								 
-								<div class="stuffItems"> <!-- 빈 div 만든 후 getStuffList() 바로 호출해서 세팅하기 -->
-									<%-- <c:forEach var="stuff" items="${plan.stuffList}">
-										<div class="stuffItem" style="margin: 7px;">
-											<c:if test="${stuff.stuffCheck=='T'}">
-												<input type="checkbox" name="stuff_${stuff.stuffId}" checked value="T" onchange="checkStuff('${stuff.stuffId}')"><span style="margin-left: 10px;"> ${stuff.stuffName}</span>
-											</c:if>
-											<c:if test="${stuff.stuffCheck=='F'}">
-												<input type="checkbox" name="stuff_${stuff.stuffId}" value="F" onchange="checkStuff('${stuff.stuffId}')"><span style="margin-left: 10px;"> ${stuff.stuffName}</span>
-											</c:if>
-										</div>
-									</c:forEach>
-									
-									<c:if test="${plan.stuffList.size() == 0}">
-										<div class="addStuff">
-											<i class="fas fa-pencil-alt" style="margin: 7px;"></i><input type="text" class="form-control" name="stuffName" style="margin-left:5px; margin-top:5px; width: 200px; display:inline-block;" placeholder="새로운 항목 입력">
-											<button style="margin-bottom: 5px; margin-left: 5px;" type="button" class="btn btn-primary" onclick="addStuff()">추가</button> 
-										</div>
-									</c:if> --%>
-								</div> 	
-							</div>
+							<c:if test="${plan.stuffList.size() == 0}">
+								<div class="addStuff">
+									<i class="fas fa-pencil-alt" style="margin: 7px;"></i><input type="text" class="form-control" name="stuffName" style="margin-left:5px; margin-top:5px; width: 200px; display:inline-block;" placeholder="새로운 항목 입력">
+									<button style="margin-bottom: 5px; margin-left: 5px;" type="button" class="btn btn-primary" onclick="addStuff()">추가</button> 
+								</div>
+							</c:if> --%>
+						</div> 	
+					</div>
 							
-						<!-- </div>
-					</div> -->
+							
+							
+							
 				</div>
 				<!--	 Stuff List : 준비물 체크리스트 END	//////////////////////// 	-->
 
@@ -2424,7 +2287,7 @@
 				<!-- <div class="album py-5 bg-light"  id="gotoMemoList"> -->
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom list-container" id="gotoMemoList">
 					<div class="container">
-						<!-- <h5>메모</h5> -->
+					
 						<div style="font-weight: bolder;font-size: 20px;margin-bottom: 5px;">메모 <span class="addMemo"><i class="fa fa-marker addMemoIcon"></i></span> </div>
 						<div class="memo_row">
 							
@@ -2905,7 +2768,7 @@
 
 	
 	
-	
+	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
 	
 
@@ -3091,10 +2954,6 @@
 					}
 					
 					bounds.extend(marker[i].getPosition());
-					
-					/* marker[i].addListener('click', function() {
-						alert(" 마커 클릭 => cityName="+cityMarkerList[i].title);
-					}); */
 				}
 				map.fitBounds(bounds);
 				
@@ -3118,11 +2977,9 @@
 		
 		
 		
-		
-		
 		/* Plan Information 여행완료 버튼  관련 함수 */
 		var now = new Date();
-		var planEndDate = "${plan.endDate}";
+		var planEndDate = "${plan.endDate.substring(0,10)}";
 		var newPlanEndDate = new Date(planEndDate);
 		
 		console.log("now="+now+" / endDate="+newPlanEndDate);
@@ -3152,6 +3009,9 @@
 		new Swiper ('.swiper-container', {
 		    //direction: 'vertical',
 		    //loop: true
+		    slidesPerView:'auto',
+		    slidesPerGroup: 5,
+		    freeMode:true,
 			navigation : {
 				nextEl : '.swiper-button-next', // 다음 버튼 클래스명
 				prevEl : '.swiper-button-prev', // 이번 버튼 클래스명
@@ -3164,8 +3024,6 @@
 	<!-- Google Map API -->
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4&callback=initMap" type="text/javascript"></script>
 
-
-	
 	
 </body>
 </html>
