@@ -156,10 +156,11 @@
 		    z-index: -2;
 		}
 		/* 달력 css */
-		.kronos-outer .kronos-inner { Padding-top:10px;Padding-left:10px;Padding-right:10px;Padding-bottom:10px;font-size: 14px; }
+		 .kronos-outer .kronos-inner { Padding-top:10px;Padding-left:10px;Padding-right:10px;Padding-bottom:10px;font-size: 14px; }
 		element.style {
 		    height: 350px;
-		}
+		} 
+		
 		
 		/* 인원 수량 */
 		#decreaseQuantity , #decreaseQuantity2 , #decreaseQuantity3{
@@ -221,17 +222,6 @@ $(function() {
 $("#from").datepicker({
     dateFormat: 'yy-mm-dd',
     minDate: 0,
-    button: {
-    	    month :true,
-    	    year :true,
-    	    trigger :true,
-    	    today :true
-    	  },
-	  select :true,
-	    selectYear : {
-	      tart : -20,
-	      end : 20
-	    },
     onSelect: function(selectDate){
         var stxt = selectDate.split("-");
         console.log("stxt : "+stxt);
@@ -478,8 +468,9 @@ function europe(obj) {
 
 <body>
  	<jsp:include page="/toolbar/toolBar.jsp" />
+ 	<jsp:include page="/toolbar/pushBar.jsp" />
 <form>
-<div class="wrapper">	
+<div class="wrapper" style="margin-top:60px;">	
 <br>
 <br>
 <br>
@@ -618,11 +609,11 @@ function europe(obj) {
 			
 			
 
-		
-<br><br><br>
+<br><br><br><br><br>
 
 			
 
+			  <jsp:include page="/toolbar/footer.jsp" />
 		
 </div>	
 		<!-- Modal 안에 내용 -->

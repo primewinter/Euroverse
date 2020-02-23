@@ -29,7 +29,6 @@
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	  body {
-             padding-top : 50px;
 			font-family: "Nanum Gothic", "Malgun Gothic", "돋움", Dotum, "돋움", Dotum, Arial, Helvetica, sans-serif;
         }
         
@@ -88,6 +87,7 @@ $(function() {
 
 <body>
 <jsp:include page="/toolbar/toolBar.jsp" />
+ <jsp:include page="/toolbar/pushBar.jsp" />
 	<div class="container">
 		<c:forEach var="room" items = "${roomList}" >
 		<hr/>
@@ -151,7 +151,7 @@ $(function() {
 			  </c:forEach>
 			  </tbody>
 			</table> --%>
+ <jsp:include page="/toolbar/footer.jsp" />
 		</div>
-
 </body>
 </html>

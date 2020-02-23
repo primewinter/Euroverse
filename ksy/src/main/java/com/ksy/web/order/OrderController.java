@@ -346,10 +346,10 @@ public class OrderController {
 		Order order = new Order();
 		Flight flight = new Flight();
 		Point point = (Point) session.getAttribute("point");
-		
+		System.out.println("얍 "+point);
 		flight = flightService.getFlight(flightId);
 		order = orderService.getFlightOrder(flightId);
-
+		
 		model.addAttribute("flight",flight);
 		model.addAttribute("order",order);
 		model.addAttribute("point",point);
@@ -392,38 +392,6 @@ public class OrderController {
 		return "forward:/order/getOrderList";
 	}
 	
-///////////////////////////////////환불////////////////////////////////////////
 
-	IamportClient client;
-
-	public void setup() throws Exception {
-		String api_key = "1083818024539221";
-		String api_secret = "gzVUKM3QNUfC53Ciu8FsqXEwv0Z0NZQ4yLZiy29mWpY1sBkXJZqaW4Gs4GtSFjXd5WvDZF0V4YXxzhuj";
-
-		client = new IamportClient(api_key, api_secret);
-	}
-
-	public void testGetToken() throws Exception {
-		String token = client.getToken();
-		System.out.println("token : " + token);
-	}
-
-	@RequestMapping(value = "cancel")
-	public void payRefund(@RequestParam("orderId")String orderId ) throws Exception {
-		// 이미 취소된 거래 imp_uid
-		System.out.println("testCancelPaymentByImpUid --- Start!---");
-		setup();
-		testGetToken();
-		setup();
-		Order order = orderService.getFlightOrder(orderId);
-		
-		CancelData cancel = new CancelData(orderId, true);
-		System.out.println("imp_uid : " + order.getOrderId());
-		IamportResponse<Payment> cancelpayment = client.cancelPayment(cancel);
-		System.out.println(cancelpayment.getMessage());
-		System.out.println("testCancelPaymentByImpUid --- End!---");
-	}
-
-///////////////////////////////환불 끝///////////////////////////////////////////////
 	
 }

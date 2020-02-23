@@ -40,7 +40,16 @@
 		SELECT
 		like_id , like_type , ref_id , like_user_id , like_check
 		FROM likes
+		<if test="refId != null">
 		WHERE like_user_id = #{likeUserId} AND ref_id = #{refId}
+		</if>
+		<if test="refId == null">
+		WHERE like_user_id = #{likeUserId} AND ref_id = #{refId}
+		</if>
+	</select>
+	
+	<select id="getFlightRefId" resultType="string">
+		SELECT SEQ_flight_flight_id.CURRVAL FROM dual
 	</select>
 	 
 	<insert id="addLike" parameterType="like">

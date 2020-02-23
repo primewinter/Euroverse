@@ -30,6 +30,15 @@ public class Room {
 	private String orderStatus; //order_status
 	private Timestamp orderDate; //order_date
 	
+	private String orderId; //order_status
+	
+	
+	public String getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
 	public String getLocation() {
 		return location;
 	}

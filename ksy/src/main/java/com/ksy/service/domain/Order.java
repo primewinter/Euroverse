@@ -19,9 +19,17 @@ public class Order {
 	private int actualAmount; //actual_amount
 	private int payPoint; //pay_point
 	private int addPoint;
+	private int usedPoint;
 	private String cardNo; //card_no
 	private Timestamp refundDate; //refund_date
 	
+	
+	public int getUsedPoint() {
+		return usedPoint;
+	}
+	public void setUsedPoint(int usedPoint) {
+		this.usedPoint = usedPoint;
+	}
 	public String getOrderId() {
 		return orderId;
 	}

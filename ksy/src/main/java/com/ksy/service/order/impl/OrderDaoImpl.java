@@ -49,8 +49,14 @@ public class OrderDaoImpl implements OrderDao {
 		return sqlSession.selectList("OrderMapper.getOrderList", map);
 	}
 	
-	public void getOrderRefund(Order order)throws Exception{
-		sqlSession.selectOne("OrderMapper.updateStatus" , order);
+	public List<Order> getOrderRefund(Order order)throws Exception{
+		System.out.println("1");
+		if (order.getOrderStatus() == "4") {
+			System.out.println("2");
+			return sqlSession.selectOne("OrderMapper.refundStatus" , order);
+		} else {
+			return sqlSession.selectOne("OrderMapper.updateStatus" , order);
+		}
 	}
 
 	public int getTotalCount(Search search) throws Exception {

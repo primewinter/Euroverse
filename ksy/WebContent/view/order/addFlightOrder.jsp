@@ -30,10 +30,6 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-	
-		body{
-		 padding-top : 50px;
-		}
        body > div.container{
         	border: 3px solid white;
             margin-top: 10px;
@@ -211,6 +207,7 @@
 
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp" />
+	 <jsp:include page="/toolbar/pushBar.jsp" />
 <div class="container"><br/>
 	
 	<form >
@@ -366,7 +363,7 @@
 		
 	</form>
 	
-	
+	 <jsp:include page="/toolbar/footer.jsp" />
 </div>
 
 

@@ -75,8 +75,8 @@
 		f.flight_id , o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.flight_id , p.used_point
 		FROM orders o , flight f , point p
 		WHERE f.flight_id = ${value}
-					AND f.flight_id=o.flight_id(+)
-					AND p.ref_id=o.order_id(+)
+					AND f.flight_id(+)=o.flight_id
+					AND p.ref_id(+)=o.order_id
   	</select>
   	
   	<select id="getRoomOrder" parameterType="String" resultMap="orderSelectMap">
@@ -84,8 +84,8 @@
 		r.room_id, o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date , o.room_id ,  p.used_point
 		FROM orders o , room r , point p
 		WHERE r.room_id = #{value}
-					AND r.room_id=o.room_id(+)
-					AND p.ref_id=o.order_id(+)
+					AND r.room_id(+)=o.room_id
+					AND p.ref_id(+)=o.order_id
 					
   	</select>
 
@@ -94,6 +94,16 @@
 	   	UPDATE orders
 	   	<set>
 			ORDER_STATUS = #{orderStatus}
+	   	</set>
+	   	
+	   	WHERE order_id = #{orderId} 
+	 </update>
+	 
+	  <update id="refundStatus"	parameterType="order"   >
+	   	UPDATE orders
+	   	<set>
+			ORDER_STATUS = #{orderStatus},
+			REFUND_DATE = SYSDATE
 	   	</set>
 	   	
 	   	WHERE order_id = #{orderId} 

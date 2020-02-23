@@ -27,9 +27,6 @@
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	
-		body{
-		 padding-top : 50px;
-		}
        body > div.container{
         	border: 3px solid white;
             margin-top: 10px;
@@ -47,26 +44,34 @@
 			orderStatus = 2;
 			
 		
-		//$("#refundApp1").hide();
+		$("#refundApp1").remove();
 		
 		self.location ="/order/getOrderRefund?orderId="+orderId+"&orderStatus="+orderStatus;
 		
 		//$("form").attr("method" , "POST").attr("action" , "/order/getOrderRefund").submit();
 	});
 }); 
+    
+    $(function () {
+    	$(".btn.btn-warning").click(function() {
+    		self.location = "/order/getOrderList";	
+    	});
+    });
     </script>
 
 </head>
 
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp" />
+	 <jsp:include page="/toolbar/pushBar.jsp" />
 	<form>
 	<input type="hidden" name="orderId" id="orderId" value= "${order.orderId }"/>
 	<input type="hidden" name="orderStatus" id="orderStatus" value= "${order.orderStatus }"/>
 	<input type="hidden" name="flightId" id="flightIds" value= "${flight.flightId }"/>
 	<input type="hidden" name="roomId" id="roomIds" value= "${room.roomId }"/>
-<div class="container"><br/>
-			<h4 align="left" style="margin-left:450px;">
+<div class="container">
+<br/><br/>
+			<h4 align="left" style="margin-left:480px;">
 				  <c:if test="${order.orderStatus == '1' }">
 			      	주문완료
 			      </c:if>
@@ -74,11 +79,14 @@
 			      	환불신청
 			      </c:if>
 			      <c:if test="${order.orderStatus == '3' }">
-			      	환불완료
+			      	환불 처리중
+				  </c:if>
+				  <c:if test="${order.orderStatus == '4' }">
+				  	환불완료
 				  </c:if>
 			</h4>
 		 <c:if test="${room.roomName == null }">
-		 	<hr/>
+		 	<br/>
 			<i class="fas fa-plane" id="iconf" style="Padding-left:20px;font-size:40px;" ></i>
 				<br/>
 				<table class="table">
@@ -99,7 +107,8 @@
 					      <td>${flight.arrTime}</td>
 					      <td>${flight.stopOver}</td>
 					      <td>${flight.leadTime}</td>
-					      <td>${flight.price}원</td>
+					      <!--  flight.price 로 바꿔줘야함 -->
+					      <td>${order.actualAmount}원</td>
 					    </tr>
 					  </tbody>
 				</table>
@@ -146,8 +155,8 @@
 	                    	<c:if test="${flight.depCity == null }">	
 	                   			<div id="totalAmount" style="Padding-left:30px;">${room.price}원</div> 
 	            			</c:if>
-	            			<c:if test="${room.roomName == null }">	
-	                   			<div id="totalAmount" style="Padding-left:30px;">${flight.price}원</div>
+	            			<c:if test="${room.roomName == null }">	 		<!-- flight.price 로 바꿔줘야함 -->
+	                   			<div id="totalAmount" style="Padding-left:30px;">${order.actualAmount}원</div>
 	            			</c:if>
 	            		</div>
 	             </div>
@@ -157,7 +166,7 @@
 	             <div class="col-sm-2" style="Padding-left:30px;">
 	            		 포인트 할인
 	                    <div class="row">
-	                    	<div id="usedPoint" style="Padding-left:20px;"> - ${point.usedPoint} P</div>
+	                    	<div id="usedPoint" style="Padding-left:20px;"> - ${order.usedPoint} P</div>
 	            		</div>
 	             </div>
 	             <div class="col-sm-1">
@@ -185,7 +194,7 @@
 					<div class="col-sm-2" style="margin-left:30px;">
 						<p>적립 된 포인트</p>
 							<%-- <c:if test="${point.usedType eq 'F' | point.usedType eq 'R' }"> --%>
-					 			<div id="addPoint" style="Padding-left:20px;">${point.usedPoint} P </div>
+					 			<div id="addPoint" style="Padding-left:20px;">${order.usedPoint} P </div>
 					</div>
 					<div class="col-sm-1" style="margin-left:20px;">
 						<i class="fas fa-equals" style="margin-left:15px;margin-top:10px;"></i>
@@ -223,6 +232,7 @@
 			   환불 신청
 			</button>
 			</div>
+		 <jsp:include page="/toolbar/footer.jsp" />	
 </div>
 			
 <div class="modal fade" id="refund" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

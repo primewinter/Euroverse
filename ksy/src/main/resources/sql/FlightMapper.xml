@@ -27,6 +27,7 @@
 	  	
   		<result property="orderDate" 		column="ORDER_DATE" 	jdbcType="TIMESTAMP"/>
 	  	<result property="orderStatus" 		column="ORDER_STATUS"	jdbcType="CHAR"/>
+	  	<result property="orderId" 		column="ORDER_ID"	jdbcType="VARCHAR"/>
 	
   	</resultMap>
   	
@@ -94,7 +95,6 @@
   						FROM (  SELECT f.flight_id , f.airline, f.dep_city , f.arr_city , f.dep_date, f.arr_date, f.lead_time , f.stop_over , f.dep_time , f.arr_time, f.price ,  o.order_id , o.order_date, o.order_status , o.buyer_id , o.buyer_name , o.buyer_phone , o.buyer_email , o.total_amount , o.pay_point , o.actual_amount , o.pay_opt , o.refund_date  
 										FROM flight f, orders o 
 										WHERE o.flight_id = f.flight_id(+)
-										
 										AND room_id IS NULL
 										ORDER BY order_id  ) inner_table
   						WHERE ROWNUM <![CDATA[<=]]> #{currentPage}*#{pageSize} )
