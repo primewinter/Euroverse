@@ -66,7 +66,7 @@ public class AccChatSocket {
 					chat.setUser(userService.getUser(userId));
 					msg = new ObjectMapper().writeValueAsString(chat);
 					System.out.println(">> 보낸 메시지 : "+msg);
-					sendToRoom(roomId, msg, session);
+					sendToRoom(roomId, msg);
 					//sendToUser(userList, "chat");
 				}
 				
@@ -89,7 +89,7 @@ public class AccChatSocket {
 				}
 				msg = new ObjectMapper().writeValueAsString(chat);
 				
-				sendToRoom(roomId, msg, session);
+				sendToRoom(roomId, msg);
 				insertMongo(msg);
 				
 				List<String> userList = getChatMems(roomId);
@@ -125,7 +125,7 @@ public class AccChatSocket {
 	}
 	
 	
-	private void sendToRoom(String roomId, String message, Session session) throws Exception {
+	private void sendToRoom(String roomId, String message) throws Exception {
 		
 		for (Map.Entry<String, List<Session>> entry : accMap.entrySet()) {
 			System.out.println("[동행 채팅] getKey :::: " + entry.getKey()+" || message : "+message);
@@ -208,27 +208,31 @@ public class AccChatSocket {
 	public void sendChat(Chat chat) throws Exception {
 		System.out.println("chat/json/sendChat :: @RequestBody Chat : "+chat);
 		
-		// 몽고디비랑 연결 있으면 가져오고 없으면 만들기
-		MongoClient mongoConn = new MongoClient("localhost", 27017);
-		MongoDatabase mongoDB = mongoConn.getDatabase("Euroverse");
-		
-		// 컬렉션 있으면 가져오고 없으면 새로만들기 
-		MongoCollection<Document> coll = mongoDB.getCollection("chat");
-		Bson filter = Filters.eq("_id",chat.getChatId());
-		Bson update = new Document("$set", new
-				Document("_id", chat.getChatId()) 
-				.append("chatContent", chat.getChatContent())
-				.append("chatDate", chat.getChatDate())
-				.append("senderId", chat.getSenderId())
-				.append("chatRoomId", chat.getChatRoomId()));
-		
-		UpdateOptions options = new UpdateOptions().upsert(true); // 있으면 update, 없으면 insert
-		System.out.println("들어감2");
-		
-		//coll.insertOne(doc);  // 이놈은 73번부터 77번까지 오라클에있는 내용을 그대로  몽고db에 넣음.
-		coll.updateOne(filter, update, options);  // 이놈은 84번부터 90번까지에 있는놈인데 중복된건 업데이트하고 없던건 insert 하면서 몽고db에 넣음 .. 이게짱임
-		System.out.println("업데이투");
-		
-		mongoConn.close();
+//		// 몽고디비랑 연결 있으면 가져오고 없으면 만들기
+//		MongoClient mongoConn = new MongoClient("localhost", 27017);
+//		MongoDatabase mongoDB = mongoConn.getDatabase("Euroverse");
+//		
+//		// 컬렉션 있으면 가져오고 없으면 새로만들기 
+//		MongoCollection<Document> coll = mongoDB.getCollection("chat");
+//		Bson filter = Filters.eq("_id",chat.getChatId());
+//		Bson update = new Document("$set", new
+//				Document("_id", chat.getChatId()) 
+//				.append("chatContent", chat.getChatContent())
+//				.append("chatDate", chat.getChatDate())
+//				.append("senderId", chat.getSenderId())
+//				.append("chatRoomId", chat.getChatRoomId()));
+//		
+//		UpdateOptions options = new UpdateOptions().upsert(true); // 있으면 update, 없으면 insert
+//		System.out.println("들어감2");
+//		
+//		//coll.insertOne(doc);  // 이놈은 73번부터 77번까지 오라클에있는 내용을 그대로  몽고db에 넣음.
+//		coll.updateOne(filter, update, options);  // 이놈은 84번부터 90번까지에 있는놈인데 중복된건 업데이트하고 없던건 insert 하면서 몽고db에 넣음 .. 이게짱임
+//		System.out.println("업데이투");
+//		
+//		mongoConn.close();
+		msg = new ObjectMapper().writeValueAsString(chat);
+		sendToRoom(chat.getChatRoomId(), msg);
+		insertMongo(msg);
 	}
+	
 }

@@ -46,16 +46,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 </head>
 <style>
-    main div {
+    @font-face {
+        font-family: '양진체';
+        src: url('https://cdn.jsdelivr.net/gh/supernovice-lab/font@0.9/yangjin.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    main section {
         margin-top: 30px;
         margin-bottom: 50px;
     }
 
-    div.main-infinite {
+    section.main-infinite {
         margin: 10%;
     }
 
-    div.random-text {
+    section.random-text {
         display: inline-block;
         vertical-align: bottom;
         text-align: left;
@@ -65,7 +72,7 @@
     /*메인 캐러셀*/
     div.carousel-inner {
         height: auto;
-        
+
     }
 
     .carousel-inner>.carousel-item {
@@ -125,9 +132,10 @@
     }
 
     .effect5 figcaption h3 {
+        font-family: '양진체';
         font-size: 1.3em;
         letter-spacing: 2px;
-        font-weight: 100;
+        /*font-weight: 100;*/
     }
 
     .effect5 figcaption em {
@@ -175,13 +183,22 @@
         opacity: 1;
         transition-delay: 0.1s;
     }
+    
+    
+    
+    
+    .story-entry__image-wrap>img{
+        width: 200px;
+        height:auto;
+    }
 
 </style>
 
 <body>
     <jsp:include page="toolbar/toolBar.jsp" />
+
     <main>
-        <div id="main-carousel" class="carousel slide" data-ride="carousel">
+        <section id="main-carousel" class="carousel slide" data-ride="carousel">
             <!-- 슬라이드 쇼 -->
             <div class="carousel-inner">
                 <!--첫번째 슬라이드-->
@@ -225,11 +242,11 @@
                 </ul>
                 <!-- 인디케이터 끝 -->
             </div>
-        </div>
+        </section>
 
 
 
-        <div class="main-infinite">
+        <section class="main-infinite">
             <div class="effect-wrap">
                 <figure class="effect5">
                     <img id="infinityClick" src="https://tistory4.daumcdn.net/tistory/2141493/skin/images/simg06.png">
@@ -242,11 +259,87 @@
                 <h4>#여행지 추천</h4>
                 사진을 클릭해보세요!
             </div>
-        </div>
-        <div class="main-best">
-        </div>
+        </section>
+
+
+
+
+        <section class="main-best">
+            <section class="container best-section today-best">
+                <header class="row best-section__header">
+                    <h2 class="col best-section__header__content">오늘의 인기글</h2>
+                </header>
+                <ul class="row best-stories__content">
+                    <li class="col-6 col-md-3 best-stories__content__item">
+                        <article class="story-entry story-story-item"><a class="story-entry-link" href="/projects/19527?affect_type=Home&amp;affect_id=0">
+                                <div class="story-entry__image-wrap">
+                                    <!--<img class="story-entry__image" alt="" src="이미지주소" srcset="이미지주소 1.5x,이미지주소 2x,이미지주소 3x">-->
+                                </div>
+                                <div class="story-entry__content-wrap">
+                                    <div class="story-entry__content">
+                                        <div class="story-entry__content__title">내가 좋아하는 물건으로 집을 채워가는 소소한 즐거움<br> </div>
+                                        <div class="story-entry__content__profile"><img class="story-entry__content__profile__image" src=""><span class="story-entry__content__profile__name">란마네집</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </article>
+                    </li>
+                </ul>
+            </section>
+            <section class="container best-section week-best">
+                <header class="row week-section__header">
+                    <h2 class="col week-section__header__content">여행후기</h2>
+                </header>
+                <ul class="row best-stories__content">
+                    <li class="col-6 col-md-3 best-stories__content__item">
+                        <article class="story-entry story-story-item"><a class="story-entry-link" href="/projects/19527?affect_type=Home&amp;affect_id=0">
+                                <div class="story-entry__image-wrap">
+                                <!--<img class="story-entry__image" alt="" src="" srcset="이미지주소 1.5x,이미지주소 2x,이미지주소 3x">-->
+                                </div>
+                                <div class="story-entry__content-wrap">
+                                    <div class="story-entry__content">
+                                        <div class="story-entry__content__title"><br> </div>
+                                        <div class="story-entry__content__profile"><img class="story-entry__content__profile__image" src="" srcset=""><span class="story-entry__content__profile__name">란마네집</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </article>
+                    </li>
+                </ul>
+            </section>
+        </section>
+        
+         <section class="container recent">
+                <header class="row recent__header">
+                    <h2 class="col recent__header__content">최신글</h2>
+                </header>
+                <ul class="row recent-stories__content">
+                    
+                </ul>
+            </section>
+
+
+
+
+
+
+
+
+
 
         <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                randomImage();
+                $("figure.effect5").on("click", function() {
+                    randomImage();
+                });
+                getBestList();
+                //getRecentList("A");
+                getRecentList("B");
+                getRecentList("F");
+                //getRecentList("G");
+            });
+
             function randomImage() {
                 $.ajax({
                     url: "/api/json/infinityClick",
@@ -256,24 +349,121 @@
                         "Accept": "application/json",
                         "Content-Type": "application/json"
                     },
-
                     success: function(JSONData, status) {
                         $('#infinityClick').attr('src', JSONData.url);
-                        $('h3').html(JSONData.info1 + JSONData.info2 + JSONData.info3 + JSONData.info4 + JSONData.info5);
+                        $('figcaption h3').html(JSONData.info1 + JSONData.info2 + JSONData.info3 + JSONData.info4 + JSONData.info5);
                     }
                 })
             }
-            jQuery(document).ready(function($) {
-                randomImage();
 
-                $("figure.effect5").on("click", function() {
-                    randomImage();
-                });
-            });
+            function getBestList() {
+                $.ajax({
+                    url: "/main/json/getBestList?boardName=C&searchCondition=0",
+                    method: "GET",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    success: function(result) {
+                        var list = result;
+                        console.log(result);
+                        $.each(list, function(index, vo) {
+                            console.log(vo);
+                        })
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                })
+
+            }
+            
+            function getRecentList(boardName) {
+                $.ajax({
+                     url: "/main/json/getRecentList?boardName="+boardName,
+                    method: "GET",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    success: function(result) {
+                        console.log(boardName + " :: "+result);
+                        $.each(result, function(index, vo) {
+                            //if(boardName == 'F') {
+                                showTripReview(vo)
+                            //}
+                            //console.log(vo);
+                        })
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                })
+            }
+            
+            function showTripReview(vo) {
+                var tag = "";
+                tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
+                tag += "<article class=\"story-entry story-story-item\"><a class=\"story-entry-link\" href=\"/community/getPost?postId="+vo.postId+"&boardName=F\">";
+                tag += "<div class=\"story-entry__image-wrap\">"
+                var content = vo.postContent;
+                var imgSrc = parseContent(content);
+                tag += imgSrc;
+                tag += "</div>"
+                tag += "<div class=\"story-entry__content-wrap\">"
+                tag += "<div class=\"story-entry__content\">"
+                tag += "<div class=\"story-entry__content__title\">"+vo.postTitle+"<br></div>"
+                tag += "<div class=\"story-entry__content__profile\">"
+                tag += "<span class=\"story-entry__content__profile__name\">"+vo.nickName+"</span></div></div></div></a></article></li>"
+                
+                $('ul.recent-stories__content').append(tag);
+                
+            }
+            
+            function parseContent(content) {
+                if( content.includes('<img')) {
+                    var startInt = content.indexOf('img');
+                    var endInt = content.indexOf('>',startInt);
+                    var result = content.substring(startInt-1, endInt+1);
+                    return result;
+                } else {
+                    return "";
+                }
+                
+            }
+
+
+            function showBest(vo) {
+                var tag = "";
+                tag += "<table width=95%>"
+                tag += "<tr>"
+                tag += "<td style='margin:auto;text-align:center' width='10%'>"
+                tag += "<input type='checkbox' name='chk' id='" + vo.post + "' value='" + vo.pushId + "'>"; // style='display:none;'
+                tag += "</td>"
+                tag += "<td style='text-align:left;margin-left:10'>"
+                tag += "<font size='2'  font color='black'>"
+                tag += "<a href='/community/getPost?postId=" + vo.refId + "&boardName=" + vo.boardName + "'>";
+                tag += "<a href='/myPage/myOfferList' >"; // 초대 목록 리스트 링크
+                tag += "<a href='/community/getPost?postId=" + vo.refId + "&boardName=D' >" // 동행 신청 목록 리스트 링크
+                tag += vo.pushMsg + "</font></td>";
+                tag += "<tr>";
+                tag += "<td colspan='2' style='text-align:right;vertical-align:top;'>";
+                tag += "<font size='1' font color='gray'>" + vo.pushTime + "</font></a>";
+                tag += "</td>";
+                tag += "</tr>";
+
+                tag += "</table>"
+                tag += "<style>"
+                tag += "label { font-weight: normal; font-color: white; }"
+                tag += "</style>";
+
+                //$(".main-best").append(tag);
+            }
 
         </script>
     </main>
-    <jsp:include page="toolbar/pushBar_sy.jsp" />
+    <jsp:include page="toolbar/pushBar.jsp" />
+    <jsp:include page="toolbar/footer.jsp" />    
 </body>
 
 </html>
