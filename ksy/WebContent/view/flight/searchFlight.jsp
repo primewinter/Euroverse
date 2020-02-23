@@ -33,15 +33,15 @@
 	<style>
        /* 인원수 */
        row.justify-content-around {
-        position:absolute;
+         position:absolute;
  		 top:50%;
-		  left:50%;
+		 left:50%;
 		}
 	  /* 도착지역 table css */
 	   td{
-	  font-size:11px;
-	  text-align: center;
-	  width : 100px;
+		  font-size:11px;
+		  text-align: center;
+		  width : 100px;
 	  }
 	  #domestic ,  #europe  {
 	  	z-index: 3;
@@ -59,20 +59,20 @@
 
 	  /* 왕복 , 편도 배경 */
 		#roundTrip {
-		position: relative;
+			position: relative;
 		}
 		#roundTrip.basic:after {
-		content : "";
-	    display: block;
-	    position: absolute;
-	    top: 0;
-	    left: 0;
-	    background-color: lightgray; 
-	    width: 225px;
-	    height: 50px;
-	    opacity : 0.7;
-	    z-index: -2;
-	    margin-left: -5px;
+			content : "";
+		    display: block;
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    background-color: lightgray; 
+		    width: 225px;
+		    height: 50px;
+		    opacity : 0.7;
+		    z-index: -2;
+		    margin-left: -5px;
 		}
 		
 		#roundTrip.change:after {
@@ -156,7 +156,6 @@
 		    z-index: -2;
 		}
 		/* 달력 css */
-		 .kronos-outer .kronos-inner { Padding-top:10px;Padding-left:10px;Padding-right:10px;Padding-bottom:10px;font-size: 14px; }
 		element.style {
 		    height: 350px;
 		} 
@@ -609,13 +608,13 @@ function europe(obj) {
 			
 			
 
-<br><br><br><br><br>
+<br><br><br>
 
 			
 
-			  <jsp:include page="/toolbar/footer.jsp" />
 		
 </div>	
+			  
 		<!-- Modal 안에 내용 -->
 		<div class="modal fade" id="flightNum" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
@@ -682,6 +681,8 @@ function europe(obj) {
 		  </div>
 		</div>
 	
-</form>			
+</form>
+
+<jsp:include page="/toolbar/footer.jsp" />			
 </body>
 </html>

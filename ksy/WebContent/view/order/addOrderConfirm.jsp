@@ -209,9 +209,9 @@
 			<button type="button" class="btn btn-warning"  >»Æ¿Œ</button>
 			</div>
 			
-			 <jsp:include page="/toolbar/footer.jsp" />
 </div>
 			
 	</form>
+			 <jsp:include page="/toolbar/footer.jsp" />
 </body>
 </html>
