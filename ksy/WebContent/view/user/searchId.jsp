@@ -161,10 +161,8 @@ h6{
 				userName : realName[0].value
 			}),
 			success : function(JSONData, Status) {
-					alert(JSONData);
 				 if(JSONData[0] == "error"){
 					
-					alert("하하");
 					var submitAlert = $(".alert-danger");
 					var alertMessage = $(".alert-danger strong");
 					
@@ -175,7 +173,6 @@ h6{
 					return;
 				}else{
 					
-					alert("창 이동~");
 				
 					 var name1 = document.getElementById("userName1");
 					console.log(name1.name);
@@ -221,14 +218,11 @@ h6{
 <body>
 
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-<div class="container">
+<div class="container" style="margin-top: 100px;">
 
 
 		<!-- <div class="row justify-content-center"> -->
 		<div class="row">
-			 <div class="col-md-7 mx-auto" > 
-				<h1 class="text-center">아이디찾기</h1>
-			 </div> 
 		</div>
 <form id="searchIdForm">
 

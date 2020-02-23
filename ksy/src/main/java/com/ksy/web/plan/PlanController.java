@@ -139,24 +139,22 @@ public class PlanController {
 	public String getPlan (	@RequestParam("planId") String planId, Model model, HttpSession session	) throws Exception {
 		
 		User user = (User)session.getAttribute("user");
-
 		if(user == null) {
 			return "redirect:/view/plan/planNotice.jsp";
 		}
 		
-		System.out.println("\n\n\n\n\n\n PLanID : "+planId);
-		
 		Plan plan = planService.getPlan(planId);
-		//plan_id, plan_title, plan_img, plan_type, start_date, plan_status, (cr.sum - (cr.cnt-1)) plan_total_days, pt.plan_party_size 
 		
-		System.out.println("\n\n\n\n Plan ===== "+plan);
 		
+		System.out.println("\n\n\n\n\n\n\n\n\nplan :::::::: "+plan);
 		
 		List<User> planPartyList = planService.getPlanPartyList(planId);	//planPartyList
 		plan.setPlanPartyList(planPartyList);
 		
+		
+		
 		List<Todo> todoList = planService.getTodoList(planId); 				//todoList
-		List<Daily> dailyList = planSubService.getDailyList(planId);		//dailyList
+		List<Daily> dailyList = planSubService.getDailyList(plan);		//dailyList
 		List<Stuff> stuffList = planSubService.getStuffList(planId);		//stuffList
 		List<Memo> memoList = planSubService.getMemoList(planId);			//memoList
 		plan.setTodoList(todoList);
@@ -165,13 +163,11 @@ public class PlanController {
 		plan.setMemoList(memoList);
 		
 		
-		List<Daily> budgetOverviewList = planSubService.getBudgetOverview(planId);
+		List<Daily> budgetOverviewList = planSubService.getBudgetOverview(plan);
 		plan.setBudgetOverviewList(budgetOverviewList);
-		//model.addAttribute("budgetOverviewList", budgetOverviewList);
 		
 		List<City> listCity = planSubService.getCityRouteList(planId);
 		plan.setCityList(listCity);
-		//model.addAttribute("listCity", listCity);	//Plan 필드에 CityList 없어서 모델에 심어줌... :: 추후 변경?
 		
 		List<Day> dayList = Util.cityListToDayList(listCity, plan.getStartDate() );
 		plan.setDayList(dayList);
@@ -340,9 +336,6 @@ public class PlanController {
 		
 		planService.updatePlan(plan);
 		
-		//plan = planService.getPlan(plan.getPlanId());	<- 이 과정이 굳이 필요한가..?
-		//model.addAttribute("plan", plan);	
-		
 		return "redirect:/plan/getPlan?planId="+plan.getPlanId();
 	}
 	
@@ -350,8 +343,6 @@ public class PlanController {
 	public String updatePlanStatus (	@ModelAttribute("plan") Plan plan, Model model	) throws Exception {
 	
 		planService.updatePlanStatus(plan);
-		
-		System.out.println("\n\n\n\n\n updatePlanStatus ::: "+ plan);
 	
 		//plan = planService.getPlan(plan.getPlanId());	//<- 이 과정이 굳이 필요한가..? <- 필요하다!!! <-아닌거같음.. 필요없음!!!!!!
 		//model.addAttribute("plan", plan);		
@@ -364,7 +355,6 @@ public class PlanController {
 	
 		planService.deletePlan(planId);
 		
-		//페이지 네비게이션 어케..?
 		User user = (User)session.getAttribute("user");
 		if(user == null) {
 			return "redirect:/view/plan/planNotice.jsp";
@@ -379,8 +369,6 @@ public class PlanController {
 	@RequestMapping( value = "deletePlanParty", method = RequestMethod.POST )
 	public String deletePlanParty (	@ModelAttribute("party") Party party, Model model, HttpSession session	) throws Exception {
 	
-		System.out.println("\n\n\n\n deletePlanParty ::: "+ party);
-		
 		planService.deletePlanParty(party);
 		
 		User user = (User)session.getAttribute("user");
@@ -408,7 +396,7 @@ public class PlanController {
 		usedPoint.setUsedPoint(500);
 		
 		myPageService.addPoint(usedPoint);
-		planService.updateUserSlot(userId);
+		myPageService.updateUserSlot(userId);
 		
 		//페이지 네비게이션 어케..?
 		/*
@@ -429,21 +417,5 @@ public class PlanController {
 	}
 	
 	
-	
-	
-	/*
-	 * @RequestMapping( value = "uploadPlan", method = RequestMethod.GET ) public
-	 * String uploadPlan ( @RequestParam("planId") String planId, Model model,
-	 * HttpSession session ) throws Exception {
-	 * 
-	 * User user = (User)session.getAttribute("user"); //음.. if(user == null) {
-	 * return "redirect:/view/plan/planNotice.jsp"; }
-	 * 
-	 * Plan plan = new Plan();
-	 * 
-	 * String copiedPlanId = planService.copyPlan(planId);
-	 * 
-	 * return "redirect:/plan/getPlan?planId="+copiedPlanId; }
-	 */
 	
 }

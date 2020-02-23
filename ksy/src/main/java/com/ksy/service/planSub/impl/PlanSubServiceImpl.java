@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ksy.service.domain.City;
 import com.ksy.service.domain.Daily;
 import com.ksy.service.domain.Memo;
+import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.Stuff;
 import com.ksy.service.planSub.PlanSubDao;
 import com.ksy.service.planSub.PlanSubService;
@@ -30,8 +31,8 @@ public class PlanSubServiceImpl implements PlanSubService {
 
 
 	@Override
-	public List<Daily> getBudgetOverview(String planId) throws Exception {
-		return planSubDao.getBudgetOverview(planId);
+	public List<Daily> getBudgetOverview(Plan plan) throws Exception {
+		return planSubDao.getBudgetOverview(plan);
 	}
 
 	@Override
@@ -40,8 +41,8 @@ public class PlanSubServiceImpl implements PlanSubService {
 	}
 
 	@Override
-	public List<Daily> getDailyList(String planId) throws Exception {
-		return planSubDao.getDailyList(planId);
+	public List<Daily> getDailyList(Plan plan) throws Exception {
+		return planSubDao.getDailyList(plan);
 	}
 
 	@Override
