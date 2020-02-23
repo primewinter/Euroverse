@@ -47,12 +47,10 @@ public interface PlanDao {
 	public void deleteTodo(String todoId) throws Exception;
 	
 	
+	public int getPlanCount(String userId)throws Exception;
 	
-	//User Service에 가야하는 메소드.... 테스트용으로 여기서 만들어 씀 
-	public void updateUserSlot(String userId) throws Exception;
-		
-	public String findUserId(String userId) throws Exception;
-
+	public List<Plan> getEndPlanList(String userId)throws Exception;
+	
 	
 	// 미완료 todo 리스트 개수 check
 	public int getUndoneCount(String userId) throws Exception;
@@ -71,4 +69,13 @@ public interface PlanDao {
 
 	// 플랜 id 당 문자 수신 동의한 회원 핸드폰 번호 목록
 	public List<User> getPushPhoneList(String planId) throws Exception;
+	
+	
+
+	//User Service에 가야하는 메소드.... 테스트용으로 여기서 만들어 씀 
+	/*
+	 * public void updateUserSlot(String userId) throws Exception; public String
+	 * findUserId(String userId) throws Exception;
+	 */
+	
 }

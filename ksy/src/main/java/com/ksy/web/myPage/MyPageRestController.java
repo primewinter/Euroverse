@@ -34,6 +34,7 @@ import com.ksy.service.domain.Post;
 import com.ksy.service.domain.User;
 import com.ksy.service.like.LikeService;
 import com.ksy.service.myPage.MyPageService;
+import com.ksy.service.plan.PlanService;
 import com.ksy.service.user.UserService;
 
 @RestController
@@ -55,6 +56,10 @@ public class MyPageRestController {
 	@Autowired
 	@Qualifier("likeServiceImpl")
 	private LikeService likeService;
+	
+	@Autowired
+	@Qualifier("planServiceImpl")
+	private PlanService planService;
 	
 	
 	public MyPageRestController() {
@@ -168,7 +173,7 @@ public class MyPageRestController {
 		Offer offer = myPageService.getOffer(offerId);
 		System.out.println(offer);
 		
-		int havePlanCount = myPageService.getPlanCount(user.getUserId());
+		int havePlanCount = planService.getPlanCount(user.getUserId());
 		System.out.println(havePlanCount);
 		
 		if(user.getSlot() <= havePlanCount) {

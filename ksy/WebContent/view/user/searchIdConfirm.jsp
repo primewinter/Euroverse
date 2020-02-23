@@ -241,13 +241,13 @@
 <body>
 <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	
+	<div style="text-align:center;margin-top: 50px;">
 	
-	
-	<h1>아이디 찾기</h1>
+	<h1 style="">검색된 아이디</h1>
 	
 	<form action="" id="formId" >
 		  
-		<div id="userIdListDiv">
+		<div id="userIdListDiv" style="font-size: 20px;">
 			<%-- <h1>${authType}</h1> --%>
 			
 			<c:forEach items="${starIdList}" var="userId">
@@ -264,13 +264,17 @@
 				<%-- 	핸드폰번호<input type="text" id="phone1" name="phone1" value="${user.phone1}" readonly="readonly">
 					-<input type="text" id="phone2" name="phone2" value="${user.phone2}" readonly="readonly"> 
 					-<input type="text" id="phone3" name="phone3" value="${user.phone3}" readonly="readonly">&nbsp;&nbsp; --%>
-					<h4>이름 : ${user.userName}</h4>
-					<h4>핸드폰번호 : ${user.phone}</h4>
+				<%-- 	<h4>이름 : ${user.userName}</h4>
+					<h4>핸드폰번호 : ${user.phone}</h4> --%>
+					
+<!-- 					<button type="button" class="btn btn-outline-primary">Primary</button>
+<button type="button" class="btn btn-outline-secondary">Secondary</button> -->
 				</div>
-				<input type="button" value="인증하기" id="sendPhone">
+				<button type="button" id="sendPhone" class="btn btn-outline-primary">인증하기</button>
+				<!-- <input type="button"  value="인증하기" id="sendPhone"> -->
 				<input type="hidden" id="phone" name="phone"> <input type="hidden" name="phoneValue" value="">
-				<button type="button" id="phoneConfirm">인증번호확인</button>
-				<h6></h6>
+				<button type="button" class="btn btn-outline-primary" id="phoneConfirm">인증번호확인</button>
+				<h6 style="margin: 20px;"></h6>
 				<input type="hidden" name="phoneCheck" value="">
 			</div>
 		</c:if>
@@ -278,20 +282,21 @@
 		<c:if test="${authType eq 'email' }">
 			<div id="emailDiv" >
 				<div id="emailRemoveDiv">
-					이름 <input type="text" id="userName2" value="${user.userName}" readonly="readonly"></br> 
-					이메일 <input type="text" name="email" id="email" value="${user.email}" readonly="readonly">
+<%-- 					이름 <input type="text" id="userName2" value="${user.userName}" readonly="readonly"></br> 
+					이메일 <input type="text" name="email" id="email" value="${user.email}" readonly="readonly"> --%>
 				</div>
-				&nbsp;&nbsp; <input type="button" value="인증하기" id="sendMail">
+				<!-- &nbsp;&nbsp; <input type="button" value="인증하기" id="sendMail"> -->
+				<button type="button" id="sendMail" class="btn btn-outline-primary">인증하기</button>
 				<input type="hidden" name="mailValue" value="">
-				<button type="button" id="confirm">인증번호확인</button>
-				<h6></h6>
+				<button type="button" class="btn btn-outline-primary" id="confirm">인증번호확인</button>
+				<h6 style="margin: 20px;"></h6>
 				<input type="hidden" name="mailCheck" value="">
 			</div>
 			</div>
 		</c:if>
-		<a href="/">
-		<input type="button" value="메인으로" onclick="javascript:login()">
-		</a>
+<!-- 		<a href="/">
+		<button type="button" class="btn btn-outline-secondary">메인으로</button>
+		</a> -->
 		</br>
 	</form>
 	
@@ -313,7 +318,7 @@
 	
 	</div>
 </div> --%>
-	
+	</div>
 	
 </body>
 </html>

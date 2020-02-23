@@ -5,16 +5,17 @@ import java.util.List;
 import com.ksy.service.domain.City;
 import com.ksy.service.domain.Daily;
 import com.ksy.service.domain.Memo;
+import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.Stuff;
 
 public interface PlanSubService {
 	
-	public List<Daily> getBudgetOverview(String planId) throws Exception;
+	public List<Daily> getBudgetOverview(Plan plan) throws Exception;
 
 	public List<Daily> getBudgetList(String planId) throws Exception;
 	
 
-	public List<Daily> getDailyList(String planId) throws Exception;
+	public List<Daily> getDailyList(Plan plan) throws Exception;
 
 	public Daily getDaily(Daily daily) throws Exception;
 	

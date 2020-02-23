@@ -36,9 +36,9 @@ public class PlanSubServiceTest {
 	public void testGetBudgetOverview() throws Exception {
 		
 		String planId = "10001";
-		List<Daily> listBudget = planSubService.getBudgetOverview(planId);
+		//List<Daily> listBudget = planSubService.getBudgetOverview(planId);
 		
-		System.out.println("	budgetOverView :: "+listBudget);
+		//System.out.println("	budgetOverView :: "+listBudget);
 	}
 	
 	//@Test
@@ -54,12 +54,12 @@ public class PlanSubServiceTest {
 	public void testGetDailyList() throws Exception {
 		
 		String planId = "10001";
-		List<Daily> listDaily = planSubService.getDailyList(planId);
-		System.out.println("	dailyList :: "+listDaily);
+		//List<Daily> listDaily = planSubService.getDailyList(planId);
+		///System.out.println("	dailyList :: "+listDaily);
 		
 		planId = "10000";
-		listDaily = planSubService.getDailyList(planId);
-		System.out.println("	dailyList :: "+listDaily);
+		//listDaily = planSubService.getDailyList(planId);
+		//System.out.println("	dailyList :: "+listDaily);
 	}
 	
 	//@Test
@@ -73,8 +73,8 @@ public class PlanSubServiceTest {
 	//@Test
 	public void testAddDaily() throws Exception {
 		
-		List<Daily> listDaily = planSubService.getDailyList("10030");
-		System.out.println("	before dailyList :: "+listDaily);
+		//List<Daily> listDaily = planSubService.getDailyList("10030");
+		//System.out.println("	before dailyList :: "+listDaily);
 		
 		Daily daily = new Daily();
 		daily.setPlanId("10030");
@@ -89,15 +89,15 @@ public class PlanSubServiceTest {
 		
 		planSubService.addDaily(daily);
 		
-		listDaily = planSubService.getDailyList("10030");
-		System.out.println("	after dailyList :: "+listDaily);
+		//listDaily = planSubService.getDailyList("10030");
+		//System.out.println("	after dailyList :: "+listDaily);
 	}
 	
 	//@Test
 	public void testUpdateDaily() throws Exception {
 		
-		List<Daily> listDaily = planSubService.getDailyList("10030");
-		System.out.println("	before dailyList :: "+listDaily);
+		//List<Daily> listDaily = planSubService.getDailyList("10030");
+		//System.out.println("	before dailyList :: "+listDaily);
 		
 		Daily daily = new Daily();
 		daily.setDailyId("10020");
@@ -112,8 +112,8 @@ public class PlanSubServiceTest {
 		
 		planSubService.updateDaily(daily);
 		
-		listDaily = planSubService.getDailyList("10030");
-		System.out.println("	after dailyList :: "+listDaily);
+		//listDaily = planSubService.getDailyList("10030");
+		//System.out.println("	after dailyList :: "+listDaily);
 	}
 	
 	

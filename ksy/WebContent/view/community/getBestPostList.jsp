@@ -74,6 +74,7 @@
 	
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp" />
+	<jsp:include page="/toolbar/pushBar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -88,8 +89,25 @@
 		    
 		    <div class="col-md-12 text-right" style="margin: 10px 0 15px 0">
 
-		    	<div style="float:left;padding-top:20px;padding-left:10px;font-size:15px;">
-		    		<span onclick="bestPost('0');">일간인기글</span> | <span onclick="bestPost('1');">주간인기글</span> | <span onclick="bestPost('2');">월간인기글</span>
+		    	<div style="float:left;padding-top:20px;padding-left:10px;font-size:19px;">
+		    	  <c:if test="${search.sorting == 0}">
+		    		<span class="badge badge-info" onclick="bestPost('0');">일간인기글</span>
+		    	  </c:if>
+		    	  <c:if test="${search.sorting != 0}">
+		    		<span class="badge badge-secondary" onclick="bestPost('0');">일간인기글</span>
+		    	  </c:if>
+		    	  <c:if test="${search.sorting == 1}">
+		    		<span class="badge badge-info" onclick="bestPost('1');">주간인기글</span>
+		    	  </c:if>
+		    	  <c:if test="${search.sorting != 1}">
+		    		<span class="badge badge-secondary" onclick="bestPost('1');">주간인기글</span>
+		    	  </c:if>
+		    	  <c:if test="${search.sorting == 2}">
+		    		<span class="badge badge-info" onclick="bestPost('2');">월간인기글</span>
+		    	  </c:if>
+		    	  <c:if test="${search.sorting != 2}">
+		    		<span class="badge badge-secondary" onclick="bestPost('2');">월간인기글</span>
+		    	  </c:if>	
 		    	</div>
 
 			    <form class="form-inline mt-2 mt-md-0" name="detailForm" style="float:right;">
@@ -219,6 +237,7 @@
 	<jsp:include page="../../common/pageNavigator_new.jsp"/>
 	<!-- PageNavigation End... -->
 	
+	<jsp:include page="/toolbar/footer.jsp" />
 </body>
 
 </html>

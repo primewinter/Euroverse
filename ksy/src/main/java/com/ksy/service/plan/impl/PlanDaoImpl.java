@@ -133,17 +133,14 @@ public class PlanDaoImpl implements PlanDao {
 	}
 	
 	
-	
-	
-	//User Service에 가야하는 메소드.... 테스트용으로 여기서 만들어 씀 
-	
-	public void updateUserSlot(String userId) throws Exception {
-		sqlSession.update("PlanMapper.updateUserSlot", userId);
+	public int getPlanCount(String userId)throws Exception{
+		return sqlSession.selectOne("PlanMapper.getPlanCount",userId);
+	}
+		
+	public List<Plan> getEndPlanList(String userId)throws Exception{
+		return sqlSession.selectList("PlanMapper.getEndPlanList",userId);
 	}
 	
-	public String findUserId(String userId) throws Exception {
-		return sqlSession.selectOne("PlanMapper.findUserId", userId);
-	}
 	
 	
 	
@@ -172,5 +169,14 @@ public class PlanDaoImpl implements PlanDao {
 	}
 
 
+
+	
+	//User Service에 가야하는 메소드.... 테스트용으로 여기서 만들어 씀 
+	/*
+	 * public void updateUserSlot(String userId) throws Exception {
+	 * sqlSession.update("PlanMapper.updateUserSlot", userId); } public String
+	 * findUserId(String userId) throws Exception { return
+	 * sqlSession.selectOne("PlanMapper.findUserId", userId); }
+	 */
 
 }

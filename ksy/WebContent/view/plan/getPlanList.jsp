@@ -8,7 +8,7 @@
 
 <head>
 <meta charset="EUC-KR">
-<title>getPlanList</title>
+<title>Euroverse</title>
 
 <!-- 참조 : http://getbootstrap.com/css/   참조 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -129,7 +129,7 @@
 			
 			$( "#startDateString" ).datepicker({
 			      showOptions: { direction: "up" },
-				  defaultDate : '1995-02-10',
+				  //defaultDate : '1995-02-10',
 			      changeYear : true ,
 			      changeMonth : true ,
 			      //buttonImage: "/resources/images/userImages/CalendarICON.png",
@@ -371,6 +371,12 @@
 	</div>
 	
 	
+	<!-- Footer Start /////////////////////////// -->
+	<jsp:include page="/toolbar/footer.jsp"></jsp:include>
+	<!-- Footer End	/////////////////////////// -->
+	
+	
+	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
 	<!-- /////////////////////	Modal : addPlan	///////////////////// -->
 	<div class="modal fade" id="addPlanModal" >

@@ -438,6 +438,7 @@
 
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp" />
+	<jsp:include page="/toolbar/pushBar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
    	
    	
@@ -475,8 +476,8 @@
 			</form>	      
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('sendReport');" style="width:50px;height:30px;font-size:11px;line-height:9px;">Close</button>
-	        <button type="button" class="btn btn-primary" style="width:50px;height:30px;font-size:11px;line-height:9px;" id="addReport">send report</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('sendReport');">Close</button>
+	        <button type="button" class="btn btn-primary" id="addReport">send report</button>
 	      </div>
 	    </div>
 	  </div>
@@ -605,7 +606,7 @@
  	<!-- ´ñ±Û jsp include -->
 	<jsp:include page="/view/community/comment.jsp"/>
 	
-	<jsp:include page="/toolbar/pushBar_jay.jsp"/>
+	<jsp:include page="/toolbar/footer.jsp"/>
 	
 </body>
 

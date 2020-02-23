@@ -13,6 +13,7 @@ import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.TripSurvey;
 
+
 public interface MyPageService {
 	
 	public void addPoint(Point point) throws Exception;
@@ -21,20 +22,16 @@ public interface MyPageService {
 	
 	public void updateTotalPoint(Point point)throws Exception;
 
-	
-	
-	
-	
 	public void addTripSurvey(TripSurvey tripSurvey) throws Exception;
 	public List<TripSurvey> getTripSurveyList(String userId) throws Exception;
 	public void deleteTripSurvey(String userId)throws Exception;
 	
 	
 	
-	
-	
 	public Map<String , Object> getMyPostList(Search search, String userId)throws Exception;
 	public Map<String , Object> getMyCommentList(Search search , String userId)throws Exception;
+	
+	public void updateUserSlot(String userId) throws Exception;  
 	
 	
 	
@@ -48,7 +45,7 @@ public interface MyPageService {
 	////////////////////////Offer//////////////////////////////////////////
 	public Map<String , Object> getOfferList(Search search , String userId) throws Exception;
 
-	public int getPlanCount(String userId)throws Exception;
+	//public int getPlanCount(String userId)throws Exception;
 	public void addPartyMember(Offer offer)throws Exception;
 	
 	public Offer getOffer(String offerId)throws Exception;
