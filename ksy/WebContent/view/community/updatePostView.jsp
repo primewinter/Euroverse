@@ -186,6 +186,7 @@
 
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
+	<jsp:include page="/toolbar/pushBar.jsp" />
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -246,12 +247,14 @@
 		<div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 		      <button type="button" class="btn btn-primary">등 &nbsp;록</button>
-			  <a id="cancel" class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+			  <a id="cancel" class="btn btn-primary btn" href="#" role="button" style="color:white;">취&nbsp;소</a>
 		    </div>
 		  </div>
 		</form>
 		
 	</div>
+	
+	<jsp:include page="/toolbar/footer.jsp" />
 
 </body>
 
