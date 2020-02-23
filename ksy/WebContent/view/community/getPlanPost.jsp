@@ -567,8 +567,10 @@
 		function getBudgetOverviewList(planId){
 			console.log("getBudgetOverviewList("+planId+") ½ÇÇà ");
 			
+			var planTotalDays = '${plan.planTotalDays}';
+			
 			$.ajax({
-				url: "/planSub/json/getBudgetOverviewList/"+planId ,
+				url: "/planSub/json/getBudgetOverviewList/"+planId+"/"+planTotalDays ,
 				method: "GET",
 				dataType: "json",
 				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
@@ -1184,8 +1186,6 @@
  	
  	<!-- ´ñ±Û jsp include -->
 	<jsp:include page="/view/community/comment.jsp"/>
-	
-	<!-- <jsp:include page="/toolbar/pushBar_jay.jsp"/> -->
 	
 	
 	
