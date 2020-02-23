@@ -4,17 +4,17 @@
     footer {
         background-color: #708090;
         color: white;
-        margin-top: -150px;
-        position: absolute;
+        margin-top: 150px;
+        margin-bottom: 0px;
         z-index: -1;
-/*        bottom: 0px;*/
+        bottom: 0px;
         left: 0;
         height: 150px;
         width: 100%;
     }
 
 </style>
-
+<div style="clear:both;"></div>
 <footer>
     <div class="justify-content-center">
         <a href="/">

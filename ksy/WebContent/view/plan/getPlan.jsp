@@ -1210,7 +1210,7 @@
 			console.log("uploadPlan() ½ÇÇà!");
 			
 			//var string = "/plan/uploadPlan?planId="+planId;
-			var string = "/community/addPost?boardName=E";
+			var string = "/community/addPost?boardName=E&planId="+planId;
 			$(self.location).attr("href", string);
 		}
 		
