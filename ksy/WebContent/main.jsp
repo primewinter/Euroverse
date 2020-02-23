@@ -81,6 +81,9 @@
         vertical-align: baseline;
 
     }
+    .carousel-inner>.carousel-item>img {
+        width: 640px; height: 720px; 
+    }
 
 
     /*무한클릭 이미지 mouseHover CSS*/
@@ -198,51 +201,40 @@
     <jsp:include page="toolbar/toolBar.jsp" />
 
     <main>
-        <section id="main-carousel" class="carousel slide" data-ride="carousel">
+       <div style="clear:both">
+        <div id="main-carousel" class="carousel slide" data-ride="carousel">
+             <div class="carousel-inner">
             <!-- 슬라이드 쇼 -->
-            <div class="carousel-inner">
-                <!--첫번째 슬라이드-->
-                <div class="carousel-item active">
-                    <img class="d-block w-100" src="/resources/images/mainImg/london%20(2).jpg" alt="Second slide">
-                    <div class="carousel-caption d-none d-md-block" style="text-align: left;">
-                        <h2>유럽여행의 시작</h2>
-                        <p>당신을 기다리는 백만 개의 플래너와 함께하세요.</p>
-                    </div>
+            <div class="carousel-item active">
+                <!--가로--> <img class="d-block w-100" src="/resources/images/mainImg/london%20(2).jpg" alt="First slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>유럽여행의 시작</h5>
+                    <p>당신을 기다리는 백만 개의 플래너와 함께하세요.</p>
                 </div>
-                <!--두번째 슬라이드-->
-                <div class="carousel-item">
-                    <div class="carousel-caption d-none d-md-block" style="text-align: right;">
-                        <h5 style="color:dimgray;">유럽여행의 시작</h5>
-                        <p style="color:dimgray;">당신을 기다리는 백만 개의 플래너와 함께하세요.</p>
-                    </div>
-                    <img class="d-block w-100" src="/resources/images/mainImg/paris_3840x2400%20(2).jpg" alt="First slide">
-                </div>
-                <!--세번째 슬라이드-->
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="/resources/images/mainImg/rome.jpg" alt="Third slide">
-                </div>
-                <!-- / 슬라이드 쇼 끝 -->
-
-                <!-- 왼쪽 오른쪽 화살표 버튼 시작 -->
-                <a class="carousel-control-prev" href="#main-carousel" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <!-- <span>Previous</span> --> </a>
-
-                <a class="carousel-control-next" href="#main-carousel" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <!-- <span>Next</span> --> </a>
-                <!-- 왼쪽 오른쪽 화살표 버튼 끝 -->
-
-                <!-- 인디케이터 -->
-                <ul class="carousel-indicators">
-                    <li data-target="#main-carousel" data-slide-to="0" class="active"></li>
-                    <!--0번부터시작-->
-                    <li data-target="#main-carousel" data-slide-to="1"></li>
-                    <li data-target="#main-carousel" data-slide-to="2"></li>
-                </ul>
-                <!-- 인디케이터 끝 -->
             </div>
-        </section>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="/resources/images/mainImg/paris_3840x2400%20(2).jpg" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="/resources/images/mainImg/rome.jpg" alt="Third slide">
+            </div> <!-- / 슬라이드 쇼 끝 -->
+            <!-- 왼쪽 오른쪽 화살표 버튼 -->
+            <a class="carousel-control-prev" href="#main-carousel" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <!-- <span>Previous</span> --> </a>
+            <a class="carousel-control-next" href="#main-carousel" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <!-- <span>Next</span> --> </a> <!-- / 화살표 버튼 끝 -->
+            <!-- 인디케이터 -->
+            <ul class="carousel-indicators">
+                <li data-target="#main-carousel" data-slide-to="0" class="active"></li>
+                <!--0번부터시작-->
+                <li data-target="#main-carousel" data-slide-to="1"></li>
+                <li data-target="#main-carousel" data-slide-to="2"></li>
+            </ul> <!-- 인디케이터 끝 -->
+            </div>
+        </div>
+        </div>
 
 
 
@@ -390,7 +382,7 @@
                         console.log(boardName + " :: "+result);
                         $.each(result, function(index, vo) {
                             //if(boardName == 'F') {
-                                showTripReview(vo)
+                                showTripReview(vo, boardName)
                             //}
                             //console.log(vo);
                         })
@@ -401,7 +393,7 @@
                 })
             }
             
-            function showTripReview(vo) {
+            function showTripReview(vo, boardName) {
                 var tag = "";
                 tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
                 tag += "<article class=\"story-entry story-story-item\"><a class=\"story-entry-link\" href=\"/community/getPost?postId="+vo.postId+"&boardName=F\">";
@@ -414,7 +406,7 @@
                 tag += "<div class=\"story-entry__content\">"
                 tag += "<div class=\"story-entry__content__title\">"+vo.postTitle+"<br></div>"
                 tag += "<div class=\"story-entry__content__profile\">"
-                tag += "<span class=\"story-entry__content__profile__name\">"+vo.nickName+"</span></div></div></div></a></article></li>"
+                tag += "<span class=\"story-entry__content__profile__name\">by. "+vo.nickName+"</span></div></div></div></a></article></li>"
                 
                 $('ul.recent-stories__content').append(tag);
                 

@@ -120,18 +120,18 @@
         overflow-x: hidden;
     }
 
-    .accLobby.content::-webkit-scrollbar, .output::-webkit-scrollbar {
+    .output::-webkit-scrollbar {
         width: 10px;
     }
 
-     .accLobby.content::-webkit-scrollbar-thumb, .output::-webkit-scrollbar-thumb {
+    .output::-webkit-scrollbar-thumb {
         background-color: #858585;
         border-radius: 10px;
         background-clip: padding-box;
         border: 2px solid transparent;
     }
 
-    .accLobby.content::-webkit-scrollbar-track, .output::-webkit-scrollbar-track {
+    .output::-webkit-scrollbar-track {
         background-color: transparent;
         border-radius: 10px;
         box-shadow: inset 0px 0px 5px white;
@@ -256,7 +256,7 @@
             <div class="accLobby title" style='padding: 5%;background-color:#7cc1d0;font-weight:700'>
                 동행 채팅
             </div>
-            <div class="accLobby content" style="overflow-y:auto; width:300px;  height:88%;"></div>
+            <div class="accLobby content" style="overflow-y:auto; width:300px; height:350px;"></div>
         </li>
         <!--채팅방-->
         <li>
@@ -610,7 +610,7 @@
             //html += "<input type='hidden' name='chatRoomId' value='"+list[i].chatRoomId+"'>";
             html += "<td class='td1' style='text-align:left;width:40px;'>";
             //=\"/resources/images/chatImg/"+list[i].chatImg+"\" 
-            if( list[i].chatImg != 'null' ) {
+            if( list[i].chatImg != null ) {
                 html += "<img style='border: 2px solid #ccc;border-radius: 50%;width:35px;height:35px;' src=\"/resources/images/userImages/"+list[i].chatImg+"\">"
             } else {
                 html += "<img style='border: 2px solid #ccc;border-radius: 50%;width:35px;height:35px;' src=\"/resources/images/userImages/defaultUserImage.jpg\">"
@@ -1054,7 +1054,6 @@
 
         if (planId.length == 0) {
             $('div.icon.plan-chat').hide();
-            connectPlanChat();
         } else {
             $('div.icon.plan-chat').hide();
             $('div.icon.plan-chat').fadeIn(200).effect( "shake", { direction: "up", times: 3, distance: 1} );
