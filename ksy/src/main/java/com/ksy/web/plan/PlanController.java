@@ -145,11 +145,16 @@ public class PlanController {
 		
 		Plan plan = planService.getPlan(planId);
 		
+		
+		System.out.println("\n\n\n\n\n\n\n\n\nplan :::::::: "+plan);
+		
 		List<User> planPartyList = planService.getPlanPartyList(planId);	//planPartyList
 		plan.setPlanPartyList(planPartyList);
 		
+		
+		
 		List<Todo> todoList = planService.getTodoList(planId); 				//todoList
-		List<Daily> dailyList = planSubService.getDailyList(planId);		//dailyList
+		List<Daily> dailyList = planSubService.getDailyList(plan);		//dailyList
 		List<Stuff> stuffList = planSubService.getStuffList(planId);		//stuffList
 		List<Memo> memoList = planSubService.getMemoList(planId);			//memoList
 		plan.setTodoList(todoList);
@@ -158,7 +163,7 @@ public class PlanController {
 		plan.setMemoList(memoList);
 		
 		
-		List<Daily> budgetOverviewList = planSubService.getBudgetOverview(planId);
+		List<Daily> budgetOverviewList = planSubService.getBudgetOverview(plan);
 		plan.setBudgetOverviewList(budgetOverviewList);
 		
 		List<City> listCity = planSubService.getCityRouteList(planId);

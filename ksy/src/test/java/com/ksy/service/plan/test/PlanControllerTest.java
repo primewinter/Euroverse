@@ -105,11 +105,11 @@ public class PlanControllerTest {
 		plan.setPlanPartyList(planPartyList);
 		
 		List<Todo> todoList = planService.getTodoList(planId); 				//todoList
-		List<Daily> dailyList = planSubService.getDailyList(planId);		//dailyList
+		//List<Daily> dailyList = planSubService.getDailyList(planId);		//dailyList
 		List<Stuff> stuffList = planSubService.getStuffList(planId);		//stuffList
 		List<Memo> memoList = planSubService.getMemoList(planId);			//memoList
 		plan.setTodoList(todoList);
-		plan.setDailyList(dailyList);
+		//plan.setDailyList(dailyList);
 		plan.setStuffList(stuffList);
 		plan.setMemoList(memoList);
 		
@@ -118,8 +118,8 @@ public class PlanControllerTest {
 		//model.addAttribute("listCity", listCity);	//Plan 필드에 CityList 없어서 모델에 심어줌... :: 추후 변경?
 		
 		//버짓 요약을 위한 리스트 : model에 심어서 보내주기
-		List<Daily> budgetOverviewList = planSubService.getBudgetOverview(planId);
-		/* */plan.setBudgetOverviewList(budgetOverviewList);
+		//List<Daily> budgetOverviewList = planSubService.getBudgetOverview(planId);
+		/* *///plan.setBudgetOverviewList(budgetOverviewList);
 		//model.addAttribute("budgetOverviewList", budgetOverviewList);
 		
 		//List<Day> dayList = Util.cityListToDayList(listCity);
