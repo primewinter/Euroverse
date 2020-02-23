@@ -445,7 +445,7 @@ function enterConfirm(key){
 </p>
 
 <div class="row">
-	<div style="width: 380px;">	</div>
+	<div style="width: 500px;">	</div>
 	
 	<div>
 	
@@ -466,11 +466,7 @@ function enterConfirm(key){
 		      <div style="width: 350px;" >
 		      			닉네임
 		     		<div  style="text-align: center;">
-		     			<div class="form-row">
-						    <div class="form-group col">
 		     					<input type="text" class="form-control" value="${user.nickname}" name="nickname" id="nickname">
-		     				</div>
-		     			</div>
 		     				<h6 class="h6Class" id="nicknameh6"></h6>
 		     		
 		     		</div>
@@ -479,21 +475,17 @@ function enterConfirm(key){
       		<div>
 		     			핸드폰번호
 		     			  <div class="row" style="text-align: center;">
-		     			<div class="col-3">
-		     			 <div class="form-row">
-						    <div class="form-group col">
+						    <div>
 						      <input type="text" class="form-control" value="${user.phone1}" id="phone1" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3" > 
 						    </div>
-						    <div class="form-group col">
+						    <div >
 						    <input type="text" class="form-control" value="${user.phone2}" id="phone2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"> 
 						    </div>
-						    <div class="form-group col">
+						    <div>
 						      <input type="text" class="form-control" value="${user.phone3}" id="phone3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4">
-						    </div>
 						  <h6 class="h6Class"></h6>
 						  </div>
 				        <input type="hidden" name="phone"> 
-		     		</div>
 		    	  </div>
 		      
      		</div>
