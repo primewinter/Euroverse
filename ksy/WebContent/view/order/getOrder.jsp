@@ -228,9 +228,9 @@
 	
 	   		 <div class="form-group" align="center">
 			<button type="button" class="btn btn-warning"  >확인</button>
-			<button type="button" class="btn btn-primary" id="refundApp1" data-toggle="modal" data-target="#refund">
+		<!-- 	<button type="button" class="btn btn-primary" id="refundApp1" data-toggle="modal" data-target="#refund">
 			   환불 신청
-			</button>
+			</button> -->
 			</div>
 
 </div>

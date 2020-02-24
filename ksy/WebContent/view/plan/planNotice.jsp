@@ -63,6 +63,12 @@
 			$("#"+modalName).hide();
 		}
 		
+		$(function(){
+			$("#addUserButton").on("click", function() {
+		        location.href = "/user/addUser";
+		    });
+		});
+		
 	</script>
 
 </head>
@@ -78,10 +84,26 @@
 		<!-- 다단 레이아웃 Start ///////////////////////////// -->
 		<div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center">
 		
-			<h4> 플래너 기능을 사용하시려면 로그인 되어있어야 합니다</h4>
+			<!-- <h4> 플래너 기능을 사용하시려면 로그인 되어있어야 합니다</h4>
+			<hr/>
 			<div>
-				
-				
+				<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#loginModal">로그인</button>
+				<button type="button" class="btn btn-outline-secondary" id="addUserButton">회원가입</button>
+			</div> -->
+			
+			<!--  style="background-image: url('/resources/images/mainImg/venice_main2.jpg');  -->
+			<div class="jumbotron bg-light mt-3" style="background-image: url('/resources/images/mainImg/plan_main.jpg'); color:white; opacity: 90%;">
+				<div style="opacity: 100%;">
+				  <h1 class="display-4">유로버스에 오신걸 환영합니다!</h1>
+				  <p class="lead">유로버스의 플래너 기능을 사용하시려면<br/>회원으로 로그인 되어있어야 합니다.</p>
+				  <hr class="my-4">
+				  <p>계정이 있으신가요? 로그인 후 나만의 플래너를 작성해보세요</p>
+				  <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
+					  <div>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">로그인</button>
+						<button type="button" class="btn btn-secondary" id="addUserButton">회원가입</button>
+					</div>
+				</div>
 			</div>
 
 

@@ -164,7 +164,7 @@
                 <li class="menu1"><a href="/plan/getPlanList"><span>ÇÃ·¡³Ê</span></a></li>
                 <li class="menu2"><a href="/view/flight/searchFlight.jsp"><span>Ç×°ø</span></a></li>
                 <li class="menu3"><a href="/view/room/searchRoom.jsp"><span>¼÷¼Ò</span></a></li>
-                <li class="menu4"><a href="#"><span>Ä¿¹Â´ÏÆ¼</span></a>
+                <li class="menu4"><a href="/community/getPostList?boardName=C"><span>Ä¿¹Â´ÏÆ¼</span></a>
                     <ul class="menu4_s submenu">
                         <p></p>
                         <li><a href="#">

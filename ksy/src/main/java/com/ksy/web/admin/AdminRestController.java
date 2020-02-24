@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,7 +38,8 @@ public class AdminRestController {
 	
 	@Value("#{commonProperties['postPageSize']}")
 	int pageSize;
-
+	
+	//유저의 목록을 불러옴
 	@RequestMapping(value="json/getUserList", method = RequestMethod.POST)
 	public Map<String, Object> getUserList(@RequestBody Search search ) throws Exception {
 		
@@ -67,18 +69,30 @@ public class AdminRestController {
 		return map;
 	}
 	
+	// 관리자가 답변을 등록함
 	@RequestMapping(value="json/addQnaComment", method = RequestMethod.POST)
-	public Map<String,Object> addQnaComment(@RequestBody Comment comment) throws Exception {
+	public void addQnaComment(@RequestBody Comment comment) throws Exception {
 		
 		System.out.println("AdminComtroller addQnaComment");
 		
 		System.out.println("comment==>"+comment);
 		
 		adminService.addQnaComment(comment);
-		System.out.println("찍히는지 확인");
 		adminService.updateQnaGrade(comment.getPostId());
 	
-		Map<String,Object> map = adminService.getQnaComment(comment.getPostId());
+		System.out.println("AdminController addQnaComment END");
+		
+	}
+	
+	//관리자가 입력한 답변을 불러옴
+	@RequestMapping(value="json/getQnaCommentList/{postId}", method = RequestMethod.GET)
+	public Map<String,Object> getQnaCommentList(@PathVariable String postId) throws Exception {
+		
+		System.out.println("AdminComtroller getQnaComment");
+		
+		System.out.println("postId==>"+postId);
+		
+		Map<String,Object> map = adminService.getQnaCommentList(postId);
 		
 		System.out.println("map 디버깅 ==>"+map);
 		

@@ -47,10 +47,11 @@
 	<!-- ICON 사용을 위한 스크립트 임포트 : https://feathericons.com/ -->
 	<script src="https://unpkg.com/feather-icons"></script>
 	
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 	<style>
       /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
+       * element that contains the map. */=
       #map {
         height: 500px;
         width: 70%;
@@ -444,7 +445,7 @@
 			var visitOrderNew  = visitOrder+1;	//삭제 후 이미 부여된 순서 오류... 필요없음!!!!!!
 			var indexNew = $(".city_id").index( $(".city_id:contains('"+cityId+"')") );
 			
-			if(confirm( "삭제된 경로는 복구가 불가능합니다.\n정말 삭제하시겠습니까? " ))
+			/* if(confirm( "삭제된 경로는 복구가 불가능합니다.\n정말 삭제하시겠습니까? " ))
 			{
 				console.log( indexNew + "번째 cityRoute 삭제"  );
 				$($(".city_route")[indexNew] ).remove();
@@ -469,18 +470,45 @@
 				    } 
 				}); //ajax
 				
-				
-				//clearLisnes();
-				//routelist.splice(idx, 1);
-				
 				reorder();
-				
-				/* if(citylist.length>0) {
-					lastcity=cities[citylist[citylist.length-1]];
-				}else {
-					lastcity=0;
-				} */
-			}
+			} */
+			
+			swal({
+				title:"경로 삭제",
+				text:"삭제된 경로는 복구가 불가능합니다.\n정말 삭제하시겠습니까? ",
+				icon:"warning",
+				buttons: [ "아니오", "예"]
+			}).then((YES) => {
+				if(YES){
+					swal("삭제되었습니다!", "", "success");
+					
+					console.log( indexNew + "번째 cityRoute 삭제"  );
+					$($(".city_route")[indexNew] ).remove();
+					//$("#cityblock"+idx).remove();
+					
+					console.log("cityId="+ cityId +" 삭제됨");
+					
+					$.ajax({
+						url: "/planSub/json/deleteCityRoute/"+cityId+"/"+planId ,	//planId 필요없지만..
+						method: "GET",
+						dataType: "json",
+						headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+						success: function(JSONData, status){
+							if( JSONData==null || JSONData=="" ){
+								console.log("리턴데이터 없음");	
+							}else{
+								console.log("리턴데이터 있음! => "+JSON.stringify(JSONData) );	
+							}
+						},
+						error:function(request,status,error){
+					        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+					    } 
+					}); //ajax
+					
+					reorder();
+				}
+			});
+			
 		}
 		
 
@@ -514,7 +542,7 @@
 		function addCityRoute(cityName){
 			var nextVisitOrder = $(".city_route").length + 1;
 			
-			if(confirm( "\n 경로를 추가하시겠습니까?" ))
+			/* if(confirm( "\n 경로를 추가하시겠습니까?" ))
 			{	
 				$.ajax({
 					url: "/planSub/json/addCityRoute",
@@ -531,8 +559,6 @@
 							console.log("리턴데이터 없음");	
 						}else{
 							console.log("리턴데이터 있음! => "+JSON.stringify(JSONData) );	
-							
-						
 							
 							var crHtml = '<div class="city_route">';
 							crHtml = crHtml + '<div class="trans d-flex justify-content-center">';
@@ -589,6 +615,89 @@
 				
 				prv_infowindow.close();
 			}//confirm if
+			 */
+			
+			swal({
+				title:"경로 추가",
+				text:"경로를 추가하시겠습니까?",
+				//icon:"warning",
+				buttons: [ "아니오", "예"]
+			}).then((YES) => {
+				if(YES){
+					swal("추가되었습니다!", "", "success");
+					
+					$.ajax({
+						url: "/planSub/json/addCityRoute",
+						method: "POST",
+						dataType: "json",
+						data: JSON.stringify({
+							planId: planId,
+							cityName: cityName,
+							visitOrder: nextVisitOrder
+						}),
+						headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+						success: function(JSONData, status){
+							if( JSONData==null || JSONData=="" ){
+								console.log("리턴데이터 없음");	
+							}else{
+								console.log("리턴데이터 있음! => "+JSON.stringify(JSONData) );	
+								
+								var crHtml = '<div class="city_route">';
+								crHtml = crHtml + '<div class="trans d-flex justify-content-center">';
+								crHtml = crHtml + '<a class="tran_a" href="javascript:showUpdateTranType(\''+ JSONData.cityId +'\' , \''+ JSONData.tranType +'\')">';
+								crHtml = crHtml + '<font class="tran_type" style="font: 7px gray;">';
+								
+								if( JSONData.tranType == 'T' ){
+									crHtml = crHtml + '기차 <i class="tran_icon fas fa-train"></i>';
+								}else if( JSONData.tranType == 'B' ){
+									crHtml = crHtml + '버스 <i class="tran_icon fas fa-bus"></i>';
+								}else if( JSONData.tranType == 'A' ){
+									crHtml = crHtml + '항공 <i class="tran_icon fas fa-plane"></i>';
+								}else if( JSONData.tranType == 'F' ){
+									crHtml = crHtml + '페리 <i class="tran_icon fas fa-ship"></i>';
+								}else if( JSONData.tranType == 'E' ){
+									crHtml = crHtml + '기타 <i class="tran_icon fas fa-guitar"></i>';
+								}else if( JSONData.tranType == null || JSONData.tranType == '' ){
+									crHtml = crHtml + '선택 <i class="tran_icon fas fa-plus"></i>';
+								}
+								crHtml = crHtml + '</font>';
+								crHtml = crHtml + '</a>';
+								crHtml = crHtml + '</div>';
+								
+								crHtml = crHtml + '<button type="button" class="close hide" aria-label="Close" onclick="deleteCityRoute(\''+ JSONData.cityId +'\', 0 )"> <span aria-hidden="true">&times;</span> </button>';
+													
+								crHtml = crHtml + '<div class="media mt-4" style="border: 1px solid #CDD8D8; border-radius:3px; padding: 12px 30px 5px 30px;">';
+								crHtml = crHtml + '<div hidden="hidden">방문순서: <span class="visit_order">'+ JSONData.visitOrder +'</span> , 도시ID: <span class="city_id">'+ JSONData.cityId +'</span></div>';
+								crHtml = crHtml + '<img alt="" src="/resources/images/planImg/defaultPlanImage.jpg" class="align-self-center mr-3 city_img" style="width: 50px; height: auto;" hidden="hidden">';
+								crHtml = crHtml + '<div class="media-body">';
+								crHtml = crHtml + '<div class="cr_cityName mt-0">'+ JSONData.cityName +'</div>';
+								crHtml = crHtml + '<p class="cr_term">'+ JSONData.startDateStr +' ~ '+ JSONData.endDateStr +'</p>';
+								crHtml = crHtml + '</div>';
+								crHtml = crHtml + '<a href="javascript:showUpdateCityDuration(\''+ JSONData.cityId +'\' ,\' '+ JSONData.cityDuration + '\')" class="city_duration_wrap">';
+								crHtml = crHtml + '<div class="cr_cityDuration_parent rounded-circle">';
+								crHtml = crHtml + '<span class="cr_cityDuration">'+ (JSONData.cityDuration-1) +'</span>박';
+								crHtml = crHtml + '</div>';
+								crHtml = crHtml + '</a>';
+								crHtml = crHtml + '</div>';
+								crHtml = crHtml + '</div>';
+								
+								$(crHtml).appendTo('.city_route_list');
+								$('.close.hide').hide();
+								
+							}
+						},
+						error:function(request,status,error){
+					        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+					    } 
+					}); //ajax
+					
+					setTimeout(function(){
+						reorder();
+					}, 50); // 날짜 null ~ null 로 떠서 셋타임아웃 해줌
+					
+					prv_infowindow.close();
+				}
+			});
 		}
 		
 		
@@ -664,7 +773,7 @@
 		var prv_infowindow;
 		
 		var korea = {lat:37.497957 , lng:127.027780};
-		
+		var frankfurt = {lat:49.7901184, lng:4.8896333 };
 		
 		
  		var lineSymbol2;
@@ -992,7 +1101,7 @@
 						} //for문
 					},
 					error:function(request,status,error){
-				        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+				        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
 				    } 
 	    		});	//ajax(getCityListByScroll) 끝
 	    		
@@ -1176,7 +1285,20 @@
 					
 				} //for문 
 				map.fitBounds(bounds);
+				
+				if( cityMarkerList.length == 0 ){
+					setTimeout(function(){
+						map.setCenter(frankfurt);
+						map.setZoom(5);
+					}, 30);
+				}else if( cityMarkerList.length < 2 ){
+					setTimeout(function(){
+						//map.setCenter(korea);
+						map.setZoom(5);
+					}, 30);
+				}
 			} //initMapItems 끝
+			
 			
 			
 			initMapItems();
@@ -1244,7 +1366,10 @@
 				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
 				success: function(JSONData, status){
 					if( JSONData==null || JSONData=="" ){
-						alert("리턴데이터 없음");	
+						console.log("리턴데이터 없음");	
+						clearMyMarkers();
+						clearRouteLines();
+						
 					}else{
 						console.log("리턴데이터 있음! => "+JSON.stringify(JSONData) );	
 						
@@ -1281,11 +1406,21 @@
 						}
 						map.fitBounds(bounds);
 						
+						if( cityMarkerList.length == 0 ){
+							setTimeout(function(){
+								map.setCenter(frankfurt);
+								map.setZoom(5);
+							}, 30);
+						}else if( cityMarkerList.length < 2 ){
+							setTimeout(function(){
+								map.setZoom(5);
+							}, 30);
+						}
 						
 					}
 				},
 				error:function(request,status,error){
-					alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+					console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
 			    } 
 			}); //ajax
 			

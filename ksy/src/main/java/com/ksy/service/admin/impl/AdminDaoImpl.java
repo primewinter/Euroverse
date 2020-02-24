@@ -55,21 +55,24 @@ public class AdminDaoImpl implements AdminDao {
 		System.out.println("AdminDaoImpl updateCommReport");
 		sqlSession.update("AdminMapper.adminCmtBlocked", commId);
 	}
+	//관리자가 답변한 댓글을 불러옴
 	@Override
 	public List<Comment> getQnaComment(String postId) throws Exception{
 		
 		System.out.println("AdminDaoImpl getQnaCommList");
 		
-		return sqlSession.selectList("AdminMapper.getQnaComment", postId);
+		return sqlSession.selectList("AdminMapper.getQnaCommentList", postId);
 		
 	}
+	//관리자가 댓글을 입력함
 	@Override
 	public void addQnaComment(Comment comment) throws Exception{
 		
 		System.out.println("AdminDaoImpl addQnaComment");
 		
-		sqlSession.insert("AdminMapper.addQnaComment");
+		sqlSession.insert("AdminMapper.addQnaComment", comment);
 	}
+	//유저가 문의한 댓글을 불러옴
 	@Override
 	public List<Post> getAdminQnAList(Search search) throws Exception{
 		
@@ -77,6 +80,7 @@ public class AdminDaoImpl implements AdminDao {
 		
 		return sqlSession.selectList("AdminMapper.getAdminQnAList", search);
 	}
+	//댓글을 리스트로 불러오기 위한 게시글count
 	@Override
 	public int getAdminQnaListTotalCount(Search search) throws Exception{
 		
@@ -84,6 +88,7 @@ public class AdminDaoImpl implements AdminDao {
 		
 		return sqlSession.selectOne("AdminMapper.getAdminQnaListTotalCount", search);
 	}
+	//유저가 문의한 1:1문의에 관리자의 답글이 달리면 플래그가 변함 grade ="Q"
 	@Override
 	public void updateQnaGrade(String postId) throws Exception{
 		
@@ -91,6 +96,7 @@ public class AdminDaoImpl implements AdminDao {
 		
 		sqlSession.update("AdminMapper.updateQnaGrade",postId);
 	}
+	//관리자가 등록한 답글을 삭제함
 	@Override
 	public void deleteQnaComm(String cmtId) throws Exception{
 		
@@ -98,4 +104,5 @@ public class AdminDaoImpl implements AdminDao {
 		
 		sqlSession.update("AdminMapper.deleteQnaComm");
 	}
+	
 }
