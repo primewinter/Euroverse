@@ -155,7 +155,7 @@
     <header class="blog-header py-3"></header>
     <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex justify-content-center toolbar-logo" style="font-size: 20pt;">
-            <a href="/main.jsp">Euroverse</a>
+            <a href="/main.jsp"><img src='/resources/images/icon/_logo.png' style="width: 200px;height: auto;border-radius: 30%;"></a>
         </nav>
     </div>
     <div class="nav-scroller py-1 mb-2">
