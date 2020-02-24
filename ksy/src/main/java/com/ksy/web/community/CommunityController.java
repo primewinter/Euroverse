@@ -168,15 +168,54 @@ public class CommunityController {
 			
 			post.setPlanId(copiedPlanId);
 		}
-		
 		communityService.addPost(post);
+
+		List<Tag> tags = new ArrayList<Tag>();
 	
 		for(int i=0; i<tagContent.length; i++) {
+			Tag tag = new Tag();
 			communityService.addTag(tagContent[i], post.getPostId());
+			tag.setTagContent(tagContent[i]);
+			tags.add(tag);
 		}
-		
+
 		model.addAttribute("post", post);
-		model.addAttribute("tagContent", tagContent);
+		model.addAttribute("tag", tags);
+		
+		List<User> userList = new ArrayList<User>();
+		
+		if( post.getBoardName().equals("D") ) {
+			
+			if(user.getRole().equals("G")) {
+				return "forward:/view/community/check.jsp";
+			}
+			
+			List<Party> party = communityService.getParty(post.getPostId());
+		
+			for(int i=0; i<party.size(); i++) {
+				
+				User partyUser = userService.getUser(party.get(i).getPartyUserId());
+				List<TripSurvey> tripSurvey = myPageService.getTripSurveyList(party.get(i).getPartyUserId());
+				
+				List<String> tripStyle = new ArrayList<String>();
+				
+				for(int j=0; j<tripSurvey.size(); j++) {
+					
+					if(tripSurvey.get(j).getSurveyType().equals("T")) {
+						String surveyChoice = tripSurvey.get(j).getSurveyChoice();
+						tripStyle.add(surveyChoice);
+						partyUser.setTripStyle(tripStyle);
+					}
+				}
+				userList.add(partyUser);
+			}
+			System.out.println("userList : "+userList);
+			
+			model.addAttribute("userList", userList);
+			model.addAttribute("party", party);
+			
+			return "forward:/view/community/getAccFindPost.jsp";
+		}
 		
 		if( post.getPlanId() != null || post.getPlanId()=="" ) {
 			
@@ -285,6 +324,74 @@ public class CommunityController {
 		
 		model.addAttribute("post", post);
 		model.addAttribute("tag", tag);
+		
+		if( post.getPlanId() != null || post.getPlanId()=="" ) {
+			
+			Plan copiedPlan = planService.getPlan(post.getPlanId());
+			
+			List<Daily> dailyList = planSubService.getDailyList(copiedPlan);		//dailyList
+			List<Stuff> stuffList = planSubService.getStuffList(copiedPlan.getPlanId());		//stuffList
+			List<Daily> budgetOverviewList = planSubService.getBudgetOverview(copiedPlan);
+			List<City> listCity = planSubService.getCityRouteList(copiedPlan.getPlanId());
+			List<Day> dayList = Util.cityListToDayList(listCity, copiedPlan.getStartDate() );
+			
+			copiedPlan.setDailyList(dailyList);
+			copiedPlan.setStuffList(stuffList);
+			copiedPlan.setBudgetOverviewList(budgetOverviewList);
+			copiedPlan.setCityList(listCity);
+			copiedPlan.setDayList(dayList);
+			
+			model.addAttribute("plan", copiedPlan );
+			
+			
+			/* FullCalendar addEvent 위한 JSON 만들기.. */
+			JSONArray cityArray = new JSONArray();
+			
+			for (City cityItem : listCity) {
+				JSONObject cityEvent = new JSONObject();
+
+				cityEvent.put("title", cityItem.getCityName());
+				cityEvent.put("start", cityItem.getStartDateStr());
+				cityEvent.put("end", cityItem.getEndDateStr());
+				cityEvent.put("textColor", "white");
+				if( cityItem.getCountry() != null ) {
+					if( cityItem.getCountry().equals("영국") ) {
+						cityEvent.put("color", "#F9A081");
+					}else if(cityItem.getCountry().equals("스위스") ) {
+						cityEvent.put("color", "#98E657");
+					}else if(cityItem.getCountry().equals("프랑스") ) {
+						cityEvent.put("color", "#8886F4");
+					}else if(cityItem.getCountry().equals("이탈리아") ) {
+						cityEvent.put("color", "#76A0F3");
+					}
+				}else {
+					cityEvent.put("color", "#51bec9");
+				}
+
+				cityArray.add(cityEvent);
+			}
+			
+			/* GoogleMap API를 위한 JSON 만들기.. */
+			JSONArray markerArray = new JSONArray();
+			for (City cityItem : listCity) {
+				JSONObject cityMarker = new JSONObject();
+				
+				JSONObject position = new JSONObject();
+				position.put("lat", Double.parseDouble( cityItem.getCityLat() ));
+				position.put("lng", Double.parseDouble( cityItem.getCityLng() ));
+				
+				cityMarker.put("position", position);
+				cityMarker.put("title", cityItem.getCityName());
+				
+				markerArray.add(cityMarker);
+			}
+			
+			model.addAttribute("cityEventList", cityArray);
+			model.addAttribute("cityMarkerList", markerArray);
+			
+			
+			return "forward:/view/community/getPlanPost.jsp";
+		}
 		
 		return "forward:/view/community/getPost.jsp";
 	}

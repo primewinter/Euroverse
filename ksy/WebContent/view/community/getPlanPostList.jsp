@@ -71,7 +71,7 @@
 		  bottom: 0;
 		  width: 100%;
 		}
-		figure.snip1200 h2 {
+		figure.snip1200 h4 {
 		  display: table;
 		  margin: 0 auto;
 		  padding: 0 10px;
@@ -81,11 +81,11 @@
 		  text-transform: uppercase;
 		  font-weight: 400;
 		}
-		figure.snip1200 h2 span {
+		figure.snip1200 h4 span {
 		  font-weight: 800;
 		}
-		figure.snip1200 h2:before,
-		figure.snip1200 h2:after {
+		figure.snip1200 h4:before,
+		figure.snip1200 h4:after {
 		  position: absolute;
 		  display: block;
 		  width: 1000%;
@@ -94,10 +94,10 @@
 		  background: white;
 		  top: 50%;
 		}
-		figure.snip1200 h2:before {
+		figure.snip1200 h4:before {
 		  left: -1000%;
 		}
-		figure.snip1200 h2:after {
+		figure.snip1200 h4:after {
 		  right: -1000%;
 		}
 		figure.snip1200 p {
@@ -184,6 +184,7 @@
 	
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp" />
+	<jsp:include page="/view/community/sidebar.jsp"/>
 	<%-- <jsp:include page="/toolbar/pushBar.jsp" /> --%>
    	<!-- ToolBar End /////////////////////////////////////-->
 	
@@ -262,7 +263,7 @@
 							<br>${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate} </c:if>
 						    </p>
 						    <div class="heading">
-						      <h2>${plan.planTitle}</h2>
+						      <h4>${plan.planTitle}</h4>
 						    </div>
 						  </figcaption>
 						  <a href="#"></a>

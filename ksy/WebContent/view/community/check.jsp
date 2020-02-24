@@ -30,8 +30,9 @@
 <body>
 
 	<!-- ToolBar 시작 -->
-	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
+	<jsp:include page="/toolbar/toolBar.jsp" />
 	<jsp:include page="/toolbar/pushBar.jsp" />
+	<jsp:include page="/view/community/sidebar.jsp"/>
 	<!-- ToolBar 끝 -->
 
 	<!-- 화면구성 div Start ///////////////////////////// -->

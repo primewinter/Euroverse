@@ -43,10 +43,19 @@
 	<script type="text/javascript">
 
 	function fncAddPost(){
+		var boardName = $("input[name='boardName']").val();
 		//Form 유효성 검증
 	 	var postTitle = $("input[name='postTitle']").val();
 		var postContent = $("textarea").val(); 
+		
+	if(boardName == 'G'){
+		var qnaKategorie = $("select[name='qnaKategorie']").val();
 	
+		if(qnaKategorie == 'N' || qnaKategorie.length<1){
+			alert("카테고리는 반드시 입력해주세요.");
+			return;
+		}		
+	}
 		if(postTitle.trim() == 0 || postTitle.length<1){
 			alert("제목은 반드시 입력하여야 합니다.");
 			return;
@@ -54,7 +63,7 @@
 		if(postContent.trim() == 0 || postContent.length<1){
 			alert("내용은 반드시 입력하셔야 합니다.");
 			return;
-		} 
+		}
 		if($('dd').length == 0){
 			tag = "<input type='hidden' name='tagContent' value=''>";
 			$(".tagList").append(tag);
@@ -185,8 +194,9 @@
 <body>
 
 	<!-- ToolBar Start /////////////////////////////////////-->
-	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
+	<jsp:include page="/toolbar/toolBar.jsp"/>
 	<jsp:include page="/toolbar/pushBar.jsp" />
+	<jsp:include page="/view/community/sidebar.jsp"/>
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -207,7 +217,7 @@
 			   <c:if test="${param.boardName == 'G'}">
 			    <div class="input-group mb-3" style="width: 743px;padding-left:15px;">
 				  <select class="custom-select" name="qnaKategorie" id="inputGroupSelect01" style="width:120px;float:left;height:34px;font-size:13px;">
-				    <option selected>카테고리 선택</option>
+				    <option value="N" selected>카테고리 선택</option>
 				    <option value="G">루트</option>
 				    <option value="I">교통</option>
 				    <option value="J">숙소</option>
@@ -216,13 +226,13 @@
 				    <option value="L">기타</option>
 				  </select>
 				  <div class="input-group-prepend" style="font-size: 12px;width:608px;">
-				    <input type="text" class="form-control" id="postTitle" name="postTitle" placeholder="제목을 입력하세요.">
+				    <input type="text" class="form-control" id="postTitle" name="postTitle" maxlength="30" placeholder="제목을 입력하세요.">
 				  </div>
 				</div>
 			  </c:if>
 			  <c:if test="${param.boardName != 'G'}">
 			    <div class="col-sm-10">
-			      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" placeholder="제목을 입력하세요.">
+			      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" maxlength="30" placeholder="제목을 입력하세요.">
 			    </div>
 			  </c:if>
 		  </c:if>  
@@ -230,7 +240,7 @@
 			   <c:if test="${param.boardName == 'G'}">
 			    <div class="input-group mb-3" style="width: 743px;padding-left:15px;">
 				  <select class="custom-select" name="qnaKategorie" id="inputGroupSelect01" style="width:120px;float:left;height:34px;font-size:13px;">
-				    <option selected>카테고리 선택</option>
+				    <option value="N" selected>카테고리 선택</option>
 				    <option value="G">루트</option>
 				    <option value="I">교통</option>
 				    <option value="J">숙소</option>
@@ -239,7 +249,7 @@
 				    <option value="L">기타</option>
 				  </select>
 				  <div class="input-group-prepend" style="font-size: 12px;width:608px;">
-				    <input type="text" class="form-control" id="postTitle" name="postTitle" placeholder="제목을 입력하세요.">
+				    <input type="text" class="form-control" id="postTitle" name="postTitle" maxlength="30" placeholder="제목을 입력하세요.">
 				   <label for="postTitle" class="col-sm-3 control-label" style="font-size: 14px;"><i class="fas fa-flag-checkered"></i> 공지등록
 			        <input type="checkbox" id="postGrade" name="postGrade" value="N"></label>
 				  </div>
@@ -247,7 +257,7 @@
 			  </c:if>
 			  <c:if test="${param.boardName != 'G'}">
 			    <div class="col-sm-8">
-			      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" placeholder="제목을 입력하세요.">
+			      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" maxlength="30" placeholder="제목을 입력하세요.">
 			    </div>
 			     <label for="postTitle" class="col-sm-2 control-label" style="font-size: 14px;padding-right: 40px;"><i class="fas fa-flag-checkered"></i> 공지등록
 			      <input type="checkbox" id="postGrade" name="postGrade" value="N"></label>
@@ -267,7 +277,7 @@
 		<div class="form-group">
 		    <label for="tagContent" class="control-label" style="font-size: 12px; float: left; margin-left: 30px;">태그등록</label>
 		    <div class="col-sm-5">
-		      <input type="text" class="form-control" id="appendTag" maxlength="10" value="" style="font-size: 12px; height:23px; width:200px; float:left;">
+		      <input type="text" class="form-control" id="appendTag" value="" maxlength="15" style="font-size: 12px; height:23px; width:200px; float:left;">
 		      <i class="fas fa-plus" onclick="addTag()" style="float:left; margin-left:10px; margin-top:4px; font-size:12px;">등록</i>
 		      <div class="tagList" id="tagList" style="width:800px;float:left;margin-top:10px;"></div>
 		    </div>
@@ -282,8 +292,6 @@
 		</form>
 		
 	</div>
-
-	<jsp:include page="/toolbar/footer.jsp"/>
 
 </body>
 </html>

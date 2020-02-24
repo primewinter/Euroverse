@@ -46,18 +46,17 @@
 	function fncAddPost(){
 		//Form 유효성 검증
 	 	var postTitle = $("input[name='postTitle']").val();
-		/* var postContent = $("input[name='postContent']").val(); */
-	
+		var postContent = $("textarea").val(); 
 		var planId = $('select[name="planId"]').val();
 		
-		if(postTitle == null || postTitle.length<1){
+		if(postTitle.trim() == 0 || postTitle.length<1){
 			alert("제목은 반드시 입력하여야 합니다.");
 			return;
 		}
-		/* if(postContent == null || postContent.length<1){
+		if(postContent.trim() == 0 || postContent.length<1){
 			alert("내용은 반드시 입력하셔야 합니다.");
 			return;
-		} */
+		} 
 		
 		if( planId == null || planId.length < 1){
 			alert("플래너를 선택해주세요.");
@@ -233,6 +232,7 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp" />
+	<jsp:include page="/view/community/sidebar.jsp"/>
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -265,7 +265,7 @@
 
 		<div class="form-group">
 	
-		 	<label for="planId" class="col-sm-1 control-label" style="font-size: 12px;">플래너 선택</label>
+		 	<label for="planId" class="col-sm-1 control-label" style="font-size: 12px;">플래너 &nbsp;선택</label>
 		     <div class="col-sm-5">
 		     
 		      <select class="form-control" id="planId" name="planId">

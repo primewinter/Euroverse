@@ -43,18 +43,26 @@
 	<script type="text/javascript">
 
 	function fncUpdatePost(){
+		var boardName = $("input[name='boardName']").val();
 		//Form 유효성 검증
 	 	var postTitle = $("input[name='postTitle']").val();
-		/* var postContent = $("input[name='postContent']").val(); */
-	
-		if(postTitle == null || postTitle.length<1){
+		var postContent = $("textarea").val(); 
+	if(boardName == 'G'){
+		var qnaKategorie = $("select[name='qnaKategorie']").val();
+		
+		if(qnaKategorie == 'N' || qnaKategorie.length<1){
+			alert("카테고리는 반드시 입력해주세요.")
+			return;
+		}
+	}
+		if(postTitle.trim() == 0 || postTitle.length<1){
 			alert("제목은 반드시 입력하여야 합니다.");
 			return;
 		}
-		/* if(postContent == null || postContent.length<1){
+		if(postContent.trim() == 0 || postContent.length<1){
 			alert("내용은 반드시 입력하셔야 합니다.");
 			return;
-		} */
+		} 
 		if($('dd').length == 0){
 			tag = "<input type='hidden' name='tagContent' value=''>";
 			$(".tagList").append(tag);
@@ -84,7 +92,7 @@
 		             minHeight: null,             // set minimum height of editor
 		             maxHeight: null,             // set maximum height of editor
 		             focus: true,                 // set focus to editable area after initializing summernote
-		             lang : 'ko-KR',
+		             //lang : 'ko-KR',
 		             callbacks: {
 		                 onImageUpload: function(files, editor, welEditable) {
 		                   for (var i = files.length - 1; i >= 0; i--) {
@@ -187,6 +195,7 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp" />
+	<jsp:include page="/view/community/sidebar.jsp"/>
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -201,21 +210,71 @@
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
 			<input type="hidden" id="postId" name="postId" value="${post.postId}"/>		
+			<input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>
 		  <div class="form-group">
 		    <label for="postTitle" class="col-sm-1 control-label" style="font-size: 12px;">제목</label>
-		  <c:if test="${user.userId != 'admin'}">
-		    <div class="col-sm-10">
-		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" value="${post.postTitle}">
-		    </div>
+		    <c:if test="${user.role != 'A'}">
+			   <c:if test="${param.boardName == 'G'}">
+			    <div class="input-group mb-3" style="width: 743px;padding-left:15px;">
+				  <select class="custom-select" name="qnaKategorie" id="inputGroupSelect01" style="width:120px;float:left;height:34px;font-size:13px;">
+				    <option value="N" selected>카테고리 선택</option>
+				    <option value="G" ${ ! empty post.qnaKategorie && post.qnaKategorie=='G' ? "selected" : "" }>루트</option>
+				    <option value="I" ${ ! empty post.qnaKategorie && post.qnaKategorie=='I' ? "selected" : "" }>교통</option>
+				    <option value="J" ${ ! empty post.qnaKategorie && post.qnaKategorie=='J' ? "selected" : "" }>숙소</option>
+				    <option value="H" ${ ! empty post.qnaKategorie && post.qnaKategorie=='H' ? "selected" : "" }>도시</option>
+				    <option value="K" ${ ! empty post.qnaKategorie && post.qnaKategorie=='K' ? "selected" : "" }>쇼핑,경비,환전</option>
+				    <option value="L" ${ ! empty post.qnaKategorie && post.qnaKategorie=='L' ? "selected" : "" }>기타</option>
+				  </select>
+				  <div class="input-group-prepend" style="font-size: 12px;width:608px;">
+				    <input type="text" class="form-control" id="postTitle" name="postTitle" maxlength="30" value="${post.postTitle}">
+				  </div>
+				</div>
+			  </c:if>
+			  <c:if test="${param.boardName != 'G'}">
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" maxlength="30" value="${post.postTitle}">
+			    </div>
+			  </c:if>
 		  </c:if>  
-		  <c:if test="${user.userId == 'admin'}">
-		    <div class="col-sm-8">
-		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" value="${post.postTitle}">
-		    </div>
-		    <label for="postTitle" class="col-sm-2 control-label" style="font-size: 14px;padding-right: 40px;"><i class="fas fa-flag-checkered"></i> 공지등록
-		      <input type="checkbox" id="postGrade" name="postGrade" value="N"></label>
+		  <c:if test="${user.role == 'A'}">
+			   <c:if test="${param.boardName == 'G'}">
+			    <div class="input-group mb-3" style="width: 743px;padding-left:15px;">
+				  <select class="custom-select" name="qnaKategorie" id="inputGroupSelect01" style="width:120px;float:left;height:34px;font-size:13px;">
+				    <option value="N" selected>카테고리 선택</option>
+				    <option value="G" ${ ! empty post.qnaKategorie && post.qnaKategorie=='G' ? "selected" : "" }>루트</option>
+				    <option value="I" ${ ! empty post.qnaKategorie && post.qnaKategorie=='I' ? "selected" : "" }>교통</option>
+				    <option value="J" ${ ! empty post.qnaKategorie && post.qnaKategorie=='J' ? "selected" : "" }>숙소</option>
+				    <option value="H" ${ ! empty post.qnaKategorie && post.qnaKategorie=='H' ? "selected" : "" }>도시</option>
+				    <option value="K" ${ ! empty post.qnaKategorie && post.qnaKategorie=='K' ? "selected" : "" }>쇼핑,경비,환전</option>
+				    <option value="L" ${ ! empty post.qnaKategorie && post.qnaKategorie=='L' ? "selected" : "" }>기타</option>
+				  </select>
+				  <div class="input-group-prepend" style="font-size: 12px;width:608px;">
+				    <input type="text" class="form-control" id="postTitle" name="postTitle" maxlength="30" value="${post.postTitle}">
+				   <label for="postTitle" class="col-sm-3 control-label" style="font-size: 14px;"><i class="fas fa-flag-checkered"></i> 공지등록
+			        <input type="checkbox" id="postGrade" name="postGrade" value="N"></label>
+				  </div>
+				</div>
+			  </c:if>
+			  <c:if test="${param.boardName != 'G'}">
+			    <div class="col-sm-8">
+			      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" maxlength="30" value="${post.postTitle}">
+			    </div>
+			     <label for="postTitle" class="col-sm-2 control-label" style="font-size: 14px;padding-right: 40px;"><i class="fas fa-flag-checkered"></i> 공지등록
+			      <input type="checkbox" id="postGrade" name="postGrade" value="N"></label>
+			  </c:if>
 		  </c:if>
+		 </div>
+		  
+		 <c:if test="${post.boardName == 'E'}"> 
+		  <div class="form-group">
+		 	<label for="planId" class="col-sm-1 control-label" style="font-size: 12px;">플래너 &nbsp;선택</label>
+		     <div class="col-sm-5">
+		      <select class="form-control" id="planId" style="color:#BC1911;">
+			  	  <option>등록한 플래너는 수정이 불가합니다.</option>
+		      </select>
+		    </div>
 		  </div>
+		 </c:if>
 		
 		<div class="form-group">
 		    <label for="postContent" class="col-sm-1 control-label" style="font-size: 12px;">내용</label>

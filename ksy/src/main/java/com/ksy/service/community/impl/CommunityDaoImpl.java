@@ -84,6 +84,11 @@ public class CommunityDaoImpl implements CommunityDao{
 	}
 	
 	public List<Party> getParty(String postId) throws Exception {
+		
+		if(postId == null) {
+			String partyPostId = sqlSession.selectOne("CommunityMapper.getPostId");
+			
+		}
 		return sqlSession.selectList("CommunityMapper.getParty", postId);
 	}
 	

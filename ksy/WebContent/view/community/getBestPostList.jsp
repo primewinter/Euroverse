@@ -75,6 +75,7 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	<jsp:include page="/toolbar/pushBar.jsp" />
+	<jsp:include page="/view/community/sidebar.jsp"/>
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -164,7 +165,6 @@
 		
 		  <c:set var="i" value="0" />
 		  <c:forEach var="post" items="${list}">
-		  <c:if test="${post.deleted == 'F'}">
 			<tr>
 		  <c:if test="${post.postGrade == 'N'}">
 			  <th scope="row" style="color:#CE1717;">공지 <i class="fas fa-bullhorn"></i></th>
@@ -222,7 +222,6 @@
 			  <td>${post.views}</td>
 			  <td>${post.postLikeCount}</td>
 			</tr>
-		  </c:if>
           </c:forEach>
         
         </tbody>

@@ -46,19 +46,29 @@
 	function fncAddPost(){
 		//Form 유효성 검증
 	 	var postTitle = $("input[name='postTitle']").val();
-		/* var postContent = $("input[name='postContent']").val(); */
-	
-		if(postTitle == null || postTitle.length<1){
+		var postContent = $("textarea").val();
+		var accStartDate = $("input[name='accStartDateStr']").val();
+		var accPerson = $("select[name='accPerson']").val();
+		
+		if(postTitle.trim() == 0 || postTitle.length<1){
 			alert("제목은 반드시 입력하여야 합니다.");
 			return;
 		}
-		/* if(postContent == null || postContent.length<1){
+		if(postContent.trim() == 0 || postContent.length<1){
 			alert("내용은 반드시 입력하셔야 합니다.");
 			return;
-		} */
+		} 
 		if($('dd').length == 0){
 			tag = "<input type='hidden' name='tagContent' value=''>";
 			$(".tagList").append(tag);
+		}
+		if(accStartDate == null || accStartDate.length<1){
+			alert("동행 시작날짜는 반드시 입력하세요.");
+			return;
+		}
+		if(accPerson == 'N' || accPerson.length<1){
+			alert("동행인원은 반드시 입력하세요.");
+			return;
 		}
 	
 		$("form").attr("method" , "POST").attr("enctype" , "multipart/form-data").attr("action" , "/community/addPost").submit();
@@ -225,6 +235,7 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	<jsp:include page="/toolbar/pushBar.jsp" />
+	<jsp:include page="/view/community/sidebar.jsp"/>
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
@@ -243,12 +254,12 @@
 		    <label for="postTitle" class="col-sm-1 control-label" style="font-size: 12px;">제목</label>
 		  <c:if test="${user.userId != 'admin'}">
 		    <div class="col-sm-10">
-		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" placeholder="제목을 입력하세요.">
+		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" maxlength="20" placeholder="제목을 입력하세요.">
 		    </div>
 		  </c:if>  
 		  <c:if test="${user.userId == 'admin'}">
 		    <div class="col-sm-8">
-		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" placeholder="제목을 입력하세요.">
+		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" maxlength="20" placeholder="제목을 입력하세요.">
 		    </div>
 		    <label for="postTitle" class="col-sm-2 control-label" style="font-size: 14px;padding-right: 40px;"><i class="fas fa-flag-checkered"></i> 공지등록
 		      <input type="checkbox" id="postGrade" name="postGrade" value="N"></label>
@@ -266,7 +277,8 @@
 		    </div>
 		 	<label for="accPerson" class="col-sm-1 control-label" style="font-size: 12px;">인원</label>
 		     <div class="col-sm-2">
-		      <select class="form-control" id="accPerson" name="accPerson">
+		      <select class="form-control" id="accPerson" name="accPerson" style="font-size:12px;">
+			      <option value="N" selected>인원선택</option>
 			    <c:forEach var="i" begin="1" end="30" >
 			      <option value="${i}">${i}</option>
 			    </c:forEach>
