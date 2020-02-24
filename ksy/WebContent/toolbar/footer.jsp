@@ -12,7 +12,7 @@
         width: 100%;
         padding: 3%;
     }
-    .text {
+    .footer-text {
         text-align: right;
     }
 
@@ -20,7 +20,7 @@
 <div style="clear:both;"></div>
 <footer>
    
-    <div class="text" style="font-size: 13px;">
+    <div class="footer-text" style="font-size: 13px;">
         <img src='/resources/images/icon/_logo.png' style='width: 130px;height: auto;float:left;'>
         서울시 서초구 강남대로 459 (서초동, 백암빌딩) ｜ 사업자등록번호 : 214-85-24928<br />
         (주)유로버스 대표이사 : 김서영 ｜ 문의 : 02-3486-9600 ｜ 팩스 : 02-6007-1245<br />

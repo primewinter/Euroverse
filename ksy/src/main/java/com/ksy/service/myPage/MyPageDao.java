@@ -42,10 +42,11 @@ public interface MyPageDao {
 	
 	
 	
-	/////////////////////////BookMark/////////////////////////////////////////
+	/////////////////////////Like/////////////////////////////////////////
 	public List<Like> getBookMarkList(String userId)throws Exception;
 	public Post getBookMarkPost(String postId)throws Exception;
 	
+	public List<Like> getLikeOrderList(String userId)throws Exception;
 	
 	
 	//////////////////////////////offer///////////////////////////////////////

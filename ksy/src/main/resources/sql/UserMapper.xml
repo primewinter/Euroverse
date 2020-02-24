@@ -512,7 +512,7 @@ order By c.cmt_date DESC) inner_table
 
 
 
-<!-- bookmark -->
+<!-- Like -->
 
 <select id="getBookMarkList" parameterType="String"	resultMap="likeSelectMap">
 SELECT 
@@ -528,7 +528,12 @@ FROM POST
 WHERE post_id = #{value}
 </select>
 
-
+<select id="getLikeOrderList" parameterType="string" resultMap="likeSelectMap">
+SELECT 
+l.like_id , l.like_type , l.ref_id , l.like_user_id , l.like_check 
+FROM likes l
+WHERE l.like_user_id = #{userId} AND (l.like_type = 'F' OR l.like_type = 'R') AND l.like_check = 'T'
+</select>
 
 
 
@@ -733,6 +738,7 @@ SELECT
  post_id , cmt_id , nickname , writer_id  , cmt_date , cmt_content , secret , deleted , blocked , cmt_like_count 
 FROM  comments 
 WHERE #{postId} = post_id
+ORDER BY cmt_date DESC
 </select>
 
 

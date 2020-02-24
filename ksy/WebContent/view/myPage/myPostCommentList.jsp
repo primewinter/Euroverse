@@ -47,12 +47,10 @@
 
 <script>
 function fncGetUserList(currentPage) {
-	alert("1번 currentPage="+currentPage);
 	$("#currentPage").val(currentPage)
 	$("#myPostCommentListForm").attr("method" , "POST").attr("action" , "/myPage/myPostCommentList").submit();
 }
 function fncGetUserList2(currentPage2) {
-	alert("2번currentPage="+currentPage2);
 	$("#currentPage2").val(currentPage2)
 	$("#myPostCommentListForm").attr("method" , "POST").attr("action" , "/myPage/myPostCommentList").submit();
 }
@@ -70,6 +68,21 @@ $(function() {
 	     /* var postId = $(this).find($("input[name='postId']")).val();	
 		 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName; */
 	});
+	
+	
+	
+	$("#viewPost").on("click",function(){
+		 $("#postTable").css("display","block");
+		$("#commentTable").css("display","none"); 
+		$("#keyword").val("post");
+	})
+	$("#viewComment").on("click",function(){
+	 	$("#commentTable").css("display","block");
+		$("#postTable").css("display","none"); 
+		$("#keyword").val("comment");
+	})
+	
+	
 });	
 
 /* $(function() {
@@ -96,20 +109,45 @@ $(function() {
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>	
 	
-	<div style="height: 100px;"></div>
-        <h1  style="margin-left: 240px;">나의 게시글목록</h1>
-		
+	
+	
+	
 	
 	
 	<form id="myPostCommentListForm">
  		<input type="hidden" id="currentPage" name="currentPage" value="${resultPage.currentPage}" />
  		<input type="hidden" id="currentPage2" name="currentPage2" value="${resultPage2.currentPage }" /> 
+ 		<c:if test="${!empty keyword}">
+ 		<input type="hidden" id="keyword" name="searchKeyword" value="${keyword}"/>
+ 		</c:if>
 
 	</form>
 	
+	<div class="row">
+		<div style="width: 250px;"></div>
+
+			<div class="btn-group" role="group" aria-label="Basic example">
+		  <button type="button" class="btn btn-outline-primary" id="viewPost">게시글</button>
+		  <button type="button" class="btn btn-outline-primary" id="viewComment">댓 글</button>
+			</div>
+	
+	</div>
 
 
 
+<c:if test="${keyword!='post'}">
+<div id="postTable" style="display: none;">
+</c:if>	
+<c:if test="${keyword=='post'}">
+<div id="postTable" style="display: block;">
+</c:if>	
+
+
+
+	
+	<div style="height: 30px;"></div>
+        <h1  style="margin-left: 240px;">나의 게시글목록</h1>
+		
 <table class="table" style="margin-left: 240px; width: 75%">
 							
 	
@@ -152,14 +190,23 @@ $(function() {
   </tbody>
 </table>
 <jsp:include page="../../common/pageNavigator_new.jsp"/>
+
+</div>
+
 <!-- <hr class="one" width="1190px" style="margin-left: 230px;"> -->
+
+<c:if test="${keyword!='comment'}">
+<div id="commentTable" style="display: none;">
+</c:if>
+<c:if test="${keyword=='comment'}">
+<div id="commentTable" style="display: block;">
+</c:if>
 
 
 
 
         <h1 style="margin-left: 240px; margin-top: 40px;">나의 댓글목록</h1>
      
-
 
 <table class="table" style="margin-left: 240px; width: 75%">
 	
@@ -202,6 +249,10 @@ $(function() {
 
 
 <jsp:include page="../../common/pageNavigator_new2.jsp"/>
+
+</div>
+
+
 </body>
 <jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

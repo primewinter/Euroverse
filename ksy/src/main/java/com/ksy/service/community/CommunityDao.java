@@ -26,6 +26,8 @@ public interface CommunityDao {
 	
 	public Post getPost(String postId, String userId, String boardName) throws Exception ;
 	
+	public Post getMainPost(String postId, String userId, String boardName) throws Exception;
+	
 	public List<Tag> getTagList(String postId) throws Exception ;
 	
 	public List<Party> getParty(String postId) throws Exception ;

@@ -13,7 +13,7 @@ public interface AdminService {
 	
 	public void updateCommReport(String commId) throws Exception;
 		
-	public Map<String,Object> getQnaComment(String postId) throws Exception;
+	public Map<String,Object> getQnaCommentList(String postId) throws Exception;
 	
 	public void addQnaComment(Comment comment) throws Exception;
 	

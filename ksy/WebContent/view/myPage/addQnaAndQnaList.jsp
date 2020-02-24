@@ -140,11 +140,17 @@ $(function(){
 								console.log(qnaCommentList);
 								$("#appendCommentDiv"+num).html("");
 								
-								$("#appendCommentDiv"+num).append("<div class='media mt-3'>");
-								$("#appendCommentDiv"+num).append("<div class='media-body'>");
-								$("#appendCommentDiv"+num).append("<h5 class='mt-0' style='text-align: right;'>"+"답글"+"</h5>");
-								$("#appendCommentDiv"+num).append("<div align='right'><small>"+qnaCommentList[0].cmtDate+" , "+qnaCommentList[0].nickName+"</small></div>");
-								$("#appendCommentDiv"+num).append("<div id='qnaContentDiv' style='margin-top: 20px;text-align: right;'>"+qnaCommentList[0].cmtContent+"</div>");
+								for(var i=0;i<qnaCommentList.length;i++){
+									
+									$("#appendCommentDiv"+num).append("<div class='media mt-3'>");
+									$("#appendCommentDiv"+num).append("<div class='media-body'>");
+									$("#appendCommentDiv"+num).append("<h5 class='mt-0' style='text-align: right;'>"+"답글"+"</h5>");
+									$("#appendCommentDiv"+num).append("<div align='right'><small>"+qnaCommentList[i].cmtDate+" , "+qnaCommentList[i].nickName+"</small></div>");
+									$("#appendCommentDiv"+num).append("<div id='qnaContentDiv' style='margin-top: 20px;text-align: right;'>"+qnaCommentList[i].cmtContent+"</div>");
+									
+								}
+								
+								
 							}else if(JSONData.returnMessage=='error'){
 							/* 	<div class="media mt-3">
 						      	<div class="media-body">

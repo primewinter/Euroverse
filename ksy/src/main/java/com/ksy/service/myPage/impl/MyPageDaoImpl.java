@@ -142,7 +142,7 @@ public class MyPageDaoImpl implements MyPageDao{
 	
 	
 	
-	/////////////////////////BookMark/////////////////////////////////////////
+	/////////////////////////LIKE/////////////////////////////////////////
 	public List<Like> getBookMarkList(String userId)throws Exception{
 		System.out.println("myPageDaoImpl getBookMarkList()");
 		
@@ -156,6 +156,11 @@ public class MyPageDaoImpl implements MyPageDao{
 		
 		
 		return sqlSession.selectOne("UserMapper.getBookMarkPost",postId);
+	}
+	
+	public List<Like> getLikeOrderList(String userId)throws Exception{
+		
+		return sqlSession.selectList("UserMapper.getLikeOrderList",userId);
 	}
 	
 	

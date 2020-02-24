@@ -174,7 +174,7 @@ public class AdminController {
 		
 		System.out.println("AdminController getQnaComment");
 		
-		Map<String,Object> map = adminservice.getQnaComment(postId);
+		Map<String,Object> map = adminservice.getQnaCommentList(postId);
 		
 		model.addAttribute("list",map.get("list"));
 		

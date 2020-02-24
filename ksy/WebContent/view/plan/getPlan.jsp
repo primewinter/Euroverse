@@ -74,6 +74,8 @@
 	<!-- boot strap File upload CDN  -->
 	<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
 	
+	
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 	<style>
       /* Always set the map height explicitly to define the size of the div
@@ -495,6 +497,8 @@
 								}
 							}
 							closeModal('dailyEdit');
+							
+							swal("추가되었습니다!", "", "success");
 						},
 						error:function(request,status,error){
 					        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -532,6 +536,7 @@
 								for( var i in dailyList){
 									setDaily(dailyList[i]);
 								}
+								swal("수정완료!", "", "success");
 							}
 							//closeModal('dailyEdit');
 							$('#dailyEdit').modal('hide');
@@ -546,26 +551,39 @@
 			}else if(dailyButton == 'Delete Daily'){
 				console.log("Delete Daily 버튼 클릭! ");
 				
-				if(dailyId != null && dailyId !='' ){
-					$.ajax({
-						url: "/planSub/json/deleteDaily/"+dailyId,
-						method: "GET",
-						dataType: "json",
-						headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
-						success: function(JSONData, status){
-							/* if( JSONData==null || JSONData=="" ){ alert("리턴데이터 없음");	 }
-							closeModal('dailyEdit'); */
-						},
-						error:function(request,status,error){
-							if( request.status == '200'){ 		//alert("리턴데이터 없음");	 but 성공 (원래 void임)
-								
-								var dailyIdString = '#daily_'+dayNo+"_"+dayTime;
-								$(dailyIdString).text('');
-								closeModal('dailyEdit');
-							}
-					    } 
-					});
-				}
+				swal({
+					title:"일정 삭제",
+					text:"삭제된 일정은 복구 불가능합니다. \n정말 삭제하시겠습니까?",
+					icon:"warning",
+					buttons: [ "아니오", "예"]
+				}).then((YES) => {
+					if(YES){
+						swal("삭제되었습니다!", "", "success");
+						
+						if(dailyId != null && dailyId !='' ){
+							$.ajax({
+								url: "/planSub/json/deleteDaily/"+dailyId,
+								method: "GET",
+								dataType: "json",
+								headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+								success: function(JSONData, status){
+									/* if( JSONData==null || JSONData=="" ){ alert("리턴데이터 없음");	 }
+									closeModal('dailyEdit'); */
+								},
+								error:function(request,status,error){
+									if( request.status == '200'){ 		//alert("리턴데이터 없음");	 but 성공 (원래 void임)
+										
+										var dailyIdString = '#daily_'+dayNo+"_"+dayTime;
+										$(dailyIdString).text('');
+										closeModal('dailyEdit');
+									}
+							    } 
+							});
+						}
+					}
+				});
+				
+				
 			}
 		} //submitDaily
 		
@@ -734,7 +752,8 @@
 		} //getStuffList(planId, mode) END
 		
 		function deleteStuff(stuffId){
-			alert("삭제된 준비물은 복구 불가능합니다")
+			
+			/* alert("삭제된 준비물은 복구 불가능합니다")
 			console.log('deleteStuff('+stuffId+') 실행! ');
 			
 			$.ajax({
@@ -750,6 +769,31 @@
 			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
 			        getStuffList(planId,'Edit Mode');			    
 				} 
+			}); */
+			
+			swal({
+				title:"준비물 삭제",
+				text:"삭제된 준비물은 복구 불가능합니다. \n정말 삭제하시겠습니까?",
+				icon:"warning",
+				buttons: [ "아니오", "예"]
+			}).then((YES) => {
+				if(YES){
+					swal("삭제되었습니다!", "", "success");
+					$.ajax({
+						url: "/planSub/json/deleteStuff/"+stuffId ,
+						method: "GET",
+						dataType: "json",
+						headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+						success: function(JSONData, status){
+							if( JSONData==null || JSONData=="" ){ 	//alert("리턴데이터 없음");	
+							}
+						},
+						error:function(request,status,error){
+					        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+					        getStuffList(planId,'Edit Mode');			    
+						} 
+					});
+				}
 			});
 		} //deleteStuff(stuffId) END
 		
@@ -881,7 +925,7 @@
 		
 		function deleteTodo( todoId ){
 			
-			if(confirm( "삭제된 Todo 리스트는 복구 불가능합니다. \n정말 삭제하시겠습니까? ")){
+			/* if(confirm( "삭제된 Todo 리스트는 복구 불가능합니다. \n정말 삭제하시겠습니까? ")){
 				$.ajax({
 					url: "/plan/json/deleteTodo/"+todoId ,
 					method: "GET",
@@ -896,7 +940,32 @@
 				        }
 					} 
 				});
-			}
+			} */
+			
+			swal({
+				title:"Todo 리스트 삭제",
+				text:"삭제된 Todo 리스트는 복구 불가능합니다. \n정말 삭제하시겠습니까?",
+				icon:"warning",
+				buttons: [ "아니오", "예"]
+			}).then((YES) => {
+				if(YES){
+					swal("삭제되었습니다!", "", "success");
+					$.ajax({
+						url: "/plan/json/deleteTodo/"+todoId ,
+						method: "GET",
+						dataType: "json",
+						headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+						success: function(JSONData, status){	//리턴데이터 없음
+						},
+						error:function(request,status,error){
+					        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+					        if( request.status == 200){
+					        	$('span:contains("'+ todoId +'")').parent().remove();
+					        }
+						} 
+					});
+				}
+			});
 		}	//deleteTodo 끝
 		
 		
@@ -1173,9 +1242,9 @@
 			//지성이꺼 갖다씀 - 파일용량 체크
 			$(".custom-file-input").on("change",function(){
 				  var fileSize = this.files[0].size;
-				    var maxSize = 360 * 360;
+				    var maxSize = 600 * 600;
 				    if(fileSize > maxSize) {
-				        $(".custom-file-label").html("<i class='fas fa-camera-retro'> size 360x360</i>");
+				        $(".custom-file-label").html("<i class='fas fa-camera-retro'> size 600x600</i>");
 				        alert("파일용량을 초과하였습니다.");
 				        //$("#preview").html("");
 				        return;
@@ -1750,8 +1819,7 @@
 		
 		function deleteMemo( memoId ){
 			
-			if(confirm( "삭제된 메모는 복구 불가능합니다. \n정말 삭제하시겠습니까? ")){
-				
+			/* if(confirm( "삭제된 메모는 복구 불가능합니다. \n정말 삭제하시겠습니까? ")){
 				$.ajax({
 					url: "/planSub/json/deleteMemo/"+memoId+"/"+planId,
 					method: "GET",
@@ -1765,7 +1833,32 @@
 				        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
 				    } 
 				});
-			}
+			} */
+			
+			swal({
+				title:"메모 삭제",
+				text:"삭제된 메모는 복구 불가능합니다. \n정말 삭제하시겠습니까? ",
+				icon:"warning",
+				buttons: [ "아니오", "예"]
+			}).then((YES) => {
+				if(YES){
+					swal("삭제되었습니다!", "", "success");
+					$.ajax({
+						url: "/planSub/json/deleteMemo/"+memoId+"/"+planId,
+						method: "GET",
+						dataType: "json",
+						headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+						success: function(JSONData, status){
+							$('.memo_id:contains("'+ memoId +'")').parent().remove();
+							$('#memo_prev_'+memoId).parent().parent().remove();
+						},
+						error:function(request,status,error){
+					        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+					    } 
+					});
+				}
+			});
+			
 		} //deleteMemo
 		
 		/* -------------------------------------	Memo List 관련 함수들		------------------------------------- */
@@ -1988,7 +2081,9 @@
 							<c:if test="${ user.userId != plan.planMaster.userId }">
 								<button type="button" class="btn btn-secondary" id="exitPlanButton" style="margin-left: 10px;">플래너 탈퇴</button> 
 							</c:if>
-							<button type="button" class="btn btn-warning" id="uploadPlanButton" style="margin-left: 10px;">플래너 공유하기</button> 
+							<c:if test="${ plan.planTotalDays > 0 }">
+								<button type="button" class="btn btn-warning" id="uploadPlanButton" style="margin-left: 10px;">플래너 공유하기</button> 
+							</c:if>
 						</div>
 						
 					</div>
@@ -2504,7 +2599,7 @@
 						<option value="D">관광</option>
 						<option value="T">교통</option>
 						<option value="V">투어</option>
-						<!-- <option value="R">숙소</option> -->
+						<option value="R">숙소</option>
 						<option value="F">식사</option>
 						<option value="S">쇼핑</option>
 						<option value="E">기타</option>
@@ -2956,6 +3051,12 @@
 					bounds.extend(marker[i].getPosition());
 				}
 				map.fitBounds(bounds);
+				
+				if( cityMarkerList.length < 2 ){
+					setTimeout(function(){
+						map.setZoom(6);
+					}, 30);
+				}
 				
 			} //initMapItems 끝
 			

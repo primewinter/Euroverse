@@ -138,6 +138,24 @@ public class UserRestController {
 		return returnMap;
 	}
 	
+	@RequestMapping(value="json/updateRole")
+	public Map updateRole(HttpSession session)throws Exception{
+		User user = (User)session.getAttribute("user");
+		
+		userService.updateRole(user.getUserId());
+		
+		User reloadUser = userService.getUser(user.getUserId());
+		
+		
+		
+		
+		session.setAttribute("user", reloadUser);
+		Map<String, String> returnMap = new HashMap<String, String>();
+		
+		returnMap.put("returnMsg", "ok");
+		
+		return returnMap;
+	}
 	
 	
 	@RequestMapping(value = "json/checkUser")

@@ -114,28 +114,13 @@ table thead > tr{
 	function answer(){
 			alert("click?")
         	
-        	var postId = $('.postclick').children("input[name=postId]").val();
+        	var postId = $('td:nth-child(3)').children("input[name=postId]").val();
         	var userId = $('.postclick').children("input[id=userId]").val();
         	var cmtContent = $('#content').val();
-        	 var appendHtml =
-				'<div style="padding:5px 25px" class="row">'+
-				'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
-				'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
-	            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
-	            '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+'관리자답변'+
-	            '<button type="button"class="btn btn-outline-danger btn-sm">삭제</button></div>'+
-	            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
-	            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
-	        	'</div></div>'; 
+			
+        	alert(postId);
         	
-        	 alert(postId)
-        	alert(userId)
-        	alert(cmtContent) 
-        	
-        	 $("#append").append(appendHtml); 
-        	
-        	
-        	/* $.ajax({
+        	 $.ajax({
 				url: "/admin/json/addQnaComment",
 				method: "POST",
 				dataType: "json",
@@ -143,7 +128,7 @@ table thead > tr{
 				data: JSON.stringify({
  					postId: postId,
 					cmtWriterId : 'admin',
-					nickName:'관리자닉네임',
+					nickName:'Euroverse',
 			 		cmtContent : cmtContent
 				}),
 				success: function(JSONData, status){
@@ -153,21 +138,8 @@ table thead > tr{
 					if( JSONData==null || JSONData=="" ){
 						console.log("리턴데이터 없음");	
 					}else{
-						console.log("리턴데이터 있음! => "+JSONData);	 */
+						console.log("리턴데이터 있음! => "+JSONData);	 
 						
-						/* var appendHtml =
-							'<div style="padding:5px 25px" class="row">'+
-							'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
-							'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
-				            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
-				            '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.cmtContentasdfasdf+
-				            '<button type="button"class="btn btn-outline-danger btn-sm">삭제</button></div>'+
-				            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
-				            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
-				        	'</div></div>'; 
-						
-        				 $("#append").append(appendHtml); 
-        				
 					}// end of else
 						
 				},// end of success
@@ -177,12 +149,11 @@ table thead > tr{
 			    }// end of error  
 			    
         	}); //end of ajax
-        	*/
+        
 	};
 	
 	function htmlDelete(){
 		alert("delete");
-		
 	};
 	
 	$(function(){
@@ -192,6 +163,8 @@ table thead > tr{
 			var postTitle = $(this).children("input[name=postTitle]").val();
 			var qnaCate = $(this).children("input[id=qnaCate]").val();
 			var userId = $(this).children("input[id=userId]").val();
+			
+			alert(postId);
 			
 			if(qnaCate == "A"){
 				qnaCate = '주문관련';
@@ -205,33 +178,77 @@ table thead > tr{
 				qnaCate = '기타';
 			}
 			
-			/* alert(postId);
-			alert(postTitle);
-			alert(qnaCate); */
-			
 			var display = 
-						'<div id="con" class="container">'+
-					        '<div class="inner">'+
-					            '<div style="padding:5px 25px" class="row">'+
-					                '<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
-					                    '<img id="qimg" style="width:40px; "alt="" src=\"/resources/images/admin/Qicon.png"\></div><div>'+
-					                    '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+postTitle+'</div>'+
-					                    '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">'+qnaCate+'</div>'+
-					                    '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-clock"></i>'+userId+'님이 ㅇ분전에 질문하셨습니다.</div></div></div>'+
-					            '<div id="append" style=" height: auto; padding:15px 25px" class="row">'+
-					                '<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
-					                '<div style="text-align:right;display: inline-block; height: 70px; width: 70px;">'+
-					                    '<img style="width:40px;" src=\"/resources/images/admin/Aicon.png"\></div><div>'+
-					                    '<div style="width: 600px; height:100%; margin: 0px 5px 5px 10px;"><textarea id="content" class="form-control" style="min-height: 100px">'+
-					                    '</textarea></div></div><div>'+
-					                    '<button type="button" class="btn btn-primary" onclick="answer()" style=" margin-left:5px; height:70px; display: inline-block">답변하기</button></div>'+
-					            '</div></div></div>';
+				'<div id="con" class="container">'+
+			        '<div class="inner">'+
+			            '<div style="padding:5px 25px" class="row">'+
+			                '<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
+			                    '<img id="qimg" style="width:40px; "alt="" src=\"/resources/images/admin/Qicon.png"\></div><div>'+
+			                    '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+postTitle+'</div>'+
+			                    '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">'+qnaCate+'</div>'+
+			                    '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-clock"></i>'+userId+'님이 ㅇ분전에 질문하셨습니다.</div></div></div>'+
+			            '<div id="append" style=" height: auto; padding:15px 25px" class="row">'+
+			                '<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
+			                '<div style="text-align:right;display: inline-block; height: 70px; width: 70px;">'+
+			                    '<img style="width:40px;" src=\"/resources/images/admin/Aicon.png"\></div><div>'+
+			                    '<div style="width: 600px; height:100%; margin: 0px 5px 5px 10px;"><textarea id="content" class="form-control" style="min-height: 100px">'+
+			                    '</textarea></div></div><div>'+
+			                    '<button type="button" class="btn btn-primary" onclick="answer()" style=" margin-left:5px; height:70px; display: inline-block">답변하기</button></div>'+
+			            '</div></div></div>';
+        
+	    	$("#con").remove();
+	        $("#"+postId+"").html(display);
 			
-           	$("#con").remove();
-            $("#"+postId+"").html(display);
-            /* $("#q").attr("src",road); */
-		});
-	});
+			 $.ajax({
+					url: "/admin/json/getQnaCommentList/"+postId,
+					method: "GET",
+					dataType: "json",
+					headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+					success: function(JSONData, status){
+						alert(JSONData.cmtContent);
+						console.log(JSONData);
+						
+						if( JSONData==null || JSONData=="" ){
+							console.log("리턴데이터 없음");	
+						}else{
+							console.log("리턴데이터 있음! => "+JSONData);	 
+			
+							/* alert(postId);
+							alert(postTitle);
+							alert(qnaCate); */
+									            
+								if(JSONData != null) {
+								
+									for(var i=0; i<JSONData.list.length; i++){
+										
+							            var appendHtml =
+											'<div style="padding:5px 25px" class="row">'+
+											'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
+											'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
+								            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
+								            '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[i].cmtContent+
+								            '<button type="button"class="btn btn-outline-danger btn-sm">삭제</button></div>'+
+								            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
+								            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
+								        	'</div></div>';
+								        	
+										 $("#append").append(appendHtml); 
+									}// end fo for
+									
+								}// end of if
+							
+							}//end of else
+					    
+						},//end of success
+						
+						error:function(request,status,error){
+					        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+					    }// end of error  
+					    
+				 });// end of ajax
+					            
+			});//end of click
+		});// end of function
 		
 
 	
@@ -331,7 +348,7 @@ table thead > tr{
 				<tr>
 				
 				<!-- 게시글번호 -->
-				  <th scope="row">${ i }</th>
+				  <td class="no" >${ i }</td>
 				    <!--========= END ========== -->
 				    
 				  <!-- 답변상태  -->

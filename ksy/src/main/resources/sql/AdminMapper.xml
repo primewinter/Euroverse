@@ -162,15 +162,11 @@
 
 
 	<!-- 1:1문의 관리자 댓글 조회  -->
-	<select id="getQnaComment" parameterType="String" resultMap="commentSelectMap">
-  		SELECT *
-  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT c.post_id , c.cmt_id , c.nickname , c.writer_id , p.post_writer_id , 
-  										c.cmt_date , c.cmt_content
-										FROM comments c, post p
-										WHERE p.post_id = c.post_id AND c.cmt_id = l.ref_id(+) AND 
-										c.post_id = #{postId}
-										 ORDER BY c.cmt_date DESC ) inner_table )
+	<select id="getQnaCommentList" parameterType="string" resultMap="commentSelectMap">
+		SELECT
+		 post_id , cmt_id , nickname , writer_id  , cmt_date , cmt_content , secret , deleted , blocked , cmt_like_count 
+		FROM  comments 
+		WHERE #{postId} = post_id
 	</select>
 	
 	
@@ -180,7 +176,7 @@
 			INSERT
 			INTO comments( post_id , cmt_id ,nickname, writer_id , cmt_content )
 			VALUES	 ( #{postId:VARCHAR} , SEQ_comments_cmt_id.NEXTVAL , #{nickName:VARCHAR}, #{cmtWriterId:VARCHAR} ,  
-								#{cmtContent:VARCHAR}  )
+						 #{cmtContent:VARCHAR} )
 	</insert>
 	
 	
@@ -189,7 +185,7 @@
 	<update id="updateQnaGrade" parameterType="string">
 		UPDATE post
 			<set>
-				postGrade = 'Q'
+				post_grade = 'Q'
 			</set>
 		WHERE post_id = ${value}
 	</update>	
