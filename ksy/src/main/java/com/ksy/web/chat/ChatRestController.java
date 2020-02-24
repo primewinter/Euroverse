@@ -199,17 +199,52 @@ import com.mongodb.client.MongoDatabase;
 //			System.out.println("insert한 Document "+doc);
 //			
 //		}
+		
+		@RequestMapping(value="checkRoom", method=RequestMethod.GET)
+		public boolean checkRoom(@RequestParam(value="postId") String postId) throws Exception {
+			System.out.println("/chat/json/checkRoom ::: "+postId);
+			coll = mongoDB.getCollection("ChatRoom");
+			BasicDBObject searchQuery = new BasicDBObject();
+			//searchQuery.append("_id", new BasicDBObject("$toString",chatRoom.getChatRoomId()));
+			searchQuery.append("postId", postId);
+			FindIterable<Document> cur = coll.find(searchQuery);
+			if ( coll.find(searchQuery).first() != null ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		@RequestMapping(value="checkRoomMem", method=RequestMethod.GET)
+		public boolean checkRoomMem(@RequestParam(value="postId") String postId, @RequestParam(value="userId") String userId) throws Exception {
+			System.out.println("/chat/json/checkRoom ::: "+postId);
+			coll = mongoDB.getCollection("ChatRoom");
+			BasicDBObject searchQuery = new BasicDBObject();
+			//searchQuery.append("_id", new BasicDBObject("$toString",chatRoom.getChatRoomId()));
+			searchQuery.append("postId", postId);
+			FindIterable<Document> cur = coll.find(searchQuery);
+			Document doc = coll.find(searchQuery).first();
+			List<String> members = (List<String>)doc.get("chatMems");
+			if ( members.contains(userId)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
 		@RequestMapping(value="createRoom", method=RequestMethod.POST)
 		public void createRoom(@RequestParam(value="chatRoomFile", required=false) MultipartFile file, @RequestParam(value="joinMems") List<String> joinMems,
-				@RequestParam(value="creator") String creator, @RequestParam(value="chatRoomName") String chatRoomName, HttpServletRequest req) throws Exception {
+				@RequestParam(value="creator") String creator, @RequestParam(value="chatRoomName") String chatRoomName, @RequestParam(value="postId") String postId, HttpServletRequest req) throws Exception {
 			
 			System.out.println("/chat/json/createRoom ::: creator : "+creator+" || chatRoomName : "+chatRoomName);
 			chatRoomName = URLDecoder.decode(chatRoomName,"UTF-8");
 			System.out.println("/chat/json/createRoom ::: creator : "+creator+" || chatRoomName : "+chatRoomName);
 			String fileName = "";
+			int startInt = file.getOriginalFilename().indexOf(".");
 			if( file != null) {
 				String filePath ="C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\chatImg\\";
-				fileName += UUID.randomUUID().toString().substring(0, 8)+System.currentTimeMillis();
+				fileName += UUID.randomUUID().toString().substring(0, 8)+System.currentTimeMillis()+file.getOriginalFilename().substring(startInt);
+				System.out.println("\t\t저장 파일 이름 : "+fileName);
 				File saveFile = new File(filePath+fileName);
 				file.transferTo(saveFile);
 			}
@@ -221,7 +256,8 @@ import com.mongodb.client.MongoDatabase;
 													.append("chatMems", joinMems)
 													.append("chatRoomName", chatRoomName)
 													.append("createdDate", new Date())
-													.append("chatImg", fileName);
+													.append("chatImg", fileName)
+													.append("postId", postId);
 
 			System.out.println("Document : "+doc);
 			coll.insertOne(doc);
@@ -242,10 +278,10 @@ import com.mongodb.client.MongoDatabase;
 			
 			BasicDBObject searchQuery = new BasicDBObject();
 			//searchQuery.append("_id", new BasicDBObject("$toString",chatRoom.getChatRoomId()));
-			searchQuery.append("_id", chatRoom.get_id());
+			searchQuery.append("postId", chatRoom.getChatRoomId());
 			FindIterable<Document> cur = coll.find(searchQuery);
 			Document doc = cur.first();
-			System.out.println("_id 가 "+chatRoom.getChatRoomId()+"인 채팅방 :: "+doc);
+			System.out.println("postId 가 "+chatRoom.getChatRoomId()+"인 채팅방 :: "+doc);
 			List<String> arr = (List<String>) doc.get("chatMems");
 			
 			BasicDBObject updateQuery = new BasicDBObject();
