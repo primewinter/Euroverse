@@ -46,7 +46,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		return map;
 	}
-	
+	@Override
 	public void updatePostReport(String postId) throws Exception{
 		
 		System.out.println("AdminServiceImpl updatePostReport");
@@ -54,7 +54,7 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.updatePostReport(postId);
 		
 	}
-	
+	@Override
 	public void updateCommReport(String commId) throws Exception {
 		
 		System.out.println("AdminServiceImpl updateCommReport");
@@ -62,17 +62,20 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.updateCommReport(commId);
 		
 	}
-	
-	public Comment getQnaComment(String postId) throws Exception {
+	@Override
+	public Map<String,Object> getQnaComment(String postId) throws Exception {
 		
 		System.out.println("AdminServiceImpl getQnaCommList");
 		
 		Comment comment = new Comment();
-		comment = adminDao.getQnaComment(postId);
+		List<Comment> list = adminDao.getQnaComment(postId);
 		
-		return comment;
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		
+		return map;
 	}
-	
+	@Override
 	public void addQnaComment(Comment comment) throws Exception {
 		
 		System.out.println("AdminServiceImpl addQnaComment");
@@ -82,6 +85,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	//관리자qna 리스트 조회
+	@Override
 	public Map<String, Object> getAdminQnAList(Search search) throws Exception{
 		
 		System.out.println("AdminServiceImpl getAdminQnAList");
@@ -95,7 +99,20 @@ public class AdminServiceImpl implements AdminService {
 		
 		return map;
 	}
-	
+	@Override
+	public void updateQnaGrade(String cmdId) throws Exception{
+		
+		System.out.println("AdminServiceImpl updateQnaGrade");
+		
+		adminDao.updateQnaGrade(cmdId);
+	}
+	@Override
+	public void deleteQnaComm(String cmtId) throws Exception{
+		
+		System.out.println("AdminServiceImpl deleteQnaComm");
+		
+		adminDao.deleteQnaComm(cmtId);
+	}
 	
 	
 

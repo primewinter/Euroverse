@@ -9,20 +9,28 @@
         z-index: -1;
         bottom: 0px;
         left: 0;
-        height: 150px;
         width: 100%;
+        padding: 3%;
+    }
+    .text {
+        text-align: right;
     }
 
 </style>
 <div style="clear:both;"></div>
 <footer>
-    <div class="justify-content-center">
-        <a href="/">
-            유로버스 로고
-        </a>
+   
+    <div class="text" style="font-size: 13px;">
+        <img src='/resources/images/icon/_logo.png' style='width: 130px;height: auto;float:left;'>
+        서울시 서초구 강남대로 459 (서초동, 백암빌딩) ｜ 사업자등록번호 : 214-85-24928<br />
+        (주)유로버스 대표이사 : 김서영 ｜ 문의 : 02-3486-9600 ｜ 팩스 : 02-6007-1245<br />
+        통신판매업 신고번호 : 제 서초-00098호 ｜ 개인정보보호관리책임자 : 김서영<br />
+        Copyright (c) 비트캠프 All rights reserved.<br /><br />
+    </div>
+    <div class="left-logo">
     </div>
 
-    <div>
+   <!-- <div>
         <ul class="nav justify-content-center">
             <li class="nav-item">
                 <a class="nav-link active" href="#">Active</a>
@@ -37,13 +45,8 @@
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
             </li>
         </ul>
-    </div>
+    </div>-->
 
-    <div class="text-center" style="font-size: 13px;">
-        서울시 서초구 강남대로 459 (서초동, 백암빌딩)｜ 사업자등록번호 : 214-85-24928<br />
-        (주)비트컴퓨터 서초지점 대표이사 : 조현정 / 문의 : 02-3486-9600 / 팩스 : 02-6007-1245<br />
-        통신판매업 신고번호 : 제 서초-00098호 / 개인정보보호관리책임자 : 최종진<br />
-        Copyright (c) 비트캠프 All rights reserved.<br /><br />
-    </div>
+   
 
 </footer>

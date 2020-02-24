@@ -24,12 +24,16 @@ public interface AdminDao {
 	public void updateCommReport(String commId) throws Exception;
 	
 	//getQnaCommentList 는 select*from 으로 쿼리문 작성
-	public Comment getQnaComment(String postId) throws Exception;
+	public List<Comment> getQnaComment(String postId) throws Exception;
 	
 	public void addQnaComment(Comment comment) throws Exception;
 	
 	public List<Post> getAdminQnAList(Search search) throws Exception;
 	
 	public int getAdminQnaListTotalCount(Search search) throws Exception;
+	
+	public void updateQnaGrade(String postId) throws Exception;
+	
+	public void deleteQnaComm(String cmtId) throws Exception;
 	
 }

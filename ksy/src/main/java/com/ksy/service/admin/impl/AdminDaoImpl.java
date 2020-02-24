@@ -42,46 +42,60 @@ public class AdminDaoImpl implements AdminDao {
 		System.out.println("AdminDaoImpl getTotalCount");
 		return sqlSession.selectOne("AdminMapper.getTotalCount", search);
 	}
-	
+	@Override
 	public void updatePostReport(String postId) throws Exception{
 		
 		System.out.println("AdminDaoImpl updatePostReport");
 		sqlSession.update("AdminMapper.adminPostBlocked", postId);
 		
 	}
-	
+	@Override
 	public void updateCommReport(String commId) throws Exception {
 		
 		System.out.println("AdminDaoImpl updateCommReport");
 		sqlSession.update("AdminMapper.adminCmtBlocked", commId);
 	}
-	
-	public Comment getQnaComment(String postId) throws Exception{
+	@Override
+	public List<Comment> getQnaComment(String postId) throws Exception{
 		
 		System.out.println("AdminDaoImpl getQnaCommList");
 		
-		return sqlSession.selectOne("AdminMapper.getQnaComment", postId);
+		return sqlSession.selectList("AdminMapper.getQnaComment", postId);
 		
 	}
-	
+	@Override
 	public void addQnaComment(Comment comment) throws Exception{
 		
 		System.out.println("AdminDaoImpl addQnaComment");
 		
 		sqlSession.insert("AdminMapper.addQnaComment");
 	}
-	
+	@Override
 	public List<Post> getAdminQnAList(Search search) throws Exception{
 		
 		System.out.println("AdminDaoImpl getAdminQnAList");
 		
 		return sqlSession.selectList("AdminMapper.getAdminQnAList", search);
 	}
-	
+	@Override
 	public int getAdminQnaListTotalCount(Search search) throws Exception{
 		
 		System.out.println("AdminDaoImpl getAdminQnaListTotalCount");
 		
 		return sqlSession.selectOne("AdminMapper.getAdminQnaListTotalCount", search);
+	}
+	@Override
+	public void updateQnaGrade(String postId) throws Exception{
+		
+		System.out.println("AdminDaoImpl updateQnaGrade");
+		
+		sqlSession.update("AdminMapper.updateQnaGrade",postId);
+	}
+	@Override
+	public void deleteQnaComm(String cmtId) throws Exception{
+		
+		System.out.println("AdminDaoImpl deleteQnaComm");
+		
+		sqlSession.update("AdminMapper.deleteQnaComm");
 	}
 }

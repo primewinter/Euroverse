@@ -5,14 +5,18 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ksy.common.Page;
 import com.ksy.common.Search;
 import com.ksy.service.admin.AdminService;
+import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.User;
 
 @RestController
@@ -59,6 +63,24 @@ public class AdminRestController {
 		map.put("search", search);
 		System.out.println("map µğ¹ö±ë ==>"+map);
 		
+		
+		return map;
+	}
+	
+	@RequestMapping(value="json/addQnaComment", method = RequestMethod.POST)
+	public Map<String,Object> addQnaComment(@RequestBody Comment comment) throws Exception {
+		
+		System.out.println("AdminComtroller addQnaComment");
+		
+		System.out.println("comment==>"+comment);
+		
+		adminService.addQnaComment(comment);
+		System.out.println("ÂïÈ÷´ÂÁö È®ÀÎ");
+		adminService.updateQnaGrade(comment.getPostId());
+	
+		Map<String,Object> map = adminService.getQnaComment(comment.getPostId());
+		
+		System.out.println("map µğ¹ö±ë ==>"+map);
 		
 		return map;
 	}
