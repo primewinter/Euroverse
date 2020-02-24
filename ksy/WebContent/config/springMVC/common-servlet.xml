@@ -67,7 +67,8 @@
    	</mvc:interceptors>	
  -->
 
-
+	
+	
 	<!--  :: ViewResolver 선언 -->	
     <bean id="viewResolver"
 				class="org.springframework.web.servlet.view.InternalResourceViewResolver" />

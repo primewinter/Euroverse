@@ -526,9 +526,10 @@ public class UserRestController {
 		StringBuffer str = new StringBuffer();
 		str.append("<div style='width:1000px;height:1000px;border:1px solid'>");
 			str.append("<div style='font-size:30px;margin:20px;text-align:center'>");
-			str.append("<img alt='에러러럴' src='cid:image'><br>");
-			str.append("유럽여행의 모든것 Euroverse<br>");
-			str.append("<b>"+state+"</b>");
+			str.append("<img alt='에러러럴' src='cid:image' width='800px' height='500px'><br>");
+			str.append("유럽여행의 시작\r\n" + 
+					"당신을 기다리는 백만 개의 플래너와 함께하세요.<br>");
+			str.append("인증번호 : <b>"+state+"</b>");
 			str.append("</div>");
 		str.append("</div>");
 		
@@ -541,7 +542,7 @@ public class UserRestController {
 		multi.addBodyPart(mbp);
 		
 		mbp = new MimeBodyPart();
-		FileDataSource fds = new FileDataSource("C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\tripInfoimges\\guanguang.jpeg");
+		FileDataSource fds = new FileDataSource("C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages\\로고.png");
 		
 		mbp.setDataHandler(new DataHandler(fds));
 		mbp.setHeader("Content-ID", "<image>");
