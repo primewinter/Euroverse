@@ -285,11 +285,6 @@ public class UserController {
 	public String searchUserId(HttpSession session) {
 		System.out.println("UserController GET searchUserId!");
 		
-		/*
-		 * if(session.getAttribute("user")!=null) { return"redirect:/main.jsp"; }
-		 */
-		
-		
 		
 		return"redirect:/view/user/searchId.jsp";
 	}
@@ -299,10 +294,6 @@ public class UserController {
 		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		System.out.println("UserController POST searchUserId");
 		List<String> idList = new ArrayList<String>();
-		/*
-		 * if(session.getAttribute("user")!=null) { return"redirect:/main.jsp"; }
-		 * 
-		 */
 		
 		String authType="";
 		
@@ -359,10 +350,6 @@ public class UserController {
 	public String updateUser(Model model , HttpSession session) {
 		System.out.println("userController updateUser GET");
 		
-		if(session.getAttribute("user")==null) {
-			return"redirect:/main.jsp";
-		}
-		
 		
 		List<TripSurvey> countryList = countryList();
 		List<TripSurvey> tripStyleList = tripStyleList();
@@ -379,10 +366,6 @@ public class UserController {
 	public String updateUser(@ModelAttribute("user") User user ,HttpSession session, Model model) throws Exception {
 		System.out.println("userController updateUser POST");
 		System.out.println(user);
-		
-		if(session.getAttribute("user")==null) {
-			return"redirect:/main.jsp";
-		}
 		
 		//닉네임 , 이메일 , 폰 , 이미지 , pushagree
 		User currentUser = (User)session.getAttribute("user");

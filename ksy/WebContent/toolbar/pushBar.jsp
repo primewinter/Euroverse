@@ -151,6 +151,7 @@
         display: table;
         top: 30px;
         right: 10px;
+        z-index: 300;
     }
     div.icon {
         display: table-cell;
@@ -515,7 +516,7 @@
             success: function(result) {
                 console.log("안 읽은 알림 개수 출력 성공 : " + result + "개")
                 var h = "<sup class=\"badge badge-pill badge-danger\" style='font-size: 3pt;'>" + result + "</sup>";
-                $(".unreadCount").append(h);
+                $(".unreadCount").html(h);
             },
             error: function(error) {
                 console.log("안 읽은 알림 개수 출력 실패");
@@ -1038,6 +1039,10 @@
             $('#push-layer').slideToggle(300);
             $('#acc-slide').fadeOut(300);
             $('#plan-chat-layer').fadeOut(300);
+            if (userId != null && userId != '') {
+                setTimeout(() => readPush(userId), 20);
+                setTimeout(() => getUnreadCount(userId), 50);
+            }
         });
 
         $("div.icon.acc-chat").click(function() {

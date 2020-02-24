@@ -101,7 +101,11 @@
         	
         	//사용된 포인트 = 사용할 포인트
     		//document.getElementById("usedPoint").value = document.getElementById("payPoint").value;
-        	$("#usedPoint").val(payPoint);
+        	var usedPoint = $("#usedPoint").val(payPoint);
+        	if (usedPoint > total ) {
+				alert("보유 포인트 내에서만 사용 가능합니다.");
+				usedPoint.val().reset();
+			}
         	
     		var calculation = price - payPoint; //상품가격 - 사용할 포인트 = 실결제금액 계산
     		console.log("calculation"+calculation);
@@ -115,6 +119,7 @@
     		//$("#totalPoint").text(calculation2);  // 사용할 포인트를 감소한 총 보유한 포인트
     		var addPoint = $("#addPoint").val(Math.floor(calculation * 0.01)); //적립예정 금액
     		console.log("addPoint"+addPoint);
+    		
     		
     		if ($("#usedPoint").val() == 0 ) {
     	    	$("#usedPoint").val(0);
@@ -323,14 +328,14 @@
 				<div class="row" style="Padding-left:10px;">
 				 포인트 사용 &nbsp;&nbsp;&nbsp;
 				<input	type="text" name="payPoint" id="payPoint" class="form-control" 
-							style="width:110px;height:30px;font-size:13px;"	placeholder="0" onkeyup="call()">
+							style="width:110px;height:30px;font-size:13px;"	placeholder="0" onkeyup="call();">
 				&nbsp;&nbsp;&nbsp;
 				<p style="font-size:12px;margin-top:5px;"> ( 보유 포인트 ${user.totalPoint} P ) </p>
 				<i class="fas fa-equals" style="margin-left:60px;"></i>
 					<div class="col" style="Padding-left:40px;">
 						<p> 적립 예정</p>
 					 	<input	type="text" name="addPoint" id="addPoint" class="form-control" readonly="readonly"
-                  		 		style="background-color:white;margin-top:-10px;width:50px;height:10px;border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" />
+                  		 		style="background-color:white;margin-top:-10px;width:55px;height:15px;border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" />
 					</div>
 				</div>
 			
@@ -339,7 +344,8 @@
    		 <div class="col-sm-offset-4  col-sm-4 text-center">
 		<button type="button" class="btn btn-primary"  >예약하기</button>
 		<input type="hidden" name="actualAmount" value= "${order.actualAmount }"/>
-		<input type="hidden" name="usedPoint" value= "${point.usedPoint }"/>
+		<input type="hidden" name="${user.totalPoint }" value="${user.totalPoint }" id="total" />
+ 		<input type="hidden" name="usedPoint" value= "${point.usedPoint }"/>
 		<input type="hidden" name="totalAmount" value= "${order.totalAmount }"/>
 		<input type="hidden" name="addPoint" value= "${order.addPoint }"/>
 		<input type="hidden" name="payPoint" value= "${order.payPoint }"/>
