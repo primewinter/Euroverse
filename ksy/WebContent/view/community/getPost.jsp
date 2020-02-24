@@ -366,11 +366,16 @@
 	    $(function(){
 	    	$("#addReport").on("click", function(){
 
+	    		if( !$("input:radio[name='customRadio']:checked").val() ){
+	    			alert("신고 사유는 반드시 선택해주세요.");
+	    			return;
+	    		}
+
 	    		if( $("input:radio[id='customRadio4']").is(":checked") == true ){
             		
                 	var reportContent = $("input[name='reportContent']").val();
                 	
-            		if(reportContent == null || reportContent.length<1){
+            		if(reportContent.trim() == 0 || reportContent.length < 1){
             			alert("내용은 반드시 입력하세요.");
             			return;
             		}
@@ -595,8 +600,18 @@
 	   <hr>
 	   
 	   <ul class="list-group list-group-flush" style="font-size: 13px;">
+	    <c:if test="${post.prevTitle == '이전글이 없습니다'}">
+		  <li class="list-group-item">이전글 <i class="fas fa-angle-double-right"> ${post.prevTitle}</i></li>
+	    </c:if>
+	    <c:if test="${post.prevTitle != '이전글이 없습니다'}">
 		  <li class="list-group-item">이전글 <i class="fas fa-angle-double-right" onclick="getPost('${post.prevId}')"> ${post.prevTitle}</i></li>
+		</c:if>
+		<c:if test="${post.nextTitle == '다음글이 없습니다'}">
+		  <li class="list-group-item">다음글 <i class="fas fa-angle-double-right"> ${post.nextTitle}</i></li>
+	    </c:if>
+	    <c:if test="${post.nextTitle != '다음글이 없습니다'}">
 		  <li class="list-group-item">다음글 <i class="fas fa-angle-double-right" onclick="getPost('${post.nextId}')"> ${post.nextTitle}</i></li>
+		</c:if>
 	   </ul>
 	   
  	 </div>

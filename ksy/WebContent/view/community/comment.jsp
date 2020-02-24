@@ -146,7 +146,7 @@
 						 + "<div id='getRecommentList"+JSONData.list[i].cmtId+"'></div></div></div></li>"
 					}
 				 }
-						 output += "</ul><div class='container text-center'><nav aria-label='Page navigation example'><ul class='pagination justify-content-center'>"
+						 output += "</ul><br><div class='container text-center'><nav aria-label='Page navigation example'><ul class='pagination justify-content-center'>"
 					 
 					 if( JSONData.resultPage.currentPage <= JSONData.resultPage.pageUnit ){
 						 output += "<li class='page-item'>"
@@ -157,13 +157,13 @@
 					 	 + "<a class='page-link' onclick='getCommentList('"+JSONData.resultPage.currentPage+"-1')' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>"
 					 for(var i=JSONData.resultPage.beginUnitPage; i<=JSONData.resultPage.endUnitPage; i++){
 						 if(JSONData.resultPage.currentPage == i){
-							output +="<li class='active'>"
-							+"<a onclick='getCommentList("+i+");'>"+i+"<span class='sr-only'>(current)</span></a>"
+							output +="<li class='page-item'>"
+							+"<a class='page-link' onclick='getCommentList("+i+");'>"+i+"<span class='sr-only'>(current)</span></a>"
 							+"</li>"
 						 }
 						 if(JSONData.resultPage.currentPage != i){
-							output +="<li>"
-							+"<a onclick='getCommentList("+i+");'>"+i+"</a>"
+							output +="<li class='page-item'>"
+							+"<a class='page-link' onclick='getCommentList("+i+");'>"+i+"</a>"
 							+"</li>";
 						 }
 					 }

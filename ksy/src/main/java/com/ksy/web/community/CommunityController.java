@@ -341,13 +341,12 @@ public class CommunityController {
 				markerArray.add(cityMarker);
 			}
 			
-			
 			plan.setPlanDday( Util.getDday(plan.getStartDate()));		//여행 D-Day
 			if( plan.getPlanTotalDays() != 0) {
 				plan.setEndDate( Util.getEndDate(plan.getStartDate(), plan.getPlanTotalDays()) );	//여행종료일자
 			}
 			
-			
+			model.addAttribute("boardName", boardName);
 			model.addAttribute("plan", plan);
 			model.addAttribute("cityEventList", cityArray);
 			model.addAttribute("cityMarkerList", markerArray);
@@ -401,6 +400,7 @@ public class CommunityController {
 			Plan plan = planService.getPlan(postList.get(i).getPlanId());
 			planList.add(plan);
 			
+			model.addAttribute("boardName", boardName);
 			model.addAttribute("plan", planList);
 			}
 			return "forward:/view/community/getPlanPostList.jsp";
