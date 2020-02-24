@@ -110,6 +110,11 @@
 font-size: 12px;
 
 }
+.h6Class{
+color: red;
+
+}
+
 </style>
 
 
@@ -463,43 +468,62 @@ function enterConfirm(key){
 		   			<h6 class="h6Class"></h6>
 		      </div>
       
-		      <div style="width: 350px;" >
-		      			닉네임
+		      <div style="width: 400px;margin-left: 90px;" >
+		      			<b>닉네임</b>
 		     		<div  style="text-align: center;">
 		     					<input type="text" class="form-control" value="${user.nickname}" name="nickname" id="nickname">
-		     				<h6 class="h6Class" id="nicknameh6"></h6>
 		     		
 		     		</div>
+		     		<div style="height: 13px;">
+		     		</div>
+		     		<h6 class="h6Class" id="nicknameh6"></h6>
+		      </div>
+		      
+		      <div style="height: 20px">
+		      
 		      </div>
       
-      		<div>
-		     			핸드폰번호
-		     			  <div class="row" style="text-align: center;">
-						    <div>
+      		<div  style="margin-left: 105px; text-align: left;">
+		     				<div style="margin-left: -10px;">
+		     				<b>핸드폰번호</b>
+		     				</div>
+		     			  <div class="row"  style="text-align: center; width: 400px;">
+						    <div style="width: 120px;">
 						      <input type="text" class="form-control" value="${user.phone1}" id="phone1" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3" > 
 						    </div>
-						    <div >
+						    
+						    <div style="width: 20px;">-</div>
+						    
+						    <div style="width: 120px;" >
 						    <input type="text" class="form-control" value="${user.phone2}" id="phone2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"> 
 						    </div>
-						    <div>
+						    
+						    <div style="width: 20px;">-</div>
+						    
+						    <div style="width: 120px;">
 						      <input type="text" class="form-control" value="${user.phone3}" id="phone3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4">
-						  <h6 class="h6Class"></h6>
 						  </div>
+						  <h6 class="h6Class"></h6>
 				        <input type="hidden" name="phone"> 
-		    	  </div>
+		    	 		 </div>
+     		</div>
+     		
+     		<div style="height: 20px">
 		      
-     		</div>
+		      </div>
+     		
       
-       <div class="row">
-      		<div class="col-5" style="text-align: right;">
-     			이메일
+       <div style="margin-left: 90px;">
+      		<div>
+     			<b>이메일</b>
      		</div>
-     		<div class="col-3" style="text-align: center;">
-     			<div class="form-row">
-				    <div class="form-group col">
+     		<div class="row"  style=" text-align: center; width: 445px;">
+				    <div class="form-group col" style="width: 190px;">
      					<input type="text" class="form-control"  placeholder="email" id="emailId"  value="${user.emailId}">
      					
      				</div>
+     				
+     				<div style="width:10px">@</div>
      				
      				 <div class="form-group col">
      				 
@@ -552,18 +576,18 @@ function enterConfirm(key){
 					 	
 						    <input type="hidden" name="email">
 				 	</div>
-     				<h6 class="h6Class"></h6>
-     			</div>
      		
+     				<h6 class="h6Class"></h6>
      		</div>
       </div>
       
       
-       <div class="row">
-      		<div class="col-5" style="text-align: right;">
-     			알림수신여부
+       <div style="margin-left: 90px;">
+      		<div style="">
+     			<b>알림수신여부</b>
      		</div>
-     		<div class="col-3" style="text-align: center;">
+     		
+     		<div  class="row" style="margin-left: 2px;">
      		
      		
      		
@@ -596,10 +620,11 @@ function enterConfirm(key){
      </div> 
       
        
-      
+    	<div style="height: 20px">
+		      
+		      </div>  
      
-<div class="form-group">
-	 <div class="col-6 mx-auto ">	
+<div class="form-group" style="margin-left: 30px;">
 	<b>가고싶은 나라</b><small>(최대5개)</small>
       <div id="country-carousel" class="carousel slide" data-ride="carousel">
             <!-- 슬라이드 쇼 -->
@@ -712,15 +737,15 @@ function enterConfirm(key){
 
             </div>
         </div>
-	</div>
 </div>	
 
 
-	
+		<div style="height: 20px">
+		      
+		      </div>
 	
 
-<div class="form-group">
-	 <div class="col-6 mx-auto ">	
+<div class="form-group" style="margin-left: 30px;">
 	<b>나의 여행스타일</b><small>(최대3개)</small>
       <div id="main-carousel" class="carousel slide" data-ride="carousel">
             <!-- 슬라이드 쇼 -->
@@ -768,7 +793,6 @@ function enterConfirm(key){
                     <!-- <span>Next</span> --> </a>
                 <!-- 왼쪽 오른쪽 화살표 버튼 끝 -->
             </div>
-        </div>
 	</div>
 </div>
 	<div id="checkDreamCountry"></div>

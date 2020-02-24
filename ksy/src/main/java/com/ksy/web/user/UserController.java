@@ -285,10 +285,9 @@ public class UserController {
 	public String searchUserId(HttpSession session) {
 		System.out.println("UserController GET searchUserId!");
 		
-		if(session.getAttribute("user")!=null) {
-			return"redirect:/main.jsp";
-		}
-		
+		/*
+		 * if(session.getAttribute("user")!=null) { return"redirect:/main.jsp"; }
+		 */
 		
 		
 		
@@ -300,11 +299,10 @@ public class UserController {
 		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		System.out.println("UserController POST searchUserId");
 		List<String> idList = new ArrayList<String>();
-		if(session.getAttribute("user")!=null) {
-			return"redirect:/main.jsp";
-		}
-		
-		
+		/*
+		 * if(session.getAttribute("user")!=null) { return"redirect:/main.jsp"; }
+		 * 
+		 */
 		
 		String authType="";
 		
@@ -585,10 +583,9 @@ public class UserController {
 	
 	@RequestMapping(value="updatePwd" , method=RequestMethod.GET)
 	public String updatePwd(@RequestParam("userId") String userId , Model model,HttpSession session) {
-		if(session.getAttribute("user")!=null) {
-			return"redirect:/main.jsp";
-		}
-		
+		/*
+		 * if(session.getAttribute("user")!=null) { return"redirect:/main.jsp"; }
+		 */
 		
 		model.addAttribute("userId" , userId);
 		return "forward:/view/user/updatePwd.jsp";

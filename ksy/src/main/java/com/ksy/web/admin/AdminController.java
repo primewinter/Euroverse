@@ -148,16 +148,11 @@ public class AdminController {
 		
 	}// end of getUser
 	
-	@RequestMapping(value="addQnaComment", method=RequestMethod.GET)
-	public String addQnaComment(@ModelAttribute("comment") Comment comment, Model model) {
-		
-		
-		
-		return "forward:/view/admin/adminQnaList.jsp";
-	}
 	
 	@RequestMapping(value="updateQnaGrade", method=RequestMethod.GET)
-	public String updateQnaGrade(@ModelAttribute("comment") Comment comment, Model model) {
+	public String updateQnaGrade(@RequestParam("postId") String postId, Model model) {
+		
+		System.out.println("adminController updateQnaGrade ");
 		
 		
 		
@@ -165,23 +160,27 @@ public class AdminController {
 	}
 
 	@RequestMapping(value="deleteQnaComm", method=RequestMethod.GET)
-	public String deleteQnaComm(@ModelAttribute("comment") Comment comment, Model model) {
+	public String deleteQnaComm(@RequestParam("cmtId") String cmtId, Model model) throws Exception {
 		
+		System.out.println(this.getClass()+"deleteQnaComm");
 		
+		adminservice.deleteQnaComm(cmtId);
 		
 		return "forward:/view/admin/adminQnaList.jsp";
 	}
 	
 	@RequestMapping(value="getQnaComment", method=RequestMethod.GET)
-	public String getQnaComment(@ModelAttribute("comment") Comment comment, Model model) {
+	public String getQnaComment(@RequestParam("postId") String postId, Model model) throws Exception {
 		
 		System.out.println("AdminController getQnaComment");
 		
-//		comment.get
+		Map<String,Object> map = adminservice.getQnaComment(postId);
 		
+		model.addAttribute("list",map.get("list"));
 		
 		return "forward:/view/admin/adminQnaList.jsp";
 	}
+	
 	
 	
 }//end of class

@@ -178,8 +178,8 @@
 	<!-- 1:1 문의 관리자 댓글 작성 -->
 	<insert  id="addQnaComment"		parameterType="comment">
 			INSERT
-			INTO comments( post_id , cmt_id , nickname , writer_id , cmt_date , cmt_content )
-			VALUES	 ( #{postId:VARCHAR} , SEQ_comments_cmt_id.NEXTVAL , #{nickName:VARCHAR} , #{cmtWriterId:VARCHAR} , SYSDATE , 
+			INTO comments( post_id , cmt_id ,nickname, writer_id , cmt_content )
+			VALUES	 ( #{postId:VARCHAR} , SEQ_comments_cmt_id.NEXTVAL , #{nickName:VARCHAR}, #{cmtWriterId:VARCHAR} ,  
 								#{cmtContent:VARCHAR}  )
 	</insert>
 	

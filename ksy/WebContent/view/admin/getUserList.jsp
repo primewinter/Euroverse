@@ -151,7 +151,6 @@
 							
 						}/* end of for  */
 						
-						$('.userTab').append(changeHtml);
 						
 					}/* end of else  */
 					
