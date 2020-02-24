@@ -197,12 +197,14 @@
     .story-entry__image-wrap {
         text-align: center;
         overflow: hidden;
-
+        bottom: 0px;
+        width: 300px;
+        height: 300px;
     }
 
     .story-entry__image-wrap>img {
-        width: 200px;
-        height: auto;
+        width: auto;
+        height: 400px;
         overflow: hidden;
     }
 
@@ -253,10 +255,11 @@
         text-align: center;
     }
 
-    
-    .planner-info{
+
+    .planner-info {
         display: none;
     }
+
     .left {
         text-align: left;
         margin: 10%;
@@ -264,7 +267,7 @@
     }
 
     .left.planner-info-img {
-/*        float: left;*/
+        /*        float: left;*/
 
     }
 
@@ -291,6 +294,81 @@
 
     .right.planner-info-text {
         /*        float: left;*/
+    }
+
+
+    #conturyMoney {
+        width: 300px;
+        height: 300px;
+        border: 1px solid teal;
+        border-radius: 10px;
+
+    }
+
+    /* 국가선택창 Box css  */
+    #wrapper {
+        width: 300px;
+        height: 300px;
+        /* border: 1px solid teal;
+        border-radius: 10px;
+        box-shadow: 5px 5px grey;*/
+    }
+
+    /* 국가선택창에 제목때문에 걸어둔 css  */
+    h5 {
+        padding-top: 0.6rem;
+        text-align: center;
+        font-weight: bold;
+        font-family: "Noto Sans CJK KR", "Helvetica Neue", "Apple SD Gothic Neo", sans-serif;
+        font-size: 26px;
+    }
+
+
+    .list-group {
+        width: 300px;
+        overflow: auto;
+        height: 250px;
+        padding-top: 1rem;
+        padding-bottom: 0.1rem;
+    }
+
+    .list-group-item {
+        font-weight: bold;
+        size: 40px;
+        padding-bottom: 0.3rem;
+        padding-top: 0.3rem;
+        border-radius: 10px;
+
+    }
+
+    .list-group img {
+        width: 40px;
+        vertical-align: sub;
+    }
+
+    .border-0 {
+        width: 40px;
+        height: 30px;
+    }
+
+    .flex-nowrap {
+        height: 300px;
+        /*border: 1px solid teal;
+        border-radius: 10px;*/
+        width: 300px;
+    }
+
+
+    /* 금액입력창 css  */
+    .conturyMoney {
+        width: 300px;
+        top: 50px;
+        position: relative;
+        justify-content: center;
+        text-align: right;
+        color: #309EFE;
+        font-size: 17px;
+
     }
 
 </style>
@@ -346,8 +424,64 @@
                 </figure>
             </div>
             <div class="random-text">
-                <h4>#여행지 추천</h4>
-                사진을 클릭해보세요!
+                <div id="wrapper" class="wrapper" style="overflow:hidden;">
+                    <h5>오늘의 환율</h5>
+                    <div class="list-group" id="list-tab" role="tablist">
+                        <a class="list-group-item list-group-item-action" id="a" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR">
+                            <img src='/resources/images/tripInfoimges/Europe.png' />&nbsp; 유럽</a>
+                        <a class="list-group-item list-group-item-action" id="b" data-toggle="list" href="#list-profile" hwa='포린트' mon="HUF" con="HUN">
+                            <img src='/resources/images/tripInfoimges/Hungary.gif' />&nbsp; 헝가리</a>
+                        <a class="list-group-item list-group-item-action" id="c" data-toggle="list" href="#list-messages" hwa='코루나' mon="CZK" con="CZE">
+                            <img src='/resources/images/tripInfoimges/Czech.gif' />&nbsp; 체코</a>
+                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='크로네' mon="DKK" con="DNK">
+                            <img src='/resources/images/tripInfoimges/Denmark.gif' />&nbsp; 덴마크</a>
+                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR">
+                            <img src='/resources/images/tripInfoimges/England.gif' />&nbsp; 영국</a>
+                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='레우' mon="RON" con="ROU">
+                            <img src='/resources/images/tripInfoimges/Lithuania.gif' />&nbsp; 루마니아</a>
+                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='크로나' mon="SEK" con="SWE">
+                            <img src='/resources/images/tripInfoimges/Sweden.gif' />&nbsp; 스웨덴</a>
+                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='쿠나' mon="HRK" con="HRV">
+                            <img src='/resources/images/tripInfoimges/Croatia.gif' />&nbsp; 크로아티아</a>
+                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='프랑' mon="CHF" con="CHE">
+                            <img src='/resources/images/tripInfoimges/Swiss.gif' />&nbsp; 스위스</a>
+                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='레바' mon="BGN" con="BGR">
+                            <img src='/resources/images/tripInfoimges/Bulgaria.gif' />&nbsp; 불가리아</a>
+                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='리라' mon="TRY" con="TUR">
+                            <img src='/resources/images/tripInfoimges/Turkey.gif' />&nbsp; 터키</a>
+                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='크로네' mon="NOK" con="NOR">
+                            <img src='/resources/images/tripInfoimges/norway.gif' />&nbsp; 노르웨이</a>
+                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='즈워티' mon="PLN" con="POL">
+                            <img src='/resources/images/tripInfoimges/Poland.png' />&nbsp; 폴란드</a>
+                    </div>
+                </div>
+
+                <!-- ============국가정보출력 box ================ -->
+
+                <div class="title">
+                    <div class="content">
+                        <img class="conImg" alt="" src="" />
+                    </div>
+
+                </div>
+
+                <!-- =========== 환율금액입력 ====================  -->
+                <div class="input-group flex-nowrap">
+                    <div class="conturyMoney">
+                        <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()">
+                        원<br /><br /><br /><br />
+                        <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="">
+                        <div class='text'>
+                        </div>
+                    </div>
+                </div>
+                <!-- 현재 한국 시간 구하기 : <span id="toNow"></span> -->
+
+
+                <!--  <script type="text/javascript">
+		    var IScroll = $.AMUI.iScroll;
+		    var myScroll = new IScroll('#wrapper', { click: true });
+		</script> -->
             </div>
         </section>
 
@@ -355,67 +489,17 @@
 
 
 
-        <section class="planner-info">
-            <div class="left">
-                <div class="planner-info-img">
-                    <img src='/resources/images/mainImg/planner.png' style='width:50%'>
-                </div>
-                <div class="planner-info-text">
-                    <h4>당신의 플래너를 만들어보세요</h4>
+        <section class="new-plan">
+            <section class="container plan-section">
+                <header class="row plan-section__header">
+                    <h2 class="col plan-section__header__content">새로운 플래너</h2>
+                </header>
+                <ul class="row plan-stories__content">
 
-                </div>
-            </div>
-            <div class="right">
-                <div class="planner-info-img">
-                    <img src='/resources/images/mainImg/todo.png' style='width:50%'>
-                </div>
-                <div class="planner-info-text">
-                    <h4>간편한 투두 리스트</h4>
-
-                </div>
-            </div>
-            <div class="left">
-                <div class="planner-info-img">
-                    <img src='/resources/images/mainImg/route.png' style='width:50%'>
-                </div>
-                <div class="planner-info-text">
-                    <h4>예산과 여행 경로를 한 눈에</h4>
-                </div>
-            </div>
-            <div class="justify">
-                <div class="planner-info-img">
-                    <img src='/resources/images/mainImg/routeDetail.png' style='width:50%'>
-                </div>
-                <div class="planner-info-text">
-                    <h4>여행 루트는 빠르고 쉽게</h4>
-                </div>
-            </div>
-            <div class="right">
-                <div class="planner-info-img">
-                    <img src='/resources/images/mainImg/daily.png' style='width:50%'>
-                </div>
-                <div class="planner-info-text">
-                    <h4>다이어리처럼 쓸 수 있는 일정표</h4>
-                </div>
-            </div>
-            <div class="justify">
-                <div class="planner-info-img">
-                    <img src='/resources/images/mainImg/memo.png' style='width:50%'>
-                </div>
-                <div class="planner-info-text">
-                    <h4>어디에나 붙일 수 있는 포스트잇</h4>
-                </div>
-            </div>
-            <div class="left">
-                <div class="planner-info-img">
-                    <img src='/resources/images/mainImg/chat.png' style='width:50%'>
-                </div>
-                <div class="planner-info-text">
-                    <h4>친구들과 함께 짜는 여행</h4>
-                </div>
-            </div>
-
+                </ul>
+            </section>
         </section>
+
 
 
         <section class="main-best">
@@ -429,6 +513,7 @@
             </section>
         </section>
 
+
         <section class="container recent">
             <header class="row recent__header">
                 <h2 class="col recent__header__content">여행정보</h2>
@@ -437,167 +522,322 @@
 
             </ul>
         </section>
-
-
-
-
-
-
-
-
-
-
-        <script type="text/javascript">
-            jQuery(document).ready(function($) {
-                randomImage();
-                $("figure.effect5").on("click", function() {
-                    randomImage();
-                });
-                getBestList();
-                //getRecentList("C");
-                getRecentList("B");
-                getRecentList("F");
-                //getRecentList("G");
-            });
-
-            function randomImage() {
-                $.ajax({
-                    url: "/api/json/infinityClick",
-                    method: "GET",
-                    dataType: "json",
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json"
-                    },
-                    success: function(JSONData, status) {
-                        $('#infinityClick').attr('src', JSONData.url);
-                        $('figcaption h3').html(JSONData.info1 + JSONData.info2 + JSONData.info3 + JSONData.info4 + JSONData.info5);
-                    }
-                })
-            }
-
-            function getBestList() {
-                $.ajax({
-                    url: "/main/json/getBestList?boardName=C&searchCondition=0",
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json"
-                    },
-                    success: function(result) {
-                        var list = result;
-                        console.log(result);
-                        $.each(list, function(index, vo) {
-                            console.log(vo);
-                            //appendTag(vo, 'C');
-                        })
-                    },
-                    error: function(err) {
-                        console.log(err);
-                    }
-                })
-
-            }
-
-            function getRecentList(boardName) {
-                $.ajax({
-                    url: "/main/json/getRecentList?boardName=" + boardName,
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json"
-                    },
-                    success: function(result) {
-                        console.log(boardName + " :: " + result);
-                        $.each(result, function(index, vo) {
-                            appendTag(vo, boardName)
-                        })
-                    },
-                    error: function(err) {
-                        console.log(err);
-                    }
-                })
-            }
-
-            function appendTag(vo, boardName) {
-                var tag = "";
-                tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
-                tag += "<article class=\"story-entry story-story-item\"><a class=\"story-entry-link\" href=\"/community/getPost?postId=" + vo.postId + "&boardName=" + boardName + "\">";
-                tag += "<div class=\"story-entry__image-wrap\">"
-                var content = vo.postContent;
-                var imgSrc = parseContent(content);
-                tag += imgSrc;
-                tag += "</div>"
-                tag += "<div class=\"story-entry__content-wrap\">"
-                tag += "<div class=\"story-entry__content\">"
-                tag += "<div class=\"story-entry__content__title\">" + vo.postTitle;
-                //tag += "<i class=\"far fa-eye\" style='float:right;font-size:1;'>" + vo.views + "</i>"
-                tag += "</div><div class=\"story-entry__content__profile\" style='text-align: right;font-size:1;'>"
-                tag += "<span class=\"story-entry__content__profile__name\"><br>by. " + vo.nickName + "</span></div></div></div></a></article></li>"
-                //                tag += "<li><div class='wrapping-post'>"
-                //                tag += "<div class='wrapping-crop'>"
-                //                tag += imgSrc;
-                //                tag += "</div>"
-                //                tag += "<div class=\"wrapping-text\">"
-                //                tag += "<p>" + vo.postTitle + "</p>";
-                //                tag += "</div>"
-                //                tag += "</div></li>"
-
-
-                if (boardName == 'F') {
-                    $('.review-stories__content').append(tag);
-                } else if (boardName == 'C') {
-                    $('.best-stories__content').append(tag);
-                } else {
-                    $('ul.recent-stories__content').append(tag);
-                }
-
-            }
-
-            function parseContent(content) {
-                if (content.includes('<img')) {
-                    var startInt = content.indexOf('img');
-                    var endInt = content.indexOf('>', startInt);
-                    var result = content.substring(startInt - 1, endInt + 1);
-                    return result;
-                } else {
-                    return "";
-                }
-
-            }
-
-
-            function showBest(vo) {
-                var tag = "";
-                tag += "<table width=95%>"
-                tag += "<tr>"
-                tag += "<td style='margin:auto;text-align:center' width='10%'>"
-                tag += "<input type='checkbox' name='chk' id='" + vo.post + "' value='" + vo.pushId + "'>"; // style='display:none;'
-                tag += "</td>"
-                tag += "<td style='text-align:left;margin-left:10'>"
-                tag += "<font size='2'  font color='black'>"
-                tag += "<a href='/community/getPost?postId=" + vo.refId + "&boardName=" + vo.boardName + "'>";
-                tag += "<a href='/myPage/myOfferList' >"; // 초대 목록 리스트 링크
-                tag += "<a href='/community/getPost?postId=" + vo.refId + "&boardName=D' >" // 동행 신청 목록 리스트 링크
-                tag += vo.pushMsg + "</font></td>";
-                tag += "<tr>";
-                tag += "<td colspan='2' style='text-align:right;vertical-align:top;'>";
-                tag += "<font size='1' font color='gray'>" + vo.pushTime + "</font></a>";
-                tag += "</td>";
-                tag += "</tr>";
-
-                tag += "</table>"
-                tag += "<style>"
-                tag += "label { font-weight: normal; font-color: white; }"
-                tag += "</style>";
-
-                //$(".main-best").append(tag);
-            }
-
-        </script>
     </main>
+
+
+
+
+
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            //randomImage();
+            $("figure.effect5").on("click", function() {
+                randomImage();
+            });
+            //getBestList();
+            //getRecentList("C");
+            getRecentList("B");
+            getRecentList("F");
+            getMainPlanner("E");
+        });
+
+        function randomImage() {
+            $.ajax({
+                url: "/api/json/infinityClick",
+                method: "GET",
+                dataType: "json",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                success: function(JSONData, status) {
+                    $('#infinityClick').attr('src', JSONData.url);
+                    $('figcaption h3').html(JSONData.info1 + JSONData.info2 + JSONData.info3 + JSONData.info4 + JSONData.info5);
+                }
+            })
+        }
+
+        function getBestList() {
+            $.ajax({
+                url: "/main/json/getBestList?boardName=C&searchCondition=0",
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                success: function(result) {
+                    var list = result;
+                    console.log(result);
+                    $.each(list, function(index, vo) {
+                        console.log(vo);
+                        //appendTag(vo, 'C');
+                    })
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            })
+
+        }
+
+        function getRecentList(boardName) {
+            $.ajax({
+                url: "/main/json/getRecentList?boardName=" + boardName,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                success: function(result) {
+                    console.log(boardName + " :: " + result);
+                    $.each(result, function(index, vo) {
+                        appendTag(vo, boardName)
+                    })
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            })
+        }
+
+        function getMainPlanner(boardName) {
+            $.ajax({
+                url: "/main/json/getMainPlanner?boardName=" + boardName,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                success: function(result) {
+                    console.log(result.list);
+                    console.log(result.planList);
+                    $.each(result.planList, function(i, plan) {
+                        $.each(result.list, function(j, post) {
+                            if (plan.planId == post.planId) {
+                                appendPlanner(plan, post);
+                                console.log(plan + " || " + post);
+                            }
+                        })
+                    })
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            })
+        }
+
+        function appendPlanner(plan, post) {
+            var tag = "";
+            tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
+            tag += "<article class=\"story-entry story-story-item\"><a class=\"story-entry-link\" href=\"/community/getPost?postId=" + post.postId + "&boardName=E\">";
+            tag += "<div class=\"story-entry__image-wrap\">"
+            tag += "<img src='/resources/images/planImg/" + plan.planImg + "'>";
+            tag += "</div>"
+            tag += "<div class=\"story-entry__content-wrap\">"
+            tag += "<div class=\"story-entry__content\">"
+            tag += "<div class=\"story-entry__content__title\">" + post.postTitle;
+            //tag += "<i class=\"far fa-eye\" style='float:right;font-size:1;'>" + vo.views + "</i>"
+            tag += "</div><div class=\"story-entry__content__profile\" style='text-align: right;font-size:1;'>"
+            tag += "<span class=\"story-entry__content__profile__name\"><br>by. " + post.nickName + "</span></div></div></div></a></article></li>"
+
+            $('.plan-stories__content').append(tag);
+        }
+
+        function appendTag(vo, boardName) {
+            var tag = "";
+            tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
+            tag += "<article class=\"story-entry story-story-item\"><a class=\"story-entry-link\" href=\"/community/getPost?postId=" + vo.postId + "&boardName=" + boardName + "\">";
+            tag += "<div class=\"story-entry__image-wrap\">"
+            var content = vo.postContent;
+            var imgSrc = parseContent(content);
+            console.log("content ::: " +imgSrc);
+            if( imgSrc != '' ) {
+                console.log("이미지 있다^^")
+                tag += imgSrc;
+            } else {
+                tag += "<i class=\"fas fa-quote-left\ fa-2x\"></i>";
+            }
+            tag += "</div>"
+            tag += "<div class=\"story-entry__content-wrap\">"
+            tag += "<div class=\"story-entry__content\">"
+            tag += "<div class=\"story-entry__content__title\">" + vo.postTitle;
+            tag += "</div><div class=\"story-entry__content__profile\" style='text-align: right;font-size:1;'>"
+            tag += "<span class=\"story-entry__content__profile__name\"><br>by. " + vo.nickName + "</span></div></div></div></a></article></li>"
+
+
+            if (boardName == 'F') {
+                $('.review-stories__content').append(tag);
+            } else if (boardName == 'C') {
+                $('.best-stories__content').append(tag);
+            } else {
+                $('ul.recent-stories__content').append(tag);
+            }
+
+        }
+
+        function parseContent(content) {
+            if (content.includes('<img')) {
+                var startInt = content.indexOf('img');
+                var endInt = content.indexOf('>', startInt);
+                var result = content.substring(startInt - 1, endInt + 1);
+                return result;
+            } else {
+                return "";
+            }
+
+        }
+
+
+        function showBest(vo) {
+            var tag = "";
+            tag += "<table width=95%>"
+            tag += "<tr>"
+            tag += "<td style='margin:auto;text-align:center' width='10%'>"
+            tag += "<input type='checkbox' name='chk' id='" + vo.post + "' value='" + vo.pushId + "'>"; // style='display:none;'
+            tag += "</td>"
+            tag += "<td style='text-align:left;margin-left:10'>"
+            tag += "<font size='2'  font color='black'>"
+            tag += "<a href='/community/getPost?postId=" + vo.refId + "&boardName=" + vo.boardName + "'>";
+            tag += "<a href='/myPage/myOfferList' >"; // 초대 목록 리스트 링크
+            tag += "<a href='/community/getPost?postId=" + vo.refId + "&boardName=D' >" // 동행 신청 목록 리스트 링크
+            tag += vo.pushMsg + "</font></td>";
+            tag += "<tr>";
+            tag += "<td colspan='2' style='text-align:right;vertical-align:top;'>";
+            tag += "<font size='1' font color='gray'>" + vo.pushTime + "</font></a>";
+            tag += "</td>";
+            tag += "</tr>";
+
+            tag += "</table>"
+            tag += "<style>"
+            tag += "label { font-weight: normal; font-color: white; }"
+            tag += "</style>";
+
+            //$(".main-best").append(tag);
+        }
+
+
+
+        function printTime() {
+            var clock = document.getElementById("clock");
+            var now = new Date();
+
+            clock.innerHTML = now.getFullYear() + "년 " +
+                (now.getMonth() + 1) + "월 " +
+                now.getDate() + "일 " +
+                now.getHours() + "시 " +
+                now.getMinutes() + "분 " +
+                now.getSeconds() + "초";
+
+            setTimeout("printTime()", 1000);
+        }
+
+        window.onload = function() {
+            printTime();
+        };
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            var toTime = new Date();
+
+            document.getElementById("toNow").innerHTML = toTime.toString();
+        });
+        /* 	$(".list-group-item-action").on('click', function() {
+        				
+        		alert($(this).attr('con')); 
+        		var conName = $(this).attr('con');
+        		
+        		conturyInfo(conName);
+        		
+        	}) */
+
+        $(function() {
+
+            $.getJSON('').done('https://earthquake.kr:23490/query/KRWEUR')
+
+        })
+
+
+        $(function() {
+            $(".list-group-item-action").click(function() {
+
+                var conCode = $(this).attr('con');
+                var conName = $(this).text();
+                var conHwa = $(this).attr('hwa');
+                conturyInfo(conCode);
+                $('input[name="conMoney"]').attr('placeholder', conName.trim());
+                $('.text').html(conHwa);
+
+            });
+        });
+
+        function conturyInfo(conCode) {
+
+
+            $.ajax({
+                url: "/api/json/exchange/" + conCode,
+                method: "GET",
+                dataType: "json",
+                data: JSON.stringify({
+                    conCode: conCode
+                }),
+                contentType: "application/x-www-form-urlencoded; charset=EUC-KR",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                success: function(JSONData, status) {
+
+                    var conInfo = JSONData.response.body.items.item.basic;
+                    var contury = JSONData.response.body.items.item.countryName;
+                    var conFlag = JSONData.response.body.items.item.imgUrl;
+                    /* alert(conName); */
+                    /* $("#form-group").html(myItem); */
+                    /* $("img[class='conImg']").attr("src", conFlag);
+                    $('.title').html(contury); */
+                    $('.content').html(conInfo);
+
+                }
+            });
+        };
+
+        function exchange(data) {
+
+            if ($(".list-group-item-action")) {
+                $.getJSON('https://api.exchangeratesapi.io/latest?base=KRW').done(
+
+                    function(data) {
+
+                        var mon = $(".list-group-item-action.active").attr('mon');
+
+                        if (mon == undefined) {
+                            $("input[name='conMoney1']").val("국가를 선택하세요")
+                                .return;
+                        }
+
+                        var price = $("input[class='form-control']").val();
+                        /* var num = price/ data.rates[cur] */
+
+                        var num = Math.round(price.match(/\d+/)[0] /
+                            data.rates[mon]);
+                        /* alert(num);
+                        alert(data.rates[abc]); */
+                        price = price.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+                        num = num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+
+                        $('#result').attr("value", num);
+                    })
+            }
+        }
+
+    </script>
+
     <jsp:include page="toolbar/pushBar.jsp" />
     <jsp:include page="toolbar/footer.jsp" />
+
 </body>
 
 </html>

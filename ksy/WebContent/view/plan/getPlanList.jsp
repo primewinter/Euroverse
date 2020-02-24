@@ -149,9 +149,9 @@
 			//지성이꺼 갖다씀 - 파일용량 체크
 			$(".custom-file-input").on("change",function(){
 				  var fileSize = this.files[0].size;
-				    var maxSize = 360 * 360;
+				    var maxSize = 600 * 600;
 				    if(fileSize > maxSize) {
-				        $(".custom-file-label").html("<i class='fas fa-camera-retro'> size 360x360</i>");
+				        $(".custom-file-label").html("<i class='fas fa-camera-retro'> size 600x600</i>");
 				        alert("파일용량을 초과하였습니다.");
 				        //$("#preview").html("");
 				        return;

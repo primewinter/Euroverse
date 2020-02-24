@@ -1104,7 +1104,7 @@
 		
 					<br/>
 					 
-					<div class="stuffItems" style="overflow:auto;"> 
+					<div class="stuffItems" style="overflow-y:auto; height: 80%;"> 
 						<c:forEach var="stuff" items="${plan.stuffList}">
 							<div class="stuffItem">
 								<i class="fas fa-check"></i> <span style="margin-left: 10px;"> ${stuff.stuffName}</span>
