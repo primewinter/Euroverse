@@ -107,7 +107,7 @@ public class adminTest {
 		
 		Comment comment = new Comment();
 		
-		comment = service.getQnaComment("90000");
+//		comment = service.getQnaComment("90000");
 		
 		System.out.println("comment µð¹ö±ë  ==>"+comment);
 //		Assert.assertEquals("T", comment.getBlocked());

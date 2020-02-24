@@ -13,10 +13,14 @@ public interface AdminService {
 	
 	public void updateCommReport(String commId) throws Exception;
 		
-	public Comment getQnaComment(String postId) throws Exception;
+	public Map<String,Object> getQnaComment(String postId) throws Exception;
 	
 	public void addQnaComment(Comment comment) throws Exception;
 	
 	public Map<String,Object> getAdminQnAList(Search search) throws Exception;
+	
+	public void updateQnaGrade(String postId) throws Exception;
+	
+	public void deleteQnaComm(String cmtId) throws Exception;
 	
 }
