@@ -189,26 +189,33 @@ public class UserController {
 		System.out.println(user.getDreamCountry());
 		System.out.println(user.getCountryImg());
 		System.out.println(user.getStyleImg());
-		for(int i=0;i<(user.getDreamCountry().size())-1;i++) {
-			System.out.println(user.getDreamCountry().get(i));
-			TripSurvey tripSurvey = new TripSurvey();
-			tripSurvey.setUserId(user.getUserId());
-			tripSurvey.setSurveyChoice(user.getDreamCountry().get(i));
-			tripSurvey.setSurveyImg(user.getCountryImg().get(i));
-			tripSurvey.setSurveyType("D");
-			myPageService.addTripSurvey(tripSurvey);
+		
+		if(user.getDreamCountry()!=null) {
+			for(int i=0;i<(user.getDreamCountry().size())-1;i++) {
+				System.out.println(user.getDreamCountry().get(i));
+				TripSurvey tripSurvey = new TripSurvey();
+				tripSurvey.setUserId(user.getUserId());
+				tripSurvey.setSurveyChoice(user.getDreamCountry().get(i));
+				tripSurvey.setSurveyImg(user.getCountryImg().get(i));
+				tripSurvey.setSurveyType("D");
+				myPageService.addTripSurvey(tripSurvey);
+			}
 		}
 		
 		
 		System.out.println(user.getTripStyle());
-		for(int j=0;j<(user.getTripStyle().size())-1;j++) {
-			System.out.println(user.getTripStyle().get(j));
-			TripSurvey tripSurvey = new TripSurvey();
-			tripSurvey.setUserId(user.getUserId());
-			tripSurvey.setSurveyChoice(user.getTripStyle().get(j));
-			tripSurvey.setSurveyImg(user.getStyleImg().get(j));
-			tripSurvey.setSurveyType("T");
-			myPageService.addTripSurvey(tripSurvey);
+		
+		if(user.getTripStyle()!=null) {
+			
+			for(int j=0;j<(user.getTripStyle().size())-1;j++) {
+				System.out.println(user.getTripStyle().get(j));
+				TripSurvey tripSurvey = new TripSurvey();
+				tripSurvey.setUserId(user.getUserId());
+				tripSurvey.setSurveyChoice(user.getTripStyle().get(j));
+				tripSurvey.setSurveyImg(user.getStyleImg().get(j));
+				tripSurvey.setSurveyType("T");
+				myPageService.addTripSurvey(tripSurvey);
+			}
 		}
 		System.out.println("일단 여기까지!!@@!@!@@! 22222222222222");
 		

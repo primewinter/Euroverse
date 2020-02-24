@@ -348,7 +348,7 @@ var h6 = document.getElementsByClassName('addH6');
 	
 	
 $(function(){
-	$(".btn-primary").on("click",function(){
+	$(".addUser").on("click",function(){
 		var userId = $("#userId");
 		var pwd = $("#pwd");
 		var pwdConfirm = $("#pwdConfirm");
@@ -971,7 +971,7 @@ function readImg(input){
 	<div class="form-group">
 	 		<div class="col-6 mx-auto"style="text-align: center;">
 				<!-- <button type="button" class="btn btn-primary">회원가입</button> -->
-				<button type="button" class="btn btn-outline-primary"  data-backdrop="static" data-keyboard="false">회원가입</button>
+				<button type="button" class="btn btn-outline-primary addUser"  data-backdrop="static" data-keyboard="false">회원가입</button>
 				<button type="button" class="btn btn-outline-secondary">취소</button>
 	
 			</div>

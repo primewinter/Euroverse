@@ -1,5 +1,6 @@
 package com.ksy.web.myPage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,13 +21,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ksy.common.Page;
 import com.ksy.common.Search;
+import com.ksy.service.domain.Flight;
 import com.ksy.service.domain.Like;
 import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Post;
+import com.ksy.service.domain.Room;
 import com.ksy.service.domain.User;
+import com.ksy.service.flight.FlightService;
 import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.plan.PlanService;
+import com.ksy.service.room.RoomService;
 import com.ksy.service.user.UserService;
 
 @Controller
@@ -44,6 +49,16 @@ public class MyPageController {
 	@Autowired
 	@Qualifier("planServiceImpl")
 	private PlanService planService;
+	
+	@Autowired
+	@Qualifier("flightServiceImpl")
+	private FlightService flightService;
+	
+	@Autowired
+	@Qualifier("roomServiceImpl")
+	private RoomService roomService;
+	
+	
 
 	 @Value("#{commonProperties['postPageUnit']}") int pageUnit;
 	
@@ -65,6 +80,7 @@ public class MyPageController {
 		User user = (User)session.getAttribute("user");
 		System.out.println(search);
 		System.out.println("¿©±é´Ï´Ù@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
@@ -104,6 +120,13 @@ public class MyPageController {
 			search.setCurrentPage2(1);
 		}
 		
+		
+		if(search.getSearchKeyword()==null) {
+			search.setSearchKeyword("post");
+		}
+		
+		
+		
 		search.setPageSize(10);
 		
 		
@@ -126,6 +149,8 @@ public class MyPageController {
 		
 		model.addAttribute("resultPage",resultPage);
 		model.addAttribute("resultPage2",resultPage2);
+		
+		model.addAttribute("keyword",search.getSearchKeyword());
 		
 		return "forward:/view/myPage/myPostCommentList.jsp";
 	}
@@ -289,9 +314,32 @@ public class MyPageController {
 	
 	
 	@RequestMapping(value="likeOrderList")
-	public String likeOrderList()throws Exception{
+	public String likeOrderList(HttpSession session , Model model)throws Exception{
+		System.out.println("LIKEORDERLIST~~~~~~~");
+		User user= (User)session.getAttribute("user");
 		
+		List<Like> likeList = myPageService.getLikeOrderList(user.getUserId());
+		System.out.println(likeList);
+		List<Flight> flightList = new ArrayList<Flight>();
+		List<Room> roomList = new ArrayList<Room>();
 		
+		for(int i=0;i<likeList.size();i++) {
+			if(likeList.get(i).getLikeType().equals("R")) {
+				roomList.add(roomService.getRoom(likeList.get(i).getRefId()));
+				
+			}else if(likeList.get(i).getLikeType().equals("F")) {
+				flightList.add(flightService.getFlight(likeList.get(i).getRefId()));
+				
+			}
+		}
+		
+		System.out.println(flightList);
+		System.out.println(roomList);
+			
+		//model.addAttribute("likeList",likeList);
+		
+		model.addAttribute("flightList",flightList);
+		model.addAttribute("roomList",roomList);
 		
 		return "forward:/view/myPage/likeOrderList.jsp";
 	}

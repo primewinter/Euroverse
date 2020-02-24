@@ -26,15 +26,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Comment;
+import com.ksy.service.domain.Flight;
 import com.ksy.service.domain.Like;
 import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.Post;
+import com.ksy.service.domain.Room;
 import com.ksy.service.domain.User;
+import com.ksy.service.flight.FlightService;
 import com.ksy.service.like.LikeService;
 import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.plan.PlanService;
+import com.ksy.service.room.RoomService;
 import com.ksy.service.user.UserService;
 
 @RestController
@@ -61,10 +65,20 @@ public class MyPageRestController {
 	@Qualifier("planServiceImpl")
 	private PlanService planService;
 	
+	@Autowired
+	@Qualifier("flightServiceImpl")
+	private FlightService flightService;
+	
+	@Autowired
+	@Qualifier("roomServiceImpl")
+	private RoomService roomService;
+	
 	
 	public MyPageRestController() {
 		System.out.println(this.getClass() + "default Constructor");
 	}
+	
+	
 	
 	@RequestMapping(value="json/choolChecking")
 	public Map choolChecking(HttpSession session)throws Exception{
@@ -160,6 +174,43 @@ public class MyPageRestController {
 		
 		map.put("bookMarkList", bookMarkList);
 		
+		
+		return map;
+	}
+	
+	
+	@RequestMapping(value="json/deleteLike/{refId}")
+	public Map deleteLike(@PathVariable String refId , HttpSession session)throws Exception{
+		
+		
+		Like like = new Like();
+		User user=(User)session.getAttribute("user");
+	    like.setLikeUserId(user.getUserId());
+	    like.setRefId(refId);
+	    likeService.like_check_cancel(like);
+	    
+		List<Like> likeList = myPageService.getLikeOrderList(user.getUserId());
+		System.out.println(likeList);
+		List<Flight> flightList = new ArrayList<Flight>();
+		List<Room> roomList = new ArrayList<Room>();
+		
+		for(int i=0;i<likeList.size();i++) {
+			if(likeList.get(i).getLikeType().equals("R")) {
+				roomList.add(roomService.getRoom(likeList.get(i).getRefId()));
+				
+			}else if(likeList.get(i).getLikeType().equals("F")) {
+				flightList.add(flightService.getFlight(likeList.get(i).getRefId()));
+				
+			}
+		}
+		
+		
+	    
+		
+			Map map = new HashMap();
+			
+			map.put("flightList", flightList);
+			map.put("roomList", roomList);
 		
 		return map;
 	}

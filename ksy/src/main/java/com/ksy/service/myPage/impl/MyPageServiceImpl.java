@@ -142,7 +142,7 @@ public class MyPageServiceImpl implements MyPageService{
 	
 	
 	
-	/////////////////////////BookMark/////////////////////////////////////////
+	/////////////////////////LIKE/////////////////////////////////////////
 	public List<Post> getBookMarkList(String userId)throws Exception{
 		System.out.println("myPageDaoImpl getBookMarkList()");
 		List<Like> list = myPageDao.getBookMarkList(userId);
@@ -157,6 +157,18 @@ public class MyPageServiceImpl implements MyPageService{
 		
 		return bookMarkList;
 	}
+	
+	
+	
+	public List<Like> getLikeOrderList(String userId)throws Exception{
+		
+		return myPageDao.getLikeOrderList(userId);
+	}
+	
+	
+	
+	
+	
 	
 	
 	/////////////////////////////OFFER///////////////////////////////
