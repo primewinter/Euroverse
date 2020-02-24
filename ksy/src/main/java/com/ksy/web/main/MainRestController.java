@@ -233,11 +233,10 @@ public class MainRestController {
 	public List<Post> getRecentList( String boardName, Search search) throws Exception{
 		
 		System.out.println("main/json/getBestList : GET boardName : "+boardName);
-		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
-		search.setPageSize(10);
+		search.setPageSize(4);
 		if( search.getSorting() == null ) {
 			search.setSorting("0");
 		}
@@ -251,12 +250,45 @@ public class MainRestController {
 		List<Post> newList = new ArrayList<>();
 		
 		for(Post post : list ) {
-			Post p = communityService.getPost(post.getPostId(), post.getPostWriterId(), post.getBoardName());
+			Post p = communityService.getMainPost(post.getPostId(), post.getPostWriterId(), post.getBoardName());
 			newList.add(p);
 			System.out.println("최신글에 담은 글 :: "+p);
 		}
 		
 		return newList;
+	}
+	
+	@RequestMapping(value="getMainPlanner", method = RequestMethod.GET)
+	public Map<String, Object> getMainPlanner( String boardName, Search search) throws Exception {
+		System.out.println("/community/getMainPlanner : GET");
+		System.out.println("메인 플래너 boardName : "+boardName);
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(4);
+		
+		Map<String , Object> map = new HashMap<String, Object>();
+		
+		map = communityService.getPostList(search, boardName);
+		
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		
+		// Model 과 View 연결
+		returnMap.put("list", map.get("list"));
+		
+		List<Post> postList = (List<Post>)map.get("list");
+		List<Plan> planList = new ArrayList<Plan>();
+		
+		for(int i=0; i<postList.size(); i++) {
+			Plan plan = planService.getPlan(postList.get(i).getPlanId());
+			planList.add(plan);
+		}
+		returnMap.put("planList", planList);
+		
+		return returnMap;
+		
 	}
 	
 }

@@ -155,7 +155,7 @@
     }
     div.icon {
         display: table-cell;
-        vertical-align: bottom;
+        vertical-align: middle;
         border: solid 2px #858585;
         border-radius: 5px;
         width: 40px;
@@ -316,7 +316,7 @@
 </div>
 <script type="text/javascript">
     var userId = '${user.userId}';
-    var pushAddr = "ws://localhost:8080/userSocket/";
+    var pushAddr = "ws://192.168.0.82:8080/userSocket/";
     var webSocket;
 
     if (userId != null && userId != '') { // 로그인 했을 때만 웹소켓 연결
@@ -645,7 +645,7 @@
         $('#pos2').prop('checked', true);
         chatRoomId = roomId;
         console.log("입장한 채팅방 번호 : " + roomId);
-        var accChatAddr = "ws://localhost:8080/accSocket/" + roomId + "/" + userId;
+        var accChatAddr = "ws://192.168.0.82:8080/accSocket/" + roomId + "/" + userId;
         accChatSocket = new WebSocket(accChatAddr);
         //웹 소켓이 연결되었을 때 호출되는 이벤트
         accChatSocket.onopen = function(message) {
@@ -938,7 +938,7 @@
 
 
     function connectPlanChat() {
-        var addr = "ws://localhost:8080/planSocket/" + planId + "/" + userId;
+        var addr = "ws://192.168.0.82:8080/planSocket/" + planId + "/" + userId;
         planChatSocket = new WebSocket(addr);
 
         planChatSocket.onopen = function(message) {

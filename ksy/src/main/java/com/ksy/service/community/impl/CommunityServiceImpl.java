@@ -61,6 +61,10 @@ public class CommunityServiceImpl implements CommunityService{
 		return communityDao.getPost(postId, userId, boardName);
 	}
 	
+	public Post getMainPost(String postId, String userId, String boardName) throws Exception {
+		return communityDao.getMainPost(postId, userId, boardName);
+	}
+	
 	public List<Comment> rcmtNum(String postId, String userId) throws Exception {
 		List<Comment> list = communityDao.rcmtNum(postId, userId);
 		
