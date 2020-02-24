@@ -63,7 +63,7 @@ public class AdminServiceImpl implements AdminService {
 		
 	}
 	@Override
-	public Map<String,Object> getQnaComment(String postId) throws Exception {
+	public Map<String,Object> getQnaCommentList(String postId) throws Exception {
 		
 		System.out.println("AdminServiceImpl getQnaCommList");
 		
