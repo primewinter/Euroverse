@@ -182,7 +182,66 @@ public class CommunityController {
 			
 			Plan copiedPlan = planService.getPlan(post.getPlanId());
 			
+			List<Daily> dailyList = planSubService.getDailyList(copiedPlan);		//dailyList
+			List<Stuff> stuffList = planSubService.getStuffList(copiedPlan.getPlanId());		//stuffList
+			List<Daily> budgetOverviewList = planSubService.getBudgetOverview(copiedPlan);
+			List<City> listCity = planSubService.getCityRouteList(copiedPlan.getPlanId());
+			List<Day> dayList = Util.cityListToDayList(listCity, copiedPlan.getStartDate() );
+			
+			copiedPlan.setDailyList(dailyList);
+			copiedPlan.setStuffList(stuffList);
+			copiedPlan.setBudgetOverviewList(budgetOverviewList);
+			copiedPlan.setCityList(listCity);
+			copiedPlan.setDayList(dayList);
+			
 			model.addAttribute("plan", copiedPlan );
+			
+			
+			/* FullCalendar addEvent 위한 JSON 만들기.. */
+			JSONArray cityArray = new JSONArray();
+			
+			for (City cityItem : listCity) {
+				JSONObject cityEvent = new JSONObject();
+
+				cityEvent.put("title", cityItem.getCityName());
+				cityEvent.put("start", cityItem.getStartDateStr());
+				cityEvent.put("end", cityItem.getEndDateStr());
+				cityEvent.put("textColor", "white");
+				if( cityItem.getCountry() != null ) {
+					if( cityItem.getCountry().equals("영국") ) {
+						cityEvent.put("color", "#F9A081");
+					}else if(cityItem.getCountry().equals("스위스") ) {
+						cityEvent.put("color", "#98E657");
+					}else if(cityItem.getCountry().equals("프랑스") ) {
+						cityEvent.put("color", "#8886F4");
+					}else if(cityItem.getCountry().equals("이탈리아") ) {
+						cityEvent.put("color", "#76A0F3");
+					}
+				}else {
+					cityEvent.put("color", "#51bec9");
+				}
+
+				cityArray.add(cityEvent);
+			}
+			
+			/* GoogleMap API를 위한 JSON 만들기.. */
+			JSONArray markerArray = new JSONArray();
+			for (City cityItem : listCity) {
+				JSONObject cityMarker = new JSONObject();
+				
+				JSONObject position = new JSONObject();
+				position.put("lat", Double.parseDouble( cityItem.getCityLat() ));
+				position.put("lng", Double.parseDouble( cityItem.getCityLng() ));
+				
+				cityMarker.put("position", position);
+				cityMarker.put("title", cityItem.getCityName());
+				
+				markerArray.add(cityMarker);
+			}
+			
+			model.addAttribute("cityEventList", cityArray);
+			model.addAttribute("cityMarkerList", markerArray);
+			
 			
 			return "forward:/view/community/getPlanPost.jsp";
 		}
