@@ -182,6 +182,13 @@
 	
 		<result	jdbcType="VARCHAR"		column="party_user_nickname"		property="partyUserNickname"/>
 	</resultMap>
+	
+	
+	<resultMap type="loginUser" id="loginUserSelectMap">
+		<result jdbcType="VARCHAR"  column="user_id"	property="userId"  />
+		<result jdbcType="VARCHAR"  column="session_id"	property="sessionId"  />
+		<result jdbcType="TIMESTAMP"  column="login_date"	property="loginDate"  />
+	</resultMap>
 
 
 
@@ -781,6 +788,25 @@ ORDER BY cmt_date DESC
 		FROM 	users 
 		WHERE 	user_id = #{userId}
 	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 로그인 중복체크 -->
+	<insert id="addLoginUser" parameterType="loginUser">
+		INSERT INTO login_users
+		(user_id , session_id , login_date)
+		VALUES(#{userId}  , #{sessionId} , systimestamp)
+	</insert>
+	
+	
 
 
 </mapper>
