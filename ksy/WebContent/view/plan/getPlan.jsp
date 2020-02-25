@@ -52,6 +52,11 @@
 	<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script> -->
 	
 
+	<!-- ICON 사용을 위한 스크립트 임포트 -->
+	<!-- https://feathericons.com/ -->
+	<script src="https://unpkg.com/feather-icons"></script>
+
+
 
 	<!-- FullCalendar CDN -->
 	<link href='https://unpkg.com/@fullcalendar/core@4.3.1/main.min.css' rel='stylesheet' />
@@ -232,12 +237,13 @@
 		/* Sidebar */
 		.sidebar {
 		  position: fixed;
-		  top: 130px;
+		  top: 180px;
 		  bottom: 0;
 		  left: 0;
 		  z-index: 40; /* Behind the navbar */
 		  padding: 48px 0 0; /* Height of navbar */
 		  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+		  background-color: white;
 		}
 		.sidebar-sticky {
 		  position: relative;
@@ -368,11 +374,6 @@
 	  }
 	  
  	</style>
-
-	<!-- ICON 사용을 위한 스크립트 임포트 -->
-	<!-- https://feathericons.com/ -->
-	<script src="https://unpkg.com/feather-icons"></script>
-
 
 
 	<!-- 함수들 모음집 -->
