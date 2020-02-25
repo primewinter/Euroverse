@@ -310,11 +310,10 @@ VALUES ( TO_CHAR(seq_point_point_id.nextval), #{userId} ,  #{usedType} , #{usedP
 </insert>
 
 <select id="pointList" parameterType="String" resultMap="pointSelectMap">
- 		SELECT 
+	SELECT 
 	user_id, point_id, ref_id, used_type, used_point, used_date
-	FROM  point p
-	WHERE p.ref_id = {value}
-				
+	FROM  Point
+	WHERE ref_id = #{value}
 </select>
 
 <select id = "getPointList"  parameterType="map" resultMap="pointSelectMap">

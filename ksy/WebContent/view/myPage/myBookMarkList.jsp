@@ -116,7 +116,7 @@ function deleteBookMark(postId){
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>	
 	<div style="height: 100px;"></div>
-        <h1  style="margin-left: 240px; width: 1000px">나의 게시글목록</h1>
+        <h1  style="margin-left: 240px; width: 1000px">나의 북마크목록</h1>
 		
 	
 	

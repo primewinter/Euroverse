@@ -214,7 +214,7 @@
 
         });
 
-        $("button:contains('로그인')").on("click", function() {
+        $("#loginButton").on("click", function() {
 /*             if (userId.val() == "") {
                 return;
             }
@@ -343,7 +343,7 @@
                     </div>
                     <h6 class="loginH6"></h6>
 
-                    <button type="button" class="btn btn-outline-primary" style="margin-left: 20px; position:absolute; top:240px;right:395px;">로그인</button>
+                    <button type="button" id="loginButton" class="btn btn-outline-primary" style="margin-left: 20px; position:absolute; top:240px;right:395px;">로그인</button>
 
                 </form>
                 <!-- 	<div class="modal-footer">

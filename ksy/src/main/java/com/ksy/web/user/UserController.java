@@ -9,17 +9,23 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.json.simple.JSONObject;
@@ -189,6 +195,13 @@ public class UserController {
 		System.out.println(user.getDreamCountry());
 		System.out.println(user.getCountryImg());
 		System.out.println(user.getStyleImg());
+		
+		
+		
+		
+		myPageService.deleteTripSurvey(user.getUserId());
+		
+		
 		
 		if(user.getDreamCountry()!=null) {
 			for(int i=0;i<(user.getDreamCountry().size())-1;i++) {
@@ -872,6 +885,33 @@ public class UserController {
 
 		return "forward:/user/addUser";
 	}
+	
+	
+	
+	
+	@RequestMapping(value="sessionTest")
+	public String sessionTest(HttpSession session, Model model  ) throws Exception {
+
+		System.out.println("세션겟아이디"+session.getId());
+		System.out.println("1"+session.getAttributeNames());
+		System.out.println("2"+session.getValueNames());
+		System.out.println("3"+session.getSessionContext());
+		System.out.println("4"+session.getServletContext());
+		System.out.println(InetAddress.getLocalHost());
+		System.out.println(InetAddress.getLoopbackAddress());
+		
+		return "";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	public List<TripSurvey> tripStyleList(){
