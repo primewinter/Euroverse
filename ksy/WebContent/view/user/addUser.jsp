@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:if test="${  !empty user }">
-		<jsp:forward page="/"/>
+	<jsp:forward page="/main.jsp"/>
 </c:if>
 <!DOCTYPE html>
 <html>

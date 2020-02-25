@@ -77,7 +77,7 @@
 		/* Sidebar */
 		.sidebar {
 		  position: fixed;
-		  top: 200px;
+		  top: 240px;
 		  bottom: 0;
 		  left: 0;
 		  z-index: 40; /* Behind the navbar */
