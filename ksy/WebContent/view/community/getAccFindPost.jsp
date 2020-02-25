@@ -300,7 +300,6 @@
             text-shadow: 0px -1px #4b559c;
             color: #fff;
         }
-
         .btn_lightgreen.small,
         .btn_yeongrey.small,
         .btn_lightpurple.small,
@@ -384,7 +383,7 @@
             overflow: hidden;
             margin-left: 10px;
         }
-
+ 
     </style>
 
     <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -396,21 +395,35 @@
         $(function() {
             //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
             $(".fr .updatePost").on("click", function() {
-                self.location = "/community/updatePost?postId=${post.postId}&boardName=" + boardName;
+                self.location = "/community/updatePost?postId=${post.postId}&boardName="+boardName;
             });
         });
 
         $(function() {
-            //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-            $(".fr .deletePost").on("click", function() {
-
-                var result = confirm("게시글을 삭제하시겠습니까?");
-
-                if (result) {
-                    self.location = "/community/deletePost?postId=${post.postId}&boardName=" + boardName;
-                }
-            });
-        });
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			 $( ".fr .deletePost" ).on("click" , function() {
+	
+				 swal({
+						title:"게시글을 제하시겠습니까?",
+						text:" ",
+						icon:"warning",
+						buttons: [ "아니오", "예"]
+					}).then((YES) => {
+						if(YES){
+							
+							swal({
+								icon : 'success',
+								title : "삭제되었습니다!",
+								text:" ",
+								button : false,
+							})
+					    	setTimeout(function() {     
+					    		self.location = "/community/deletePost?postId=${post.postId}&boardName="+boardName;
+					    	}, 700);
+						}
+				    });
+			 });
+		});
 
         //좋아요 구현
         function like() {
@@ -424,12 +437,25 @@
                 success: function(data) { //ajax통신 성공시 넘어오는 데이터 통째 이름 =data
 
                     if (data.like != null) {
-                        alert("'좋아요'가 반영되었습니다!"); // data중 put한 것의 이름 like
+                    	swal({
+               				icon : 'success',
+               			    title : "좋아요 완료!",
+               			    text : " ",
+               			    button : false,
+               			    timer : 700
+               			});
+                    	
                         $(".up_num_box span").html(data.like); //id값이 like_result인 html을 찾아서 data.like값으로 바꿔준다.
                     }
                 },
                 error: function(request, status, error) {
-                    alert("게시글 좋아요는 한번만 가능합니다!");
+                	swal({
+           				icon : 'error',
+           			    title : "게시글 좋아요는 한번만 가능합니다.",
+           			    text : " ",
+           			    button : false,
+           			    timer : 700
+           			});
                 }
             });
         }
@@ -442,19 +468,42 @@
 
         $(function() {
             $("#addReport").on("click", function() {
+            	
+            	if( !$("input:radio[name='customRadio']:checked").val() ){
+            		swal({
+           				icon : 'warning',
+           			    title : '신고사유는 반드시 선택해주세요.',
+           			    text : " ",
+           			    button : false,
+           			    timer : 700
+           			});
+	    			return;
+	    		}
 
                 if ($("input:radio[id='customRadio4']").is(":checked") == true) {
 
                     var reportContent = $("input[name='reportContent']").val();
 
                     if (reportContent == null || reportContent.length < 1) {
-                        alert("내용은 반드시 입력하세요.");
+                    	swal({
+               				icon : 'warning',
+               			    title : '내용은 반드시 입력하세요.',
+               			    text : " ",
+               			    button : false,
+               			    timer : 700
+               			});
                         return;
                     }
                 } else if ($("input:radio[id='customRadio4']").is(":checked") == false) {
 
                     if ($("input[name='reportContent']").val() != "") {
-                        alert("기타만 입력 가능");
+                    	swal({
+               				icon : 'warning',
+               			    title : '기타선택시 내용 작성이 가능합니다.',
+               			    text : " ",
+               			    button : false,
+               			    timer : 700
+               			});
                         return;
                     }
                 }
@@ -466,7 +515,13 @@
                     dataType: "json",
                     success: function(JSONData, status) {
                         closeModal('sendReport');
-                        alert(JSONData.msg);
+                        swal({
+               				icon : 'success',
+               			    title : JSONData.msg,
+               			    text : " ",
+               			    button : false,
+               			    timer : 700
+               			});
                     }
                 });
             });
@@ -480,18 +535,33 @@
                 cache: false,
                 dataType: "json",
                 success: function(data) {
-                    var msg = '';
-                    msg += data.msg;
-                    alert(msg);
-
-                    if (data.likeCheck == 'F') {
-                        $(".fas.fa-bookmark").attr('class', 'far fa-bookmark fa-2x');
-                    } else {
-                        $(".far.fa-bookmark").attr('class', 'fas fa-bookmark fa-2x');
-                    }
+                   
+                	if(data.likeCheck == 'F'){
+						
+  					 swal({
+                 		  	  icon : 'success',
+                 			  title : "북마크 취소",
+                 			  text : " ",
+                 			  button : false,
+                 			  timer : 700
+                 	  });
+  					  
+  					  $(".fas.fa-bookmark").attr('class','far fa-bookmark fa-2x');
+  					}else{
+  						
+  					  swal({
+  	               		  icon : 'success',
+  	               		  title : "북마크 추가",
+  	               		  text : " ",
+  	               		  button : false,
+  	               		  timer : 700
+  	               	  });
+  						
+  					  $(".far.fa-bookmark").attr('class','fas fa-bookmark fa-2x');
+  					}      
                 },
                 error: function(request, status, error) {
-                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    swal("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                 }
             });
         }
@@ -519,7 +589,13 @@
             var postWriterId = $("input[name='postWriterId']").val();
 
             if (offerMsg == '') {
-                alert("offerMsg를 입력해주세요");
+            	swal({
+       				icon : 'warning',
+       			    title : "동행신청 메세지를 입력해주세요.",
+       			    text : " ",
+       			    button : false,
+       			    timer : 700
+       			});
                 return false;
             }
             console.log("toUserId=" + postWriterId + ", offerMsg=" + offerMsg);
@@ -539,7 +615,13 @@
                 }),
                 success: function(data) {
                     closeModal('accOffer');
-                    alert(data.toUserId + " 님에게 메시지를 보냈습니다.");
+                    swal({
+           				icon : 'success',
+           			    title : data.toUserId + " 님에게 메시지를 보냈습니다.",
+           			    text : " ",
+           			    button : false,
+           			    timer : 700
+           			});
 
                     //글 작성자에게 push 하기
                     var receiverId = data.toUserId;
@@ -694,7 +776,7 @@
     <!-- ToolBar End /////////////////////////////////////-->
 
     <div class="modal" tabindex="-1" role="dialog" id="sendReport">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document" style="width:300px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">신고 작성</h5>
@@ -707,20 +789,20 @@
                     <form id="reportform" class="sendReport">
                         <div class="custom-control custom-radio">
                             <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="F">
-                            <label class="custom-control-label" for="customRadio1" style="font-size:12px; padding-bottom:5px;">욕설</label>
+                            <label class="custom-control-label" for="customRadio1" style="font-size:13px; padding-bottom:6px;">욕설</label>
                         </div>
                         <div class="custom-control custom-radio">
                             <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" value="A">
-                            <label class="custom-control-label" for="customRadio2" style="font-size:12px; padding-bottom:5px;">음란물</label>
+                            <label class="custom-control-label" for="customRadio2" style="font-size:13px; padding-bottom:6px;">음란물</label>
                         </div>
                         <div class="custom-control custom-radio">
                             <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input" value="R">
-                            <label class="custom-control-label" for="customRadio3" style="font-size:12px; padding-bottom:5px;">허위사실</label>
+                            <label class="custom-control-label" for="customRadio3" style="font-size:13px; padding-bottom:6px;">허위사실</label>
                         </div>
                         <div class="custom-control custom-radio">
                             <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input" value="E">
-                            <label class="custom-control-label" for="customRadio4" style="font-size:12px;">기타</label>
-                            <input type="text" class="form-control" maxlength="30" id="reportContent" name="reportContent" placeholder="기타 내용을 입력하세요." style="font-size:12px;" />
+                            <label class="custom-control-label" for="customRadio4" style="font-size:13px;">기타</label>
+                            <input type="text" class="form-control" maxlength="30" id="reportContent" name="reportContent" placeholder="기타 내용을 입력하세요." style="font-size:13px;" />
                         </div>
                         <input type="hidden" id="refId" name="refId" value="">
                         <input type="hidden" id="reportTarget" name="reportTarget" value="">
