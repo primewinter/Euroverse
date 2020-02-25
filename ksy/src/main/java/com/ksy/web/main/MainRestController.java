@@ -236,7 +236,7 @@ public class MainRestController {
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
-		search.setPageSize(4);
+		search.setPageSize(16);
 		if( search.getSorting() == null ) {
 			search.setSorting("0");
 		}
@@ -267,7 +267,7 @@ public class MainRestController {
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
-		search.setPageSize(4);
+		search.setPageSize(16);
 		
 		Map<String , Object> map = new HashMap<String, Object>();
 		

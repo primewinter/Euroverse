@@ -213,6 +213,24 @@
         color: #339999;
         border-color: #339999;
     }
+    .modal {
+        text-align: center;
+    }
+ 
+    @media screen and (min-width: 768px) { 
+        .modal:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+        }
+    }
+    
+    .modal-dialog-center{
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+    }
 
 </style>
 
@@ -298,7 +316,7 @@
 
 <!--채팅 참여자 목록 모달-->
 <div class="modal fade" id="accModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-center" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="accModalLabel">채팅방 제목</h5>
@@ -316,7 +334,7 @@
 </div>
 <script type="text/javascript">
     var userId = '${user.userId}';
-    var pushAddr = "ws://localhost:8080/userSocket/";
+    var pushAddr = "ws://192.168.0.62:8080/userSocket/";
     var webSocket;
 
     if (userId != null && userId != '') { // 로그인 했을 때만 웹소켓 연결
@@ -485,7 +503,7 @@
         } else if (vo.pushType.trim() == 'I') {
             tag += "<a href='/myPage/myOfferList' >"; // 초대 목록 리스트 링크
         } else if (vo.pushType.trim() == 'A') {
-            tag += "<a href='/myPage/myOfferList' >" // 동행 신청 목록 리스트 링크
+            tag += "<a href='/myPage/myOfferList?searchKeyword=party' >" // 동행 신청 목록 리스트 링크
         }
         tag += vo.pushMsg + "</font></td>";
         tag += "<tr>";
@@ -644,7 +662,7 @@
         $('#pos2').prop('checked', true);
         chatRoomId = roomId;
         console.log("입장한 채팅방 번호 : " + roomId);
-        var accChatAddr = "ws://localhost:8080/accSocket/" + roomId + "/" + userId;
+        var accChatAddr = "ws://192.168.0.62:8080/accSocket/" + roomId + "/" + userId;
         accChatSocket = new WebSocket(accChatAddr);
         //웹 소켓이 연결되었을 때 호출되는 이벤트
         accChatSocket.onopen = function(message) {
@@ -937,7 +955,7 @@
 
 
     function connectPlanChat() {
-        var addr = "ws://localhost:8080/planSocket/" + planId + "/" + userId;
+        var addr = "ws://192.168.0.62:8080/planSocket/" + planId + "/" + userId;
         planChatSocket = new WebSocket(addr);
 
         planChatSocket.onopen = function(message) {

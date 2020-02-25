@@ -481,6 +481,7 @@
         /* 위아래 기준 중앙정렬 */
         justify-content: center;
         /* 좌우 기준 중앙정렬 */
+        cursor: pointer;
     }
 
     .swiper-slide img {
@@ -499,6 +500,23 @@
 
     .swiper-slide.on {
         opacity: 100%;
+    }
+
+    .popupLayer {
+        position: absolute;
+        display: none;
+        background-color: #ffffff;
+        border: solid 2px #d0d0d0;
+        width: 350px;
+        height: auto;
+        padding: 10px;
+        font-size: 0.8em;
+    }
+
+    .popupLayer .popup-close {
+        position: absolute;
+        top: 5px;
+        right: 10px
     }
 
 </style>
@@ -555,7 +573,75 @@
             </div>
             <div class="random-text"></div>
 
+
+
+
+            <!-- 클래스명은 변경하면 안 됨 -->
             <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><a id="a" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR">
+                            <img src='/resources/images/tripInfoimges/Europe.png' />
+                            <p>EU</p>
+                        </a></div>
+                    <div class="swiper-slide"> <a id="b" data-toggle="list" href="#list-profile" hwa='포린트' mon="HUF" con="HUN">
+                            <img src='/resources/images/tripInfoimges/Hungary.gif' />
+                            <p>헝가리</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="c" data-toggle="list" href="#list-messages" hwa='코루나' mon="CZK" con="CZE">
+                            <img src='/resources/images/tripInfoimges/Czech.gif' />
+                            <p>체코</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='크로네' mon="DKK" con="DNK">
+                            <img src='/resources/images/tripInfoimges/Denmark.gif' />
+                            <p>덴마크</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR">
+                            <img src='/resources/images/tripInfoimges/England.gif' />
+                            <p>영국</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='레우' mon="RON" con="ROU">
+                            <img src='/resources/images/tripInfoimges/Lithuania.gif' />
+                            <p>루마니아</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='크로나' mon="SEK" con="SWE">
+                            <img src='/resources/images/tripInfoimges/Sweden.gif' />
+                            <p>스웨덴</p>
+                        </a></div>
+                    <div class="swiper-slide"> <a id="d" data-toggle="list" href="#list-settings" hwa='쿠나' mon="HRK" con="HRV">
+                            <img src='/resources/images/tripInfoimges/Croatia.gif' />
+                            <p>크로아티아</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='프랑' mon="CHF" con="CHE">
+                            <img src='/resources/images/tripInfoimges/Swiss.gif' />
+                            <p>스위스</p>
+                        </a></div>
+                    <div class="swiper-slide"> <a id="d" data-toggle="list" href="#list-settings" hwa='레바' mon="BGN" con="BGR">
+                            <img src='/resources/images/tripInfoimges/Bulgaria.gif' />
+                            <p>불가리아</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='리라' mon="TRY" con="TUR">
+                            <img src='/resources/images/tripInfoimges/Turkey.gif' />
+                            <p>터키</p>
+                        </a></div>
+                    <div class="swiper-slide"> <a id="d" data-toggle="list" href="#list-settings" hwa='크로네' mon="NOK" con="NOR">
+                            <img src='/resources/images/tripInfoimges/norway.gif' />
+                            <p>노르웨이</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='즈워티' mon="PLN" con="POL">
+                            <img src='/resources/images/tripInfoimges/Poland.png' />
+                            <p>폴란드</p>
+                        </a></div>
+                    </div>
+
+                    <!-- 네비게이션 -->
+                    <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+                    <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
+
+                </div>
+
+
+
+                <!--<div class="swiper-container">
                 <div class="swiper-wrapper" id="list-tab" role="tablist">
                     <div class="swiper-slide"><a id="a" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR">
                             <img src='/resources/images/tripInfoimges/Europe.png' />
@@ -610,43 +696,43 @@
                             <p>폴란드</p>
                         </a></div>
                 </div>
-
-                <!-- 네비게이션 -->
-                <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
-                <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
             </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>-->
 
-            <!-- ============국가정보출력 box ================ -->
-            <div class="popupLayer">
-                <div>
-                    <span onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</span>
-                </div>
-                <div class="country-content">
-                    <img class="conImg" alt="" src="" />
-                </div>
-            </div>
-
-            <div class="country-title">
-                <div class="content">
-                    <img class="conImg" alt="" src="" />
-                </div>
-
-            </div>
-
-            <!-- =========== 환율금액입력 ====================  -->
-            <div class="input-group flex-nowrap">
-                <div class="countryMoney">
-                    <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()">
-                    원<br /><br /><br /><br />
-                    <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="">
-                    <div class='text'>
+                <!-- ============국가정보출력 box ================ -->
+                <div class="popupLayer">
+                    <div class="popup-close">
+                        <span onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">
+                            <i class="fas fa-times"></i>
+                        </span>
+                    </div>
+                    <div class="country-content">
+                        <img class="conImg" alt="" src="" />
                     </div>
                 </div>
-            </div>
-            <!-- 현재 한국 시간 구하기 : <span id="toNow"></span> -->
+
+                <div class="country-title">
+                    <div class="content">
+                        <img class="conImg" alt="" src="" />
+                    </div>
+
+                </div>
+
+                <!-- =========== 환율금액입력 ====================  -->
+                <div class="input-group flex-nowrap">
+                    <div class="countryMoney">
+                        <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()">
+                        원<br /><br /><br /><br />
+                        <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="">
+                        <div class='text'>
+                        </div>
+                    </div>
+                </div>
+                <!-- 현재 한국 시간 구하기 : <span id="toNow"></span> -->
 
 
-            <!--  <script type="text/javascript">
+                <!--  <script type="text/javascript">
 		    var IScroll = $.AMUI.iScroll;
 		    var myScroll = new IScroll('#wrapper', { click: true });
 		</script> -->
@@ -663,6 +749,14 @@
                     <h2 class="col plan-section__header__content">새로운 플래너</h2>
                 </header>
                 <ul class="row plan-stories__content">
+                <div class="swiper-container">
+                <div class="swiper-wrapper">
+                
+                 </div>
+                    <!-- 네비게이션 -->
+                    <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+                    <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
+                </div>
 
                 </ul>
             </section>
@@ -676,7 +770,14 @@
                     <h2 class="col review-section__header__content">여행후기</h2>
                 </header>
                 <ul class="row review-stories__content">
-
+                <div class="swiper-container">
+                <div class="swiper-wrapper">
+                
+                 </div>
+                    <!-- 네비게이션 -->
+                    <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+                    <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
+                </div>
                 </ul>
             </section>
         </section>
@@ -687,7 +788,14 @@
                 <h2 class="col recent__header__content">여행정보</h2>
             </header>
             <ul class="row recent-stories__content">
-
+                <div class="swiper-container">
+                <div class="swiper-wrapper">
+                
+                 </div>
+                    <!-- 네비게이션 -->
+                    <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+                    <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
+                </div>
             </ul>
         </section>
     </main>
@@ -796,7 +904,7 @@
         }
 
         function appendPlanner(plan, post) {
-            var tag = "";
+            var tag = "<div class=\"swiper-slide\">";
             tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
             tag += "<article class=\"story-entry story-story-item\">"
             tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + post.postId + "&boardName=E\">";
@@ -810,13 +918,13 @@
             tag += post.nickName + "</p>"
             tag += "<i class=\"ion-ios-arrow-right\"></i></figcaption></figure>"
             tag += "</div>"
-            tag += "</a></article></li>"
+            tag += "</a></article></li></div>"
 
-            $('.plan-stories__content').append(tag);
+            $('.plan-section ul.swiper-container.swiper-wrapper').append(tag);
         }
 
         function appendTag(vo, boardName) {
-            var tag = "";
+            var tag = "<div class=\"swiper-slide\">";
             var content = vo.postContent;
             var imgSrc = parseContent(content);
             tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
@@ -838,15 +946,15 @@
             tag += "<img src='/resources/images/userImages/" + vo.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
             tag += "<span style='font-size:0.8em;color:#CCC;font-weight:400;'>" + vo.nickName + "</span>"
             tag += "</div>"
-            tag += "</div></a></article></li>"
+            tag += "</div></a></article></li></div>"
 
 
             if (boardName == 'F') {
-                $('.review-stories__content').append(tag);
+                $('.review-section ul.swiper-container.swiper-wrapper').append(tag);
             } else if (boardName == 'C') {
                 $('.best-stories__content').append(tag);
             } else {
-                $('ul.recent-stories__content').append(tag);
+                $('.recent ul.swiper-container.swiper-wrapper').append(tag);
             }
 
         }
@@ -873,7 +981,7 @@
 
 
         $(function() {
-            $(".swiper-slide>a").click(function() {
+            $(".swiper-slide>a").click(function(e) {
 
                 var conCode = $(this).attr('con');
                 var conName = $(this).text();
@@ -881,7 +989,7 @@
                 countryInfo(conCode);
                 $('input[name="conMoney"]').attr('placeholder', conName.trim());
                 $('.text').html(conHwa);
-
+                popup(e);
             });
         });
 
@@ -907,8 +1015,8 @@
                     var conFlag = JSONData.response.body.items.item.imgUrl;
                     /* alert(conName); */
                     //$("#form-group").html(myItem);
-                    $("img[class='conImg']").attr("src", conFlag);
-                    $('.country-title').html(country);
+                    //$("img[class='conImg']").attr("src", conFlag);
+                    //$('.country-title').html(country);
                     $('.country-content').html(conInfo);
 
                 }
@@ -948,7 +1056,7 @@
 
             slidesPerView: 4, // 동시에 보여줄 슬라이드 갯수
             spaceBetween: 30, // 슬라이드간 간격
-            slidesPerGroup: 4, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
+            slidesPerGroup: 2, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
             //slidesPerColumn: 2,
 
             // 그룹수가 맞지 않을 경우 빈칸으로 메우기
@@ -961,7 +1069,6 @@
                 el: '.swiper-pagination',
                 clickable: true, // 페이징을 클릭하면 해당 영역으로 이동, 필요시 지정해 줘야 기능 작동
             },*/
-            themeColor: '#7d7e73',
             navigation: { // 네비게이션
                 nextEl: '.swiper-button-next', // 다음 버튼 클래스명
                 prevEl: '.swiper-button-prev', // 이번 버튼 클래스명
@@ -973,6 +1080,38 @@
             $('.swiper-slide').removeClass('on');
             $(this).toggleClass('on');
         })
+
+        function closeLayer(obj) {
+            $(obj).parent().parent().hide();
+        }
+
+        function popup(e) {
+
+            /* 클릭 클릭시 클릭을 클릭한 위치 근처에 레이어가 나타난다. */
+            var sWidth = window.innerWidth;
+            var sHeight = window.innerHeight;
+
+            var oWidth = $('.popupLayer').width();
+            var oHeight = $('.popupLayer').height();
+
+            // 레이어가 나타날 위치를 셋팅한다.
+            var divLeft = e.clientX + 10;
+            var divTop = e.clientY + 5;
+
+            // 레이어가 화면 크기를 벗어나면 위치를 바꾸어 배치한다.
+            if (divLeft + oWidth > sWidth) divLeft -= oWidth;
+            if (divTop + oHeight > sHeight) divTop -= oHeight;
+
+            // 레이어 위치를 바꾸었더니 상단기준점(0,0) 밖으로 벗어난다면 상단기준점(0,0)에 배치하자.
+            if (divLeft < 0) divLeft = 0;
+            if (divTop < 0) divTop = 0;
+
+            $('.popupLayer').css({
+                "top": divTop,
+                "left": divLeft,
+                "position": "absolute"
+            }).show();
+        }
 
     </script>
 
