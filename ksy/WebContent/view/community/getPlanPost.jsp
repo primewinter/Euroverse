@@ -350,14 +350,28 @@
 		});
 		
 		$(function() {
-				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( ".fr .deletePost" ).on("click" , function() {
-
-				 var result = confirm("게시글을 삭제하시겠습니까?");
-
-				 if(result){
-				 	self.location = "/community/deletePost?postId=${post.postId}&boardName="+boardName;
-				 }
+	
+				 swal({
+						title:"게시글을 제하시겠습니까?",
+						text:" ",
+						icon:"warning",
+						buttons: [ "아니오", "예"]
+					}).then((YES) => {
+						if(YES){
+							
+							swal({
+								icon : 'success',
+								title : "삭제되었습니다!",
+								text:" ",
+								button : false,
+							})
+					    	setTimeout(function() {     
+					    		self.location = "/community/deletePost?postId=${post.postId}&boardName="+boardName;
+					    	}, 700);
+						}
+				    });
 			 });
 		});
 		
@@ -373,12 +387,25 @@
 				success: function(data){ //ajax통신 성공시 넘어오는 데이터 통째 이름 =data
 					
 					if(data.like != null){
-						alert("'좋아요'가 반영되었습니다!"); // data중 put한 것의 이름 like
+						swal({
+               				icon : 'success',
+               			    title : "좋아요 완료!",
+               			    text : " ",
+               			    button : false,
+               			    timer : 700
+               			});
+						
 						$(".up_num_box span").html(data.like); //id값이 like_result인 html을 찾아서 data.like값으로 바꿔준다.
 					}
 				},
 				error: function (request, status, error){
-					alert("게시글 좋아요는 한번만 가능합니다!");
+					swal({
+           				icon : 'error',
+           			    title : "게시글 좋아요는 한번만 가능합니다.",
+           			    text : " ",
+           			    button : false,
+           			    timer : 700
+           			});
 				}
 			});
 		}
@@ -392,18 +419,41 @@
 	    $(function(){
 	    	$("#addReport").on("click", function(){
 
+	    		if( !$("input:radio[name='customRadio']:checked").val() ){
+            		swal({
+           				icon : 'warning',
+           			    title : '신고사유는 반드시 선택해주세요.',
+           			    text : " ",
+           			    button : false,
+           			    timer : 700
+           			});
+	    			return;
+	    		}
+	    		
 	    		if( $("input:radio[id='customRadio4']").is(":checked") == true ){
             		
                 	var reportContent = $("input[name='reportContent']").val();
                 	
             		if(reportContent == null || reportContent.length<1){
-            			alert("내용은 반드시 입력하세요.");
+            			swal({
+               				icon : 'warning',
+               			    title : '내용은 반드시 입력하세요.',
+               			    text : " ",
+               			    button : false,
+               			    timer : 700
+               			});
             			return;
             		}
 	    		}else if( $("input:radio[id='customRadio4']").is(":checked") == false ){
 	    			
 	    			if( $("input[name='reportContent']" ).val() != ""){
-	    				alert("기타만 입력 가능");
+	    				swal({
+               				icon : 'warning',
+               			    title : '기타선택시 내용 작성이 가능합니다.',
+               			    text : " ",
+               			    button : false,
+               			    timer : 700
+               			});
 	    				return;
 	    			}
 	    		}
@@ -415,7 +465,13 @@
                 	dataType : "json" ,
                 	success : function(JSONData , status){
                 		closeModal('sendReport');
-                		alert(JSONData.msg);
+                		swal({
+               				icon : 'success',
+               			    title : JSONData.msg,
+               			    text : " ",
+               			    button : false,
+               			    timer : 700
+               			});
                 	}
                 });
 	    	});
@@ -436,18 +492,33 @@
 				cache : false ,
 				dataType : "json" ,
 				success : function(data) {
-					var msg = '';
-					msg += data.msg;
-					alert(msg);
-					
+			
 					if(data.likeCheck == 'F'){
+						
+					  swal({
+               		  	  icon : 'success',
+               			  title : "북마크 취소",
+               			  text : " ",
+               			  button : false,
+               			  timer : 700
+               		  });
+					  
 					  $(".fas.fa-bookmark").attr('class','far fa-bookmark fa-2x');
 					}else{
+						
+					  swal({
+	               		  icon : 'success',
+	               		  title : "북마크 추가",
+	               		  text : " ",
+	               		  button : false,
+	               		  timer : 700
+	               	  });
+						
 					  $(".far.fa-bookmark").attr('class','fas fa-bookmark fa-2x');
 					}      
 				},
 				error: function(request, status, error){
-					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					swal("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 				}
 			});
 		}
@@ -608,7 +679,7 @@
 					
 				},
 				error:function(request,status,error){
-			        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+			        swal("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
 			    } 
 			});
 		} //getBudgetOverviewList(planId) END
@@ -658,7 +729,7 @@
 				    var maxSize = 360 * 360;
 				    if(fileSize > maxSize) {
 				        $(".custom-file-label").html("<i class='fas fa-camera-retro'> size 360x360</i>");
-				        alert("파일용량을 초과하였습니다.");
+				        swal("파일용량을 초과하였습니다.");
 				        //$("#preview").html("");
 				        return;
 				    }else{
@@ -701,7 +772,7 @@
 					var slotCanUse = (slot - data);
 					
 					if( slotCanUse <= 0){
-						alert("슬롯 수가 부족합니다. 플래너 리스트에서 슬롯을 구매해주세요.");
+						swal("슬롯 수가 부족합니다. 플래너 리스트에서 슬롯을 구매해주세요.");
 					}else{
 						$('#addPlanModal').modal();
 					}
@@ -803,7 +874,7 @@
    	
    	
    	<div class="modal" tabindex="-1" role="dialog" id="sendReport" >
-	  <div class="modal-dialog" role="document" >
+	  <div class="modal-dialog" role="document" style="width:300px;">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5 class="modal-title">신고 작성</h5>
@@ -816,28 +887,28 @@
             <form id="reportform" class="sendReport">
 				<div class="custom-control custom-radio">
 				  <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="F">
-				  <label class="custom-control-label" for="customRadio1" style="font-size:12px; padding-bottom:5px;">욕설</label>
+				  <label class="custom-control-label" for="customRadio1" style="font-size:13px; padding-bottom:6px;">욕설</label>
 				</div>
 				<div class="custom-control custom-radio">
 				  <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" value="A">
-				  <label class="custom-control-label" for="customRadio2" style="font-size:12px; padding-bottom:5px;">음란물</label>
+				  <label class="custom-control-label" for="customRadio2" style="font-size:13px; padding-bottom:6px;">음란물</label>
 				</div>
 				<div class="custom-control custom-radio">
 				  <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input" value="R">
-				  <label class="custom-control-label" for="customRadio3" style="font-size:12px; padding-bottom:5px;">허위사실</label>
+				  <label class="custom-control-label" for="customRadio3" style="font-size:13px; padding-bottom:6px;">허위사실</label>
 				</div>
 				<div class="custom-control custom-radio">
 				  <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input" value="E">
-				  <label class="custom-control-label" for="customRadio4" style="font-size:12px;">기타</label>
-				  <input type="text" class="form-control" id="reportContent" name="reportContent" placeholder="기타 내용을 입력하세요." style="font-size:12px;"/>
+				  <label class="custom-control-label" for="customRadio4" style="font-size:13px;">기타</label>
+				  <input type="text" class="form-control" id="reportContent" name="reportContent" placeholder="기타 내용을 입력하세요." style="font-size:13px;"/>
 				</div>
 				  <input type="hidden" id="refId" name="refId" value="">
 	              <input type="hidden" id="reportTarget" name="reportTarget" value="">
 			</form>	      
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('sendReport');" style="width:50px;height:30px;font-size:11px;line-height:9px;">Close</button>
-	        <button type="button" class="btn btn-primary" style="width:50px;height:30px;font-size:11px;line-height:9px;" id="addReport">send report</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('sendReport');">Close</button>
+	        <button type="button" class="btn btn-primary" id="addReport">send report</button>
 	      </div>
 	    </div>
 	  </div>
