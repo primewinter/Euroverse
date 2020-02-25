@@ -158,12 +158,12 @@
 			
 			$(".nav-link:contains('플래너 초대 / 동행신청')").on("click" ,function(){
 				//alert("구현중");
-				$(self.location).attr("href","/myPage/likeOrderList");
-			});
-			
-			$("#myOfferList").on("click" ,function(){
 				$(self.location).attr("href","/myPage/myOfferList");
 			});
+			
+/* 			$("#myOfferList").on("click" ,function(){
+				$(self.location).attr("href","/myPage/myOfferList");
+			}); */
 			
 			
 			$(".nav-link:contains('찜한 상품 목록')").on("click" ,function(){

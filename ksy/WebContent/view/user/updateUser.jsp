@@ -322,6 +322,7 @@
 			var errorMsg = $("#pwdMessage");
 			if('${user.pwd}' == pwd.val()){
 				$("#checkPwd").modal("hide");
+				$("#emptyDiv").css("display","none");
 				main.prop("style","display : block");
 			}else{
 				errorMsg.text("비밀번호가 틀렸습니다.");
@@ -394,6 +395,10 @@
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
+	
+	<div style="height: 1000px;" id="emptyDiv"></div>
+	
+	
 	<div id="main" style="display: none">
 		<p style="font-size:30px; margin-left:500px; margin-top: 50px; margin-bottom: -20px" >
 			내정보수정<br><hr style="width: 600px;margin-bottom: -5px;">

@@ -1,17 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:if test="${  empty user }">
-		<jsp:forward page="/"/>
-	</c:if>
+	<jsp:forward page="/main.jsp"/>
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>Insert title here</title>
-
+<title>Euroverse</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
@@ -19,47 +17,27 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
 <script>
-$(document).ready(function(){
-	Show();
-})
-
-
+	$(document).ready(function(){
+		Show();
+	})
 
 	$( function () {
-		$('.fas.fa-list').on("click" , function (){
-			//var flightId = $("#flightId").val();
-			var flightId = $(this).next().val();
-			self.location ="/order/getFlightOrder?flightId="+flightId;
-		})
-		$('.fas.fa-list-ul').on("click" , function (){
-			var roomId = $(this).next().val();
-			self.location ="/order/getRoomOrder?roomId="+roomId;
-		})
-			
 		
 		$("td:nth-child(2)").on("click",function(){
-			console.log("일"+$(this))
-			console.log("이"+$(this).val())
-			console.log("삼"+$(this).next().val())
-			console.log("사"+$(this).next().next().val())
 			var type = $(this).next().next().val();
 			var id = $(this).next().val();
-			
 			if( type=="flight" ){
 				alert("항공~")
-				self.location ="/order/getFlightOrder?flightId="+id;
+				self.location ="/order/addFlightOrder?flightId="+id;
 			}else if(type=="room"){
 				alert("숙소~")
-				self.location ="/order/getRoomOrder?roomId="+id;
+				self.location ="/order/addRoomOrder?roomId="+id;
 			}
-			
-			
 		})
-
 	})
 
 
-function doShow() { 
+	function doShow() { 
 	    if ($('#flight').is(":visible")) { 
 	        $('#flight').hide();
 	        $('#iconf').hide();
@@ -77,20 +55,6 @@ function doShow() {
 	    } 
 	} 
 	
-	
-	$(function(){
-		
-		
-		
-		
-		
-		
-		/* $("#deleteFlight").on("click",function(){
-			
-			
-		})	 */
-	})
-	
 
 	function deleteLike(refId){
 		alert(refId);
@@ -102,12 +66,9 @@ function doShow() {
 			success : function(JSONData) {
 				var flightList = JSONData.flightList;
 				var roomList = JSONData.roomList;
-				
 				$("#flightBody").html("");
 				$("#roomList").html("");
-				
 				for(var i=0;i<flightList.length;i++){
-					
 					$("#flightBody").append("<tr>");
 					$("#flightBody").append("<th scope='row'>"+i+"</th>");
 					$("#flightBody").append("<input type='hidden' id='roomId' value="+roomList[i].roomId+"/>");
@@ -118,7 +79,6 @@ function doShow() {
 					$("#flightBody").append("<td>"+flightList[i].price+"원</td>");
 					$("#flightBody").append("<td><i class='fas fa-heart deleteFlight' onclick='javascript:deleteLike("+flightList[i].flightId+")'></i></td> ");
 					$("#flightBody").append("</tr>");
-					
 				}
 				
 				for(var j=0;roomList.length;j++){
@@ -141,59 +101,28 @@ function doShow() {
 				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			}
 		});
-		
-		
 	}
 
 </script>
-
-
 </head>
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp" />
-	
 	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
-
- 	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 	
 	<div class="container">
 		<div class="page-header">
-			<h3>Order List</h3>
+			<h3>찜목록</h3>
 		</div>
-	
-	
-			
-		<%-- <div class="col-md-6 text-right">
-			<form class="form-inline" name="detailForm">
-			<input type="hidden" name="imp_uid" value= "${purchase.imp_uid}" id="imp_uid"/>
-				<div class="form-group">
-					<select class="form-control" name="searchCondition">
-						<option value="0" ${ !empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>구매번호</option>
-						<option value="1" ${ !empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>구매자ID</option>
-						<option value="2" ${ !empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>구매자이름</option>
-					</select>
-				</div>
-				
-				<div class="form-group">
-					  <label class="sr-only" for="searchKeyword">검색어</label>
-				    	<input type="text" class="form-control" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
-				    		value="${! empty search.searchKeyword ? search.searchKeyword : '' }"  >
-				</div>
-				  <button type="button" class="btn btn-default">검색</button>
-				  <input type="hidden" id="currentPage" name="currentPage" value="" />
-			</form>
-		</div> --%>
+		
+		<div class="btn-group btn-group-toggle" data-toggle="buttons" >
+		  <label class="btn btn-secondary active">
+		    <input type="radio" name="flight" id="option1" checked onclick="javascript:Show();"> Flight
+		  </label>
+		  <label class="btn btn-secondary">
+		    <input type="radio" name="room" id="option2" onclick="javascript:doShow();"> Room
+		  </label>
 		</div>
-		<br/>
-<div class="btn-group btn-group-toggle" data-toggle="buttons" >
-  <label class="btn btn-secondary active">
-    <input type="radio" name="flight" id="option1" checked onclick="javascript:Show();"> Flight
-  </label>
-  <label class="btn btn-secondary">
-    <input type="radio" name="room" id="option2" onclick="javascript:doShow();"> Room
-  </label>
-</div>
 
 	
   	<br/><br/>
@@ -247,7 +176,7 @@ function doShow() {
 	      <th scope="col">출발일시 - 도착일시</th>
 	      <th scope="col">객실수/숙박인원</th>
 	      <th scope="col">가격</th>
-	      <th scope="col">주문상태</th>
+	      <th scope="col">찜</th>
 	    </tr>
 	  </thead>
 	 
@@ -272,11 +201,8 @@ function doShow() {
 	     </c:forEach> 
 	  </tbody>
 	</table>
-	</main>
-	</div>
-	</div>
 	
-	
+</div>	
 </body>
 <jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>
