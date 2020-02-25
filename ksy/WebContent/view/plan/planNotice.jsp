@@ -44,7 +44,8 @@
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
 
 
-
+	<!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
 
 	<!-- ICON 사용을 위한 스크립트 임포트 -->
@@ -71,6 +72,31 @@
 		
 	</script>
 
+	<style type="text/css">
+	
+	.bg {
+	    position:relative;
+	    z-index:1;
+	    width:100%;
+	    margin-left: 0;
+	    margin-right: 0;
+	}
+
+	.bg:after{
+		background-image: url('/resources/images/mainImg/plan_main.jpg');
+	    top:0;
+	    left:0;
+	    position:absolute;
+	    background-size:100%;
+	    opacity:0.5!important;
+	    filter:alpha(opacity=50);
+	    z-index:-1;
+	    content:"";
+	    width:100%;
+	    height:100%;
+	}
+	
+	</style>
 </head>
 <body>
 
@@ -78,9 +104,7 @@
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<!-- ToolBar 끝 -->
 
-	<!-- 화면구성 div Start ///////////////////////////// -->
-	<div class="container-fluid">
-		
+	
 		<!-- 다단 레이아웃 Start ///////////////////////////// -->
 		<div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center">
 		
@@ -92,10 +116,10 @@
 			</div> -->
 			
 			<!--  style="background-image: url('/resources/images/mainImg/venice_main2.jpg');  -->
-			<div class="jumbotron bg-light mt-3" style="background-image: url('/resources/images/mainImg/plan_main.jpg'); color:white; opacity: 90%;">
-				<div style="opacity: 100%;">
-				  <h1 class="display-4">유로버스에 오신걸 환영합니다!</h1>
-				  <p class="lead">유로버스의 플래너 기능을 사용하시려면<br/>회원으로 로그인 되어있어야 합니다.</p>
+			<div class="bg mt-3">
+				<div style="opacity: 100%;padding: 130px 300px; float: right;text-align: right;">
+				  <!-- <h1 class="display-4">유로버스에 오신걸 환영합니다!</h1> -->
+				  <p class="lead" style="font-weight: 500;">유로버스의 플래너 기능을 사용하시려면<br/>회원으로 로그인 되어있어야 합니다.</p>
 				  <hr class="my-4">
 				  <p>계정이 있으신가요? 로그인 후 나만의 플래너를 작성해보세요</p>
 				  <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
@@ -109,9 +133,6 @@
 
 		</div>
 		<!-- 다단 레이아웃 End ///////////////////////////// -->
-		
-	</div>
-	<!-- 화면구성 div End ///////////////////////////// -->
 	
 	
 	<script>
@@ -119,6 +140,8 @@
 		feather.replace();
 	</script>
 	
+	<jsp:include page="/toolbar/pushBar.jsp" />
+    <jsp:include page="/toolbar/footer.jsp" />
 
 </body>
 </html>
