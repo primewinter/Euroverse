@@ -210,10 +210,11 @@ table thead > tr{
 			dataType: "json",
 			headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
 			data: JSON.stringify({
-				postId: postId,
-				cmtWriterId : 'admin',
-				nickName:'Euroverse',
-		 		cmtContent : cmtContent
+				url: "/admin/json/getQnaCommentList/"+postId,
+				method: "GET",
+				dataType: "json",
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				success: function(JSONData, status){
 			}),
 			success: function(JSONData, status){
 				//restController에서 comments에 값이 이미 존재하면 error메세지를 보냄 
@@ -274,13 +275,41 @@ table thead > tr{
 				cmtId : cmtId
 			}),
 			success: function(JSONData, status){
-				 $("#delCmt").remove();
-			}// end of success
-			
-        }); //end of ajax
-        
-	}; //end of deleteCmt
-
+				url: "/admin/json/getQnaCommentList/"+postId,
+				method: "GET",
+				dataType: "json",
+				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+				success: function(JSONData, status){
+					
+					if( JSONData==null || JSONData=="" ){
+						console.log("리턴데이터 없음");	
+					}else{
+						console.log("리턴데이터 있음! => "+JSONData);	 
+							
+							if(JSONData != null) {
+									
+						            var appendHtml =
+										'<div id="delCmt" style="padding:5px 25px" class="row">'+
+										'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
+										'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
+							            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
+							            '<div class="qnaComment" style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[0].cmtContent+
+							            '<button type="button" class="btn btn-outline-danger btn-sm" style="margin-left:5px;" onclick="deleteCmt('+JSONData.list[0].cmtId+','+JSONData.list[0].postId+')">삭제</button></div>'+
+							            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
+							            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
+							        	'</div></div>';
+							        	
+									 $("#append").append(appendHtml); 
+							
+								getAdminQnaList(JSONData.list[0].postId,JSONData.list[0].postContent,JSONData.list[0].qnaFirstCate,JSONData.list[0].postWriterId)
+							
+							}//end of inner if
+						}//end inner else
+					}// end inner success
+				});//inner ajax
+			}//end inner success
+		});//end outer ajax
+	}//end deleteCmt()
 	
 </script>
 
