@@ -197,10 +197,10 @@
 	
 	<c:if test="${ !empty user && user.role == 'G'}">
 		<c:if test="${post == null}">
-			<div class="h4" style="text-align:center;height: 120px;">삭제된 게시글입니다.</div>
+			<div class="h4" style="text-align:center;height: 220px;"></div>
 		</c:if>
 		<c:if test="${post != null}">
-		  <div style="height: 100px;"></div>
+		  <div style="height: 120px;"></div>
 			<div class="h4" style="text-align:center;">동행찾기는 본인인증후 사용 가능합니다.</div>
 			<div style="text-align: center;margin-top: 50px;">
 			<button type="button" class="btn btn-outline-primary" id="userAuth">휴대폰으로 본인인증하기</button>
@@ -210,7 +210,7 @@
 	
 	<c:if test="${ !empty user && user.role != 'G'}">
 		<c:if test="${post == null}">
-			<div class="h4" style="text-align:center;height: 120px;">삭제된 게시글입니다.</div>
+			<div class="h4" style="text-align:center;height: 220px;"></div>
 		</c:if>
 	</c:if>
 		

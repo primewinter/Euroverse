@@ -370,7 +370,7 @@
             }
         }
 
-        .modal-dialog {
+        .reportModal {
             display: inline-block;
             text-align: left;
             vertical-align: middle;
@@ -698,7 +698,7 @@
             checkRoom();
 
             if ('${post.accCount}' == '${post.accPerson}' || '${user.userId}' == '${post.postWriterId}') {
-                $('#offer-party-btn').hide();
+                $('#offer-party-btn').hide(); //동행신청 버튼
             } else {
                 $('#offer-party-btn').show();
             }
@@ -731,7 +731,7 @@
                     } else {
                         console.log('${user.userId == post.postWriterId && post.accCount >= 2}');
                         if ('${user.userId == post.postWriterId && post.accCount >= 2}' == 'true') {
-                            $('#create-room-btn').show();
+                            $('#create-room-btn').show(); //채팅방 개설 버튼
                         } else {
                             $('#create-room-btn').hide();
                         }
@@ -781,7 +781,7 @@
     <!-- ToolBar End /////////////////////////////////////-->
 
     <div class="modal" tabindex="-1" role="dialog" id="sendReport">
-        <div class="modal-dialog" role="document" style="width:300px;">
+        <div class="modal-dialog reportModal" role="document" style="width:300px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">신고 작성</h5>
@@ -836,18 +836,29 @@
 
         <div class="recom_bottom_box clear" style="width: 890px;">
             <c:if test="${post.postLikeFlag == 'F' || post.postLikeFlag == null}">
+              <a href="#" class="hvr-fade">  
                 <i onclick="addBookMark(${post.postId})" class="far fa-bookmark fa-2x" style="float: right;"></i>
+ 			  </a>	
             </c:if>
             <c:if test="${post.postLikeFlag == 'T' }">
+              <a href="#" class="hvr-fade">  
                 <i onclick="addBookMark(${post.postId})" class="fas fa-bookmark fa-2x" style="float: right;"></i>
+              </a>
             </c:if>
-            <div class="far fa-angry" data-toggle="modal" data-target="#sendReport" onclick="reportshow('${post.postId}','P');" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</div>
+            <a href="#" class="hvr-fade">
+              <i class="far fa-angry" data-toggle="modal" data-target="#sendReport" onclick="reportshow('${post.postId}','P');" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</i>
+            </a>
             <h3 class="title ub-word" style="margin-bottom: 40px;">
                 <span class="title_subject" style="font-weight:bold;">${post.postTitle} </span> <span style="font-size:18px;"> [ ${post.accCount} / ${post.accPerson} ]</span>
                 <br><span style="font-size: 15px;">
                     <i class="fas fa-walking"></i>
+                  <c:if test="${post.accEndDate != null}">
                     <fmt:formatDate value="${post.accStartDate}" pattern="yyyy-MM-dd" /> ~
                     <fmt:formatDate value="${post.accEndDate}" pattern="yyyy-MM-dd" />
+                  </c:if>
+                  <c:if test="${post.accEndDate == null}">
+                    <fmt:formatDate value="${post.accStartDate}" pattern="yyyy-MM-dd" />
+                  </c:if>
                 </span>
             </h3>
         </div>
@@ -1070,8 +1081,6 @@
             </div>
         </div>
     </form>
-
-	<jsp:include page="/toolbar/footer.jsp" />
 
 </body>
 

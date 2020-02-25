@@ -59,6 +59,8 @@
 
 <script>
 
+var maPageCode = 'Q';
+
 function fncGetUserList(currentPage) {
 	$("#currentPage").val(currentPage)
 	$("#qnaForm").attr("method" , "POST").attr("action" , "/myPage/addQnaAndQnaList").submit();
