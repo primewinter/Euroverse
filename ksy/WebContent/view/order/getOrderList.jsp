@@ -1,7 +1,8 @@
 <%@ page language="java"
     pageEncoding="EUC-KR"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@page import="java.util.*" %>
 
 <html>
 <head>
@@ -199,7 +200,7 @@ function fncGetUserList(currentPage) {
 				      <td>${flight.depCity}/${flight.arrCity }</td>
 				      <td>${flight.depTime} - ${flight.arrTime }</td>
 				      <td>${flight.stopOver}/${flight.leadTime}</td>
-				      <td>${flight.price}원/${flight.orderDate}</td>
+				      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" />원/${flight.orderDate}</td>
 				      <td>
 					      <c:if test="${flight.orderStatus == '1' }">
 					      	주문완료
@@ -250,7 +251,7 @@ function fncGetUserList(currentPage) {
 			    <td>${room.roomName}</td>
 			    <td>${room.checkIn} - ${room.checkOut }</td>
 			    <td>${room.roomNum} 개 / 성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
-			    <td>${room.price} 원 /${room.orderDate}</td>
+			    <td><fmt:formatNumber value="${room.price}" pattern="###,###" /> 원 /${room.orderDate}</td>
 			    <td> 
 			      <c:if test="${room.orderStatus == '1' }">
 			      	주문완료

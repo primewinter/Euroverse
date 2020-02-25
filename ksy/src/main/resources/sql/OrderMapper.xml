@@ -133,7 +133,7 @@
 		  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
 		  						FROM (  SELECT  flight_id, room_id, order_id , order_date, order_status , buyer_id , buyer_name , buyer_phone , buyer_email , total_amount , pay_point , actual_amount , pay_opt , refund_date  
 												FROM orders o 
-												ORDER BY order_id  ) inner_table
+												ORDER BY order_date  ) inner_table
 		  						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
 		  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
 		  		AND #{search.currentPage}*#{search.pageSize}

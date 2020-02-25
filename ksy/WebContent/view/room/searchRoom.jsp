@@ -325,6 +325,10 @@ $(function() {
 			$("#depIcon").show();
 			$("#arrIcon").show();
 			$('footer').css("margin-top","150");
+			
+			if ($("#roomNum").val() == 2) {
+				$('footer').css("margin-top","50");
+			}
 		}
 	};
 	
@@ -444,15 +448,18 @@ $(function() {
 				var child = $('#numberUpDown4').val(num);
 				});
 			});
+	
 	/* 객실 수 2개 클릭 시 */
 	$(function() {
 		$('#roomNum').click(function (){
 			if ($("#roomNum").val() == 2) {
 				$("#hiding").css("display","block");
+				$('footer').css("margin-top","50");
 				$("#numberUpDown3").val(1);
 				
 			}else if($("#roomNum").val() == 1){
 				$("#hiding").css("display","none");
+				$('footer').css("margin-top","150");
 			}
 			
 		});

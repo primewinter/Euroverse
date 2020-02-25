@@ -94,7 +94,7 @@
 
 $(function(){
 
-	$("#searchButton").on("click",function(){
+	$(".btn.btn-info").on("click",function(){
 					
 				var loading = document.getElementById("loading");
 				loading.style.display = 'block';
@@ -157,13 +157,13 @@ $(function(){
 			</div>
 	
 		<c:forEach var="room" items = "${roomList}" >
-		<hr/>
-		<div class="row">
+		<hr style="width:830px;margin-left:80px;float:left;margin-right:600px;" />
+		<div class="row" style="margin-left:13px;">
 		<br/>
 				<div class="col-sm-2" style="margin-left:50px;margin-right:20px;">
 					<img src = "/resources/images/roomImg/${room.roomImg}" width="180" height="120"/>
 				</div>
-				<div class="col-sm-6" style="background-color:whitesmoke;">
+				<div class="col-sm-7" style="background-color:whitesmoke;">
 					<div class="row" style="color:gray;margin-top:10px;margin-left:20px;margin-right:20px;margin-bottom:10px;">
 						<p style="font-size:18px;"><strong>${room.roomName}</strong></p>
 						<address class="contact">

@@ -247,7 +247,7 @@
     	
     }
     
-	$(document).on('keydown','#payPoint',function(){
+	$(document).on('keyup','#payPoint',function(){
 		var payPoint = $("#payPoint").val();
 		var total = $("#totalPoint").val();
 		
@@ -255,7 +255,7 @@
 		 if (payPoint > total & payPoint.length == total.length) {
 			alert("총 포인트 이하로 사용 가능합니다.");
 			$("#payPoint").val(total);
-			
+			$("#usedPoint").val(total);
 		} 
 		
 	});
@@ -385,7 +385,7 @@
 			<br/>	
 			<h4 align="left">결제 정보</h4>
 			<hr/>
-			<div class="row" id="pay">
+			<div class="row" id="pay" style="Padding-left:30px;">
 	             <div class="col-sm-2">
 	            		 총 결제 금액
 	                    <div class="row">
@@ -418,7 +418,7 @@
 			<br/>
 			<hr style="width:50%;float:left;margin-right:700px;" />
 			
-				<div class="row" style="Padding-left:10px;">
+				<div class="row" style="Padding-left:40px;">
 				 포인트 사용 &nbsp;&nbsp;&nbsp;
 				<input	type="text" name="payPoint" id="payPoint" class="form-control" 
 							style="width:110px;height:30px;font-size:13px;"	placeholder="0" onkeyup="call();">
@@ -428,7 +428,7 @@
 					<div class="col" style="Padding-left:40px;">
 						<p> 적립 예정</p>
 					 	<input	type="text" name="addPoint" id="addPoint" class="form-control" readonly="readonly"
-                  		 		style="background-color:white;margin-top:-10px;width:55px;height:15px;border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" />
+                  		 		style="background-color:white;margin-top:-10px;width:70px;height:30px;border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;" />
 					</div>
 				</div>
 			
@@ -462,9 +462,9 @@
 		
 	</form>
 	
-	 <jsp:include page="/toolbar/footer.jsp" />
 </div>
 
+	 <jsp:include page="/toolbar/footer.jsp" />
 
 </body>
 </html>

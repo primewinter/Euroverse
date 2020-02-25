@@ -2,11 +2,11 @@
     pageEncoding="EUC-KR"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@page import="java.util.*" %>    
 
 <html>
 <head>
-<title>Insert title here</title>
 <meta charset="EUC-KR">
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -87,7 +87,7 @@
 					      <td>${flight.arrTime}</td>
 					      <td>${flight.stopOver}</td>
 					      <td>${flight.leadTime}</td>
-					      <td>${flight.price}원</td>
+					      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" />원</td>
 					    </tr>
 					  </tbody>
 				</table>
@@ -114,7 +114,7 @@
 					      <td>${room.checkOut}</td>
 					      <td>${room.roomNum} 개</td>
 					      <td>성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
-					      <td>${room.price}원</td>
+					      <td><fmt:formatNumber value="${room.price}" pattern="###,###" />원</td>
 					    </tr>
 					  </tbody>
 				</table>
@@ -132,10 +132,10 @@
 	            		 총 결제 금액
 	                    <div class="row">
 	                    	<c:if test="${flight.depCity == null }">	
-	                   			<div id="totalAmount" style="Padding-left:30px;">${room.price}원</div> 
+	                   			<div id="totalAmount" style="Padding-left:30px;"><fmt:formatNumber value="${room.price}" pattern="###,###" />원</div> 
 	            			</c:if>
 	            			<c:if test="${room.roomCity == null }">	
-	                   			<div id="totalAmount" style="Padding-left:30px;">${flight.price}원</div>
+	                   			<div id="totalAmount" style="Padding-left:30px;"><fmt:formatNumber value="${flight.price}" pattern="###,###" />원</div>
 	            			</c:if>
 	            		</div>
 	             </div>
@@ -154,7 +154,7 @@
 	             <div class="col-sm-2" style="Padding-left:40px;">
 	            		 실 결제 금액
 	                    <div class="row">
-	                    	<div id="actualAmount" style="Padding-left:20px;">${order.actualAmount}원</div>
+	                    	<div id="actualAmount" style="Padding-left:20px;"><fmt:formatNumber value="${order.actualAmount}" pattern="###,###" />원</div>
 	            		</div>
 	             </div>
 			</div>
