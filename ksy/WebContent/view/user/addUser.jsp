@@ -850,8 +850,8 @@
 			                <!--두번째 슬라이드-->
 			                <div class="carousel-item" style="">
 			                     <div class="row">
-									<c:forEach var="style" items="${tripStyleList}" varStatus="status" begin="10" >
-											<div class="col" style="margin-top: 60px; text-align: center;">
+									<c:forEach var="style" items="${tripStyleList}" varStatus="status" begin="10" end="19">
+											<div class="col" style="margin-top: 30px; text-align: center;">
 									    		<img alt="" src="/resources/images/tripInfoimges/${style.surveyImg}" style="overflow: hidden" width="80px;"height="80px;">
 						 						<p class="card-text"> 
 						 							<input type="hidden" value="${status.index}">

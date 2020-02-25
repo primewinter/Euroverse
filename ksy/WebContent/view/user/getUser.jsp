@@ -18,6 +18,11 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
+	<!-- ICON 사용을 위한 스크립트 임포트 -->
+	<!-- https://feathericons.com/ -->
+	<script src="https://unpkg.com/feather-icons"></script>
+	
+
 
 <style>
 
@@ -173,113 +178,138 @@ var maPageCode = 'M';
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
+	
+	
+	<div class="container" style="max-width: 1000px;">
 					
-	<div id="userProfileDiv" style="width:70%;height:230px; padding-left: 120px;padding-top: 30px;margin-left: 240px;">
-		
-		<div class="row">
-			<div style="display: inline-block;">
-		   		<img alt="" src="/resources/images/userImages/${user.userImg}" style="border-radius: 180px;width:210px;height: 210px;">
-			 	<div style="margin-left: 250px;margin-top:-190px;">
-			 		<c:if test="${user.role == 'G' }">
-		                 <div class="badge badge-secondary ">비인증회원</div>
-                 	</c:if>
-                 	<c:if test="${user.role == 'Q' }">
-                 		<div class="badge badge-info">인증회원</div>
-                 	</c:if>
-                 	<c:if test="${user.role == 'A' }">
-                 		<div class="badge badge-info" >관리자</div>
-                 	</c:if>
-				    <div class="nicknameClass" style="font-size: 25px;"  >
-						 ${user.nickname}
-						<!-- <i class="far fa-address-card" style=" text-decoration: underline; cursor: help;">상세보기</i> -->
-		  			</div>
-		  			<div style="font-size: 16px;display: inline-block;">
-			  			<div style="">
-			  				${user.userName}
-			  			</div>
-			  			<div style="font-size: 16px;">
-				  			<c:if test="${user.sex == 'M'}">
-				  				남자<i class="fas fa-male"></i>
-				  			</c:if>
-				  			<c:if test="${user.sex == 'F'}">
-				  				여자<i class="fas fa-female"></i>
-				  			</c:if>
-			  			</div>
-			  			<div style="font-size: 16px;">
-			  				${user.email}
+		<div id="userProfileDiv" style="width:100%;height:230px;padding-top: 30px;">
+			
+			<div class="d-flex justify-content-between" style="padding: 0px 70px;">
+			
+				<!-- 유저이미지 / 유저정보 ////////////////////////////////////////// -->
+				<div class="row">
+				
+					<!-- 유저이미지 -->
+			   		<div>
+			   			<img alt="" src="/resources/images/userImages/${user.userImg}" style="border-radius: 180px;width:210px;height: 210px;border: 1px solid #DBE0E5;">
+				 	</div>
+				 	
+				 	<!-- 유저정보 -->
+				 	<div style="margin-left: 30px;margin-top: 20px;">
+				 	
+				 		<c:if test="${user.role == 'G' }">
+			                 <div class="badge badge-secondary">비인증회원</div>
+	                 	</c:if>
+	                 	<c:if test="${user.role == 'Q' }">
+	                 		<div class="badge badge-info">인증회원</div>
+	                 	</c:if>
+	                 	<c:if test="${user.role == 'A' }">
+	                 		<div class="badge badge-success" >관리자</div>
+	                 	</c:if>
+	                 	
+					    <div class="nicknameClass" style="font-size: 25px;margin:  5px 0px 15px 0px;">
+							 ${user.nickname} <span style="font-size: 18px;">님 안녕하세요!</span>
+							<!-- <i class="far fa-address-card" style=" text-decoration: underline; cursor: help;">상세보기</i> -->
+			  			</div> 
+			  			
+			  			<div style="font-size: 16px;display: inline-block;">
+				  			<div style="">
+				  				<span data-feather="user"></span> &nbsp; 
+				  				${user.userName}&nbsp;
+				  				<c:if test="${user.sex == 'M'}">
+					  				<i class="fas fa-mars" style="color: #106ABD;"></i>
+					  			</c:if>
+					  			<c:if test="${user.sex == 'F'}">
+					  				<i class="fas fa-venus" style="color: #BD1010;"></i>
+					  			</c:if>
+				  			</div>
+				  			<%-- <div style="font-size: 16px;">
+				  				<span data-feather="user"></span> &nbsp; 
+					  			<c:if test="${user.sex == 'M'}">
+					  				남자 <i class="fas fa-male"></i>
+					  			</c:if>
+					  			<c:if test="${user.sex == 'F'}">
+					  				여자 <i class="fas fa-female"></i>
+					  			</c:if>
+				  			</div> --%>
+				  			<div style="font-size: 16px;">
+				  				<span data-feather="mail"></span> &nbsp; ${user.email}
+				  			</div>
+				  			
+				  			<div style="font-size: 16px;">
+				  				<span data-feather="phone"></span> &nbsp; ${user.phone}
+				  			</div>
 			  			</div>
 			  			
-			  			<div style="font-size: 16px;">
-			  				${user.phone}
-			  			</div>
-		  			</div>
-		  		</div>	
-	  		</div>
-			<div style=" display: inline-block; margin-left: 60px;">
-				<div style="width:369px;height: 20px;"></div>
-					<div class="row" >
-						<div style="display: inline-block;  width: 240px;">
-							<div>
-								가고싶은 나라
-							</div>
-							<div>
-					  			<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
-									<c:if test="${tripSurvey.surveyType=='D'}">
-										 <%-- <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="60px" height="47px" onmouseover="country('${tripSurvey.surveyChoice}')" onmouseout="country('')" style="margin:3px;cursor: help;" title="${tripSurvey.surveyChoice}"  > --%>
-										<span data-toggle="tooltip" data-placement="top" title="${tripSurvey.surveyChoice}"><img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="60px" height="47px" onmouseover="country('${tripSurvey.surveyChoice}')" onmouseout="country('')" style="margin:3px;cursor: help"></span>
-									</c:if>
-								</c:forEach> 
-							</div>
+			  		</div>
+			  	</div>
+		  		<!-- 유저이미지 / 유저정보 ////////////////////////////////////////// -->
+		  		
+		  		
+		  		<!-- 가고싶은나라 / 여행스타일 /////////////////////////////// -->
+		  		<div style="width: 290px;border-left: 1px solid #E7E7E7; padding-left: 20px;margin-top: 30px;margin-bottom: 10px;float: right;">
+					<div style="margin-bottom: 20px;">
+						<div style="margin-bottom: 5px;">
+							<span data-feather="flag"></span> &nbsp;가고싶은 나라
 						</div>
-						<div style="display: inline-block; width: 10px;"></div>
-						<div style="display: inline-block; width: 150px;">
-						<div>
-							여행스타일
+						<div style="margin-left: 20px;">
+				  			<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
+								<c:if test="${tripSurvey.surveyType=='D'}">
+									 <%-- <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="60px" height="47px" onmouseover="country('${tripSurvey.surveyChoice}')" onmouseout="country('')" style="margin:3px;cursor: help;" title="${tripSurvey.surveyChoice}"  > --%>
+									<span data-toggle="tooltip" data-placement="top" title="${tripSurvey.surveyChoice}"><img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="40px" height="37px" onmouseover="country('${tripSurvey.surveyChoice}')" onmouseout="country('')" style="margin:3px;cursor: help"></span>
+								</c:if>
+							</c:forEach> 
 						</div>
-						<div>
+					</div>
+					
+					<div>
+						<div style="margin-bottom: 5px;">
+							<span data-feather="compass"></span> &nbsp;여행스타일
+						</div>
+						<div style="margin-left: 20px;">
 							<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
 								<c:if test="${tripSurvey.surveyType=='T'}">
-									<span data-toggle="tooltip" data-placement="top" title="${tripSurvey.surveyChoice}"><img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="60px" height="47px" onmouseover="tripStyle('${tripSurvey.surveyChoice}')" onmouseout="tripStyle('')" style="margin: 3px;cursor: help;" ></span>
+									<span data-toggle="tooltip" data-placement="top" title="${tripSurvey.surveyChoice}"><img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="40px" height="37px" onmouseover="tripStyle('${tripSurvey.surveyChoice}')" onmouseout="tripStyle('')" style="margin: 3px;cursor: help;" ></span>
 								</c:if>
 							</c:forEach>
 						</div>
-						</div>
 					</div>
 				</div>
-		</div>  			
-	</div>
+				<!-- 가고싶은나라 / 여행스타일 /////////////////////////////// -->
+		  		
+	  		</div>
+	  		
+		</div>  	
 				
-	<div style="text-align: center;margin-top: 30px;">
-      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="pointCard">
-			  <div class="flipper">
-   					<div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
-      					  <!-- front content -->
-    					<p style="font-size: 30px;"><i class="fas fa-coins"></i> 포인트</p>
-  					</div>
-	    			<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
-	        			<!-- back content -->
- 						<p style="font-size: 30px;">${user.totalPoint}P</p>
-	   				</div>
-				</div>
-		</div>
-
-					
-					
-      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="planCard">
-			  <div class="flipper">
-   					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
-      					  <!-- front content -->
-    					<p style="font-size: 30px;"><i class="far fa-flag"></i> 유럽에서</p>
-  					  </div>
-      				<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
-         				 <!-- back content -->
-   						<p style="font-size: 30px;">${travelDate}일</p>
-     				</div>
-  				</div>
-		</div>
-
-				     
-				     
+		
+		<!-- 카드 여섯장 ///////////////////////////////////////////////// -->
+		<div style="text-align: center;margin-top: 30px;">
+	      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="pointCard">
+				  <div class="flipper">
+	   					<div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
+	      					  <!-- front content -->
+	    					<p style="font-size: 30px;"><i class="fas fa-coins"></i> 포인트</p>
+	  					</div>
+		    			<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
+		        			<!-- back content -->
+	 						<p style="font-size: 30px;">${user.totalPoint}P</p>
+		   				</div>
+					</div>
+			</div>
+	
+	      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="planCard">
+				  <div class="flipper">
+	   					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
+	      					  <!-- front content -->
+	    					<p style="font-size: 30px;"><i class="far fa-flag"></i> 유럽에서</p>
+	  					  </div>
+	      				<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
+	         				 <!-- back content -->
+	   						<p style="font-size: 30px;">${travelDate}일</p>
+	     				</div>
+	  				</div>
+			</div>
+	       
 	      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="slotCard">
 					  <div class="flipper">
      					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
@@ -292,12 +322,9 @@ var maPageCode = 'M';
    					 </div>
   				</div>
 			</div>
-
-				     
-     </div>
-     <div style="text-align: center;">
-	
-	
+	     </div>
+	     
+	     <div style="text-align: center;">
 	      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="postCard">
 			    <div class="flipper">
    					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
@@ -310,10 +337,7 @@ var maPageCode = 'M';
    					 </div>
   				</div>
 			</div>
-
-				     
-				     
-				     
+	    
 			<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="commentCard">
 	  			<div class="flipper">
 	       			 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
@@ -327,7 +351,6 @@ var maPageCode = 'M';
    				</div>
 			</div>
 					
-			
 	      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="partyCard">
 			 	 <div class="flipper">
    					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
@@ -340,9 +363,14 @@ var maPageCode = 'M';
    					 </div>
    				</div>
 			</div>
-
+		</div>
+	
 	</div>
-		  	
+	
+	<script>
+		/* icon 사용을 위한 스크립트 */
+		feather.replace();
+	</script>
 
 </body>
 <jsp:include page="/toolbar/footer.jsp"></jsp:include>

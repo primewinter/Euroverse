@@ -977,42 +977,45 @@ public class UserController {
 		tripSurvey12.setSurveyImg("desert.jpeg");
 		tripStyleList.add(tripSurvey12);
 		
-//		TripSurvey tripSurvey = new TripSurvey();
-//		tripSurvey.setSurveyChoice("");
-//		tripSurvey.setSurveyImg("");
-//		tripStyleList.add(tripSurvey);
-//		
-//		TripSurvey tripSurvey = new TripSurvey();
-//		tripSurvey.setSurveyChoice("");
-//		tripSurvey.setSurveyImg("");
-//		tripStyleList.add(tripSurvey);
-//		
-//		TripSurvey tripSurvey = new TripSurvey();
-//		tripSurvey.setSurveyChoice("");
-//		tripSurvey.setSurveyImg("");
-//		tripStyleList.add(tripSurvey);
-//		
-//		TripSurvey tripSurvey = new TripSurvey();
-//		tripSurvey.setSurveyChoice("");
-//		tripSurvey.setSurveyImg("");
-//		tripStyleList.add(tripSurvey);
-//		
-//		TripSurvey tripSurvey = new TripSurvey();
-//		tripSurvey.setSurveyChoice("");
-//		tripSurvey.setSurveyImg("");
-//		tripStyleList.add(tripSurvey);
-//		
-//		TripSurvey tripSurvey = new TripSurvey();
-//		tripSurvey.setSurveyChoice("");
-//		tripSurvey.setSurveyImg("");
-//		tripStyleList.add(tripSurvey);
-//		
-//		TripSurvey tripSurvey = new TripSurvey();
-//		tripSurvey.setSurveyChoice("");
-//		tripSurvey.setSurveyImg("");
-//		tripStyleList.add(tripSurvey);
-//		
+		TripSurvey tripSurvey13 = new TripSurvey();
+		tripSurvey13.setSurveyChoice("그림");
+		tripSurvey13.setSurveyImg("draw.jpeg");
+		tripStyleList.add(tripSurvey13);
 		
+		TripSurvey tripSurvey14 = new TripSurvey();
+		tripSurvey14.setSurveyChoice("축제");
+		tripSurvey14.setSurveyImg("festival.jpeg");
+		tripStyleList.add(tripSurvey14);
+		
+		TripSurvey tripSurvey15 = new TripSurvey();
+		tripSurvey15.setSurveyChoice("게임");
+		tripSurvey15.setSurveyImg("game.jpeg");
+		tripStyleList.add(tripSurvey15);
+		
+		TripSurvey tripSurvey16 = new TripSurvey();
+		tripSurvey16.setSurveyChoice("IT");
+		tripSurvey16.setSurveyImg("it.png");
+		tripStyleList.add(tripSurvey16);
+		
+		TripSurvey tripSurvey17 = new TripSurvey();
+		tripSurvey17.setSurveyChoice("만남");
+		tripSurvey17.setSurveyImg("mannam.jpeg");
+		tripStyleList.add(tripSurvey17);
+		
+		TripSurvey tripSurvey18 = new TripSurvey();
+		tripSurvey18.setSurveyChoice("영화");
+		tripSurvey18.setSurveyImg("movie.png");
+		tripStyleList.add(tripSurvey18);
+		
+		TripSurvey tripSurvey19 = new TripSurvey();
+		tripSurvey19.setSurveyChoice("바다");
+		tripSurvey19.setSurveyImg("sea.jpeg");
+		tripStyleList.add(tripSurvey19);
+		
+		TripSurvey tripSurvey20 = new TripSurvey();
+		tripSurvey20.setSurveyChoice("산");
+		tripSurvey20.setSurveyImg("mountain.jpeg");
+		tripStyleList.add(tripSurvey20);
 		
 		return tripStyleList;
 	}

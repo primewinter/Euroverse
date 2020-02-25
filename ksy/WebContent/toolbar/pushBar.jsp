@@ -213,18 +213,6 @@
         color: #339999;
         border-color: #339999;
     }
-    .modal {
-        text-align: center;
-    }
- 
-    @media screen and (min-width: 768px) { 
-        .modal:before {
-                display: inline-block;
-                vertical-align: middle;
-                content: " ";
-                height: 100%;
-        }
-    }
     
     .modal-dialog-center{
         display: inline-block;

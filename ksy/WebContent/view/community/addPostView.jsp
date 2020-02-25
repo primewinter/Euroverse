@@ -225,6 +225,12 @@
 			}
 		}
 		
+		function onKeyDown() {
+			if(event.keyCode == 13) {
+		    	addTag();
+		    }
+		}
+		
 	</script>
     
 </head>
@@ -315,7 +321,7 @@
 		<div class="form-group">
 		    <label for="tagContent" class="control-label" style="font-size: 12px; float: left; margin-left: 30px;">태그등록</label>
 		    <div class="col-sm-5">
-		      <input type="text" class="form-control" id="appendTag" value="" maxlength="15" style="font-size: 12px; height:23px; width:200px; float:left;">
+		      <input type="text" class="form-control" id="appendTag" value="" maxlength="15" style="font-size: 12px; height:23px; width:200px; float:left;" onKeyDown="onKeyDown();">
 		      <i class="fas fa-plus" onclick="addTag()" style="float:left; margin-left:10px; margin-top:4px; font-size:12px;">등록</i>
 		      <div class="tagList" id="tagList" style="width:800px;float:left;margin-top:10px;"></div>
 		    </div>

@@ -44,6 +44,7 @@
 		<typeAlias alias="user" 	type="com.ksy.service.domain.User" />
 		<typeAlias alias="tripInfo" type="com.ksy.service.domain.TripInfo" />
 		<typeAlias alias="tripSurvey" type="com.ksy.service.domain.TripSurvey"/>
+		<typeAlias alias="loginUser" type="com.ksy.service.domain.LoginUser"/>
 		
 	</typeAliases>
 	

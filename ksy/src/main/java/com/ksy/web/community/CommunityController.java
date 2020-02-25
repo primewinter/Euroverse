@@ -125,11 +125,17 @@ public class CommunityController {
 		
 		User user = (User)session.getAttribute("user");
 		if( user == null) {
-			return "redirect:/main.jsp";
+			return "forward:/view/community/check.jsp";
 		}
 		
 		if( boardName.equals("D") ) {
+			
+			if(user.getRole().equals("G")) {
+				model.addAttribute("addAcc","addAcc");
+				return "forward:/view/community/check.jsp";
+			}
 			return "forward:/view/community/addFindAccPostView.jsp";
+
 		}else if( boardName.equals("E") ) {	//플래너 게시할거임
 			
 			List<Plan> listPlan = planService.getPlanList(user.getUserId());
