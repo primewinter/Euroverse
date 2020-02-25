@@ -624,7 +624,7 @@
 				                    </div>
 				                </div>
 				                <!-- 왼쪽 오른쪽 화살표 버튼 시작 -->
-				                <a class="carousel-control-prev" href="#country-carousel" data-slide="prev" style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
+				                <a class="carousel-control-prev" href="#country-carousel" data-slide="prev" style="height: 50px; vertical-align: middle; margin-top: 130px;margin-left:50px;color: black;font-size: 30px;">
 				                   <i class="far fa-caret-square-left"></i>
 				                    <!-- <span>Previous</span> --> </a>
 				
