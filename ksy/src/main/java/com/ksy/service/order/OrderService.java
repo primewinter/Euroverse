@@ -1,5 +1,6 @@
 package com.ksy.service.order;
 
+import java.util.List;
 import java.util.Map;
 
 import com.ksy.common.Search;
@@ -15,7 +16,7 @@ public interface OrderService {
 	
 	public void addPoint(Point point) throws Exception;
 	
-	public Point pointList(String orderId) throws Exception;
+	public List<Point> pointList(String orderId) throws Exception;
 	
 	public Order getFlightOrder(String flightId) throws Exception;
 	

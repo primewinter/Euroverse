@@ -319,7 +319,11 @@
 		$(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			 $( ".fr .updatePost" ).on("click" , function() {
-					self.location = "/community/updatePost?postId=${post.postId}&boardName="+boardName;
+			 	 self.location = "/community/updatePost?postId=${post.postId}&boardName="+boardName;
+			 });
+			
+			 $("#boardTitle").on("click", function(){
+				 self.location = "/community/getPostList?boardName=${param.boardName}";
 			 });
 		});
 		
@@ -562,18 +566,12 @@
 	<br>
 	
 	  <div class="page_head clear">
-		<div class="h4" style="text-align: center;font-weight: bold;">
+		<div class="h4" id="boardTitle" style="text-align: center;font-weight: bold;">
 	     <c:if test="${param.boardName=='A'}">
 		   자유게시판
 		 </c:if>
 		 <c:if test="${param.boardName=='B'}">
 		   정보공유
-		 </c:if>
-		 <c:if test="${param.boardName=='C'}">
-		   인기글게시판
-		 </c:if>
-		 <c:if test="${param.boardName=='E'}">
-		  플래너공유
 		 </c:if>
 		 <c:if test="${param.boardName=='F'}">
 		  여행후기
@@ -607,7 +605,7 @@
 	        ${post.nickName}
 	      </span>
 	      <span class="gall_date" style="font-size: 14px; color: gray;">
-	        ${post.postDate}
+	        &emsp;${post.postDate}
 	      </span>
 	    <div class="post_history" style="float: right;">
 	      <i class="far fa-eye" style="font-size: 13px;"> ${post.views}</i>

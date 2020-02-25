@@ -32,13 +32,34 @@
 			font-family: "Nanum Gothic", "Malgun Gothic", "돋움", Dotum, "돋움", Dotum, Arial, Helvetica, sans-serif;
         }
         
+       /* 로딩용 css */
+	
+			#loading {
+			 width: 100%;   
+			 height: 100%;   
+			 top: 0px;
+			 left: 0px;
+			 position: fixed;   
+			 display: block;   
+			 opacity: 0.7;   
+			 background-color: #fff;   
+			 z-index: 99;   
+			 text-align: center; }  
+			  
+			#loading-image {   
+			 position: absolute;   
+			 top: 50%;   
+			 left: 50%;  
+			 z-index: 100; } 
+		
+		/* 로딩 css 끝... */ 
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 <script type="text/javascript">
 
 
-$(function() {
+/* $(function() {
 	 $( 'button' ).on("click" , function() {
 		 
 	        
@@ -65,17 +86,55 @@ $(function() {
 	  //$("form").attr("method" , "POST").attr("action" , "/room/getRoom").submit();
 
 	});
-});	
+});	 */
 
-$(function() {
-    $( "#testDatepicker" ).datepicker({
-    	changeMonth: true, 
-         changeYear: true,
-        // nextText: '다음 달',
-        // prevText: '이전 달' ,
-         dateFormat: "yymmdd"
-    });
-});
+/* ---------------- 로딩......  ---------------- */
+
+
+
+$(function(){
+
+	$("#searchButton").on("click",function(){
+					
+				var loading = document.getElementById("loading");
+				loading.style.display = 'block';
+				
+				
+				/* 값 보내는 부분.... */
+				 var detailLink = $(this).val();
+			     var price = $(this).next().val();
+			     var roomCity = $(this).next().next().val();
+			     var roomNum = $(this).next().next().next().val();
+			     var checkIn = $(this).next().next().next().next().val();
+			     var adultNum = $("#adultNum").val();
+			     var childNum = $("#childNum").val();
+			     var checkOut = $("#checkOut").val();
+			     var location = $("#location").val();
+			     var distance = $("#distance").val();
+			     var grade = $("#grade").val();
+			     var roomAddr = $("#roomAddr").val();
+			     
+			     $("#checkIn").val(checkIn);
+			     
+				 alert(detailLink+"price"+price+"room : "+roomCity+"checkIn : "+checkIn);
+				 self.location ="/room/getRoom?detailLink="+detailLink+"&price="+price+"&roomCity="+roomCity+"&checkIn="+checkIn
+						 +"&roomNum="+roomNum+"&adultNum="+adultNum+"&childNum="+childNum+"&checkOut="+checkOut+"&location="+location
+						 +"&distance="+distance+"&grade="+grade+"&roomAddr="+roomAddr;
+				
+				
+				/* ------- 끝! -------*/
+				
+				setTimeout(function() {
+					loading.style.display = 'none';
+					 $('#loading').hide();  
+						}, 100000);
+	
+					
+ 
+ 	})
+})
+/* ---------------- 로딩......끝!!!  ---------------- */
+
 </script>
 
 
@@ -89,6 +148,14 @@ $(function() {
 <jsp:include page="/toolbar/toolBar.jsp" />
  <jsp:include page="/toolbar/pushBar.jsp" />
 	<div class="container">
+			<div id="loading" style="display:none;">
+				<div class="col-sm-6" style="margin-left:300px;margin-top:300px">
+					<img id="loading-image" width="150px" height="150px" 
+				
+					src="/resources/images/orderImg/Ellipsis-1s-200px.gif" alt="Loading..." />
+				</div>
+			</div>
+	
 		<c:forEach var="room" items = "${roomList}" >
 		<hr/>
 		<div class="row">

@@ -226,8 +226,8 @@
 		count(t.party_user_id) acc_count , p.post_id , p.plan_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , DBMS_LOB.SUBSTR(p.post_content, 4000, 1) post_content , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , l.like_check , next_id , next_title , prev_id , prev_title , p.qna_kategorie
 		FROM post p, likes l, party t,
 			( 	SELECT
-        		post_id , post_title , board_name , LEAD(post_id, 1) OVER (ORDER BY post_id DESC) next_id , LEAD(post_TITLE, 1, '다음글이 없습니다') OVER (ORDER BY DECODE ( post_grade, 'N', 1, 'B', 2 ) , post_date desc ) next_title ,
-													LAG(post_id, 1) OVER (ORDER BY post_id DESC) prev_id , LAG(post_TITLE, 1, '이전글이 없습니다') OVER (ORDER BY DECODE ( post_grade, 'N', 1, 'B', 2 ) , post_date desc ) prev_title
+        		post_id , post_title , board_name , LEAD(post_id, 1) OVER (ORDER BY DECODE ( post_grade, 'N', 1, 'B', 2 ) , post_date desc ) next_id , LEAD(post_TITLE, 1, '다음글이 없습니다') OVER (ORDER BY DECODE ( post_grade, 'N', 1, 'B', 2 ) , post_date desc ) next_title ,
+													LAG(post_id, 1) OVER (ORDER BY DECODE ( post_grade, 'N', 1, 'B', 2 ) , post_date desc ) prev_id , LAG(post_TITLE, 1, '이전글이 없습니다') OVER (ORDER BY DECODE ( post_grade, 'N', 1, 'B', 2 ) , post_date desc ) prev_title
 		   		FROM post
 				WHERE board_name = #{boardName} AND deleted = 'F' ) inner_table
 		WHERE p.post_id = l.ref_id(+) AND p.post_id = t.ref_id(+) AND p.post_id = #{postId} AND l.like_user_id(+) = #{userId} AND t.party_type(+) = 'A' AND inner_table.post_id = #{postId}

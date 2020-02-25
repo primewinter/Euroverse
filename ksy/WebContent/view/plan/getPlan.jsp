@@ -806,6 +806,10 @@
 				alert("stuffName 을 입력해주세요");
 				return false;
 			}
+			if( stuffName.length > 20 ){
+				swal("준비물 항목명은 최대 20자 입니다.");
+				return;
+			}
 			
 			$.ajax({		// GET방식으로 addStuff 했더니 한글이 깨져 들어가서 POST로 바꿈
 				url: "/planSub/json/addStuff" ,
@@ -973,6 +977,12 @@
 		function addTodo(){
 			
 			var todoName = $("input[name='todoName']").val();
+			
+			if( todoName.length > 20 ){
+				swal("Todo 항목명은 최대 20자입니다.","","warning");
+				return;
+			}
+			
 			console.log('addTodo() 실행 : todoName='+todoName);
 			
 			if(todoName == null || todoName ==''){
@@ -999,6 +1009,8 @@
 						$("#todo_list").append(todoHtml);
 						$("input[name='todoName']").val('');
 						$('.deleteTodo').hide();
+						
+						swal("추가되었습니다!", "", "success");
 					}
 				},
 				error:function(request,status,error){
@@ -1610,26 +1622,19 @@
 					y = parseInt(event.pageY),
 					ex = x - 125,
 					ey = y - 16;
-				
-				//메모장 위치 지정
-				/* $memo.css('left', ex+'px');
-				$memo.css('top', ey+'px'); */
-				
-				//console.log("memo left:"+ex+"px / top:"+ey+"px");
-			})
+			});
 			
 			//마우스 업 할시 좌표값 받아서 위치 저장!
 			$('#memo_wrap').on('mouseup', '.top_nav', function(e){
 				
 				var left_minus = $('.sidebar').width();
-				//var top_minus = $('.fixed-top').height();	//상단툴바 바꾸면서 의미없어짐...
+				var top_minus = $('.toolbar').height();
 				
 				var event = e.originalEvent;	//제이쿼리에서 기존 자바스크립트 이벤트 받을때 필요
 				var x2 = parseInt(event.pageX),
 					y2 = parseInt(event.pageY),
 					ex2 = x2 - 125,
 					ey2 = y2 - 16;
-				
 				console.log("mouseup => memo left:"+ex2+"px / top:"+ey2+"px");
 				
 				var $memo = $(this).parent();	//메모 객체
@@ -1638,8 +1643,8 @@
 				console.log("mouseup position => memo left:"+memoLeft+"px / top:"+memoTop+"px"); */
 				
 				var coordinates = $memo.offset();
-				var memoLeft2 = coordinates.left - left_minus - 26;	// - 17
-				var memoTop2 = coordinates.top - 144;	// - top_minus - 40
+				var memoLeft2 = coordinates.left - left_minus - 30;
+				var memoTop2 = coordinates.top - top_minus - 18;
 				console.log("coordinates = "+ memoLeft2 +"/"+ memoTop2 );
 				
 				var memoId = $memo.find('.memo_id').text();
@@ -1793,6 +1798,12 @@
 	
 		function updateMemoDetail( memoDetail, memoId ){
 			
+			if( memoDetail.length > 200 ){
+				//alert("메모는 200자 이하여야 합니다.");
+				swal("메모는 200자 이하여야 합니다.", "", "warning");
+				return;
+			}
+			
 			$.ajax({
 				url: "/planSub/json/updateMemo",
 				method: "POST",
@@ -1931,36 +1942,42 @@
 		<div class="row">
 		
 			<!-- 좌측 Plan 툴바 구성 Start /////////////////////////////////////////////////////////// -->
-			<nav class="col-md-2 d-none d-md-block sidebar" style="padding-top:0px; padding-left:20px;">
+			<nav class="col-md-2 d-none d-md-block sidebar" style="padding-top:0px; padding-left:20px;" id="navbar-scrollspy">
 		      <div class="sidebar-sticky">
 		      
 		        <ul class="nav flex-column">
+		        
 		          <li class="nav-item">
 		            <a class="nav-link active" href="/plan/getPlanList">
 		              <span data-feather="home"></span>
 		              	플랜 리스트로 <span class="sr-only">(current)</span>
 		            </a>
 		          </li>
+		          
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoTodoList">
 		              <span data-feather="check-square"></span> Todo 리스트
 		            </a>
 		          </li>
+		          
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoCityRouteList">
 		              <span data-feather="map"></span> 여행루트
 		            </a>
 		          </li>
+		          
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoBudgetOverviewList">
 		              <span data-feather="dollar-sign"></span> 예산
 		            </a>
 		          </li>
+		          
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoDailyList">
 		              <span data-feather="calendar"></span> 일정표
 		            </a>
 		          </li>
+		          
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoStuffList">
 		              <span data-feather="briefcase"></span> 준비물
@@ -1972,6 +1989,7 @@
 		              <span data-feather="edit-3"></span> 메모
 		            </a>
 		          </li>
+		          
 		        </ul>
 		
 		        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">

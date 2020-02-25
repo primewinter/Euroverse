@@ -111,14 +111,15 @@ public class AdminRestController {
 	public void deleteQnaComm(@RequestBody Comment comment) throws Exception {
 		
 		System.out.println("AdminComtroller addQnaComment");
-		
+		System.out.println("postId??"+comment.getPostId());
 		adminService.deleteQnaComm(comment.getCmtId());
-		adminService.updateQnaGrade(comment.getPostId());
+		adminService.backUpQnaGrade(comment.getPostId());
+		
+//		Map<String, Object> map = adminService.getQnaCommentList(comment.getPostId());
+		
 		System.out.println("comment==>"+comment);
 		
-		
-		System.out.println("AdminController deleteQnaComm END");
-		
+//		return map;
 	}
 	
 

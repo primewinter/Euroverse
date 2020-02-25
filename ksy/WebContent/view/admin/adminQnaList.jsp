@@ -91,6 +91,7 @@ table thead > tr{
 	box-shadow : 5px 5px 7px #C3C0C0;
 	height: 100%;
 	width:100%;
+	margin-bottom: 10px;
 }
 </style>
 
@@ -113,26 +114,23 @@ table thead > tr{
 	
 	
 	//관리자가 리스트를 클릭했을경우 상세보기
-	$(function(){
-		$(".postclick").on("click",function(){
+		function getAdminQnaList(postId,postContent,qnaFirstCate,postWriterId) {
 			
-			var postId = $(this).children("input[name=postId]").val();
-			var postTitle = $(this).children("input[name=postTitle]").val();
-			var qnaCate = $(this).children("input[id=qnaCate]").val();
-			var userId = $(this).children("input[id=userId]").val();
+			alert("postClick 실행");
+			alert("postId 실행"+postId);
+			alert("postTitle 실행"+postContent);
 			
-			alert(postId);
-			
-			if(qnaCate == "A"){
-				qnaCate = '주문관련';
-			}
-			if(qnaCate == "B"){
+			if(qnaFirstCate == "A"){
 				
-				qnaCate = '상품관련';
+				qnaFirstCate = '주문관련';
 			}
-			if(qnaCate == "C"){
+			if(qnaFirstCate == "B"){
 				
-				qnaCate = '기타';
+				qnaFirstCate = '상품관련';
+			}
+			if(qnaFirstCate == "C"){
+				
+				qnaFirstCate = '기타';
 			}
 			
 			var display = 
@@ -141,9 +139,9 @@ table thead > tr{
 			            '<div style="padding:5px 25px" class="row">'+
 			                '<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
 			                    '<img id="qimg" style="width:40px; "alt="" src=\"/resources/images/admin/Qicon.png"\></div><div>'+
-			                    '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+postTitle+'</div>'+
-			                    '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">'+qnaCate+'</div>'+
-			                    '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-clock"></i>'+userId+'님이 ㅇ분전에 질문하셨습니다.</div></div></div>'+
+			                    '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+postContent+'</div>'+
+			                    '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">'+qnaFirstCate+'</div>'+
+			                    '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-clock"></i>'+postWriterId+'님이 ㅇ분전에 질문하셨습니다.</div></div></div>'+
 			            '<div id="append" style=" height: auto; padding:15px 25px" class="row">'+
 			                '<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
 			                '<div style="text-align:right;display: inline-block; height: 70px; width: 70px;">'+
@@ -155,8 +153,13 @@ table thead > tr{
         
 	    	$("#con").remove();
 	        $("#"+postId+"").html(display);
-			
-			 $.ajax({
+	        
+	        getComment(postId);
+	        
+	        function getComment(postId) {
+			 
+	        	alert("getCommet 시작");
+	        	$.ajax({
 					url: "/admin/json/getQnaCommentList/"+postId,
 					method: "GET",
 					dataType: "json",
@@ -174,21 +177,18 @@ table thead > tr{
 								
 								if(JSONData != null) {
 										
-									for(var i=0; i<JSONData.list.length; i++){
-										
 							            var appendHtml =
 											'<div style="padding:5px 25px" class="row">'+
 											'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
 											'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
 								            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
-								            '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[i].cmtContent+
-								            '<button type="button"class="btn btn-outline-danger btn-sm" onclick="deleteCmt('+JSONData.list[i].cmtId+')">삭제</button></div>'+
+								            '<div class="qnaComment" style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[0].cmtContent+
+								            '<button type="button" class="btn btn-outline-danger btn-sm" style="margin-left:5px;" onclick="deleteCmt('+JSONData.list[0].cmtId+','+JSONData.list[0].postId+')">삭제</button></div>'+
 								            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
 								            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
 								        	'</div></div>';
 								        	
 										 $("#append").append(appendHtml); 
-									}// end fo for
 									
 								}// end of if
 							
@@ -201,22 +201,22 @@ table thead > tr{
 				    }// end of error  
 					    
 				 });// end of ajax
+	        };
+		};//end of getAdminQnaList
 					            
-		});//end of subfuction
-		
-	});// end of function
 	
 	
 	
 	//관리자가 답글을 달수있는 function
 	function answer(postId){ 
 		
-		alert("click?")
-        
+		alert("click?");
        	var cmtContent = $('#content').val();
 		
-       	alert(postId);
-       	
+       	if($(".qnaComment").length >= 1){
+       		alert("답변은 1개이상 불가능합니다.");
+       	}else{
+       		
        	 $.ajax({
 			url: "/admin/json/addQnaComment",
 			method: "POST",
@@ -234,30 +234,21 @@ table thead > tr{
 					console.log("리턴데이터 없음");	
 				}else{
 					console.log("리턴데이터 있음! => "+JSONData);
-					if(JSONData.list.length != 1){
-						alert("답변은 1개이상 하실수 없습니다.")
-					}
-					if(JSONData.list.length == null){
 					
-						for(var i=0; i<JSONData.list.length; i++){
-							
-					            var appendHtml =
-									'<div style="padding:5px 25px" class="row">'+
-									'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
-									'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
-						            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
-						            '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[0].cmtContent+
-						            '<button type="button" class="btn btn-outline-danger btn-sm"' +
-						            'onclick="deleteCmt('+JSONData.list[0].cmtId+','+JSONData.list[0].postId+')">삭제</button></div>'+
-						            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
-						            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
-						        	'</div></div>';
-						        	
-								 $("#append").append(appendHtml); 
-								 
-						}//end of for
-								 
-					}// end of if
+			            var appendHtml =
+							'<div style="padding:5px 25px" class="row">'+
+							'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
+							'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
+				            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
+				            '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[0].cmtContent+
+				            '<button type="button" style="margin-left:5px;" class="btn btn-outline-danger btn-sm"' +
+				            'onclick="deleteCmt('+JSONData.list[0].cmtId+','+JSONData.list[0].postId+')">삭제</button></div>'+
+				            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
+				            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
+				        	'</div></div>';
+					        	
+						 $("#append").append(appendHtml); 
+							 
 				}// end of else
 						
 			},// end of success
@@ -267,27 +258,30 @@ table thead > tr{
 					
 		});// end of ajax
 			
+       	};//ajax 시작전 else
 	};//end of fuction
         
 		
-	function deleteCmt (cmtId, postId){
+	function deleteCmt(cmtId, postId){
 		
 		alert(cmtId);
 		
 		$.ajax({
-			url: "/admin/json/deleteQnaComm/"+cmtId,
-			method: "GET",
+			url: "/admin/json/deleteQnaComm",
+			method: "POST",
 			dataType: "json",
 			headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+			data: JSON.stringify({
+				postId: postId,
+				cmtId : cmtId
+			}),
 			success: function(JSONData, status){
-				appendTag();
+			
 			}// end of success
 			
         }); //end of ajax
+        
 	}; // end of deleteCmt
-	
-		
-		
 
 	
 </script>
@@ -400,11 +394,13 @@ table thead > tr{
 				  </td>
 				  <!--========= END ========== -->
 				  <!--제목  -->
-				  <td class="postclick" style="text-align: left;">
+				  <td class="postclick" 
+				  onclick="getAdminQnaList('${post.postId}','${post.postContent}','${post.qnaFirstCate}','${post.postWriterId}')" 
+				  style="text-align: left;">
 				  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
-				  <input type="hidden" id="postTitle" name="postTitle" value="${post.postTitle}"/>
-				  <input type="hidden" id="qnaCate" value="${post.qnaFirstCate}"/>
-				  <input type="hidden" id="userId" value="${post.postWriterId}"/>
+				  <input type="hidden" id="postContent" name="postContent" value="${post.postContent}"/>
+				  <input type="hidden" id="qnaCate" name="qnaCate" value="${post.qnaFirstCate}"/>
+				  <input type="hidden" id="userId" name="userId" value="${post.postWriterId}"/>
 				  ${post.postTitle }</td>
 				    <!--========= END ========== -->
 				  <!-- 질문분류 종류  -->

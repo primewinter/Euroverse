@@ -33,7 +33,7 @@
 		/* Sidebar */
 		.sidebar {
 		  position: fixed;
-		  top: 200px;
+		  top: 240px;
 		  bottom: 0;
 		  left: 0;
 		  z-index: 40; /* Behind the navbar */
@@ -158,12 +158,12 @@
 			
 			$(".nav-link:contains('플래너 초대 / 동행신청')").on("click" ,function(){
 				//alert("구현중");
-				$(self.location).attr("href","/myPage/likeOrderList");
-			});
-			
-			$("#myOfferList").on("click" ,function(){
 				$(self.location).attr("href","/myPage/myOfferList");
 			});
+			
+/* 			$("#myOfferList").on("click" ,function(){
+				$(self.location).attr("href","/myPage/myOfferList");
+			}); */
 			
 			
 			$(".nav-link:contains('찜한 상품 목록')").on("click" ,function(){
@@ -241,7 +241,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link scroll" href="#D">
+            <a class="nav-link scroll" href="#D" id="choolCheck">
               출석체크  &nbsp; <span data-feather="calendar"></span>
             </a>
           </li>

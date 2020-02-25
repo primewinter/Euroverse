@@ -19,7 +19,7 @@
 	    <set>
 	    	like_check = 'T'
 	    </set> 
-	    WHERE like_user_id = #{likeUserId} AND ref_id = #{refId}
+	    WHERE like_user_id = #{likeUserId} AND ref_id = #{refId} AND like_type = #{likeType}
 	</update>
 	
 	<update id="like_check_cancel" parameterType="like">
@@ -27,20 +27,20 @@
 		<set>
 			like_check = 'F'
 		</set>
-		WHERE like_user_id = #{likeUserId} AND ref_id = #{refId}
+		WHERE like_user_id = #{likeUserId} AND ref_id = #{refId} AND like_type = #{likeType}
 	</update>
 	
 	<select id="countByLike" parameterType="like" resultType="int">
 	    SELECT COUNT(like_id)
 	    FROM likes
-	    WHERE like_user_id = #{likeUserId} AND ref_id = #{refId}
+	    WHERE like_user_id = #{likeUserId} AND ref_id = #{refId} AND like_type = #{likeType}
 	</select>
 
 	<select 	id="getLike"	parameterType="like"	resultMap="likeSelectMap">
 		SELECT
 		like_id , like_type , ref_id , like_user_id , like_check
 		FROM likes
-		WHERE like_user_id = #{likeUserId} AND ref_id = #{refId}
+		WHERE like_user_id = #{likeUserId} AND ref_id = #{refId} AND like_type = #{likeType}
 	</select>
 	
 	<select id="getFlightRefId" resultType="string">

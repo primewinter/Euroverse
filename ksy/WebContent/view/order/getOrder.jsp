@@ -211,12 +211,26 @@
 	             <div class="col-sm-1">
 	             	<i class="fas fa-minus-circle" style="margin-top:10px;"></i>
 	             </div>
+	             
+	             <c:set var = "i" value="0"/>
+				<c:forEach var="point" items = "${point}" >
+				<c:set var="i" value="${i+1}"/>
+				<c:if test="${point.usedType == 'U'}" >
 	             <div class="col-sm-2" style="Padding-left:30px;">
 	            		 포인트 할인
 	                    <div class="row">
-	                    	<div id="usedPoint" style="Padding-left:20px;"> - ${order.usedPoint} P</div>
+	            <!--         if (point.getUsedType() == "R") {
+							order.setAddPoint(point.getUsedPoint());
+						}else if(point.getUsedType() == "U") {
+							order.setPayPoint(point.getUsedPoint());
+						} -->
+	                    	<div id="usedPoint" style="Padding-left:20px;"> - ${point.usedPoint} P</div>
 	            		</div>
+	            		
 	             </div>
+	             </c:if>
+	            </c:forEach>
+	             
 	             <div class="col-sm-1">
 	             	<i class="fas fa-equals" style="margin-left:15px;margin-top:10px;"></i>
 	             </div>
@@ -243,16 +257,18 @@
 					<div class="col-sm-1" style="margin-top:10px;">
 						<i class="fas fa-plus"></i>
 					</div>
-					<%-- <div class="col-sm-3">
-				 		사용한 포인트 
-						<div id="payPoint" style="Padding-left:20px;">${order.payPoint} P</div>
-					 <i class="fas fa-minus-circle" style="margin-top:10px;"></i>
-					</div> --%>
+					<c:set var = "i" value="0"/>
+					<c:forEach var="point" items = "${point}" >
+					<c:set var="i" value="${i+1}"/>
+				   <c:if test="${point.usedType == 'R' || point.usedType == 'F' }" >	
+				   
 					<div class="col-sm-2" style="margin-left:30px;">
 						<p>적립 된 포인트</p>
 							<%-- <c:if test="${point.usedType eq 'F' | point.usedType eq 'R' }"> --%>
 					 			<div id="addPoint" style="Padding-left:20px;">${point.usedPoint} P </div>
 					</div>
+					</c:if>
+					</c:forEach>
 					<div class="col-sm-1" style="margin-left:20px;">
 						<i class="fas fa-equals" style="margin-left:15px;margin-top:10px;"></i>
 					</div>

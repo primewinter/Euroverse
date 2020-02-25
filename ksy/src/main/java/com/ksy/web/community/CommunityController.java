@@ -444,8 +444,8 @@ public class CommunityController {
 		Post post = communityService.getPost(postId, user.getUserId(), boardName);
 		
 		if( post == null ) {
-
-			model.addAttribute("post", post);
+			model.addAttribute("delete", "delete");
+			
 			return "forward:/view/community/check.jsp";
 		}
 		List<Tag> tag = communityService.getTagList(postId);
