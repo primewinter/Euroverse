@@ -33,7 +33,7 @@
 		/* Sidebar */
 		.sidebar {
 		  position: fixed;
-		  top: 200px;
+		  top: 240px;
 		  bottom: 0;
 		  left: 0;
 		  z-index: 40; /* Behind the navbar */
@@ -241,7 +241,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link scroll" href="#D">
+            <a class="nav-link scroll" href="#D" id="choolCheck">
               출석체크  &nbsp; <span data-feather="calendar"></span>
             </a>
           </li>
