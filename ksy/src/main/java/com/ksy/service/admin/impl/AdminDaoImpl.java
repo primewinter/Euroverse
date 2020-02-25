@@ -105,4 +105,12 @@ public class AdminDaoImpl implements AdminDao {
 		sqlSession.update("AdminMapper.deleteQnaComm",cmtId);
 	}
 	
+	@Override
+	public void backUpQnaGrade(String postId) throws Exception{
+		
+		System.out.println("AdminDaoImpl deleteUpdateQnaGrade");
+		
+		sqlSession.update("AdminMapper.backUpQnaGrade", postId);
+	}
+	
 }

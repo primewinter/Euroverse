@@ -189,7 +189,15 @@
 				post_grade = 'Q'
 			</set>
 		WHERE post_id = ${value}
-	</update>	
+	</update>
+	
+	<update id="backUpQnaGrade" parameterType="string">
+		UPDATE post
+			<set>
+				post_grade = 
+			</set>
+		WHERE post_id = ${value}
+	</update>		
 	
 	
 	

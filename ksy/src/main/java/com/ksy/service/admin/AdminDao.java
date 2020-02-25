@@ -36,5 +36,7 @@ public interface AdminDao {
 	
 	public void deleteQnaComm(String cmtId) throws Exception;
 	
+	public void backUpQnaGrade(String postId) throws Exception;
+	
 	
 }

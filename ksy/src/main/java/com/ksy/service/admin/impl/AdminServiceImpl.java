@@ -114,6 +114,13 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.deleteQnaComm(cmtId);
 	}
 	
+	@Override
+	public void backUpQnaGrade(String postId) throws Exception{
+		
+		System.out.println("AdminServieImpl backUpQnaGrade");
+		
+		adminDao.backUpQnaGrade(postId);
+	}
 	
 
 }

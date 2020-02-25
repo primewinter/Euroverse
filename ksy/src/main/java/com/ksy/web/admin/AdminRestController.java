@@ -108,17 +108,18 @@ public class AdminRestController {
 	
 	// 관리자가 답변을 삭제함 플래그처리 deleted = "T" 동시에 post 업데이트 
 	@RequestMapping(value="json/deleteQnaComm", method = RequestMethod.POST)
-	public void deleteQnaComm(@RequestBody Comment comment) throws Exception {
+	public Map<String,Object> deleteQnaComm(@RequestBody Comment comment) throws Exception {
 		
 		System.out.println("AdminComtroller addQnaComment");
 		
 		adminService.deleteQnaComm(comment.getCmtId());
-		adminService.updateQnaGrade(comment.getPostId());
+		adminService.backUpQnaGrade(comment.getPostId());
+		
+		Map<String, Object> map = adminService.getQnaCommentList(comment.getPostId());
+		
 		System.out.println("comment==>"+comment);
 		
-		
-		System.out.println("AdminController deleteQnaComm END");
-		
+		return map;
 	}
 	
 
