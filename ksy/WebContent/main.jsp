@@ -46,8 +46,13 @@
 
     <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    
+     <!-- AOS CDN2 :: https://michalsnik.github.io/aos/-->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </head>
 <style>
+    @font-face { font-family: 'GmarketSansBold'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff'); font-weight: normal; font-style: normal; }
     @font-face {
         font-family: '양진체';
         src: url('https://cdn.jsdelivr.net/gh/supernovice-lab/font@0.9/yangjin.woff') format('woff');
@@ -56,8 +61,8 @@
     }
 
     main section {
-        margin-top: 30px;
-        margin-bottom: 50px;
+        margin-top: 20em;
+        margin-bottom: 5em;
     }
 
     section.main-infinite {
@@ -468,10 +473,9 @@
 
 
     /*환율 스와이프*/
-    .swiper-container {
+    main-infinite.swiper-container {
         height: 120px;
     }
-
 
     .swiper-slide {
         text-align: center;
@@ -517,6 +521,16 @@
         position: absolute;
         top: 5px;
         right: 10px
+    }
+    
+    
+    section > header {
+        font-family: 'GmarketSansBold';
+        font-style: italic;
+        display: inline-block;
+        background-color: #ffcf00;
+        text-align:left;
+        margin: 2em;
     }
 
 </style>
@@ -631,111 +645,44 @@
                             <img src='/resources/images/tripInfoimges/Poland.png' />
                             <p>폴란드</p>
                         </a></div>
-                    </div>
-
-                    <!-- 네비게이션 -->
-                    <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
-                    <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
-
                 </div>
 
+                <!-- 네비게이션 -->
+                <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+                <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
+
+            </div>
 
 
-                <!--<div class="swiper-container">
-                <div class="swiper-wrapper" id="list-tab" role="tablist">
-                    <div class="swiper-slide"><a id="a" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR">
-                            <img src='/resources/images/tripInfoimges/Europe.png' />
-                            <p>EU</p>
-                        </a></div>
-                    <div class="swiper-slide"> <a id="b" data-toggle="list" href="#list-profile" hwa='포린트' mon="HUF" con="HUN">
-                            <img src='/resources/images/tripInfoimges/Hungary.gif' />
-                            <p>헝가리</p>
-                        </a></div>
-                    <div class="swiper-slide"><a id="c" data-toggle="list" href="#list-messages" hwa='코루나' mon="CZK" con="CZE">
-                            <img src='/resources/images/tripInfoimges/Czech.gif' />
-                            <p>체코</p>
-                        </a></div>
-                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='크로네' mon="DKK" con="DNK">
-                            <img src='/resources/images/tripInfoimges/Denmark.gif' />
-                            <p>덴마크</p>
-                        </a></div>
-                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR">
-                            <img src='/resources/images/tripInfoimges/England.gif' />
-                            <p>영국</p>
-                        </a></div>
-                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='레우' mon="RON" con="ROU">
-                            <img src='/resources/images/tripInfoimges/Lithuania.gif' />
-                            <p>루마니아</p>
-                        </a></div>
-                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='크로나' mon="SEK" con="SWE">
-                            <img src='/resources/images/tripInfoimges/Sweden.gif' />
-                            <p>스웨덴</p>
-                        </a></div>
-                    <div class="swiper-slide"> <a id="d" data-toggle="list" href="#list-settings" hwa='쿠나' mon="HRK" con="HRV">
-                            <img src='/resources/images/tripInfoimges/Croatia.gif' />
-                            <p>크로아티아</p>
-                        </a></div>
-                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='프랑' mon="CHF" con="CHE">
-                            <img src='/resources/images/tripInfoimges/Swiss.gif' />
-                            <p>스위스</p>
-                        </a></div>
-                    <div class="swiper-slide"> <a id="d" data-toggle="list" href="#list-settings" hwa='레바' mon="BGN" con="BGR">
-                            <img src='/resources/images/tripInfoimges/Bulgaria.gif' />
-                            <p>불가리아</p>
-                        </a></div>
-                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='리라' mon="TRY" con="TUR">
-                            <img src='/resources/images/tripInfoimges/Turkey.gif' />
-                            <p>터키</p>
-                        </a></div>
-                    <div class="swiper-slide"> <a id="d" data-toggle="list" href="#list-settings" hwa='크로네' mon="NOK" con="NOR">
-                            <img src='/resources/images/tripInfoimges/norway.gif' />
-                            <p>노르웨이</p>
-                        </a></div>
-                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='즈워티' mon="PLN" con="POL">
-                            <img src='/resources/images/tripInfoimges/Poland.png' />
-                            <p>폴란드</p>
-                        </a></div>
+            <!-- ============국가정보출력 box ================ -->
+            <div class="popupLayer">
+                <div class="popup-close">
+                    <span onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">
+                        <i class="fas fa-times"></i>
+                    </span>
+                </div>
+                <div class="country-content">
+                    <img class="conImg" alt="" src="" />
                 </div>
             </div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>-->
 
-                <!-- ============국가정보출력 box ================ -->
-                <div class="popupLayer">
-                    <div class="popup-close">
-                        <span onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">
-                            <i class="fas fa-times"></i>
-                        </span>
-                    </div>
-                    <div class="country-content">
-                        <img class="conImg" alt="" src="" />
-                    </div>
+            <div class="country-title">
+                <div class="content">
+                    <img class="conImg" alt="" src="" />
                 </div>
 
-                <div class="country-title">
-                    <div class="content">
-                        <img class="conImg" alt="" src="" />
-                    </div>
+            </div>
 
-                </div>
-
-                <!-- =========== 환율금액입력 ====================  -->
-                <div class="input-group flex-nowrap">
-                    <div class="countryMoney">
-                        <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()">
-                        원<br /><br /><br /><br />
-                        <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="">
-                        <div class='text'>
-                        </div>
+            <!-- =========== 환율금액입력 ====================  -->
+            <div class="input-group flex-nowrap">
+                <div class="countryMoney">
+                    <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()">
+                    원<br /><br /><br /><br />
+                    <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="">
+                    <div class='text'>
                     </div>
                 </div>
-                <!-- 현재 한국 시간 구하기 : <span id="toNow"></span> -->
-
-
-                <!--  <script type="text/javascript">
-		    var IScroll = $.AMUI.iScroll;
-		    var myScroll = new IScroll('#wrapper', { click: true });
-		</script> -->
+            </div>
 
         </section>
 
@@ -743,20 +690,19 @@
 
 
 
-        <section class="new-plan">
+        <section class="new-plan aos-init aos-animate" data-aos="fade-right">
             <section class="container plan-section">
-                <header class="row plan-section__header">
-                    <h2 class="col plan-section__header__content">새로운 플래너</h2>
+                <header class="plan-section__header">
+                    <h2 class="col plan-section__header__content">NEW PLANNER</h2>
                 </header>
                 <ul class="row plan-stories__content">
-                <div class="swiper-container">
+                    <!--<div class="swiper-container">
                 <div class="swiper-wrapper">
                 
                  </div>
-                    <!-- 네비게이션 -->
-                    <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
-                    <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
-                </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>-->
 
                 </ul>
             </section>
@@ -764,38 +710,35 @@
 
 
 
-        <section class="main-best">
-            <section class="container review-section">
-                <header class="row review-section__header">
-                    <h2 class="col review-section__header__content">여행후기</h2>
-                </header>
-                <ul class="row review-stories__content">
-                <div class="swiper-container">
+        <section class="container review-section aos-init aos-animate" data-aos="fade-right">
+            <header class="review-section__header">
+                <h2 class="col review-section__header__content">TRIP REVIEW</h2>
+            </header>
+            <ul class="row review-stories__content">
+                <!--<div class="swiper-container">
                 <div class="swiper-wrapper">
                 
                  </div>
-                    <!-- 네비게이션 -->
-                    <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
-                    <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
-                </div>
-                </ul>
-            </section>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>-->
+            </ul>
         </section>
 
 
-        <section class="container recent">
-            <header class="row recent__header">
-                <h2 class="col recent__header__content">여행정보</h2>
+        <section class="container recent aos-init aos-animate" data-aos="fade-right">
+            <header class="recent__header">
+                <h2 class="col recent__header__content">TRIP INFO</h2>
             </header>
             <ul class="row recent-stories__content">
-                <div class="swiper-container">
+                <!-- <div class="swiper-container">
                 <div class="swiper-wrapper">
                 
                  </div>
-                    <!-- 네비게이션 -->
-                    <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
-                    <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
-                </div>
+                    
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>-->
             </ul>
         </section>
     </main>
@@ -904,7 +847,8 @@
         }
 
         function appendPlanner(plan, post) {
-            var tag = "<div class=\"swiper-slide\">";
+            var tag = "";
+            //var tag = "<div class=\"swiper-slide\">";
             tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
             tag += "<article class=\"story-entry story-story-item\">"
             tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + post.postId + "&boardName=E\">";
@@ -918,13 +862,18 @@
             tag += post.nickName + "</p>"
             tag += "<i class=\"ion-ios-arrow-right\"></i></figcaption></figure>"
             tag += "</div>"
-            tag += "</a></article></li></div>"
+            tag += "</a>"
+            tag += "</article></li>"
+            //tag += "</div>"
 
-            $('.plan-section ul.swiper-container.swiper-wrapper').append(tag);
+            $('.plan-stories__content').append(tag);
+            //$('section.new-plan > section > ul > div > div.swiper-wrapper').append(tag);
         }
 
         function appendTag(vo, boardName) {
-            var tag = "<div class=\"swiper-slide\">";
+            var tag = "";
+            //var tag = "<div class=\"swiper-slide\">";
+            
             var content = vo.postContent;
             var imgSrc = parseContent(content);
             tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
@@ -946,15 +895,19 @@
             tag += "<img src='/resources/images/userImages/" + vo.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
             tag += "<span style='font-size:0.8em;color:#CCC;font-weight:400;'>" + vo.nickName + "</span>"
             tag += "</div>"
-            tag += "</div></a></article></li></div>"
+            tag += "</div></a>"
+            tag += "</article></li>"
+            //tag += "</div>"
 
 
             if (boardName == 'F') {
-                $('.review-section ul.swiper-container.swiper-wrapper').append(tag);
+                $('.review-stories__content').append(tag);
+                //$('section.main-best > section > ul > div > div.swiper-wrapper').append(tag);
             } else if (boardName == 'C') {
                 $('.best-stories__content').append(tag);
             } else {
-                $('.recent ul.swiper-container.swiper-wrapper').append(tag);
+                $('.recent-stories__content').append(tag);
+                //$('section.container.recent > ul > div > div.swiper-wrapper').append(tag);
             }
 
         }
@@ -1075,6 +1028,29 @@
             },
         });
 
+        new Swiper('section.new-plan > section > div.swiper-container', {
+
+            slidesPerView: 4, // 동시에 보여줄 슬라이드 갯수
+            spaceBetween: 30, // 슬라이드간 간격
+            slidesPerGroup: 2, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
+            //slidesPerColumn: 2,
+
+            // 그룹수가 맞지 않을 경우 빈칸으로 메우기
+            // 3개가 나와야 되는데 1개만 있다면 2개는 빈칸으로 채워서 3개를 만듬
+            //loopFillGroupWithBlank: false,
+
+            loop: false, // 무한 반복
+
+            /*pagination: { // 페이징
+                el: '.swiper-pagination',
+                clickable: true, // 페이징을 클릭하면 해당 영역으로 이동, 필요시 지정해 줘야 기능 작동
+            },*/
+            navigation: { // 네비게이션
+                nextEl: '.swiper-button-next', // 다음 버튼 클래스명
+                prevEl: '.swiper-button-prev', // 이번 버튼 클래스명
+            },
+        });
+
 
         $('.swiper-slide').on('click', function() {
             $('.swiper-slide').removeClass('on');
@@ -1112,6 +1088,14 @@
                 "position": "absolute"
             }).show();
         }
+        
+        var myAOS = function() {
+            AOS.init({
+                easing: 'ease-out-back'
+                //duration: 1500
+            });
+        }
+        myAOS();
 
     </script>
 
