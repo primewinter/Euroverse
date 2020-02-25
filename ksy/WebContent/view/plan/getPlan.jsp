@@ -1931,7 +1931,7 @@
 		<div class="row">
 		
 			<!-- 좌측 Plan 툴바 구성 Start /////////////////////////////////////////////////////////// -->
-			<nav class="col-md-2 d-none d-md-block sidebar" style="padding-top:0px; padding-left:16px;">
+			<nav class="col-md-2 d-none d-md-block sidebar" style="padding-top:0px; padding-left:20px;">
 		      <div class="sidebar-sticky">
 		      
 		        <ul class="nav flex-column">
@@ -1943,33 +1943,33 @@
 		          </li>
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoTodoList">
-		              <span data-feather="check-square"></span>Todo 리스트
+		              <span data-feather="check-square"></span> Todo 리스트
 		            </a>
 		          </li>
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoCityRouteList">
-		              <span data-feather="map"></span>여행루트
+		              <span data-feather="map"></span> 여행루트
 		            </a>
 		          </li>
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoBudgetOverviewList">
-		              <span data-feather="dollar-sign"></span>예산
+		              <span data-feather="dollar-sign"></span> 예산
 		            </a>
 		          </li>
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoDailyList">
-		              <span data-feather="calendar"></span>일정표
+		              <span data-feather="calendar"></span> 일정표
 		            </a>
 		          </li>
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoStuffList">
-		              <span data-feather="briefcase"></span>준비물
+		              <span data-feather="briefcase"></span> 준비물
 		            </a>
 		          </li>
 		          
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoMemoList">
-		              <span data-feather="edit-3"></span>메모
+		              <span data-feather="edit-3"></span> 메모
 		            </a>
 		          </li>
 		        </ul>

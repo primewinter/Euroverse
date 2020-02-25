@@ -64,11 +64,12 @@ align-content: center;
 
 /* entire container, keeps perspective */
 .flip-container {
-margin:40px;
+margin:20px 30px;
     perspective: 1000px;
    border:2px solid rgba(0,0,0,0) !important;
    
 }
+
 
 /* front pane, placed above back */
 .front{
@@ -76,15 +77,17 @@ margin:40px;
   /* for firefox 31 */
   transform: rotateY(0deg);
  /*  background-size:100% 100%; */
- box-shadow: 5px 5px 7px gray;
- border-radius :15px; 
+ //box-shadow: 5px 5px 7px gray;
+ border-radius :4px; 
+  border: 1px solid #F7F0F0;
 }
 /* back, initially hidden pane */
 .back {
     transform: rotateY(180deg);
   /* background-size:100% 100%; */
-  box-shadow: 5px 5px 7px gray;
-  border-radius :15px;
+  //box-shadow: 5px 5px 7px gray;
+  border-radius :4px;
+   border: 1px solid #F7F0F0;
   
 }
 
@@ -157,7 +160,7 @@ function tripStyle(tripStyle){
 <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 <jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 				
-      				<div id="userProfileDiv" style="width:70%;height:230px; padding-left: 120px;padding-top: 30px;margin-left: 240px;">
+      			<div id="userProfileDiv" style="width:70%;height:230px; padding-left: 120px;padding-top: 30px;margin-left: 240px;">
 						
 					<div class="row">
 						<div style="display: inline-block;">
@@ -245,33 +248,11 @@ function tripStyle(tripStyle){
 						  			</div>
 						  			
 						</div>  			
-					  			
-					  			
-			<%--   			<div >	
-			  			<div style="">
-				  		<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
-							<c:if test="${tripSurvey.surveyType=='D'}">
-							 <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="30px" height="30px" onmouseover="country('${tripSurvey.surveyChoice}')" onmouseout="country('')" >
-							</c:if>
-						</c:forEach> 
-                    	</div>
-		  			
-		  			
-		  			
-						<div >
-		  					<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
-									<c:if test="${tripSurvey.surveyType=='T'}">
-									 <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="30px" height="30px" onmouseover="tripStyle('${tripSurvey.surveyChoice}')" onmouseout="tripStyle('')" >
-									</c:if>
-							</c:forEach>
-						</div>	
-			  				</div> --%>
-			  		
+					  				
+		
 			  		</div>
 			  			
-      				</div> 
-		  			
-		  			<div style="text-align: center;">
+		  			<div style="text-align: center;margin-top: 30px;">
 		  			
 		  			
 		  			
@@ -279,7 +260,7 @@ function tripStyle(tripStyle){
 	  					  <div class="flipper">
 	       					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
 	          					  <!-- front content -->
-	        					<p style="font-size: 30px;"><i class="fas fa-coins"></i>포인트</p>
+	        					<p style="font-size: 30px;"><i class="fas fa-coins"></i> 포인트</p>
 	      					  </div>
 	        			<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
 	            <!-- back content -->
@@ -294,7 +275,7 @@ function tripStyle(tripStyle){
 	  					  <div class="flipper">
 	       					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
 	          					  <!-- front content -->
-	        					<p style="font-size: 30px;"><i class="far fa-flag"></i>유럽에서</p>
+	        					<p style="font-size: 30px;"><i class="far fa-flag"></i> 유럽에서</p>
 	      					  </div>
 	        			<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
 	            <!-- back content -->
@@ -309,7 +290,7 @@ function tripStyle(tripStyle){
 	  					  <div class="flipper">
 	       					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
 	          					  <!-- front content -->
-	        					<p style="font-size: 30px;"><i class="fab fa-buromobelexperte"></i>슬롯</p>
+	        					<p style="font-size: 30px;"><i class="fab fa-buromobelexperte"></i> 슬롯</p>
 	      					  </div>
 	        			<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
 	            <!-- back content -->
@@ -327,7 +308,7 @@ function tripStyle(tripStyle){
 	  					  <div class="flipper">
 	       					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
 	          					  <!-- front content -->
-	        					<p style="font-size: 30px;"><i class="far fa-clipboard"></i>게시글</p>
+	        					<p style="font-size: 30px;"><i class="far fa-clipboard"></i> 게시글</p>
 	      					  </div>
 	        			<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
 	            <!-- back content -->
@@ -343,7 +324,7 @@ function tripStyle(tripStyle){
 	  					  <div class="flipper">
 	       					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
 	          					  <!-- front content -->
-	        					<p style="font-size: 30px;"><i class="far fa-copy"></i>댓글</p>
+	        					<p style="font-size: 30px;"><i class="far fa-copy"></i> 댓글</p>
 	      					  </div>
 	        			<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
 	            <!-- back content -->
@@ -357,7 +338,7 @@ function tripStyle(tripStyle){
 	  					  <div class="flipper">
 	       					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
 	          					  <!-- front content -->
-	        					<p style="font-size: 30px;"><i class="fas fa-user-friends"></i>동행</p>
+	        					<p style="font-size: 30px;"><i class="fas fa-user-friends"></i> 동행</p>
 	      					  </div>
 	        			<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
 	            <!-- back content -->
