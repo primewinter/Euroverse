@@ -25,9 +25,6 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 	<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'> 
 	
-	
-	
-	
 	<!-- 플래너를 위한 CDN..... -->
 	<!-- Use Swiper from CDN -->
 	<link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.css">
@@ -50,6 +47,7 @@
 	<!-- ICON 사용을 위한 스크립트 임포트 : https://feathericons.com/ -->
 	<script src="https://unpkg.com/feather-icons"></script>
 	
+	<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIE23M&placement=ianlunncouk" id="_carbonads_js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
@@ -935,12 +933,18 @@
 	  
 	     <div class="recom_bottom_box clear" style="width: 890px;"> 
           <c:if test="${post.postLikeFlag == 'F' || post.postLikeFlag == null}">
+	   	  <a href="#" class="hvr-fade">	
 	   		<i onclick="addBookMark(${post.postId})" class="far fa-bookmark fa-2x" style="float: right;"></i>
+	      </a>
 	      </c:if>
 	      <c:if test="${post.postLikeFlag == 'T' }">
+	  	  <a href="#" class="hvr-fade">	
 	  		<i onclick="addBookMark(${post.postId})" class="fas fa-bookmark fa-2x" style="float: right;"></i>
+	      </a>
 	      </c:if>
-         	<div class="far fa-angry" data-toggle="modal" data-target="#sendReport" onclick="reportshow('${post.postId}','P');" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</div>
+	      <a href="#" class="hvr-fade">
+         	<i class="far fa-angry" data-toggle="modal" data-target="#sendReport" onclick="reportshow('${post.postId}','P');" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</i>
+	      </a>	
 	     	  <h3 class="title ub-word" style="margin-bottom: 10px;">
 		      	<span class="title_subject" style="font-weight:bold;">${post.postTitle}</span>
 		      </h3>
