@@ -205,8 +205,8 @@ $(function() {
 
 
 
-
-        <h1 style="margin-left: 240px; margin-top: 40px;">³ªÀÇ ´ñ±Û¸ñ·Ï</h1>
+<div style="height: 30px;"></div>
+        <h1 style="margin-left: 240px; ">³ªÀÇ ´ñ±Û¸ñ·Ï</h1>
      
 
 <table class="table" style="margin-left: 240px; width: 75%">

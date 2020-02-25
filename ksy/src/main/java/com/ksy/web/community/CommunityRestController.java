@@ -104,7 +104,7 @@ public class CommunityRestController {
 		communityService.addReport(report);
 		
 		JSONObject obj = new JSONObject();
-		obj.put("msg", "신고 완료");
+		obj.put("msg", "신고 완료!");
 		out.println(obj);
 	}
 	
@@ -170,18 +170,14 @@ public class CommunityRestController {
 		
 		int cmtLikeCount = comment.getCmtLikeCount(); //게시판의 좋아요 카운트
 		String likeCheck = like.getLikeCheck(); //좋아요 체크 값
-		System.out.println("sdfdfsfsf"+likeCheck);
-		List<String> msgs = new ArrayList<String>();
-		System.out.println("들어가기전 댓글추천수 : "+cmtLikeCount);
+	
 		if(likeCheck.equals("F")) {
-		  msgs.add("좋아요!");
 		  likeService.like_check(like);
 		  likeCheck="T";
 		  cmtLikeCount++;
 		  System.out.println("들어간 후 댓글 추천수 : "+cmtLikeCount);
 		  communityService.updateLike(cmtId);   //좋아요 갯수 증가
 		}else{
-		  msgs.add("좋아요 취소");
 		  likeService.like_check_cancel(like);
 		  likeCheck="F";
 		  cmtLikeCount--;
@@ -192,7 +188,6 @@ public class CommunityRestController {
 		obj.put("cmtId", like.getRefId());
 		obj.put("likeCheck", likeCheck);
 		obj.put("cmtLikeCount", cmtLikeCount);
-		obj.put("msg", msgs);
 		
 		out.println(obj);
 	}
@@ -217,14 +212,11 @@ public class CommunityRestController {
 	    like=likeService.getLike(like);
 
 		String likeCheck = like.getLikeCheck(); //좋아요 체크 값
-		List<String> msgs = new ArrayList<String>();
-
+		
 		if(likeCheck.equals("F")) {
-		  msgs.add("북마크에 추가되었습니다.");
 		  likeService.like_check(like);
 		  likeCheck="T";
 		}else{
-		  msgs.add("북마크 취소!");
 		  likeService.like_check_cancel(like);
 		  likeCheck="F";
 
@@ -232,7 +224,6 @@ public class CommunityRestController {
 		JSONObject obj = new JSONObject();
 		obj.put("postId", like.getRefId());
 		obj.put("likeCheck", likeCheck);
-		obj.put("msg", msgs);
 		
 		out.println(obj);
 	}
