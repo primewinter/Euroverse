@@ -40,6 +40,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
 <script>
+	var maPageCode = 'B';
+
 
 	$(function(){
 		$( "td:nth-child(2)" ).on("click" , function() {
@@ -132,6 +134,11 @@
 				  			<input type="hidden" value="${bookMarkPost.boardName}"/>
 				  		</tr>
 				  	</c:forEach>
+				  	
+				  	<c:if test="${ empty bookMarkList}">
+					    <tr><td colspan="4" style="padding: 40px;">북마크한 게시글이 없습니다</td></tr>
+					</c:if>
+				  	
 				 </tbody>
 		</table>
 		

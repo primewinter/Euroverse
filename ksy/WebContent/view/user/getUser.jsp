@@ -114,6 +114,9 @@
 </style>
 
 <script>
+
+var maPageCode = 'M';
+
 	$(function(){
 		$("#pointCard").on("click",function(){
 			$(self.location).attr("href","/myPage/pointList");
