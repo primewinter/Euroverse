@@ -192,6 +192,12 @@ public class MyPageController {
 			search.setCurrentPage2(1);
 		}
 		
+		if(search.getSearchKeyword()==null) {
+			search.setSearchKeyword("plan");
+		}
+		
+		
+		
 		search.setPageSize(4);
 		
 		
@@ -222,7 +228,7 @@ public class MyPageController {
 		model.addAttribute("partyOfferList",partyOfferList);
 		model.addAttribute("resultPage",resultPage);
 		model.addAttribute("resultPage2",resultPage2);
-		
+		model.addAttribute("keyword",search.getSearchKeyword());
 		
 		return "forward:/view/myPage/myOfferList.jsp";
 	}

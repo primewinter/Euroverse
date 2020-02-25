@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding|Nanum+Gothic:400,700|Noto+Sans+KR:300,400,500&display=swap&subset=korean" rel="stylesheet">
 <style>
@@ -201,7 +201,22 @@
         location.href = "/user/getUser";
     });
     $("font:contains('로그아웃')").on("click", function() {
-        location.href = "/user/logout";
+    	
+    	swal({
+			   icon : 'success',
+			  title : "이용해주셔서 감사합니다.",
+			  text:" ",
+			  button : false,
+			})
+    	setTimeout(function() {     
+
+
+    	location.href = "/user/logout";
+    	
+    	}, 700);
+
+    	
+    	
     });
     $("font:contains('회원가입')").on("click", function() {
         location.href = "/user/addUser";

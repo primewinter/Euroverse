@@ -45,6 +45,10 @@
 <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>
  -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 
 .carousel{
@@ -481,10 +485,10 @@ $(function(){
 			alertMessage.html("성별을 선택해주세요.");
 			return;
 		}
-		
+		sweetMan();
 
-		 $("#myModal").modal({keyboard: false,backdrop: 'static'});
-		 $("#myModal").modal("show");
+	/* 	 $("#myModal").modal({keyboard: false,backdrop: 'static'});
+		 $("#myModal").modal("show"); */
 	
 	});/* btn-primary End */
 });/* function End */
@@ -497,16 +501,16 @@ $(function(){
 
 $(function(){
 
-	$("input[name='pushAgree']").on("click",function(){
+	/* $("input[name='pushAgree']").on("click",function(){
 		$("form").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
-	})
+	}) */
 	
 	$(".alert-danger button").on("click",function(){
 		$(".alert-danger").prop("style","display:none");			
 	})
 	
-	$(".btn-secondary:contains('취소')").on("click",function(){
-		$(location).attr("href","/view/user/page.jsp");		
+	$("#letsGoMain").on("click",function(){
+		$(location).attr("href","/main.jsp");		
 	})
 	
 	
@@ -527,7 +531,7 @@ $(function(){
  
 	$(".custom-file-input").on("change",function(){
 		  var fileSize = this.files[0].size;
-		    var maxSize = 360 * 360;
+		    var maxSize = 1200 * 1200;
 		    if(fileSize > maxSize) {
 		        alert("파일용량을 초과하였습니다.");
 		        $(".custom-file label").html("<i class='fas fa-camera-retro'>size 360x360</i>");
@@ -559,6 +563,36 @@ function readImg(input){
 
 
 
+
+function sweetMan(){
+	
+
+	swal({
+		   icon : 'info',
+		  buttons: {confirm:{value:"T",text:"네",className:"btn btn-outline-primary",},cancle:{value:"F",text:"아니오",className:"btn btn-outline-secondary",},},
+		  text : "정보제공을 위한 알림 서비스를 제공하고있습니다. 알림 서비스를 이용하시겠습니까?" 
+		}).then((value) =>{
+			/* alert(value) */
+			if(value=='T'){
+				
+				$("#pushAgreeTrue").prop("checked",true);
+				$("#pushAgreeFalse").prop("checked",false);
+				$("form").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
+				
+				
+			}
+			else if(value=='F'){
+			/* 	alert("b가 나온다~") */
+				
+				$("#pushAgreeTrue").prop("checked",false);
+				$("#pushAgreeFalse").prop("checked",true);
+				$("form").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
+			
+			}
+		
+		});
+	
+}	
 
 
 
@@ -757,7 +791,7 @@ function readImg(input){
 			</div>
 			<h6 class="addH6"></h6>
 			</c:if>
-			<div id="preview">
+			<div id="preview" style="text-align: center;">
 				<c:if test="${loginType=='sns'}">
 					<img alt="" src="${snsUser.userImg}">
 					<input type="hidden" name="userImg" value="${snsUser.userImg}">
@@ -969,15 +1003,15 @@ function readImg(input){
 
 	
 	<div class="form-group">
-	 		<div class="col-6 mx-auto"style="text-align: center;">
-				<!-- <button type="button" class="btn btn-primary">회원가입</button> -->
-				<button type="button" class="btn btn-outline-primary addUser"  data-backdrop="static" data-keyboard="false">회원가입</button>
-				<button type="button" class="btn btn-outline-secondary">취소</button>
-	
-			</div>
 			<div class="alert alert-danger alert-dismissable" style="display: none;" >
 			    <button type="button" class="close" >×</button>
 			    <strong></strong>&nbsp; 수정 후 다시 시도해주세요.
+			</div>
+	 		<div class="col-6 mx-auto"style="text-align: center;">
+				<!-- <button type="button" class="btn btn-primary">회원가입</button> -->
+				<button type="button" class="btn btn-outline-primary addUser"  data-backdrop="static" data-keyboard="false">회원가입</button>
+				<button type="button" class="btn btn-outline-secondary" id="letsGoMain">취소</button>
+	
 			</div>
 	</div> 
 		

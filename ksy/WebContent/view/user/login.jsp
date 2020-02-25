@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+   
 <!DOCTYPE html>
 
 <style>
@@ -42,6 +43,17 @@
 
 
 <script>
+
+
+
+
+
+
+
+
+
+
+
     $(function() {
         // 네이버 아이디로 로그인 이미지 클릭 시 
         $("#naverLogin").on("click", function() {
@@ -173,14 +185,14 @@
 
 
         $("#loginUserId").keydown(function(key) {
-
+/* 
             if (userId.val() == "") {
                 return;
             }
 
             if (pwd.val() == "") {
                 return;
-            }
+            } */
 
             if (key.keyCode == 13) {
                 loginAjax(userId, pwd);
@@ -188,13 +200,13 @@
         });
 
         $("#loginPwd").keydown(function(key) {
-            if (userId.val() == "") {
+/*             if (userId.val() == "") {
                 return;
             }
 
             if (pwd.val() == "") {
                 return;
-            }
+            } */
             if (key.keyCode == 13) {
                 loginAjax(userId, pwd);
             }
@@ -203,13 +215,13 @@
         });
 
         $("button:contains('로그인')").on("click", function() {
-            if (userId.val() == "") {
+/*             if (userId.val() == "") {
                 return;
             }
 
             if (pwd.val() == "") {
                 return;
-            }
+            } */
             loginAjax(userId, pwd);
         });
 
@@ -240,12 +252,34 @@
     				location.reload();
     			}else if(JSONData.result=='unReg'){
     				
-    				var result = confirm("탈퇴한회원입니다. 복구창으로 이동하시겠습니까?");
+    				/* var result = confirm("탈퇴한회원입니다. 복구창으로 이동하시겠습니까?");
     				if(result){
     					$(self.location).attr("href","/user/comeBack?userId="+JSONData.userId);
     				}else{
     					
-    				}
+    				} */
+    				
+    	
+    				swal({
+    					   icon : 'info',
+    					  buttons: {confirm:{value:"T",text:"네",className:"btn btn-outline-primary",},cancle:{value:"F",text:"아니오",className:"btn btn-outline-secondary",},},
+    					  title : "탈퇴한 회원입니다.",
+    					  text : "복구하시겠습니까?" 
+    					}).then((value) =>{
+    						/* alert(value) */
+    						if(value=='T'){
+    							$(self.location).attr("href","/user/comeBack?userId="+JSONData.userId);
+    						}
+    						else if(value=='F'){
+    						/* 	alert("b가 나온다~") */
+    						}
+    					
+    					});
+    			
+    				
+    				
+    				
+    				
     				
     			}else if(JSONData.result =='errorId'){
     				//alert("존재하지 않는 아이디입니다.");
@@ -264,10 +298,6 @@
 
 </script>
 
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">
-로그인모달
-</button>
- -->
 
 <div class="modal fade " id="loginModal">
     <!-- <div class="modal-dialog modal-lg"> -->
@@ -311,36 +341,19 @@
                         <img id="naverLogin" src="/resources/images/userImages/naverImage.PNG" width="30" height="30" />
                         <img id="googleLogin" src="/resources/images/userImages/googleImage.png" width="30" height="30">
                     </div>
-
-
-                    <!-- 		<div name="naverLogin">
-							네이버 아이디로 로그인 이미지
-						</div>
-						<div name="googleLogin">
-						</div>
-						<div name="kakaoLogin">
-							카카오 아이디로 로그인 이미지
-						</div>	
-						 -->
                     <h6 class="loginH6"></h6>
 
                     <button type="button" class="btn btn-outline-primary" style="margin-left: 20px; position:absolute; top:240px;right:395px;">로그인</button>
-                    <!-- <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button> -->
 
                 </form>
-
-
                 <!-- 	<div class="modal-footer">
 				</div>modal footer End  -->
-
             </div>
             <!--modal body End  -->
-
         </div>
         <!--modal content End  -->
     </div>
     <!--modal dialog End  -->
-
 </div>
 <!--myModal End  -->
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>

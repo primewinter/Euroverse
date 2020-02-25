@@ -132,9 +132,23 @@ function openCal(){
 						success : function(JSONData, Status) {
 									
 								if(JSONData.error == 'error'){
-									alert("출석은 하루에 한번만 하실수 있습니다.");
+									
+									swal({
+										   icon : 'warning',
+										  title : "출석체크 실패!",
+										  text:"내일 다시 시도해주세요.",
+										 
+										})
+									
 								}else{
 									calendar.addEvent(JSONData);
+									
+									swal({
+										   icon : 'success',
+										  title : "출석체크 성공!",
+										  text:"100Point 적립 ",
+										})
+									
 								}
 							}
 					})	
@@ -177,9 +191,8 @@ function openCal(){
 
 $(function(){
 		
-	var wait = document.getElementById("wait");
+/* 	var wait = document.getElementById("wait");
 	var modalBodyDiv = document.getElementById("modalBodyDiv");
-	/* 아래쪽에 있었는데 자꾸 setimeout이 안되고 잘 안나와서 위로 올림 */
 	
 	wait.style.display = 'block';
 	setTimeout(function() {
@@ -188,7 +201,32 @@ $(function(){
 		openCal();
 		modalBodyDiv.style.display='block';
 			}, 3000);	 
-
+ */
+ 
+ 	$("#choolCheck").on("click",function(){
+ 		
+		 var m_chk1 = 0
+		 var choolCheckModal = $("#choolCheckModal").modal()
+		 choolCheckModal.on('shown.bs.modal', function () {
+				//shown.bs.modal이벤트가 다중으로 발생하는 걸 방지하기 위한 부분
+				m_chk1++
+				if( m_chk1 == 1){
+						
+					var wait = document.getElementById("wait");
+					var modalBodyDiv = document.getElementById("modalBodyDiv");
+					
+					wait.style.display = 'block';
+					setTimeout(function() {
+						
+						wait.style.display = 'none';
+						openCal();
+						modalBodyDiv.style.display='block';
+							}, 3000);
+		
+				}
+			})
+ 
+ 	})
 })
 
 

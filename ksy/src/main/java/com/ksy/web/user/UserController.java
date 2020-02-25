@@ -88,7 +88,7 @@ public class UserController {
 		session.removeAttribute("user");
 		session.invalidate();
 		
-		return "redirect:/";
+		return "redirect:/main.jsp";
 	}
 	
 	@RequestMapping(value="unRegUser")

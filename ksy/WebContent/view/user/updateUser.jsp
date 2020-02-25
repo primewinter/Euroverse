@@ -338,15 +338,15 @@ $(function(){
 		
 		
 		
-		$(".btn-secondary:contains('취소')").on("click",function(){
+		$("#cancle").on("click",function(){
 			$(self.location).attr("href","/user/getUser");
 		})
-		$(".btn-primary:contains('취소')").on("click",function(){
+		$("#updateCancle").on("click",function(){
 			$(self.location).attr("href","/user/getUser");
 		})
 		
-		$(".btn-primary:contains('비밀번호체크')").on("click",function(){
 		
+		$("#pwdCheck").on("click",function(){
 			var pwd = $("input[id='pwdId']");
 			var main = $("#main");
 			var errorMsg = $("#pwdMessage");
@@ -371,7 +371,7 @@ $(function(){
 		
 		$(".custom-file-input").on("change",function(){
 			  var fileSize = this.files[0].size;
-			    var maxSize = 360 * 360;
+			    var maxSize = 1200 * 1200;
 			    if(fileSize > maxSize) {
 			        alert("파일용량을 초과하였습니다.");
 			        $(".custom-file label").html("");
@@ -388,8 +388,8 @@ $(function(){
 	
 function readImg(input){
 	
-	var width = 360;
-	var height = 360;
+	var width = 1200;
+	var height = 1200;
 	
 	if(input.files && input.files[0]){
 		var render = new FileReader();
@@ -404,9 +404,25 @@ function readImg(input){
 	
 
 function unReg(){
+	
+	swal({
+		   icon : 'warning',
+		  buttons: {confirm:{value:"T",text:"네",className:"btn btn-outline-primary",},cancle:{value:"F",text:"아니오",className:"btn btn-outline-secondary",},},
+		  title : "탈퇴하시겠습니까?",
+		  text : "" 
+		}).then((value) =>{
+			/* alert(value) */
+			if(value=='T'){
+				alert("헤헤")
+				//$(self.location).attr("href","/user/unRegUser");
+			}
+			else if(value=='F'){
+			/* 	alert("b가 나온다~") */
+			}
 		
-		alert("탈퇴")
-		$(self.location).attr("href","/user/unRegUser");
+		});
+
+	
 	
 }
 
@@ -802,8 +818,10 @@ function enterConfirm(key){
      
      	 <div class="form-group">	 
 	     		<div class="col-6 mx-auto" style="text-align: center;">
-     			<button type="button" class="btn btn-primary" >수정</button>
-				<button type="button" class="btn btn-secondary">취소</button>
+     			<button type="button" class="btn btn-outline-primary" id="updateButton" >수정</button>
+				<button type="button" class="btn btn-outline-secondary" id="updateCancle">취소</button>
+				
+				
      			</div>
       </div>
      
@@ -850,8 +868,8 @@ function enterConfirm(key){
 						
 						
 					<div class="form-group text-center" style="padding-top: 5px;">
-					<button type="button" class="btn btn-primary" style="margin-right: 5px;">비밀번호체크</button>
-					<button type="button" class="btn btn-primary">취소 </button>
+					<button type="button" class="btn btn-outline-primary" style="margin-right: 5px;" id="pwdCheck">비밀번호체크</button>
+					<button type="button" class="btn btn-outline-secondary" id="cancle">취소 </button>
 					</div>
 			</form>
 

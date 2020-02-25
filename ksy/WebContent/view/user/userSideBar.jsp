@@ -10,6 +10,7 @@
  
  .sidebar{
 	position: fixed;
+	top: 200px;
  
 }
 
@@ -79,7 +80,7 @@
 
 </head>
 <body>
- <jsp:include page="/view/myPage/choolCheck.jsp"></jsp:include> 
+
 <div class="container-fluid sidebar" style="width: 270px;">
   <div class="row" style="width: 270px;">
  		<ul class="nav flex-column" style="text-align: center;" >
@@ -125,7 +126,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" data-toggle="modal" data-target="#choolCheckModal">
+            <a class="nav-link" href="#" id="choolCheck" >
               	출석체크
             </a>
           </li>
@@ -139,7 +140,7 @@
 
   </div>  
 </div> 
-
+ <jsp:include page="/view/myPage/choolCheck.jsp"></jsp:include> 
 
 </body>
 </html>

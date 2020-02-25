@@ -122,6 +122,7 @@ $(function() {
  		</c:if>
 
 	</form>
+	<div style="height: 50px;"></div>
 	
 	<div class="row">
 		<div style="width: 250px;"></div>

@@ -287,6 +287,19 @@ $(function(){
 		
 	})
 	
+	
+	
+		$("#viewPlan").on("click",function(){
+		 $("#planTable").css("display","block");
+		$("#partyTable").css("display","none"); 
+		$("#keyword").val("plan");
+	})
+	$("#viewParty").on("click",function(){
+	 	$("#partyTable").css("display","block");
+		$("#planTable").css("display","none"); 
+		$("#keyword").val("party");
+	})
+	
 })
 
 
@@ -303,21 +316,48 @@ $(function(){
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 		
 
-	<div style="height: 100px;"></div>
-        <h1  style="margin-left: 240px; width: 1000px">플래너 초대목록</h1>
-		
-	
+
+
+
 	<form id="myOfferListForm">
  		<input type="hidden" id="currentPage" name="currentPage" value=0 />
  		<input type="hidden" id="currentPage2" name="currentPage2" value=0 /> 
+ 		<c:if test="${!empty keyword}">
+ 		<input type="hidden" id="keyword" name="searchKeyword" value="${keyword}"/>
+ 		</c:if>
+ 		
 
 	</form>
+	
+	<div style="height: 50px;"></div>
+		<div class="row">
+		<div style="width: 250px;"></div>
 
+			<div class="btn-group" role="group" aria-label="Basic example">
+		  <button type="button" class="btn btn-outline-primary" id="viewPlan">플래너</button>
+		  <button type="button" class="btn btn-outline-primary" id="viewParty">동 행</button>
+			</div>
+	
+	</div>
+
+
+<c:if test="${keyword!='plan'}">
+<div id="planTable" style="display: none;">
+</c:if>
+<c:if test="${keyword=='plan'}">
+<div id="planTable" style="display: block;">
+</c:if>
+
+
+
+	<div style="height: 30px;"></div>
+        <h1  style="margin-left: 240px; width: 1000px">플래너 초대목록</h1>
+		
+	
 <div class="row">
 
 <div style="width: 300px;"></div>
 
-<div>
 <table class="table">
 
 					<div class="row">
@@ -353,18 +393,30 @@ $(function(){
 	
 
 </table>
-</div>
 
 
 </div>
 
 <jsp:include page="../../common/pageNavigator_new.jsp"/>
-<hr class="one">
+
+</div>
+
 
 
 	<div style="height: 100px;"></div>
+	
+
+	
+	
+<c:if test="${keyword!='party'}">
+<div id="partyTable" style="display: none;">
+</c:if>	
+<c:if test="${keyword=='party'}">
+<div id="partyTable" style="display: block;">
+</c:if>	
+	
         <h1  style="margin-left: 240px; width: 1000px">동행 신청목록</h1>
-		
+		<div style="height: 30px;"></div>
  		<input type="hidden" id="currentPage" name="currentPage" value=0 /> 
 	
 
@@ -372,13 +424,14 @@ $(function(){
 	
 	<ul class="list-unstyled" style="margin-left: 240px;">
 		<c:forEach var="partyOffer" items="${partyOfferList}" varStatus="status" >
-			<li class="media">
+			<li class="media" style="width: 1150px;">
+			    <div style="width: 100px;"></div>
 			    <img src="/resources/images/userImages/${partyOffer.userImg}" class="mr-3" alt="..." >
 			    <div class="media-body">
 			      <h5 class="mt-0 mb-1">${partyOffer.postTitle}</h5>
-			      ${partyOffer.toUserId}<br>
-			      ${partyOffer.offerMsg}<br>
-			      
+			     <small> 신청자  :</small>${partyOffer.toUserId}<br>
+			  <small> 신청메세지 :</small>  ${partyOffer.offerMsg}<br>
+			<small>  신청일자 : </small>   
 			      <c:set var="partyOfferDate" value="${fn:split(partyOffer.offerDate,' ')}"></c:set>
 					   						 <c:out value="${partyOfferDate[0]}"></c:out>
 			      <br>
@@ -398,7 +451,7 @@ $(function(){
 
 <jsp:include page="../../common/pageNavigator_new2.jsp"/>
 
-
+</div>
 
 </body>
 <jsp:include page="/toolbar/footer.jsp"></jsp:include>
