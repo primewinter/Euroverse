@@ -220,6 +220,107 @@
     	
     			});
     
+  /* ================================= 현금결제 ================================================ */
+    
+    $( function () {
+    	$('.btn.btn-primary').on('click' , function () {
+    		var card = $("input[name='payOpt']:checked").val();
+    		alert(card);
+    		var pay = $("#pay").val();
+    		
+    		if (card == '0' ) {
+    		
+    		var actualAmount = $("#actualAmount").val();
+    		var payPoint = $("#payPoint").val(); //사용할 포인트
+    		if ($("#payPoint").val() == null | $("#payPoint").val() == "" | $("#payPoint").val() == 0) {
+    			$("#zeroPoint").val(0);
+			}else{
+				$("#zeroPoint").val(payPoint);
+			}
+    		
+    		 if ($("#name").val() == "" ) {
+	    		 var buyerName = $("#newbuyerName").val();
+	    		 var buyerEmail = $("#str_email01").val()+$("#middle").text()+$("#selectEmail").val();
+	    		 var buyerPhone = $("#mobile0").val()+$("#mobile1").val()+$("#mobile2").val();
+	        	
+	        	$("#name").val(buyerName);
+	        	$("#email").val(buyerEmail);
+	        	$("#phone").val(buyerPhone);
+				
+			}else{
+				var buyerName = $("#name").val();
+				var buyerEmail = $("#email").val();
+				var buyerPhone = $("#phone").val();
+					
+				
+			}
+    		
+    		
+    						 IMP.init('imp15344798');
+    						 IMP.request_pay({
+    							    pg : 'danal', // version 1.1.0부터 지원.
+    							    pay_method : 'card',
+    							    merchant_uid : 'merchant_' + new Date().getTime(),
+    							    name : 'Flights',
+    							    amount : 10,
+    							    buyer_email : buyerEmail ,
+    							    buyer_name : buyerName,
+    							    buyer_tel : buyerPhone ,
+    							    buyer_postcode : 1234 ,
+    							  
+    							    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+    							    
+    							}, function(rsp) {
+    							    if ( rsp.success ) {
+    							        var msg = '결제가 완료되었습니다.';
+    							        msg += '고유ID : ' + rsp.imp_uid;
+    							        msg += '상점 거래ID : ' + rsp.merchant_uid;
+    							        msg += '결제 금액 : ' + rsp.paid_amount;
+    							        msg += '카드 승인번호 : ' + rsp.apply_num;
+    									msg += '회원 아이디 : ' + '${user.userId}';
+    									msg += '결제일시' + rsp.paid_at;
+    									msg += '??' + rsp.vbank_name;
+    									msg += 'status '+ rsp.pay_method;
+    									msg += '할부'+ rsp.card_quota;
+    									
+    									var payInstal = rsp.card_quota;
+    									$("#payInstal").val(payInstal);
+    									
+    							        var orderId = rsp.imp_uid;
+    							        $("#orderId").val(orderId);
+    							        
+    							        var price = rsp.paid_amount;
+    							        $("#price").val(price);
+    							        
+    							        
+    							       /*  var orderDate = rsp.paid_at;
+    							        $("#orderDate").val(orderDate); */
+    							        
+    							        var userId = '${user.userId}';
+    							        $("#userId").val(userId);
+    							        
+    							    } else {
+    							        var msg = '결제에 실패하였습니다.';
+    							        window.location.reload(true);
+    							        return;
+    							    }
+    						        alert(msg);
+    						    
+    							  $("form").attr("method" , "POST").attr("action" , "/order/addFlightOrder").submit();
+    					});	
+    						 
+    		}
+    				}); 
+    	
+    			});
+     
+   
+    /* ================================================================================== */
+    
+    
+    
+    
+    
     $(function (){
     	$("input[name='info']:checked").click(function (){
     		var check = $("input[name='info']:checked").val();
@@ -386,6 +487,14 @@
 			
 			<br/>	
 			<h4 align="left">결제 정보</h4>
+			
+			<div class="input-group">
+			  <div class="input-group-prepend">
+			      	<input type="radio"  checked="checked" id="pay" value="0" name="payOpt" style="margin-top:5px;margin-right:10px;">휴대폰 소액 결제 &nbsp;&nbsp;
+ 					<input type="radio" name="payOpt" id="card"  value="1" style="margin-top:5px;margin-right:10px;">카드 결제
+			  </div>
+			</div>
+			
 			<hr/>
 			<div class="row" id="pay" style="Padding-left:30px;">
 	             <div class="col-sm-2">
@@ -437,7 +546,7 @@
 		<br/><br/>
 		<div class="form-group" align="center">
    		 <div class="col-sm-offset-4  col-sm-4 text-center">
-		<button type="button" class="btn btn-primary"  >예약하기</button>
+		<button type="button" class="btn btn-primary" id="order" >예약하기</button>
 		<input type="hidden" name="actualAmount" value= "${order.actualAmount }"/>
 		<input type="hidden" name="usedPoint" value= "${point.usedPoint }"/>
 		<input type="hidden" name="totalAmount" value= "${order.totalAmount }"/>

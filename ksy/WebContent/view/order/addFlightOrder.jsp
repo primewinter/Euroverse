@@ -133,8 +133,8 @@
     
     
     $( function () {
-    	$('.btn.btn.btn-primary').click(function () {
-    		alert("ㅎㅁㅎ");
+    	$('.btn.btn-primary').click(function () {
+    		
     		var actualAmount = $("#actualAmount").val();
     		var payPoint = $("#payPoint").val(); //사용할 포인트
     		if ($("#payPoint").val() == null | $("#payPoint").val() == "" | $("#payPoint").val() == 0) {
@@ -160,11 +160,9 @@
 				
 			}
     		
-    		
-    		//$("form").attr("method" , "POST").attr("action" , "/purchase/addPurchase").submit();
     						 IMP.init('imp15344798');
     						 IMP.request_pay({
-    							    pg : 'html5_inicis.MID-a', // version 1.1.0부터 지원.
+    							    pg : 'inicis', // version 1.1.0부터 지원.
     							    pay_method : 'card',
     							    merchant_uid : 'merchant_' + new Date().getTime(),
     							    name : 'Flights',
@@ -220,6 +218,11 @@
     
     $( function () {
     	$('.btn.btn-primary').on('click' , function () {
+    		var card = $("input[name='payOpt']:checked").val();
+    		alert(card);
+    		var pay = $("#pay").val();
+    		
+    		if (card == '0' ) {
     		
     		var actualAmount = $("#actualAmount").val();
     		var payPoint = $("#payPoint").val(); //사용할 포인트
@@ -247,7 +250,6 @@
 			}
     		
     		
-    		//$("form").attr("method" , "POST").attr("action" , "/purchase/addPurchase").submit();
     						 IMP.init('imp15344798');
     						 IMP.request_pay({
     							    pg : 'danal', // version 1.1.0부터 지원.
@@ -300,11 +302,13 @@
     						    
     							  $("form").attr("method" , "POST").attr("action" , "/order/addFlightOrder").submit();
     					});	
+    						 
+    		}
     				}); 
     	
     			});
      
-    
+   
     /* ================================================================================== */
     $(function (){
     	$("input[name='info']:checked").click(function (){
@@ -347,36 +351,6 @@
 		
 	});
    
-	/* =======================================휴대폰,카드=========================================== */
-	
-	 $(function (){
-	    	/* $("input[name='payOpt']:checked").click(function (){
-	    		var button = $(".btn.btn-primary");
-	    		var check = $("input[name='payOpt']:checked").val();
-	    		if (check == '0') {
-	    			alert(check);
-	    			$("#order").attr('class' , 'btn btn-primary');
-				}
-	    		
-	    	}); */
-	    	
-	    	
-	    	$("input[name='payOpt']").change(function (){
-	    		
-	    		var card = $("input[name='payOpt']:checked").val();
-	    		alert(card);
-	    		var pay = $("#pay").val();
-	    		
-	    		if (card == '0' ) {
-	    			$("#order").attr('class' , 'btn btn-primary');
-				}
-	    		
-	    		if (card == '1') {
-	    			$("#order").attr('class' , 'btn btn btn-primary');
-				}
-	    	});
-	    });
-	
 	
     </script>
 
