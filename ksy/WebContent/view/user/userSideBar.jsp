@@ -135,19 +135,19 @@
 	<script>
 	
 		$(function(){
-			$(".nav-link:contains('내정보조회')").on("click" ,function(){
+			$(".nav-link:contains('내 정보 조회')").on("click" ,function(){
 				$(self.location).attr("href","/user/getUser");
 			});
 			
-			$(".nav-link:contains('내정보수정')").on("click" ,function(){
+			$(".nav-link:contains('내 정보 수정')").on("click" ,function(){
 				$(self.location).attr("href","/user/updateUser");
 			});
 			
-			$(".nav-link:contains('포인트 사용 목록')").on("click" ,function(){
+			$(".nav-link:contains('포인트 사용 내역')").on("click" ,function(){
 				$(self.location).attr("href","/myPage/pointList");
 			});
 			
-			$(".nav-link:contains('내 게시글 및 댓글')").on("click" ,function(){
+			$(".nav-link:contains('내 게시글 / 댓글')").on("click" ,function(){
 				$(self.location).attr("href","/myPage/myPostCommentList");
 			});
 			
@@ -166,12 +166,12 @@
 			}); */
 			
 			
-			$(".nav-link:contains('찜한 상품 목록')").on("click" ,function(){
+			$(".nav-link:contains('찜한 상품')").on("click" ,function(){
 				//alert("구현중");
 				$(self.location).attr("href","/myPage/likeOrderList");
 			});
 			
-			$(".nav-link:contains('1:1문의')").on("click" ,function(){
+			$(".nav-link:contains('1:1 문의')").on("click" ,function(){
 				$(self.location).attr("href","/myPage/addQnaAndQnaList");
 			});
 			
@@ -186,6 +186,27 @@
 			
 		});
 		
+		function checkMyPageCode(){
+
+			$('.nav-link').each( function(index){
+				
+				var myPageCodeThis = $(this).attr('href').substring(1,2);
+				console.log(myPageCodeThis);
+				
+				if( myPageCodeThis == maPageCode ){
+					//var appendHtml = '<span class="sr-only">(current)</span>';
+					//$(this).append(appendHtml);
+					$(this).addClass('active');
+				}
+			});
+		}
+		
+		setTimeout(function(){
+			checkMyPageCode();
+		},5);
+		
+		
+		
 	</script>
 
 
@@ -199,49 +220,49 @@
         <ul class="nav flex-column" style="text-align: right;">
           
           <li class="nav-item">
+            <a class="nav-link scroll" href="#M">
+              내 정보 조회 &nbsp; <span data-feather="smile"></span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link scroll" href="#E">
-              내정보조회 &nbsp; <span data-feather="smile"></span>
+              내 정보 수정 &nbsp;<span data-feather="settings"></span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link scroll" href="#F">
-              내정보수정 &nbsp;<span data-feather="settings"></span>
+            <a class="nav-link scroll" href="#P">
+              포인트 사용 내역 &nbsp; <span data-feather="database"></span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link scroll" href="#B">
-              포인트 사용 목록 &nbsp; <span data-feather="database"></span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link scroll" href="#G">
-              내 게시글 및 댓글 &nbsp; <span data-feather="edit"></span>
+            <a class="nav-link scroll" href="#C">
+              내 게시글 / 댓글 &nbsp; <span data-feather="edit"></span>
             </a>
           </li>
           
           <li class="nav-item">
-            <a class="nav-link scroll" href="#A">
+            <a class="nav-link scroll" href="#B">
               북마크 목록 &nbsp; <span data-feather="bookmark"></span>
             </a>
           </li>
           
           <li class="nav-item">
-            <a class="nav-link scroll" href="#D">
+            <a class="nav-link scroll" href="#O">
               플래너 초대 / 동행신청  &nbsp; <span data-feather="users"></span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link scroll" href="#D">
-              찜한 상품 목록  &nbsp; <span data-feather="heart"></span>
+            <a class="nav-link scroll" href="#L">
+              찜한 상품  &nbsp; <span data-feather="heart"></span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link scroll" href="#D">
-              1:1문의  &nbsp; <span data-feather="help-circle"></span>
+            <a class="nav-link scroll" href="#Q">
+              1:1 문의  &nbsp; <span data-feather="help-circle"></span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link scroll" href="#D" id="choolCheck">
+            <a class="nav-link scroll" href="#A" id="choolCheck">
               출석체크  &nbsp; <span data-feather="calendar"></span>
             </a>
           </li>

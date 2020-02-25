@@ -42,6 +42,8 @@
 
 <script type="text/javascript">
 
+	var maPageCode = 'P';
+
 	function fncGetUserList(currentPage) {
 		$("#currentPage").val(currentPage)
 		$("#pointListForm").attr("method" , "POST").attr("action" , "/myPage/pointList").submit();
@@ -129,6 +131,11 @@
 						</td>   
 				    </tr>
 			  	</c:forEach>
+			  	
+			  	<c:if test="${ empty pointList}">
+				    <tr><td colspan="5" style="padding: 40px;">포인트 내역이 없습니다</td></tr>
+				</c:if>
+				
 			  </tbody>
 		</table>
 	
