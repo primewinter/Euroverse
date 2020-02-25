@@ -343,10 +343,10 @@ WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1 AND #{searc
 		from Point
 		WHERE user_id = #{userId}
 		<if test="search.searchKeyword == 'use'">
-			AND used_type = 'U' OR used_type = 'S'
+			AND (used_type = 'U' OR used_type = 'S')
 		</if>
 		<if test="search.searchKeyword == 'save'">
-			AND used_type = 'C' OR used_type = 'F' OR used_type = 'R'
+			AND (used_type = 'C' OR used_type = 'F' OR used_type = 'R')
 		</if>
 </select>
 
