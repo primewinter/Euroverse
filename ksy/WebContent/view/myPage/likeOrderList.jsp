@@ -110,99 +110,127 @@
 	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
-	<div class="container">
-		<div class="page-header">
-			<h3>찜목록</h3>
+	
+	
+	
+	<div class="container" style="max-width: 1000px;">
+	
+		<!-- <div class="page-header"> <h3>찜목록</h3> </div> -->
+		<div class="h4" style="font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
+			내가 찜한 상품
 		</div>
-		
-		<div class="btn-group btn-group-toggle" data-toggle="buttons" >
+				
+		<!-- <div class="btn-group btn-group-toggle" data-toggle="buttons" >
 		  <label class="btn btn-secondary active">
 		    <input type="radio" name="flight" id="option1" checked onclick="javascript:Show();"> Flight
 		  </label>
 		  <label class="btn btn-secondary">
 		    <input type="radio" name="room" id="option2" onclick="javascript:doShow();"> Room
 		  </label>
-		</div>
+		</div> -->
 
+	  	<div class="d-flex align-items-center" style="margin: 20px;">
+		  	<i class="fas fa-plane" id="iconf" style="font-size:40px; width: 50px;"></i>
+		  	<i class="fas fa-bed" id="iconr" style="font-size:40px; width: 50px;"></i>
+		  	
+		  	<div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-left: 20px;">
+			  <label class="btn btn-outline-primary active">
+			    <input type="radio" name="flight" id="option1" checked onclick="javascript:Show();"> Flight
+			  </label>
+			  <label class="btn btn-outline-primary">
+			    <input type="radio" name="room" id="option2" onclick="javascript:doShow();"> Room
+			  </label>
+			</div>
+	  	</div>
+	  	
+		<table class="table table-bordered" id="flight" style="text-align: center;">
+		  <thead>
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">항공사</th>
+		      <th scope="col">출발도시 - 도착도시</th>
+		      <th scope="col">출발일시/도착일시</th>
+		      <th scope="col">경유/소요시간</th>
+		      <th scope="col">가격</th>
+		      <th scope="col">찜</th>
+		    </tr>
+		  </thead>
+		 
+		  <tbody id="flightBody">
+		   
+				<c:forEach var="flight" items = "${flightList}" varStatus="status" >
+					 <tr>
+					      <th scope="row">
+					      ${status.count}
+					      </th>
+						      <td>${flight.airline}</td>
+					     	 <input type="hidden" name="${flight.flightId}" id="flightId" value="${flight.flightId}"/>
+					     	 <input type="hidden" value="flight">
+						      <td>${flight.depCity}/${flight.arrCity }</td>
+						      <td>${flight.depTime} - ${flight.arrTime }</td>
+						      <td>${flight.stopOver}/${flight.leadTime}</td>
+						      <td>${flight.price}원</td>
+							 	<td>
+							 	<i class="fas fa-heart deleteFlight" onclick="javascript:deleteLike(${flight.flightId})"></i>
+							 	</td> 
+							 
+				   	 </tr>
+		    	 </c:forEach>
+		    	 <c:if test="${ empty flightList}">
+				    <tr><td colspan="7" style="padding: 40px;">찜한 상품이 없습니다</td></tr>
+				</c:if>
+		    	 
+		  </tbody>
+		</table>
 	
-  	<br/><br/>
-  	<i class="fas fa-plane" id="iconf" style="font-size:40px;" ></i>
-  	<i class="fas fa-bed" id="iconr" style="font-size:40px;"></i>
-	 <table class="table table-bordered" id="flight" style="text-align: center;">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">항공사</th>
-      <th scope="col">출발도시 - 도착도시</th>
-      <th scope="col">출발일시/도착일시</th>
-      <th scope="col">경유/소요시간</th>
-      <th scope="col">가격</th>
-      <th scope="col">찜</th>
-    </tr>
-  </thead>
- 
-  <tbody id="flightBody">
-   
-		<c:forEach var="flight" items = "${flightList}" varStatus="status" >
-			 <tr>
-			      <th scope="row">
-			      ${status.count}
-			      </th>
-				      <td>${flight.airline}</td>
-			     	 <input type="hidden" name="${flight.flightId}" id="flightId" value="${flight.flightId}"/>
-			     	 <input type="hidden" value="flight">
-				      <td>${flight.depCity}/${flight.arrCity }</td>
-				      <td>${flight.depTime} - ${flight.arrTime }</td>
-				      <td>${flight.stopOver}/${flight.leadTime}</td>
-				      <td>${flight.price}원</td>
-					 	<td>
-					 	<i class="fas fa-heart deleteFlight" onclick="javascript:deleteLike(${flight.flightId})"></i>
-					 	</td> 
-					 
-		   	 </tr>
-    	 </c:forEach>
-  </tbody>
-</table>
-	 
+		 
 	
 	
-	 <table class="table table-bordered" id="room" style="text-align: center;" >
-	 
-	  <thead>
-	    <tr>
-	      <th scope="col">#</th>
-	      <th scope="col">여행지</th>
-	      <th scope="col">숙소</th>
-	      <th scope="col">출발일시 - 도착일시</th>
-	      <th scope="col">객실수/숙박인원</th>
-	      <th scope="col">가격</th>
-	      <th scope="col">찜</th>
-	    </tr>
-	  </thead>
-	 
-	  <tbody id="roomBody">
-	   
-		<c:forEach var="room" items = "${roomList}" varStatus="status" >
-			 <tr>
-			    <th scope="row"  id="refund2" >
-			    ${status.count }
-			    </th>
-			    <td>${room.roomCity }</td>
-			    	<input type="hidden" name="${room.roomId}" id="roomId" value="${room.roomId}"/>
-			    	<input type="hidden" value="room">
-			    <td>${room.roomName}</td>
-			    <td>${room.checkIn} - ${room.checkOut }</td>
-			    <td>${room.roomNum} 개 / 성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
-			    <td>${room.price} 원 </td>
-			    <td> 
-			    <i class="fas fa-heart deleteFlight" onclick="javascript:deleteLike(${room.roomId})"></i>
-				 </td>
-		   	 </tr>
-	     </c:forEach> 
-	  </tbody>
-	</table>
+		 <table class="table table-bordered" id="room" style="text-align: center;" >
+		 
+		  <thead>
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">여행지</th>
+		      <th scope="col">숙소</th>
+		      <th scope="col">출발일시 - 도착일시</th>
+		      <th scope="col">객실수/숙박인원</th>
+		      <th scope="col">가격</th>
+		      <th scope="col">찜</th>
+		    </tr>
+		  </thead>
+		 
+		  <tbody id="roomBody">
+		   
+			<c:forEach var="room" items = "${roomList}" varStatus="status" >
+				 <tr>
+				    <th scope="row"  id="refund2" >
+				    ${status.count }
+				    </th>
+				    <td>${room.roomCity }</td>
+				    	<input type="hidden" name="${room.roomId}" id="roomId" value="${room.roomId}"/>
+				    	<input type="hidden" value="room">
+				    <td>${room.roomName}</td>
+				    <td>${room.checkIn} - ${room.checkOut }</td>
+				    <td>${room.roomNum} 개 / 성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
+				    <td>${room.price} 원 </td>
+				    <td> 
+				    <i class="fas fa-heart deleteFlight" onclick="javascript:deleteLike(${room.roomId})"></i>
+					 </td>
+			   	 </tr>
+		     </c:forEach> 
+		     
+		     <c:if test="${ empty roomList}">
+			    <tr><td colspan="7" style="padding: 40px;">찜한 상품이 없습니다</td></tr>
+			</c:if>
+		     
+		  </tbody>
+		</table>
+		
+	</div>	
 	
-</div>	
+	
+	
 </body>
 <jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>

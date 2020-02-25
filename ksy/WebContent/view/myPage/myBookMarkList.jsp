@@ -132,6 +132,11 @@
 				  			<input type="hidden" value="${bookMarkPost.boardName}"/>
 				  		</tr>
 				  	</c:forEach>
+				  	
+				  	<c:if test="${ empty bookMarkList}">
+					    <tr><td colspan="4" style="padding: 40px;">북마크한 게시글이 없습니다</td></tr>
+					</c:if>
+				  	
 				 </tbody>
 		</table>
 		

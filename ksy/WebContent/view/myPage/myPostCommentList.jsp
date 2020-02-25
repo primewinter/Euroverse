@@ -151,6 +151,12 @@
 							<td>${post.postLikeCount}</td>
 						</tr>
 				  	</c:forEach>	
+				  	
+				  	
+				  	<c:if test="${ empty postList}">
+					    <tr><td colspan="7" style="padding: 40px;">작성한 게시글이 없습니다</td></tr>
+					</c:if>
+					
 				  </tbody>
 				</table>
 				<jsp:include page="../../common/pageNavigator_new.jsp"/>
@@ -205,6 +211,10 @@
 						
 					</tr>
 		  		</c:forEach>
+		  		
+		  		<c:if test="${ empty commentList}">
+				    <tr><td colspan="6" style="padding: 40px;">작성한 댓글이 없습니다</td></tr>
+				</c:if>
 		  </tbody>
 		</table>
 	

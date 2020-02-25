@@ -129,6 +129,11 @@
 						</td>   
 				    </tr>
 			  	</c:forEach>
+			  	
+			  	<c:if test="${ empty pointList}">
+				    <tr><td colspan="5" style="padding: 40px;">포인트 내역이 없습니다</td></tr>
+				</c:if>
+				
 			  </tbody>
 		</table>
 	
