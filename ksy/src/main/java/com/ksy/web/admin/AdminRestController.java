@@ -1,7 +1,11 @@
 package com.ksy.web.admin;
 
+import java.io.PrintWriter;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,7 +75,7 @@ public class AdminRestController {
 	
 	// 관리자가 답변을 등록함
 	@RequestMapping(value="json/addQnaComment", method = RequestMethod.POST)
-	public void addQnaComment(@RequestBody Comment comment) throws Exception {
+	public Map<String,Object> addQnaComment(@RequestBody Comment comment) throws Exception {
 		
 		System.out.println("AdminComtroller addQnaComment");
 		
@@ -79,9 +83,12 @@ public class AdminRestController {
 		
 		adminService.addQnaComment(comment);
 		adminService.updateQnaGrade(comment.getPostId());
-	
+		
+		Map<String, Object> map = adminService.getQnaCommentList(comment.getPostId());
+		
 		System.out.println("AdminController addQnaComment END");
 		
+		return map;
 	}
 	
 	//관리자가 입력한 답변을 불러옴
@@ -97,6 +104,21 @@ public class AdminRestController {
 		System.out.println("map 디버깅 ==>"+map);
 		
 		return map;
+	}
+	
+	// 관리자가 답변을 삭제함 플래그처리 deleted = "T" 동시에 post 업데이트 
+	@RequestMapping(value="json/deleteQnaComm", method = RequestMethod.POST)
+	public void deleteQnaComm(@RequestBody Comment comment) throws Exception {
+		
+		System.out.println("AdminComtroller addQnaComment");
+		
+		adminService.deleteQnaComm(comment.getCmtId());
+		adminService.updateQnaGrade(comment.getPostId());
+		System.out.println("comment==>"+comment);
+		
+		
+		System.out.println("AdminController deleteQnaComm END");
+		
 	}
 	
 
