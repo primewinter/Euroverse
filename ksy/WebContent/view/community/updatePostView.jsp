@@ -34,6 +34,9 @@
 	<script src="/resources/summernote/summernote.min.js"></script>
 	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
 
+	<link rel="stylesheet" href="/resources/css/kronos.css" />
+	<script src="/resources/javascript/kronos.js"></script>
+
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
 	<!--  ///////////////////////// CSS ////////////////////////// -->
@@ -47,14 +50,33 @@
 		//Form 유효성 검증
 	 	var postTitle = $("input[name='postTitle']").val();
 		var postContent = $("textarea").val(); 
-	if(boardName == 'G'){
-		var qnaKategorie = $("select[name='qnaKategorie']").val();
 		
-		if(qnaKategorie == 'N' || qnaKategorie.length<1){
-			alert("카테고리는 반드시 입력해주세요.")
-			return;
+		if(boardName == 'G'){
+			var qnaKategorie = $("select[name='qnaKategorie']").val();
+			
+			if(qnaKategorie == 'N' || qnaKategorie.length<1){
+				alert("카테고리는 반드시 입력해주세요.")
+				return;
+			}
 		}
-	}
+		if(boardName == 'D'){
+			var accStartDate = $("input[name='accStartDateStr']").val();
+			var accPerson = $("select[name='accPerson']").val();
+			var accCount = $("input[name='accCount']").val();
+			
+			if(accPerson < accCount){
+				alert("현재 참여인원보다 많은 인원수를 선택해야합니다.")
+				return;
+			}			
+			if(accStartDate == null || accStartDate.length<1){
+				alert("동행 시작날짜는 반드시 입력하세요.");
+				return;
+			}
+			if(accPerson == 'N' || accPerson.length<1){
+				alert("동행인원은 반드시 입력하세요.");
+				return;
+			}
+		}
 		if(postTitle.trim() == 0 || postTitle.length<1){
 			alert("제목은 반드시 입력하여야 합니다.");
 			return;
@@ -186,6 +208,43 @@
 			}
 		}
 		
+		$(function() {
+			 
+            //시작일.
+            $('#startDate').kronos({
+                format: "yyyy-mm-dd", 
+                select: true,
+                selectYear: {
+	             	start: -1,
+	             	end: 1
+                },
+                button: {
+	                month :true,
+	            	year :true,
+	            	trigger :true,
+	            	today :true
+                },
+                periodTo: '#endDate'
+            });
+            
+            //종료일
+            $('#endDate').kronos({
+                format: "yyyy-mm-dd",
+                select: true,
+                selectYear: {
+	             	start: -1,
+	             	end: 1
+                },
+                button: {
+	                month :true,
+	            	year :true,
+	            	trigger :true,
+	            	today :true
+                },
+                periodFrom: '#startDate'
+            });
+        });
+		
 	</script>
     
 </head>
@@ -251,7 +310,13 @@
 				  <div class="input-group-prepend" style="font-size: 12px;width:608px;">
 				    <input type="text" class="form-control" id="postTitle" name="postTitle" maxlength="30" value="${post.postTitle}">
 				   <label for="postTitle" class="col-sm-3 control-label" style="font-size: 14px;"><i class="fas fa-flag-checkered"></i> 공지등록
-			        <input type="checkbox" id="postGrade" name="postGrade" value="N"></label>
+				   <c:if test="${post.postGrade == 'N'}">
+			        <input type="checkbox" id="postGrade" name="postGrade" value="N" checked>
+			       </c:if>
+			       <c:if test="${post.postGrade != 'N'}">
+			        <input type="checkbox" id="postGrade" name="postGrade" value="N">
+			       </c:if>
+			       </label>
 				  </div>
 				</div>
 			  </c:if>
@@ -260,10 +325,44 @@
 			      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" maxlength="30" value="${post.postTitle}">
 			    </div>
 			     <label for="postTitle" class="col-sm-2 control-label" style="font-size: 14px;padding-right: 40px;"><i class="fas fa-flag-checkered"></i> 공지등록
-			      <input type="checkbox" id="postGrade" name="postGrade" value="N"></label>
+			      <c:if test="${post.postGrade == 'N'}">
+			       <input type="checkbox" id="postGrade" name="postGrade" value="N" checked>
+			      </c:if>
+			      <c:if test="${post.postGrade != 'N'}">
+			       <input type="checkbox" id="postGrade" name="postGrade" value="N">
+			      </c:if>
+			      </label>
 			  </c:if>
 		  </c:if>
 		 </div>
+		 
+		 <c:if test="${post.boardName == 'D'}">
+		 	<div class="form-group">
+		 	  <input type="hidden" id="accCount" name="accCount" value="${post.accCount}"/>
+			    <label for="accDate" class="col-sm-1 control-label" style="font-size: 12px;">동행<br>시작일</label>
+			    <div class="col-sm-3">
+			      <input type="text" class="form-control" id="startDate" name="accStartDateStr" value="${post.accStartDate}" style="font-size: 12px;">
+			    </div>
+			    <label for="accDate" class="col-sm-1 control-label" style="font-size: 12px;">동행<br>종료일</label>
+			     <div class="col-sm-3">
+			      <input type="text" class="form-control" id="endDate" name="accEndDateStr" value="${post.accEndDate}" style="font-size: 12px;">
+			    </div>
+			 	<label for="accPerson" class="col-sm-1 control-label" style="font-size: 12px;">인원</label>
+			     <div class="col-sm-2">
+			      <select class="form-control" id="accPerson" name="accPerson" style="font-size:12px;">
+				      <option value="N" selected>인원선택</option>
+				    <c:forEach var="i" begin="1" end="30" >
+				    <c:if test="${post.accPerson == i}">
+				      <option value="${i}" selected>${i}</option>
+				    </c:if>
+				    <c:if test="${post.accPerson != i}">
+				      <option value="${i}">${i}</option>
+				    </c:if>
+				    </c:forEach>
+			      </select>
+			    </div>
+			  </div>
+		 </c:if>
 		  
 		 <c:if test="${post.boardName == 'E'}"> 
 		  <div class="form-group">

@@ -83,6 +83,10 @@
 			$("a:contains('자유게시판')").on("click" ,function(){
 				$(self.location).attr("href","/community/getPostList?boardName=A");
 			});
+			
+			$("a:contains('동행')").on("click" ,function(){
+				$(self.location).attr("href","/community/getPostList?boardName=D");
+			});
 		});
 	
 	</script>
@@ -95,4 +99,5 @@
 	  <a href="#B">여행정보</a>
 	  <a href="#G">QnA</a>
 	  <a href="#A">자유게시판</a>
+	  <a href="#D">동행</a>
 	</div>

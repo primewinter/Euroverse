@@ -325,6 +325,41 @@ public class CommunityController {
 		model.addAttribute("post", post);
 		model.addAttribute("tag", tag);
 		
+		List<User> userList = new ArrayList<User>();
+		
+		if( post.getBoardName().equals("D") ) {
+			
+			if(user.getRole().equals("G")) {
+				return "forward:/view/community/check.jsp";
+			}
+			
+			List<Party> party = communityService.getParty(post.getPostId());
+		
+			for(int i=0; i<party.size(); i++) {
+				
+				User partyUser = userService.getUser(party.get(i).getPartyUserId());
+				List<TripSurvey> tripSurvey = myPageService.getTripSurveyList(party.get(i).getPartyUserId());
+				
+				List<String> tripStyle = new ArrayList<String>();
+				
+				for(int j=0; j<tripSurvey.size(); j++) {
+					
+					if(tripSurvey.get(j).getSurveyType().equals("T")) {
+						String surveyChoice = tripSurvey.get(j).getSurveyChoice();
+						tripStyle.add(surveyChoice);
+						partyUser.setTripStyle(tripStyle);
+					}
+				}
+				userList.add(partyUser);
+			}
+			System.out.println("userList : "+userList);
+			
+			model.addAttribute("userList", userList);
+			model.addAttribute("party", party);
+			
+			return "forward:/view/community/getAccFindPost.jsp";
+		}
+		
 		if( post.getPlanId() != null || post.getPlanId()=="" ) {
 			
 			Plan copiedPlan = planService.getPlan(post.getPlanId());
@@ -406,8 +441,14 @@ public class CommunityController {
 		if(user == null) {
 			return "forward:/view/community/check.jsp";
 		}
-
 		Post post = communityService.getPost(postId, user.getUserId(), boardName);
+		
+		if(boardName.equals("C") && post.getDeleted().equals("T")) {
+			
+			model.addAttribute("boardName", boardName);
+			
+			return "forward:/view/community/check.jsp";
+		}
 		List<Tag> tag = communityService.getTagList(postId);
 
 		User userProfile = userService.getUser(user.getUserId());

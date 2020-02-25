@@ -102,7 +102,7 @@ public class AdminDaoImpl implements AdminDao {
 		
 		System.out.println("AdminDaoImpl deleteQnaComm");
 		
-		sqlSession.update("AdminMapper.deleteQnaComm");
+		sqlSession.update("AdminMapper.deleteQnaComm",cmtId);
 	}
 	
 }
