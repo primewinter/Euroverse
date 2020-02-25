@@ -12,10 +12,16 @@
 	$(function(){
 		$("#addComment").on("click" , function() {
 			
-			var content = $("textarea").val();
+			var content = $("textarea[id='cmtContent']").val();
 
 			if( content.trim() == 0 ){
-				alert("댓글을 입력해주세요.");
+				swal({
+       		  	    icon : 'warning',
+       			    title : "댓글을 입력해주세요.",
+       			    text : " ",
+       			    button : false,
+       			    timer : 700
+        	  	});
 				return false;
 			}
 			
@@ -40,12 +46,18 @@
 	
 	function addRecomment(cmtId) {
 
-			/* var content = $("textarea").val();
+			var content = $("form[id='"+cmtId+"addRcmt'] textarea").val();
 	
 			if( content.trim() == 0 ){
-				alert("댓글을 입력해주세요.");
+				swal({
+       		  	    icon : 'warning',
+       			    title : "대댓글을 입력해주세요.",
+       			    text : " ",
+       			    button : false,
+       			    timer : 700
+        	  	});
 				return false;
-			} */
+			} 
 		
 			$.ajax({
 				url : '/community/json/addComment' ,
@@ -137,7 +149,7 @@
 						 + "<div class='cmt_write'>"
 						 + "<input type='text' name='nickName' id='nickName' value='${user.nickname}' readonly='readonly' style='text-align: center;font-size:13px;border: 1px solid #cecdce;color:gray;'>"
 						 + "&nbsp;<input type='checkbox' id='secret' name='secret' value='T' aria-label='Checkbox for following text input' style='font-size:12px;'> 비밀글 "
-						 + "<textarea id='cmtContent' name='cmtContent' maxlength='400'></textarea>"
+						 + "<textarea id='rcmtContent' name='cmtContent' maxlength='400'></textarea>"
 						 + "</div>"
 						 + "<div class='input-group mb-3'>"
 						 + "<div style='background-color: white;border: 0;width: 900px;'>"
@@ -222,12 +234,12 @@
 							
 							if(JSONData.list[i].secret == "T"){
 							if(JSONData.userId == JSONData.list[i].cmtWriterId || JSONData.userId == JSONData.list[i].postWriterId){
-								 output += "<div class='clear cmt_txtbox btn_reply_write_all' id='"+JSONData.list[i].cmtId+"old'><p class='usertxt ub-word' style='color: gray;'><i class='fas fa-lock' style='color:black;'></i>&nbsp;"+JSONData.list[i].cmtContent+"</p></div>"
+								 output += "<div class='clear cmt_txtbox btn_reply_write_all' id='"+JSONData.list[i].cmtId+"old'><p class='usertxt ub-word' style='color: gray; width: 600px;'><i class='fas fa-lock' style='color:black;'></i>&nbsp;"+JSONData.list[i].cmtContent+"</p></div>"
 							}else{
 								 output += "<div class='clear cmt_txtbox btn_reply_write_all' id='"+JSONData.list[i].cmtId+"old'><p class='usertxt ub-word'><i class='fas fa-lock'> 비밀댓글입니다.</i></p></div>"
 							}
 							}else{
-								 output += "<div class='clear cmt_txtbox btn_reply_write_all' id='"+JSONData.list[i].cmtId+"old'><p class='usertxt ub-word'>"+JSONData.list[i].cmtContent+"</p></div>"
+								 output += "<div class='clear cmt_txtbox btn_reply_write_all' id='"+JSONData.list[i].cmtId+"old'><p class='usertxt ub-word' style='width: 600px;'>"+JSONData.list[i].cmtContent+"</p></div>"
 							}
 								 output += "<form name='"+JSONData.list[i].cmtId+"f'><div class='cmt_txt_cont'><div class='cmt_new' style='display: none; width: 800px; float: left; position: relative; padding-left: 180px;' id='"+JSONData.list[i].cmtId+"neww'><input type='text' id='"+JSONData.list[i].cmtId+"new' name='cmtContent' maxlength='400' style='display: none;float: left; width: 550px; margin-bottom: 5px' value='"+JSONData.list[i].cmtContent+"'/><div class='cmt_cont_bottm clear'><div class='fr' style='float:left;'><input type='checkbox' id='secret' name='secret' value='T' "
 							if(JSONData.list[i].secret == "T"){
@@ -259,7 +271,13 @@
 			var content = $("#"+cmtId+"new").val();
 
 			if(content.trim() == 0){
-				alert("댓글을 입력해주세요.");
+				swal({
+       		  	    icon : 'warning',
+       			    title : "댓글을 입력해주세요.",
+       			    text : " ",
+       			    button : false,
+       			    timer : 700
+        	  	});
 				return false;
 			}
 			
@@ -269,29 +287,43 @@
 				data : $("form[name='"+cmtId+"f']").serialize() + "&cmtId="+cmtId ,
 				dataType : "json" ,
 				success : function(JSONData , status){
+					swal({
+	       		  	    icon : 'success',
+	       			    title : "수정 완료!",
+	       			    text : " ",
+	       			    button : false,
+	       			    timer : 500
+	        	  	});
 					getCommentList(1);
 				}
 			}); 
 		}
 		
 		function deleteComment(cmtId){
-	
-			var result = confirm("댓글을 삭제하시겠습니까?");
 			
-			if(result){
-				$.ajax({
-					url : '/community/json/deleteComment/'+cmtId ,
-					type : "GET" ,
-					dataType : "json" ,
-					headers : {
-		   				"Accept" : "application/json",
-		   				"Content-Type" : "application/json"
-	   			    },
-	   			    success : function(JSONData , status){
-	   			    	getCommentList(1);
-	   			    }
-				});
-			}
+			swal({
+				title:"댓글을 삭제하시겠습니까?",
+				text:" ",
+				icon:"warning",
+				buttons: [ "아니오", "예"]
+			}).then((YES) => {
+				if(YES){
+					swal("삭제되었습니다!"," ","success");
+					
+					$.ajax({
+						url : '/community/json/deleteComment/'+cmtId ,
+						type : "GET" ,
+						dataType : "json" ,
+						headers : {
+			   				"Accept" : "application/json",
+			   				"Content-Type" : "application/json"
+		   			    },
+		   			    success : function(JSONData , status){
+		   			    	getCommentList(1);
+		   			    }
+					});
+				}
+			});
 		}
 		
 		function like_func(cmtId){
@@ -302,20 +334,16 @@
 				cache : false ,
 				dataType : "json" ,
 				success : function(data) {
-					var msg = '';
-					msg += data.msg;
-					
-					alert(msg);
-					
+		
 					if(data.likeCheck == 'F'){
 					  $("#"+cmtId+"zz").attr('class','far fa-thumbs-up');
 					}else{
 					  $("#"+cmtId+"zz").attr('class','fas fa-thumbs-up');
 					}      
-					  $("#"+cmtId+"zz").html(data.cmtLikeCount);
+					  $("#"+cmtId+"zz").html("&nbsp;"+data.cmtLikeCount);
 				},
 				error: function(request, status, error){
-					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					swal("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 				}
 			});
 		}
