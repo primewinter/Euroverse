@@ -46,6 +46,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ksy.common.Config;
@@ -579,6 +580,15 @@ public class UserRestController {
 		returnMap.put("mailCheck", state);
 		
 		return returnMap;
+	}
+	
+	@RequestMapping(value="json/getUser")
+	public String getUser(@RequestParam(value="userId") String userId ) throws Exception {
+		User user = userService.getUser(userId);
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonString = mapper.writeValueAsString(user);
+		System.out.println("json/getUser ::"+jsonString);
+		return jsonString;
 	}
 	
 	

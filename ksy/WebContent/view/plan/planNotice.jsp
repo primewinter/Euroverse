@@ -88,8 +88,8 @@
 	    left:0;
 	    position:absolute;
 	    background-size:100%;
-	    opacity:0.5!important;
-	    filter:alpha(opacity=50);
+	    opacity:0.45!important;
+	    //filter:alpha(opacity=50);
 	    z-index:-1;
 	    content:"";
 	    width:100%;

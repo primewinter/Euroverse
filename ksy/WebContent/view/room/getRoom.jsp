@@ -72,17 +72,6 @@ $(function() {
 	});
 });	
 
-$(function() {
-    $( "#testDatepicker" ).datepicker({
-    	changeMonth: true, 
-         changeYear: true,
-        // nextText: '다음 달',
-        // prevText: '이전 달' ,
-         dateFormat: "yymmdd"
-    });
-});
-
-
 	
 </script>
 

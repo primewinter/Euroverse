@@ -403,7 +403,6 @@ $(function(){
 
 
 
-	<div style="height: 100px;"></div>
 	
 
 	
@@ -414,9 +413,8 @@ $(function(){
 <c:if test="${keyword=='party'}">
 <div id="partyTable" style="display: block;">
 </c:if>	
-	
+	<div style="height: 30px;"></div>
         <h1  style="margin-left: 240px; width: 1000px">동행 신청목록</h1>
-		<div style="height: 30px;"></div>
  		<input type="hidden" id="currentPage" name="currentPage" value=0 /> 
 	
 

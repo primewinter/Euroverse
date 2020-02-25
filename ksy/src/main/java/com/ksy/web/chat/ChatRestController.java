@@ -58,7 +58,7 @@ import com.mongodb.client.MongoDatabase;
 		
 		public ChatRestController() {
 			System.out.println(this.getClass()+" MongoDB ¿¬°áµÊ-----------------------------");
-			this.mongoConn = new MongoClient("localhost", 27017);
+			this.mongoConn = new MongoClient("192.168.0.82", 27017);
 			this.mongoDB = mongoConn.getDatabase("Euroverse");
 			
 			}

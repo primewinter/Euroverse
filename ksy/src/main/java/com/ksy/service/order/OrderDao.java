@@ -16,7 +16,7 @@ public interface OrderDao {
 		
 		public void addPoint(Point point) throws Exception;
 		
-		public Point pointList(String orderId) throws Exception;
+		public List<Point> pointList(String orderId) throws Exception;
 		
 		public Order getFlightOrder(String flightId) throws Exception;
 		

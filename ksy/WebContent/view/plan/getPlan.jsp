@@ -52,6 +52,11 @@
 	<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script> -->
 	
 
+	<!-- ICON 사용을 위한 스크립트 임포트 -->
+	<!-- https://feathericons.com/ -->
+	<script src="https://unpkg.com/feather-icons"></script>
+
+
 
 	<!-- FullCalendar CDN -->
 	<link href='https://unpkg.com/@fullcalendar/core@4.3.1/main.min.css' rel='stylesheet' />
@@ -232,12 +237,13 @@
 		/* Sidebar */
 		.sidebar {
 		  position: fixed;
-		  top: 130px;
+		  top: 180px;
 		  bottom: 0;
 		  left: 0;
 		  z-index: 40; /* Behind the navbar */
 		  padding: 48px 0 0; /* Height of navbar */
 		  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+		  background-color: white;
 		}
 		.sidebar-sticky {
 		  position: relative;
@@ -368,11 +374,6 @@
 	  }
 	  
  	</style>
-
-	<!-- ICON 사용을 위한 스크립트 임포트 -->
-	<!-- https://feathericons.com/ -->
-	<script src="https://unpkg.com/feather-icons"></script>
-
 
 
 	<!-- 함수들 모음집 -->
@@ -1930,7 +1931,7 @@
 		<div class="row">
 		
 			<!-- 좌측 Plan 툴바 구성 Start /////////////////////////////////////////////////////////// -->
-			<nav class="col-md-2 d-none d-md-block sidebar" style="padding-top:0px; padding-left:16px;">
+			<nav class="col-md-2 d-none d-md-block sidebar" style="padding-top:0px; padding-left:20px;">
 		      <div class="sidebar-sticky">
 		      
 		        <ul class="nav flex-column">
@@ -1942,33 +1943,33 @@
 		          </li>
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoTodoList">
-		              <span data-feather="check-square"></span>Todo 리스트
+		              <span data-feather="check-square"></span> Todo 리스트
 		            </a>
 		          </li>
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoCityRouteList">
-		              <span data-feather="map"></span>여행루트
+		              <span data-feather="map"></span> 여행루트
 		            </a>
 		          </li>
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoBudgetOverviewList">
-		              <span data-feather="dollar-sign"></span>예산
+		              <span data-feather="dollar-sign"></span> 예산
 		            </a>
 		          </li>
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoDailyList">
-		              <span data-feather="calendar"></span>일정표
+		              <span data-feather="calendar"></span> 일정표
 		            </a>
 		          </li>
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoStuffList">
-		              <span data-feather="briefcase"></span>준비물
+		              <span data-feather="briefcase"></span> 준비물
 		            </a>
 		          </li>
 		          
 		          <li class="nav-item">
 		            <a class="nav-link scroll" href="#gotoMemoList">
-		              <span data-feather="edit-3"></span>메모
+		              <span data-feather="edit-3"></span> 메모
 		            </a>
 		          </li>
 		        </ul>

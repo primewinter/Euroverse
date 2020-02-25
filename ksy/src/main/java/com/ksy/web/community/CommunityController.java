@@ -443,10 +443,9 @@ public class CommunityController {
 		}
 		Post post = communityService.getPost(postId, user.getUserId(), boardName);
 		
-		if(boardName.equals("C") && post.getDeleted().equals("T")) {
-			
-			model.addAttribute("boardName", boardName);
-			
+		if( post == null ) {
+
+			model.addAttribute("post", post);
 			return "forward:/view/community/check.jsp";
 		}
 		List<Tag> tag = communityService.getTagList(postId);

@@ -1,23 +1,11 @@
 package com.ksy.web.order;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,10 +29,6 @@ import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.order.OrderService;
 import com.ksy.service.room.RoomService;
 import com.ksy.service.user.UserService;
-import com.siot.IamportRestHttpClientJava.IamportClient;
-import com.siot.IamportRestHttpClientJava.request.CancelData;
-import com.siot.IamportRestHttpClientJava.response.IamportResponse;
-import com.siot.IamportRestHttpClientJava.response.Payment;
 
 @Controller
 @RequestMapping("/order/*")
@@ -346,23 +330,13 @@ public class OrderController {
 		System.out.println("/getFlightOrder : GET");
 		Order order = new Order();
 		Flight flight = new Flight();
-		Point point = (Point) session.getAttribute("point");
-		System.out.println("얍 "+point);
+		//Point point = (Point) session.getAttribute("point");
 		flight = flightService.getFlight(flightId);
 		order = orderService.getFlightOrder(flightId);
 		
 		//point Service , dao 만들기 Order에 point 관련 컬럼 지우기...
 		//pointService.
-		point = orderService.pointList(orderId);
-		/*
-	<select id="pointList" parameterType="String" resultMap="pointSelectMap">
-  		SELECT 
-		p.user_id, p.point_id, p.ref_id, p.used_type, p.used_point, p.used_date
-		FROM  point p
-		WHERE p.ref_id = {value}
-					
-  	</select>		
-		 */
+		List<Point> point = orderService.pointList(orderId);
 		
 		model.addAttribute("flight",flight);
 		model.addAttribute("order",order);
@@ -378,11 +352,12 @@ public class OrderController {
 		System.out.println("/getRoomOrder : GET");
 		Order order = new Order();
 		Room room = new Room();
-		Point point = (Point) session.getAttribute("point");
+		//Point point = (Point) session.getAttribute("point");
 		
 		order = orderService.getRoomOrder(roomId);
 		room = roomService.getRoom(roomId);
-		point = orderService.pointList(orderId);
+		List<Point> point = orderService.pointList(orderId);
+
 		
 		model.addAttribute("room",room);
 		model.addAttribute("order",order);
