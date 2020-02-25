@@ -71,6 +71,10 @@
 			$("#addpost_view").on("click" , function() {
 				self.location = "/community/addPost?boardName="+boardName;
 			});
+			
+			$("#boardTitle").on("click", function(){
+				self.location = "/community/getPostList?boardName="+boardName;
+			});
 		});
 		
 		function qnaKategotie(sorting){
@@ -106,7 +110,7 @@
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container" style="max-width: 1000px;">
 	
-		<div class="h4" style="font-weight: bold; margin-top: 40px;padding-left:10px;">
+		<div class="h4" id="boardTitle" style="font-weight: bold; margin-top: 40px;padding-left:10px;">
 			<c:if test="${param.boardName=='A'}">
 			자유게시판
 			</c:if>
@@ -287,7 +291,7 @@
 		   	  <td><fmt:formatDate value="${post.postDate}" pattern="yyyy-MM-dd"/></td>
 		  </c:if>
 		  <c:if test="${param.boardName != 'D'}">
-			  <td>${post.postDate}</td>
+			  <td><fmt:formatDate value="${post.postDate}" pattern="yyyy-MM-dd"/></td>
 		  </c:if>
 			  <td>${post.views}</td>
 			  <td>${post.postLikeCount}</td>

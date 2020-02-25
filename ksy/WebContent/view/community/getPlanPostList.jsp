@@ -161,6 +161,10 @@
 			     var postId = $(this).next().val();	
 				 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
 			});
+			
+			$("#boardTitle").on("click", function(){
+				self.location = "/community/getPostList?boardName="+boardName;
+			});
 		});	
 	
 		$(function(){
@@ -189,9 +193,9 @@
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container" style="max-width: 1100px;">
+	<div class="container" style="max-width: 1000px;">
 	
-		<div class="h4" style="font-weight: bold; margin-top: 40px;padding-left:20px;">
+		<div class="h4" id="boardTitle" style="font-weight: bold; margin-top: 40px;padding-left:10px;">
 			플래너공유
 	    </div>
 	    
