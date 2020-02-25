@@ -33,6 +33,18 @@ public class LogOnCheckInterceptor extends HandlerInterceptorAdapter {
 		///Method
 		public boolean preHandle(	HttpServletRequest request,HttpServletResponse response,Object handler) throws Exception {
 			
+			System.out.println("@@@@@@여기서 세션에 유저 있는지 일단 먼저 확인@@@@@@@");
+			HttpSession session = request.getSession();
+			System.out.println(session.getId());
+			User user = (User)session.getAttribute("user");
+			System.out.println(user);
+			if(user==null) {
+				System.out.println("헤헤 널 찍힌다~");
+				
+			}else {
+				System.out.println("유저가 널이 아닐때");
+			}
+			
 //			System.out.println("\n[ LogonCheckInterceptor start........]");
 //			System.out.println("이게 다 통하는건가?~!#!#$@@!@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 //			System.out.println("헤헤@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");

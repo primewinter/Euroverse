@@ -87,7 +87,18 @@
 				}),
 				success : function(JSONData){
 					if(JSONData.result == 'ok'){
-						$("#comeBackForm").attr("action","/user/comeBack").attr("method","post").submit();
+						
+						swal({
+							   icon : 'success',
+							  title : "복구 완료했습니다.",
+							  text:" ",
+							  button : false,
+							})
+				    	setTimeout(function() {     
+							$("#comeBackForm").attr("action","/user/comeBack").attr("method","post").submit();
+				    	}, 700);
+						
+						
 					}else{
 						swal({
 						   icon : 'warning',

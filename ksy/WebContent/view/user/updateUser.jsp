@@ -98,6 +98,8 @@
 	.h6Class{
 		color: red;
 	}
+	
+	
 </style>
 
 <script type="text/javascript">
@@ -626,11 +628,11 @@
 				                    </div>
 				                </div>
 				                <!-- 왼쪽 오른쪽 화살표 버튼 시작 -->
-				                <a class="carousel-control-prev" href="#country-carousel" data-slide="prev" style="height: 50px; vertical-align: middle; margin-top: 130px;margin-left:50px;color: black;font-size: 30px;">
+				                <a class="carousel-control-prev nextPrev" href="#country-carousel" data-slide="prev" style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
 				                   <i class="far fa-caret-square-left"></i>
 				                    <!-- <span>Previous</span> --> </a>
 				
-				                <a class="carousel-control-next" href="#country-carousel" data-slide="next" style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
+				                <a class="carousel-control-next nextPrev" href="#country-carousel" data-slide="next" style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
 				                  <i class="far fa-caret-square-right"></i>
 				                    <!-- <span>Next</span> --> </a>
 				                <!-- 왼쪽 오른쪽 화살표 버튼 끝 -->
@@ -664,7 +666,7 @@
 				                <div class="carousel-item" >
 				                     <div class="row">
 										<c:forEach var="style" items="${tripStyleList}" varStatus="status" begin="10" >
-												<div class="col" style="margin-top: 60px; text-align: center;">
+												<div class="col" style="margin-top: 30px; text-align: center;">
 										    		<img alt="" src="/resources/images/tripInfoimges/${style.surveyImg}" style="overflow: hidden" width="80px;"height="80px;">
 								 						<p class="card-text"> 
 								 							<input type="hidden" value="${status.index}">
@@ -677,11 +679,11 @@
 				                    </div>
 				                </div>
 				                
-				                <a class="carousel-control-prev" href="#main-carousel" data-slide="prev"  style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
+				                <a class="carousel-control-prev nextPrev" href="#main-carousel" data-slide="prev"  style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
 				                   <i class="far fa-caret-square-left"></i>
 				                    <!-- <span>Previous</span> --> </a>
 				
-				                <a class="carousel-control-next" href="#main-carousel" data-slide="next" style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
+				                <a class="carousel-control-next nextPrev" href="#main-carousel" data-slide="next" style="height: 50px; vertical-align: middle; margin-top: 130px;color: black;font-size: 30px;">
 				                   <i class="far fa-caret-square-right"></i>
 				                    <!-- <span>Next</span> --> </a>
 				                <!-- 왼쪽 오른쪽 화살표 버튼 끝 -->

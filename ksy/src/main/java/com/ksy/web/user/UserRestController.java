@@ -132,6 +132,7 @@ public class UserRestController {
 				returnMap.put("result", "errorPwd");
 			}
 			else {
+				//탐캣의 디폴트 세션 유지시간은 30분
 				session.setAttribute("user", dbUser);
 				returnMap.put("result", "ok");
 			}
