@@ -3,6 +3,7 @@
 
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 
@@ -47,10 +48,17 @@
 		 });
 		
 		 $(function() {
+			 
+			 var boardName = $("input[name='boardName']").val();
+			 
 			$( "td:nth-child(2)" ).on("click" , function() {
 			     var postId = $(this).find($("input[name='postId']")).val();
 			     var boardName = $(this).find($("input[name='boardName']")).val();
 				 self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
+			});
+			
+			$("#boardTitle").on("click", function(){
+				self.location = "/community/getPostList?boardName="+boardName;
 			});
 		});	
 		 
@@ -81,7 +89,7 @@
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container" style="max-width: 1000px;">
 	
-		<div class="h4" style="font-weight: bold; margin-top: 40px;padding-left:10px;">
+		<div class="h4" id="boardTitle" style="font-weight: bold; margin-top: 40px;padding-left:10px;">
 			인기글게시판
 	    </div>
 	    
@@ -218,7 +226,7 @@
 			  	  
 			</c:if>
 			  <td>${post.nickName}</td>
-			  <td>${post.postDate}</td>
+			  <td><fmt:formatDate value="${post.postDate}" pattern="yyyy-MM-dd"/></td>
 			  <td>${post.views}</td>
 			  <td>${post.postLikeCount}</td>
 			</tr>

@@ -36,6 +36,8 @@
 
 
     <!-- Use Swiper from CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
     <script src="https://unpkg.com/swiper/js/swiper.js"></script>
@@ -206,7 +208,8 @@
         margin: 3em 1em 3em 1em;
     }
 
-    .story-entry__image-wrap>img {
+    .story-entry__image-wrap>img,
+    .story-entry__image-wrap>figure>img {
         width: auto;
         vertical-align: middle;
         height: 300px;
@@ -214,7 +217,8 @@
         overflow: hidden;
     }
 
-    .story-entry__image-wrap>img:hover {
+    .story-entry__image-wrap>img:hover,
+    .story-entry__image-wrap>figure>img:hover {
         /* img 마우스 오버시*/
         cursor: pointer;
         transform: scale(1.1);
@@ -262,48 +266,8 @@
     }
 
 
-    .planner-info {
-        display: none;
-    }
 
-    .left {
-        text-align: left;
-        margin: 10%;
-        width: 80%;
-    }
-
-    .left.planner-info-img {
-        /*        float: left;*/
-
-    }
-
-    .left.planner-info-text {
-        /*        float: right;*/
-    }
-
-    .justify {
-        text-align: center;
-        margin: 10%;
-        width: 80%;
-    }
-
-    .right {
-        /*        text-align: right;*/
-        margin: 10%;
-        width: 80%;
-        text-align: right;
-    }
-
-    .right.planner-info-img {
-        /*        float: right;*/
-    }
-
-    .right.planner-info-text {
-        /*        float: left;*/
-    }
-
-
-    #conturyMoney {
+    #countryMoney {
         width: 300px;
         height: 300px;
         border: 1px solid teal;
@@ -366,7 +330,7 @@
 
 
     /* 금액입력창 css  */
-    .conturyMoney {
+    .countryMoney {
         width: 300px;
         top: 50px;
         position: relative;
@@ -376,119 +340,167 @@
         font-size: 17px;
 
     }
-    
-    
-    
+
+
+
     @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
-figure.snip1384 {
-  font-family: 'Raleway', Arial, sans-serif;
-  position: relative;
-  overflow: hidden;
-  margin: 10px;
-  min-width: 230px;
-  max-width: 315px;
-  width: 100%;
-  color: #ffffff;
-  text-align: left;
-  font-size: 16px;
-  background-color: #000000;
-}
-figure.snip1384 * {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-transition: all 0.35s ease;
-  transition: all 0.35s ease;
-}
-figure.snip1384 img {
-  max-width: 100%;
-  backface-visibility: hidden;
-  vertical-align: top;
-}
-figure.snip1384:after,
-figure.snip1384 figcaption {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-figure.snip1384:after {
-  content: '';
-  background-color: rgba(0, 0, 0, 0.65);
-  -webkit-transition: all 0.35s ease;
-  transition: all 0.35s ease;
-  opacity: 0;
-}
-figure.snip1384 figcaption {
-  z-index: 1;
-  padding: 40px;
-}
-figure.snip1384 h3,
-figure.snip1384 .links {
-  width: 100%;
-  margin: 5px 0;
-  padding: 0;
-}
-figure.snip1384 h3 {
-  line-height: 1.1em;
-  font-weight: 700;
-  font-size: 1.4em;
-  text-transform: uppercase;
-  opacity: 0;
-}
-figure.snip1384 p {
-  font-size: 0.8em;
-  font-weight: 300;
-  letter-spacing: 1px;
-  opacity: 0;
-  top: 50%;
-  -webkit-transform: translateY(40px);
-  transform: translateY(40px);
-}
-figure.snip1384 i {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  padding: 20px 25px;
-  font-size: 34px;
-  opacity: 0;
-  -webkit-transform: translateX(-10px);
-  transform: translateX(-10px);
-}
-figure.snip1384 a {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-}
-figure.snip1384:hover img,
-figure.snip1384.hover img {
-  zoom: 1;
-  filter: alpha(opacity=50);
-  -webkit-opacity: 0.5;
-  opacity: 0.5;
-}
-figure.snip1384:hover:after,
-figure.snip1384.hover:after {
-  opacity: 1;
-  position: absolute;
-  top: 10px;
-  bottom: 10px;
-  left: 10px;
-  right: 10px;
-}
-figure.snip1384:hover h3,
-figure.snip1384.hover h3,
-figure.snip1384:hover p,
-figure.snip1384.hover p,
-figure.snip1384:hover i,
-figure.snip1384.hover i {
-  -webkit-transform: translate(0px, 0px);
-  transform: translate(0px, 0px);
-  opacity: 1;
-}
+
+    figure.snip1384 {
+        position: relative;
+        overflow: hidden;
+        margin: 10px;
+        min-width: 230px;
+        max-width: 315px;
+        width: 100%;
+        color: #ffffff;
+        text-align: left;
+        font-size: 16px;
+        background-color: #000000;
+    }
+
+    figure.snip1384 * {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-transition: all 0.35s ease;
+        transition: all 0.35s ease;
+    }
+
+    figure.snip1384 img {
+        max-width: 100%;
+        backface-visibility: hidden;
+        vertical-align: top;
+    }
+
+    figure.snip1384:after,
+    figure.snip1384 figcaption {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    figure.snip1384:after {
+        content: '';
+        background-color: rgba(0, 0, 0, 0.65);
+        -webkit-transition: all 0.35s ease;
+        transition: all 0.35s ease;
+        opacity: 0;
+    }
+
+    figure.snip1384 figcaption {
+        z-index: 1;
+        top: 20px;
+        left: 20px;
+    }
+
+    figure.snip1384 h3,
+    figure.snip1384 .links {
+        width: 100%;
+        margin: 5px 0;
+        padding: 0;
+    }
+
+    figure.snip1384 h3 {
+        line-height: 1.1em;
+        font-weight: 700;
+        font-size: 1.4em;
+        text-transform: uppercase;
+        opacity: 0;
+    }
+
+    figure.snip1384 p {
+        font-size: 0.8em;
+        font-weight: 300;
+        letter-spacing: 1px;
+        opacity: 0;
+        top: 50%;
+        -webkit-transform: translateY(40px);
+        transform: translateY(40px);
+    }
+
+    figure.snip1384 i {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        padding: 20px 25px;
+        font-size: 34px;
+        opacity: 0;
+        -webkit-transform: translateX(-10px);
+        transform: translateX(-10px);
+    }
+
+    figure.snip1384 a {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+    }
+
+    figure.snip1384:hover img,
+    figure.snip1384.hover img {
+        zoom: 1;
+        filter: alpha(opacity=50);
+        -webkit-opacity: 0.5;
+        opacity: 0.5;
+    }
+
+    figure.snip1384:hover:after,
+    figure.snip1384.hover:after {
+        opacity: 1;
+        position: absolute;
+        top: 0px;
+    }
+
+    figure.snip1384:hover h3,
+    figure.snip1384.hover h3,
+    figure.snip1384:hover p,
+    figure.snip1384.hover p,
+    figure.snip1384:hover i,
+    figure.snip1384.hover i {
+        -webkit-transform: translate(0px, 0px);
+        transform: translate(0px, 0px);
+        opacity: 1;
+    }
+
+
+
+    /*환율 스와이프*/
+    .swiper-container {
+        height: 120px;
+    }
+
+
+    .swiper-slide {
+        text-align: center;
+        display: flex;
+        /* 내용을 중앙정렬 하기위해 flex 사용 */
+        align-items: center;
+        /* 위아래 기준 중앙정렬 */
+        justify-content: center;
+        /* 좌우 기준 중앙정렬 */
+    }
+
+    .swiper-slide img {
+        max-width: 80%;
+        /* 이미지 최대너비를 제한, 슬라이드에 이미지가 여러개가 보여질때 필요 */
+        /* 이 예제에서 필요해서 설정했습니다. 상황에따라 다를 수 있습니다. */
+    }
+
+    .swiper-slide {
+        opacity: 60%;
+    }
+
+    .swiper-slide:hover {
+        opacity: 100%;
+    }
+
+    .swiper-slide.on {
+        opacity: 100%;
+    }
+
 </style>
 
 <body>
@@ -541,66 +553,104 @@ figure.snip1384.hover i {
                     </figcaption>
                 </figure>
             </div>
-            <div class="random-text">
-                <div id="wrapper" class="wrapper" style="overflow:hidden;">
-                    <h5>오늘의 환율</h5>
-                    <div class="list-group" id="list-tab" role="tablist">
-                        <a class="list-group-item list-group-item-action" id="a" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR">
-                            <img src='/resources/images/tripInfoimges/Europe.png' />&nbsp; 유럽</a>
-                        <a class="list-group-item list-group-item-action" id="b" data-toggle="list" href="#list-profile" hwa='포린트' mon="HUF" con="HUN">
-                            <img src='/resources/images/tripInfoimges/Hungary.gif' />&nbsp; 헝가리</a>
-                        <a class="list-group-item list-group-item-action" id="c" data-toggle="list" href="#list-messages" hwa='코루나' mon="CZK" con="CZE">
-                            <img src='/resources/images/tripInfoimges/Czech.gif' />&nbsp; 체코</a>
-                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='크로네' mon="DKK" con="DNK">
-                            <img src='/resources/images/tripInfoimges/Denmark.gif' />&nbsp; 덴마크</a>
-                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR">
-                            <img src='/resources/images/tripInfoimges/England.gif' />&nbsp; 영국</a>
-                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='레우' mon="RON" con="ROU">
-                            <img src='/resources/images/tripInfoimges/Lithuania.gif' />&nbsp; 루마니아</a>
-                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='크로나' mon="SEK" con="SWE">
-                            <img src='/resources/images/tripInfoimges/Sweden.gif' />&nbsp; 스웨덴</a>
-                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='쿠나' mon="HRK" con="HRV">
-                            <img src='/resources/images/tripInfoimges/Croatia.gif' />&nbsp; 크로아티아</a>
-                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='프랑' mon="CHF" con="CHE">
-                            <img src='/resources/images/tripInfoimges/Swiss.gif' />&nbsp; 스위스</a>
-                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='레바' mon="BGN" con="BGR">
-                            <img src='/resources/images/tripInfoimges/Bulgaria.gif' />&nbsp; 불가리아</a>
-                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='리라' mon="TRY" con="TUR">
-                            <img src='/resources/images/tripInfoimges/Turkey.gif' />&nbsp; 터키</a>
-                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='크로네' mon="NOK" con="NOR">
-                            <img src='/resources/images/tripInfoimges/norway.gif' />&nbsp; 노르웨이</a>
-                        <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='즈워티' mon="PLN" con="POL">
-                            <img src='/resources/images/tripInfoimges/Poland.png' />&nbsp; 폴란드</a>
-                    </div>
+            <div class="random-text"></div>
+
+            <div class="swiper-container">
+                <div class="swiper-wrapper" id="list-tab" role="tablist">
+                    <div class="swiper-slide"><a id="a" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR">
+                            <img src='/resources/images/tripInfoimges/Europe.png' />
+                            <p>EU</p>
+                        </a></div>
+                    <div class="swiper-slide"> <a id="b" data-toggle="list" href="#list-profile" hwa='포린트' mon="HUF" con="HUN">
+                            <img src='/resources/images/tripInfoimges/Hungary.gif' />
+                            <p>헝가리</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="c" data-toggle="list" href="#list-messages" hwa='코루나' mon="CZK" con="CZE">
+                            <img src='/resources/images/tripInfoimges/Czech.gif' />
+                            <p>체코</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='크로네' mon="DKK" con="DNK">
+                            <img src='/resources/images/tripInfoimges/Denmark.gif' />
+                            <p>덴마크</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR">
+                            <img src='/resources/images/tripInfoimges/England.gif' />
+                            <p>영국</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='레우' mon="RON" con="ROU">
+                            <img src='/resources/images/tripInfoimges/Lithuania.gif' />
+                            <p>루마니아</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='크로나' mon="SEK" con="SWE">
+                            <img src='/resources/images/tripInfoimges/Sweden.gif' />
+                            <p>스웨덴</p>
+                        </a></div>
+                    <div class="swiper-slide"> <a id="d" data-toggle="list" href="#list-settings" hwa='쿠나' mon="HRK" con="HRV">
+                            <img src='/resources/images/tripInfoimges/Croatia.gif' />
+                            <p>크로아티아</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='프랑' mon="CHF" con="CHE">
+                            <img src='/resources/images/tripInfoimges/Swiss.gif' />
+                            <p>스위스</p>
+                        </a></div>
+                    <div class="swiper-slide"> <a id="d" data-toggle="list" href="#list-settings" hwa='레바' mon="BGN" con="BGR">
+                            <img src='/resources/images/tripInfoimges/Bulgaria.gif' />
+                            <p>불가리아</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='리라' mon="TRY" con="TUR">
+                            <img src='/resources/images/tripInfoimges/Turkey.gif' />
+                            <p>터키</p>
+                        </a></div>
+                    <div class="swiper-slide"> <a id="d" data-toggle="list" href="#list-settings" hwa='크로네' mon="NOK" con="NOR">
+                            <img src='/resources/images/tripInfoimges/norway.gif' />
+                            <p>노르웨이</p>
+                        </a></div>
+                    <div class="swiper-slide"><a id="d" data-toggle="list" href="#list-settings" hwa='즈워티' mon="PLN" con="POL">
+                            <img src='/resources/images/tripInfoimges/Poland.png' />
+                            <p>폴란드</p>
+                        </a></div>
                 </div>
 
-                <!-- ============국가정보출력 box ================ -->
+                <!-- 네비게이션 -->
+                <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+                <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
+            </div>
 
-                <div class="title">
-                    <div class="content">
-                        <img class="conImg" alt="" src="" />
-                    </div>
+            <!-- ============국가정보출력 box ================ -->
+            <div class="popupLayer">
+                <div>
+                    <span onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</span>
+                </div>
+                <div class="country-content">
+                    <img class="conImg" alt="" src="" />
+                </div>
+            </div>
 
+            <div class="country-title">
+                <div class="content">
+                    <img class="conImg" alt="" src="" />
                 </div>
 
-                <!-- =========== 환율금액입력 ====================  -->
-                <div class="input-group flex-nowrap">
-                    <div class="conturyMoney">
-                        <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()">
-                        원<br /><br /><br /><br />
-                        <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="">
-                        <div class='text'>
-                        </div>
+            </div>
+
+            <!-- =========== 환율금액입력 ====================  -->
+            <div class="input-group flex-nowrap">
+                <div class="countryMoney">
+                    <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()">
+                    원<br /><br /><br /><br />
+                    <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="">
+                    <div class='text'>
                     </div>
                 </div>
-                <!-- 현재 한국 시간 구하기 : <span id="toNow"></span> -->
+            </div>
+            <!-- 현재 한국 시간 구하기 : <span id="toNow"></span> -->
 
 
-                <!--  <script type="text/javascript">
+            <!--  <script type="text/javascript">
 		    var IScroll = $.AMUI.iScroll;
 		    var myScroll = new IScroll('#wrapper', { click: true });
 		</script> -->
-            </div>
+
         </section>
 
         <div style="clear: both"></div>
@@ -751,13 +801,15 @@ figure.snip1384.hover i {
             tag += "<article class=\"story-entry story-story-item\">"
             tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + post.postId + "&boardName=E\">";
             tag += "<div class=\"story-entry__image-wrap\">"
-            tag += "</div>"
             tag += "<figure class = \"snip1384\" >"
             tag += "<img src='/resources/images/planImg/" + plan.planImg + "'>";
             tag += "<figcaption>"
-            tag += "<h3>"+post.postTitle+"</h3>"
-            tag += "<p>"+post.nickName+"</p>"
+            tag += "<h3>" + post.postTitle + "</h3>"
+            tag += "<p>"
+            tag += "<img src='/resources/images/userImages/" + post.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
+            tag += post.nickName + "</p>"
             tag += "<i class=\"ion-ios-arrow-right\"></i></figcaption></figure>"
+            tag += "</div>"
             tag += "</a></article></li>"
 
             $('.plan-stories__content').append(tag);
@@ -767,9 +819,6 @@ figure.snip1384.hover i {
             var tag = "";
             var content = vo.postContent;
             var imgSrc = parseContent(content);
-            //            var userImg = getProfileImg(vo.postWriterId);
-            //            console.log("겟한 이미지 : " + userImg);
-
             tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
             tag += "<article class=\"story-entry story-story-item\">"
             tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + vo.postId + "&boardName=" + boardName + "\">";
@@ -802,25 +851,6 @@ figure.snip1384.hover i {
 
         }
 
-        function getProfileImg(userId) {
-            $.ajax({
-                url: "/user/json/getUser?userId=" + userId,
-                method: "GET",
-                dataType: "json",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                success: function(result) {
-                    var userImg = result.userImg;
-                    console.log(userImg);
-                    return userImg;
-                },
-                error: function(err) {
-                    console.log("프로필 이미지 에러 : " + err);
-                }
-            })
-        }
 
         function parseContent(content) {
             if (content.includes('<img')) {
@@ -835,42 +865,6 @@ figure.snip1384.hover i {
         }
 
 
-        function printTime() {
-            var clock = document.getElementById("clock");
-            var now = new Date();
-
-            clock.innerHTML = now.getFullYear() + "년 " +
-                (now.getMonth() + 1) + "월 " +
-                now.getDate() + "일 " +
-                now.getHours() + "시 " +
-                now.getMinutes() + "분 " +
-                now.getSeconds() + "초";
-
-            setTimeout("printTime()", 1000);
-        }
-
-        window.onload = function() {
-            printTime();
-        };
-
-
-
-
-        document.addEventListener("DOMContentLoaded", function() {
-
-            var toTime = new Date();
-
-            document.getElementById("toNow").innerHTML = toTime.toString();
-        });
-        /* 	$(".list-group-item-action").on('click', function() {
-        				
-        		alert($(this).attr('con')); 
-        		var conName = $(this).attr('con');
-        		
-        		conturyInfo(conName);
-        		
-        	}) */
-
         $(function() {
 
             $.getJSON('').done('https://earthquake.kr:23490/query/KRWEUR')
@@ -879,19 +873,19 @@ figure.snip1384.hover i {
 
 
         $(function() {
-            $(".list-group-item-action").click(function() {
+            $(".swiper-slide>a").click(function() {
 
                 var conCode = $(this).attr('con');
                 var conName = $(this).text();
                 var conHwa = $(this).attr('hwa');
-                conturyInfo(conCode);
+                countryInfo(conCode);
                 $('input[name="conMoney"]').attr('placeholder', conName.trim());
                 $('.text').html(conHwa);
 
             });
         });
 
-        function conturyInfo(conCode) {
+        function countryInfo(conCode) {
 
 
             $.ajax({
@@ -909,13 +903,13 @@ figure.snip1384.hover i {
                 success: function(JSONData, status) {
 
                     var conInfo = JSONData.response.body.items.item.basic;
-                    var contury = JSONData.response.body.items.item.countryName;
+                    var country = JSONData.response.body.items.item.countryName;
                     var conFlag = JSONData.response.body.items.item.imgUrl;
                     /* alert(conName); */
-                    /* $("#form-group").html(myItem); */
-                    /* $("img[class='conImg']").attr("src", conFlag);
-                    $('.title').html(contury); */
-                    $('.content').html(conInfo);
+                    //$("#form-group").html(myItem);
+                    $("img[class='conImg']").attr("src", conFlag);
+                    $('.country-title').html(country);
+                    $('.country-content').html(conInfo);
 
                 }
             });
@@ -923,22 +917,22 @@ figure.snip1384.hover i {
 
         function exchange(data) {
 
-            if ($(".list-group-item-action")) {
+            if ($(".swiper-slide.on")) {
                 $.getJSON('https://api.exchangeratesapi.io/latest?base=KRW').done(
 
                     function(data) {
 
-                        var mon = $(".list-group-item-action.active").attr('mon');
+                        var mon = $(".swiper-slide>a").attr('mon');
 
                         if (mon == undefined) {
-                            $("input[name='conMoney1']").val("국가를 선택하세요")
+                            $("#result").val("국가를 선택하세요")
                                 .return;
                         }
 
-                        var price = $("input[class='form-control']").val();
+                        var price = $("input[name='conMoney1']").val();
                         /* var num = price/ data.rates[cur] */
 
-                        var num = Math.round(price.match(/\d+/)[0] /
+                        var num = Math.round(price.match(/\d+/) /
                             data.rates[mon]);
                         /* alert(num);
                         alert(data.rates[abc]); */
@@ -949,9 +943,42 @@ figure.snip1384.hover i {
                     })
             }
         }
+
+        new Swiper('.swiper-container', {
+
+            slidesPerView: 4, // 동시에 보여줄 슬라이드 갯수
+            spaceBetween: 30, // 슬라이드간 간격
+            slidesPerGroup: 4, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
+            //slidesPerColumn: 2,
+
+            // 그룹수가 맞지 않을 경우 빈칸으로 메우기
+            // 3개가 나와야 되는데 1개만 있다면 2개는 빈칸으로 채워서 3개를 만듬
+            //loopFillGroupWithBlank: false,
+
+            loop: true, // 무한 반복
+
+            /*pagination: { // 페이징
+                el: '.swiper-pagination',
+                clickable: true, // 페이징을 클릭하면 해당 영역으로 이동, 필요시 지정해 줘야 기능 작동
+            },*/
+            themeColor: '#7d7e73',
+            navigation: { // 네비게이션
+                nextEl: '.swiper-button-next', // 다음 버튼 클래스명
+                prevEl: '.swiper-button-prev', // 이번 버튼 클래스명
+            },
+        });
+
+
+        $('.swiper-slide').on('click', function() {
+            $('.swiper-slide').removeClass('on');
+            $(this).toggleClass('on');
+        })
+
     </script>
 
     <jsp:include page="toolbar/pushBar.jsp" />
     <jsp:include page="toolbar/footer.jsp" />
 
-</body></html>
+</body>
+
+</html>

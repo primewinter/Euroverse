@@ -276,16 +276,17 @@ public class MainRestController {
 		
 		Map<String, Object> returnMap = new HashMap<>();
 		
-		// Model °ú View ¿¬°á
-		returnMap.put("list", map.get("list"));
 		
 		List<Post> postList = (List<Post>)map.get("list");
 		List<Plan> planList = new ArrayList<Plan>();
 		
 		for(int i=0; i<postList.size(); i++) {
 			Plan plan = planService.getPlan(postList.get(i).getPlanId());
+			postList.get(i).setUser(userService.getUser(postList.get(i).getPostWriterId()));
 			planList.add(plan);
 		}
+
+		returnMap.put("list", map.get("list"));
 		returnMap.put("planList", planList);
 		
 		return returnMap;

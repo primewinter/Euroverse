@@ -397,6 +397,10 @@
             $(".fr .updatePost").on("click", function() {
                 self.location = "/community/updatePost?postId=${post.postId}&boardName="+boardName;
             });
+            
+            $("#boardTitle").on("click", function(){
+				 self.location = "/community/getPostList?boardName=${param.boardName}";
+			});
         });
 
         $(function() {
@@ -773,6 +777,7 @@
     <!-- ToolBar Start /////////////////////////////////////-->
     <jsp:include page="/toolbar/toolBar.jsp" />
     <jsp:include page="/toolbar/pushBar.jsp" />
+    <jsp:include page="/view/community/sidebar.jsp"/>
     <!-- ToolBar End /////////////////////////////////////-->
 
     <div class="modal" tabindex="-1" role="dialog" id="sendReport">
@@ -822,7 +827,7 @@
         <br>
 
         <div class="page_head clear">
-            <div class="h4" style="text-align: center;font-weight: bold;">
+            <div class="h4" id="boardTitle" style="text-align: center;font-weight: bold;">
                 동행찾기
             </div>
         </div>
@@ -855,7 +860,7 @@
                             ${post.nickName}
                         </span>
                         <span class="gall_date" style="font-size: 14px; color: gray;">
-                            ${post.postDate}
+                            &emsp;${post.postDate}
                         </span>
                         <div class="post_history" style="float: right;">
                             <i class="far fa-eye" style="font-size: 13px;"> ${post.views}</i>
@@ -960,9 +965,19 @@
             </div>
 
             <ul class="list-group list-group-flush" style="font-size: 13px;">
-                <li class="list-group-item">이전글 <i class="fas fa-angle-double-right" onclick="getPost('${post.prevId}')"> ${post.prevTitle}</i></li>
-                <li class="list-group-item">다음글 <i class="fas fa-angle-double-right" onclick="getPost('${post.nextId}')"> ${post.nextTitle}</i></li>
-            </ul>
+		    <c:if test="${post.prevTitle == '이전글이 없습니다'}">
+			  <li class="list-group-item">이전글 <i class="fas fa-angle-double-right"> ${post.prevTitle}</i></li>
+		    </c:if>
+		    <c:if test="${post.prevTitle != '이전글이 없습니다'}">
+			  <li class="list-group-item">이전글 <i class="fas fa-angle-double-right" onclick="getPost('${post.prevId}')"> ${post.prevTitle}</i></li>
+			</c:if>
+			<c:if test="${post.nextTitle == '다음글이 없습니다'}">
+			  <li class="list-group-item">다음글 <i class="fas fa-angle-double-right"> ${post.nextTitle}</i></li>
+		    </c:if>
+		    <c:if test="${post.nextTitle != '다음글이 없습니다'}">
+			  <li class="list-group-item">다음글 <i class="fas fa-angle-double-right" onclick="getPost('${post.nextId}')"> ${post.nextTitle}</i></li>
+			</c:if>
+		   </ul>
 
         </div>
 
@@ -1055,6 +1070,8 @@
             </div>
         </div>
     </form>
+
+	<jsp:include page="/toolbar/footer.jsp" />
 
 </body>
 

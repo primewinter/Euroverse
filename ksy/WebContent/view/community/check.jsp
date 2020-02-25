@@ -51,6 +51,23 @@
 	</style>
 
 	<script>
+	
+	$( document ).ready(function() {
+	    console.log( "ready!" );
+	    
+	    if('${delete}'=='delete'){
+		    swal({
+				icon : 'error',
+				title : "삭제된 게시글입니다.",
+				text:" ",
+				button : false,
+			})
+	    	setTimeout(function() {     
+	    		self.location = "/community/getPostList?boardName=C";
+	    	}, 700);
+	    }
+	});
+	
 	$(function(){
 
 		$("#authButton").on("click",function(){
@@ -58,8 +75,6 @@
 			var phone2 = $("#phone2").val();
 			var phone3 = $("#phone3").val();
 			var phone = phone1+"-"+phone2+"-"+phone3;
-					
-			
 				
 		 	if($.trim(phone).length <10){
 				swal({
@@ -70,13 +85,7 @@
 					})
 				return;
 			} 
-			
-			
-			
-			
-			
-			
-			
+	
 			$.ajax({
 						url : "/user/json/checkPhone",
 						method : "post",
@@ -167,17 +176,11 @@
 	<!-- 화면구성 div Start ///////////////////////////// -->
 	<!-- <div class="container"> -->
 	
-	<c:if test="${boardName == 'C'}">
-		<div class="h4" style="text-align:center;">삭제된 게시글입니다. ㅠ_ㅠ</div>
-	</c:if>
-	
 	<c:if test="${empty user}">	
 		<!-- <div class="h4" style="text-align:center;">게시글 조회는 로그인 후 이용 가능합니다.</div> -->
-		
 		<div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center">
-		
-			<div class="bg mt-3">
-				<div style="opacity: 100%;padding: 130px 300px; float: left;text-align: left;">
+			<div class="bg" style="margin-top: 52px;">
+				<div style="opacity: 100%;padding: 140px 300px; float: left;text-align: left;">
 				  <!-- <h1 class="display-4">유로버스에 오신걸 환영합니다!</h1> -->
 				  <p class="lead" style="font-weight: 500;">유로버스의 게시글을 조회하시려면<br/>회원으로 로그인 되어있어야 합니다.</p>
 				  <hr class="my-4">
@@ -189,19 +192,27 @@
 					</div>
 				</div>
 			</div>
-
-
 		</div>
-		
 	</c:if>
 	
 	<c:if test="${ !empty user && user.role == 'G'}">
-		<div style="height: 100px;"></div>
-		<div class="h4" style="text-align:center;">동행찾기는 본인인증후 사용 가능합니다.</div>
-		<div style="text-align: center;margin-top: 50px;">
-		<button type="button" class="btn btn-outline-primary" id="userAuth">휴대폰으로 본인인증하기</button>
-		</div>
+		<c:if test="${post == null}">
+			<div class="h4" style="text-align:center;height: 120px;">삭제된 게시글입니다.</div>
+		</c:if>
+		<c:if test="${post != null}">
+		  <div style="height: 100px;"></div>
+			<div class="h4" style="text-align:center;">동행찾기는 본인인증후 사용 가능합니다.</div>
+			<div style="text-align: center;margin-top: 50px;">
+			<button type="button" class="btn btn-outline-primary" id="userAuth">휴대폰으로 본인인증하기</button>
+		  </div>
+		</c:if>
 	</c:if>	
+	
+	<c:if test="${ !empty user && user.role != 'G'}">
+		<c:if test="${post == null}">
+			<div class="h4" style="text-align:center;height: 120px;">삭제된 게시글입니다.</div>
+		</c:if>
+	</c:if>
 		
 	<!-- </div> -->
 		
