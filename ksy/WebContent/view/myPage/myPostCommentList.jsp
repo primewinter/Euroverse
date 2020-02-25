@@ -45,6 +45,9 @@
 
 
 <script>
+
+	var maPageCode = 'C';
+
 	function fncGetUserList(currentPage) {
 		$("#currentPage").val(currentPage)
 		$("#myPostCommentListForm").attr("method" , "POST").attr("action" , "/myPage/myPostCommentList").submit();

@@ -102,6 +102,8 @@
 
 <script type="text/javascript">
 
+	var maPageCode = 'E';
+
 	$(function(){
 		var h6 = document.getElementsByClassName("h6Class");
 		var nickname = $("#nickname");
