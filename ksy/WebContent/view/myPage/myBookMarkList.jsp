@@ -91,41 +91,51 @@
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>	
-	<div style="height: 110px;"></div>
-    <h3  style="margin-left: 320px; width: 1000px"><b>나의 북마크목록</b></h3>
 	
-	<form id="myBookMarkListForm">
- 		<input type="hidden" id="currentPage" name="currentPage" value=0 /> 
-	</form>
 	
-	<table class="table" style="margin-left: 320px; width: 60%;font-size: 14px;text-align: center; ">
-		  <thead>
-		    <tr>
-		      <th scope="col"></th>
-		      <th scope="col">제목</th>
-		      <th scope="col">닉네임</th>
-		      <th scope="col"></th>
-		    </tr>
-		  </thead>
-  			<tbody>
-			  	<c:forEach var="bookMarkPost" items="${bookMarkList}" varStatus="status">
-			  		<tr>
-			  			<th scope="row">${status.count}</th>
-			  			<c:set var="title" value="${bookMarkPost.postTitle}"/>
-						<td>${fn:substring(title,0,35)}
-							<c:if test="${fn:length(title)>35}">
-								......
-							</c:if>
-						</td>
-			  			<td>${bookMarkPost.nickName}</td>
-			  			<td><i id="deleteBookMark${status.index}" class="fas fa-bookmark fa-2x" onclick="javascript:deleteBookMark(${bookMarkPost.postId})"></i></td>
-			  			<input type="hidden" value="${status.index}">
-			  			<input type="hidden" value="${bookMarkPost.postId}"/>
-			  			<input type="hidden" value="${bookMarkPost.boardName}"/>
-			  		</tr>
-			  	</c:forEach>
-			 </tbody>
-	</table>
+	<div class="container" style="max-width: 1000px;">
+	
+	
+	    <!-- <h3  style="margin-left: 320px; width: 1000px"><b>나의 북마크목록</b></h3> -->
+		<div class="h4" style="font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
+			나의 북마크
+		</div>
+		
+		
+		<form id="myBookMarkListForm">
+	 		<input type="hidden" id="currentPage" name="currentPage" value=0 /> 
+		</form>
+		
+		<table class="table" style="font-size: 14px;text-align: center; ">
+			  <thead>
+			    <tr>
+			      <th scope="col"></th>
+			      <th scope="col">제목</th>
+			      <th scope="col">닉네임</th>
+			      <th scope="col"></th>
+			    </tr>
+			  </thead>
+	  			<tbody>
+				  	<c:forEach var="bookMarkPost" items="${bookMarkList}" varStatus="status">
+				  		<tr>
+				  			<th scope="row">${status.count}</th>
+				  			<c:set var="title" value="${bookMarkPost.postTitle}"/>
+							<td>${fn:substring(title,0,35)}
+								<c:if test="${fn:length(title)>35}">
+									......
+								</c:if>
+							</td>
+				  			<td>${bookMarkPost.nickName}</td>
+				  			<td><i id="deleteBookMark${status.index}" class="fas fa-bookmark fa-2x" onclick="javascript:deleteBookMark(${bookMarkPost.postId})"></i></td>
+				  			<input type="hidden" value="${status.index}">
+				  			<input type="hidden" value="${bookMarkPost.postId}"/>
+				  			<input type="hidden" value="${bookMarkPost.boardName}"/>
+				  		</tr>
+				  	</c:forEach>
+				 </tbody>
+		</table>
+		
+	</div>
 
 </body>
 	<jsp:include page="/toolbar/footer.jsp"></jsp:include>
