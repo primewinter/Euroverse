@@ -114,11 +114,11 @@ table thead > tr{
 	
 	
 	//관리자가 리스트를 클릭했을경우 상세보기
-		function getAdminQnaList(postId,postTitle,qnaFirstCate,postWriterId) {
+		function getAdminQnaList(postId,postContent,qnaFirstCate,postWriterId) {
 			
 			alert("postClick 실행");
 			alert("postId 실행"+postId);
-			alert("postTitle 실행"+postTitle);
+			alert("postTitle 실행"+postContent);
 			
 			if(qnaFirstCate == "A"){
 				
@@ -139,7 +139,7 @@ table thead > tr{
 			            '<div style="padding:5px 25px" class="row">'+
 			                '<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
 			                    '<img id="qimg" style="width:40px; "alt="" src=\"/resources/images/admin/Qicon.png"\></div><div>'+
-			                    '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+postTitle+'</div>'+
+			                    '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+postContent+'</div>'+
 			                    '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">'+qnaFirstCate+'</div>'+
 			                    '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-clock"></i>'+postWriterId+'님이 ㅇ분전에 질문하셨습니다.</div></div></div>'+
 			            '<div id="append" style=" height: auto; padding:15px 25px" class="row">'+
@@ -177,21 +177,18 @@ table thead > tr{
 								
 								if(JSONData != null) {
 										
-									for(var i=0; i<JSONData.list.length; i++){
-										
 							            var appendHtml =
 											'<div style="padding:5px 25px" class="row">'+
 											'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
 											'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
 								            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
-								            '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[0].cmtContent+
+								            '<div class="qnaComment" style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[0].cmtContent+
 								            '<button type="button" class="btn btn-outline-danger btn-sm" style="margin-left:5px;" onclick="deleteCmt('+JSONData.list[0].cmtId+','+JSONData.list[0].postId+')">삭제</button></div>'+
 								            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
 								            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
 								        	'</div></div>';
 								        	
 										 $("#append").append(appendHtml); 
-									}// end fo for
 									
 								}// end of if
 							
@@ -213,12 +210,13 @@ table thead > tr{
 	//관리자가 답글을 달수있는 function
 	function answer(postId){ 
 		
-		alert("click?")
-        
+		alert("click?");
        	var cmtContent = $('#content').val();
 		
-       	alert(postId);
-       	
+       	if($(".qnaComment").length >= 1){
+       		alert("답변은 1개이상 불가능합니다.");
+       	}else{
+       		
        	 $.ajax({
 			url: "/admin/json/addQnaComment",
 			method: "POST",
@@ -237,15 +235,6 @@ table thead > tr{
 				}else{
 					console.log("리턴데이터 있음! => "+JSONData);
 					
-					if(JSONData.list[0].cmtContent == null){
-						
-						alert("글자를 입력하세요");
-					}
-					
-					else if(JSONData.list.length != 1){
-						alert("답변은 1개이상 하실수 없습니다.")
-					}else{
-					
 			            var appendHtml =
 							'<div style="padding:5px 25px" class="row">'+
 							'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
@@ -259,9 +248,7 @@ table thead > tr{
 				        	'</div></div>';
 					        	
 						 $("#append").append(appendHtml); 
-						 $("")
 							 
-					}// end of innerElse
 				}// end of else
 						
 			},// end of success
@@ -271,6 +258,7 @@ table thead > tr{
 					
 		});// end of ajax
 			
+       	};//ajax 시작전 else
 	};//end of fuction
         
 		
@@ -293,7 +281,6 @@ table thead > tr{
 			
         }); //end of ajax
         
-		getComment(postId);
 	}; // end of deleteCmt
 
 	
@@ -408,10 +395,10 @@ table thead > tr{
 				  <!--========= END ========== -->
 				  <!--제목  -->
 				  <td class="postclick" 
-				  onclick="getAdminQnaList('${post.postId}','${post.postTitle}','${post.qnaFirstCate}','${post.postWriterId}')" 
+				  onclick="getAdminQnaList('${post.postId}','${post.postContent}','${post.qnaFirstCate}','${post.postWriterId}')" 
 				  style="text-align: left;">
 				  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
-				  <input type="hidden" id="postTitle" name="postTitle" value="${post.postTitle}"/>
+				  <input type="hidden" id="postContent" name="postContent" value="${post.postContent}"/>
 				  <input type="hidden" id="qnaCate" name="qnaCate" value="${post.qnaFirstCate}"/>
 				  <input type="hidden" id="userId" name="userId" value="${post.postWriterId}"/>
 				  ${post.postTitle }</td>
