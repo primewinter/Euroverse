@@ -14,6 +14,7 @@
     }
     .footer-text {
         text-align: right;
+        color: #383838;
     }
 
 </style>
