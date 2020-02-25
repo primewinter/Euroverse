@@ -109,11 +109,10 @@ public class FlightRestController {
 	}
 	
 	@RequestMapping(value="/json/addFlight",  method=RequestMethod.POST )
-	public JSONObject addFlight(@RequestBody Map jsonMap ,Flight flight , HttpSession session, HttpServletResponse response 
+	public void addFlight(@RequestBody Map jsonMap ,Flight flight , HttpSession session, HttpServletResponse response 
 			,HttpServletRequest request) throws Exception {
 	  
 		System.out.println("/flight/json/addFlight : POST");
-		
 		response.setContentType("text/html;charset=utf-8");
 		
 		ObjectMapper objMap = new ObjectMapper();
@@ -173,13 +172,13 @@ public class FlightRestController {
 		 
 	    
 		JSONObject obj = new JSONObject();
-		obj.put("flightId", like.getRefId());
+		obj.put("refId", like.getRefId());
 		obj.put("likeCheck", likeCheck);
 		obj.put("msg", msgs);
 		
-		System.out.println("obj : "+obj);
+		out.println(obj);
 		
-		return obj;
+		
 	}
 	
 	@RequestMapping( value="json/likeUpdate", method=RequestMethod.POST )

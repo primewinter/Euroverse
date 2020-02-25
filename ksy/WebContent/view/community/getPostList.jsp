@@ -115,7 +115,7 @@
 			자유게시판
 			</c:if>
 			<c:if test="${param.boardName=='B'}">
-			정보공유
+			여행정보
 			</c:if>
 			<c:if test="${param.boardName=='D'}">
 			동행찾기

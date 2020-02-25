@@ -46,7 +46,7 @@
 		
 
  $(function() {
-	 $( 'btn.btn-info' ).on("click" , function() {
+	 $( '.btn.btn-info' ).on("click" , function() {
 	 	 var airline = $(this).next().val();
 		 var depCity = $(this).next().next().val();
 		 var arrCity = $(this).next().next().next().val();
@@ -135,7 +135,7 @@
 				alert(msg);
 				alert(data.refId);
 				alert(price)
-				$("#"+price).val(data.flightId);
+				$("#"+price).val(data.refId);
 				if(data.likeCheck == 'F'){
 				  $("#"+price).attr('class','btn btn-secondary');
 				}else{
@@ -210,7 +210,7 @@
 					<input type="hidden"  name="childNum"  value="${flight.childNum }" >
 			     
 			      </td>
-			      <td><button type="button" class="btn btn-info" style="width:100px;">예약하기</button>
+			      <td><button type="button" class="btn btn-info"  style="width:100px;">예약하기</button>
 			      	<input type="hidden"  name="airline"  value="${flight.airline }" />
 					<input type="hidden"  name="depCity"  value="${flight.depCity }" />
 					<input type="hidden"  name="arrCity"  value="${flight.arrCity }" />

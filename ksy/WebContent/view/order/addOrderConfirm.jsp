@@ -173,7 +173,7 @@
 					<div class="col-sm-2" style="margin-left:30px;">
 						<p>적립 된 포인트</p>
 							<%-- <c:if test="${point.usedType eq 'F' | point.usedType eq 'R' }"> --%>
-					 			<div id="addPoint" style="Padding-left:20px;">${order.addPoint} P </div>
+					 			<div id="addPoint" style="Padding-left:20px;">${point.addPoint} P </div>
 					</div>
 					<div class="col-sm-1" style="margin-left:20px;">
 						<i class="fas fa-equals" style="margin-left:15px;margin-top:10px;"></i>
