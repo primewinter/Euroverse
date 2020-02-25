@@ -31,6 +31,31 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
+
+	
+		/* 로딩용 css */
+	
+			#loading {
+			 width: 100%;   
+			 height: 100%;   
+			 top: 0px;
+			 left: 0px;
+			 position: fixed;   
+			 display: block;   
+			 opacity: 0.7;   
+			 background-color: #fff;   
+			 z-index: 99;   
+			 text-align: center; }  
+			  
+			#loading-image {   
+			 position: absolute;   
+			 top: 50%;   
+			 left: 50%;  
+			 z-index: 100; } 
+		
+		/* 로딩 css 끝... */
+	
+	
        /* 인원수 */
        row.justify-content-around {
          position:absolute;
@@ -155,11 +180,6 @@
 		    opacity : 0.7;
 		    z-index: -2;
 		}
-		/* 달력 css */
-		/* element.style {
-		    height: 350px;
-		}  */
-		
 		
 		/* 인원 수량 */
 		#decreaseQuantity , #decreaseQuantity2 , #decreaseQuantity3{
@@ -205,15 +225,37 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 <script type="text/javascript">
 
-$(function() {
+/* $(function() {
 	 $( '#searchButton' ).on("click" , function() {
-			$("form").attr("method" , "POST").attr("action" , "/flight/searchFlight").submit();
+			
 
 	});
-});	
+});	 */
+	/* ---------------- 로딩......  ---------------- */
+	
+
+	
+	$(function(){
+ 
+ 	$("#searchButton").on("click",function(){
+						
+					var loading = document.getElementById("loading");
+					
+					loading.style.display = 'block';
+					$("form").attr("method" , "POST").attr("action" , "/flight/searchFlight").submit();
+					setTimeout(function() {
+						loading.style.display = 'none';
+						 $('#loading').hide();  
+							}, 100000);
+		
+						
+	 
+	 	})
+	})
+	/* ---------------- 로딩......끝!!!  ---------------- */
 
 
-////////////////////////////////달력
+/* ---------------- 달력  ---------------- */
 
 var rangeDate = 500; // set limit day
 var setSdate, setEdate;
@@ -264,8 +306,9 @@ $(function() {
 	
 });
 
+/* ---------------- 달력  끝---------------- */
 
-
+/* ---------------- 도시 테이블 숨기기 , 보이기 ---------------- */
 function doShow() { 
 		if ($('#domestic').css("display","none")) { 
 			$("#domestic").css("display","block");
@@ -274,6 +317,7 @@ function doShow() {
 			$("#arrIcon").hide();
 			$("#search").show();
 			$("#peopleChoice").show();
+			$('footer').css("margin-top","8");
 		}
 }
 function Show() { 
@@ -284,6 +328,7 @@ function Show() {
 		$("#arrIcon").show();
 		$("#search").hide();
 		$("#peopleChoice").hide();
+		$('footer').css("margin-top","-116");
 	}
 }
 
@@ -298,6 +343,7 @@ function domestic(obj) {
 		$("#domestic").css("display","none");
 		$("#depIcon").show();
 		$("#arrIcon").show();
+		$('footer').css("margin-top","150");
 		//$("#totalNum").css("margin-left","18%");
 		
 	}
@@ -314,10 +360,14 @@ function europe(obj) {
 		$("#europe").css("display","none");
 		$("#search").show();
 		$("#peopleChoice").show();
+		$('footer').css("margin-top","150");
 		
 	}
 };
-///////////////////////////////// 인원수 증가, 감소
+
+/* ---------------- 도시 테이블 숨기기 , 보이기 끄으으읕---------------- */
+
+/* ---------------- 인원수 증가, 감소 ---------------- */
 	/* 성인 수 */
 	$(function(){
 		$('#decreaseQuantity').click(function(e){
@@ -399,7 +449,10 @@ function europe(obj) {
 			var inf = $('#numberUpDown3').val(num);
 			});
 		});
-	/* 왕복 , 편도 function */
+	
+	/* ---------------- 인원수 증가, 감소  끄으으읕---------------- */
+	
+	/*  ---------------- 왕복 , 편도 function  ---------------- */
 	$(function() {
 		$("#roundTrip").click(function() {
 			$("#arraw").attr("class","fas fa-arrows-alt-h");
@@ -417,11 +470,15 @@ function europe(obj) {
 		});
 		
 	});
+	//기본 reload시에 왕복으로 해놓기
 	window.onload = function () {
 		$('#roundTrip').attr('class','col-sm-3 basic');
 		$('#right').attr('class','col-sm-3 change');
 	}
-	/* 달력 사이즈 변경 */
+	
+	/*  ---------------- 왕복 , 편도 function 끝  ---------------- */ 
+
+	/*  ---------------- 달력 사이즈 변경  ---------------- */
 	$(function() {
 		$("#from").click(function() {
 			$(".kronos-inner").css("height","320");
@@ -430,7 +487,9 @@ function europe(obj) {
 			$(".kronos-inner").css("height","320");
 		});
 	});
+	/*  ---------------- 달력 사이즈 변경  끝!!---------------- */
 	
+	/*  ---------------- 인원수 modal value  ---------------- */
 	$(function() {
 		$(".btn.btn-secondary").click(function() {
 			var one =$("#numberUpDown").val();
@@ -440,12 +499,6 @@ function europe(obj) {
 			var plus = Number(one)+Number(two)+Number(three);
 			var grade = $("#grade option:selected").text();
 			$("#peopleChoice").val("총 "+plus+"명 / "+grade)
-			
-				/* 	$("#peopleChoice").val("성인	"+one+" 명");
-					alert("ㅜㅜ");
-					var plus = $("#numberUpDown").val()+$("#numberUpDown2").val()+$("#numberUpDown3").val();
-					$("#peopleChoice").val("총	"+plus+"명");  */
-				
 		})
 	});
 	
@@ -455,7 +508,7 @@ function europe(obj) {
 		}
 		$("#"+modalName).modal("hide");
 	}
-	
+	/*  ---------------- 인원수 modal value 끝!!  ---------------- */
 </script>
 
 
@@ -473,6 +526,15 @@ function europe(obj) {
 <br>
 <br>
 <br>
+
+		<div id="loading" style="display:none;">
+			<div class="col-sm-6" style="margin-left:300px;margin-top:300px">
+				<img id="loading-image" width="150px" height="150px" 
+			
+				src="/resources/images/orderImg/Ellipsis-1s-200px.gif" alt="Loading..." />
+			</div>
+		</div>
+
 			<div class="container" id="total">
 			<div class="row" style="Padding-left:5px;Padding-top:30px;">
 					<div class="col-sm-3" id="roundTrip">
@@ -488,8 +550,8 @@ function europe(obj) {
 			    <div class="col-md-5" style="margin-top:50px;margin-left:50px;">
 			    <div class="row">
 			    	 <input type="text" class="form-control" placeholder="출발지역을 입력하세요" name="depCity" id="depCity" style="width:300px;height:30px;font-size:13px;float:left;" onclick="javascript:doShow();">
-					 <div class="input-group-append">
-					  <span class="input-group-text" id="basic-addon2"><i class="fas fa-plane" id="iconf" style="font-size:15px;"></i></span>
+					 <div class="input-group-append" >
+					  <span class="input-group-text" id="basic-addon2" style="background-color:white;" ><i class="fas fa-plane" id="iconf" style="font-size:15px;"></i></span>
 			  			<i class="fas fa-arrows-alt-h" id="arraw" style="font-size:25px;Padding-left:80px;"></i>
 			  		 </div>
 			  		<table class="table" id="domestic" style="width: 300px; display: none;">
@@ -519,15 +581,17 @@ function europe(obj) {
 						<br/><br/>
 						<div class="row">
 						 <div class="col-sm-5" id="depIcon" style="margin-left:-15px;">
-				    		<input type="text" class="form-control" placeholder="출발날짜 선택" style="width:110px;height:30px;font-size:13px;float:left;" id="from" name="depDate">
+				    		<input type="text" class="form-control" readonly="readonly" placeholder="출발날짜 선택" style="background-color:white;width:110px;height:30px;font-size:13px;float:left;" id="from" name="depDate">
 					    	<div class="input-group-append">
-					    		<span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
+					    		<span class="input-group-text" id="basic-addon2" style="background-color:white;">
+					    		<i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
 							</div>
 						</div>
 				   		 <div class="col-sm-5" id="arrIcon">
-				   		 	 <input type="text" class="form-control" placeholder="도착날짜 선택"  style="width:110px;height:30px;font-size:13px;float:left;" id="to" name="arrDate">
+				   		 	 <input type="text" class="form-control" readonly="readonly" placeholder="도착날짜 선택"  style="background-color:white;width:110px;height:30px;font-size:13px;float:left;" id="to" name="arrDate">
 				   				<div class="input-group-append">
-				   					<span class="input-group-text" id="basic-addon2"><i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
+				   					<span class="input-group-text" id="basic-addon2" style="background-color:white;">
+				   					<i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
 				   		 		</div>
 				   		 </div>
 						</div>
@@ -536,7 +600,7 @@ function europe(obj) {
 			    <div class="row">
 			    	 <input type="text" class="form-control" placeholder="도착지역을 입력하세요" name="arrCity" id="arrCity" style="width:350px;height:30px;font-size:13px;float:left; " onclick="javascript:Show();">
 					 <div class="input-group-append" style="height:30px;">
-					  <span class="input-group-text" id="basic-addon2">
+					  <span class="input-group-text" id="basic-addon2" style="background-color:white;">
 					  <i class="fas fa-plane" id="iconf" style="font-size:15px;"></i></span>
 		  			 </div>
 		  			
@@ -614,6 +678,10 @@ function europe(obj) {
 
 		
 </div>	
+
+
+
+
 			  
 		<!-- Modal 안에 내용 -->
 		<div class="modal fade" id="flightNum" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

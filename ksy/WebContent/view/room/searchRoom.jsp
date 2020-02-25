@@ -32,6 +32,28 @@
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
         
+        	/* 로딩용 css */
+	
+			#loading {
+			 width: 100%;   
+			 height: 100%;   
+			 top: 0px;
+			 left: 0px;
+			 position: fixed;   
+			 display: block;   
+			 opacity: 0.7;   
+			 background-color: #fff;   
+			 z-index: 99;   
+			 text-align: center; }  
+			  
+			#loading-image {   
+			 position: absolute;   
+			 top: 50%;   
+			 left: 50%;  
+			 z-index: 100; } 
+		
+		/* 로딩 css 끝... */
+        
        /* 인원수 */
        row.justify-content-around {
         position:absolute;
@@ -195,15 +217,38 @@
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 <script type="text/javascript">
 
-$(function() {
+/* $(function() {
 	 $( '.btn.btn-info' ).on("click" , function() {
 			$("form").attr("method" , "POST").attr("action" , "/room/searchRoom").submit();
 
 	});
-});	
+});	 */
+
+		/* ---------------- 로딩......  ---------------- */
+		
+		
+		
+		$(function(){
+		
+			$('.btn.btn-info').on("click",function(){
+							
+						var loading = document.getElementById("loading");
+						
+						loading.style.display = 'block';
+						$("form").attr("method" , "POST").attr("action" , "/room/searchRoom").submit();
+						setTimeout(function() {
+							loading.style.display = 'none';
+							 $('#loading').hide();  
+								}, 100000);
+			
+							
+		 
+		 	})
+		})
+		/* ---------------- 로딩......끝!!!  ---------------- */
 
 
-////////////////////////////////달력
+	/* ---------------- 달력 구현 ---------------- */
 
 var rangeDate = 500; // set limit day
 var setSdate, setEdate;
@@ -254,72 +299,16 @@ $(function() {
 	 
 		
 	});
-/* $(function() {
-$('#reset').on('click', function(){
-    $('#from').kronos('resetPeriod');
-    $('#to').kronos('resetPeriod');
-});
-$("#from").kronos({
+	/* ---------------- 달력 구현 끝!!! ---------------- */
 	
-	
-
-    visible : true,
-    periodTo : '#to',
-	
-	
-    dateFormat: 'yy-mm-dd',
-    minDate: 0,
-    onSelect: function(selectDate){
-        var stxt = selectDate.split("-");
-            stxt[1] = stxt[1] - 1;
-        var sdate = new Date(stxt[0], stxt[1], stxt[2]);
-        var edate = new Date(stxt[0], stxt[1], stxt[2]);
-            edate.setDate(sdate.getDate() + rangeDate);
-        
-        $('#to').kronos('option', {
-        	
-            minDate: selectDate,
-            beforeShow : function () {
-                $("#to").kronos( "option", "maxDate", edate );                
-                setSdate = selectDate;
-                console.log(setSdate)
-        }});
-        //to 설정
-    }
-    //from 선택되었을 때
-});
-});
-$(function() {
-	$("#to").kronos({ 
-		 visible : true,
-         periodFrom : '#from',
-	    dateFormat: 'yy-mm-dd',
-	    onSelect : function(selectDate){
-	        setEdate = selectDate;
-	        console.log(setEdate)
-	    }
-	});
-	 $('.btn.btn-info').on('click', function(e){
-	    if($('input#from').val() == ''){
-	        alert('시작일을 선택해주세요.');
-	        $('input#from').focus();
-	        return false;
-	    }else if($('input#to').val() == ''){
-	        alert('종료일을 선택해주세요.');
-	        $('input#to').focus();
-	        return false;
-	    }
-	 });
- 
-	
-}); */
-
+	/* ---------------- 도착도시 테이블 hide , show ---------------- */
 	function doShow() { 
 		if ($('#domestic').css("display","none")) { 
 			$("#domestic").css("display","block");
 			$("#depIcon").hide();
 			$("#arrIcon").hide();
 			$("#search").show();
+			$('footer').css("margin-top","-93");
 			
 		}
 	}
@@ -335,11 +324,14 @@ $(function() {
 			$("#domestic").css("display","none");
 			$("#depIcon").show();
 			$("#arrIcon").show();
-			
+			$('footer').css("margin-top","150");
 		}
 	};
+	
+	/* ---------------- 도착도시 테이블 hide , show 끄으읕 ---------------- */
 
-///////////////////////////////// 인원수 증가, 감소
+	/* ---------------- 인원수 증가 , 감소~  ---------------- */
+	
 	/* 성인 수 */
 	$(function(){
 		$('#decreaseQuantity').click(function(e){
@@ -465,23 +457,21 @@ $(function() {
 			
 		});
 	});
-	/* 총 인원수 합하기 */
-	/* $(function() {
-		var adultNum = $("#numberUpDown").val()+$("#numberUpDown3").val();
-		var childNum = $("#numberUpDown2").val()+$("#numberUpDown4").val();
-		
-		$("#adultNum").val(adultNum);
-		$("#childNum").val(childNum);
-	}); */
+
+	/* ---------------- 인원수 증가 , 감소~ 끝~~~  ---------------- */
 	
-	$(function() {
-		$("#from").click(function() {
-			$(".kronos-inner").css("height","320");
-		});
-		$("#to").click(function() {
-			$(".kronos-inner").css("height","320");
-		});
-	});
+	/* ---------------- 달력 크기... ---------------- */
+	
+		/* 	$(function() {
+				$("#from").click(function() {
+					$(".kronos-inner").css("height","320");
+				});
+				$("#to").click(function() {
+					$(".kronos-inner").css("height","320");
+				});
+			}); */
+	
+	/* ----------------  달력 크기...  ---------------- */
 </script>
 
 
@@ -500,6 +490,14 @@ $(function() {
 <br>
 <br>
 <br>
+		<div id="loading" style="display:none;">
+			<div class="col-sm-6" style="margin-left:300px;margin-top:300px">
+				<img id="loading-image" width="150px" height="150px" 
+			
+				src="/resources/images/orderImg/Ellipsis-1s-200px.gif" alt="Loading..." />
+			</div>
+		</div>
+
             <br/><br/>
 			<div class="container">
 				<div class="row">
@@ -563,7 +561,7 @@ $(function() {
 			  		<div class="row">
 			  		<div class="col-sm-5" id="depIcon">
 			   		 <h5 align="center" style="color:white;margin-top:10px;">Check In</h5>
-			    	<input type="text" class="form-control" placeholder="출발날짜 선택" style="width:120px;font-size:14px;height:30px;float:left;" id="from" name="checkIn">
+			    	<input type="text" class="form-control" readonly="readonly" placeholder="출발날짜 선택" style="background-color:white;width:120px;font-size:14px;height:30px;float:left;" id="from" name="checkIn">
 					  <div class="input-group-append">
 					    <span class="input-group-text" id="basic-addon2" style="background-color:white;">
 					    <i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
@@ -572,16 +570,11 @@ $(function() {
 					</div>
 			   		 <div class="col-sm-5" id="arrIcon">
 			   		 <h5 align="center" style="color:white;margin-top:10px;">Check Out</h5>
-			   		 	 <input type="text" class="form-control" placeholder="도착날짜 선택"  style="width:120px;font-size:14px;height:30px;float:left;" id="to" name="checkOut">
+			   		 	 <input type="text" class="form-control" readonly="readonly" placeholder="도착날짜 선택"  style="background-color:white;width:120px;font-size:14px;height:30px;float:left;" id="to" name="checkOut">
 						  <div class="input-group-append">
 						    <span class="input-group-text" id="basic-addon2" style="background-color:white;">
 						    <i class="far fa-calendar-alt" style="font-size:15px;"></i></span>
 						  </div>
-			   	
-			   		 </div>
-			   		 
-			   		 <div>
-			   		 	<button type="button" id="reset"></button>
 			   		 </div>
 			   		 </div>
 			  </div>

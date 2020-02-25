@@ -247,10 +247,12 @@
     	
     }
     
-	$(document).on('keyup','#payPoint',function(){
+	$(document).on('keydown','#payPoint',function(){
 		var payPoint = $("#payPoint").val();
 		var total = $("#totalPoint").val();
-		 if (payPoint > total ) {
+		
+		//alert(total.length);
+		 if (payPoint > total & payPoint.length == total.length) {
 			alert("총 포인트 이하로 사용 가능합니다.");
 			$("#payPoint").val(total);
 			
@@ -320,9 +322,9 @@
 			</div>
 			
 			<hr/>
-				<div class="row" id="basicInfo" style="display:block;">
+				<div class="row" id="basicInfo" style="Padding-left:40px;display:block;">
 				<div class="row">
-				<span style="Padding-left:20px;">이름 * &nbsp;&nbsp;&nbsp; <span>${user.userName }</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<span style="">이름 * &nbsp;&nbsp;&nbsp; <span>${user.userName }</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								
 			       			<%-- <input type="text" style="width:100px;height:30px;" class="form-control" value="${user.userName }"
 			         maxlength="20" name="buyerName" readonly="readonly" id="buyerName"> --%>
@@ -334,16 +336,16 @@
 				<br>
 				<hr/>
 				<div class="row">
-				<span style="Padding-left:20px;" id="${user.phone}">전화번호 * &nbsp;&nbsp;&nbsp; ${user.phone }</span>
+				<span style="" id="${user.phone}">전화번호 * &nbsp;&nbsp;&nbsp; ${user.phone }</span>
 							<%-- <input type="text" style="width:170px;" class="form-control" 
 							value="${user.phone }" readonly="readonly" name="userPhone" id="userPhone" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');"> --%>
 				</div>
 			</div>
 			
 			
-				<div class="row" id="newInfo" style="display:none;">
+				<div class="row" id="newInfo" style="padding-left: 40px;display:none;">
 					<div class="row">
-            		<p style="Padding-left:20px;">이름 *</p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            		<p style="">이름 *</p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   			<input type="text" title="예약자명을 입력하세요" style="width:200px;height:30px;" class="form-control" maxlength="20" name="buyerName" id="newbuyerName">
                   		<p style="Padding-left:220px;">이메일 *</p>&nbsp;&nbsp;&nbsp;
                   			<input type="text" title="이메일주소 앞자리를 입력해주세요" style="width:200px;height:30px;"class="form-control" name="str_email01" id="str_email01" >
@@ -359,10 +361,9 @@
 	                          <option value="nate.com">nate.com</option>
                         </select> 
                  	</div>
-                 	<br>
                  	<hr/>
                  	<div class="row">
-                 	<p style="Padding-left:20px;">전화번호 *</p>&nbsp;&nbsp;&nbsp;
+                 	<p style="">전화번호 *</p>&nbsp;&nbsp;&nbsp;
 	                   		<select title="휴대전화 식별번호를 선택해주세요."  class="form-control" style="width:170px;" id="mobile0">
 	                          <option value="">선택</option>
 	                          <option value="010">010</option>
