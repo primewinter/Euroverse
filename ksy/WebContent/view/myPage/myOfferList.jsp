@@ -155,6 +155,8 @@
 
 <script>
 
+var maPageCode = 'O';
+
 function fncGetUserList(currentPage) {
 	$("#currentPage").val(currentPage)
 	$("#myOfferListForm").attr("method" , "POST").attr("action" , "/myPage/myOfferList").submit();

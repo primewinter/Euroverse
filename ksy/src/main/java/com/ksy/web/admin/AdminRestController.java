@@ -1,6 +1,8 @@
 package com.ksy.web.admin;
 
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -85,13 +87,25 @@ public class AdminRestController {
 		adminService.updateQnaGrade(comment.getPostId());
 		
 		Map<String, Object> map = adminService.getQnaCommentList(comment.getPostId());
+		Map<String, Object> returnMap = new HashMap<String, Object>();	
 		
-		System.out.println("AdminController addQnaComment END");
+		List<Comment> list = (List<Comment>)map.get("list");
+		if(list.size() > 1) {
+			returnMap.put("returnMsg", "error");
+			return returnMap;
+		}else {
+			map.put("returnMsg", "ok");
+			return map;
+		}
 		
-		return map;
+		//if((List<Comment>)map.get("list")) {
+			
+	//	}
+		
+		
 	}
 	
-	//관리자가 입력한 답변을 불러옴
+	//관리자가 입력한 답변을 조회
 	@RequestMapping(value="json/getQnaCommentList/{postId}", method = RequestMethod.GET)
 	public Map<String,Object> getQnaCommentList(@PathVariable String postId) throws Exception {
 		

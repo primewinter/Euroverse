@@ -42,6 +42,8 @@
 
 <script type="text/javascript">
 
+	var maPageCode = 'P';
+
 	function fncGetUserList(currentPage) {
 		$("#currentPage").val(currentPage)
 		$("#pointListForm").attr("method" , "POST").attr("action" , "/myPage/pointList").submit();

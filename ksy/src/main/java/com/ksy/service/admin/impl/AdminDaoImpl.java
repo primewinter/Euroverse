@@ -104,7 +104,7 @@ public class AdminDaoImpl implements AdminDao {
 		
 		sqlSession.update("AdminMapper.deleteQnaComm",cmtId);
 	}
-	
+	//관리자가 게시글을 삭제할경우 post_grade 값을 다시 원상복구함 답변없음으로 만들기위해
 	@Override
 	public void backUpQnaGrade(String postId) throws Exception{
 		
