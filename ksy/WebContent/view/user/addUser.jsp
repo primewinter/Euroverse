@@ -372,28 +372,7 @@ $(function(){
 		var alertMessage = $(".alert-danger strong");
 		
 		var h6 = document.getElementsByClassName('addH6');
-	
-		 
-		for(var i=1;i<=$("input:checkbox[class=dreamCountry]").length;i++){
-			 if($("input:checkbox[id=dreamCountry"+i+"]").is(":checked") == true) {
-				  var value = $("input:checkbox[id=dreamCountry"+i+"]").val();
-				  var countryImg = $("#countryImg"+i).val();
-				  
-				  $("#checkDreamCountry").append("<input type='hidden' name='dreamCountry' value='"+value+"'>");
-				  $("#checkDreamCountry").append("<input type='hidden' name='countryImg' value='"+countryImg+"'>'")
-			} 
-		}/* for End */	 
-		
-		for(var i=1;i<=$("input:checkbox[class=tripStyle]").length;i++){
-			if($("input:checkbox[id=tripStyle"+i+"]").is(":checked")==true){
-				var value = $("input:checkbox[id=tripStyle"+i+"]").val();
-				var styleImg = $("#styleImg"+i).val();
-				
-				 $("#checkTripStyle").append("<input type='hidden' name='tripStyle' value='"+value+"'>");
-				 $("#checkTripStyle").append("<input type='hidden' name='styleImg' value='"+styleImg+"'>");
-			}
-		}/* for End(tripStyle) */
-		
+
 		
 		for(var i=0 ; i<h6.length ; i++){
 			if(h6[i].innerHTML != ""){
@@ -485,6 +464,33 @@ $(function(){
 			alertMessage.html("성별을 선택해주세요.");
 			return;
 		}
+		
+		
+		
+		 
+		for(var i=1;i<=$("input:checkbox[class=dreamCountry]").length;i++){
+			 if($("input:checkbox[id=dreamCountry"+i+"]").is(":checked") == true) {
+				  var value = $("input:checkbox[id=dreamCountry"+i+"]").val();
+				  var countryImg = $("#countryImg"+i).val();
+				  
+				  $("#checkDreamCountry").append("<input type='hidden' name='dreamCountry' value='"+value+"'>");
+				  $("#checkDreamCountry").append("<input type='hidden' name='countryImg' value='"+countryImg+"'>'")
+			} 
+		}/* for End */	 
+		
+		for(var i=1;i<=$("input:checkbox[class=tripStyle]").length;i++){
+			if($("input:checkbox[id=tripStyle"+i+"]").is(":checked")==true){
+				var value = $("input:checkbox[id=tripStyle"+i+"]").val();
+				var styleImg = $("#styleImg"+i).val();
+				
+				 $("#checkTripStyle").append("<input type='hidden' name='tripStyle' value='"+value+"'>");
+				 $("#checkTripStyle").append("<input type='hidden' name='styleImg' value='"+styleImg+"'>");
+			}
+		}/* for End(tripStyle) */
+		
+		
+		
+		
 		sweetMan();
 
 	/* 	 $("#myModal").modal({keyboard: false,backdrop: 'static'});
@@ -545,8 +551,6 @@ $(function(){
 
 function readImg(input){
 	
-	var width = 360;
-	var height = 360;
 	
 	if(input.files && input.files[0]){
 		var render = new FileReader();

@@ -261,7 +261,7 @@ $(function(){
 	
 	
 	$(function(){
-		$(".btn-primary:contains('¼öÁ¤')").on("click",function(){
+		$("#updateButton").on("click",function(){
 			var nickname = $("input[name='nickname']");
 			var pushAgree = $("input:radio[name='pushAgree']"); 
 			

@@ -14,6 +14,19 @@
  
 }
 
+
+
+@media screen and (max-width: 1000px) { 
+.sidebar {
+ display: none; 
+ 
+ } 
+ }
+
+
+
+
+
 </style>
 
 
@@ -45,7 +58,7 @@
 			$(self.location).attr("href","/myPage/myBookMarkList");
 		});
 		
-		$(".nav-link:contains('플래너 초대 및 동행신청 목록')").on("click" ,function(){
+		$("#myOfferList").on("click" ,function(){
 			$(self.location).attr("href","/myPage/myOfferList");
 		});
 		$(".nav-link:contains('찜한 상품 목록')").on("click" ,function(){
@@ -81,9 +94,9 @@
 </head>
 <body>
 
-<div class="container-fluid sidebar" style="width: 270px;">
+<div class="container-fluid sidebar" style="width: 270px; margin-left: 30px;">
   <div class="row" style="width: 270px;">
- 		<ul class="nav flex-column" style="text-align: center;" >
+ 		<ul class="nav flex-column" style="text-align: left;" >
           
           <li class="nav-item">
             <a class="nav-link" href="#">
@@ -111,8 +124,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              	플래너 초대 및 동행신청 목록
+            <a class="nav-link" href="#" id="myOfferList">
+              	플래너 초대 및<br>
+           			&nbsp;&nbsp;&nbsp;   동행신청 목록
             </a>
           </li>
           <li class="nav-item">
