@@ -195,16 +195,22 @@
 
 
     .story-entry__image-wrap {
-        text-align: center;
         overflow: hidden;
         bottom: 0px;
-        width: 300px;
+        width: 100%;
         height: 300px;
+        font-style: oblique;
+    }
+
+    .topic {
+        margin: 3em 1em 3em 1em;
     }
 
     .story-entry__image-wrap>img {
         width: auto;
-        height: 400px;
+        vertical-align: middle;
+        height: 300px;
+        object-fit: cover;
         overflow: hidden;
     }
 
@@ -225,11 +231,11 @@
 
 
 
-
     .story-entry__content__profile {
         text-align: right;
         font-size: 9pt;
     }
+
 
     .wrapping-crop {
         max-width: 200px;
@@ -370,7 +376,119 @@
         font-size: 17px;
 
     }
-
+    
+    
+    
+    @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
+figure.snip1384 {
+  font-family: 'Raleway', Arial, sans-serif;
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+  min-width: 230px;
+  max-width: 315px;
+  width: 100%;
+  color: #ffffff;
+  text-align: left;
+  font-size: 16px;
+  background-color: #000000;
+}
+figure.snip1384 * {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 0.35s ease;
+  transition: all 0.35s ease;
+}
+figure.snip1384 img {
+  max-width: 100%;
+  backface-visibility: hidden;
+  vertical-align: top;
+}
+figure.snip1384:after,
+figure.snip1384 figcaption {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+figure.snip1384:after {
+  content: '';
+  background-color: rgba(0, 0, 0, 0.65);
+  -webkit-transition: all 0.35s ease;
+  transition: all 0.35s ease;
+  opacity: 0;
+}
+figure.snip1384 figcaption {
+  z-index: 1;
+  padding: 40px;
+}
+figure.snip1384 h3,
+figure.snip1384 .links {
+  width: 100%;
+  margin: 5px 0;
+  padding: 0;
+}
+figure.snip1384 h3 {
+  line-height: 1.1em;
+  font-weight: 700;
+  font-size: 1.4em;
+  text-transform: uppercase;
+  opacity: 0;
+}
+figure.snip1384 p {
+  font-size: 0.8em;
+  font-weight: 300;
+  letter-spacing: 1px;
+  opacity: 0;
+  top: 50%;
+  -webkit-transform: translateY(40px);
+  transform: translateY(40px);
+}
+figure.snip1384 i {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 20px 25px;
+  font-size: 34px;
+  opacity: 0;
+  -webkit-transform: translateX(-10px);
+  transform: translateX(-10px);
+}
+figure.snip1384 a {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+figure.snip1384:hover img,
+figure.snip1384.hover img {
+  zoom: 1;
+  filter: alpha(opacity=50);
+  -webkit-opacity: 0.5;
+  opacity: 0.5;
+}
+figure.snip1384:hover:after,
+figure.snip1384.hover:after {
+  opacity: 1;
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+}
+figure.snip1384:hover h3,
+figure.snip1384.hover h3,
+figure.snip1384:hover p,
+figure.snip1384.hover p,
+figure.snip1384:hover i,
+figure.snip1384.hover i {
+  -webkit-transform: translate(0px, 0px);
+  transform: translate(0px, 0px);
+  opacity: 1;
+}
 </style>
 
 <body>
@@ -531,7 +649,7 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function($) {
-            //randomImage();
+            randomImage();
             $("figure.effect5").on("click", function() {
                 randomImage();
             });
@@ -630,40 +748,48 @@
         function appendPlanner(plan, post) {
             var tag = "";
             tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
-            tag += "<article class=\"story-entry story-story-item\"><a class=\"story-entry-link\" href=\"/community/getPost?postId=" + post.postId + "&boardName=E\">";
+            tag += "<article class=\"story-entry story-story-item\">"
+            tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + post.postId + "&boardName=E\">";
             tag += "<div class=\"story-entry__image-wrap\">"
-            tag += "<img src='/resources/images/planImg/" + plan.planImg + "'>";
             tag += "</div>"
-            tag += "<div class=\"story-entry__content-wrap\">"
-            tag += "<div class=\"story-entry__content\">"
-            tag += "<div class=\"story-entry__content__title\">" + post.postTitle;
-            //tag += "<i class=\"far fa-eye\" style='float:right;font-size:1;'>" + vo.views + "</i>"
-            tag += "</div><div class=\"story-entry__content__profile\" style='text-align: right;font-size:1;'>"
-            tag += "<span class=\"story-entry__content__profile__name\"><br>by. " + post.nickName + "</span></div></div></div></a></article></li>"
+            tag += "<figure class = \"snip1384\" >"
+            tag += "<img src='/resources/images/planImg/" + plan.planImg + "'>";
+            tag += "<figcaption>"
+            tag += "<h3>"+post.postTitle+"</h3>"
+            tag += "<p>"+post.nickName+"</p>"
+            tag += "<i class=\"ion-ios-arrow-right\"></i></figcaption></figure>"
+            tag += "</a></article></li>"
 
             $('.plan-stories__content').append(tag);
         }
 
         function appendTag(vo, boardName) {
             var tag = "";
-            tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
-            tag += "<article class=\"story-entry story-story-item\"><a class=\"story-entry-link\" href=\"/community/getPost?postId=" + vo.postId + "&boardName=" + boardName + "\">";
-            tag += "<div class=\"story-entry__image-wrap\">"
             var content = vo.postContent;
             var imgSrc = parseContent(content);
-            console.log("content ::: " +imgSrc);
-            if( imgSrc != '' ) {
-                console.log("이미지 있다^^")
+            //            var userImg = getProfileImg(vo.postWriterId);
+            //            console.log("겟한 이미지 : " + userImg);
+
+            tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
+            tag += "<article class=\"story-entry story-story-item\">"
+            tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + vo.postId + "&boardName=" + boardName + "\">";
+            tag += "<div class='story-entry__wrap' style='position: relative;'>"
+            tag += "<div class=\"story-entry__image-wrap\">"
+            if (imgSrc != '') {
                 tag += imgSrc;
             } else {
-                tag += "<i class=\"fas fa-quote-left\ fa-2x\"></i>";
+                tag += "<div class='topic'>"
+                tag += "<div style='text-align:left;'><i class=\"fas fa-quote-left\ fa-2x\"></i></div>"
+                tag += "<div style='text-align:center;'>" + vo.postTitle + "</div>";
+                tag += "<div style='text-align:right;'><i class=\"fas fa-quote-left fa-2x fa-rotate-180\"></i></div>"
+                tag += "</div>"
             }
             tag += "</div>"
-            tag += "<div class=\"story-entry__content-wrap\">"
-            tag += "<div class=\"story-entry__content\">"
-            tag += "<div class=\"story-entry__content__title\">" + vo.postTitle;
-            tag += "</div><div class=\"story-entry__content__profile\" style='text-align: right;font-size:1;'>"
-            tag += "<span class=\"story-entry__content__profile__name\"><br>by. " + vo.nickName + "</span></div></div></div></a></article></li>"
+            tag += "<div class=\"story-entry__content\" style=\"font-family:'Noto Sans KR';text-align:left;padding: 10px; width: 100%; bottom: 0px; font-size: 1em; font-weight: bold; position: absolute;background-color:black;opacity:70%;\">"
+            tag += "<img src='/resources/images/userImages/" + vo.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
+            tag += "<span style='font-size:0.8em;color:#CCC;font-weight:400;'>" + vo.nickName + "</span>"
+            tag += "</div>"
+            tag += "</div></a></article></li>"
 
 
             if (boardName == 'F') {
@@ -674,6 +800,26 @@
                 $('ul.recent-stories__content').append(tag);
             }
 
+        }
+
+        function getProfileImg(userId) {
+            $.ajax({
+                url: "/user/json/getUser?userId=" + userId,
+                method: "GET",
+                dataType: "json",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                success: function(result) {
+                    var userImg = result.userImg;
+                    console.log(userImg);
+                    return userImg;
+                },
+                error: function(err) {
+                    console.log("프로필 이미지 에러 : " + err);
+                }
+            })
         }
 
         function parseContent(content) {
@@ -687,35 +833,6 @@
             }
 
         }
-
-
-        function showBest(vo) {
-            var tag = "";
-            tag += "<table width=95%>"
-            tag += "<tr>"
-            tag += "<td style='margin:auto;text-align:center' width='10%'>"
-            tag += "<input type='checkbox' name='chk' id='" + vo.post + "' value='" + vo.pushId + "'>"; // style='display:none;'
-            tag += "</td>"
-            tag += "<td style='text-align:left;margin-left:10'>"
-            tag += "<font size='2'  font color='black'>"
-            tag += "<a href='/community/getPost?postId=" + vo.refId + "&boardName=" + vo.boardName + "'>";
-            tag += "<a href='/myPage/myOfferList' >"; // 초대 목록 리스트 링크
-            tag += "<a href='/community/getPost?postId=" + vo.refId + "&boardName=D' >" // 동행 신청 목록 리스트 링크
-            tag += vo.pushMsg + "</font></td>";
-            tag += "<tr>";
-            tag += "<td colspan='2' style='text-align:right;vertical-align:top;'>";
-            tag += "<font size='1' font color='gray'>" + vo.pushTime + "</font></a>";
-            tag += "</td>";
-            tag += "</tr>";
-
-            tag += "</table>"
-            tag += "<style>"
-            tag += "label { font-weight: normal; font-color: white; }"
-            tag += "</style>";
-
-            //$(".main-best").append(tag);
-        }
-
 
 
         function printTime() {
@@ -832,12 +949,9 @@
                     })
             }
         }
-
     </script>
 
     <jsp:include page="toolbar/pushBar.jsp" />
     <jsp:include page="toolbar/footer.jsp" />
 
-</body>
-
-</html>
+</body></html>

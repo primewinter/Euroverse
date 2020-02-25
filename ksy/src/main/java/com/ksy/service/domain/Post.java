@@ -40,7 +40,17 @@ public class Post {
 	private String nextTitle;
 	private String prevId;
 	private String prevTitle;
+	private User user;
 	
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	public Post() {
 		
 	}

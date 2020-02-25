@@ -251,6 +251,7 @@ public class MainRestController {
 		
 		for(Post post : list ) {
 			Post p = communityService.getMainPost(post.getPostId(), post.getPostWriterId(), post.getBoardName());
+			p.setUser(userService.getUser(p.getPostWriterId()));
 			newList.add(p);
 			System.out.println("최신글에 담은 글 :: "+p);
 		}
