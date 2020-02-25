@@ -26,21 +26,12 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 	
 	<style type="text/css">
-	
 
-
-	
 	</style>
-	
-	
-	
-	
+
 	<script>
 	$(function(){
-		
-	
-		
-		
+
 		$("#authButton").on("click",function(){
 			var phone1 = $("#phone1").val();
 			var phone2 = $("#phone2").val();
@@ -78,31 +69,15 @@
 							}
 						}
 					})
-					
 			})
-	
-	})
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		})
 	
 	
 		$(function(){
 			$("#userAuth").on("click",function(){
 				$("#authModal").modal("show");
-				
 			})
-			
-		
 		})
-		
-		
 		
 		function auth(){
 		var phoneCheck = $("input[name='phoneCheck']").val();
@@ -128,12 +103,8 @@
 					})	
 			}else{
 				alert("인증번호와 일치하지않습니다.")
-				
 			}
-		
 		}
-	
-	
 	
 	</script>
 
@@ -149,28 +120,31 @@
 	<!-- 화면구성 div Start ///////////////////////////// -->
 	<div class="container">
 	
-	<c:if test="${ !empty user && user.role == 'G'}">
-		
-		<div style="height: 100px;"></div>
+	<c:if test="${boardName == 'C'}">
+		<div class="h4" style="text-align:center;">삭제된 게시글입니다. ㅠ_ㅠ</div>
+	</c:if>
 	
-		
+	<c:if test="${empty user}">	
+		<div class="h4" style="text-align:center;">게시글 조회는 로그인 후 이용 가능합니다.</div>
+	</c:if>
+	
+	<c:if test="${ !empty user && user.role == 'G'}">
+		<div style="height: 100px;"></div>
 		<div class="h4" style="text-align:center;">동행찾기는 본인인증후 사용 가능합니다.</div>
 		<div style="text-align: center;margin-top: 50px;">
 		<button type="button" class="btn btn-outline-primary" id="userAuth">휴대폰으로 본인인증하기</button>
 		</div>
+	</c:if>	
 		
+	</div>
 		
-		
-		    
-		</div>
 		<!-- Modal -->
 		<div class="modal fade" id="authModal">
 		  <div class="modal-dialog bounceln animated"  role="document">
 		    <div class="modal-content" id="authContent" style="width: 500px; height: 300px">
 		      <div class="modal-body" id="authBody" style="text-align: center;">
-		       	
-		       		<b style="font-size: 30px;">인증하세요.</b>
-		       		<div style="height: 50px;"></div>
+		       	  <b style="font-size: 30px;">인증하세요.</b>
+		       	  <div style="height: 50px;"></div>
 		 		<div class="input-group-prepend">
 		 		  <span class="input-group-text"><i class="fas fa-phone"></i></span>
 			      <input type="text" class="form-control" id="phone1" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"> - 
@@ -179,42 +153,23 @@
 			      <input type="hidden" name="phone" id="phone"> 
 			      <input type="button" value="인증번호 전송" id="authButton" class="btn btn-outline-primary">  
 					<!-- <input type="hidden" id="updatePwd" onclick="javascript:auth()" class="btn btn-outline-primary"> -->
-					<input type="hidden" name="phoneCheck" value="">
+				  <input type="hidden" name="phoneCheck" value="">
 			    </div>
 			    
 			    <div style="height: 10px"></div>
 			    
 			    <div id="errorMsg"></div>
-			     <div style="height: 10px"></div>
+			    <div style="height: 10px"></div>
 			    
-					<input type="hidden" name="phoneValue" value="">
+				<input type="hidden" name="phoneValue" value="">
 			    <button type="button" style="display: none" id="phoneConfirm" class="btn btn-outline-primary" onclick="javascript:auth()">인증</button>
-		       	
-		       	
 		      </div>
 		    </div>
 		  </div>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	</c:if>
-	<c:if test="${empty user}">	
-		<div class="h4" style="text-align:center;">게시글 조회는 로그인 후 이용 가능합니다.</div>
-	</c:if>
-		
-	</div>
+	    </div>
+
 	<!-- 화면구성 div End ///////////////////////////// -->
 	<jsp:include page="/toolbar/footer.jsp"></jsp:include>
+
 </body>
 </html>

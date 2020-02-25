@@ -128,7 +128,11 @@
 	 	UPDATE post
 	 	<set>
 	 		post_title   = #{postTitle:VARCHAR},
-	 		post_content = #{postContent:CLOB}
+	 		post_content = #{postContent:CLOB},
+	 		qna_kategorie = #{qnaKategorie:CHAR},
+	 		acc_start_date = TO_DATE(#{accStartDateStr:VARCHAR} , 'yy/mm/dd'),
+	 		acc_end_date = TO_DATE(#{accEndDateStr:VARCHAR} , 'yy/mm/dd'),
+	 		acc_person = #{accPerson:NUMERIC}	 	
 	 	</set>
 		WHERE post_id = #{postId}
 	</update>
@@ -244,6 +248,10 @@
 		WHERE ref_id = #{postId} AND party_type = 'A'
 	</select>
 	
+	<select id="getCurrvalPostId" resultType="string">
+		SELECT SEQ_post_post_id.CURRVAL FROM dual
+	</select>
+	
 	<select  id="getPostList"  parameterType="map"	resultMap="postSelectMap">
 	  	SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
@@ -298,8 +306,8 @@
 	<select  id="getBestPostList"  parameterType="map"	resultMap="postSelectMap">
 	  	SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count , p.day_best , p.week_best , p.month_best
-										FROM best_post p, comments c, tag t
+  						FROM ( SELECT p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , vt1.c comments , p.views , p.blocked , p.deleted , p.post_like_count , p.day_best , p.week_best , p.month_best
+										FROM best_post p, comments c, tag t, ( SELECT post_id , count(*) c FROM comments WHERE deleted = 'F' GROUP BY post_id ) vt1
 										<if test="search.searchCondition != null">
 										  <trim prefix="WHERE" prefixOverrides="AND | OR">
 											<if test="search.searchCondition == 0 and search.searchKeyword !='' ">
@@ -312,7 +320,7 @@
 										 		t.tag_content LIKE '%${search.searchKeyword}%'
 											</if>
 											<if test="search.searchCondition != null">
-												AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.deleted = 'F' AND
+												AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.deleted = 'F' AND vt1.post_id(+) = c.post_id AND
 												<if test="search.sorting == 0 and search.sorting !=''">
 												  day_best IS NOT NULL
 												</if> 
@@ -327,7 +335,7 @@
 										</if>
 										<if test="search.searchCondition == null">
 										  <where>
-											  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.deleted = 'F' AND
+											  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.deleted = 'F' AND vt1.post_id(+) = c.post_id AND
 											  <if test="search.sorting == 0 and search.sorting !=''">
 											    day_best IS NOT NULL
 										      </if> 
@@ -339,16 +347,16 @@
 											  </if> 
 										  </where>
 										</if>
-										GROUP BY p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , p.day_best , p.week_best , p.month_best
-										ORDER BY 
+										GROUP BY vt1.c , p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , p.day_best , p.week_best , p.month_best
+										ORDER BY DECODE ( p.post_grade, 'N', 1, 'B', 2 )
 										<if test="search.sorting == 0 and search.sorting !=''">
-										  day_best desc
+										  , day_best desc
 										</if> 
 										<if test="search.sorting == 1 and search.sorting !=''">
-										  week_best desc
+										  , week_best desc
 										</if> 
 										<if test="search.sorting == 2 and search.sorting !=''">
-										  month_best desc
+										  , month_best desc
 										</if> ) inner_table
   						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
   		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
@@ -403,7 +411,7 @@
 		SELECT
 		row_number() over(partition by c.parent_cmt_id order by c.parent_cmt_id , c.cmt_id) num , p.post_writer_id , l.like_check , c.* , u.user_img
 		FROM comments c, post p, likes l, users u
-		WHERE c.cmt_id = l.ref_id(+) AND c.post_id = p.post_id AND u.user_id = c.writer_id AND c.post_id = #{postId} AND l.like_user_id(+) = #{userId} AND c.parent_cmt_id IS NOT NULL
+		WHERE c.cmt_id = l.ref_id(+) AND c.post_id = p.post_id AND u.user_id = c.writer_id AND c.post_id = #{postId} AND l.like_user_id(+) = #{userId} AND c.deleted IN ('F','Y') AND c.parent_cmt_id IS NOT NULL
 		ORDER BY c.parent_cmt_id , c.cmt_id
 	</select>
 	
@@ -412,7 +420,7 @@
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
   						FROM ( SELECT c.post_id , c.cmt_id , c.nickname , c.writer_id , p.post_writer_id , c.cmt_date , c.cmt_content , c.secret , c.deleted , c.blocked , c.cmt_like_count , l.like_check , u.user_img
 										FROM comments c, likes l, post p, users u
-										WHERE p.post_id = c.post_id AND c.cmt_id = l.ref_id(+) AND u.user_id = c.writer_id AND l.like_user_id(+) = #{userId} AND c.post_id = #{postId} AND parent_cmt_id IS NULL
+										WHERE p.post_id = c.post_id AND c.cmt_id = l.ref_id(+) AND u.user_id = c.writer_id AND l.like_user_id(+) = #{userId} AND c.post_id = #{postId} AND c.deleted IN ('F','Y') AND parent_cmt_id IS NULL
 										ORDER BY c.cmt_date DESC ) inner_table
   						WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
   		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
@@ -428,9 +436,16 @@
 	
 	<select 	id="getComment"	parameterType="string"	resultMap="commentSelectMap">
 		SELECT
-		post_id , cmt_id , nickname , writer_id , cmt_date , cmt_content , secret , deleted , blocked , cmt_like_count
+		post_id , cmt_id , parent_cmt_id , nickname , writer_id , cmt_date , cmt_content , secret , deleted , blocked , cmt_like_count
 		FROM comments
 		WHERE cmt_id = #{cmtId}
+	</select>
+	
+	<select 	id="getRecommentCount"	parameterType="string"	resultType="int">
+		SELECT
+		COUNT(*)
+		FROM comments
+		WHERE deleted = 'F' AND parent_cmt_id = #{cmtId}
 	</select>
 	
 	<update id="updateComment" parameterType="comment">
@@ -446,6 +461,14 @@
 		UPDATE comments
 			<set>
 				deleted = 'T'
+			</set>
+		WHERE cmt_id = #{cmtId}
+	</update>
+	
+	<update id="deleteComment2" parameterType="string">
+		UPDATE comments
+			<set>
+				deleted = 'Y'
 			</set>
 		WHERE cmt_id = #{cmtId}
 	</update>
@@ -477,21 +500,21 @@
     	INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best )
     	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best
     	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best
-    			FROM post WHERE post_grade = 'B' AND day_best IS NOT NULL ORDER BY day_best desc ) WHERE ROWNUM <![CDATA[<=]]> 100
+    			FROM post WHERE post_grade = 'B' AND deleted = 'F' AND day_best IS NOT NULL ORDER BY day_best desc ) WHERE ROWNUM <![CDATA[<=]]> 30
 	</insert>	 
 	
 	<insert id="insertWeekBestPost">
 		INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best )
     	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best
     	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best
-    			FROM post WHERE post_grade = 'B' AND week_best IS NOT NULL ORDER BY week_best desc ) WHERE ROWNUM <![CDATA[<=]]> 100
+    			FROM post WHERE post_grade = 'B' AND deleted = 'F' AND week_best IS NOT NULL ORDER BY week_best desc ) WHERE ROWNUM <![CDATA[<=]]> 30
 	</insert>	 
 	
 	<insert id="insertMonthBestPost">
 		INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best )
     	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best
     	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best
-    			FROM post WHERE post_grade = 'B' AND month_best IS NOT NULL ORDER BY month_best desc ) WHERE ROWNUM <![CDATA[<=]]> 100
+    			FROM post WHERE post_grade = 'B' AND deleted = 'F' AND month_best IS NOT NULL ORDER BY month_best desc ) WHERE ROWNUM <![CDATA[<=]]> 30
 	</insert>	 
 	
 	<delete id="deleteDayBestPost">
