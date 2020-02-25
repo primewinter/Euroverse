@@ -74,11 +74,11 @@ public class OrderController {
 		System.out.println(this.getClass());
 	}
 
-	@Value("#{commonProperties['pageUnit']}")
+	@Value("#{commonProperties['postPageSize']}")
 	// @Value("#{commonProperties['pageUnit'] ?: 3}")
 	int pageUnit;
 
-	@Value("#{commonProperties['pageSize']}")
+	@Value("#{commonProperties['postPageSize']}")
 	// @Value("#{comm4onProperties['pageSize'] ?: 2}")
 	int pageSize;
 	
@@ -341,6 +341,7 @@ public class OrderController {
 	
 	@RequestMapping(value = "getFlightOrder", method = RequestMethod.GET)
 	public String getFlightOrder(@RequestParam("flightId")String flightId, 
+								@RequestParam("orderId")String orderId,
 						HttpSession session, Model model) throws Exception {
 		System.out.println("/getFlightOrder : GET");
 		Order order = new Order();
@@ -350,6 +351,19 @@ public class OrderController {
 		flight = flightService.getFlight(flightId);
 		order = orderService.getFlightOrder(flightId);
 		
+		//point Service , dao 만들기 Order에 point 관련 컬럼 지우기...
+		//pointService.
+		point = orderService.pointList(orderId);
+		/*
+	<select id="pointList" parameterType="String" resultMap="pointSelectMap">
+  		SELECT 
+		p.user_id, p.point_id, p.ref_id, p.used_type, p.used_point, p.used_date
+		FROM  point p
+		WHERE p.ref_id = {value}
+					
+  	</select>		
+		 */
+		
 		model.addAttribute("flight",flight);
 		model.addAttribute("order",order);
 		model.addAttribute("point",point);
@@ -358,7 +372,7 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value = "getRoomOrder", method = RequestMethod.GET)
-	public String getRoomOrder(
+	public String getRoomOrder(@RequestParam("orderId")String orderId,
 						@RequestParam("roomId")String roomId,
 						HttpSession session, Model model) throws Exception {
 		System.out.println("/getRoomOrder : GET");
@@ -368,6 +382,7 @@ public class OrderController {
 		
 		order = orderService.getRoomOrder(roomId);
 		room = roomService.getRoom(roomId);
+		point = orderService.pointList(orderId);
 		
 		model.addAttribute("room",room);
 		model.addAttribute("order",order);
@@ -376,21 +391,7 @@ public class OrderController {
 		return "forward:/view/order/getOrder.jsp";
 	}
 	
-	@RequestMapping(value = "getOrderRefund", method = RequestMethod.GET)
-	public String getOrderRefund(@ModelAttribute("order") Order order,
-						@RequestParam("orderId")String orderId, 
-						@RequestParam("orderStatus")String orderStatus,
-						HttpSession session, Model model, HttpServletRequest request) throws Exception {
-		System.out.println("/getOrderRefund : GET");
-		
-		order.setOrderStatus(orderStatus);
-		order.setOrderId(orderId);
-		orderService.getOrderRefund(order);
-		
-		model.addAttribute("order",order);
 
-		return "forward:/order/getOrderList";
-	}
 	
 
 	

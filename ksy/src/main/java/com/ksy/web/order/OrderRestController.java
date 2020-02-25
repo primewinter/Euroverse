@@ -1,7 +1,10 @@
 package com.ksy.web.order;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ksy.service.domain.Order;
@@ -59,12 +61,30 @@ public class OrderRestController {
 		order.setOrderId(orderId);
 		order.setOrderStatus("3");
 		
+		
 		Map<String, Object> map = orderService.getOrderRefund(order);
 		
 		map.put("orderId", orderId);
+		map.put("order", order);
 		
 		return map;
 	}	
+	
+	@RequestMapping(value = "/json/getOrderRefund/{orderId}/{orderStatus}", method = RequestMethod.GET)
+	public Map getOrderRefund(
+								@PathVariable("orderId")String orderId, 
+								@PathVariable("orderStatus")String orderStatus,
+						HttpSession session, Model model, HttpServletRequest request) throws Exception {
+		System.out.println("/getOrderRefund : GET");
+		Order order = new Order();
+		order.setOrderStatus(orderStatus);
+		order.setOrderId(orderId);
+		Map<String, Object> map = orderService.getOrderRefund(order);
+		
+		map.put("order", order);
+
+		return map;
+	}
 	
 ///////////////////////////////////환불////////////////////////////////////////
 
@@ -104,7 +124,16 @@ public class OrderRestController {
 		System.out.println(cancelpayment.getMessage());
 		System.out.println("testCancelPaymentByImpUid --- End!---");
 		
+		
+		//환불 일시를 controller에서 할지 Mapper에서 할지 수정,,
+		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+				
+		String time1 = format1.format(System.currentTimeMillis());
+		order.setRefundDate(time1);
+		System.out.println("time : "+time1);
+		System.out.println("order : "+order);
 		map.put("orderId", orderId);
+		map.put("order", order);
 		
 		return map;
 	}

@@ -15,6 +15,8 @@ public interface OrderService {
 	
 	public void addPoint(Point point) throws Exception;
 	
+	public Point pointList(String orderId) throws Exception;
+	
 	public Order getFlightOrder(String flightId) throws Exception;
 	
 	public Order getRoomOrder(String orderId) throws Exception;
@@ -22,4 +24,5 @@ public interface OrderService {
 	public Map<String,Object> getOrderList(Search search,String buyerId) throws Exception;
 	
 	public Map<String, Object> getOrderRefund(Order order) throws Exception; 
+	
 }

@@ -58,6 +58,10 @@ public interface CommunityDao {
 	
 	public Comment getComment(String cmtId) throws Exception;
 	
+	public int getRecommentCount(String cmtId) throws Exception;
+	
+	public void deleteComment2(String cmtId) throws Exception;
+	
 	public void updateComment(Comment comment) throws Exception;
 	
 	public void deleteComment(String cmtId) throws Exception;

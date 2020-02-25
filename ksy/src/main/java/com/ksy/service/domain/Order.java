@@ -21,9 +21,23 @@ public class Order {
 	private int addPoint;
 	private int usedPoint;
 	private String cardNo; //card_no
-	private Timestamp refundDate; //refund_date
+	private String refundDate; //refund_date
 	
+	private String refId; //ref_id
+	private String usedType; //used_type  출석체크(C) , 슬롯구매(S) , 항공권,숙소 구매(B) , 포인트사용(U)
 	
+	public String getRefId() {
+		return refId;
+	}
+	public void setRefId(String refId) {
+		this.refId = refId;
+	}
+	public String getUsedType() {
+		return usedType;
+	}
+	public void setUsedType(String usedType) {
+		this.usedType = usedType;
+	}
 	public int getUsedPoint() {
 		return usedPoint;
 	}
@@ -114,10 +128,10 @@ public class Order {
 	public void setCardNo(String cardNo) {
 		this.cardNo = cardNo;
 	}
-	public Timestamp getRefundDate() {
+	public String getRefundDate() {
 		return refundDate;
 	}
-	public void setRefundDate(Timestamp refundDate) {
+	public void setRefundDate(String refundDate) {
 		this.refundDate = refundDate;
 	}
 	public Timestamp getPayDate() {

@@ -164,7 +164,13 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 	
 	public void deleteComment(String cmtId) throws Exception {
-		communityDao.deleteComment(cmtId);
+		int count = communityDao.getRecommentCount(cmtId);
+		
+		if(count == 0) {
+			communityDao.deleteComment(cmtId);
+		}else {
+			communityDao.deleteComment2(cmtId);
+		}
 	}
 	
 	public void addReport(Report report) throws Exception {

@@ -84,7 +84,7 @@ function fncGetUserList(currentPage) {
 		})
 	})
 	
-	/* ------------------------- 환불 처리중  변경 modal ------------------------- */
+	/* ------------------------- 환불 신청에서 환불 처리중  변경 modal ------------------------- */
 	function order(orderId){
  			var orderState = $('#'+orderId+' option:selected').val();
  			console.log("orderId "+orderId);
@@ -124,6 +124,7 @@ function fncGetUserList(currentPage) {
  	/* ------------------------- 여기까징 ------------------------ */	
  	
  	
+ 	
  	/* ------------------------- 환불완료로 변경 modal ------------------------- */
  	function order2(orderId){
  			
@@ -152,15 +153,15 @@ function fncGetUserList(currentPage) {
  	 						},
  	 						success : function (JSONData, status ) {
  	 							console.log("시무룩...");
- 	 							var displayValue = "<select class='custom-select' name='orderStatus' id='${flight.orderId}' onChange='order2('${flight.orderId}')' >"
+ 	 							/* var displayValue = "<select class='custom-select' name='orderStatus' id='${flight.orderId}' onChange='order2('${flight.orderId}')' >"
  	 	 							 displayValue +=   "<option selected value='4'>환불완료</option>"
  	 	 							+ "</select>";
- 	 							
- 	 								
- 	 								
+ 	 	 						var value = "<td>"+JSONData.order.refundDate+"</td>";
+ 	 							 */
+ 	 	 					 	var result = "<p>환불완료 <i class='far fa-clock'></i>"+JSONData.order.refundDate+"</p>";
  	 					
- 	 							$("td #"+JSONData.orderId+"").html(displayValue);
- 	 							
+ 	 							$("#"+JSONData.orderId+"s").remove();
+ 	 							$("#"+JSONData.orderId+"").html(result);
  	 						}
  	 						
  	 					})
@@ -168,15 +169,16 @@ function fncGetUserList(currentPage) {
  			});
  		});
  	
- 		/* ------------------------- 여기까징 ------------------------ */	
+	/* ------------------------- 여기까징 ------------------------ */	
  	/* -----------------------close modal----------------------- */
  	$(function() {
  		$("#resetmodal4").click(function() {
+ 			
  			/* if(  $("#refundmodal4")[0] != "undefined" ){
  				$("#refundmodal4")[0].reset();	
  			} */
- 			$("#refundmodal4").modal("hide");
  			var orderId = $(this).next().next().val();
+ 			$("#refundmodal4").modal("hide");
  			$('#'+orderId+' option[value=3]').prop('selected', 'selected').change();
  		})
  		$("#resetmodal3").click(function() {
@@ -189,7 +191,7 @@ function fncGetUserList(currentPage) {
  			$('#'+orderId+' option[value=2]').prop('selected', 'selected').change();
  		})
  	})
- 
+	/* ------------------------- 여기까징 ------------------------ */	 
 	////////////////////////////////////////////////////
 /*     $( function () {
 		$('.delete:contains("배")').on("click" , function () {
@@ -223,9 +225,6 @@ function fncGetUserList(currentPage) {
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	 <jsp:include page="/toolbar/pushBar.jsp" />
 	<div class="container">
-		<div class="page-header">
-			<h3>Order List</h3>
-		</div>
 		<br/>
 	</div>
 <div class="btn-group btn-group-toggle" data-toggle="buttons" style="Padding-left:180px;" >
@@ -278,17 +277,17 @@ function fncGetUserList(currentPage) {
 					      	<select class="custom-select" onChange="order('${flight.orderId}')" name="orderStatus"  id="${flight.orderId }" style="">
 							  <option selected value="2">환불신청</option>
 							  <option value="3">환불처리중</option>
-							  <option value="4" id="4">환불완료</option>
+							  <option value="4" disabled >환불완료</option>
 							</select>
 					      </c:if>
 					         <c:if test="${flight.orderStatus == '3' }">
-					         <select class="custom-select" name="orderStatus" id="${flight.orderId }" onChange="order2('${flight.orderId}')"  style="">
+					         <select class="custom-select" onChange="order2('${flight.orderId}')" name="orderStatus" id="${flight.orderId }s" style="">
 							  <option selected value="3">환불처리중</option>
 							  <option value="4" id="4">환불완료</option>
 							</select>
 					         </c:if>
 					      <c:if test="${flight.orderStatus == '4' }">
-					      	환불완료
+					      	<p>환불완료 <i class="far fa-clock"></i> ${flight.refundDate }</p>
 						  </c:if>
 					  
 					  </td>
@@ -349,7 +348,7 @@ function fncGetUserList(currentPage) {
 					</select>
 			         </c:if>
 			      <c:if test="${room.orderStatus == '4' }">
-			      	환불완료
+			      		<p>환불완료 <i class="far fa-clock"></i> ${room.refundDate }</p>
 				  </c:if>
 				 </td>
 		   	 </tr>

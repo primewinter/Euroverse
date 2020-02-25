@@ -96,10 +96,15 @@ public class CommunityDaoImpl implements CommunityDao{
 	public List<Party> getParty(String postId) throws Exception {
 		
 		if(postId == null) {
-			String partyPostId = sqlSession.selectOne("CommunityMapper.getPostId");
+			Post post = new Post();
 			
+			String partyPostId = sqlSession.selectOne("CommunityMapper.getCurrvalPostId");
+			post.setPostId(partyPostId);
+			
+			return sqlSession.selectList("CommunityMapper.getParty", post.getPostId());
+		}else {
+			return sqlSession.selectList("CommunityMapper.getParty", postId);
 		}
-		return sqlSession.selectList("CommunityMapper.getParty", postId);
 	}
 	
 	public List<Post> getPostList(Search search, String boardName) throws Exception {
@@ -195,6 +200,14 @@ public class CommunityDaoImpl implements CommunityDao{
 	
 	public Comment getComment(String cmtId) throws Exception {
 		return sqlSession.selectOne("CommunityMapper.getComment", cmtId);
+	}
+	
+	public int getRecommentCount(String cmtId) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getRecommentCount", cmtId);
+	}
+	
+	public void deleteComment2(String cmtId) throws Exception {
+		sqlSession.update("CommunityMapper.deleteComment2", cmtId);
 	}
 	
 	public void updateComment(Comment comment) throws Exception {

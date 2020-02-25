@@ -111,51 +111,8 @@ table thead > tr{
 		 }); 
 	});//end of function
 	
-	function answer(){
-			alert("click?")
-        	
-        	var postId = $('td:nth-child(3)').children("input[name=postId]").val();
-        	var userId = $('.postclick').children("input[id=userId]").val();
-        	var cmtContent = $('#content').val();
-			
-        	alert(postId);
-        	
-        	 $.ajax({
-				url: "/admin/json/addQnaComment",
-				method: "POST",
-				dataType: "json",
-				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
-				data: JSON.stringify({
- 					postId: postId,
-					cmtWriterId : 'admin',
-					nickName:'Euroverse',
-			 		cmtContent : cmtContent
-				}),
-				success: function(JSONData, status){
-					alert(JSONData.cmtContent);
-					console.log(JSONData);
-					
-					if( JSONData==null || JSONData=="" ){
-						console.log("리턴데이터 없음");	
-					}else{
-						console.log("리턴데이터 있음! => "+JSONData);	 
-						
-					}// end of else
-						
-				},// end of success
-				
-				error:function(request,status,error){
-			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-			    }// end of error  
-			    
-        	}); //end of ajax
-        
-	};
 	
-	function htmlDelete(){
-		alert("delete");
-	};
-	
+	//관리자가 리스트를 클릭했을경우 상세보기
 	$(function(){
 		$(".postclick").on("click",function(){
 			
@@ -193,7 +150,7 @@ table thead > tr{
 			                    '<img style="width:40px;" src=\"/resources/images/admin/Aicon.png"\></div><div>'+
 			                    '<div style="width: 600px; height:100%; margin: 0px 5px 5px 10px;"><textarea id="content" class="form-control" style="min-height: 100px">'+
 			                    '</textarea></div></div><div>'+
-			                    '<button type="button" class="btn btn-primary" onclick="answer()" style=" margin-left:5px; height:70px; display: inline-block">답변하기</button></div>'+
+			                    '<button type="button" class="btn btn-primary" onclick="answer('+postId+')" style=" margin-left:5px; height:70px; display: inline-block">답변하기</button></div>'+
 			            '</div></div></div>';
         
 	    	$("#con").remove();
@@ -205,20 +162,18 @@ table thead > tr{
 					dataType: "json",
 					headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
 					success: function(JSONData, status){
-						alert(JSONData.cmtContent);
-						console.log(JSONData);
 						
 						if( JSONData==null || JSONData=="" ){
 							console.log("리턴데이터 없음");	
 						}else{
 							console.log("리턴데이터 있음! => "+JSONData);	 
-			
+							
 							/* alert(postId);
 							alert(postTitle);
 							alert(qnaCate); */
-									            
-								if(JSONData != null) {
 								
+								if(JSONData != null) {
+										
 									for(var i=0; i<JSONData.list.length; i++){
 										
 							            var appendHtml =
@@ -227,7 +182,7 @@ table thead > tr{
 											'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
 								            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
 								            '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[i].cmtContent+
-								            '<button type="button"class="btn btn-outline-danger btn-sm">삭제</button></div>'+
+								            '<button type="button"class="btn btn-outline-danger btn-sm" onclick="deleteCmt('+JSONData.list[i].cmtId+')">삭제</button></div>'+
 								            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
 								            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
 								        	'</div></div>';
@@ -237,18 +192,101 @@ table thead > tr{
 									
 								}// end of if
 							
-							}//end of else
+						}//end of else
 					    
-						},//end of success
+					},//end of success
 						
-						error:function(request,status,error){
-					        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-					    }// end of error  
+					error:function(request,status,error){
+				        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+				    }// end of error  
 					    
 				 });// end of ajax
 					            
-			});//end of click
-		});// end of function
+		});//end of subfuction
+		
+	});// end of function
+	
+	
+	
+	//관리자가 답글을 달수있는 function
+	function answer(postId){ 
+		
+		alert("click?")
+        
+       	var cmtContent = $('#content').val();
+		
+       	alert(postId);
+       	
+       	 $.ajax({
+			url: "/admin/json/addQnaComment",
+			method: "POST",
+			dataType: "json",
+			headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+			data: JSON.stringify({
+				postId: postId,
+				cmtWriterId : 'admin',
+				nickName:'Euroverse',
+		 		cmtContent : cmtContent
+			}),
+			success: function(JSONData, status){
+				
+				if( JSONData==null || JSONData=="" ){
+					console.log("리턴데이터 없음");	
+				}else{
+					console.log("리턴데이터 있음! => "+JSONData);
+					if(JSONData.list.length != 1){
+						alert("답변은 1개이상 하실수 없습니다.")
+					}
+					if(JSONData.list.length == null){
+					
+						for(var i=0; i<JSONData.list.length; i++){
+							
+					            var appendHtml =
+									'<div style="padding:5px 25px" class="row">'+
+									'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
+									'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
+						            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
+						            '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[0].cmtContent+
+						            '<button type="button" class="btn btn-outline-danger btn-sm"' +
+						            'onclick="deleteCmt('+JSONData.list[0].cmtId+','+JSONData.list[0].postId+')">삭제</button></div>'+
+						            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
+						            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
+						        	'</div></div>';
+						        	
+								 $("#append").append(appendHtml); 
+								 
+						}//end of for
+								 
+					}// end of if
+				}// end of else
+						
+			},// end of success
+			error:function(request,status,error){
+		        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+		    }// end of error  
+					
+		});// end of ajax
+			
+	};//end of fuction
+        
+		
+	function deleteCmt (cmtId, postId){
+		
+		alert(cmtId);
+		
+		$.ajax({
+			url: "/admin/json/deleteQnaComm/"+cmtId,
+			method: "GET",
+			dataType: "json",
+			headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
+			success: function(JSONData, status){
+				appendTag();
+			}// end of success
+			
+        }); //end of ajax
+	}; // end of deleteCmt
+	
+		
 		
 
 	
@@ -363,7 +401,7 @@ table thead > tr{
 				  <!--========= END ========== -->
 				  <!--제목  -->
 				  <td class="postclick" style="text-align: left;">
-				  <input type="hidden" id="postId" name="postId" value="${post.postId }"/>
+				  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
 				  <input type="hidden" id="postTitle" name="postTitle" value="${post.postTitle}"/>
 				  <input type="hidden" id="qnaCate" value="${post.qnaFirstCate}"/>
 				  <input type="hidden" id="userId" value="${post.postWriterId}"/>

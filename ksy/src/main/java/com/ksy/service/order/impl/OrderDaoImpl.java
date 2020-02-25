@@ -35,6 +35,9 @@ public class OrderDaoImpl implements OrderDao {
 	public void addPoint(Point point) throws Exception{
 		sqlSession.insert("UserMapper.addPoint", point);
 	}
+	public Point pointList (String orderId) throws Exception{
+		return sqlSession.selectOne("UserMapper.pointList", orderId);
+	}
 	public Order getFlightOrder(String flightId) throws Exception{
 		return sqlSession.selectOne("OrderMapper.getFlightOrder", flightId);
 	}

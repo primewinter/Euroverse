@@ -149,26 +149,6 @@ public class AdminController {
 	}// end of getUser
 	
 	
-	@RequestMapping(value="updateQnaGrade", method=RequestMethod.GET)
-	public String updateQnaGrade(@RequestParam("postId") String postId, Model model) {
-		
-		System.out.println("adminController updateQnaGrade ");
-		
-		
-		
-		return "forward:/view/admin/adminQnaList.jsp";
-	}
-
-	@RequestMapping(value="deleteQnaComm", method=RequestMethod.GET)
-	public String deleteQnaComm(@RequestParam("cmtId") String cmtId, Model model) throws Exception {
-		
-		System.out.println(this.getClass()+"deleteQnaComm");
-		
-		adminservice.deleteQnaComm(cmtId);
-		
-		return "forward:/view/admin/adminQnaList.jsp";
-	}
-	
 	@RequestMapping(value="getQnaComment", method=RequestMethod.GET)
 	public String getQnaComment(@RequestParam("postId") String postId, Model model) throws Exception {
 		

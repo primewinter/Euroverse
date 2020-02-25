@@ -29,10 +29,16 @@ public class Room {
 	
 	private String orderStatus; //order_status
 	private Timestamp orderDate; //order_date
-	
+	private String refundDate;
 	private String orderId; //order_status
 	
 	
+	public String getRefundDate() {
+		return refundDate;
+	}
+	public void setRefundDate(String refundDate) {
+		this.refundDate = refundDate;
+	}
 	public String getOrderId() {
 		return orderId;
 	}
