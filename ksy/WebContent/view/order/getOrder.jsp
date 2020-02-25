@@ -2,7 +2,8 @@
     pageEncoding="EUC-KR"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@page import="java.util.*" %>     
 
 <html>
 <head>
@@ -35,6 +36,45 @@
    
     </style>
     <script type="text/javascript">
+    
+    $(function() {
+			$("#refundApp2").click(function(){
+				
+				
+				var orderId = $("#orderId").val();
+				var flightId = $("#flightIds").val();
+				var roomId = $("#roomIds").val("");
+				var orderStatus = $("#orderStatus").val();
+					orderStatus = 2;
+				
+	 			$.ajax (
+	 					{
+	 						url : "/order/json/getOrderRefund/"+orderId+"/"+2 ,
+	 						method : "GET",
+	 						dataType : "json",
+	 						headers : {
+	 							"Accept" : "application/json",
+	 							"Content-Type" : "application/json"
+	 						},
+	 						success : function (JSONData, status ) {
+	 							console.log("시무룩...");
+	 							var displayValue = "<h4 align='left' id='title'>";
+	 							displayValue += "환불신청"
+	 										+ "</h4>";
+	 								
+	 							$("#title").html("");
+	 							$("#title").html(displayValue);
+	 							console.log("시무룩2...");
+	 						}
+	 						
+	 					})
+	 					console.log("시무룩3...");
+	 					$("#refund").modal("hide");
+	 					$("#refundApp1").css( 'display' , 'none');
+			});
+		});
+    
+   /*  
     $( function () {
 	$("#refundApp2").on('click' , function () {
 		var orderId = $("#orderId").val();
@@ -42,15 +82,15 @@
 		var roomId = $("#roomIds").val("");
 		var orderStatus = $("#orderStatus").val();
 			orderStatus = 2;
-			
+		$("#refundApp2").modal("hide");
 		
-		$("#refundApp1").remove();
+		$("#refundApp1").css( 'outline' , '0');
 		
 		self.location ="/order/getOrderRefund?orderId="+orderId+"&orderStatus="+orderStatus;
 		
 		//$("form").attr("method" , "POST").attr("action" , "/order/getOrderRefund").submit();
 	});
-}); 
+});  */
     
     $(function () {
     	$(".btn.btn-warning").click(function() {
@@ -71,7 +111,7 @@
 	<input type="hidden" name="roomId" id="roomIds" value= "${room.roomId }"/>
 <div class="container">
 <br/><br/>
-			<h4 align="left" style="margin-left:480px;">
+			<h4 align="left" id="title" style="margin-left:480px;">
 				  <c:if test="${order.orderStatus == '1' }">
 			      	주문완료
 			      </c:if>
@@ -108,7 +148,7 @@
 					      <td>${flight.stopOver}</td>
 					      <td>${flight.leadTime}</td>
 					      <!--  flight.price 로 바꿔줘야함 -->
-					      <td>${order.actualAmount}원</td>
+					      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" />원</td>
 					    </tr>
 					  </tbody>
 				</table>
@@ -135,7 +175,7 @@
 					      <td>${room.checkOut}</td>
 					      <td>${room.roomNum}</td>
 					      <td>성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
-					      <td>${room.price}원</td>
+					      <td><fmt:formatNumber value="${room.price}" pattern="###,###" />원</td>
 					    </tr>
 					  </tbody>
 				</table>
@@ -144,8 +184,16 @@
 		<br/>
 		
 		<div class="row">
-			<i class="fas fa-won-sign" style="Padding-left:20px;font-size:40px;"></i>
-			<h4 align="left" style="margin-top:5px;margin-left:10px;font-size:17px;">결제 완료 내역</h4>
+			<div class="col-8">
+				<i class="fas fa-won-sign" style="Padding-left:20px;font-size:40px;"></i>
+				<span  style="margin-top:5px;margin-left:10px;font-size:17px;">결제 완료 내역</span>
+			</div>
+			<div class="col-4">	
+				<c:if test="${order.orderStatus == '4' }">
+					<i class="fas fa-hand-holding-usd" style="font-size:40px;"></i>
+					<span  style="margin-left:10px;font-size:17px;">환불 내역</span>
+				</c:if>
+			</div>
 		</div>	
 			<hr/>
 			<div class="row">
@@ -153,10 +201,10 @@
 	            		 총 결제 금액
 	                    <div class="row">
 	                    	<c:if test="${flight.depCity == null }">	
-	                   			<div id="totalAmount" style="Padding-left:30px;">${room.price}원</div> 
+	                   			<div id="totalAmount" style="Padding-left:30px;"><fmt:formatNumber value="${room.price}" pattern="###,###" />원</div> 
 	            			</c:if>
 	            			<c:if test="${room.roomName == null }">	 		<!-- flight.price 로 바꿔줘야함 -->
-	                   			<div id="totalAmount" style="Padding-left:30px;">${order.actualAmount}원</div>
+	                   			<div id="totalAmount" style="Padding-left:30px;"><fmt:formatNumber value="${flight.price}" pattern="###,###" />원</div>
 	            			</c:if>
 	            		</div>
 	             </div>
@@ -175,12 +223,21 @@
 	             <div class="col-sm-2" style="Padding-left:40px;">
 	            		 실 결제 금액
 	                    <div class="row">
-	                    	<div id="actualAmount" style="Padding-left:20px;">${order.actualAmount}원</div>
+	                    	<div id="actualAmount" style="Padding-left:20px;"><fmt:formatNumber value="${order.actualAmount}" pattern="###,###" />원</div>
 	            		</div>
 	             </div>
+	             <c:if test="${order.orderStatus == '4' }">
+	           <div class="col-4">  <!-- style="background-color:whitesmoke;width:40%;" -->
+	           		<div class="" style="margin-left:50px;">환불 금액</div>
+	           		<div class="row">
+	                    	<div id="actualAmount" style="margin-left:60px;"><fmt:formatNumber value="${order.actualAmount}" pattern="###,###" />원</div>
+	            		</div>
+	           </div>
+	           </c:if>
 			</div>
 			<br/>
-			<hr style="width:50%;float:left;margin-right:700px;" />
+			<hr style="width:60%;float:left;margin-right:700px;" />
+			
 			
 				<div class="row" style="Padding-left:190px;">
 					<div class="col-sm-1" style="margin-top:10px;">
@@ -194,7 +251,7 @@
 					<div class="col-sm-2" style="margin-left:30px;">
 						<p>적립 된 포인트</p>
 							<%-- <c:if test="${point.usedType eq 'F' | point.usedType eq 'R' }"> --%>
-					 			<div id="addPoint" style="Padding-left:20px;">${order.usedPoint} P </div>
+					 			<div id="addPoint" style="Padding-left:20px;">${point.usedPoint} P </div>
 					</div>
 					<div class="col-sm-1" style="margin-left:20px;">
 						<i class="fas fa-equals" style="margin-left:15px;margin-top:10px;"></i>
@@ -203,6 +260,12 @@
 						<p>총 포인트</p>
 							<div id="totalPoint" style="margin-left:10px;">${user.totalPoint} P </div>
 					</div>
+					 <c:if test="${order.orderStatus == '4' }">
+					<div class="col-4" >
+						<p style="margin-left:50px;">환불 일시</p>
+							<div id="refundDate" style="margin-left:50px;">${order.refundDate} </div>
+					</div>
+					</c:if>
 				</div>
 			<br/>
 		<div class="row">
@@ -228,6 +291,11 @@
 	
 	   		 <div class="form-group" align="center">
 			<button type="button" class="btn btn-warning"  >확인</button>
+			<c:if test="${order.orderStatus == '1' }">
+			<button type="button" class="btn btn-primary" id="refundApp1" data-toggle="modal" data-target="#refund">
+			   환불 신청
+			</button>
+			</c:if>
 		<!-- 	<button type="button" class="btn btn-primary" id="refundApp1" data-toggle="modal" data-target="#refund">
 			   환불 신청
 			</button> -->
@@ -249,7 +317,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" id="reset" data-dismiss="modal">취소</button>
-        <!-- <button type="button" class="btn btn-primary" id="refundApp2">환불신청</button> -->
+        <button type="button" class="btn btn-primary" id="refundApp2">환불신청</button>
       </div>
     </div>
   </div>

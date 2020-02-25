@@ -69,6 +69,12 @@
     <script type="text/javascript">
     
     window.onload = function () {
+    	/* 회원 기존 정보 값 넣기 */
+    	var name = $("#name").val($("#name2").val());
+		var email = $("#email").val($("#email2").val());
+		var phone = $("#phone").val($("#phone2").val());
+		
+		/* 결제 및 포인트 part */
     	var price = $("#prices").val(); //상품 가격
     	var total = $("#usertotalPoint").val(); // 원래 있던 총 보유 포인트
     	var payPoint = $("#payPoint").val(); //사용할 포인트
@@ -131,20 +137,29 @@
     	$('button.btn.btn-primary').on('click' , function () {
     		var actualAmount = $("#actualAmount").val();
     		var payPoint = $("#payPoint").val(); //사용할 포인트
-    		var buyerEmail = $("#buyerEmail").val();
-    		var buyerName = $("#buyerName").val();
-    		var buyerPhone = $("#buyerPhone").val();
     		if ($("#payPoint").val() == null | $("#payPoint").val() == "" | $("#payPoint").val() == 0) {
     			$("#zeroPoint").val(0);
 			}else{
 				$("#zeroPoint").val(payPoint);
 			}
     		
-    		var buyerEmail = $("#str_email01").val()+$("#middle").text()+$("#selectEmail").val();
-        	var buyerPhone = $("#mobile0").val()+$("#mobile1").val()+$("#mobile2").val();
-        	
-        	$("#email").val(buyerEmail);
-        	$("#phone").val(buyerPhone);
+    		 if ($("#name").val() == "" ) {
+	    		 var buyerName = $("#newbuyerName").val();
+	    		 var buyerEmail = $("#str_email01").val()+$("#middle").text()+$("#selectEmail").val();
+	    		 var buyerPhone = $("#mobile0").val()+$("#mobile1").val()+$("#mobile2").val();
+	        	
+	        	$("#name").val(buyerName);
+	        	$("#email").val(buyerEmail);
+	        	$("#phone").val(buyerPhone);
+				
+			}else{
+				var buyerName = $("#name").val();
+				var buyerEmail = $("#email").val();
+				var buyerPhone = $("#phone").val();
+					
+				
+			}
+    		
     		
     		//$("form").attr("method" , "POST").attr("action" , "/purchase/addPurchase").submit();
     						 IMP.init('imp15344798');
@@ -204,7 +219,44 @@
     	
     			});
     
+    $(function (){
+    	$("input[name='info']:checked").click(function (){
+    		var check = $("input[name='info']:checked").val();
+    		basicInfo 
+    		if (check == '0') {
+    			$("#newInfo").css("display","none");
+				$("#basicInfo").css("display","block");
+				
+				
+				
+				var name = $("#name").val($("#name2").val());
+				var email = $("#email").val($("#email2").val());
+				var phone = $("#phone").val($("#phone2").val());
+				console.log("hidden : "+name+email+phone);
+			}
+    	});
+    });
+   
+    function news(){
+    	var name = $("#name").val("");
+		var email = $("#email").val("");
+		var phone = $("#phone").val("");
+    	
+    	$("#newInfo").css("display","block");
+		$("#basicInfo").css("display","none");
+    	
+    }
     
+	$(document).on('keyup','#payPoint',function(){
+		var payPoint = $("#payPoint").val();
+		var total = $("#totalPoint").val();
+		 if (payPoint > total ) {
+			alert("총 포인트 이하로 사용 가능합니다.");
+			$("#payPoint").val(total);
+			
+		} 
+		
+	});
    
     </script>
 
@@ -214,15 +266,22 @@
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	 <jsp:include page="/toolbar/pushBar.jsp" />
 <div class="container"><br/>
-	
-	<form >
+	<form>
 	<input type="hidden" name="orderId" value= "" id="orderId"/>
 	<input type="hidden" name="price" value= "" id="price"/>
 	<input type="hidden" name="userId" value= "" id="userId"/>
 	<input type="hidden" name="payInstal" value= "" id="payInstal"/>
+	<input type="hidden" name="payPoint" value= "" id="zeroPoint"/>
+	
+	<input type="hidden" name="buyerName" value= "" id="name"/>
 	<input type="hidden" name="buyerEmail" value= "" id="email"/>
 	<input type="hidden" name="buyerPhone" value= "" id="phone"/>
-	<input type="hidden" name="payPoint" value= "" id="zeroPoint"/>
+	
+	<input type="hidden" name="name" value= "${user.userName }" id="name2"/>
+	<input type="hidden" name="email" value= "${user.email }" id="email2"/>
+	<input type="hidden" name="phone" value= "${user.phone }" id="phone2"/>
+	
+	<input type="hidden" name="totalPoint" value= "${user.totalPoint }" id="totalPoint"/>
 	
 	<i class="fas fa-plane" id="iconf" style="Padding-left:20px;font-size:40px;" ></i>
 	<br/>
@@ -252,27 +311,58 @@
 			<br/><br/>
 
 			<h4 align="left">주문자 정보</h4>
+			
+			<div class="input-group">
+			  <div class="input-group-prepend">
+			      	<input type="radio"  checked="checked" id="basic" value="0" name="info" style="margin-top:5px;margin-right:10px;">기존 정보 가져오기 &nbsp;&nbsp;
+ 					<input type="radio" name="info" id="new" onclick="news()" value="1" style="margin-top:5px;margin-right:10px;">새로운 정보 입력
+			  </div>
+			</div>
+			
 			<hr/>
+				<div class="row" id="basicInfo" style="display:block;">
+				<div class="row">
+				<span style="Padding-left:20px;">이름 * &nbsp;&nbsp;&nbsp; <span>${user.userName }</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								
+			       			<%-- <input type="text" style="width:100px;height:30px;" class="form-control" value="${user.userName }"
+			         maxlength="20" name="buyerName" readonly="readonly" id="buyerName"> --%>
+			         
+			    <span style="Padding-left:220px;" id="${user.email}">이메일 *&nbsp;&nbsp;&nbsp; ${user.email }</span>
+			    
+				</div>
+				
+				<br>
+				<hr/>
+				<div class="row">
+				<span style="Padding-left:20px;" id="${user.phone}">전화번호 * &nbsp;&nbsp;&nbsp; ${user.phone }</span>
+							<%-- <input type="text" style="width:170px;" class="form-control" 
+							value="${user.phone }" readonly="readonly" name="userPhone" id="userPhone" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');"> --%>
+				</div>
+			</div>
+			
+			
+				<div class="row" id="newInfo" style="display:none;">
 					<div class="row">
-	            		<p style="Padding-left:20px;">이름 *</p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   			<input type="text" title="예약자명을 입력하세요" style="width:200px;height:30px;" class="form-control" maxlength="20" name="buyerName" id="buyerName">
-                   		<p style="Padding-left:220px;">이메일 *</p>&nbsp;&nbsp;&nbsp;
-                   			<input type="text" title="이메일주소 앞자리를 입력해주세요" style="width:200px;height:30px;"class="form-control" name="str_email01" id="str_email01" >
-                   		<P style="Padding-left:10px;" id="middle">@</P>&nbsp;&nbsp;&nbsp;
-	                   		 <select title="이메일 서비스 도메인을 선택해주세요." class="form-control" style="width:250px;height:30px;font-size:13px;" name="selectEmail" id="selectEmail">
-		                          <option value="">선택</option>
-		                          <option value="naver.com">naver.com</option>
-		                          <option value="gmail.com">gmail.com</option>
-		                          <option value="hanmail.net">hanmail.net</option>
-		                          <option value="chol.com">chol.com</option>
-		                          <option value="freechal.com">freechal.com</option>
-		                          <option value="intizen.com">intizen.com</option>
-		                          <option value="nate.com">nate.com</option>
-	                        </select> 
-                   	</div>
-					<hr/>
-                   	<div class="row">	
-                   		<p style="Padding-left:20px;">전화번호 *</p>&nbsp;&nbsp;&nbsp;
+            		<p style="Padding-left:20px;">이름 *</p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  			<input type="text" title="예약자명을 입력하세요" style="width:200px;height:30px;" class="form-control" maxlength="20" name="buyerName" id="newbuyerName">
+                  		<p style="Padding-left:220px;">이메일 *</p>&nbsp;&nbsp;&nbsp;
+                  			<input type="text" title="이메일주소 앞자리를 입력해주세요" style="width:200px;height:30px;"class="form-control" name="str_email01" id="str_email01" >
+                  		<P style="Padding-left:10px;" id="middle">@</P>&nbsp;&nbsp;&nbsp;
+                   		 <select title="이메일 서비스 도메인을 선택해주세요." class="form-control" style="width:250px;height:30px;font-size:13px;" name="selectEmail" id="selectEmail">
+	                          <option value="">선택</option>
+	                          <option value="naver.com">naver.com</option>
+	                          <option value="gmail.com">gmail.com</option>
+	                          <option value="hanmail.net">hanmail.net</option>
+	                          <option value="chol.com">chol.com</option>
+	                          <option value="freechal.com">freechal.com</option>
+	                          <option value="intizen.com">intizen.com</option>
+	                          <option value="nate.com">nate.com</option>
+                        </select> 
+                 	</div>
+                 	<br>
+                 	<hr/>
+                 	<div class="row">
+                 	<p style="Padding-left:20px;">전화번호 *</p>&nbsp;&nbsp;&nbsp;
 	                   		<select title="휴대전화 식별번호를 선택해주세요."  class="form-control" style="width:170px;" id="mobile0">
 	                          <option value="">선택</option>
 	                          <option value="010">010</option>
@@ -286,7 +376,9 @@
 	                        <input type="text" title="휴대전화 국번을 입력해주세요." style="width:170px;" class="form-control" maxlength="4" id="mobile1" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
 	                   	<p style="Padding-left:10px;">-</p>&nbsp;&nbsp;&nbsp;
 	                   		<input type="text" title="휴대전화 뒷자리를 입력해주세요." style="width:170px;" class="form-control" maxlength="4" id="mobile2" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
-                   	</div>
+                 	</div>
+                  </div>
+                  
 			<br/><br/>
 			
 			<br/>	
@@ -369,9 +461,9 @@
 		
 	</form>
 	
+	 <jsp:include page="/toolbar/footer.jsp" />
 </div>
 
 
-	 <jsp:include page="/toolbar/footer.jsp" />
 </body>
 </html>

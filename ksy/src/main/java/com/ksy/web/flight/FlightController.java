@@ -398,8 +398,10 @@ public class FlightController {
 			e.printStackTrace();
 
 		} finally {
-
+			
 			driver.close();
+			Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe /T");
+
 		}
 
 		////////////////////////////////////////////////////////////

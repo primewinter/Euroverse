@@ -156,9 +156,9 @@
 		    z-index: -2;
 		}
 		/* 달력 css */
-		element.style {
+		/* element.style {
 		    height: 350px;
-		} 
+		}  */
 		
 		
 		/* 인원 수량 */

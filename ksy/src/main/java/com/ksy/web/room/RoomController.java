@@ -438,9 +438,7 @@ public class RoomController {
 			e.printStackTrace();
 		} finally {
 			driver.close();
-		}
-		synchronized (driver) {
-			driver.wait(1000);
+			Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe /T");
 		}
 		////////////////////////////////////////////////////////////
 
@@ -645,9 +643,10 @@ public class RoomController {
 		} finally {
 	
 			driver.close();
+			Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe /T");
 		}
 		synchronized (driver) {
-			driver.wait(500);
+			driver.wait(300);
 		}
 		////////////////////////////////////////////////////////////
 	

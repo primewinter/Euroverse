@@ -25,6 +25,7 @@
   		<result property="leadTime" 	column="LEAD_TIME"		jdbcType="VARCHAR"/>
   		<result property="stopOver"		column="stop_over"		jdbcType="VARCHAR"/>
 	  	
+	  	<result property="refundDate" 		column="REFUND_DATE" 	jdbcType="TIMESTAMP" />
   		<result property="orderDate" 		column="ORDER_DATE" 	jdbcType="TIMESTAMP"/>
 	  	<result property="orderStatus" 		column="ORDER_STATUS"	jdbcType="CHAR"/>
 	  	<result property="orderId" 		column="ORDER_ID"	jdbcType="VARCHAR"/>

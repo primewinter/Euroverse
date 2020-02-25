@@ -91,11 +91,13 @@ function fncGetUserList(currentPage) {
 		$('.fas.fa-list').on("click" , function (){
 			//var flightId = $("#flightId").val();
 			var flightId = $(this).next().val();
-			self.location ="/order/getFlightOrder?flightId="+flightId;
+			var orderId = $(this).next().next().val();
+			self.location ="/order/getFlightOrder?flightId="+flightId+"&orderId="+orderId;
 		})
 		$('.fas.fa-list-ul').on("click" , function (){
 			var roomId = $(this).next().val();
-			self.location ="/order/getRoomOrder?roomId="+roomId;
+			var orderId = $(this).next().next().val();
+			self.location ="/order/getRoomOrder?roomId="+roomId+"&orderId="+orderId;
 		})
 	})
 	
@@ -133,11 +135,6 @@ function fncGetUserList(currentPage) {
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	 <jsp:include page="/toolbar/pushBar.jsp" />
 	<div class="container">
-		<div class="page-header">
-			<h3>Order List</h3>
-		</div>
-	
-	
 			
 		<%-- <div class="col-md-6 text-right">
 			<form class="form-inline" name="detailForm">
@@ -195,7 +192,8 @@ function fncGetUserList(currentPage) {
 			 <tr>
 			      <th scope="row">
 			      <i class="fas fa-list" id="f"></i>
-			      <input type="hidden" name="${flight.flightId}" id="flightId" value="${flight.flightId}"/>
+			      <input type="hidden" name="flightId" id="flightId" value="${flight.flightId}"/>
+			      <input type="hidden" name="orderId" id="orderId" value="${flight.orderId}"/>
 			      </th>
 				       <td id="refund">${flight.airline}</td>
 				      <td>${flight.depCity}/${flight.arrCity }</td>
@@ -245,7 +243,8 @@ function fncGetUserList(currentPage) {
 			 <tr>
 			    <th scope="row">
 			    <i class="fas fa-list-ul"></i>
-			    	<input type="hidden" name="${room.roomId}" id="roomId" value="${room.roomId}"/>
+			    	<input type="hidden" name="roomId" id="roomId" value="${room.roomId}"/>
+			    	 <input type="hidden" name="orderId" id="orderId" value="${room.orderId}"/>
 			    </th>
 			    <td>${room.roomCity }</td>
 			    <td>${room.roomName}</td>
