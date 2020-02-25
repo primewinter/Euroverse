@@ -258,6 +258,12 @@
                 periodFrom: '#startDate'
             });
         });
+		 
+	 	function onKeyDown() {
+			if(event.keyCode == 13) {
+		    	addTag();
+		    }
+		}
 		
 	</script>
     
@@ -287,12 +293,12 @@
 		    <label for="postTitle" class="col-sm-1 control-label" style="font-size: 12px;">제목</label>
 		  <c:if test="${user.userId != 'admin'}">
 		    <div class="col-sm-10">
-		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" placeholder="제목을 입력하세요.">
+		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" maxlength="20" placeholder="제목을 입력하세요.">
 		    </div>
 		  </c:if>  
 		  <c:if test="${user.userId == 'admin'}">
 		    <div class="col-sm-8">
-		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" placeholder="제목을 입력하세요.">
+		      <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" maxlength="20" placeholder="제목을 입력하세요.">
 		    </div>
 		    <label for="postTitle" class="col-sm-2 control-label" style="font-size: 14px;padding-right: 40px;"><i class="fas fa-flag-checkered"></i> 공지등록
 		      <input type="checkbox" id="postGrade" name="postGrade" value="N"></label>
@@ -329,7 +335,7 @@
 		<div class="form-group">
 		    <label for="tagContent" class="control-label" style="font-size: 12px; float: left; margin-left: 30px;">태그등록</label>
 		    <div class="col-sm-5">
-		      <input type="text" class="form-control" id="appendTag" value="" style="font-size: 12px; height:23px; width:200px; float:left;">
+		      <input type="text" class="form-control" id="appendTag" value="" maxlength="15" style="font-size: 12px; height:23px; width:200px; float:left;" onKeyDown="onKeyDown();">
 		      <i class="fas fa-plus" onclick="addTag()" style="float:left; margin-left:10px; margin-top:4px; font-size:12px;">등록</i>
 		      <div class="tagList" id="tagList" style="width:800px;float:left;margin-top:10px;"></div>
 		    </div>
