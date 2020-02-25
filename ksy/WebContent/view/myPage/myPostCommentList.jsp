@@ -93,117 +93,126 @@
  			<input type="hidden" id="keyword" name="searchKeyword" value="${keyword}"/>
  		</c:if>
 	</form>
-	<div style="height: 50px;"></div>
-	<div class="row">
-		<div style="width: 320px;"></div>
-		<div class="btn-group" role="group" aria-label="Basic example">
-			  <button type="button" class="btn btn-outline-primary" id="viewPost">게시글</button>
-			  <button type="button" class="btn btn-outline-primary" id="viewComment">댓 글</button>
-		</div>
-	</div>
-
-
-	<c:if test="${keyword!='post'}">
-		<div id="postTable" style="display: none;">
-	</c:if>	
-	<c:if test="${keyword=='post'}">
-		<div id="postTable" style="display: block;">
-	</c:if>	
 	
-	<div style="height: 30px;"></div>
-    <h3  style="margin-left: 320px;"><b>나의 게시글목록</b></h3>
+	
+	<div class="container" style="max-width: 1000px;">
+	
+		<div>
+			<div class="btn-group" role="group" aria-label="Basic example" style="margin-left: 10px;">
+				  <button type="button" class="btn btn-outline-primary" id="viewPost">게시글</button>
+				  <button type="button" class="btn btn-outline-primary" id="viewComment">댓 글</button>
+			</div>
+		</div>
+	
+		<c:if test="${keyword!='post'}">
+			<div id="postTable" style="display: none;">
+		</c:if>	
+		<c:if test="${keyword=='post'}">
+			<div id="postTable" style="display: block;">
+		</c:if>	
 		
-	<table class="table" style="margin-left: 320px; width: 60%;font-size: 14px;text-align: center;">
-	  <thead>
-	    <tr>
-	      <th scope="col"></th>
-	      <th scope="col">제목</th>
-	      <th scope="col">닉네임</th>
-	      <th scope="col">작성일</th>
-	      <th scope="col">댓글수</th>
-	      <th scope="col">조회수</th>
-	      <th scope="col">추천수</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	  	<c:forEach var="post" items="${postList}" varStatus="status">
-			<tr>
-				<th scope="row">${status.count}</th>
-				<c:set var="title" value="${post.postTitle}"/>
-				<td>${fn:substring(title,0,20)}
-					<c:if test="${fn:length(title)>20}">
-						......
-					</c:if>
-				</td>
-				<input type="hidden" value="${post.postId}">
-				<input type="hidden" value="${post.boardName}">
-				<td>${post.nickName}</td>
-				<td>
-					<c:set var="postDate" value="${fn:split(post.postDate,' ')}"></c:set>
-					<c:out value="${postDate[0]}"></c:out>
-				</td>
-	 			<td>${post.comments}</td>
-				<td>${post.views}</td>
-				<td>${post.postLikeCount}</td>
-			</tr>
-	  	</c:forEach>	
-	  </tbody>
-	</table>
-	<jsp:include page="../../common/pageNavigator_new.jsp"/>
-	</div>
-
-
-
-	<c:if test="${keyword!='comment'}">
-		<div id="commentTable" style="display: none;">
-	</c:if>
-	<c:if test="${keyword=='comment'}">
-		<div id="commentTable" style="display: block;">
-	</c:if>
-
-	<div style="height: 30px;"></div>
-    <h3 style="margin-left: 320px; "><b>나의 댓글목록</b></h3>
-	<table class="table" style="margin-left: 320px; width: 60%; font-size: 14px; text-align: center;">
-	  <thead>
-	    <tr>
-	      <th scope="col"></th>
-	      <th scope="col">제목</th>
-	      <th scope="col">댓글내용</th>
-	      <th scope="col">닉네임</th>
-	      <th scope="col">추천수</th>
-	      <th scope="col">댓글작성일</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	  	  	<c:forEach var="comment" items="${commentList}" varStatus="status">
-				<tr>
-					<th scope="row">${status.count}</th>
-					<td>${comment.postTitle}</td>
-					<input type="hidden" value="${comment.postId}">
-					<input type="hidden" value="${comment.boardName}">
+			    <!-- <h3  style=""><b>나의 게시글목록</b></h3> -->
+			    <div class="h4" style="font-weight: bold; margin-top: 30px;margin-bottom:20px; padding-left:10px;">
+					나의 게시글
+				</div>
+				
 					
-					<c:set var="content" value="${comment.cmtContent}"/>
-					<td>${fn:substring(content,0,25)}
-						<c:if test="${fn:length(content)>20}">
-							......
-						</c:if>
-					</td>
-					<td>${comment.nickName}</td>
-					<td>${comment.cmtLikeCount}</td>
-					<td>
-						<c:set var="commentDate" value="${fn:split(comment.cmtDate,' ')}"></c:set>
-						<c:out value="${commentDate[0]}"></c:out>
-					</td>   
-					
-				</tr>
-	  		</c:forEach>
-	  </tbody>
-	</table>
-
-	<jsp:include page="../../common/pageNavigator_new2.jsp"/>
-
+				<table class="table" style="font-size: 14px;text-align: center;">
+				  <thead>
+				    <tr>
+				      <th scope="col"></th>
+				      <th scope="col">제목</th>
+				      <th scope="col">닉네임</th>
+				      <th scope="col">작성일</th>
+				      <th scope="col">댓글수</th>
+				      <th scope="col">조회수</th>
+				      <th scope="col">추천수</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  	<c:forEach var="post" items="${postList}" varStatus="status">
+						<tr>
+							<th scope="row">${status.count}</th>
+							<c:set var="title" value="${post.postTitle}"/>
+							<td>${fn:substring(title,0,20)}
+								<c:if test="${fn:length(title)>20}">
+									......
+								</c:if>
+							</td>
+							<input type="hidden" value="${post.postId}">
+							<input type="hidden" value="${post.boardName}">
+							<td>${post.nickName}</td>
+							<td>
+								<c:set var="postDate" value="${fn:split(post.postDate,' ')}"></c:set>
+								<c:out value="${postDate[0]}"></c:out>
+							</td>
+				 			<td>${post.comments}</td>
+							<td>${post.views}</td>
+							<td>${post.postLikeCount}</td>
+						</tr>
+				  	</c:forEach>	
+				  </tbody>
+				</table>
+				<jsp:include page="../../common/pageNavigator_new.jsp"/>
+		
+			</div> <!-- <div id="postTable" style="display: block;"> -->
+	
+	
+		<c:if test="${keyword!='comment'}">
+			<div id="commentTable" style="display: none;">
+		</c:if>
+		<c:if test="${keyword=='comment'}">
+			<div id="commentTable" style="display: block;">
+		</c:if>
+	
+	    <!-- <h3 style="margin-left: 320px; "><b>나의 댓글목록</b></h3> -->
+	    <div class="h4" style="font-weight: bold; margin-top: 30px;margin-bottom:20px; padding-left:10px;">
+			나의 댓글
+		</div>
+			
+	    
+		<table class="table" style="font-size: 14px; text-align: center;">
+		  <thead>
+		    <tr>
+		      <th scope="col"></th>
+		      <th scope="col">제목</th>
+		      <th scope="col">댓글내용</th>
+		      <th scope="col">닉네임</th>
+		      <th scope="col">추천수</th>
+		      <th scope="col">댓글작성일</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	  	<c:forEach var="comment" items="${commentList}" varStatus="status">
+					<tr>
+						<th scope="row">${status.count}</th>
+						<td>${comment.postTitle}</td>
+						<input type="hidden" value="${comment.postId}">
+						<input type="hidden" value="${comment.boardName}">
+						
+						<c:set var="content" value="${comment.cmtContent}"/>
+						<td>${fn:substring(content,0,25)}
+							<c:if test="${fn:length(content)>20}">
+								......
+							</c:if>
+						</td>
+						<td>${comment.nickName}</td>
+						<td>${comment.cmtLikeCount}</td>
+						<td>
+							<c:set var="commentDate" value="${fn:split(comment.cmtDate,' ')}"></c:set>
+							<c:out value="${commentDate[0]}"></c:out>
+						</td>   
+						
+					</tr>
+		  		</c:forEach>
+		  </tbody>
+		</table>
+	
+		<jsp:include page="../../common/pageNavigator_new2.jsp"/>
+	
 	</div>
-
+	
+	</div>
 
 </body>
 	<jsp:include page="/toolbar/footer.jsp"></jsp:include>

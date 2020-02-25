@@ -162,7 +162,7 @@
 
 
 	<!-- 1:1문의 관리자 댓글 조회  -->
-	<select id="getQnaCommentList" parameterType="string" resultMap="commentSelectMap">
+	<select id="getQnaComment" parameterType="string" resultMap="commentSelectMap">
 		SELECT
 		 post_id , cmt_id , nickname , writer_id  , cmt_date , cmt_content , secret , deleted , blocked , cmt_like_count 
 		FROM  comments 
@@ -194,7 +194,7 @@
 	<update id="backUpQnaGrade" parameterType="string">
 		UPDATE post
 			<set>
-				post_grade = 
+				post_grade = null
 			</set>
 		WHERE post_id = ${value}
 	</update>		
