@@ -50,16 +50,34 @@
 		var planId = $('select[name="planId"]').val();
 		
 		if(postTitle.trim() == 0 || postTitle.length<1){
-			alert("제목은 반드시 입력하여야 합니다.");
+			swal({
+   				icon : 'warning',
+   			    title : "제목은 반드시 입력하여야 합니다.",
+   			    text : " ",
+   			    button : false,
+   			    timer : 700
+   			});
 			return;
 		}
 		if(postContent.trim() == 0 || postContent.length<1){
-			alert("내용은 반드시 입력하셔야 합니다.");
+			swal({
+   				icon : 'warning',
+   			    title : "내용은 반드시 입력하셔야 합니다.",
+   			    text : " ",
+   			    button : false,
+   			    timer : 700
+   			});
 			return;
 		} 
 		
 		if( planId == null || planId.length < 1){
-			alert("플래너를 선택해주세요.");
+			swal({
+   				icon : 'warning',
+   			    title : "플래너를 선택해주세요.",
+   			    text : " ",
+   			    button : false,
+   			    timer : 700
+   			});
 			return;
 		}
 		
@@ -147,13 +165,25 @@
 			var output = $('#appendTag').val();
 			
 			if(output.trim() == 0 || output.search(/\s/gi, "") != -1) { 
-				alert("공백은 입력이 불가합니다.");
+				swal({
+	   				icon : 'warning',
+	   			    title : "공백은 입력이 불가합니다.",
+	   			    text : " ",
+	   			    button : false,
+	   			    timer : 700
+	   			});
 				return true;
 			}else{
 
 			for(var i = 0; i < $( 'dd' ).length; i++){
 				if( $("#tagContent"+i+" input").val() == output ){
-					alert("동일한 태그는 중복입력이 불가합니다.");
+					swal({
+		   				icon : 'warning',
+		   			    title : "동일한 태그는 중복입력이 불가합니다.",
+		   			    text : " ",
+		   			    button : false,
+		   			    timer : 700
+		   			});
 					return true;
 				}
 			}
@@ -165,7 +195,13 @@
 				$(".tagList").append(tag);
 				
 			}else{
-				alert("태그는 10개까지만 등록 가능합니다.");
+				swal({
+	   				icon : 'warning',
+	   			    title : "태그는 10개까지만 등록 가능합니다.",
+	   			    text : " ",
+	   			    button : false,
+	   			    timer : 700
+	   			});
 			}
 			}
 		}

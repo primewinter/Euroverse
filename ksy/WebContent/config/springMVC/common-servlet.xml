@@ -56,17 +56,20 @@
    	
    	:: 본실습에서는 주석처리 : 추후 PJT 시 RestFul 고려 LogonCheckInterceptor 조건 추가할것
    	-->
-<!-- 
-	  <mvc:interceptors>
+
+<!-- 	  <mvc:interceptors>
 		
    		<mvc:interceptor>
-			<mvc:mapping path="/user/**"/>
+			<mvc:mapping path="/ksy/*"/>
 			<bean class="com.ksy.common.web.LogonCheckInterceptor" />
    		</mvc:interceptor>
 
    	</mvc:interceptors>	
+	
+	<mvc:interceptors>
+		<bean class=""></bean>
+	</mvc:interceptors>
  -->
-
 	
 	
 	<!--  :: ViewResolver 선언 -->	
