@@ -320,103 +320,125 @@ $(function(){
 	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 		
-	<form id="myOfferListForm">
- 		<input type="hidden" id="currentPage" name="currentPage" value=0 />
- 		<input type="hidden" id="currentPage2" name="currentPage2" value=0 /> 
- 		<c:if test="${!empty keyword}">
- 			<input type="hidden" id="keyword" name="searchKeyword" value="${keyword}"/>
- 		</c:if>
-	</form>
-	
-	<div style="height: 50px;"></div>
-	<div class="row">
-		<div style="width: 250px;"></div>
-		<div class="btn-group" role="group" aria-label="Basic example">
-			<button type="button" class="btn btn-outline-primary" id="viewPlan">플래너</button>
-			<button type="button" class="btn btn-outline-primary" id="viewParty">동 행</button>
-		</div>
-	</div>
-
-	<c:if test="${keyword!='plan'}">
-		<div id="planTable" style="display: none;">
-	</c:if>
-	<c:if test="${keyword=='plan'}">
-		<div id="planTable" style="display: block;">
-	</c:if>
-	<div style="height: 30px;"></div>
-    <h1  style="margin-left: 240px; width: 1000px">플래너 초대목록</h1>
-			<div class="row">
-				<div style="width: 300px;"></div>
-				<table class="table">
-					<div class="row">
-						<c:forEach var="planOffer" items="${planOfferList}" varStatus="status" >
-							<div style="width: 300px;" >
-				    		    <div class="card profile-card-3">
-				    		        <div class="background-block">
-				    		            <img src="/resources/images/planImg/${planOffer.planImg}" alt="profile-sample1" class="background"/>
-				    		        </div>
-				    		        <div class="profile-thumb-block">
-				    		            <img src="/resources/images/userImages/${planOffer.userImg}" alt="profile-image" class="profile"/>
-				    		        </div>
-				    		        <div class="card-content">
-				                    		<b>${planOffer.planTitle}</b>
-				                    		<small>
-				                    			<br>${planOffer.offerMsg} 
-				                    			<br>초대자  ${planOffer.fromUserId} 
-				                    			<br>
-				                    			 <c:set var="planOfferDate" value="${fn:split(planOffer.offerDate,' ')}"></c:set>
-						   						 <c:out value="${planOfferDate[0]}"></c:out>
-				                    		</small>
-				                    		<br>
-				                    <button id="planOfferAccept${status.index}" type="button" class="btn btn-outline-primary planAccept">수락</button>
-									<button id="planOfferReject${status.index}" type="button" class="btn btn-outline-secondary planReject">거절</button>		
-									<input type="hidden" value="${planOffer.offerId}">
-									<input type="hidden" value="${status.index}">
-				                    </div>
-				                </div>
-				    		</div>
-						</c:forEach>
-				    </div>
-				</table>
+		
+	<div class="container" style="max-width: 1000px;">
+		
+		<div>
+			<div class="btn-group" role="group" aria-label="Basic example" style="margin-left: 10px;">
+				<button type="button" class="btn btn-outline-primary" id="viewPlan">플래너</button>
+				<button type="button" class="btn btn-outline-primary" id="viewParty">동 행</button>
 			</div>
-		<jsp:include page="../../common/pageNavigator_new.jsp"/>
-	</div><!-- planTable EndDiv -->
-
-
+		</div>
 	
 	
-	<c:if test="${keyword!='party'}">
-		<div id="partyTable" style="display: none;">
-	</c:if>	
-	<c:if test="${keyword=='party'}">
-		<div id="partyTable" style="display: block;">
-	</c:if>	
-			<div style="height: 30px;"></div>
-       		<h1  style="margin-left: 240px; width: 1000px">동행 신청목록</h1>
+		<form id="myOfferListForm">
+	 		<input type="hidden" id="currentPage" name="currentPage" value=0 />
+	 		<input type="hidden" id="currentPage2" name="currentPage2" value=0 /> 
+	 		<c:if test="${!empty keyword}">
+	 			<input type="hidden" id="keyword" name="searchKeyword" value="${keyword}"/>
+	 		</c:if>
+		</form>
 	
-			<ul class="list-unstyled" style="margin-left: 240px;">
-				<c:forEach var="partyOffer" items="${partyOfferList}" varStatus="status" >
-					<li class="media" style="width: 1150px;">
-				   		<div style="width: 100px;"></div>
-				    	<img src="/resources/images/userImages/${partyOffer.userImg}" class="mr-3" alt="..." >
-				    	<div class="media-body">
-				      		<h5 class="mt-0 mb-1">${partyOffer.postTitle}</h5>
-			     			<small> 신청자  :</small>${partyOffer.toUserId}<br>
-			  				<small> 신청메세지 :</small>  ${partyOffer.offerMsg}<br>
-							<small>  신청일자 : </small>   
-			     	 		<c:set var="partyOfferDate" value="${fn:split(partyOffer.offerDate,' ')}"></c:set>
-					   		<c:out value="${partyOfferDate[0]}"></c:out>
-			      			<br>
-							<button id="partyOfferAccept${status.index}" type="button" class="btn btn-primary partyAccept">수락</button>
-							<button id="partyOfferReject${status.index}" type="button" class="btn btn-secondary partyReject">거절</button>			      
-					   		<input type="hidden" value="${partyOffer.offerId}">
-							<input type="hidden" value="${status.index}">
-				    	</div>
-			  		</li>
-				</c:forEach>
-			</ul>
-		<jsp:include page="../../common/pageNavigator_new2.jsp"/>
-	</div><!-- partyTable EndDiv  -->
+		<c:if test="${keyword!='plan'}">
+			<div id="planTable" style="display: none;">
+		</c:if>
+		<c:if test="${keyword=='plan'}">
+			<div id="planTable" style="display: block;">
+		</c:if>
+		
+		
+		
+	    <!-- <h1  style="margin-left: 240px; width: 1000px">플래너 초대목록</h1> -->
+	    
+	    <div class="h4" style="font-weight: bold; margin-top: 30px;margin-bottom:20px; padding-left:10px;">
+			플래너 초대목록
+		</div>
+				
+				<div class="row">
+					<!-- <div style="width: 300px;"></div> -->
+					<table class="table">
+						<!-- <div class="row"> -->
+							<c:forEach var="planOffer" items="${planOfferList}" varStatus="status" >
+								<div style="width: 300px;" >
+					    		    <div class="card profile-card-3">
+					    		        <div class="background-block">
+					    		            <img src="/resources/images/planImg/${planOffer.planImg}" alt="profile-sample1" class="background"/>
+					    		        </div>
+					    		        <div class="profile-thumb-block">
+					    		            <img src="/resources/images/userImages/${planOffer.userImg}" alt="profile-image" class="profile"/>
+					    		        </div>
+					    		        <div class="card-content">
+					                    		<b>${planOffer.planTitle}</b>
+					                    		<small>
+					                    			<br>${planOffer.offerMsg} 
+					                    			<br>초대자  ${planOffer.fromUserId} 
+					                    			<br>
+					                    			 <c:set var="planOfferDate" value="${fn:split(planOffer.offerDate,' ')}"></c:set>
+							   						 <c:out value="${planOfferDate[0]}"></c:out>
+					                    		</small>
+					                    		<br>
+					                    <button id="planOfferAccept${status.index}" type="button" class="btn btn-outline-primary planAccept">수락</button>
+										<button id="planOfferReject${status.index}" type="button" class="btn btn-outline-secondary planReject">거절</button>		
+										<input type="hidden" value="${planOffer.offerId}">
+										<input type="hidden" value="${status.index}">
+					                    </div>
+					                </div>
+					    		</div>
+							</c:forEach>
+					    <!-- </div> -->
+					</table>
+				</div>
+				<c:if test="${ empty planOfferList}">
+				    <div class="text-center" style="margin-bottom: 70px;">초대된 플래너가 없습니다</div>
+				</c:if>
+			<jsp:include page="../../common/pageNavigator_new.jsp"/>
+		</div><!-- planTable EndDiv -->
+	
+	
+		
+		
+		<c:if test="${keyword!='party'}">
+			<div id="partyTable" style="display: none;">
+		</c:if>	
+		<c:if test="${keyword=='party'}">
+			<div id="partyTable" style="display: block;">
+		</c:if>	
+				
+	       		<!-- <h1  style="margin-left: 240px; width: 1000px">동행 신청목록</h1> -->
+	       		<div class="h4" style="font-weight: bold; margin-top: 30px;margin-bottom:20px; padding-left:10px;">
+					동행 신청목록
+				</div>
+		
+				<ul class="list-unstyled" style="margin-left: 0px;">
+					<c:forEach var="partyOffer" items="${partyOfferList}" varStatus="status" >
+						<li class="media" style="width: 100%;">
+					   		<div style="width: 100px;"></div>
+					    	<img src="/resources/images/userImages/${partyOffer.userImg}" class="mr-3" alt="..." >
+					    	<div class="media-body">
+					      		<h5 class="mt-0 mb-1">${partyOffer.postTitle}</h5>
+				     			<small> 신청자  :</small>${partyOffer.toUserId}<br>
+				  				<small> 신청메세지 :</small>  ${partyOffer.offerMsg}<br>
+								<small>  신청일자 : </small>   
+				     	 		<c:set var="partyOfferDate" value="${fn:split(partyOffer.offerDate,' ')}"></c:set>
+						   		<c:out value="${partyOfferDate[0]}"></c:out>
+				      			<br>
+								<button id="partyOfferAccept${status.index}" type="button" class="btn btn-primary partyAccept">수락</button>
+								<button id="partyOfferReject${status.index}" type="button" class="btn btn-secondary partyReject">거절</button>			      
+						   		<input type="hidden" value="${partyOffer.offerId}">
+								<input type="hidden" value="${status.index}">
+					    	</div>
+				  		</li>
+					</c:forEach>
+				</ul>
+				
+				<c:if test="${ empty partyOfferList}">
+				    <div class="text-center" style="margin-bottom: 70px;margin-top: 36px;">제안받은 동행 신청이 없습니다</div>
+				</c:if>
+			<jsp:include page="../../common/pageNavigator_new2.jsp"/>
+		</div><!-- partyTable EndDiv  -->
+		
+	</div>
+	
 </body>
 	<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 </html>
