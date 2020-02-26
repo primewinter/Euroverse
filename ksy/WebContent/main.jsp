@@ -1295,7 +1295,7 @@
 
                     function(data) {
 
-                        var mon = $(".swiper-slide.on a").attr('mon');
+                        var mon = $(".swiper-slide.on>a").attr('mon');
 
                         if (mon == undefined) {
                             $("#result").val("국가를 선택하세요")

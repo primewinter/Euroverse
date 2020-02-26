@@ -105,8 +105,8 @@ public class LoginSessionListener implements HttpSessionListener, HttpSessionAtt
 							
 							Timer timer = new Timer(true); 
 							//timer.scheduleAtFixedRate(runTask, 0, 3*10*1000); // 3*10초마다 할 task 
-							timer.scheduleAtFixedRate(runTask, 0, 2*6*10*1000);  // 2분마다 할 task 
-							//timer.scheduleAtFixedRate(runTask, 0, 10*60*1000); //10분마다 할 task
+							//timer.scheduleAtFixedRate(runTask, 0, 2*6*10*1000);  // 2분마다 할 task 
+							timer.scheduleAtFixedRate(runTask, 0, 10*60*1000); //10분마다 할 task
 							//timer.scheduleAtFixedRate(runTask, 0, 24*60*60*1000); //1일마다 할 task
 							
 					}
