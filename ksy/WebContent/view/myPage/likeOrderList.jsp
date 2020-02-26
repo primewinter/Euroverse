@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Euroverse</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -28,13 +28,35 @@
 	$( function () {
 		
 		$("td:nth-child(2)").on("click",function(){
-			var type = $(this).next().next().val();
+			 var type = $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().val();
 			var id = $(this).next().val();
 			if( type=="flight" ){
-				alert("Ç×°ø~")
-				self.location ="/order/addFlightOrder?flightId="+id;
+						
+				 var airline = $(this).next().val();
+				 var depCity = $(this).next().next().val();
+				 var arrCity = $(this).next().next().next().val();
+				 var price = $(this).next().next().next().next().val();
+				 var depDate = $(this).next().next().next().next().next().val();
+				 var arrDate = $(this).next().next().next().next().next().next().val();
+				 var stopOver = $(this).next().next().next().next().next().next().next().val();
+				 var leadTime = $(this).next().next().next().next().next().next().next().next().val();
+				 var tripCourse = $(this).next().next().next().next().next().next().next().next().next().val();
+				 var seatGrade = $(this).next().next().next().next().next().next().next().next().next().next().val();
+				 var depTime = $(this).next().next().next().next().next().next().next().next().next().next().next().val();
+				 var arrTime = $(this).next().next().next().next().next().next().next().next().next().next().next().next().val();
+				 var infantNum = $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().val();
+				 var adultNum = $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().next().val();
+				 var childNum = $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().val(); 
+						
+				
+				
+				
+		 self.location ="/order/addFlightOrder?airline="+airline+"&depCity="+depCity+"&arrCity="+arrCity+"&price="+price
+		  +"&depDate="+depDate+"&arrDate="+arrDate+"&stopOver="+stopOver+"&leadTime="+leadTime
+		  +"&tripCourse="+tripCourse+"&seatGrade="+seatGrade+"&depTime="+depTime+"&arrTime="+arrTime
+		  +"&infantNum="+infantNum+"&adultNum="+adultNum+"&childNum="+childNum;
 			}else if(type=="room"){
-				alert("¼÷¼Ò~")
+				alert("ìˆ™ì†Œ~")
 				self.location ="/order/addRoomOrder?roomId="+id;
 			}
 		})
@@ -46,7 +68,7 @@
 	        $('#flight').hide();
 	        $('#iconf').hide();
 	        $('#room').show();
-	        $('#iconr').show();// id°ªÀ» ¹Ş¾Æ¼­ ¼û±â±â 
+	        $('#iconr').show();// idê°’ì„ ë°›ì•„ì„œ ìˆ¨ê¸°ê¸° 
 	    } 
 	} 
 
@@ -55,15 +77,14 @@
 	        $('#room').hide(); 
 	        $('#iconr').hide();
 	        $('#flight').show();
-	        $('#iconf').show();// id°ªÀ» ¹Ş¾Æ¼­ ¼û±â±â 
+	        $('#iconf').show();// idê°’ì„ ë°›ì•„ì„œ ìˆ¨ê¸°ê¸° 
 	    } 
 	} 
 	
 
-	function deleteLike(refId){
-		alert(refId);
+	function deleteLike(refId,likeType){
 		$.ajax({
-			url : '/myPage/json/deleteLike/'+refId ,
+			url : '/myPage/json/deleteLike/'+refId+'/'+likeType+'/' ,
 			type : "GET" ,
 			cache : false ,
 			dataType : "json" ,
@@ -75,14 +96,31 @@
 				for(var i=0;i<flightList.length;i++){
 					$("#flightBody").append("<tr>");
 					$("#flightBody").append("<th scope='row'>"+i+"</th>");
-					$("#flightBody").append("<input type='hidden' id='roomId' value="+roomList[i].roomId+"/>");
-					$("#flightBody").append("<input type='hidden' value='flight' />");
 					$("#flightBody").append("<td>"+flightList[i].airline+"</td>");
+					$("#flightBody").append("<input type='hidden'  name='airline'  value="+flightList[i].airline+" />");
+					$("#flightBody").append("<input type='hidden'  name='depCity'  value="+flightList[i].depCity+" />");
+					$("#flightBody").append("<input type='hidden'  name='arrCity'  value="+flightList[i].arrCity+" />");
+					$("#flightBody").append("<input type='hidden'  name='price'  value="+flightList[i].price+" />");
+					$("#flightBody").append("<input type='hidden'  name='depDate'  value="+flightList[i].depDate+" />");
+					$("#flightBody").append("<input type='hidden'  name='stopOver'  value="+flightList[i].arrDate+" />");
+					$("#flightBody").append("<input type='hidden'  name='leadTime'  value="+flightList[i].stopOver+" />");
+					$("#flightBody").append("<input type='hidden'  name='tripCourse'  value="+flightList[i].leadTime+" />");
+					$("#flightBody").append("<input type='hidden'  name='seatGrade'  value="+flightList[i].tripCourse+" />");
+					$("#flightBody").append("<input type='hidden'  name='depTime'  value="+flightList[i].seatGrade+" />");
+					$("#flightBody").append("<input type='hidden'  name='arrTime'  value="+flightList[i].depTime+" />");
+					$("#flightBody").append("<input type='hidden'  name='infantNum'  value="+flightList[i].arrTime+" />");
+					$("#flightBody").append("<input type='hidden'  name='adultNum'  value="+flightList[i].infantNum+" />");
+					$("#flightBody").append("<input type='hidden'  name='childNum'  value="+flightList[i].adultNum+" />");
+					$("#flightBody").append("<input type='hidden'  name='airline'  value="+flightList[i].childNum+" />");
+					$("#flightBody").append("<input type='hidden' value='flight' />");
 					$("#flightBody").append("<td>"+flightList[i].depCity+"/"+flightList[i].arrCity+"</td>");
-					$("#flightBody").append("<td>"+flightList[i].depTime+"-"+flightList[i].leadTimeCity+" </td>");
-					$("#flightBody").append("<td>"+flightList[i].price+"¿ø</td>");
+					$("#flightBody").append("<td>"+flightList[i].depTime+"-"+flightList[i].arrTime+" </td>");
+					$("#flightBody").append("<td>"+flightList[i].stopOver+"/"+flightList[i].leadTime+" </td>");
+					$("#flightBody").append("<td>"+flightList[i].price+"ì›</td>");
 					$("#flightBody").append("<td><i class='fas fa-heart deleteFlight' onclick='javascript:deleteLike("+flightList[i].flightId+")'></i></td> ");
 					$("#flightBody").append("</tr>");
+					
+			
 				}
 				
 				for(var j=0;roomList.length;j++){
@@ -93,12 +131,12 @@
 					$("#roomBody").append("<input type='hidden' value='room'/> ");
 					$("#roomBody").append("<td>"+roomList[i].roomName+"</td>");
 					$("#roomBody").append("<td>"+roomList[i].checkIn+"-"+roomList[i].checkOut+"</td>");
-					$("#roomBody").append("<td>"+roomList[i].roomNum+"°³/ ¼ºÀÎ"+roomList[i].adultNum+"¸í , À¯¾Æ"+roomList[i].childNum+"¸í</td>");
-					$("#roomBody").append("<td>"+roomList[i].price+"¿ø</td>");
+					$("#roomBody").append("<td>"+roomList[i].roomNum+"ê°œ/ ì„±ì¸"+roomList[i].adultNum+"ëª… , ìœ ì•„"+roomList[i].childNum+"ëª…</td>");
+					$("#roomBody").append("<td>"+roomList[i].price+"ì›</td>");
 					$("#roomBody").append("<td><i class='fas fa-heart deleteFlight' onclick='javascript:deleteLike("+flightList[i].flightId+")'></i></td> ");
 					$("#roomBody").append("</tr>");
 					
-				}
+				} 
 				
 			},
 			error: function(request, status, error){
@@ -119,19 +157,10 @@
 	
 	<div class="container" style="max-width: 1000px;">
 	
-		<!-- <div class="page-header"> <h3>Âò¸ñ·Ï</h3> </div> -->
+		<!-- <div class="page-header"> <h3>ì°œëª©ë¡</h3> </div> -->
 		<div class="h4" style="font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
-			³»°¡ ÂòÇÑ »óÇ°
+			ë‚´ê°€ ì°œí•œ ìƒí’ˆ
 		</div>
-				
-		<!-- <div class="btn-group btn-group-toggle" data-toggle="buttons" >
-		  <label class="btn btn-secondary active">
-		    <input type="radio" name="flight" id="option1" checked onclick="javascript:Show();"> Flight
-		  </label>
-		  <label class="btn btn-secondary">
-		    <input type="radio" name="room" id="option2" onclick="javascript:doShow();"> Room
-		  </label>
-		</div> -->
 
 	  	<div class="d-flex align-items-center" style="margin: 20px;">
 		  	<i class="fas fa-plane" id="iconf" style="font-size:40px; width: 50px;"></i>
@@ -151,12 +180,12 @@
 		  <thead>
 		    <tr>
 		      <th scope="col">#</th>
-		      <th scope="col">Ç×°ø»ç</th>
-		      <th scope="col">Ãâ¹ßµµ½Ã - µµÂøµµ½Ã</th>
-		      <th scope="col">Ãâ¹ßÀÏ½Ã/µµÂøÀÏ½Ã</th>
-		      <th scope="col">°æÀ¯/¼Ò¿ä½Ã°£</th>
-		      <th scope="col">°¡°İ</th>
-		      <th scope="col">Âò</th>
+		      <th scope="col">í•­ê³µì‚¬</th>
+		      <th scope="col">ì¶œë°œë„ì‹œ - ë„ì°©ë„ì‹œ</th>
+		      <th scope="col">ì¶œë°œì¼ì‹œ/ë„ì°©ì¼ì‹œ</th>
+		      <th scope="col">ê²½ìœ /ì†Œìš”ì‹œê°„</th>
+		      <th scope="col">ê°€ê²©</th>
+		      <th scope="col">ì°œ</th>
 		    </tr>
 		  </thead>
 		 
@@ -167,21 +196,36 @@
 					      <th scope="row">
 					      ${status.count}
 					      </th>
-						      <td>${flight.airline}</td>
-					     	 <input type="hidden" name="${flight.flightId}" id="flightId" value="${flight.flightId}"/>
-					     	 <input type="hidden" value="flight">
+						      <td>${flight.airline}
+						      </td>
+						      	<input type="hidden"  name="airline"  value="${flight.airline }" />
+								<input type="hidden"  name="depCity"  value="${flight.depCity }" />
+								<input type="hidden"  name="arrCity"  value="${flight.arrCity }" />
+								<input type="hidden" name="price"  value="${flight.price }" />
+								<input type="hidden"  name="depDate"  value="${flight.depDate }" >
+								<input type="hidden"  name="arrDate"  value="${flight.arrDate }" >
+								<input type="hidden"  name="stopOver"  value="${flight.stopOver }" >
+								<input type="hidden"  name="leadTime"  value="${flight.leadTime }" >
+								<input type="hidden"  name="tripCourse"  value="${flight.tripCourse }" >
+								<input type="hidden"  name="seatGrade"  value="${flight.seatGrade }" >
+								<input type="hidden" name="depTime"  value="${flight.depTime }" >
+								<input type="hidden"  name="arrTime"  value="${flight.arrTime }" >
+								<input type="hidden"  name="infantNum" value="${flight.infantNum }" >
+								<input type="hidden"  name="adultNum" value="${flight.adultNum }" >
+								<input type="hidden"  name="childNum"  value="${flight.childNum }" >
+					     		<input type="hidden" value="flight">
 						      <td>${flight.depCity}/${flight.arrCity }</td>
 						      <td>${flight.depTime} - ${flight.arrTime }</td>
 						      <td>${flight.stopOver}/${flight.leadTime}</td>
-						      <td>${flight.price}¿ø</td>
+						      <td>${flight.price}ì›</td>
 							 	<td>
-							 	<i class="fas fa-heart deleteFlight" onclick="javascript:deleteLike(${flight.flightId})"></i>
+							 	<i class="fas fa-heart deleteFlight" onclick="javascript:deleteLike(${flight.flightId},'F')"></i>
 							 	</td> 
 							 
 				   	 </tr>
 		    	 </c:forEach>
 		    	 <c:if test="${ empty flightList}">
-				    <tr><td colspan="7" style="padding: 40px;">ÂòÇÑ »óÇ°ÀÌ ¾ø½À´Ï´Ù</td></tr>
+				    <tr><td colspan="7" style="padding: 40px;">ì°œí•œ ìƒí’ˆì´ ì—†ìŠµë‹ˆë‹¤</td></tr>
 				</c:if>
 		    	 
 		  </tbody>
@@ -195,12 +239,12 @@
 		  <thead>
 		    <tr>
 		      <th scope="col">#</th>
-		      <th scope="col">¿©ÇàÁö</th>
-		      <th scope="col">¼÷¼Ò</th>
-		      <th scope="col">Ãâ¹ßÀÏ½Ã - µµÂøÀÏ½Ã</th>
-		      <th scope="col">°´½Ç¼ö/¼÷¹ÚÀÎ¿ø</th>
-		      <th scope="col">°¡°İ</th>
-		      <th scope="col">Âò</th>
+		      <th scope="col">ì—¬í–‰ì§€</th>
+		      <th scope="col">ìˆ™ì†Œ</th>
+		      <th scope="col">ì¶œë°œì¼ì‹œ - ë„ì°©ì¼ì‹œ</th>
+		      <th scope="col">ê°ì‹¤ìˆ˜/ìˆ™ë°•ì¸ì›</th>
+		      <th scope="col">ê°€ê²©</th>
+		      <th scope="col">ì°œ</th>
 		    </tr>
 		  </thead>
 		 
@@ -216,8 +260,8 @@
 				    	<input type="hidden" value="room">
 				    <td>${room.roomName}</td>
 				    <td>${room.checkIn} - ${room.checkOut }</td>
-				    <td>${room.roomNum} °³ / ¼ºÀÎ ${room.adultNum} ¸í , À¯¾Æ ${room.childNum} ¸í</td>
-				    <td>${room.price} ¿ø </td>
+				    <td>${room.roomNum} ê°œ / ì„±ì¸ ${room.adultNum} ëª… , ìœ ì•„ ${room.childNum} ëª…</td>
+				    <td>${room.price} ì› </td>
 				    <td> 
 				    <i class="fas fa-heart deleteFlight" onclick="javascript:deleteLike(${room.roomId})"></i>
 					 </td>
@@ -225,7 +269,7 @@
 		     </c:forEach> 
 		     
 		     <c:if test="${ empty roomList}">
-			    <tr><td colspan="7" style="padding: 40px;">ÂòÇÑ »óÇ°ÀÌ ¾ø½À´Ï´Ù</td></tr>
+			    <tr><td colspan="7" style="padding: 40px;">ì°œí•œ ìƒí’ˆì´ ì—†ìŠµë‹ˆë‹¤</td></tr>
 			</c:if>
 		     
 		  </tbody>

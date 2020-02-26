@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:if test="${ ! empty user }">
-	<jsp:forward page="/main.jsp"/>
-</c:if>
 <!DOCTYPE html>
 <html>
 <head>
