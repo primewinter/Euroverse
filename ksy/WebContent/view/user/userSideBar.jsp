@@ -139,9 +139,9 @@
 				$(self.location).attr("href","/user/getUser");
 			});
 			
-			$(".nav-link:contains('내 정보 수정')").on("click" ,function(){
+		/* 	$(".nav-link:contains('내 정보 수정')").on("click" ,function(){
 				$(self.location).attr("href","/user/updateUser");
-			});
+			}); */
 			
 			$(".nav-link:contains('포인트 사용 내역')").on("click" ,function(){
 				$(self.location).attr("href","/myPage/pointList");
@@ -224,11 +224,11 @@
               내 정보 조회 &nbsp; <span data-feather="smile"></span>
             </a>
           </li>
-          <li class="nav-item">
+   <!--        <li class="nav-item">
             <a class="nav-link scroll" href="#E">
               내 정보 수정 &nbsp;<span data-feather="settings"></span>
             </a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link scroll" href="#P">
               포인트 사용 내역 &nbsp; <span data-feather="database"></span>
