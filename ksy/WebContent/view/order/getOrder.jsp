@@ -94,7 +94,12 @@
     
     $(function () {
     	$(".btn.btn-warning").click(function() {
-    		self.location = "/order/getOrderList";	
+    		if (  $("#role").val() != 'A') {
+    			self.location = "/order/getOrderList";	
+			}else{
+    		
+    		self.location = "/order/getOrderListAdmin";	
+			}
     	});
     });
     </script>
@@ -105,6 +110,7 @@
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	 <jsp:include page="/toolbar/pushBar.jsp" />
 	<form>
+	<input type="hidden" name="role" id="role" value= "${user.role }"/>
 	<input type="hidden" name="orderId" id="orderId" value= "${order.orderId }"/>
 	<input type="hidden" name="orderStatus" id="orderStatus" value= "${order.orderStatus }"/>
 	<input type="hidden" name="flightId" id="flightIds" value= "${flight.flightId }"/>
@@ -327,7 +333,7 @@
 	
 	   		 <div class="form-group" align="center">
 			<button type="button" class="btn btn-warning"  >확인</button>
-			<c:if test="${order.orderStatus == '1' }">
+			<c:if test="${order.orderStatus == '1' &&  user.role != 'A'}">
 			<button type="button" class="btn btn-info" id="refundApp1" data-toggle="modal" data-target="#refund">
 			   환불 신청
 			</button>
