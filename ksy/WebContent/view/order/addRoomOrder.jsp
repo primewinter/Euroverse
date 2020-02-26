@@ -131,10 +131,9 @@
     
     
     $( function () {
-    	$('button.btn.btn-primary').on('click' , function () {
+    	$('.btn.btn-primary').on('click' , function () {
     		var actualAmount = $("#actualAmount").val();
     		var payPoint = $("#payPoint").val(); //사용할 포인트
-    		if (card == '1' ) {
 	    	
     		if ($("#payPoint").val() == null | $("#payPoint").val() == "" | $("#payPoint").val() == 0) {
     			$("#zeroPoint").val(0);
@@ -205,8 +204,6 @@
 
     							    } else {
     							        var msg = '결제를 취소하였습니다.';
-    							       // msg += '에러내용 : ' + rsp.error_msg;
-										
     							        window.location.reload(true);
     							        return;
     							    }
@@ -217,7 +214,6 @@
 
     					});	
     						 
-    		}// if 끝
     				}); 
     	
     			});
