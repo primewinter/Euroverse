@@ -52,6 +52,18 @@
 	margin: 20px;
 }
 
+.inner{
+	display: inline-block;
+	background-color: white;
+	border-bottom-left-radius : 15px;
+	border-bottom-right-radius : 15px;
+	box-shadow : 5px 5px 7px #C3C0C0;
+	height: 100%;
+	width:73%;
+	margin-bottom: 10px;
+}
+
+
 
 </style>
 
@@ -117,7 +129,7 @@ $(function(){
 	})
 		
 	
-	
+	/*답글보는 로직  */
 	 $("b:contains('답글보기')").on("click",function(){
 		console.log($(this).next().val());
 		var postId = $(this).next().val();
@@ -172,9 +184,7 @@ $(function(){
 						}
 					})
 		
-		
-		
-	 })
+	 })/*답글보는 로직 end  */
 	
 	$("#yes").on("click",function(){
 		var qnaFirstCate = $('#qnaFirstCate');
@@ -342,11 +352,60 @@ $(function(){
 			
     	<div class="p-2 ">
     		<h2>나의 1:1문의</h2>
-		    		
-		    		
-		    	<c:forEach var="qna" items="${qnaList}" varStatus="status">	
+
+
+
+		<c:forEach var="qna" items="${qnaList}" varStatus="status">	
+			<form id="qnaUpdateForm${status.index}">
+		    <input type="hidden" value="${qna.postId}" name="postId">
+		    
+				<div class="row">
+				<div style="width: 210px;"></div>
+					<div class="inner">
+						<div style="padding: 5px 25px" class="row">
+							<div style="margin: 8px; text-align: right; display: inline-block; height: 70px; width: 70px;">
+								<img id="qimg" style="width: 40px;" alt="" src="/resources/images/admin/Qicon.png">
+							</div>
+							<div>
+								<div style="width: 300px; height: 20px; margin: 5px 5px 5px 5px;">${qna.postContent}</div>
+								<div
+									style="height: 20px; font-size: 9pt; font-family: 돋움; color: #4EC2F8; height: 20px; margin: 2px 5px 5px 5px;">
+					   				<c:if test="${qna.qnaFirstCate != 'A' }">
+					   					주문관련
+					   				</c:if>	
+					   				<c:if test="${qna.postGrade == 'Q' }">
+					   					상품관련
+					   				</c:if>
+					   				<c:if test="${qna.postGrade == 'Q' }">
+					   					기타
+					   				</c:if>
+									${qna.postGrade}
+									<c:if test="${qna.postGrade != 'Q' }">
+					   					<span class="badge badge-pill badge-secondary">답변없음</span>
+					   				</c:if>	
+					   				<c:if test="${qna.postGrade == 'Q' }">
+					   					<span class="badge badge-pill badge-success">답변완료</span>
+					   				</c:if></div>
+								<div style="font-size: 11pt; color: rgb(240, 168, 72);">
+									<i class="fas fa-clock"></i>${qna.postDate}에 질문하셨습니다.
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+			</form>
+		</c:forEach>
+
+
+
+
+
+		<c:forEach var="qna" items="${qnaList}" varStatus="status">	
 		    	<form id="qnaUpdateForm${status.index}">
 		    	<input type="hidden" value="${qna.postId}" name="postId">
+		    	
+		    	
+		    	
 		    		<div class="media border border-info">
 					  <div id="mediaBody${status.index}" class="media-body">
 					   		<div id="deleteQna${status.index}" align="right">

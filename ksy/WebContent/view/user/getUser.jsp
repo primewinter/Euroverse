@@ -78,7 +78,7 @@
 	
 	/* entire container, keeps perspective */
 	.flip-container {
-	margin:20px 30px;
+	margin:15px 20px;
 	    perspective: 1000px;
 	   border:2px solid rgba(0,0,0,0) !important;
 	   
