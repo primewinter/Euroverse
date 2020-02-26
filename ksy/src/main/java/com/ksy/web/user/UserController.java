@@ -79,6 +79,12 @@ public class UserController {
 		System.out.println(this.getClass());
 	}
 	
+	@RequestMapping(value="autoLogout")
+	public String autoLogout() {
+		System.out.println("자동로그아웃&&&&&&&&&&&&&&&&&&&&&&&&&&");
+		return "redirect:/view/user/autoLogout.jsp";
+	}
+	
 	@RequestMapping(value="login")
 	public String login() {
 		System.out.println(this.getClass()+"Login");
@@ -124,9 +130,9 @@ public class UserController {
 		userService.comeBackUser(user);
 		User dbUser = userService.getUser(user.getUserId());
 		
-		session.setAttribute("user", dbUser);
+		/* session.setAttribute("user", dbUser); */
 		
-		return "redirect:/";
+		return "redirect:/main.jsp";
 	}
 	
 	
@@ -157,12 +163,6 @@ public class UserController {
 		System.out.println(user);
 		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 
-		if(session.getAttribute("user")!=null) {
-			return"redirect:/main.jsp";
-		}
-		
-		
-		
 		
 		//다른방법
 //		if(user.getImage().isEmpty()==false) {
@@ -232,11 +232,13 @@ public class UserController {
 		}
 		System.out.println("일단 여기까지!!@@!@!@@! 22222222222222");
 		
-		User newUser = (User)userService.getUser(user.getUserId());
-		session.setAttribute("user", newUser);
+		/*
+		 * User newUser = (User)userService.getUser(user.getUserId());
+		 * session.setAttribute("user", newUser);
+		 */
 		
 		
-		return "redirect:/";
+		return "redirect:/main.jsp";
 	}
 	
 	@RequestMapping(value = "getUser" , method=RequestMethod.GET)

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Like;
+import com.ksy.service.domain.LoginUser;
 import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Point;
@@ -282,8 +283,18 @@ public class MyPageDaoImpl implements MyPageDao{
 	public void updateQna(Post post )throws Exception{
 		sqlSession.update("UserMapper.updateQna",post);
 	}
+	//////////////////////////////////LOGINUSER//////////////////////////////////
 	
+	public void addLoginUser(LoginUser loginUser)throws Exception{
+		sqlSession.insert("UserMapper.addLoginUser",loginUser);
+	}
+	public LoginUser getLoginUser(String userId)throws Exception{
+		return sqlSession.selectOne("UserMapper.getLoginUser",userId);
+	}
 	
+	public void updateLoginUser(LoginUser loginUser)throws Exception{
+		sqlSession.update("UserMapper.updateLoginUser",loginUser);
+	}
 	
 
 }

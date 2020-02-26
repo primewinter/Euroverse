@@ -803,10 +803,21 @@ ORDER BY cmt_date DESC
 	<insert id="addLoginUser" parameterType="loginUser">
 		INSERT INTO login_users
 		(user_id , session_id , login_date)
-		VALUES(#{userId}  , #{sessionId} , systimestamp)
+		VALUES(#{userId}  , #{sessionId} , SYSDATE)
 	</insert>
 	
+	<select id="getLoginUser" parameterType="string" resultMap="loginUserSelectMap">
+		SELECT
+		user_id , session_id , login_date
+		FROM login_users
+		WHERE user_id = #{userId}
+	</select>
 	
+	<update id="updateLoginUser"	parameterType="loginUser">
+		UPDATE 	login_users 
+		SET 	session_id = #{sessionId}
+		WHERE 	user_id = #{userId}
+	</update>
 
 
 </mapper>
