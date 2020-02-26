@@ -175,18 +175,16 @@
 
 <body>
 
-	<div class="container">
+	<!-- =============== 유로버스 툴바 인클루드  ========== -->
+		<jsp:include page="/toolbar/toolBar.jsp"></jsp:include> 
+	<!-- =========== 이까지  ================ -->
 	
-		<!-- =============== 유로버스 툴바 인클루드  ========== -->
-			<jsp:include page="/toolbar/toolBar.jsp"></jsp:include> 
-		<!-- =========== 이까지  ================ -->
-		
-		<!-- 푸쉬바 인클루드  -->
-		<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
-		<!-- 인클루드 end--> 
+	<!-- 푸쉬바 인클루드  -->
+	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
+	<!-- 인클루드 end--> 
 		
 
-		
+	<div class="container">
 		
 	<div class="page-header text-info">
 
@@ -204,8 +202,6 @@
 		    	</p>
 		    </div>
 		    
-		    
-		   
 		    <div class="col-md-6 text-right d-flex justify-content-end">
 		    
 		     <!-- =========================== 검색조건 선택창 =========================== -->
@@ -228,8 +224,6 @@
 				  </div>
 				  <!-- ======================== 검색조건 선택창 끝  ========================= -->
 				  
-				  
-				  
 				  <!-- ========================== 유저를 검색할수 있는 검색창 ================================   -->
 				  <div class="form-group ">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
@@ -238,13 +232,10 @@
 				    			 style="height: 30px; font-size: 13px;" onkeydown="javascript:if(event.keyCode == 13) {fncGetUserList(1)}">
 				  </div>
 				  <!--======================== 유저검색창 끝  =========================================== -->
-				  
-				  
-				  
+				
 				  <!-- 돋보기 아이콘  fontawesome.com-->
 				  &nbsp;&nbsp;<i class="fas fa-search" style="font-size: x-large"></i>
-				  
-				  
+				 
 				  <!-- PageNavigation 선택 페이지 값을 보내는 부분 -->
 				  <input type="hidden" id="currentPage" name="currentPage" value=""/>
 				  
@@ -252,7 +243,6 @@
 	    	</div>
 	    	
 		</div>
-		
 		
 		<div class="table-responsive">
 		
@@ -298,11 +288,10 @@
 	</div>
 	<!-- ================== div : Container End  ================-->	
 	
-	
 		<!-- pageNavigator include  -->
 		<jsp:include page="../../common/pageNavigator_new.jsp"/>
 		
-				<!-- 푸터 인클루드  -->
+		<!-- 푸터 인클루드  -->
 		<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 		<!-- 인클루드 end--> 
 

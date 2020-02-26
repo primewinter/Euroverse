@@ -16,6 +16,9 @@
         font-weight: 500;
         overflow-y: scroll;
     }
+    div.toolbar-wrapper {
+        //background-color : #84e2ea;
+    }
 
     ul.submenu {
         font-family: 'Nanum Gothic Coding', monospace;
@@ -27,7 +30,8 @@
         display: inline-block;
         float: right;
         color: #858585;
-        font-size: 10pt;
+        font-size: 12pt;
+        padding-top: 5px;
     }
 
     span.login-control font {
@@ -140,7 +144,8 @@
 </style>
 
 <jsp:include page="/view/user/login.jsp"></jsp:include>
-<div class="container toolbar">
+<div class="toolbar-wrapper">
+   <div class="container toolbar">
     <span class="login-control">
         <c:if test="${user.userId == null}">
             <font data-toggle="modal" data-target="#loginModal">로그인</font>|<font>회원가입</font>
@@ -155,7 +160,7 @@
     <header class="blog-header py-3"></header>
     <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex justify-content-center toolbar-logo" style="font-size: 20pt;">
-            <a href="/main.jsp"><img src='/resources/images/icon/temp_logo.png' style="width: 215px;height: auto;border-radius: 30%;"></a>
+            <a href="/main.jsp"><img src='/resources/images/icon/temp_logo.png' style="width: 150px;height: auto;border-radius: 30%;"></a>
         </nav>
     </div>
     <div class="nav-scroller py-1 mb-2">
@@ -193,7 +198,7 @@
         </nav>
     </div>
 </div>
-
+    </div>
 
 
 <script type="text/javascript">

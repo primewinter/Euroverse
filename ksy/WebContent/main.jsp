@@ -81,8 +81,9 @@
 
 
     main section {
-        margin-top: 10em;
-        margin-bottom: 5em;
+        margin-top: 0.5em;
+        margin-left: 5em;
+        margin-right: 5em;
     }
 
     section.main-infinite {
@@ -451,6 +452,73 @@
         opacity: 1;
     }
 
+    /*환율 select*/
+    /*the container must be positioned relative:*/
+    .cur-select {
+        position: relative;
+        font-family: Arial;
+    }
+
+    .cur-selected:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .cur-select select {
+        display: none;
+        /*hide original SELECT element:*/
+    }
+
+    .select-selected {
+        background-color: #8ad0d6;
+    }
+
+    /*style the arrow inside the select element:*/
+    .select-selected:after {
+        position: absolute;
+        content: "";
+        top: 14px;
+        right: 10px;
+        width: 0;
+        height: 0;
+        border: 6px solid transparent;
+        border-color: #fff transparent transparent transparent;
+    }
+
+    /*point the arrow upwards when the select box is open (active):*/
+    .select-selected.select-arrow-active:after {
+        border-color: transparent transparent #fff transparent;
+        top: 7px;
+    }
+
+    /*style the items (options), including the selected item:*/
+    .select-items div,
+    .select-selected {
+        color: #ffffff;
+        padding: 8px 16px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    /*style items (options):*/
+    .select-items {
+        position: absolute;
+        background-color: #8ad0d6;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 99;
+    }
+
+    /*hide the items when the select box is closed:*/
+    .select-hide {
+        display: none;
+    }
+
+    .select-items div:hover,
+    .same-as-selected {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
 
 
     /*환율 스와이프*/
@@ -511,10 +579,13 @@
         font-family: 'GmarketSansBold';
         /*        font-style: italic;*/
         display: inline-block;
-        background-color: #ffcf00;
+        /*background-color: #ffcf00;*/
+        background-color: #8ad0d6;
         text-align: left;
-        margin: 2em;
-        transform: skew(-15deg)
+        margin-top: 2em;
+        margin-bottom: 2em;
+        margin-left: 5em;
+        /*transform: skew(-15deg)*/
     }
 
 
@@ -618,6 +689,14 @@
         padding: 0.5em;
     }
 
+    span.section__header__content {
+        font-size: 25px;
+    }
+
+    span.section__header__more {
+        font-size: 15px;
+    }
+
 </style>
 
 <body>
@@ -661,6 +740,61 @@
 
 
 
+        <div style="clear: both"></div>
+
+
+
+        <section class="new-plan aos-init aos-animate" data-aos="fade-right">
+            <header class="plan-section__header">
+                <span class="col section__header__content">NEW PLANNER</span><span class="section__header__more">>>more</span>
+            </header>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="owl-E" class="owl-carousel">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+
+        <section class="owl-review-section aos-init aos-animate" data-aos="fade-left">
+            <header class="review-section__header">
+                <span class="col section__header__content">TRIP REVIEW</span><span class="section__header__more">>>more</span>
+            </header>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="owl-F" class="owl-carousel">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="owl-info-section aos-init aos-animate" data-aos="fade-right">
+            <header class="info-section__header">
+                <span class="col section__header__content">TRIP INFO</span><span class="section__header__more">>>more</span>
+            </header>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="owl-B" class="owl-carousel">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <hr>
+
         <section class="main-infinite">
             <div class="effect-wrap">
                 <figure class="effect5">
@@ -674,8 +808,20 @@
 
 
 
+
+            <div style="clear: both"></div>
+            <div class="cur-select" style="width:200px;">
+                <select>
+                    <option value="0"><img class='cur-select-img' src='/resources/images/tripInfoimges/Europe.png' data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR" />EU</option>
+                    <option value="1"><img class='cur-select-img' data-toggle="list" href="#list-profile" hwa='포린트' mon="HUF" con="HUN" src='/resources/images/tripInfoimges/Hungary.gif' />헝가리</option>
+                    <option value="2"><img class='cur-select-img' data-toggle="list" href="#list-messages" hwa='코루나' mon="CZK" con="CZE" src='/resources/images/tripInfoimges/Czech.gif' />체코</option>
+                    <option value="3"><img class='cur-select-img' data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR" src='/resources/images/tripInfoimges/England.gif' />영국</option>
+                    <option value="4"> <img class='cur-select-img' data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR" src='/resources/images/tripInfoimges/Swiss.gif' />스위스</option>
+                </select>
+            </div>
+
             <!-- 클래스명은 변경하면 안 됨 -->
-            <div class="swiper-container">
+           <!-- <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide"><a id="a" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR">
                             <img src='/resources/images/tripInfoimges/Europe.png' />
@@ -729,14 +875,14 @@
                             <img src='/resources/images/tripInfoimges/Poland.png' />
                             <p>폴란드</p>
                         </a></div>
-                </div>
+                </div>-->
 
                 <!-- 네비게이션 -->
-                <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
-                <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
+               <!-- <div class="swiper-button-next"></div>--><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+                <!--<div class="swiper-button-prev"></div>--><!-- 이전 버튼 -->
 
-            </div>
-            
+            <!--</div>-->
+
 
             <!-- ============국가정보출력 box ================ -->
             <div class="popupLayer">
@@ -769,57 +915,12 @@
             </div>
 
         </section>
+        
+        
+        
+        
+           
 
-        <div style="clear: both"></div>
-
-
-
-        <section class="new-plan aos-init aos-animate" data-aos="fade-right">
-            <header class="plan-section__header">
-                <h2 class="col plan-section__header__content">NEW PLANNER</h2>
-            </header>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div id="owl-E" class="owl-carousel">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <hr>
-
-
-        <section class="owl-review-section aos-init aos-animate" data-aos="fade-left">
-            <header class="review-section__header">
-                <h2 class="col review-section__header__content">TRIP REVIEW</h2>
-            </header>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div id="owl-F" class="owl-carousel">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <hr>
-
-        <section class="owl-info-section aos-init aos-animate" data-aos="fade-right">
-            <header class="info-section__header">
-                <h2 class="col info-section__header__content">TRIP INFO</h2>
-            </header>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div id="owl-B" class="owl-carousel">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
 
@@ -1210,7 +1311,7 @@
 
         new Swiper('.swiper-container', {
 
-            slidesPerView: 4, // 동시에 보여줄 슬라이드 갯수
+            slidesPerView: 10, // 동시에 보여줄 슬라이드 갯수
             spaceBetween: 30, // 슬라이드간 간격
             slidesPerGroup: 2, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
             //slidesPerColumn: 2,
@@ -1303,6 +1404,81 @@
         myAOS();
 
 
+
+        /*------------------------------환율 select-----------------------------------------*/
+        var x, i, j, selElmnt, a, b, c;
+        /*look for any elements with the class "custom-select":*/
+        x = document.getElementsByClassName("cur-select");
+        for (i = 0; i < x.length; i++) {
+            selElmnt = x[i].getElementsByTagName("select")[0];
+            /*for each element, create a new DIV that will act as the selected item:*/
+            a = document.createElement("DIV");
+            a.setAttribute("class", "select-selected");
+            a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+            x[i].appendChild(a);
+            /*for each element, create a new DIV that will contain the option list:*/
+            b = document.createElement("DIV");
+            b.setAttribute("class", "select-items select-hide");
+            for (j = 1; j < selElmnt.length; j++) {
+                /*for each option in the original select element,
+                create a new DIV that will act as an option item:*/
+                c = document.createElement("DIV");
+                c.innerHTML = selElmnt.options[j].innerHTML;
+                c.addEventListener("click", function(e) {
+                    /*when an item is clicked, update the original select box,
+                    and the selected item:*/
+                    var y, i, k, s, h;
+                    s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+                    h = this.parentNode.previousSibling;
+                    for (i = 0; i < s.length; i++) {
+                        if (s.options[i].innerHTML == this.innerHTML) {
+                            s.selectedIndex = i;
+                            h.innerHTML = this.innerHTML;
+                            y = this.parentNode.getElementsByClassName("same-as-selected");
+                            for (k = 0; k < y.length; k++) {
+                                y[k].removeAttribute("class");
+                            }
+                            this.setAttribute("class", "same-as-selected");
+                            break;
+                        }
+                    }
+                    h.click();
+                });
+                b.appendChild(c);
+            }
+            x[i].appendChild(b);
+            a.addEventListener("click", function(e) {
+                /*when the select box is clicked, close any other select boxes,
+                and open/close the current select box:*/
+                e.stopPropagation();
+                closeAllSelect(this);
+                this.nextSibling.classList.toggle("select-hide");
+                this.classList.toggle("select-arrow-active");
+            });
+        }
+
+        function closeAllSelect(elmnt) {
+            /*a function that will close all select boxes in the document,
+            except the current select box:*/
+            var x, y, i, arrNo = [];
+            x = document.getElementsByClassName("select-items");
+            y = document.getElementsByClassName("select-selected");
+            for (i = 0; i < y.length; i++) {
+                if (elmnt == y[i]) {
+                    arrNo.push(i)
+                } else {
+                    y[i].classList.remove("select-arrow-active");
+                }
+            }
+            for (i = 0; i < x.length; i++) {
+                if (arrNo.indexOf(i)) {
+                    x[i].classList.add("select-hide");
+                }
+            }
+        }
+        /*if the user clicks anywhere outside the select box,
+        then close all select boxes:*/
+        document.addEventListener("click", closeAllSelect);
 
     </script>
 
