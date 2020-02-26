@@ -123,33 +123,32 @@ public class RoomRestController {
 		
 		System.out.println("check : "+checkMap);
 		//flight.setFlightId(checkMap.get("flightId"));
-		System.out.println("value : "+checkMap.get("flightId"));
+		System.out.println("value : "+checkMap.get("roomId"));
 		
 	
 	     
-	     room.setRoomId(checkMap.get("roomId"));
-	     room.setPrice(Integer.parseInt(checkMap.get("price")));
-	     room.setRoomName(checkMap.get("roomName"));
-	     room.setRoomCity(checkMap.get("roomCity"));
-	     room.setAdultNum(Integer.parseInt(checkMap.get("adultNum")));
-	     room.setChildNum(Integer.parseInt(checkMap.get("childNum")));
-	     room.setCheckIn(checkMap.get("checkIn"));
-	     room.setCheckOut(checkMap.get("checkOut"));
-	     room.setRoomNum(Integer.parseInt(checkMap.get("roomNum")));
-	     room.setRoomAddr(checkMap.get("roomAddr"));
+	     //room.setRoomId(checkMap.get("roomId"));
+	     room.setPrice(Integer.parseInt(checkMap.get("price").trim()));
+	     room.setRoomName(checkMap.get("roomName").trim());
+	     room.setRoomCity(checkMap.get("roomCity").trim());
+	     room.setAdultNum(Integer.parseInt(checkMap.get("adultNum").trim()));
+	     room.setChildNum(Integer.parseInt(checkMap.get("childNum").trim()));
+	     room.setCheckIn(checkMap.get("checkIn").trim());
+	     room.setCheckOut(checkMap.get("checkOut").trim());
+	     room.setRoomNum(Integer.parseInt(checkMap.get("roomNum").trim()));
 		
 	
-		
+		System.out.println("1");
 		PrintWriter out = response.getWriter();
 		 
 		roomService.addRoom(room);
-		
+		System.out.println("2");
 		Like like = new Like(); 
 		User user=(User)session.getAttribute("user");
 		like.setLikeUserId(user.getUserId()); 
-		like.setLikeType("F");
-		System.out.println("플라이트아이디 : "+checkMap.get("roomId"));
-		if (checkMap.get("roomId").equals("T") && room.getRoomId() == null) { //원래 flight.getFlightId() 였음...
+		like.setLikeType("R");
+		System.out.println("Room 아이디 : "+checkMap.get("roomId"));
+		if (checkMap.get("roomId").equals("R") && room.getRoomId() == null) { //원래 flight.getFlightId() 였음...
 			likeService.addLike(like);
 			like=likeService.getLike(like);
 		}else {

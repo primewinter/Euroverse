@@ -12,8 +12,8 @@
   		<result property="roomName" 	column="ROOM_NAME" 		jdbcType="VARCHAR"/>
   		<result property="price"		column="PRICE"			jdbcType="NUMERIC"/>
   		<result property="roomCity" 	column="ROOM_CITY"		jdbcType="VARCHAR"/>
-  		<result property="checkIn"		column="CHECK_IN" 		jdbcType="TIMESTAMP"/>
-  		<result property="checkOut" 	column="CHECK_OUT" 		jdbcType="TIMESTAMP"/>
+  		<result property="checkIn"		column="CHECK_IN" 		jdbcType="VARCHAR"/>
+  		<result property="checkOut" 	column="CHECK_OUT" 		jdbcType="VARCHAR"/>
   		<result property="detailLink" 	column="DETAIL_LINK"	jdbcType="VARCHAR"/>
   		<result property="adultNum" 	column="ADULT_NUM" 		jdbcType="NUMERIC"/>
   		<result property="childNum" 	column="CHILD_NUM" 		jdbcType="NUMERIC"/>  
@@ -39,8 +39,8 @@
 					#{roomName:VARCHAR},
 					#{price:NUMERIC},
 					#{roomCity:VARCHAR},
-					#{checkIn:TIMESTAMP},
-					#{checkOut:TIMESTAMP},
+					#{checkIn:VARCHAR},
+					#{checkOut:VARCHAR},
 					#{detailLink:VARCHAR},
 					#{adultNum:NUMERIC},
 					#{childNum:NUMERIC},
