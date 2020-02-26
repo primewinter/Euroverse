@@ -169,6 +169,7 @@
 	 <jsp:include page="/toolbar/pushBar.jsp" />
 	<div class="container">
 	<form id="addFlight">
+		<br><br>
 			<table class="table">
 			  <thead>
 			    <tr>
@@ -195,8 +196,8 @@
 			      
 			      <!-- <input type="hidden"  name="flightId" id="flightId" value="" />  -->
 			     <%--  <i class="far fa-heart"  onclick="addWish('${flight.price }');" id="${flight.price }" style="font-size:15px;"></i> --%>
-			     	<button type="button" class="btn btn-secondary" id="${flight.price }" value="0" style="width:50px;">찜</button>
-			     	<input type="hidden"  name="airline" value="${flight.airline }" />
+<%-- 			     	<button type="button" class="btn btn-secondary" id="${flight.price }" value="0" style="width:50px;">찜</button>
+ --%>			     	<input type="hidden"  name="airline" value="${flight.airline }" />
 					<input type="hidden"  name="depCity"  value="${flight.depCity }" />
 					<input type="hidden"  name="arrCity" value="${flight.arrCity }" />
 					<input type="hidden" name="price"  value="${flight.price }" />

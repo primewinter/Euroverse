@@ -452,7 +452,7 @@
 				<div class="row" id="newInfo" style="Padding-left:40px;display:none;">
 					<div class="row">
             		<p style="">이름 *</p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  			<input type="text" title="예약자명을 입력하세요" style="width:200px;height:30px;" class="form-control" maxlength="20" name="buyerName" id="newbuyerName">
+                  			<input type="text" title="예약자명을 입력하세요" style="width:200px;height:30px;" class="form-control" maxlength="20" id="newbuyerName">
                   		<p style="Padding-left:130px;">이메일 *</p>&nbsp;&nbsp;&nbsp;
                   			<input type="text" title="이메일주소 앞자리를 입력해주세요" style="width:200px;height:30px;"class="form-control" name="str_email01" id="str_email01" >
                   		<P style="Padding-left:10px;" id="middle">@</P>&nbsp;&nbsp;&nbsp;

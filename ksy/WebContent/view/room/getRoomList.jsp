@@ -155,7 +155,7 @@ $(function(){
 					src="/resources/images/orderImg/Ellipsis-1s-200px.gif" alt="Loading..." />
 				</div>
 			</div>
-	
+			
 		<c:forEach var="room" items = "${roomList}" >
 		<hr style="width:830px;margin-left:80px;float:left;margin-right:600px;" />
 		<div class="row" style="margin-left:13px;">
