@@ -43,6 +43,10 @@
 		WHERE like_user_id = #{likeUserId} AND ref_id = #{refId} AND like_type = #{likeType}
 	</select>
 	
+	<select id="getRoomRefId" resultType="string">
+		SELECT SEQ_room_room_id.CURRVAL FROM dual
+	</select>
+	
 	<select id="getFlightRefId" resultType="string">
 		SELECT SEQ_flight_flight_id.CURRVAL FROM dual
 	</select>
@@ -53,7 +57,12 @@
 		VALUES ( SEQ_likes_like_id.NEXTVAL , #{likeType} , #{refId} , #{likeUserId} , 'F' )
 		</if>
 		<if test="refId == null">
-		VALUES ( SEQ_likes_like_id.NEXTVAL , #{likeType} , SEQ_flight_flight_id.CURRVAL , #{likeUserId} , 'F' )
+			<if test=' likeType.equals("R") '>
+				VALUES ( SEQ_likes_like_id.NEXTVAL , #{likeType} , SEQ_room_room_id.CURRVAL , #{likeUserId} , 'F' )
+			</if>
+			<if test=' likeType.equals("F") '>
+			VALUES ( SEQ_likes_like_id.NEXTVAL , #{likeType} , SEQ_flight_flight_id.CURRVAL , #{likeUserId} , 'F' )
+			</if>
 		</if>
     </insert>
 
