@@ -2069,7 +2069,7 @@
 
 					<div class="media" style="background-color: white; width: 100%; padding: 2px 15px; border-radius: 5px; font-size:14px; ">
 					
-						<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-1" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border: 1px #D1D1D1 solid; width: 120px; height: 95px;">
+						<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-1" alt="img loading.." style="border: 1px #D1D1D1 solid; width: 120px; height: 95px;">
 					    <div class="media-body" style="margin-left: 13px; margin-top: 25px; height: 100px;">
 					    	<span style="color: #EE0D0D; font-weight: bolder;"><c:if test="${plan.planStatus == 'C'}">여행완료!</c:if></span>
 					    	<div class="plan_type">
