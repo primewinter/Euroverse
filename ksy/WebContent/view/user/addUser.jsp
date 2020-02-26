@@ -36,6 +36,12 @@
 <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
 <!--========================= -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+
+	<!-- ICON 사용을 위한 스크립트 임포트 -->
+	<!-- https://feathericons.com/ -->
+	<script src="https://unpkg.com/feather-icons"></script>
+	
 <style>
 	div.carousel-inner {
 		width: 540px;
@@ -73,6 +79,12 @@
 	
 	.col {
 		font-size: 12px;
+	}
+	
+	.ui-datepicker-trigger{
+		margin-left:3px;
+		padding:6px;
+		width: 40px;
 	}
 </style>
 
@@ -546,20 +558,25 @@
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
-	<p style="font-size:30px; margin-left:500px; margin-top: 50px; margin-bottom: -20px" >
+	<!-- <p style="font-size:30px; margin-left:500px; margin-top: 50px; margin-bottom: -20px" >
 		회원가입
 		<br><hr style="width: 600px;margin-bottom: -5px;">
 		<small style="margin-left:500px; ">정보를 입력해주세요.</small>
-	</p>
+	</p> -->
 	
-	<div class="container">
+	<div class="container" style="max-width: 1000px;">
+	
+		<div class="mx-auto" style="width: 50%;margin: 30px 30px;">
+			<div style="border-bottom: 1px solid #A6C0C1;padding-bottom: 5px;margin-bottom: 0px;font-size: 30px;font-weight: bolder;">회원가입</div>
+			<div>정보를 입력해주세요.</div>
+		</div>
 	
 		<form>
 			<div class="form-group">
 				<div class="col-6 mx-auto">
-					<b>Id</b>
+					<b>아이디</b>
 					<div class="input-group-prepend">
-						<span class="input-group-text"><i class="fas fa-user"></i></span>
+						<span class="input-group-text"><i class="fas fa-user"></i></span> &nbsp;
 						<input type="text" class="form-control" placeholder="userId" id="userId" name="userId" style="ime-mode:inactive;">
 					</div>
 					<h6 class="addH6"></h6>
@@ -568,9 +585,9 @@
 		
 			<div class="form-group">
 				<div class="col-6 mx-auto">
-					<b>Password</b>
+					<b>비밀번호</b>
 					<div class="input-group-prepend">
-						<span class="input-group-text"><i class="fas fa-lock"></i></span>
+						<span class="input-group-text"><i class="fas fa-lock"></i></span> &nbsp;
 						<input type="password" class="form-control" placeholder="password" id="pwd" name="pwd">
 					</div>
 					<h6 class="addH6"></h6>
@@ -579,9 +596,9 @@
 			
 			<div class="form-group">
 				<div class="col-6 mx-auto">
-					<b>PasswordConfirm</b>
+					<b>비밀번호 확인</b>
 					<div class="input-group-prepend">
-						<span class="input-group-text"><i class="fas fa-lock"></i></span>
+						<span class="input-group-text"><i class="fas fa-lock"></i></span> &nbsp;
 						<input type="password" class="form-control" placeholder="password Confirm" id="pwdConfirm">
 					</div>
 					<h6 class="addH6"></h6>
@@ -592,9 +609,9 @@
 		
 			<div class="form-group">
 				<div class="col-6 mx-auto">
-					<b>Name</b>
+					<b>이름</b>
 					<div class="input-group-prepend">
-						<span class="input-group-text"><i class="fas fa-user"></i></span>
+						<span class="input-group-text"><i class="fas fa-user"></i></span> &nbsp;
 						<input type="text" class="form-control" placeholder="Only Korean" name="userName" id="userName" onkeypress="if(!(event.keyCode < 47 && event.keyCode > 58)) event.returnValue=false;">
 					</div>
 					<h6 class="addH6"></h6>
@@ -603,9 +620,9 @@
 			
 			<div class="form-group">
 				<div class="col-6 mx-auto">
-				<b>Nickname</b>
+				<b>닉네임</b>
 					<div class="input-group-prepend">
-						<span class="input-group-text"><i class="fas fa-user"></i></span>
+						<span class="input-group-text"><i class="fas fa-user"></i></span> &nbsp;
 						<c:if test="${loginType!='sns'}">
 							<input type="text" class="form-control" placeholder="Nickname" name="nickname" id="nickname">
 						</c:if>
@@ -619,24 +636,26 @@
 		
 			<div class="form-group">
 				<div class="col-6 mx-auto">
-				<b>Birth</b>
+				<b>생년월일</b>
 					<div class="input-group-prepend">
-						<span class="input-group-text"><i class="fas fa-baby"></i></span>
+						<span class="input-group-text" style="width: 40px;"><i class="fas fa-baby"></i></span> &nbsp;
 						<span class="input-group-append"><input type="text" class="form-control" placeholder="birth" name="birth" readonly="readonly" id="datepicker"></span>
 					</div>
 					<h6 class="addH6"></h6>
-						
 				</div>
 			</div>
 		
 			<div class="form-group">
 				<div class="col-6 mx-auto">
-					<b>Email</b>
-					<div class="input-group-prepend">
-						<span class="input-group-text"><i class="fas fa-globe"></i></span>
+					<b>이메일</b>
+					<div class="input-group-prepend ">
+						<span class="input-group-text" style="width: 40px;"><i class="fas fa-globe"></i></span> &nbsp;
+						
 						<c:if test="${loginType != 'sns' }">
 							<input type="text" class="form-control" placeholder="email" id="emailId">
-							<span class="input-group-append">&nbsp;<i class="fas fa-at"></i>&nbsp;</span>
+							
+							<span class="input-group-append pt-2">&nbsp;&nbsp;<i class="fas fa-at"></i>&nbsp;&nbsp;</span>
+							
 							<select class="custom-select" id="choiceEmail">
 								<option value="" disabled selected hidden>please choice....</option>
 							    <option value="gmail.com">gmail.com</option>
@@ -644,9 +663,13 @@
 							    <option value="daum.net">daum.net</option>
 						 	</select>
 						</c:if>
+						
+						
 						<c:if test="${loginType == 'sns' }">
 							<input type="text" class="form-control" value="${snsUser.emailId}" id="emailId">
-							<span class="input-group-append">&nbsp;<i class="fas fa-at"></i>&nbsp;</span>
+							
+							<span class="input-group-append pt-2">&nbsp;&nbsp;<i class="fas fa-at"></i>&nbsp;&nbsp;</span>
+							
 							<select class="custom-select" id="choiceEmail">
 					   		<c:if test="${snsUser.choiceEmail=='gmail.com'}">
 							    <option value="gmail.com">gmail.com</option>
@@ -665,6 +688,7 @@
 							</c:if>
 						 	</select>
 						</c:if>
+						
 					 	<input type="hidden" name="email" id="email">
 					</div>
 					<h6 class="addH6"></h6>
@@ -675,16 +699,16 @@
 		
 			<div class="form-group">
 				<div class="col-6 mx-auto">
-				<b>Sex</b>
+				<b>성별</b>
 					<div class="input-group-prepend">
-						<span class="input-group-text"><i class="fas fa-venus-mars"></i></span>&nbsp;&nbsp;
+						<span class="input-group-text" style="height: 38px;width:40px;"><i class="fas fa-venus-mars"></i></span>&nbsp;&nbsp;
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="radio" name="sex" id="male" value="M">
-							<label class="form-check-label" for="inlineRadio1">Male<i class="fas fa-male"></i></label>
+							<label class="form-check-label" for="inlineRadio1">Male <i class="fas fa-male"></i></label>
 						</div>
 						<div class="form-check form-check-inline">
 						  <input class="form-check-input" type="radio" name="sex" id="female" value="F">
-						  <label class="form-check-label" for="inlineRadio2">Female<i class="fas fa-female"></i></label>
+						  <label class="form-check-label" for="inlineRadio2">Female <i class="fas fa-female"></i></label>
 						</div>
 					</div>
 					<h6 class="addH6"></h6>
@@ -695,11 +719,11 @@
 	
 			 <div class="form-group">
 			 	<div class="col-6 mx-auto">
-			 		<b>Phone</b>
-			 		<div class="input-group-prepend">
-				 		<span class="input-group-text"><i class="fas fa-phone"></i></span>
-					    <input type="text" class="form-control" id="phone1" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"> - 
-					    <input type="text" class="form-control" id="phone2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"> - 
+			 		<b>휴대폰 번호</b>
+			 		<div class="input-group-prepend align-items-center">
+				 		<span class="input-group-text" style="height: 38px;width: 40px;"><i class="fas fa-phone"></i></span> &nbsp;
+					    <input type="text" class="form-control" id="phone1" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"> &nbsp;-&nbsp; 
+					    <input type="text" class="form-control" id="phone2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"> &nbsp;-&nbsp; 
 					    <input type="text" class="form-control" id="phone3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4">
 					    <input type="hidden" name="phone" id="phone"> 
 				    </div>
@@ -709,7 +733,7 @@
 
 			 <div class="form-group">
 				<div class="col-6 mx-auto">
-					<b>Profile Image</b>
+					<b>프로필 이미지</b>
 					<c:if test="${loginType!='sns'}">
 						<div class="custom-file">
 						  <input type="file" class="custom-file-input" id="image" name="image" accept="image/*" >
@@ -728,10 +752,11 @@
 		
 	
 	
-			<div class="form-group">
+			<div class="form-group" style="margin-top:50px; margin-bottom: 0px;padding-bottom: 0px;">
 				 <div class="col-6 mx-auto ">	
 			      <div id="country-carousel" class="carousel slide" data-ride="carousel">
-					<b>가고싶은 나라</b><small>(최대5개)</small>
+			      
+					<span data-feather="flag"></span> &nbsp;<b>가고싶은 나라</b><small> ( 최대 5개 ) </small>
 			            <!-- 슬라이드 쇼 -->
 			            <div class="carousel-inner">
 			                <!--첫번째 슬라이드-->
@@ -742,7 +767,7 @@
 			
 									<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="0" end="9">
 											<div class="col" style="margin-top: 30px; text-align: center;">
-									    		<img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;">
+									    		<img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;margin-bottom: 10px;">
 					 							<input type="hidden" value="${status.index}">
 									   	 		<input  type="checkbox" id="dreamCountry${status.index}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
 									   	 		<input type="hidden" id="countryImg${status.index}" value="${dreamCountry.surveyImg}">
@@ -756,7 +781,7 @@
 			                     <div class="row">
 									<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="10" end="19">
 											<div class="col" style="margin-top: 30px; text-align: center;">
-									    		<img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;">
+									    		<img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;margin-bottom: 10px;">
 					 							<input type="hidden" value="${status.index}">
 									   	 		<input  type="checkbox" id="dreamCountry${status.index}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
 									   	 		<input type="hidden" id="countryImg${status.index}" value="${dreamCountry.surveyImg}">
@@ -770,7 +795,7 @@
 			                     <div class="row">
 									<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="20" end="29">
 											<div class="col" style="margin-top: 30px; text-align: center;">
-									    		<img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;">
+									    		<img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;margin-bottom: 10px;">
 					 							<input type="hidden" value="${status.index}">
 									   	 		<input  type="checkbox" id="dreamCountry${status.index}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
 									   	 		<input type="hidden" id="countryImg${status.index}" value="${dreamCountry.surveyImg}">
@@ -785,7 +810,7 @@
 			                     <div class="row">
 									<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="30" end="39">
 											<div class="col" style="margin-top: 30px; text-align: center;">
-									    		<img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;">
+									    		<img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;margin-bottom: 10px;">
 					 							<input type="hidden" value="${status.index}">
 									   	 		<input  type="checkbox" id="dreamCountry${status.index}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
 									   	 		<input type="hidden" id="countryImg${status.index}" value="${dreamCountry.surveyImg}">
@@ -800,7 +825,7 @@
 			                     <div class="row">
 									<c:forEach var="dreamCountry" items="${countryList}" varStatus="status" begin="40" >
 											<div class="col" style="margin-top: 30px; text-align: center;">
-									    		<img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;">
+									    		<img alt="" src="/resources/images/tripInfoimges/${dreamCountry.surveyImg}" width="80px" height="80px" style="overflow: hidden;margin-bottom: 10px;">
 					 							<input type="hidden" value="${status.index}">
 									   	 		<input  type="checkbox" id="dreamCountry${status.index}" value="${dreamCountry.surveyChoice}" class="dreamCountry">
 									   	 		<input type="hidden" id="countryImg${status.index}" value="${dreamCountry.surveyImg}">
@@ -824,11 +849,11 @@
 			        </div>
 				</div>
 			</div>	
-	
-	
+			
 			<div class="form-group">
 				<div class="col-6 mx-auto ">	
-					<b>나의 여행스타일</b><small>(최대3개)</small>
+				
+					<span data-feather="compass"></span> &nbsp;<b>나의 여행스타일</b><small> ( 최대 3개 ) </small>
 			     	<div id="main-carousel" class="carousel slide" data-ride="carousel">
 			            <!-- 슬라이드 쇼 -->
 			            <div class="carousel-inner">
@@ -837,7 +862,7 @@
 			                    <div class="row">
 									<c:forEach var="style" items="${tripStyleList}" varStatus="status" begin="0" end="9">
 										<div class="col" style="margin-top: 30px; text-align: center;">
-									    	<img alt="" src="/resources/images/tripInfoimges/${style.surveyImg}" style="overflow: hidden" width="80px;"height="80px;">
+									    	<img alt="" src="/resources/images/tripInfoimges/${style.surveyImg}" style="overflow: hidden;margin-bottom: 10px;" width="80px;"height="80px;">
 					 							<input type="hidden" value="${status.index}">
 									   	 		<input  type="checkbox" id="tripStyle${status.index}" value="${style.surveyChoice}" class="tripStyle">
 									   	 		<input type="hidden" id="styleImg${status.index}" value="${style.surveyImg}">
@@ -852,7 +877,7 @@
 			                     <div class="row">
 									<c:forEach var="style" items="${tripStyleList}" varStatus="status" begin="10" end="19">
 											<div class="col" style="margin-top: 30px; text-align: center;">
-									    		<img alt="" src="/resources/images/tripInfoimges/${style.surveyImg}" style="overflow: hidden" width="80px;"height="80px;">
+									    		<img alt="" src="/resources/images/tripInfoimges/${style.surveyImg}" style="overflow: hidden;margin-bottom: 10px;" width="80px;"height="80px;">
 						 						<p class="card-text"> 
 						 							<input type="hidden" value="${status.index}">
 										   	 		<input  type="checkbox" id="tripStyle${status.index}" value="${style.surveyChoice}" class="tripStyle">
@@ -921,6 +946,15 @@
 				</div>
 		
 		</form>
-</body>
+
+	</div>
+	
+	<script>
+		/* icon 사용을 위한 스크립트 */
+		feather.replace();
+	</script>
+	
 	<jsp:include page="/toolbar/footer.jsp"></jsp:include>
+</body>
+	
 </html>

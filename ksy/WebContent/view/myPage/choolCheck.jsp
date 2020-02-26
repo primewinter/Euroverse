@@ -139,7 +139,7 @@ $(function(){
 						wait.style.display = 'none';
 						openCal();
 						modalBodyDiv.style.display='block';
-							}, 3000);
+							}, 2000);
 		
 				}
 			})
