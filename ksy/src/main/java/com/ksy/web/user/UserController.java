@@ -306,6 +306,9 @@ public class UserController {
 	@RequestMapping(value = "searchId",method=RequestMethod.GET)
 	public String searchUserId(HttpSession session) {
 		System.out.println("UserController GET searchUserId!");
+		if(session.getAttribute("user")!=null) {
+			return"redirect:/main.jsp";
+		}
 		
 		
 		return"redirect:/view/user/searchId.jsp";
@@ -371,7 +374,9 @@ public class UserController {
 	@RequestMapping(value="updateUser" , method = RequestMethod.GET)
 	public String updateUser(Model model , HttpSession session) {
 		System.out.println("userController updateUser GET");
-		
+		if(session.getAttribute("user")==null) {
+			return"redirect:/main.jsp";
+		}
 		
 		List<TripSurvey> countryList = countryList();
 		List<TripSurvey> tripStyleList = tripStyleList();
@@ -591,6 +596,9 @@ public class UserController {
 		/*
 		 * if(session.getAttribute("user")!=null) { return"redirect:/main.jsp"; }
 		 */
+		if(session.getAttribute("user")!=null) {
+			return"redirect:/main.jsp";
+		}
 		
 		model.addAttribute("userId" , userId);
 		return "forward:/view/user/updatePwd.jsp";
@@ -890,20 +898,7 @@ public class UserController {
 	
 	
 	
-	
-	@RequestMapping(value="sessionTest")
-	public String sessionTest(HttpSession session, Model model  ) throws Exception {
 
-		System.out.println("세션겟아이디"+session.getId());
-		System.out.println("1"+session.getAttributeNames());
-		System.out.println("2"+session.getValueNames());
-		System.out.println("3"+session.getSessionContext());
-		System.out.println("4"+session.getServletContext());
-		System.out.println(InetAddress.getLocalHost());
-		System.out.println(InetAddress.getLoopbackAddress());
-		
-		return "";
-	}
 	
 	
 	

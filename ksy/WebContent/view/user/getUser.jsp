@@ -476,7 +476,9 @@ var maPageCode = 'M';
 			  					</div>
 				    			<div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
 				        			<!-- back content -->
-			 						<p style="font-size: 20px;">${user.totalPoint}P</p>
+			 						<p style="font-size: 20px;">
+			 					 	${user.totalPoint}P 
+			 						</p>
 				   				</div>
 							</div>
 					</div>
