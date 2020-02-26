@@ -179,16 +179,19 @@ public class MyPageRestController {
 	}
 	
 	
-	@RequestMapping(value="json/deleteLike/{refId}")
-	public Map deleteLike(@PathVariable String refId , HttpSession session)throws Exception{
+	@RequestMapping(value="json/deleteLike/{refId}/{likeType}")
+	public Map deleteLike(@PathVariable String refId ,@PathVariable String likeType ,HttpSession session)throws Exception{
 		
-		
+		System.out.println("에에엥에에에@@@@@@@@@@@@@@@@@@@@@@@@@");
+		System.out.println(likeType);
 		Like like = new Like();
 		User user=(User)session.getAttribute("user");
 	    like.setLikeUserId(user.getUserId());
 	    like.setRefId(refId);
+	    like.setLikeType(likeType);
+	    System.out.println("야아아압");
 	    likeService.like_check_cancel(like);
-	    
+	    System.out.println("호호호호호홓");
 		List<Like> likeList = myPageService.getLikeOrderList(user.getUserId());
 		System.out.println(likeList);
 		List<Flight> flightList = new ArrayList<Flight>();

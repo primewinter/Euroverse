@@ -21,7 +21,7 @@
     #loginModal .modal-content {
 
         width: 500px;
-        height: 300px;
+        height: 350px;
         position: absolute;
         top: 100px;
         right: 10px;
@@ -241,18 +241,18 @@
 	                        <h6 class="loginH6" style="color: #F00"></h6>
 	                    </div>
 	                    <h6 class="loginH6" style="color: #F00"></h6>
-	                    <a href="/user/searchId"> <span class="useruser" style="position:absolute; top:215px;left:30px;">아이디찾기</span> </a>
-	                    <a href="/user/findPwd"> <span class="useruser" style="position:absolute; top:215px;left:100px;">비밀번호찾기</span></a>
+	                    <a href="/user/searchId"> <span class="useruser" style="position:absolute; top:250px;left:100px;"><b>아이디찾기</b></span> </a>
+	                    <a href="/user/findPwd"> <span class="useruser" style="position:absolute; top:250px;left:175px;"><b>비밀번호찾기</b></span></a>
 	
-	                    <div style="text-align: right; position:absolute; top:215px;right:25px;font-size: 12px;">SNS간편회원가입</div>
-	                    <div style="text-align: right;position:absolute;top:235px;right:20px;">
-	                        <img id="kakaoLogin" src="/resources/images/userImages/kakaoImage.png" width="30" height="30" />
-	                        <img id="naverLogin" src="/resources/images/userImages/naverImage.PNG" width="30" height="30" />
-	                        <img id="googleLogin" src="/resources/images/userImages/googleImage.png" width="30" height="30">
+	                    <!-- <div style="text-align: right; position:absolute; top:215px;right:25px;font-size: 12px;">SNS간편회원가입</div> -->
+	                    <div style="text-align: center;position:absolute;top:235px;">
+	                        <img id="kakaoLogin" src="/resources/images/userImages/kakaoImage.png" width="40" height="40" style="border-radius: 100px; margin-left:240px;cursor: pointer;"/>
+	                        <img id="naverLogin" src="/resources/images/userImages/naverImage.PNG" width="40" height="40" style="border-radius: 100px; margin-left: 10px;cursor:pointer;" />
+	                        <img id="googleLogin" src="/resources/images/userImages/googleImage.png" width="40" height="40" style="border-radius: 100px;margin-left:10px;cursor:pointer;"/>
 	                    </div>
 	                    <h6 class="loginH6"></h6>
-	
-	                    <button type="button" id="loginButton" class="btn btn-outline-primary" style="margin-left: 20px; position:absolute; top:240px;right:395px;">로그인</button>
+						<div style="height: 50px;"></div>
+	                    <button type="button" id="loginButton" class="btn btn-outline-primary" style="width:300px;margin-left: 85px; position:absolute; top:300px;">로그인</button>
 	
 	                </form>
 	            </div>
