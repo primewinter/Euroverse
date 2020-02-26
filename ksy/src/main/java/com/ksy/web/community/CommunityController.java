@@ -174,6 +174,7 @@ public class CommunityController {
 			
 			post.setPlanId(copiedPlanId);
 		}
+		System.out.println(post.getPostDate());
 		communityService.addPost(post);
 
 		List<Tag> tags = new ArrayList<Tag>();
