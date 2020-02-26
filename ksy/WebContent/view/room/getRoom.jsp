@@ -115,12 +115,12 @@ $(function () {
 				checkOut : checkOut,
 				checkIn : checkIn,
 				roomNum : roomNum,
-				roomAddr : roomAddr,
-				mainService : mainService,
+				roomAddr : roomAddr
+				/* mainService : mainService,
 				familyService : familyService,
 				sights : sights,
 				hotelInfo : hotelInfo,
-				roomInfo : roomInfo
+				roomInfo : roomInfo */
 				
 			}),
 			success : function(data) {
@@ -128,7 +128,6 @@ $(function () {
 				msg += data.msg;
 				alert(msg);
 				alert(data.refId);
-				alert(price)
 				$("#wish").val(data.refId);
 				if(data.likeCheck == 'F'){
 				  $("#wish").attr('class','btn btn-secondary');
@@ -189,7 +188,7 @@ $(function () {
 										<i class="fas fa-won-sign" style="font-size:22px;"><fmt:formatNumber value="${room.price}" pattern="###,###" /> 원</i>
 								</div>
 								<br/>
-								<i class="far fa-heart" id="wish" style="font-size:25px;"></i>
+								<!-- <i class="far fa-heart" id="wish" style="font-size:25px;"></i> -->
 			  				   	<button type="button" class="btn btn-secondary" id="wish" value="R" style="width:50px;">찜</button>
 								
 								

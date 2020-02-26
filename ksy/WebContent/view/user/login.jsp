@@ -241,12 +241,11 @@
 	                        <h6 class="loginH6" style="color: #F00"></h6>
 	                    </div>
 	                    <h6 class="loginH6" style="color: #F00"></h6>
-	                    <a href="/user/searchId"> <span class="useruser" style="position:absolute; top:250px;left:100px;"><b>아이디찾기</b></span> </a>
-	                    <a href="/user/findPwd"> <span class="useruser" style="position:absolute; top:250px;left:175px;"><b>비밀번호찾기</b></span></a>
-	
 	                    <!-- <div style="text-align: right; position:absolute; top:215px;right:25px;font-size: 12px;">SNS간편회원가입</div> -->
 	                    <div style="text-align: center;position:absolute;top:235px;">
-	                        <img id="kakaoLogin" src="/resources/images/userImages/kakaoImage.png" width="40" height="40" style="border-radius: 100px; margin-left:240px;cursor: pointer;"/>
+		                    <a href="/user/searchId"> <span class="useruser" style="margin-left: 90px;"><b>아이디찾기</b></span> </a>
+		                    <a href="/user/findPwd"> <span class="useruser" style=""><b>비밀번호찾기</b></span></a>
+	                        <img id="kakaoLogin" src="/resources/images/userImages/kakaoImage.png" width="40" height="40" style="border-radius: 100px; margin-left:10px;cursor: pointer;"/>
 	                        <img id="naverLogin" src="/resources/images/userImages/naverImage.PNG" width="40" height="40" style="border-radius: 100px; margin-left: 10px;cursor:pointer;" />
 	                        <img id="googleLogin" src="/resources/images/userImages/googleImage.png" width="40" height="40" style="border-radius: 100px;margin-left:10px;cursor:pointer;"/>
 	                    </div>

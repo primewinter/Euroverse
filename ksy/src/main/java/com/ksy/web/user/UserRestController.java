@@ -499,9 +499,14 @@ public class UserRestController {
 		JSONObject jsonObject = (JSONObject)JSONValue.parse(mapString);
 		
 		Map<String, String> mailMap = objectMapper.readValue(jsonObject.toString(), new TypeReference<Map<String, String>>(){});
-		
 		String email = mailMap.get("email");
-		
+
+		String userId = mailMap.get("userId");
+		if(userId != null) {
+			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+userId);
+		}else {
+			System.out.println("유저아이디는!!!!!! 널입니다@!@!#@@!@");
+		}
 		
 		System.out.println("===================="+email);
 		// 메일 인증 시 입력할 값을 생성 
@@ -562,6 +567,8 @@ public class UserRestController {
 		mimemessage.setSubject("Euroverse 이메일 인증");
 		mimemessage.setText("");
 		
+		String goUrl = "/user/updatePwd?userId="+userId;//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 소영누나 이게 url이야... 많이 못해서 미안해
+		
 		Multipart	multi = new MimeMultipart("related");
 		MimeBodyPart mbp = new MimeBodyPart();
 		StringBuffer str = new StringBuffer();
@@ -574,8 +581,6 @@ public class UserRestController {
 			str.append("</div>");
 		str.append("</div>");
 		
-		
-		//String htmlText = "<h1>이게 먹히나?</h1>이게 되는거면 이미지도 되는거겠지?"+state;						 
 		
 		
 		
