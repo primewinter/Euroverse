@@ -456,7 +456,8 @@
     /*the container must be positioned relative:*/
     .cur-select {
         position: relative;
-        font-family: Arial;
+        font-size: 10pt;
+        width: 100px;
     }
 
     .cur-selected:hover {
@@ -696,6 +697,7 @@
     span.section__header__more {
         font-size: 15px;
     }
+    
 
 </style>
 
@@ -808,20 +810,13 @@
 
 
 
-
-            <div style="clear: both"></div>
-            <div class="cur-select" style="width:200px;">
-                <select>
-                    <option value="0"><img class='cur-select-img' src='/resources/images/tripInfoimges/Europe.png' data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR" />EU</option>
-                    <option value="1"><img class='cur-select-img' data-toggle="list" href="#list-profile" hwa='포린트' mon="HUF" con="HUN" src='/resources/images/tripInfoimges/Hungary.gif' />헝가리</option>
-                    <option value="2"><img class='cur-select-img' data-toggle="list" href="#list-messages" hwa='코루나' mon="CZK" con="CZE" src='/resources/images/tripInfoimges/Czech.gif' />체코</option>
-                    <option value="3"><img class='cur-select-img' data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR" src='/resources/images/tripInfoimges/England.gif' />영국</option>
-                    <option value="4"> <img class='cur-select-img' data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR" src='/resources/images/tripInfoimges/Swiss.gif' />스위스</option>
-                </select>
-            </div>
-
+        </section>
+        <div style="clear: both"></div>
+        
+<hr>    
+           <section>
             <!-- 클래스명은 변경하면 안 됨 -->
-           <!-- <div class="swiper-container">
+            <div class="swiper-container" style="margin: 3em;">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide"><a id="a" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR">
                             <img src='/resources/images/tripInfoimges/Europe.png' />
@@ -875,13 +870,35 @@
                             <img src='/resources/images/tripInfoimges/Poland.png' />
                             <p>폴란드</p>
                         </a></div>
-                </div>-->
+                </div>
 
                 <!-- 네비게이션 -->
-               <!-- <div class="swiper-button-next"></div>--><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
-                <!--<div class="swiper-button-prev"></div>--><!-- 이전 버튼 -->
+                <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+                <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
 
-            <!--</div>-->
+            </div>
+                 <div style="padding:5em;text-align: center;left:300px;">
+                  <!-- =========== 환율금액입력 ====================  -->
+            <div class="input-group flex-nowrap cur-result">
+                <div class="countryMoney">
+                    <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()">원
+                    <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="">
+                    <div class='text'>
+                    </div>
+                </div>
+            </div>
+               </div>
+            
+        <div style="clear: both"></div>
+            <div class="cur-select" style="display: none;">
+                <select>
+                    <option value="0" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR"><img class='cur-select-img' src='/resources/images/tripInfoimges/Europe.png' />EU</option>
+                    <option value="1" data-toggle="list" href="#list-profile" hwa='포린트' mon="HUF" con="HUN" ><img class='cur-select-img' src='/resources/images/tripInfoimges/Hungary.gif'/>헝가리</option>
+                    <option value="2" data-toggle="list" href="#list-messages" hwa='코루나' mon="CZK" con="CZE"><img class='cur-select-img'  src='/resources/images/tripInfoimges/Czech.gif'/>체코</option>
+                    <option value="3" data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR" ><img class='cur-select-img' src='/resources/images/tripInfoimges/England.gif'/>영국</option>
+                    <option value="4"  data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR" > <img class='cur-select-img'src='/resources/images/tripInfoimges/Swiss.gif'/>스위스</option>
+                </select>
+            </div>
 
 
             <!-- ============국가정보출력 box ================ -->
@@ -903,16 +920,7 @@
 
             </div>
 
-            <!-- =========== 환율금액입력 ====================  -->
-            <div class="input-group flex-nowrap">
-                <div class="countryMoney">
-                    <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()">
-                    원<br /><br /><br /><br />
-                    <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="">
-                    <div class='text'>
-                    </div>
-                </div>
-            </div>
+      
 
         </section>
         
@@ -1281,13 +1289,13 @@
         };
 
         function exchange(data) {
-
+            //if( $('.select-selected') ) {
             if ($(".swiper-slide.on")) {
                 $.getJSON('https://api.exchangeratesapi.io/latest?base=KRW').done(
 
                     function(data) {
 
-                        var mon = $(".swiper-slide>a").attr('mon');
+                        var mon = $(".swiper-slide.on a").attr('mon');
 
                         if (mon == undefined) {
                             $("#result").val("국가를 선택하세요")
@@ -1409,11 +1417,15 @@
         var x, i, j, selElmnt, a, b, c;
         /*look for any elements with the class "custom-select":*/
         x = document.getElementsByClassName("cur-select");
+        var conCode;
+        var conName;
+        var conHwa;
         for (i = 0; i < x.length; i++) {
             selElmnt = x[i].getElementsByTagName("select")[0];
             /*for each element, create a new DIV that will act as the selected item:*/
             a = document.createElement("DIV");
             a.setAttribute("class", "select-selected");
+            
             a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
             x[i].appendChild(a);
             /*for each element, create a new DIV that will contain the option list:*/
@@ -1456,6 +1468,15 @@
                 this.classList.toggle("select-arrow-active");
             });
         }
+        
+     /*   통화이름 보이기
+        conCode = $('.select-selected').attr('con');
+        conName = $('.select-selected').text();
+        conHwa = $('.select-selected').attr('hwa');
+        countryInfo(conCode);*/
+
+        $('input[name="conMoney"]').attr('placeholder', conName.trim());
+        $('.text').html(conHwa);
 
         function closeAllSelect(elmnt) {
             /*a function that will close all select boxes in the document,
