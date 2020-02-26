@@ -86,7 +86,9 @@
  $(function () {
 	 $(".btn.btn-secondary").click(function () {
 		 var val = $(this).val();
+		 console.log("val : "+val);
 		 var airline = $(this).next().val();
+		 jQuery.trim(airline);
 		 var depCity = $(this).next().next().val();
 		 var arrCity = $(this).next().next().next().val();
 		 var price = $(this).next().next().next().next().val();
@@ -112,6 +114,7 @@
 				"Content-Type" : "application/json"
 			},
 			data : JSON.stringify({
+				flightId : val,
 				airline : airline,
  	     		depCity : depCity,
 				arrCity : arrCity,
@@ -192,7 +195,7 @@
 			      
 			      <!-- <input type="hidden"  name="flightId" id="flightId" value="" />  -->
 			     <%--  <i class="far fa-heart"  onclick="addWish('${flight.price }');" id="${flight.price }" style="font-size:15px;"></i> --%>
-			     	<button type="button" class="btn btn-secondary" id="${flight.price }" value="" style="width:50px;">찜</button>
+			     	<button type="button" class="btn btn-secondary" id="${flight.price }" value="0" style="width:50px;">찜</button>
 			     	<input type="hidden"  name="airline" value="${flight.airline }" />
 					<input type="hidden"  name="depCity"  value="${flight.depCity }" />
 					<input type="hidden"  name="arrCity" value="${flight.arrCity }" />
