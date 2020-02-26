@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>Insert title here</title>
+<title>Euroverse</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -111,8 +111,8 @@
 	}
 	
 	.flip-container, .front, .back {
-	    width: 240px;
-	    height: 240px;
+	    width: 120px;
+	    height: 120px;
 	   /*border:1px solid lightgray;*/
 	}
 	/* flip speed goes here */
@@ -156,6 +156,93 @@
 </style>
 
 <script>
+
+$(document).ready(function() {
+	
+	var Calendar = FullCalendar.Calendar;
+	var Draggable = FullCalendarInteraction.Draggable;
+
+	var containerEl = document.getElementById('external-events');
+	var calendarEl = document.getElementById('calendar');
+	var checkbox = document.getElementById('drop-remove');
+
+	var calendar = new Calendar(calendarEl, {
+	    plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+	    customButtons: {
+	        choolCheck: {
+	          text: '출석체크',
+	          click: function() {
+				var date = new Date();
+	          	var currentDate = date.getFullYear() + "-"+ (date.getMonth()+1) + "-" +date.getDate();
+	          	var stringDate = date.getFullYear() +""+(date.getMonth()+1) +date.getDate();
+				$(function(){
+					$.ajax({
+						url : "/myPage/json/choolChecking",
+						method : "post",
+						dataType : "json",
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						data : JSON.stringify({
+							currentDate : currentDate,
+							year : date.getFullYear(),
+							month : date.getMonth()+1,
+							day : date.getDate(),
+							stringDate : stringDate
+						}),
+						success : function(JSONData, Status) {
+									
+								if(JSONData.error == 'error'){
+									
+									swal({
+										   icon : 'warning',
+										  title : "출석체크 실패!",
+										  text:"내일 다시 시도해주세요.",
+										 
+										})
+									
+								}else{
+									calendar.addEvent(JSONData);
+									
+									swal({
+										   icon : 'success',
+										  title : "출석체크 성공!",
+										  text:"100Point 적립 ",
+										})
+								}
+							}
+					})	
+				})
+	          }
+	        }
+	      },
+	    header: {
+	      left: 'title',
+	      right : 'choolCheck'
+	    },
+				eventSources: [{
+	events: function(start, callback) {
+	    $.ajax({
+	        url     : '/myPage/json/choolCheck',
+	        type    : 'get',
+	        dataType: 'json',
+	        success : function(doc) {
+	           	callback(doc);
+	        }
+	    });
+	}
+	}],
+	    editable: false,
+	    eventLimit : true,
+	    cache : true,
+	    locale: 'ko',
+	    height: 480
+	  });
+	calendar.render();	
+
+})
+
 
 var maPageCode = 'M';
 
@@ -257,92 +344,7 @@ var maPageCode = 'M';
 	
 	
 	
-	$(function(){
-		
 	
-		var Calendar = FullCalendar.Calendar;
-		var Draggable = FullCalendarInteraction.Draggable;
-
-		var containerEl = document.getElementById('external-events');
-		var calendarEl = document.getElementById('calendar');
-		var checkbox = document.getElementById('drop-remove');
-
-		var calendar = new Calendar(calendarEl, {
-		    plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
-		    customButtons: {
-		        choolCheck: {
-		          text: '출석체크',
-		          click: function() {
-					var date = new Date();
-		          	var currentDate = date.getFullYear() + "-"+ (date.getMonth()+1) + "-" +date.getDate();
-		          	var stringDate = date.getFullYear() +""+(date.getMonth()+1) +date.getDate();
-					$(function(){
-						$.ajax({
-							url : "/myPage/json/choolChecking",
-							method : "post",
-							dataType : "json",
-							headers : {
-								"Accept" : "application/json",
-								"Content-Type" : "application/json"
-							},
-							data : JSON.stringify({
-								currentDate : currentDate,
-								year : date.getFullYear(),
-								month : date.getMonth()+1,
-								day : date.getDate(),
-								stringDate : stringDate
-							}),
-							success : function(JSONData, Status) {
-										
-									if(JSONData.error == 'error'){
-										
-										swal({
-											   icon : 'warning',
-											  title : "출석체크 실패!",
-											  text:"내일 다시 시도해주세요.",
-											 
-											})
-										
-									}else{
-										calendar.addEvent(JSONData);
-										
-										swal({
-											   icon : 'success',
-											  title : "출석체크 성공!",
-											  text:"100Point 적립 ",
-											})
-									}
-								}
-						})	
-					})
-		          }
-		        }
-		      },
-		    header: {
-		      left: 'title',
-		      right : 'choolCheck'
-		    },
-					eventSources: [{
-		events: function(start, callback) {
-		    $.ajax({
-		        url     : '/myPage/json/choolCheck',
-		        type    : 'get',
-		        dataType: 'json',
-		        success : function(doc) {
-		           	callback(doc);
-		        }
-		    });
-		}
-		}],
-		    editable: false,
-		    eventLimit : true,
-		    cache : true,
-		    locale: 'ko',
-		    height: 500
-		  });
-		calendar.render(); 
-	})
-
 	
 	
 	
@@ -354,7 +356,9 @@ var maPageCode = 'M';
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
-	
+
+		
+		
 <div id="main">	
 	<div class="container" style="max-width: 1000px;">
 					
@@ -459,46 +463,46 @@ var maPageCode = 'M';
 	  		</div>
 	  		
 		</div>  
-		
+		<div style="height: 60px;"></div>		
 		<div class="row">
-			<div style="width: 500px;"><!-- 카드들 묶어놓음 -->
+			<div style="width: 625px;"><!-- 카드들 묶어놓음 -->
 				<!-- 카드 여섯장 ///////////////////////////////////////////////// -->
-				<div style="text-align: center;margin-top: 30px;">
+				<div style="text-align: center;margin-top: 60px;">
 			      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="pointCard">
 						  <div class="flipper">
-			   					<div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
+			   					<div class="front" style="border: 1px solid; text-align: center; padding-top: 45px;">
 			      					  <!-- front content -->
-			    					<p style="font-size: 30px;"><i class="fas fa-coins"></i> 포인트</p>
+			    					<p style="font-size: 20px;"><i class="fas fa-coins"></i> 포인트</p>
 			  					</div>
-				    			<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
+				    			<div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
 				        			<!-- back content -->
-			 						<p style="font-size: 30px;">${user.totalPoint}P</p>
+			 						<p style="font-size: 20px;">${user.totalPoint}P</p>
 				   				</div>
 							</div>
 					</div>
 			
 			      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="planCard">
 						  <div class="flipper">
-			   					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
+			   					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 45px;">
 			      					  <!-- front content -->
-			    					<p style="font-size: 30px;"><i class="far fa-flag"></i> 유럽에서</p>
+			    					<p style="font-size: 20px;"><i class="far fa-flag"></i> 유럽에서</p>
 			  					  </div>
-			      				<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
+			      				<div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
 			         				 <!-- back content -->
-			   						<p style="font-size: 30px;">${travelDate}일</p>
+			   						<p style="font-size: 20px;">${travelDate}일</p>
 			     				</div>
 			  				</div>
 					</div>
 			       
 			      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="slotCard">
 							  <div class="flipper">
-		     					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
+		     					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 45px;">
 		        					  <!-- front content -->
-		      						<p style="font-size: 30px;"><i class="fab fa-buromobelexperte"></i> 슬롯</p>
+		      						<p style="font-size: 20px;"><i class="fab fa-buromobelexperte"></i> 슬롯</p>
 		   					  </div>
-		      				  <div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
+		      				  <div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
 		         					 <!-- back content -->
-		   						<p style="font-size: 30px;">${user.slot}개</p>
+		   						<p style="font-size: 20px;">${user.slot}개</p>
 		   					 </div>
 		  				</div>
 					</div>
@@ -507,52 +511,53 @@ var maPageCode = 'M';
 			     <div style="text-align: center;">
 			      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="postCard">
 					    <div class="flipper">
-		   					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
+		   					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 45px;">
 		      					  <!-- front content -->
-		    						<p style="font-size: 30px;"><i class="far fa-clipboard"></i> 게시글</p>
+		    						<p style="font-size: 20px;"><i class="far fa-clipboard"></i> 게시글</p>
 		  					  </div>
-		   					  <div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
+		   					  <div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
 		        				<!-- back content -->
-		 							<p style="font-size: 30px;">${postCount}개</p>
+		 							<p style="font-size: 20px;">${postCount}개</p>
 		   					 </div>
 		  				</div>
 					</div>
 			    
 					<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="commentCard">
 			  			<div class="flipper">
-			       			 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
+			       			 <div class="front" style="border: 1px solid; text-align: center; padding-top: 45px;">
 			          					  <!-- front content -->
-			        			<p style="font-size: 30px;"><i class="far fa-copy"></i> 댓글</p>
+			        			<p style="font-size: 20px;"><i class="far fa-copy"></i> 댓글</p>
 			      			</div>
-			        		<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
+			        		<div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
 			          				  <!-- back content -->
-			     				<p style="font-size: 30px;">${commentCount}개</p>
+			     				<p style="font-size: 20px;">${commentCount}개</p>
 			       			</div>
 		   				</div>
 					</div>
 							
 			      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="partyCard">
 					 	 <div class="flipper">
-		   					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
+		   					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 45px;">
 		         					  <!-- front content -->
-		       					<p style="font-size: 30px;"><i class="fas fa-user-friends"></i> 동행</p>
+		       					<p style="font-size: 20px;"><i class="fas fa-user-friends"></i> 동행</p>
 		  					  </div>
-		       				 <div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
+		       				 <div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
 		           					<!-- back content -->
-		   						<p style="font-size: 30px;">${partyCount}개</p>
+		   						<p style="font-size: 20px;">${partyCount}개</p>
 		   					 </div>
 		   				</div>
 					</div>
 				</div>
 			</div><!-- 카드들 묶어놓음  -->
-			
-			
-				<div id="calendar"></div>
+				<div style="width: 375px;">
+						<div id="calendar"></div>
+				</div>
 			
 			
 		</div><!-- class ROW END -->		
 			
 	</div><!-- main Div End -->
+			
 	
 	<script>
 		/* icon 사용을 위한 스크립트 */

@@ -261,11 +261,11 @@
               1:1 문의  &nbsp; <span data-feather="help-circle"></span>
             </a>
           </li>
-          <li class="nav-item">
+<!--           <li class="nav-item">
             <a class="nav-link scroll" href="#A" id="choolCheck">
               출석체크  &nbsp; <span data-feather="calendar"></span>
             </a>
-          </li>
+          </li> -->
         </ul>
 
 
@@ -288,7 +288,7 @@
 		feather.replace();
 	</script>
 
- 	<jsp:include page="/view/myPage/choolCheck.jsp"></jsp:include> 
+ 	<%-- <jsp:include page="/view/myPage/choolCheck.jsp"></jsp:include> --%> 
 
 
 <!-- 
