@@ -238,7 +238,10 @@
 	$(function(){
  
  	$("#searchButton").on("click",function(){
-						
+		
+ 		 if ($("#tripCourses").val() == "2") {
+			 $("#to").val("0000-00-00");
+ 		 }
 					var loading = document.getElementById("loading");
 					
 					loading.style.display = 'block';
@@ -292,15 +295,26 @@ $(function() {
 		
 	});
 	 $('#searchButton').on('click', function(e){
-	    if($('input#from').val() == ''){
-	        alert('시작일을 선택해주세요.');
-	        $('input#from').focus();
-	        return false;
-	    }else if($('input#to').val() == ''){
-	        alert('종료일을 선택해주세요.');
-	        $('input#to').focus();
-	        return false;
-	    }
+		 if ($("#tripCourses").val() == "2") {
+				 if($('input#from').val() == ''){
+				        alert('시작일을 선택해주세요.');
+				        $('input#from').focus();
+				        window.location.reload(true);
+				        return;
+				    }
+		}else{
+		    if($('input#from').val() == ''){
+		        alert('시작일을 선택해주세요.');
+		        $('input#from').focus();
+		        window.location.reload(true);
+		        return;
+		    }else if($('input#to').val() == ''){
+		        alert('종료일을 선택해주세요.');
+		        $('input#to').focus();
+		        window.location.reload(true);
+		        return;
+		    }
+		}
 	 });
  
 	
@@ -325,7 +339,11 @@ function Show() {
 		$("#europe").css("display","block");
 		$("#domestic").css("display","none");
 		$("#depIcon").show();
-		$("#arrIcon").show();
+		if ($("#tripCourses").val() == "2") {
+			$("#arrIcon").hide();	
+		}else{
+			$("#arrIcon").show();
+		}
 		$("#search").hide();
 		$("#peopleChoice").hide();
 		$('footer').css("margin-top","-116");
@@ -342,7 +360,11 @@ function domestic(obj) {
 	if ($('#domestic').css("display","block")) { 
 		$("#domestic").css("display","none");
 		$("#depIcon").show();
-		$("#arrIcon").show();
+		if ($("#tripCourses").val() == "2") {
+			$("#arrIcon").hide();	
+		}else{
+			$("#arrIcon").show();
+		}
 		$('footer').css("margin-top","150");
 		//$("#totalNum").css("margin-left","18%");
 		
@@ -453,7 +475,7 @@ function europe(obj) {
 	/* ---------------- 인원수 증가, 감소  끄으으읕---------------- */
 	
 	/*  ---------------- 왕복 , 편도 function  ---------------- */
-	$(function() {
+	$(function() { //왕복
 		$("#roundTrip").click(function() {
 			$("#arraw").attr("class","fas fa-arrows-alt-h");
 			$('#roundTrip').attr('class','col-sm-3 basic');
@@ -461,12 +483,13 @@ function europe(obj) {
 			$("#tripCourses").val(1);
 		});
 	});
-	$(function() {
+	$(function() { //편도
 		$("#right").click(function() {
 			$("#arraw").attr("class","fas fa-arrow-right");
 			$('#roundTrip').attr('class','col-sm-3 change');
 			$('#right').attr('class','col-sm-3 basic');
 			$("#tripCourses").val(2);
+			$("#arrIcon").hide();
 		});
 		
 	});

@@ -93,7 +93,7 @@ public class FlightController {
 		String depCity = flight.getDepCity();
 		String arrCity = flight.getArrCity();
 		String depDate = flight.getDepDate().replace("-", "");
-		String arrDate = flight.getArrDate().replace("-", "");
+		
 		int adultNum = flight.getAdultNum();
 		int childNum = flight.getChildNum();
 		int infantNum = flight.getInfantNum();
@@ -112,7 +112,6 @@ public class FlightController {
 		}
 		System.out.println("seat2"+seatGrade);
 		System.out.println("grade"+grade);
-				
 		
 		
 		//depDate 파싱
@@ -125,6 +124,7 @@ public class FlightController {
 		}
 		String date = depDate.substring(6); // 일
 		
+		String arrDate = flight.getArrDate().replace("-", "");
 		//arrDate 파싱
 		String year2 = arrDate.substring(0, 4);
 		String month2 = arrDate.substring(4, 5);// 월
@@ -134,13 +134,13 @@ public class FlightController {
 			return month2;
 		}
 		String date2 = arrDate.substring(6); // 일
-		
-		System.out.println("flight : "+flight);
-		System.out.println("dep : " + depCity);
-		System.out.println("arr : " + arrCity);
 		System.out.println("year : " + year+"	year2 : "+year2);
 		System.out.println("month : " + month+"	month2 : "+month2);
 		System.out.println("date :" + date+"	date2 : "+date2);
+		System.out.println("flight : "+flight);
+		System.out.println("dep : " + depCity);
+		System.out.println("arr : " + arrCity);
+		
 		
 
 		System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
@@ -210,6 +210,9 @@ public class FlightController {
 			synchronized (driver) {
 				driver.wait(500);
 			}
+		
+	if (flight.getTripCourse().equals("1")) { //왕복일때,,,
+
 			// 년,월 아이콘 클릭 :  dep
 			driver.findElement(By.xpath("//*[@id=\"section0\"]/div[2]/strong/a")).click();
 			synchronized (driver) {
@@ -253,6 +256,33 @@ public class FlightController {
 			}
 			//달력 완료 -> 확인버튼 클릭
 			driver.findElement(By.cssSelector("#cal > div > div.dFoot > a.btn1.btn-enter")).click();
+			
+	}else if(flight.getTripCourse().equals("2")) { //편도일때
+		 System.out.println("편도니???");
+			// 년,월 아이콘 클릭 :  dep
+			driver.findElement(By.xpath("//*[@id=\"section0\"]/div[2]/strong/a")).click();
+			synchronized (driver) {
+				driver.wait(500);
+			} 
+			// 년도 클릭 : dep
+			driver.findElement(By.xpath("//*[@id=\"0_" + year + "\"]")).click();
+			synchronized (driver) {
+				driver.wait(500);
+			}
+			// 월 클릭 : dep
+			driver.findElement(By.cssSelector("#year_container0 > ul.moth > li:nth-child(" + month + ")")).click();
+			synchronized (driver) {
+				driver.wait(500);
+
+			}
+			// depDate 선택
+			driver.findElement(By.xpath("//*[@id=\"dd" + date + "_0\"]/a")).click();
+			synchronized (driver) {
+				driver.wait(1000);
+			}
+			//달력 완료 -> 확인버튼 클릭
+			driver.findElement(By.cssSelector("#cal > div > div.dFoot > a.btn1.btn-enter")).click();
+	}
 			//인원수 num 선택
 			driver.findElement(By.xpath("//*[@id=\"peopleChoice\"]")).click();
 			if (adultNum > 0) {
