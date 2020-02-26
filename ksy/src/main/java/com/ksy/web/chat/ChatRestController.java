@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -233,7 +234,7 @@ import com.mongodb.client.MongoDatabase;
 		}
 		
 		@RequestMapping(value="createRoom", method=RequestMethod.POST)
-		public void createRoom(@RequestParam(value="chatRoomFile", required=false) MultipartFile file, @RequestParam(value="joinMems") List<String> joinMems,
+		public void createRoom(@RequestPart(value="chatRoomFile", required=false) MultipartFile file, @RequestParam(value="joinMems") List<String> joinMems,
 				@RequestParam(value="creator") String creator, @RequestParam(value="chatRoomName") String chatRoomName, @RequestParam(value="postId") String postId, HttpServletRequest req) throws Exception {
 			
 			System.out.println("/chat/json/createRoom ::: creator : "+creator+" || chatRoomName : "+chatRoomName);

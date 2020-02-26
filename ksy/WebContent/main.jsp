@@ -46,13 +46,28 @@
 
     <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-    
-     <!-- AOS CDN2 :: https://michalsnik.github.io/aos/-->
+
+    <!-- AOS CDN2 :: https://michalsnik.github.io/aos/-->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!--owl carousel CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+
 </head>
 <style>
-    @font-face { font-family: 'GmarketSansBold'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff'); font-weight: normal; font-style: normal; }
+    @font-face {
+        font-family: 'GmarketSansBold';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
     @font-face {
         font-family: '양진체';
         src: url('https://cdn.jsdelivr.net/gh/supernovice-lab/font@0.9/yangjin.woff') format('woff');
@@ -60,8 +75,13 @@
         font-style: normal;
     }
 
+    .nanumsquare {
+        font-family: 'NanumSquare', sans-serif !important;
+    }
+
+
     main section {
-        margin-top: 20em;
+        margin-top: 10em;
         margin-bottom: 5em;
     }
 
@@ -209,6 +229,22 @@
         font-style: oblique;
     }
 
+    .planner-image-wrap {
+        overflow: hidden;
+        bottom: 0px;
+        width: 100%;
+        height: 200px;
+        padding: 1em;
+    }
+
+    .planner-image-wrap>img {
+        width: auto;
+        vertical-align: middle;
+        height: 200px;
+        object-fit: cover;
+        overflow: hidden;
+    }
+
     .topic {
         margin: 3em 1em 3em 1em;
     }
@@ -280,60 +316,6 @@
 
     }
 
-    /* 국가선택창 Box css  */
-    #wrapper {
-        width: 300px;
-        height: 300px;
-        /* border: 1px solid teal;
-        border-radius: 10px;
-        box-shadow: 5px 5px grey;*/
-    }
-
-    /* 국가선택창에 제목때문에 걸어둔 css  */
-    h5 {
-        padding-top: 0.6rem;
-        text-align: center;
-        font-weight: bold;
-        font-family: "Noto Sans CJK KR", "Helvetica Neue", "Apple SD Gothic Neo", sans-serif;
-        font-size: 26px;
-    }
-
-
-    .list-group {
-        width: 300px;
-        overflow: auto;
-        height: 250px;
-        padding-top: 1rem;
-        padding-bottom: 0.1rem;
-    }
-
-    .list-group-item {
-        font-weight: bold;
-        size: 40px;
-        padding-bottom: 0.3rem;
-        padding-top: 0.3rem;
-        border-radius: 10px;
-
-    }
-
-    .list-group img {
-        width: 40px;
-        vertical-align: sub;
-    }
-
-    .border-0 {
-        width: 40px;
-        height: 30px;
-    }
-
-    .flex-nowrap {
-        height: 300px;
-        /*border: 1px solid teal;
-        border-radius: 10px;*/
-        width: 300px;
-    }
-
-
     /* 금액입력창 css  */
     .countryMoney {
         width: 300px;
@@ -354,7 +336,7 @@
         position: relative;
         overflow: hidden;
         margin: 10px;
-        min-width: 230px;
+        min-width: 210px;
         max-width: 315px;
         width: 100%;
         color: #ffffff;
@@ -395,8 +377,7 @@
 
     figure.snip1384 figcaption {
         z-index: 1;
-        top: 20px;
-        left: 20px;
+        padding: 0.7em;
     }
 
     figure.snip1384 h3,
@@ -515,6 +496,8 @@
         height: auto;
         padding: 10px;
         font-size: 0.8em;
+        left: auto;
+        top: auto;
     }
 
     .popupLayer .popup-close {
@@ -522,15 +505,117 @@
         top: 5px;
         right: 10px
     }
-    
-    
-    section > header {
+
+
+    section>header {
         font-family: 'GmarketSansBold';
-        font-style: italic;
+        /*        font-style: italic;*/
         display: inline-block;
         background-color: #ffcf00;
-        text-align:left;
+        text-align: left;
         margin: 2em;
+        transform: skew(-15deg)
+    }
+
+
+
+    /*    owl : review-section*/
+    section.owl-review-section {
+        /*        background-color: #f33f02;*/
+        position: relative;
+        padding-top: 80px;
+
+        &:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 30%;
+            background-color: #ddd;
+        }
+    }
+
+    #review-owl>div>div.item-details {
+        background-color: #333333;
+        color: #fff;
+        padding: 20px 10px;
+        text-align: left;
+        /*h5{
+			margin: 0 0 15px;
+			font-size: 18px;
+			line-height: 18px;
+			span{
+				color: red;
+				float:right;
+				padding-right: 20px;
+			}
+		}
+		p{
+			font-size: 14px;
+		}*/
+    }
+
+    div.item {
+        //text-align: center;
+        //padding: 20px;
+        margin-bottom: 80px;
+    }
+
+    .owl-carousel .owl-nav [class*='owl-'] {
+        -webkit-transition: all .3s ease;
+        transition: all .3s ease;
+    }
+
+    .owl-carousel .owl-nav [class*='owl-'].disabled:hover {
+        background-color: #D6D6D6;
+    }
+
+    .owl-carousel {
+        position: relative;
+    }
+
+    .owl-carousel .owl-next,
+    .owl-carousel .owl-prev {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 50%;
+        position: absolute;
+        top: 30%;
+        font-size: 20px;
+        color: #fff;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+
+    .owl-carousel .owl-prev {
+        left: -70px;
+    }
+
+    .owl-carousel .owl-next {
+        right: -70px;
+    }
+
+    div.card {
+        transition: box-shadow .3s;
+    }
+
+    div.card:hover {
+        box-shadow: 0 0 11px rgba(33, 33, 33, .2);
+    }
+
+    div.card-body {
+        height: 200px;
+    }
+
+    div.card-body>p {
+        color: #999999;
+    }
+
+    div.owl-stage-outer {
+        padding: 0.5em;
     }
 
 </style>
@@ -586,7 +671,6 @@
                 </figure>
             </div>
             <div class="random-text"></div>
-
 
 
 
@@ -652,7 +736,7 @@
                 <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
 
             </div>
-
+            
 
             <!-- ============국가정보출력 box ================ -->
             <div class="popupLayer">
@@ -691,57 +775,56 @@
 
 
         <section class="new-plan aos-init aos-animate" data-aos="fade-right">
-            <section class="container plan-section">
-                <header class="plan-section__header">
-                    <h2 class="col plan-section__header__content">NEW PLANNER</h2>
-                </header>
-                <ul class="row plan-stories__content">
-                    <!--<div class="swiper-container">
-                <div class="swiper-wrapper">
-                
-                 </div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>-->
-
-                </ul>
-            </section>
+            <header class="plan-section__header">
+                <h2 class="col plan-section__header__content">NEW PLANNER</h2>
+            </header>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="owl-E" class="owl-carousel">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
+        <hr>
 
 
-        <section class="container review-section aos-init aos-animate" data-aos="fade-right">
+        <section class="owl-review-section aos-init aos-animate" data-aos="fade-left">
             <header class="review-section__header">
                 <h2 class="col review-section__header__content">TRIP REVIEW</h2>
             </header>
-            <ul class="row review-stories__content">
-                <!--<div class="swiper-container">
-                <div class="swiper-wrapper">
-                
-                 </div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>-->
-            </ul>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="owl-F" class="owl-carousel">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
+        <hr>
 
-        <section class="container recent aos-init aos-animate" data-aos="fade-right">
-            <header class="recent__header">
-                <h2 class="col recent__header__content">TRIP INFO</h2>
+        <section class="owl-info-section aos-init aos-animate" data-aos="fade-right">
+            <header class="info-section__header">
+                <h2 class="col info-section__header__content">TRIP INFO</h2>
             </header>
-            <ul class="row recent-stories__content">
-                <!-- <div class="swiper-container">
-                <div class="swiper-wrapper">
-                
-                 </div>
-                    
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>-->
-            </ul>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="owl-B" class="owl-carousel">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
+
+
+
+
 
 
 
@@ -772,7 +855,7 @@
                 },
                 success: function(JSONData, status) {
                     $('#infinityClick').attr('src', JSONData.url);
-                    $('figcaption h3').html(JSONData.info1 + JSONData.info2 + JSONData.info3 + JSONData.info4 + JSONData.info5);
+                    $('.effect5 figcaption h3').html(JSONData.info1 + JSONData.info2 + JSONData.info3 + JSONData.info4 + JSONData.info5);
                 }
             })
         }
@@ -811,8 +894,11 @@
                 success: function(result) {
                     console.log(boardName + " :: " + result);
                     $.each(result, function(index, vo) {
-                        appendTag(vo, boardName)
+                        appendOwl(vo, boardName);
                     })
+
+                    loadOwl(boardName)
+
                 },
                 error: function(err) {
                     console.log(err);
@@ -829,16 +915,14 @@
                     "Content-Type": "application/json"
                 },
                 success: function(result) {
-                    console.log(result.list);
-                    console.log(result.planList);
                     $.each(result.planList, function(i, plan) {
                         $.each(result.list, function(j, post) {
                             if (plan.planId == post.planId) {
                                 appendPlanner(plan, post);
-                                console.log(plan + " || " + post);
                             }
                         })
                     })
+                    loadOwl(boardName)
                 },
                 error: function(err) {
                     console.log(err);
@@ -846,8 +930,90 @@
             })
         }
 
+        function loadOwl(boardName) {
+            var itemsCnt = "";
+            if (boardName == 'E') {
+                itemsCnt = 4;
+            } else {
+                itemsCnt = 5;
+            }
+            $('#owl-' + boardName).owlCarousel({
+                loop: true,
+                center: true,
+                items: itemsCnt,
+                margin: 30,
+                autoplay: true,
+                dots: true,
+                nav: true,
+                autoplayTimeout: 8500,
+                smartSpeed: 450,
+                navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>'],
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    768: {
+                        items: 2
+                    },
+                    1170: {
+                        items: itemsCnt
+                    }
+                }
+            });
+        }
+
         function appendPlanner(plan, post) {
+            var planType = "";
+            if (plan.planType == 'A') {
+                planType = "여자혼자"
+            } else if (plan.planType == 'B') {
+                planType = "남자혼자"
+            } else if (plan.planType == 'C') {
+                planType = "여자끼리"
+            } else if (plan.planType == 'D') {
+                planType = "남자끼리"
+            } else if (plan.planType == 'E') {
+                planType = "단체"
+            } else if (plan.planType == 'F') {
+                planType = "부모님과"
+            } else if (plan.planType == 'G') {
+                planType = "커플"
+            }
+
+
             var tag = "";
+            tag += "<div class=\"item\">"
+            tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + post.postId + "&boardName=E\">";
+            tag += "<div class=\"card\" style=\"height:100%;\">"
+            tag += "<div class=\"planner-image-wrap\">"
+            tag += "<img  class=\"card-img-top\" src='/resources/images/planImg/" + plan.planImg + "'>";
+            tag += "</div>"
+            tag += "<div class=\"card-body\">"
+            tag += "<p class=\"card-title\">" + post.postTitle + "</p>"
+            tag += "<p class=\"card-text\">" + planType + "<p>"
+            tag += "<p><img src='/resources/images/userImages/" + post.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
+            tag += post.nickName + "</p>"
+            tag += "</div></a></div>"
+
+
+            /*
+            tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + post.postId + "&boardName=E\">";
+            tag += "<div class=\"story-entry__image-wrap\">"
+            tag += "<figure class = \"snip1384\" >"
+            tag += "<img src='/resources/images/planImg/" + plan.planImg + "'>";
+            tag += "<figcaption>"
+            tag += "<h3>" + post.postTitle + "</h3>"
+            tag += "<p>"
+            tag += "<img src='/resources/images/userImages/" + post.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
+            tag += post.nickName + "</p>"
+            tag += "<i class=\"ion-ios-arrow-right\"></i></figcaption></figure>"
+            tag += "</div>"
+            tag += "</a>"
+            tag += "</div>"
+            */
+            $("#owl-E").append(tag);
+
+            /*
             //var tag = "<div class=\"swiper-slide\">";
             tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
             tag += "<article class=\"story-entry story-story-item\">"
@@ -867,13 +1033,13 @@
             //tag += "</div>"
 
             $('.plan-stories__content').append(tag);
-            //$('section.new-plan > section > ul > div > div.swiper-wrapper').append(tag);
+            //$('section.new-plan > section > ul > div > div.swiper-wrapper').append(tag);*/
         }
 
         function appendTag(vo, boardName) {
             var tag = "";
             //var tag = "<div class=\"swiper-slide\">";
-            
+
             var content = vo.postContent;
             var imgSrc = parseContent(content);
             tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
@@ -912,6 +1078,41 @@
 
         }
 
+        function appendOwl(vo, boardName) {
+            var tag = "";
+            var content = vo.postContent;
+            var imgSrc = parseContent(content);
+
+            tag += "<div class=\"item\">"
+            tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + vo.postId + "&boardName=" + boardName + "\">";
+            tag += "<div class='story-entry__wrap' style='position: relative;'>"
+            tag += "<div class=\"story-entry__image-wrap\">"
+            if (imgSrc != '') {
+                tag += imgSrc;
+            } else {
+                tag += "<div class='topic'>"
+                tag += "<div style='text-align:left;'><i class=\"fas fa-quote-left\ fa-2x\"></i></div>"
+                tag += "<div style='text-align:center;'>" + vo.postTitle + "</div>";
+                tag += "<div style='text-align:right;'><i class=\"fas fa-quote-left fa-2x fa-rotate-180\"></i></div>"
+                tag += "</div>"
+            }
+            tag += "</div>"
+            tag += "<div class=\"story-entry__content\" style=\"font-family:'Noto Sans KR';text-align:left;padding: 10px; width: 100%; bottom: 0px; font-size: 1em; font-weight: bold; position: absolute;background-color:black;opacity:70%;\">"
+            tag += "<span style='font-size:0.8em;color:#CCC;font-weight:400;'>"
+            tag += "<img src='/resources/images/userImages/" + vo.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
+            tag += vo.nickName + "</span>"
+            tag += "</div>"
+            tag += "</div></a>"
+            tag += "</div>"
+
+
+            $('#owl-' + boardName).append(tag);
+
+
+        }
+
+
+
 
         function parseContent(content) {
             if (content.includes('<img')) {
@@ -940,9 +1141,11 @@
                 var conName = $(this).text();
                 var conHwa = $(this).attr('hwa');
                 countryInfo(conCode);
+
                 $('input[name="conMoney"]').attr('placeholder', conName.trim());
                 $('.text').html(conHwa);
-                popup(e);
+                //popup(e);
+                //resultFun();
             });
         });
 
@@ -1028,30 +1231,6 @@
             },
         });
 
-        new Swiper('section.new-plan > section > div.swiper-container', {
-
-            slidesPerView: 4, // 동시에 보여줄 슬라이드 갯수
-            spaceBetween: 30, // 슬라이드간 간격
-            slidesPerGroup: 2, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
-            //slidesPerColumn: 2,
-
-            // 그룹수가 맞지 않을 경우 빈칸으로 메우기
-            // 3개가 나와야 되는데 1개만 있다면 2개는 빈칸으로 채워서 3개를 만듬
-            //loopFillGroupWithBlank: false,
-
-            loop: false, // 무한 반복
-
-            /*pagination: { // 페이징
-                el: '.swiper-pagination',
-                clickable: true, // 페이징을 클릭하면 해당 영역으로 이동, 필요시 지정해 줘야 기능 작동
-            },*/
-            navigation: { // 네비게이션
-                nextEl: '.swiper-button-next', // 다음 버튼 클래스명
-                prevEl: '.swiper-button-prev', // 이번 버튼 클래스명
-            },
-        });
-
-
         $('.swiper-slide').on('click', function() {
             $('.swiper-slide').removeClass('on');
             $(this).toggleClass('on');
@@ -1060,6 +1239,32 @@
         function closeLayer(obj) {
             $(obj).parent().parent().hide();
         }
+
+        /*
+                // 브라우서 호환 ( 크로스브라우징 ) 체크 하여 문서 전체에 mousemove 이벤트를 걸어줍니다.
+                if (document.addEventListener) {
+                    document.addEventListener("mousemove", resultFun, false);
+                } else if (document.attachEvent) {
+                    document.attachEvent("onmousemove", resultFun);
+                } else {
+                    document.onmousemove = resultFun;
+                }
+
+                //  문서에서 마우스가 움직일때(mousemove) 마다 resultFun() 함수가 실행됩니다.
+                //  x.clientX,Y 는 페이지에서 이벤트 발생한 X,Y 좌표를 가져옵니다.
+                function resultFun(x) {
+                    //var xY = x.clientX +  " * "  + x.clientY ;
+                    var positionLeft = x.clientX;
+                    var positionTop = x.clientY;
+                    // result  div 에 innerHTML 로 xY 변수를 적용 합니다.
+                    //document.getElementsByClassName('popupLayer').innerHTML = xY;
+                    //  result  div 의 position 위치를  positionLeft, Top 변수 값으로 style 적용해줍니다.
+                    $('.popupLayer').css({
+                        "left": (positionLeft - 25) + "px",
+                        "top": (positionTop + 30) + "px",
+                        "position": "absolute"
+                    }).show();
+                }*/
 
         function popup(e) {
 
@@ -1088,7 +1293,7 @@
                 "position": "absolute"
             }).show();
         }
-        
+
         var myAOS = function() {
             AOS.init({
                 easing: 'ease-out-back'
@@ -1096,6 +1301,8 @@
             });
         }
         myAOS();
+
+
 
     </script>
 

@@ -357,23 +357,9 @@
             margin-left: 70px;
         }
 
-        .modal {
-            text-align: center;
-        }
-
-        @media screen and (min-width: 768px) {
-            .modal:before {
-                display: inline-block;
-                vertical-align: middle;
-                content: " ";
-                height: 100%;
-            }
-        }
-
         .reportModal {
-            display: inline-block;
             text-align: left;
-            vertical-align: middle;
+            /* vertical-align: middle; */
         }
 
         .card {
@@ -621,7 +607,7 @@
                     closeModal('accOffer');
                     swal({
            				icon : 'success',
-           			    title : data.toUserId + " 님에게 메시지를 보냈습니다.",
+           			    title : '${post.nickName}'+ " 님에게 메시지를 보냈습니다.",
            			    text : " ",
            			    button : false,
            			    timer : 700
@@ -669,7 +655,11 @@
             }
 
             var formData = new FormData();
-            formData.append("chatRoomFile", $('input[name="chatRoomFile"]')[0].files[0]);
+            if ( $('input[name="chatRoomFile"]')[0].files[0] != undefined) {
+            	console.log("파일 넣음");
+            	console.log($('input[name="chatRoomFile"]')[0].files[0]);
+	            formData.append("chatRoomFile", $('input[name="chatRoomFile"]')[0].files[0]);
+            } 
             formData.append("joinMems", joinMems);
             formData.append("creator", $('input[name="creator"]').val());
             formData.append("chatRoomName", encodeURIComponent($('input[name="chatRoomName"]').val()));
@@ -781,7 +771,7 @@
     <!-- ToolBar End /////////////////////////////////////-->
 
     <div class="modal" tabindex="-1" role="dialog" id="sendReport">
-        <div class="modal-dialog reportModal" role="document" style="width:300px;">
+        <div class="modal-dialog modal-dialog-centered reportModal" role="document" style="width:300px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">신고 작성</h5>
@@ -1036,7 +1026,7 @@
     <!-- 동행 채팅방 개설 모달 -->
     <form class="createChat" enctype="multipart/form-data" accept-charset="euc-kr">
         <div class="modal fade" id="createChat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">동행채팅방 개설</h5>

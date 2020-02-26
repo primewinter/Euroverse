@@ -214,11 +214,6 @@
         border-color: #339999;
     }
     
-    .modal-dialog-center{
-        display: inline-block;
-        text-align: left;
-        vertical-align: middle;
-    }
 
 </style>
 
@@ -304,7 +299,7 @@
 
 <!--채팅 참여자 목록 모달-->
 <div class="modal fade" id="accModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
-    <div class="modal-dialog modal-dialog-center" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="accModalLabel">채팅방 제목</h5>
