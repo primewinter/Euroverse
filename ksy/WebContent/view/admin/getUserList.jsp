@@ -93,12 +93,20 @@
 		 }); 
 	});//end of function
 	
+	/*===== 회원상제정보 조회 ===========  */
 	$(function() {
 		 $( "td:nth-child(2)" ).on("click" , function() {
+			 alert('click?');
 			 var userId = $(this).find($("input[name='userId']")).val();
 			 self.location = "/admin/getUser?userId="+userId;
 		 }); 
-	});//end of function
+	});/*========= end of function =========*/
+	
+	
+	/*===== 회원상제정보 조회 ajax 처리시 ajax처리가 tag append방식이여서 기본 설정으로 읽을수가 없음....===========  */
+	function getUser(userId){
+			 self.location = "/admin/getUser?userId="+userId;
+	}/*========= end of function =========*/
 	
 	
 	
@@ -126,7 +134,7 @@
 						console.log("리턴데이터 있음! => "+JSONData);	
 						
 						//html을 새로 append하기위해 ""만듬
-						$('.userTab').html("");
+						$('.userTab').children().remove();
 						
 						for(var i=0; i<JSONData.list.length; i++){
 							
@@ -139,7 +147,19 @@
 							//var splitDate = regDate.split(' ');
 							//alert(splitDate);
 							
-							$('.userTab').append("<tr>");
+							var appendHtml = "<tr>"+
+												"<th scope='row'>"+(i+1)+"</th>"+
+												"<td style='font-weight: bold; color: dimgray;'>"+JSONData.list[i].userId+
+												"<input type='hidden' id='userId' name='userId' value='"+JSONData.list[i].userId+"'/></td>"+
+												"<td>"+JSONData.list[i].userName+"</td>"+
+												"<td>"+JSONData.list[i].nickname+"</td>"+
+												"<td>"+JSONData.list[i].totalPoint+"</td>"+
+												"<td>"+JSONData.list[i].sex+"</td>"+
+												"<td>"+splitDate+"</td></tr>";
+												
+							$('.userTab').append(appendHtml);
+							
+							/* $('.userTab').append("<tr>");
 							$('.userTab').append("<th scope='row'>"+(i+1)+"</th>");
 							$('.userTab').append("<td style='font-weight: bold; color: dimgray;'>"+JSONData.list[i].userId);
 							$('.userTab').append("<input type='hidden' id='userId' name='userId' value='"+JSONData.list[i].userId+"'/></td>");
@@ -148,6 +168,7 @@
 							$('.userTab').append("<td>"+JSONData.list[i].totalPoint+"</td>");
 							$('.userTab').append("<td>"+JSONData.list[i].sex+"</td>");
 							$('.userTab').append("<td>"+splitDate+"</td>");
+							$('.userTab').append("</tr>"); */
 							
 						}/* end of for  */
 						
