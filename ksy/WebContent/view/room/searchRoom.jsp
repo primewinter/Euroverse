@@ -501,7 +501,7 @@ $(function() {
 			<div class="col-sm-6" style="margin-left:300px;margin-top:300px">
 				<img id="loading-image" width="150px" height="150px" 
 			
-				src="/resources/images/orderImg/Ellipsis-1s-200px.gif" alt="Loading..." />
+				src="/resources/images/orderImg/Ellipsis-1.4s-200px.gif" alt="Loading..." />
 			</div>
 		</div>
 
