@@ -9,8 +9,7 @@
 	
 <head>
 	<meta charset="EUC-KR">
-	
-
+	<title>Euroverse</title>	
     <!-- 참조 : http://getbootstrap.com/css/   참조 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -60,6 +59,18 @@
 	<link rel="stylesheet" href="/resources/css/kronos.css" />
 	<script src="/resources/javascript/kronos.js"></script>
 
+	<!-- include summernote css/js-->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+	
+	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+
+	<link href="https://github.com/summernote/summernote/tree/master/lang/summernote-ko-KR.js">
+	<link href="/resources/summernote/summernote.css" rel="stylesheet">
+	<script src="/resources/summernote/summernote.min.js"></script>
+	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
 
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style></style>

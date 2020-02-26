@@ -149,10 +149,9 @@ public class Post {
 
 	public void setAccStartDate(Timestamp accStartDate) {
 		this.accStartDate = accStartDate;
-		System.out.println("여기까지 찍히니? getTime() : "+accStartDate.getTime());
+		
 		if(accStartDate != null) {
 			Date dateForDay = new Date(accStartDate.getTime());		
-			System.out.println("여기도? toString() : "+accStartDate.toString().substring(0,10) + " : "+dateForDay.toString().substring(0,3));
 			this.accStartDateStr = accStartDate.toString().substring(0,10) + " : "+dateForDay.toString().substring(0,3);
 		}
 	}

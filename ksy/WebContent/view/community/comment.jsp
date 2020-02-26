@@ -92,7 +92,7 @@
 	 function getCommentList(currentPage){
 		
 		var postId = $("input[name='postId']").val();
-
+		console.log(currentPage);
 		$.ajax({
 			url : '/community/json/getCommentList/'+postId+'/'+currentPage ,
 			type : "GET" ,

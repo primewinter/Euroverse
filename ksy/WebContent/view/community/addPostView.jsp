@@ -9,9 +9,7 @@
 	
 <head>
 	<meta charset="EUC-KR">
-	
-	 <meta charset="EUC-KR">
-
+	<title>Euroverse</title>
     <!-- 참조 : http://getbootstrap.com/css/   참조 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -31,9 +29,7 @@
     <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-
     <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
-
 
     <!-- Use Swiper from CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
@@ -43,11 +39,21 @@
     <script src="https://unpkg.com/swiper/js/swiper.js"></script>
     <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
 
-
     <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+	
+	<!-- include summernote css/js-->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+	
+	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 
-    
+	<link href="https://github.com/summernote/summernote/tree/master/lang/summernote-ko-KR.js">
+	<link href="/resources/summernote/summernote.css" rel="stylesheet">
+	<script src="/resources/summernote/summernote.min.js"></script>
+	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
 
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style></style>

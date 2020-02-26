@@ -10,9 +10,7 @@
 
 <head>
     <meta charset="EUC-KR">
-
- <meta charset="EUC-KR">
-
+	<title>${post.postTitle}</title>
     <!-- 참조 : http://getbootstrap.com/css/   참조 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -35,7 +33,6 @@
 
     <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
 
-
     <!-- Use Swiper from CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
@@ -43,7 +40,6 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
     <script src="https://unpkg.com/swiper/js/swiper.js"></script>
     <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
-
 
     <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
@@ -875,12 +871,11 @@
                 <span class="title_subject" style="font-weight:bold;">${post.postTitle} </span> <span style="font-size:18px;"> [ ${post.accCount} / ${post.accPerson} ]</span>
                 <br><span style="font-size: 15px;">
                     <i class="fas fa-walking"></i>
-                  <c:if test="${post.accEndDate != null}">
-                    <fmt:formatDate value="${post.accStartDate}" pattern="yyyy-MM-dd" /> ~
-                    <fmt:formatDate value="${post.accEndDate}" pattern="yyyy-MM-dd" />
+                  <c:if test="${post.accEndDateStr != null}">
+                    ${post.accStartDateStr} ~ ${post.accEndDateStr}
                   </c:if>
-                  <c:if test="${post.accEndDate == null}">
-                    <fmt:formatDate value="${post.accStartDate}" pattern="yyyy-MM-dd" />
+                  <c:if test="${post.accEndDateStr == null}">
+                    ${post.accStartDateStr}
                   </c:if>
                 </span>
             </h3>
@@ -1042,7 +1037,7 @@
                     <form class="accOffer" style="margin: 10px;">
                         <div class="form-group" id="offerMsgForm" style="margin: 30px 10px 10px 10px; width:auto;">
                             <label for="offerMsg" class="control-label" style="font-weight: bold; margin-bottom: 7px;">${post.nickName} 님에게 보낼 메세지</label><br />
-                            <input type="text" maxlength="100" class="form-control" id="offerMsg" name="offerMsg" placeholder="동행신청 메세지를 입력하세요." style="width:100%; height: 100px;">
+                            <input type="text" maxlength="50" class="form-control" id="offerMsg" name="offerMsg" placeholder="동행신청 메세지를 입력하세요." style="width:100%; height: 100px;">
                             <input type="hidden" id="postWriterId" name="postWriterId" value="${post.postWriterId}" />
                         </div>
                     </form>
