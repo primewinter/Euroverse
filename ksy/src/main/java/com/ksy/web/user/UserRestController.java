@@ -51,6 +51,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ksy.common.Config;
 import com.ksy.common.MailUtils;
+import com.ksy.service.domain.LoginUser;
 import com.ksy.service.domain.Point;
 import com.ksy.service.domain.User;
 import com.ksy.service.myPage.MyPageService;
@@ -100,7 +101,7 @@ public class UserRestController {
 	}
 
 	@RequestMapping(value = "json/login" , method = RequestMethod.POST )
-	public Map login(@RequestBody User user , HttpSession session )throws Exception {
+	public synchronized Map login(@RequestBody User user , HttpSession session )throws Exception {
 //		System.out.println("로그인 레스트 컨트롤러!");
 		System.out.println("가지고 온 정보는~");
 		System.out.println(user.getUserId());
@@ -132,8 +133,29 @@ public class UserRestController {
 				returnMap.put("result", "errorPwd");
 			}
 			else {
+				//탐캣의 디폴트 세션 유지시간은 30분
 				session.setAttribute("user", dbUser);
 				returnMap.put("result", "ok");
+				
+				//get 먼저하고 없으면 바로 add하고 있으면 업데이하고 add하기
+				LoginUser loginUser = (LoginUser)myPageService.getLoginUser(dbUser.getUserId());
+				if(loginUser == null) {
+					LoginUser newLoginUser = new LoginUser();
+					newLoginUser.setUserId(user.getUserId());
+					newLoginUser.setSessionId(session.getId());
+					myPageService.addLoginUser(newLoginUser);
+				}else {
+					if(loginUser.getSessionId().equals(session.getId())) {
+						System.out.println("똑같은 세션에서 같은 아이디로 로그인 되있는거 확인했으니 노 프라블럼");
+					}else if(!loginUser.getSessionId().equals(session.getId())) {
+						LoginUser updateLoginUser = new LoginUser();
+						updateLoginUser.setUserId(user.getUserId());
+						updateLoginUser.setSessionId(session.getId());
+						myPageService.updateLoginUser(updateLoginUser);
+					}
+					
+				}
+				
 			}
 		}
 		return returnMap;
@@ -543,12 +565,12 @@ public class UserRestController {
 		Multipart	multi = new MimeMultipart("related");
 		MimeBodyPart mbp = new MimeBodyPart();
 		StringBuffer str = new StringBuffer();
-		str.append("<div style='width:1000px;height:1000px;border:1px solid'>");
+		str.append("<div style='width:1000px;height:800px;border:1px solid'>");
 			str.append("<div style='font-size:30px;margin:20px;text-align:center'>");
 			str.append("<img alt='에러러럴' src='cid:image' width='800px' height='500px'><br>");
-			str.append("유럽여행의 시작\r\n" + 
+			str.append("<b>유럽여행의 시작</b><br>" + 
 					"당신을 기다리는 백만 개의 플래너와 함께하세요.<br>");
-			str.append("인증번호 : <b>"+state+"</b>");
+			str.append("<small>인증번호</small> : <b>"+state+"</b>");
 			str.append("</div>");
 		str.append("</div>");
 		
@@ -561,7 +583,7 @@ public class UserRestController {
 		multi.addBodyPart(mbp);
 		
 		mbp = new MimeBodyPart();
-		FileDataSource fds = new FileDataSource("C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages\\로고.png");
+		FileDataSource fds = new FileDataSource("C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\icon\\temp_logo.png");
 		
 		mbp.setDataHandler(new DataHandler(fds));
 		mbp.setHeader("Content-ID", "<image>");

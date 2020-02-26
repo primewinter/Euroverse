@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.ksy.common.Search;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Like;
+import com.ksy.service.domain.LoginUser;
 import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Point;
@@ -260,7 +261,17 @@ public class MyPageServiceImpl implements MyPageService{
 	public void updateQna(Post post)throws Exception{
 		myPageDao.updateQna(post);
 	}
-
+//////////////////////////////////LOGIN USER////////////////////////////////
+	
+	public void addLoginUser(LoginUser loginUser)throws Exception{
+		myPageDao.addLoginUser(loginUser);
+	}
+	public LoginUser getLoginUser(String userId)throws Exception{
+		return myPageDao.getLoginUser(userId);
+	}
+	public void updateLoginUser(LoginUser loginUser)throws Exception{
+		myPageDao.updateLoginUser(loginUser);
+	}
 
 	
 }

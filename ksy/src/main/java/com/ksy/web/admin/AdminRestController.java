@@ -102,7 +102,6 @@ public class AdminRestController {
 			
 	//	}
 		
-		
 	}
 	
 	//관리자가 입력한 답변을 조회
@@ -124,16 +123,13 @@ public class AdminRestController {
 	@RequestMapping(value="json/deleteQnaComm", method = RequestMethod.POST)
 	public void deleteQnaComm(@RequestBody Comment comment) throws Exception {
 		
-		System.out.println("AdminComtroller addQnaComment");
-		System.out.println("postId??"+comment.getPostId());
+		System.out.println("AdminComtroller deleteQnaComm");
+		System.out.println("comment ==>"+comment);
+		
 		adminService.deleteQnaComm(comment.getCmtId());
 		adminService.backUpQnaGrade(comment.getPostId());
 		
-//		Map<String, Object> map = adminService.getQnaCommentList(comment.getPostId());
-		
-		System.out.println("comment==>"+comment);
-		
-//		return map;
+		System.out.println("deleteQnaComm End");
 	}
 	
 

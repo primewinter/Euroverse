@@ -122,6 +122,8 @@ public class FlightRestController {
 		Map<String, String> checkMap = objMap.readValue(jsonObj.toString(), new TypeReference<Map<String, String>>(){});
 		
 		System.out.println("check : "+checkMap);
+		//flight.setFlightId(checkMap.get("flightId"));
+		System.out.println("value : "+checkMap.get("flightId"));
 		flight.setAirline(checkMap.get("airline").trim());
 		flight.setPrice(Integer.parseInt(checkMap.get("price")));
 		flight.setTripCourse(checkMap.get("tripCourse"));
@@ -138,7 +140,6 @@ public class FlightRestController {
 		flight.setLeadTime(checkMap.get("leadTime"));
 		flight.setStopOver(checkMap.get("stopOver"));
 		
-		//produces="text/html; charset=utf-8",
 		PrintWriter out = response.getWriter();
 		 
 		flightService.addFlight(flight);
@@ -147,7 +148,7 @@ public class FlightRestController {
 		User user=(User)session.getAttribute("user");
 		like.setLikeUserId(user.getUserId()); 
 		like.setLikeType("F");
-		if (flight.getFlightId() == null) {
+		if (checkMap.get("flightId") == "0") { //원래 flight.getFlightId() 였음...
 			likeService.addLike(like);
 		} 
 		like=likeService.getLike(like);

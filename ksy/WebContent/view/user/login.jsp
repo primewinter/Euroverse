@@ -175,7 +175,17 @@
     			console.log(JSONData);
     			if(JSONData.result == 'ok'){
     				$("#loginModal").modal("hide");
-    				location.reload();
+    				
+    				swal({
+						   icon : 'success',
+						  title : "로그인 성공",
+						  text:" ",
+						  button : false,
+						})
+			    	setTimeout(function() {     
+	    				location.reload();
+			    	}, 700);
+    				
     			}else if(JSONData.result=='unReg'){
     				swal({
     					   icon : 'info',

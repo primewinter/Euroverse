@@ -62,7 +62,7 @@
 								for (var i = 0; i < JSONData.length; i++) {
 									$('#onTheATag').append("<div style='font-size: 20px; margin-bottom: 30px;'><b>"+	JSONData[i] + "</b></div>");
 								}
-								$('#onTheATag').append("<a href='/'><button type='button' class='btn btn-outline-secondary'>메인으로</button></a>");
+								$('#onTheATag').append("<a href='/main.jsp'><button type='button' class='btn btn-outline-secondary'>메인으로</button></a>");
 							}
 						})
 					} else {
@@ -99,7 +99,7 @@
 								for (var i = 0; i < JSONData.length; i++) {
 									$('#onTheATag').append("<div style='font-size: 20px; margin-bottom: 30px;'><b>"+	JSONData[i] + "</b></div>");
 								}
-								$('#onTheATag').append("<a href='/'><button type='button' class='btn btn-outline-secondary'>메인으로</button></a>");
+								$('#onTheATag').append("<a href='/main.jsp'><button type='button' class='btn btn-outline-secondary'>메인으로</button></a>");
 							}
 						})
 					}else {

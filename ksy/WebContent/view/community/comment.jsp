@@ -9,6 +9,12 @@
 		getCommentList(1);
 	});
 	
+	/* function onKeyDown(cmtId) {
+		if(event.keyCode == 13) {
+			updateComment(cmtId);
+	    }
+	} */
+	
 	$(function(){
 		$("#addComment").on("click" , function() {
 			
@@ -131,7 +137,7 @@
 					}else{
 						 output += "<div class='clear cmt_txtbox btn_reply_write_all' id='"+JSONData.list[i].cmtId+"old'><p class='usertxt ub-word'>"+JSONData.list[i].cmtContent+"</p></div>"
 					}
-						 output += "<form name='"+JSONData.list[i].cmtId+"f'><div class='cmt_txt_cont'><div class='cmt_new' style='display: none; width: 740px; float: left; position: relative; margin: 0 0 0 10px; margin-left: 70px;' id='"+JSONData.list[i].cmtId+"neww'><input type='text' id='"+JSONData.list[i].cmtId+"new' name='cmtContent' maxlength='400' style='display: none;float: left; width: 600px; margin-bottom: 5px' value='"+JSONData.list[i].cmtContent+"'/><div class='cmt_cont_bottm clear'><div class='fr' style='float:left;'><input type='checkbox' id='secret' name='secret' value='T' "
+						 output += "<form name='"+JSONData.list[i].cmtId+"f'><div class='cmt_txt_cont'><div class='cmt_new' style='display: none; width: 740px; float: left; position: relative; margin: 0 0 0 10px; margin-left: 70px;' id='"+JSONData.list[i].cmtId+"neww'><input type='text' id='"+JSONData.list[i].cmtId+"new' name='cmtContent' maxlength='150' style='display: none;float: left; width: 600px; margin-bottom: 5px' value='"+JSONData.list[i].cmtContent+"'/><div class='cmt_cont_bottm clear'><div class='fr' style='float:left;'><input type='checkbox' id='secret' name='secret' value='T' "
 					if(JSONData.list[i].secret == "T"){
 						 output += "checked"
 					}	 
@@ -149,7 +155,7 @@
 						 + "<div class='cmt_write'>"
 						 + "<input type='text' name='nickName' id='nickName' value='${user.nickname}' readonly='readonly' style='text-align: center;font-size:13px;border: 1px solid #cecdce;color:gray;'>"
 						 + "&nbsp;<input type='checkbox' id='secret' name='secret' value='T' aria-label='Checkbox for following text input' style='font-size:12px;'> 비밀글 "
-						 + "<textarea id='rcmtContent' name='cmtContent' maxlength='400'></textarea>"
+						 + "<textarea id='rcmtContent' name='cmtContent' maxlength='150'></textarea>"
 						 + "</div>"
 						 + "<div class='input-group mb-3'>"
 						 + "<div style='background-color: white;border: 0;width: 900px;'>"
@@ -241,7 +247,7 @@
 							}else{
 								 output += "<div class='clear cmt_txtbox btn_reply_write_all' id='"+JSONData.list[i].cmtId+"old'><p class='usertxt ub-word' style='width: 600px;'>"+JSONData.list[i].cmtContent+"</p></div>"
 							}
-								 output += "<form name='"+JSONData.list[i].cmtId+"f'><div class='cmt_txt_cont'><div class='cmt_new' style='display: none; width: 800px; float: left; position: relative; padding-left: 180px;' id='"+JSONData.list[i].cmtId+"neww'><input type='text' id='"+JSONData.list[i].cmtId+"new' name='cmtContent' maxlength='400' style='display: none;float: left; width: 550px; margin-bottom: 5px' value='"+JSONData.list[i].cmtContent+"'/><div class='cmt_cont_bottm clear'><div class='fr' style='float:left;'><input type='checkbox' id='secret' name='secret' value='T' "
+								 output += "<form name='"+JSONData.list[i].cmtId+"f'><div class='cmt_txt_cont'><div class='cmt_new' style='display: none; width: 800px; float: left; position: relative; padding-left: 180px;' id='"+JSONData.list[i].cmtId+"neww'><input type='text' id='"+JSONData.list[i].cmtId+"new' name='cmtContent' maxlength='150' style='display: none;float: left; width: 550px; margin-bottom: 5px' value='"+JSONData.list[i].cmtContent+"'/><div class='cmt_cont_bottm clear'><div class='fr' style='float:left;'><input type='checkbox' id='secret' name='secret' value='T' "
 							if(JSONData.list[i].secret == "T"){
 								 output += "checked"
 							}	 
@@ -366,7 +372,7 @@
 				<div class="cmt_write">
 				  <input type="text" name="nickName" id="nickName" value="${user.nickname}" readonly="readonly" style="text-align: center;font-size:13px;border: 1px solid #cecdce;color:gray;">
 			      &nbsp;<input type="checkbox" name="secret" id="secret" value="T" style="font-size:12px;"> 비밀글
-				  <textarea id="cmtContent" name="cmtContent" maxlength="400"></textarea>
+				  <textarea id="cmtContent" name="cmtContent" maxlength="150"></textarea>
 				</div>
 				<div class="input-group mb-3">
 				    <div style="background-color: white;border: 0;width: 900px;">

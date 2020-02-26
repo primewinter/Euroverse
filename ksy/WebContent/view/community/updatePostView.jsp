@@ -299,6 +299,12 @@
             });
         });
 		
+		function onKeyDown() {
+			if(event.keyCode == 13) {
+		    	addTag();
+		    }
+		}
+		
 	</script>
     
 </head>
@@ -339,7 +345,7 @@
 				    <option value="L" ${ ! empty post.qnaKategorie && post.qnaKategorie=='L' ? "selected" : "" }>기타</option>
 				  </select>
 				  <div class="input-group-prepend" style="font-size: 12px;width:608px;">
-				    <input type="text" class="form-control" id="postTitle" name="postTitle" maxlength="30" value="${post.postTitle}">
+				    <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" maxlength="30" value="${post.postTitle}">
 				  </div>
 				</div>
 			  </c:if>
@@ -362,7 +368,7 @@
 				    <option value="L" ${ ! empty post.qnaKategorie && post.qnaKategorie=='L' ? "selected" : "" }>기타</option>
 				  </select>
 				  <div class="input-group-prepend" style="font-size: 12px;width:608px;">
-				    <input type="text" class="form-control" id="postTitle" name="postTitle" maxlength="30" value="${post.postTitle}">
+				    <input type="text" class="form-control" id="postTitle" name="postTitle" style="font-size: 12px;" maxlength="30" value="${post.postTitle}">
 				   <label for="postTitle" class="col-sm-3 control-label" style="font-size: 14px;"><i class="fas fa-flag-checkered"></i> 공지등록
 				   <c:if test="${post.postGrade == 'N'}">
 			        <input type="checkbox" id="postGrade" name="postGrade" value="N" checked>
@@ -441,7 +447,7 @@
 		<div class="form-group">
 		    <label for="tagContent" class="control-label" style="font-size: 12px; float: left; margin-left: 30px;">태그등록</label>
 		    <div class="col-sm-5">
-		      <input type="text" class="form-control" id="appendTag" value="" style="font-size: 12px; height:23px; width:200px; float:left;">
+		      <input type="text" class="form-control" id="appendTag" value="" maxlength="15" style="font-size: 12px; height:23px; width:200px; float:left;" onKeyDown="onKeyDown();">
 		      <i class="fas fa-plus" onclick="addTag()" style="float:left; margin-left:10px; margin-top:4px; font-size:12px;">등록하기</i>
 		      <div class="tagList" id="tagList" style="width:800px;float:left;margin-top:10px;">
 			      <c:set var="i" value="0" />

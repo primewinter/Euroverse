@@ -59,7 +59,12 @@
 
 <mvc:interceptors>
 	<mvc:interceptor>
-		<mvc:mapping path="/user/**"/>
+		<!-- <mvc:mapping path="/user/**"/>
+		<mvc:mapping path="/myPage/**"/>
+		<mvc:mapping path="/plan/**"/>
+		<mvc:mapping path="/planSub/**"/>
+		<mvc:mapping path="/community/**"/> -->
+		<mvc:mapping path="/**"/>
 			<bean class="com.ksy.common.web.LogOnCheckInterceptor" />
 	</mvc:interceptor>
 </mvc:interceptors>	

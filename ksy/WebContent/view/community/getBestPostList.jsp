@@ -74,6 +74,12 @@
 			fncGetUserList(1);
 		}
 		
+		function onKeyDown() {
+			if(event.keyCode == 13) {
+		    	fncGetUserList(1);
+		    }
+		}
+		
 	</script>
 	
 </head>
@@ -140,7 +146,7 @@
 				  <div class="form-group">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
 				    <input type="text" class="form-control mr-sm-2" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
-				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" style="height: 35px; font-size: 13px;" >
+				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" style="height: 35px; font-size: 13px;" onKeyDown="onKeyDown();">
 				  </div>
 				  
 				  &nbsp;<i class="fas fa-search"></i>
