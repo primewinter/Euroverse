@@ -240,7 +240,7 @@
 
 <div id="push-layer">
     <div class="deletePush" style='padding: 5%;background-color:#7cc1d0;font-weight: 700'>
-        <span class="totalCount">활동 알림&ensp;</span>
+        <span>활동 알림&ensp;</span><span class="totalCount"></span>
         <span style='float:right;'><a href='javascript:deletePush()'><i class="far fa-trash-alt" style="color:white;"></i></a></span>
     </div>
     <div class="pushList" style="overflow-y:auto; width:298px; height:88%;"></div>
@@ -400,13 +400,17 @@
                 var resultPage = result.resultPage;
                 var search = result.search;
                 var totalCount = result.totalCount;
-                $(".totalCount").append(totalCount);
+                $(".totalCount").html(totalCount);
                 console.log("totalCount : " + totalCount);
                 console.log("list.size : " + list.size);
                 $(".pushList").html("");
-                $.each(list, function(index, vo) {
-                    showList(vo, 0);
-                })
+                if ( totalCount == 0 ) {
+                    $('.pushList').append("<p style='margin:1em;font-size:10pt;text-align:center;color:#999999'><i class=\"far fa-bell fa-2x\"></i><br/>활동알림이 없습니다.<br/>내 글에 달린 댓글, 동행신청, 플래너초대 등 새로운 소식을 알려드립니다.</p>");
+                } else {
+                    $.each(list, function(index, vo) {
+                        showList(vo, 0);
+                    })
+                }
 
                 console.log("resultPage : " + resultPage);
                 console.log("search : " + search);
@@ -594,7 +598,11 @@
             },
             success: function(result) {
                 console.log("채팅방 조회 성공");
-                showRoomList(result);
+                if (result.length == 0 ) {
+                    $(".accLobby.content").html("<p style='margin:1em;font-size:10pt;text-align:center;color:#999999'><i class=\"far fa-question-circle fa-2x\"></i><br/>참여 중인 동행이 없습니다.<br/>휴대폰 본인인증 절차를 거친 후 동행에 참여하실 수 있습니다.</p>");
+                } else {
+                    showRoomList(result);
+                }
             },
             error: function(error) {
                 console.log("채팅방 조회 실패");
@@ -914,7 +922,10 @@
                             console.log("quitChatRoom() 성공 :: " + quitId + " || db에서 가져온 닉네임 : " + result);
                             sendAccMessage(result);
                             getChatRoomList();
-                            loadChatRoomInfo(chatRoomId);
+                            $('#accModal').modal('hide');
+                            $('#pos1').prop('checked', true);
+                            disconnectAcc();
+                            
                             Swal.fire(
                                 '완료'
                             )
