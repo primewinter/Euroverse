@@ -205,8 +205,8 @@
 	
 	
 	$(function(){
-		$("#checkPwd").modal({keyboard: false,backdrop: 'static'});
-		$("#checkPwd").modal("show");
+		/* $("#checkPwd").modal({keyboard: false,backdrop: 'static'});
+		$("#checkPwd").modal("show"); */
 		$("input[class='dreamCountry']").on("click",function(){
 			if($("input:checkbox[class=dreamCountry]:checked").length > 5){
 				swal({
@@ -313,14 +313,14 @@
 			$("#updateForm").attr("action","/user/updateUser").attr("method","post").attr("enctype","multipart/form-data").submit();
 		})
 		
-		$("#cancle").on("click",function(){
+/* 		$("#cancle").on("click",function(){
 			$(self.location).attr("href","/user/getUser");
-		})
+		}) */
 		$("#updateCancle").on("click",function(){
 			$(self.location).attr("href","/user/getUser");
 		})
 		
-		$("#pwdCheck").on("click",function(){
+/* 		$("#pwdCheck").on("click",function(){
 			var pwd = $("input[id='pwdId']");
 			var main = $("#main");
 			var errorMsg = $("#pwdMessage");
@@ -336,7 +336,7 @@
 		$("#pwdId").keydown(function (key) {
 			enterConfirm(key);
 		})
-	 
+	  */
 		$(".custom-file-input").on("change",function(){
 			  var fileSize = this.files[0].size;
 			  var maxSize = 1200 * 1200;
@@ -379,7 +379,7 @@
 			
 			});
 	}
-	
+/* 	
 	function enterConfirm(key){
 		var pwd = $("input[id='pwdId']");
 		var main = $("#main");
@@ -392,7 +392,7 @@
 				errorMsg.text("비밀번호가 틀렸습니다.");
 			}
 		}
-	}
+	} */
 </script>
 </head>
 <body>
@@ -400,10 +400,9 @@
 	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
-	<div style="height: 1000px;" id="emptyDiv"></div>
 	
 	
-	<div id="main" style="display: none">
+	<div id="main" >
 		<p style="font-size:30px; margin-left:500px; margin-top: 50px; margin-bottom: -20px" >
 			내정보수정<br><hr style="width: 600px;margin-bottom: -5px;">
 			<small style="margin-left:500px;margin-right: 400px; ">정보를 입력해주세요.</small>
@@ -708,28 +707,6 @@
 	</div>
 	<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 	       
-	<div class="modal fade " id="checkPwd">
-		  <!-- <div class="modal-dialog modal-lg"> -->
-		  <div class="modal-dialog ">
-		  	<!-- <h2 style="color : #FFFFFF">Sign In</h2> -->
-			<div class="modal-content" style="border-radius: 5px; padding:  10px 20px;">
-				<div class="modal-body" >
-					<form>
-						<div class="form-group  text-center">
-							<label for="pwd" style="margin-bottom: 15px;">Password</label>
-							 <input type="password"	class="form-control" placeholder="Enter password" id="pwdId" name="pwd" style="width: 180px;">
-							 <input type="text" style="display: none;" >
-							 <div id="pwdMessage" style="color: red;"></div>
-						</div>
-						<div class="form-group text-center" style="padding-top: 5px;">
-							<button type="button" class="btn btn-outline-primary" style="margin-right: 5px;" id="pwdCheck">비밀번호체크</button>
-							<button type="button" class="btn btn-outline-secondary" id="cancle">취소 </button>
-						</div>
-					</form>
-				</div><!--modal body End  -->
 	
-			</div><!--modal content End  --> 
-		  </div><!--modal dialog End  -->
-	</div><!--myModal End  -->
 </body>
 </html>
