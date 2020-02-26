@@ -137,9 +137,7 @@
 		  -webkit-transition-delay: 0.35s;
 		  transition-delay: 0.35s;
 		}
-        .py-5 {
-            padding-top : 10px;
-        }
+
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -244,10 +242,8 @@
       <table class="table table-hover">
       
 		<tbody>
-		
-		  <div class="album py-5">
-		    <div class="container">
-		      <div class="row">
+
+		   <div class="row" style="width:985px;">
 
 		  	<c:set var="i" value="0" />
 		  	<c:forEach var="post" items="${list}">
@@ -304,10 +300,8 @@
 		    </c:forEach> 
 	      	</c:forEach>
 
-		       </div>
-		      </div>
-		     </div>
-	
+		    </div>
+
         </tbody>
       
       </table>

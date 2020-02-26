@@ -783,7 +783,7 @@
 				buttons: [ "아니오", "예"]
 			}).then((YES) => {
 				if(YES){
-					swal("삭제되었습니다!", "", "success");
+					//swal("삭제되었습니다!", "", "success");
 					$.ajax({
 						url: "/planSub/json/deleteStuff/"+stuffId ,
 						method: "GET",
@@ -2070,7 +2070,7 @@
 					<div class="media" style="background-color: white; width: 100%; padding: 2px 15px; border-radius: 5px; font-size:14px; ">
 					
 						<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-1" alt="img loading.." style="border: 1px #D1D1D1 solid; width: 120px; height: 95px;">
-					    <div class="media-body" style="margin-left: 13px; margin-top: 25px; height: 100px;">
+					    <div class="media-body" style="margin-left: 13px; margin-top: 25px; height: 100px;display: inline-block;">
 					    	<span style="color: #EE0D0D; font-weight: bolder;"><c:if test="${plan.planStatus == 'C'}">여행완료!</c:if></span>
 					    	<div class="plan_type">
 								<c:choose>
@@ -2094,20 +2094,20 @@
 					    
 					    </div> <!-- media body -->
 						
-						<div>
+						<div style="float:right;">
 							<c:if test="${plan.planStatus != 'C' }">
-								<button type="button" class="btn btn-info" id="planCompleteButton" style="margin-left: 10px;">여행완료 확정</button>
-								<button type="button" class="btn btn-primary" id="updatePlanButton" style="margin-left: 10px;"  data-toggle="modal" data-target="#editPlan">플래너 수정</button> 
+								<button type="button" class="btn btn-info btn-sm" id="planCompleteButton" style="margin-left: 5px;">여행완료 확정</button>
+								<button type="button" class="btn btn-primary btn-sm" id="updatePlanButton" style="margin-left: 5px;"  data-toggle="modal" data-target="#editPlan">플래너 수정</button> 
 							</c:if>
 							
 							<c:if test="${ user.userId == plan.planMaster.userId }">
-								<button type="button" class="btn btn-danger" id="deletePlanButton" style="margin-left: 10px;" data-toggle="modal" data-target="#deletePlanAlert">플래너 삭제</button> 
+								<button type="button" class="btn btn-danger btn-sm" id="deletePlanButton" style="margin-left: 5px;" data-toggle="modal" data-target="#deletePlanAlert">플래너 삭제</button> 
 							</c:if>
 							<c:if test="${ user.userId != plan.planMaster.userId }">
-								<button type="button" class="btn btn-secondary" id="exitPlanButton" style="margin-left: 10px;">플래너 탈퇴</button> 
+								<button type="button" class="btn btn-secondary btn-sm" id="exitPlanButton" style="margin-left: 5px;">플래너 탈퇴</button> 
 							</c:if>
 							<c:if test="${ plan.planTotalDays > 0 }">
-								<button type="button" class="btn btn-warning" id="uploadPlanButton" style="margin-left: 10px;">플래너 공유하기</button> 
+								<button type="button" class="btn btn-warning btn-sm" id="uploadPlanButton" style="margin-left: 5px;">플래너 공유하기</button> 
 							</c:if>
 						</div>
 						
