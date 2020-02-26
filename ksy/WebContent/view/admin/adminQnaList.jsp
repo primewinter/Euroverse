@@ -117,8 +117,6 @@ table thead > tr{
 		function getAdminQnaList(postId,postContent,qnaFirstCate,postWriterId) {
 			
 			alert("getAdminQnaList 실행");
-			alert("postId 실행"+postId);
-			alert("postTitle 실행"+postContent);
 			
 			if(qnaFirstCate == "A"){
 				
@@ -166,24 +164,20 @@ table thead > tr{
 							console.log("리턴데이터 없음");	
 						}else{
 							console.log("리턴데이터 있음! => "+JSONData);	 
-								
-								if(JSONData != null) {
-										
-							            var appendHtml =
-											'<div id="delCmt" style="padding:5px 25px" class="row">'+
-											'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
-											'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
-								            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
-								            '<div class="qnaComment" style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[0].cmtContent+
-								            '<button type="button" class="btn btn-outline-danger btn-sm" style="margin-left:5px;" onclick="deleteCmt('+JSONData.list[0].cmtId+','+JSONData.list[0].postId+')">삭제</button></div>'+
-								            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
-								            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
-								        	'</div></div>';
-								        	
-										 $("#append").append(appendHtml); 
-									
-								}// end of if
-							
+							if(JSONData.list.length != 0){
+					            var appendHtml =
+									'<div id="delCmt" style="padding:5px 25px" class="row">'+
+									'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
+									'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
+						            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
+						            '<div class="qnaComment" style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[0].cmtContent+
+						            '<button type="button" class="btn btn-outline-danger btn-sm" style="margin-left:5px;" onclick="deleteCmt('+JSONData.list[0].cmtId+','+JSONData.list[0].postId+')">삭제</button></div>'+
+						            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
+						            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
+						        	'</div></div>';
+							        	
+							 $("#append").append(appendHtml); 
+							}//end of if
 						}//end of else
 					    
 					},//end of success
@@ -209,18 +203,17 @@ table thead > tr{
 			method: "POST",
 			dataType: "json",
 			headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
-			data: JSON.stringify({
-				url: "/admin/json/getQnaCommentList/"+postId,
-				method: "GET",
-				dataType: "json",
-				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
-				success: function(JSONData, status){
+			data:JSON.stringify({
+				postId: postId,
+				cmtWriterId : 'admin',
+				nickName:'Euroverse',
+		 		cmtContent : cmtContent
 			}),
 			success: function(JSONData, status){
 				//restController에서 comments에 값이 이미 존재하면 error메세지를 보냄 
 				if(JSONData.returnMsg=='error'){
 					
-					alert("댓글은 하나")
+					alert("답변은 한개만 가능합니다.")
 				
 				//답글이 하나도 없으면 ajax 실행
 				}else if(JSONData.returnMsg=='ok'){
@@ -229,7 +222,7 @@ table thead > tr{
 						console.log("리턴데이터 없음");	
 					}else{
 						console.log("리턴데이터 있음! => "+JSONData);
-						
+						alert('cmtContent==>'+JSONData.list[0].cmtContent);
 				            var appendHtml =
 								'<div id="delCmt" style="padding:5px 25px" class="row">'+
 								'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
@@ -246,10 +239,7 @@ table thead > tr{
 								 
 					}// end of else
 					
-					
-				}
-				
-				
+				}// end of elseIf
 						
 			},// end of success
 			error:function(request,status,error){
@@ -263,7 +253,6 @@ table thead > tr{
 		
 	function deleteCmt(cmtId, postId){
 		
-		alert(cmtId);
 		
 		$.ajax({
 			url: "/admin/json/deleteQnaComm",
@@ -273,43 +262,13 @@ table thead > tr{
 			data: JSON.stringify({
 				postId: postId,
 				cmtId : cmtId
-			}),
-			success: function(JSONData, status){
-				url: "/admin/json/getQnaCommentList/"+postId,
-				method: "GET",
-				dataType: "json",
-				headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
-				success: function(JSONData, status){
-					
-					if( JSONData==null || JSONData=="" ){
-						console.log("리턴데이터 없음");	
-					}else{
-						console.log("리턴데이터 있음! => "+JSONData);	 
-							
-							if(JSONData != null) {
-									
-						            var appendHtml =
-										'<div id="delCmt" style="padding:5px 25px" class="row">'+
-										'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
-										'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
-							            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
-							            '<div class="qnaComment" style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[0].cmtContent+
-							            '<button type="button" class="btn btn-outline-danger btn-sm" style="margin-left:5px;" onclick="deleteCmt('+JSONData.list[0].cmtId+','+JSONData.list[0].postId+')">삭제</button></div>'+
-							            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
-							            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
-							        	'</div></div>';
-							        	
-									 $("#append").append(appendHtml); 
-							
-								getAdminQnaList(JSONData.list[0].postId,JSONData.list[0].postContent,JSONData.list[0].qnaFirstCate,JSONData.list[0].postWriterId)
-							
-							}//end of inner if
-						}//end inner else
-					}// end inner success
-				});//inner ajax
-			}//end inner success
-		});//end outer ajax
-	}//end deleteCmt()
+			})
+
+		}).always(function( data) {
+			$("#append").children().last().remove();
+		  });
+		
+	};//end deleteCmt()
 	
 </script>
 
