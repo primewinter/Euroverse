@@ -200,6 +200,11 @@
 				alertMessage.html("플래너 제목은 필수입니다.");
 				return;
 			}
+			if($.trim(planTitle).length > 20 ){
+				submitAlert.prop("style","display : block");
+				alertMessage.html("플래너 제목은 20자 이하로 입력해주세요.");
+				return;
+			}
 			if ($.trim(startDateString)=="") {
 				submitAlert.prop("style","display : block");
 				alertMessage.html("여행 시작일을 지정해주세요.");
@@ -302,7 +307,8 @@
 						            </div>
 						            
 						            
-									<div class="plan_type">
+									<!-- <div class="plan_type" style="border: 1px solid blue;border-radius: 5px;"> -->
+									<span class="badge badge-primary" style="padding: 5px;">
 										<c:choose>
 											<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
 											<c:when test="${plan.planType == 'B'}">남자혼자</c:when>
@@ -312,7 +318,7 @@
 											<c:when test="${plan.planType == 'F'}">부모님과</c:when>
 											<c:when test="${plan.planType == 'G'}">커플</c:when>
 										</c:choose>
-									</div>
+									</span>
 				              	</div>
 					            <div class="card-text">
 					            	<div style="font-weight: bolder; font-size: large; margin: 15px 3px;"> ${plan.planTitle}</div>
