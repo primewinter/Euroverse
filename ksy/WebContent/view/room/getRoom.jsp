@@ -57,7 +57,7 @@ $(function() {
 	     var hotelInfo = $("#hotelInfo").val();
 	     var roomInfo = $("#roomInfo").val();
 	     
-	     alert("price : "+price+"roomName : "+roomName+"adult : "+adultNum+"child : "+childNum+"checkOut : "+checkOut+"checkIn : "+checkIn+"roomNum : "+roomNum)
+	     //alert("price : "+price+"roomName : "+roomName+"adult : "+adultNum+"child : "+childNum+"checkOut : "+checkOut+"checkIn : "+checkIn+"roomNum : "+roomNum)
 	     //var location = $("#location").val();
 	     //var distance = $("#distance").val();
 	     //var grade = $("#grade").val();
@@ -72,6 +72,85 @@ $(function() {
 	});
 });	
 
+
+/* ---------------- 관심상품!!! ----------------- */
+
+$(function () {
+	 $("#wish").click(function () {
+		 
+		 var roomId = $(this).val();
+		 var price = $("#price").val();
+	     var roomName = $("#roomName").val();
+	     var roomCity = $("#roomCity").val();
+	     var adultNum = $("#adultNum").val();
+	     var childNum = $("#childNum").val();
+	     var checkOut = $("#checkOut").val();
+	     var checkIn = $("#checkIn").val();
+	     var roomNum = $("#roomNum").val();
+	     var roomAddr = $("#roomAddr").val();
+	     
+	     var mainService = $("#mainService").val();
+	     var familyService = $("#familyService").val();
+	     var sights = $("#sights").val();
+	     var hotelInfo = $("#hotelInfo").val();
+	     var roomInfo = $("#roomInfo").val();
+	     
+	     
+		 $.ajax({
+			url : '/room/json/addRoom' ,
+			type : "POST" ,
+			cache : false ,
+			dataType : "json" ,
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			data : JSON.stringify({
+				roomId : roomId,
+				price : price,
+				roomName : roomName,
+				roomCity : roomCity,
+				adultNum : adultNum,
+				childNum : childNum,
+				checkOut : checkOut,
+				checkIn : checkIn,
+				roomNum : roomNum,
+				roomAddr : roomAddr,
+				mainService : mainService,
+				familyService : familyService,
+				sights : sights,
+				hotelInfo : hotelInfo,
+				roomInfo : roomInfo
+				
+			}),
+			success : function(data) {
+				var msg = '';
+				msg += data.msg;
+				alert(msg);
+				alert(data.refId);
+				alert(price)
+				$("#wish").val(data.refId);
+				if(data.likeCheck == 'F'){
+				  $("#wish").attr('class','btn btn-secondary');
+				}else{
+				  $("#wish").attr('class','btn btn-light');
+				}      
+			},
+			error: function(request, status, error){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		}); 
+		 
+	 });
+});
+
+
+
+
+
+/* ----------------- 끝!! ------------------ */
+	
+	
 	
 </script>
 
@@ -110,7 +189,10 @@ $(function() {
 										<i class="fas fa-won-sign" style="font-size:22px;"><fmt:formatNumber value="${room.price}" pattern="###,###" /> 원</i>
 								</div>
 								<br/>
-								<i class="far fa-heart" style="font-size:25px;"></i>
+								<i class="far fa-heart" id="wish" style="font-size:25px;"></i>
+			  				   	<button type="button" class="btn btn-secondary" id="wish" value="R" style="width:50px;">찜</button>
+								
+								
 								<button type="button" class="btn btn-info" style="margin-top:-10px;width:120px;" id="reserve">예약하기</button>
 									<input type="hidden" name="price" value=" ${room.price}" id="price">
 							    	<input type="hidden" name="roomCity" value=" ${room.roomCity}" id="roomCity">

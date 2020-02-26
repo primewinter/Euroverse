@@ -1,4 +1,4 @@
-package com.ksy.web.flight;
+package com.ksy.web.room;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -24,15 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Comment;
-import com.ksy.service.domain.Flight;
 import com.ksy.service.domain.Like;
+import com.ksy.service.domain.Room;
 import com.ksy.service.domain.User;
-import com.ksy.service.flight.FlightService;
 import com.ksy.service.like.LikeService;
+import com.ksy.service.room.RoomService;
 
 @RestController
-@RequestMapping("/flight/*")
-public class FlightRestController {
+@RequestMapping("/room/*")
+public class RoomRestController {
 
 	@Autowired
 	@Qualifier("communityServiceImpl")
@@ -43,10 +43,10 @@ public class FlightRestController {
 	private LikeService likeService; 
 	
 	@Autowired
-	@Qualifier("flightServiceImpl")
-	private FlightService flightService;
+	@Qualifier("roomServiceImpl")
+	private RoomService roomService;
 	
-	public FlightRestController() {
+	public RoomRestController() {
 		System.out.println(this.getClass());
 	}
 	
@@ -108,11 +108,11 @@ public class FlightRestController {
 		out.println(obj);
 	}
 	
-	@RequestMapping(value="/json/addFlight",  method=RequestMethod.POST )
-	public void addFlight(@RequestBody Map jsonMap ,Flight flight , HttpSession session, HttpServletResponse response 
+	@RequestMapping(value="/json/addRoom",  method=RequestMethod.POST )
+	public void addRoom(@RequestBody Map jsonMap ,Room room  , HttpSession session, HttpServletResponse response 
 			,HttpServletRequest request) throws Exception {
 	  
-		System.out.println("/flight/json/addFlight : POST");
+		System.out.println("/room/json/addRoom : POST");
 		response.setContentType("text/html;charset=utf-8");
 		
 		ObjectMapper objMap = new ObjectMapper();
@@ -124,44 +124,40 @@ public class FlightRestController {
 		System.out.println("check : "+checkMap);
 		//flight.setFlightId(checkMap.get("flightId"));
 		System.out.println("value : "+checkMap.get("flightId"));
-		flight.setAirline(checkMap.get("airline").trim());
-		flight.setPrice(Integer.parseInt(checkMap.get("price")));
-		flight.setTripCourse(checkMap.get("tripCourse"));
-		flight.setDepCity(checkMap.get("depCity"));
-		flight.setDepDate(checkMap.get("depDate"));
-		flight.setDepTime(checkMap.get("depTime").trim());
-		flight.setArrCity(checkMap.get("arrCity"));
-		flight.setArrDate(checkMap.get("arrDate"));
-		flight.setArrTime(checkMap.get("arrTime").trim());
-		flight.setSeatGrade(checkMap.get("seatGrade"));
-		flight.setAdultNum(Integer.parseInt(checkMap.get("adultNum")));
-		flight.setChildNum(Integer.parseInt(checkMap.get("childNum")));
-		flight.setInfantNum(Integer.parseInt(checkMap.get("infantNum")));
-		flight.setLeadTime(checkMap.get("leadTime"));
-		flight.setStopOver(checkMap.get("stopOver"));
+		
+	
+	     
+	     room.setRoomId(checkMap.get("roomId"));
+	     room.setPrice(Integer.parseInt(checkMap.get("price")));
+	     room.setRoomName(checkMap.get("roomName"));
+	     room.setRoomCity(checkMap.get("roomCity"));
+	     room.setAdultNum(Integer.parseInt(checkMap.get("adultNum")));
+	     room.setChildNum(Integer.parseInt(checkMap.get("childNum")));
+	     room.setCheckIn(checkMap.get("checkIn"));
+	     room.setCheckOut(checkMap.get("checkOut"));
+	     room.setRoomNum(Integer.parseInt(checkMap.get("roomNum")));
+	     room.setRoomAddr(checkMap.get("roomAddr"));
+		
+	
 		
 		PrintWriter out = response.getWriter();
 		 
-		flightService.addFlight(flight);
+		roomService.addRoom(room);
 		
 		Like like = new Like(); 
 		User user=(User)session.getAttribute("user");
 		like.setLikeUserId(user.getUserId()); 
 		like.setLikeType("F");
-		System.out.println("플라이트아이디 : "+checkMap.get("flightId"));
-		if (checkMap.get("flightId").equals("T") && flight.getFlightId() == null) { //원래 flight.getFlightId() 였음...
+		System.out.println("플라이트아이디 : "+checkMap.get("roomId"));
+		if (checkMap.get("roomId").equals("T") && room.getRoomId() == null) { //원래 flight.getFlightId() 였음...
 			likeService.addLike(like);
 			like=likeService.getLike(like);
 		}else {
-			like.setRefId(checkMap.get("flightId"));
+			like.setRefId(checkMap.get("roomId"));
 			like=likeService.getLike(like);
 		}
 	    System.out.println("악 : "+like.getRefId());
-//	    if(likeService.countByLike(like)==0){
-//			likeService.addLike(like); 
-//		}
-//	    like=likeService.getLike(like);
-//		  
+
 	    String likeCheck = like.getLikeCheck(); //좋아요 체크 값
 	    List<String> msgs = new ArrayList<String>();
 		  

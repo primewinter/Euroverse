@@ -189,7 +189,7 @@ function fncGetUserList(currentPage) {
  				$("#refundmodal3")[0].reset();	
  			} */
  			var orderId = $(this).next().next().val();
- 			alert(orderId);
+ 			//alert(orderId);
  			$("#refundmodal3").modal("hide");
  			$('#'+orderId+' option[value=2]').prop('selected', 'selected').change();
  		})

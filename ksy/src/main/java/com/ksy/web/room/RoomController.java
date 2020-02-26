@@ -272,7 +272,7 @@ public class RoomController {
 				System.out.println("페이지 다운22");
 			}
 			synchronized (driver) {
-				driver.wait(1300);
+				driver.wait(1500);
 			}
 			pageDown = 3;
 			while (pageDown > 0) {

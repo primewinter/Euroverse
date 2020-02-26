@@ -329,7 +329,7 @@ public class FlightController {
 			System.out.println("selenium 완료");
 			
 			synchronized (driver) {
-				driver.wait(13000);
+				driver.wait(13500);
 
 			}
 			// List안에 필요한 정보들 넣기
@@ -417,7 +417,7 @@ public class FlightController {
 				}
 			}
 			synchronized (driver) {
-				driver.wait(12000);
+				driver.wait(13500);
 
 			}
 		} catch (IndexOutOfBoundsException ie) {

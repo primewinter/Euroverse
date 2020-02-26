@@ -322,6 +322,9 @@ public class MyPageController {
 	@RequestMapping(value="likeOrderList")
 	public String likeOrderList(HttpSession session , Model model)throws Exception{
 		System.out.println("LIKEORDERLIST~~~~~~~");
+		if(session.getAttribute("user")==null) {
+			return"redirect:/main.jsp";
+		}
 		User user= (User)session.getAttribute("user");
 		
 		List<Like> likeList = myPageService.getLikeOrderList(user.getUserId());

@@ -91,6 +91,9 @@ public class OrderController {
 		flight.setDepCity(depCity);
 		flight.setArrCity(arrCity);
 		flight.setDepDate(depDate);
+//		if (arrDate.equals("00000000")) {
+//			arrDate = null;
+//		} arrDate 편도일때 저대로 넣을지 null로 넣을지 고민,,
 		flight.setArrDate(arrDate);
 		flight.setDepTime(depTime);
 		flight.setArrTime(arrTime);
