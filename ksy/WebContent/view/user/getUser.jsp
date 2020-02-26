@@ -10,13 +10,27 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>Insert title here</title>
+<title>Euroverse</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+
+	<!-- 풀캘린더 cdn -->
+	<link href='https://unpkg.com/@fullcalendar/core@4.3.1/main.min.css' rel='stylesheet' />
+  	<link href='https://unpkg.com/@fullcalendar/daygrid@4.3.0/main.min.css' rel='stylesheet' />
+  	<link href='https://unpkg.com/@fullcalendar/timegrid@4.3.0/main.min.css' rel='stylesheet' />
+	<link href='https://unpkg.com/@fullcalendar/list@4.3.0/main.min.css' rel='stylesheet' />
+	
+	<script src='https://unpkg.com/@fullcalendar/core@4.3.1/main.min.js'></script>
+	<script src='https://unpkg.com/@fullcalendar/daygrid@4.3.0/main.min.js'></script>
+	<script src='https://unpkg.com/@fullcalendar/interaction@4.3.0/main.min.js'></script>
+	<script src='https://unpkg.com/@fullcalendar/timegrid@4.3.0/main.min.js'></script>
+	<script src='https://unpkg.com/@fullcalendar/list@4.3.0/main.min.js'></script>
+
 
 	<!-- ICON 사용을 위한 스크립트 임포트 -->
 	<!-- https://feathericons.com/ -->
@@ -97,8 +111,8 @@
 	}
 	
 	.flip-container, .front, .back {
-	    width: 240px;
-	    height: 240px;
+	    width: 120px;
+	    height: 120px;
 	   /*border:1px solid lightgray;*/
 	}
 	/* flip speed goes here */
@@ -114,15 +128,158 @@
 	  backface-visibility:hidden;
 	}
 
-
+	.modal {
+          text-align: center;
+    }
+        
+	@media screen and (min-width: 768px) {
+          .modal:before {
+            display: inline-block;
+            vertical-align: middle;
+            content: " ";
+            height: 100%;
+          }
+	}
+    .modal-dialog {
+	    display: inline-block;
+	    text-align: left;
+	    vertical-align: middle;
+    }
+	 .col{
+		font-size: 12px;
+	}
+	.h6Class{
+		color: red;
+	}
+	
 
 </style>
 
 <script>
 
+$(document).ready(function() {
+	
+	var Calendar = FullCalendar.Calendar;
+	var Draggable = FullCalendarInteraction.Draggable;
+
+	var containerEl = document.getElementById('external-events');
+	var calendarEl = document.getElementById('calendar');
+	var checkbox = document.getElementById('drop-remove');
+
+	var calendar = new Calendar(calendarEl, {
+	    plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+	    customButtons: {
+	        choolCheck: {
+	          text: '출석체크',
+	          click: function() {
+				var date = new Date();
+	          	var currentDate = date.getFullYear() + "-"+ (date.getMonth()+1) + "-" +date.getDate();
+	          	var stringDate = date.getFullYear() +""+(date.getMonth()+1) +date.getDate();
+				$(function(){
+					$.ajax({
+						url : "/myPage/json/choolChecking",
+						method : "post",
+						dataType : "json",
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						data : JSON.stringify({
+							currentDate : currentDate,
+							year : date.getFullYear(),
+							month : date.getMonth()+1,
+							day : date.getDate(),
+							stringDate : stringDate
+						}),
+						success : function(JSONData, Status) {
+									
+								if(JSONData.error == 'error'){
+									
+									swal({
+										   icon : 'warning',
+										  title : "출석체크 실패!",
+										  text:"내일 다시 시도해주세요.",
+										 
+										})
+									
+								}else{
+									calendar.addEvent(JSONData);
+									
+									swal({
+										   icon : 'success',
+										  title : "출석체크 성공!",
+										  text:"100Point 적립 ",
+										})
+								}
+							}
+					})	
+				})
+	          }
+	        }
+	      },
+	    header: {
+	      left: 'title',
+	      right : 'choolCheck'
+	    },
+				eventSources: [{
+	events: function(start, callback) {
+	    $.ajax({
+	        url     : '/myPage/json/choolCheck',
+	        type    : 'get',
+	        dataType: 'json',
+	        success : function(doc) {
+	           	callback(doc);
+	        }
+	    });
+	}
+	}],
+	    editable: false,
+	    eventLimit : true,
+	    cache : true,
+	    locale: 'ko',
+	    height: 480
+	  });
+	calendar.render();	
+
+})
+
+
 var maPageCode = 'M';
 
 	$(function(){
+		
+		$("#cancle").on("click",function(){
+			$(self.location).attr("href","/user/getUser");
+		})
+		
+		$("#pwdCheck").on("click",function(){
+			var pwd = $("input[id='pwdId']");
+			var main = $("#main");
+			var errorMsg = $("#pwdMessage");
+			if('${user.pwd}' == pwd.val()){
+				$("#checkPwd").modal("hide");
+				
+				$(self.location).attr("href","/user/updateUser");
+				
+			}else{
+				errorMsg.text("비밀번호가 틀렸습니다.");
+			}
+		})
+		
+		$("#pwdId").keydown(function (key) {
+			enterConfirm(key);
+		})
+		
+		
+		
+		$("#updateMyProfile").on("click",function(){
+			$("#checkPwd").modal({keyboard: false,backdrop: 'static'});
+			$("#checkPwd").modal("show");
+			
+			
+			
+		})
+		
 		$("#pointCard").on("click",function(){
 			$(self.location).attr("href","/myPage/pointList");
 		})
@@ -169,7 +326,28 @@ var maPageCode = 'M';
 	
 	}
 	
-	 
+	
+	function enterConfirm(key){
+		var pwd = $("input[id='pwdId']");
+		var main = $("#main");
+		var errorMsg = $("#pwdMessage");
+		if(key.keyCode == 13){
+			if('${user.pwd}' == pwd.val()){
+				$("#checkPwd").modal("hide");
+				$(self.location).attr("href","/user/updateUser");
+				
+			}else{
+				errorMsg.text("비밀번호가 틀렸습니다.");
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
 </script>
 
 </head>
@@ -178,8 +356,10 @@ var maPageCode = 'M';
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
-	
-	
+
+		
+		
+<div id="main">	
 	<div class="container" style="max-width: 1000px;">
 					
 		<div id="userProfileDiv" style="width:100%;height:230px;padding-top: 30px;">
@@ -198,14 +378,17 @@ var maPageCode = 'M';
 				 	<div style="margin-left: 30px;margin-top: 20px;">
 				 	
 				 		<c:if test="${user.role == 'G' }">
-			                 <div class="badge badge-secondary">비인증회원</div>
+			                 <div class="badge badge-secondary">비인증회원
 	                 	</c:if>
 	                 	<c:if test="${user.role == 'Q' }">
-	                 		<div class="badge badge-info">인증회원</div>
+	                 		<div class="badge badge-info">인증회원
 	                 	</c:if>
 	                 	<c:if test="${user.role == 'A' }">
-	                 		<div class="badge badge-success" >관리자</div>
+	                 		<div class="badge badge-success" >관리자
 	                 	</c:if>
+	                 	
+	                 		</div> <!--badge End  -->
+	                 	<span data-toggle="tooltip" data-placement="top" title="내정보 수정">&nbsp;<span data-feather="settings" style="cursor: help" id="updateMyProfile"></span></span>
 	                 	
 					    <div class="nicknameClass" style="font-size: 25px;margin:  5px 0px 15px 0px;">
 							 ${user.nickname} <span style="font-size: 18px;">님 안녕하세요!</span>
@@ -279,93 +462,102 @@ var maPageCode = 'M';
 		  		
 	  		</div>
 	  		
-		</div>  	
-				
-		
-		<!-- 카드 여섯장 ///////////////////////////////////////////////// -->
-		<div style="text-align: center;margin-top: 30px;">
-	      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="pointCard">
-				  <div class="flipper">
-	   					<div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
-	      					  <!-- front content -->
-	    					<p style="font-size: 30px;"><i class="fas fa-coins"></i> 포인트</p>
-	  					</div>
-		    			<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
-		        			<!-- back content -->
-	 						<p style="font-size: 30px;">${user.totalPoint}P</p>
+		</div>  
+		<div style="height: 60px;"></div>		
+		<div class="row">
+			<div style="width: 625px;"><!-- 카드들 묶어놓음 -->
+				<!-- 카드 여섯장 ///////////////////////////////////////////////// -->
+				<div style="text-align: center;margin-top: 60px;">
+			      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="pointCard">
+						  <div class="flipper">
+			   					<div class="front" style="border: 1px solid; text-align: center; padding-top: 45px;">
+			      					  <!-- front content -->
+			    					<p style="font-size: 20px;"><i class="fas fa-coins"></i> 포인트</p>
+			  					</div>
+				    			<div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
+				        			<!-- back content -->
+			 						<p style="font-size: 20px;">${user.totalPoint}P</p>
+				   				</div>
+							</div>
+					</div>
+			
+			      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="planCard">
+						  <div class="flipper">
+			   					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 45px;">
+			      					  <!-- front content -->
+			    					<p style="font-size: 20px;"><i class="far fa-flag"></i> 유럽에서</p>
+			  					  </div>
+			      				<div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
+			         				 <!-- back content -->
+			   						<p style="font-size: 20px;">${travelDate}일</p>
+			     				</div>
+			  				</div>
+					</div>
+			       
+			      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="slotCard">
+							  <div class="flipper">
+		     					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 45px;">
+		        					  <!-- front content -->
+		      						<p style="font-size: 20px;"><i class="fab fa-buromobelexperte"></i> 슬롯</p>
+		   					  </div>
+		      				  <div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
+		         					 <!-- back content -->
+		   						<p style="font-size: 20px;">${user.slot}개</p>
+		   					 </div>
+		  				</div>
+					</div>
+			     </div>
+			     
+			     <div style="text-align: center;">
+			      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="postCard">
+					    <div class="flipper">
+		   					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 45px;">
+		      					  <!-- front content -->
+		    						<p style="font-size: 20px;"><i class="far fa-clipboard"></i> 게시글</p>
+		  					  </div>
+		   					  <div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
+		        				<!-- back content -->
+		 							<p style="font-size: 20px;">${postCount}개</p>
+		   					 </div>
+		  				</div>
+					</div>
+			    
+					<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="commentCard">
+			  			<div class="flipper">
+			       			 <div class="front" style="border: 1px solid; text-align: center; padding-top: 45px;">
+			          					  <!-- front content -->
+			        			<p style="font-size: 20px;"><i class="far fa-copy"></i> 댓글</p>
+			      			</div>
+			        		<div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
+			          				  <!-- back content -->
+			     				<p style="font-size: 20px;">${commentCount}개</p>
+			       			</div>
 		   				</div>
 					</div>
-			</div>
-	
-	      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="planCard">
-				  <div class="flipper">
-	   					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
-	      					  <!-- front content -->
-	    					<p style="font-size: 30px;"><i class="far fa-flag"></i> 유럽에서</p>
-	  					  </div>
-	      				<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
-	         				 <!-- back content -->
-	   						<p style="font-size: 30px;">${travelDate}일</p>
-	     				</div>
-	  				</div>
-			</div>
-	       
-	      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="slotCard">
-					  <div class="flipper">
-     					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
-        					  <!-- front content -->
-      						<p style="font-size: 30px;"><i class="fab fa-buromobelexperte"></i> 슬롯</p>
-   					  </div>
-      				  <div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
-         					 <!-- back content -->
-   						<p style="font-size: 30px;">${user.slot}개</p>
-   					 </div>
-  				</div>
-			</div>
-	     </div>
-	     
-	     <div style="text-align: center;">
-	      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="postCard">
-			    <div class="flipper">
-   					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
-      					  <!-- front content -->
-    						<p style="font-size: 30px;"><i class="far fa-clipboard"></i> 게시글</p>
-  					  </div>
-   					  <div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
-        				<!-- back content -->
- 							<p style="font-size: 30px;">${postCount}개</p>
-   					 </div>
-  				</div>
-			</div>
-	    
-			<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="commentCard">
-	  			<div class="flipper">
-	       			 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
-	          					  <!-- front content -->
-	        			<p style="font-size: 30px;"><i class="far fa-copy"></i> 댓글</p>
-	      			</div>
-	        		<div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
-	          				  <!-- back content -->
-	     				<p style="font-size: 30px;">${commentCount}개</p>
-	       			</div>
-   				</div>
-			</div>
-					
-	      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="partyCard">
-			 	 <div class="flipper">
-   					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 90px;">
-         					  <!-- front content -->
-       					<p style="font-size: 30px;"><i class="fas fa-user-friends"></i> 동행</p>
-  					  </div>
-       				 <div class="back" style="border: 1px solid; text-align: center;padding-top: 90px;">
-           					<!-- back content -->
-   						<p style="font-size: 30px;">${partyCount}개</p>
-   					 </div>
-   				</div>
-			</div>
-		</div>
-	
-	</div>
+							
+			      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="partyCard">
+					 	 <div class="flipper">
+		   					 <div class="front" style="border: 1px solid; text-align: center; padding-top: 45px;">
+		         					  <!-- front content -->
+		       					<p style="font-size: 20px;"><i class="fas fa-user-friends"></i> 동행</p>
+		  					  </div>
+		       				 <div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
+		           					<!-- back content -->
+		   						<p style="font-size: 20px;">${partyCount}개</p>
+		   					 </div>
+		   				</div>
+					</div>
+				</div>
+			</div><!-- 카드들 묶어놓음  -->
+				<div style="width: 375px;">
+						<div id="calendar"></div>
+				</div>
+			
+			
+		</div><!-- class ROW END -->		
+			
+	</div><!-- main Div End -->
+			
 	
 	<script>
 		/* icon 사용을 위한 스크립트 */
@@ -374,4 +566,35 @@ var maPageCode = 'M';
 
 </body>
 <jsp:include page="/toolbar/footer.jsp"></jsp:include>
+
+
+
+
+	<div class="modal fade " id="checkPwd">
+		  <!-- <div class="modal-dialog modal-lg"> -->
+		  <div class="modal-dialog ">
+		  	<!-- <h2 style="color : #FFFFFF">Sign In</h2> -->
+			<div class="modal-content" style="border-radius: 5px; padding:  10px 20px;">
+				<div class="modal-body" >
+					<form>
+						<div class="form-group  text-center">
+							<label for="pwd" style="margin-bottom: 15px;">Password</label>
+							 <input type="password"	class="form-control" placeholder="Enter password" id="pwdId" name="pwd" style="width: 180px;">
+							 <input type="text" style="display: none;" >
+							 <div id="pwdMessage" style="color: red;"></div>
+						</div>
+						<div class="form-group text-center" style="padding-top: 5px;">
+							<button type="button" class="btn btn-outline-primary" style="margin-right: 5px;" id="pwdCheck">비밀번호체크</button>
+							<button type="button" class="btn btn-outline-secondary" id="cancle">취소 </button>
+						</div>
+					</form>
+				</div><!--modal body End  -->
+	
+			</div><!--modal content End  --> 
+		  </div><!--modal dialog End  -->
+	</div><!--myModal End  -->
+
+
+
+
 </html>

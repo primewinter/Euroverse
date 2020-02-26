@@ -209,7 +209,7 @@
 						[여행후기]
 					</c:if>
 					<c:if test="${post.boardName=='G'}">
-					  <c:if test="${post.qnaKategorie=='M'}">
+					  <c:if test="${post.qnaKategorie=='G'}">
 						[QnA 루트]
 					  </c:if>
 					  <c:if test="${post.qnaKategorie=='H'}">

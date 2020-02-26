@@ -415,14 +415,14 @@
 						$("select[name='budgetCurrency']").val(JSONData.budgetCurrency);
 						
 						$('#deleteDaily').show();
-						$('#submitDaily').text('Update Daily');
+						$('#submitDaily').text('수정');
 					}
 				},
 				error:function(request,status,error){
 					if( request.status == '200'){ 		//console.log("리턴데이터 없음");	
 						$("input[name='dailyId']").val('');
 						$('#deleteDaily').hide();
-						$('#submitDaily').text('Add Daily');
+						$('#submitDaily').text('일정 추가');
 					}
 			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
 			    } 
@@ -468,7 +468,7 @@
 			console.log("planId="+planId+", dailyId="+dailyId+", dayNo="+dayNo+", dayTime="+dayTime+", dailyCate="+dailyCate+", dailyDetail="+dailyDetail+", budgetAmount="+budgetAmount+", budgetCurrency="+budgetCurrency);
 			
 			/* addDaily */
-			if(dailyButton == 'Add Daily'){
+			if(dailyButton == '일정 추가'){
 				console.log("Add Daily 버튼 클릭! ");
 				
 				if(dailyId == null || dailyId=='' ){
@@ -508,7 +508,7 @@
 				}
 				
 			/* updateDaily */
-			}else if(dailyButton == 'Update Daily'){
+			}else if(dailyButton == '수정'){
 				console.log("Update Daily 버튼 클릭! ");
 				
 				if(dailyId != null && dailyId !='' ){
@@ -549,7 +549,7 @@
 				} 
 				
 			/* deleteDaily */
-			}else if(dailyButton == 'Delete Daily'){
+			}else if(dailyButton == '삭제'){
 				console.log("Delete Daily 버튼 클릭! ");
 				
 				swal({
@@ -586,6 +586,10 @@
 				
 				
 			}
+			setTimeout(function(){ 
+				getBudgetOverviewList(planId); 
+			},50);
+			
 		} //submitDaily
 		
 		function getDailyList(planId){
@@ -1187,7 +1191,9 @@
 				error:function(request,status,error){
 			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
 			        closeModal('inviteUser');
-			        alert(request.responseText+" 님에게 초대 메시지를 보냈습니다.");
+			        //alert(request.responseText+" 님에게 초대 메시지를 보냈습니다.");
+			        
+			        swal(request.responseText+" 님에게 초대 메시지를 보냈습니다.", "", "success");
 			        
 			      	//초대 받는 사람에게 push 하기
 					var receiverId = toUserId;
@@ -2574,7 +2580,7 @@
 	        
 	      </div>
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('editPlan')">Close</button>
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('editPlan')">취소</button>
 	        <button type="button" class="btn btn-primary" id="updatePlan">수정</button>
 	      </div>
 	    </div>
@@ -2646,8 +2652,8 @@
 	        
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('dailyEdit')">Close</button>
-	        <button type="button" class="btn btn-danger" id="deleteDaily">Delete Daily</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('dailyEdit')">취소</button>
+	        <button type="button" class="btn btn-danger" id="deleteDaily">삭제</button>
 	        <button type="button" class="btn btn-primary" id="submitDaily">Edit Daily</button>
 	      </div>
 	    </div>

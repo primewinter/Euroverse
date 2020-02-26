@@ -98,6 +98,30 @@ table thead > tr{
 
 <script type="text/javascript">
 
+	/* ss초전 mm분전 hh시간전 구하는 코드  */
+	/* function fn_dateTimeToFormatted(dt) {
+		var min = 60 * 1000;
+		var c = new Date()
+		var d = new Date(dt);
+		var minsAgo = Math.floor((c - d) / (min));
+
+		var result = {
+			'raw': d.getFullYear() + '-' + (d.getMonth() + 1 > 9 ? '' : '0') + (d.getMonth() + 1) + '-' + (d.getDate() > 9 ? '' : '0') +  d.getDate() + ' ' + (d.getHours() > 9 ? '' : '0') +  d.getHours() + ':' + (d.getMinutes() > 9 ? '' : '0') +  d.getMinutes() + ':'  + (d.getSeconds() > 9 ? '' : '0') +  d.getSeconds(),
+			'formatted': '',
+		};
+
+		if (minsAgo < 60) { // 1시간 내
+			result.formatted = minsAgo + '분 전';
+		} else if (minsAgo < 60 * 24) { // 하루 내
+			result.formatted = Math.floor(minsAgo / 60) + '시간 전';
+		} else { // 하루 이상
+			result.formatted = Math.floor(minsAgo / 60 / 24) + '일 전';
+		};
+
+		return formatDate;
+	};
+	//end 시간구하기
+
 	/* //=============    검색 / page 두가지 경우 모두  Event  처리 =============	 */
 	function fncGetUserList(currentPage) {
 		$("#currentPage").val(currentPage)
@@ -110,13 +134,11 @@ table thead > tr{
 		 $( ".form-control" ).change(function() {
 		 	fncGetUserList(1);
 		 }); 
-	});//end of function
+	});//end of function */
 	
 	
 	//관리자가 리스트를 클릭했을경우 상세보기
 		function getAdminQnaList(postId,postContent,qnaFirstCate,postWriterId) {
-			
-			alert("getAdminQnaList 실행");
 			
 			if(qnaFirstCate == "A"){
 				
@@ -152,7 +174,6 @@ table thead > tr{
 	    	$("#con").remove();
 	        $("#"+postId+"").html(display);
 			 
-	        	alert("getCommet 시작");
 	        	$.ajax({
 					url: "/admin/json/getQnaCommentList/"+postId,
 					method: "GET",
@@ -165,6 +186,7 @@ table thead > tr{
 						}else{
 							console.log("리턴데이터 있음! => "+JSONData);	 
 							if(JSONData.list.length != 0){
+								
 					            var appendHtml =
 									'<div id="delCmt" style="padding:5px 25px" class="row">'+
 									'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
@@ -195,7 +217,6 @@ table thead > tr{
 	//관리자의 1:1문의 답변 관리자가 한 문의당 답변을 한개만 달수있도록 로직짜놓음
 	function answer(postId){ 
 		
-		alert("click?");
        	var cmtContent = $('#content').val();
        		
        	 $.ajax({
@@ -236,6 +257,7 @@ table thead > tr{
 					        	'</div></div>';
 						        	
 							 $("#append").append(appendHtml); 
+							 $("#content").val('');
 								 
 					}// end of else
 					
@@ -252,7 +274,6 @@ table thead > tr{
         
 		
 	function deleteCmt(cmtId, postId){
-		
 		
 		$.ajax({
 			url: "/admin/json/deleteQnaComm",
@@ -279,19 +300,16 @@ table thead > tr{
 
 <body>
 
+	<!-- =============== 유로버스 툴바 인클루드  ========== -->
+		<jsp:include page="/toolbar/toolBar.jsp"></jsp:include> 
+	<!-- =========== 이까지  ================ -->
+	
+	<!-- 푸쉬바 인클루드  -->
+		<jsp:include page="/toolbar/pushBar.jsp"></jsp:include> 
+		<!-- 인클루드 end--> 
+
 	<div class="container">
 	
-		<!-- =============== 유로버스 툴바 인클루드  ========== -->
-			<jsp:include page="/toolbar/toolBar.jsp"></jsp:include> 
-		<!-- =========== 이까지  ================ -->
-		
-		<!-- 푸쉬바 인클루드  -->
-		<%-- <jsp:include page="/toolbar/pushBar.jsp"></jsp:include> --%>
-		<!-- 인클루드 end--> 
-		
-		
-		
-		
 	<div class="page-header text-info">
 
 		<h3 class="font-weight-bold">1:1문의목록 상세조회</h3>
@@ -379,6 +397,7 @@ table thead > tr{
 			   		</c:if>
 				  </td>
 				  <!--========= END ========== -->
+				  
 				  <!--제목  -->
 				  <td class="postclick" 
 				  onclick="getAdminQnaList('${post.postId}','${post.postContent}','${post.qnaFirstCate}','${post.postWriterId}')" 

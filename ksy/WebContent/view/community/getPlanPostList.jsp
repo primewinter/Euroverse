@@ -137,6 +137,9 @@
 		  -webkit-transition-delay: 0.35s;
 		  transition-delay: 0.35s;
 		}
+        .py-5 {
+            padding-top : 10px;
+        }
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
