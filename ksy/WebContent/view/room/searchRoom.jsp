@@ -256,7 +256,7 @@ var setSdate, setEdate;
 $(function() {
 	$("#from").datepicker({
 	    dateFormat: 'yy-mm-dd',
-	    minDate: 0,
+	    minDate: 2,
 	    onSelect: function(selectDate){
 	        var stxt = selectDate.split("-");
 	        console.log("stxt : "+stxt);

@@ -210,7 +210,7 @@
     							        window.location.reload(true);
     							        return;
     							    }
-    						        alert(msg);
+    						        //alert(msg);
     						        //alert("input imp_uid : "+$("#userId").val());
     						        
 	    							  $("form").attr("method" , "POST").attr("action" , "/order/addRoomOrder").submit();
@@ -227,7 +227,7 @@
     $( function () {
     	$('.btn.btn-primary').on('click' , function () {
     		var card = $("input[name='payOpt']:checked").val();
-    		alert(card);
+    		//alert(card);
     		var pay = $("#pay").val();
     		
     		if (card == '0' ) {
@@ -306,7 +306,7 @@
     							        window.location.reload(true);
     							        return;
     							    }
-    						        alert(msg);
+    						        //alert(msg);
     						    
     							  $("form").attr("method" , "POST").attr("action" , "/order/addRoomOrder").submit();
     					});	

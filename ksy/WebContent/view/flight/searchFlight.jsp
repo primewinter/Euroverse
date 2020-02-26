@@ -265,7 +265,7 @@ var setSdate, setEdate;
 $(function() {
 $("#from").datepicker({
     dateFormat: 'yy-mm-dd',
-    minDate: 0,
+    minDate: 2,
     onSelect: function(selectDate){
         var stxt = selectDate.split("-");
         console.log("stxt : "+stxt);
@@ -481,6 +481,7 @@ function europe(obj) {
 			$('#roundTrip').attr('class','col-sm-3 basic');
 			$('#right').attr('class','col-sm-3 change');
 			$("#tripCourses").val(1);
+			$("#arrIcon").show();
 		});
 	});
 	$(function() { //Æíµµ

@@ -71,7 +71,6 @@
 		
 		//$(this).next().val().siblings().val(); */
 		 
-		 alert(depDate+arrDate+stopOver+leadTime+tripCourse);
 			//  $("form").attr("method" , "GET").attr("action" , "/order/addFlightOrder").submit();
 			  self.location ="/order/addFlightOrder?airline="+airline+"&depCity="+depCity+"&arrCity="+arrCity+"&price="+price
 					  +"&depDate="+depDate+"&arrDate="+arrDate+"&stopOver="+stopOver+"&leadTime="+leadTime
@@ -85,7 +84,9 @@
 
  $(function () {
 	 $(".btn.btn-secondary").click(function () {
+		 var bookMark = $(this).prev().val();
 		 var flightId = $(this).val();
+		 console.log(bookMark);
 		 console.log("flightId : "+flightId);
 		 var airline = $(this).next().val();
 		 jQuery.trim(airline);
@@ -103,7 +104,7 @@
 		 var infantNum = $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().val();
 		 var adultNum = $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().next().val();
 		 var childNum = $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().val(); 
-		 alert(depDate+arrDate+stopOver+leadTime+tripCourse);
+		 //alert(depDate+arrDate+stopOver+leadTime+tripCourse);
 		 $.ajax({
 			url : '/flight/json/addFlight' ,
 			type : "POST" ,
@@ -135,14 +136,14 @@
 			success : function(data) {
 				var msg = '';
 				msg += data.msg;
-				alert(msg);
-				alert(data.refId);
-				alert(price)
-				$("#"+price).val(data.refId);
+				//alert(msg);
+				//alert(data.refId);
+				//alert(price)
+				$("#"+bookMark).val(data.refId);
 				if(data.likeCheck == 'F'){
-				  $("#"+price).attr('class','btn btn-secondary');
+				  $("#"+bookMark).attr('class','btn btn-secondary');
 				}else{
-				  $("#"+price).attr('class','btn btn-light');
+				  $("#"+bookMark).attr('class','btn btn-light');
 				}      
 			},
 			error: function(request, status, error){
@@ -184,7 +185,10 @@
 			    </tr>
 			  </thead>
 			  <tbody>
+			  <c:set var="i" value="0"/>
 			  <c:forEach var="flight" items = "${flightList}" >
+			  <c:set var="i" value="${i+1}"/>
+			  
 			    <tr>
 			      <th scope="row">${flight.airline}</th>
 			      <td>${flight.depTime}</td>
@@ -196,8 +200,9 @@
 			      
 			      <!-- <input type="hidden"  name="flightId" id="flightId" value="" />  -->
 			     <%--  <i class="far fa-heart"  onclick="addWish('${flight.price }');" id="${flight.price }" style="font-size:15px;"></i> --%>
-<%-- 			     	<button type="button" class="btn btn-secondary" id="${flight.price }" value="0" style="width:50px;">찜</button>
- --%>			     	<input type="hidden"  name="airline" value="${flight.airline }" />
+			     	<input type="hidden" id="addBookMark" value="flight${i}"/>
+			     	<button type="button" class="btn btn-secondary" id="flight${i}" value="T" style="width:50px;">찜</button>
+			     	<input type="hidden"  name="airline" value="${flight.airline }" />
 					<input type="hidden"  name="depCity"  value="${flight.depCity }" />
 					<input type="hidden"  name="arrCity" value="${flight.arrCity }" />
 					<input type="hidden" name="price"  value="${flight.price }" />
