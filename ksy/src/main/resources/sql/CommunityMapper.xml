@@ -284,7 +284,7 @@
 												AND p.qna_kategorie = 'L'
 											</if>
 											<if test="search.sorting == 5 and search.sorting != ''">
-												AND p.qna_kategorie = 'M'
+												AND p.qna_kategorie = 'G'
 											</if>
 											<if test="search.searchCondition != null">
 												AND vt2.ref_id(+) = r.ref_id AND vt1.post_id(+) = c.post_id AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.post_id = r.ref_id(+) AND p.board_name = #{boardName} AND p.deleted = 'F'
@@ -306,7 +306,7 @@
 	<select  id="getBestPostList"  parameterType="map"	resultMap="postSelectMap">
 	  	SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , vt1.c comments , p.views , p.blocked , p.deleted , p.post_like_count , p.day_best , p.week_best , p.month_best
+  						FROM ( SELECT p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , vt1.c comments , p.views , p.blocked , p.deleted , p.post_like_count , p.day_best , p.week_best , p.month_best , p.qna_kategorie
 										FROM best_post p, comments c, tag t, ( SELECT post_id , count(*) c FROM comments WHERE deleted = 'F' GROUP BY post_id ) vt1
 										<if test="search.searchCondition != null">
 										  <trim prefix="WHERE" prefixOverrides="AND | OR">
@@ -320,22 +320,22 @@
 										 		t.tag_content LIKE '%${search.searchKeyword}%'
 											</if>
 											<if test="search.searchCondition != null">
-												AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.deleted = 'F' AND vt1.post_id(+) = c.post_id AND
+												AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.deleted = 'F' AND vt1.post_id(+) = c.post_id AND board_name in ('B', 'E', 'F', 'A', 'G')
 												<if test="search.sorting == 0 and search.sorting !=''">
-												  day_best IS NOT NULL
+												  AND day_best IS NOT NULL
 												</if> 
 												<if test="search.sorting == 1 and search.sorting !=''">
-												  week_best IS NOT NULL
+												  AND week_best IS NOT NULL
 												</if> 
 												<if test="search.sorting == 2 and search.sorting !=''">
-												  month_best IS NOT NULL
+												  AND month_best IS NOT NULL
 												</if> 
 											</if> 
 										  </trim>
 										</if>
 										<if test="search.searchCondition == null">
 										  <where>
-											  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.deleted = 'F' AND vt1.post_id(+) = c.post_id AND
+											  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.deleted = 'F' AND vt1.post_id(+) = c.post_id AND board_name in ('B', 'E', 'F', 'A', 'G') AND
 											  <if test="search.sorting == 0 and search.sorting !=''">
 											    day_best IS NOT NULL
 										      </if> 
@@ -347,7 +347,7 @@
 											  </if> 
 										  </where>
 										</if>
-										GROUP BY vt1.c , p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , p.day_best , p.week_best , p.month_best
+										GROUP BY vt1.c , p.post_id , p.post_writer_id , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , p.day_best , p.week_best , p.month_best , p.qna_kategorie
 										ORDER BY DECODE ( p.post_grade, 'N', 1, 'B', 2 )
 										<if test="search.sorting == 0 and search.sorting !=''">
 										  , day_best desc
@@ -497,24 +497,24 @@
 	</update>
 	
 	<insert id="insertDayBestPost">
-    	INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best )
-    	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best
-    	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best
-    			FROM post WHERE post_grade = 'B' AND deleted = 'F' AND day_best IS NOT NULL ORDER BY day_best desc ) WHERE ROWNUM <![CDATA[<=]]> 30
+    	INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best , qna_kategorie )
+    	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best , qna_kategorie 
+    	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , day_best , qna_kategorie 
+    			FROM post WHERE board_name in ('B', 'E', 'F', 'A', 'G') AND post_grade = 'B' AND deleted = 'F' AND day_best IS NOT NULL ORDER BY day_best desc ) WHERE ROWNUM <![CDATA[<=]]> 30
 	</insert>	 
 	
 	<insert id="insertWeekBestPost">
-		INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best )
-    	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best
-    	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best
-    			FROM post WHERE post_grade = 'B' AND deleted = 'F' AND week_best IS NOT NULL ORDER BY week_best desc ) WHERE ROWNUM <![CDATA[<=]]> 30
+		INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best , qna_kategorie )
+    	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best , qna_kategorie 
+    	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , week_best , qna_kategorie 
+    			FROM post WHERE board_name in ('B', 'E', 'F', 'A', 'G') AND post_grade = 'B' AND deleted = 'F' AND week_best IS NOT NULL ORDER BY week_best desc ) WHERE ROWNUM <![CDATA[<=]]> 30
 	</insert>	 
 	
 	<insert id="insertMonthBestPost">
-		INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best )
-    	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best
-    	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best
-    			FROM post WHERE post_grade = 'B' AND deleted = 'F' AND month_best IS NOT NULL ORDER BY month_best desc ) WHERE ROWNUM <![CDATA[<=]]> 30
+		INSERT INTO best_post ( post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best , qna_kategorie )
+    	SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best , qna_kategorie 
+    	FROM  ( SELECT post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_date , views , blocked , deleted , post_like_count , month_best , qna_kategorie 
+    			FROM post WHERE board_name in ('B', 'E', 'F', 'A', 'G') AND post_grade = 'B' AND deleted = 'F' AND month_best IS NOT NULL ORDER BY month_best desc ) WHERE ROWNUM <![CDATA[<=]]> 30
 	</insert>	 
 	
 	<delete id="deleteDayBestPost">
