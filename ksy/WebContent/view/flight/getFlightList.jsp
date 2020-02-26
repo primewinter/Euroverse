@@ -85,8 +85,8 @@
 
  $(function () {
 	 $(".btn.btn-secondary").click(function () {
-		 var val = $(this).val();
-		 console.log("val : "+val);
+		 var flightId = $(this).val();
+		 console.log("flightId : "+flightId);
 		 var airline = $(this).next().val();
 		 jQuery.trim(airline);
 		 var depCity = $(this).next().next().val();
@@ -114,7 +114,7 @@
 				"Content-Type" : "application/json"
 			},
 			data : JSON.stringify({
-				flightId : val,
+				flightId : flightId,
 				airline : airline,
  	     		depCity : depCity,
 				arrCity : arrCity,

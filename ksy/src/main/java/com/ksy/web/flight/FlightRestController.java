@@ -148,7 +148,7 @@ public class FlightRestController {
 		User user=(User)session.getAttribute("user");
 		like.setLikeUserId(user.getUserId()); 
 		like.setLikeType("F");
-		if (checkMap.get("flightId") == "0") { //원래 flight.getFlightId() 였음...
+		if (checkMap.get("flightId") == "0" & flight.getFlightId() == null) { //원래 flight.getFlightId() 였음...
 			likeService.addLike(like);
 		} 
 		like=likeService.getLike(like);

@@ -137,6 +137,7 @@
 					      <th scope="col">도착시간</th>
 					      <th scope="col">경유</th>
 					      <th scope="col">소요시간</th>
+					      <th scope="col">구간</th>
 					      <th scope="col">가격</th>
 					    </tr>
 					  </thead>
@@ -147,6 +148,12 @@
 					      <td>${flight.arrTime}</td>
 					      <td>${flight.stopOver}</td>
 					      <td>${flight.leadTime}</td>
+					      <c:if test="${flight.tripCourse == '1' }">
+					     	 <td>왕복 구간</td>
+					      </c:if>
+					       <c:if test="${flight.tripCourse == '2' }">
+					     	 <td>편도 구간</td>
+					      </c:if>
 					      <!--  flight.price 로 바꿔줘야함 -->
 					      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" />원</td>
 					    </tr>
@@ -301,6 +308,19 @@
 				<div class="row" style="margin-bottom: 15px" >
 						  <div class="col-md-3">Email</div>
 						  <div class="col-md-9">${order.buyerEmail}</div>
+				</div>
+				<div class="row" style="margin-bottom: 15px" >
+						  <div class="col-md-3">할부</div>
+						  <div class="col-md-9">${order.payInstal} 개월</div>
+				</div>
+				<div class="row" style="margin-bottom: 15px" >
+						  <div class="col-md-3">결제방식</div>
+						  <c:if test="${order.payOpt == '0' }">
+							  <div class="col-md-9">휴대폰 소액 결제</div>
+						  </c:if>
+						   <c:if test="${order.payOpt == '1'}">
+							  <div class="col-md-9">카드결제</div>
+						  </c:if>
 				</div>
 			</div>
 		<hr/>

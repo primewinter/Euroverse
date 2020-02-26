@@ -134,7 +134,7 @@
     	$('button.btn.btn-primary').on('click' , function () {
     		var actualAmount = $("#actualAmount").val();
     		var payPoint = $("#payPoint").val(); //사용할 포인트
-    		
+    		if (card == '1' ) {
 	    	
     		if ($("#payPoint").val() == null | $("#payPoint").val() == "" | $("#payPoint").val() == 0) {
     			$("#zeroPoint").val(0);
@@ -164,7 +164,7 @@
     							    pg : 'inicis', // version 1.1.0부터 지원.
     							    pay_method : 'card',
     							    merchant_uid : 'merchant_' + new Date().getTime(),
-    							    name : 'Flights',
+    							    name : 'Room',
     							    amount : 10,
     							    buyer_email : buyerEmail ,
     							    buyer_name : buyerName ,
@@ -185,7 +185,7 @@
     									msg += 'status '+ rsp.pay_method;
     									msg += '할부'+ rsp.card_quota;
     									
-    									var payInstal = rsp.card_quota;
+    									var payInstal = rsp.card_quota+1;
     									$("#payInstal").val(payInstal);
     									
     							        var orderId = rsp.imp_uid;
@@ -216,6 +216,8 @@
 	    							  $("form").attr("method" , "POST").attr("action" , "/order/addRoomOrder").submit();
 
     					});	
+    						 
+    		}// if 끝
     				}); 
     	
     			});
@@ -261,10 +263,10 @@
     							    pg : 'danal', // version 1.1.0부터 지원.
     							    pay_method : 'card',
     							    merchant_uid : 'merchant_' + new Date().getTime(),
-    							    name : 'Flights',
+    							    name : 'Room',
     							    amount : 10,
     							    buyer_email : buyerEmail ,
-    							    buyer_name : buyerName,
+    							    buyer_name : buyerName ,
     							    buyer_tel : buyerPhone ,
     							    buyer_postcode : 1234 ,
     							  
@@ -283,7 +285,7 @@
     									msg += 'status '+ rsp.pay_method;
     									msg += '할부'+ rsp.card_quota;
     									
-    									var payInstal = rsp.card_quota;
+    									var payInstal = rsp.card_quota+1;
     									$("#payInstal").val(payInstal);
     									
     							        var orderId = rsp.imp_uid;
@@ -306,10 +308,10 @@
     							    }
     						        alert(msg);
     						    
-    							  $("form").attr("method" , "POST").attr("action" , "/order/addFlightOrder").submit();
+    							  $("form").attr("method" , "POST").attr("action" , "/order/addRoomOrder").submit();
     					});	
     						 
-    		}
+    		}// if 끝
     				}); 
     	
     			});

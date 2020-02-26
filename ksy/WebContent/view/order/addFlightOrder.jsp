@@ -168,7 +168,7 @@
     							    name : 'Flights',
     							    amount : 10,
     							    buyer_email : buyerEmail ,
-    							    buyer_name : buyerName,
+    							    buyer_name : buyerName ,
     							    buyer_tel : buyerPhone ,
     							    buyer_postcode : 1234 ,
     							  
@@ -187,7 +187,7 @@
     									msg += 'status '+ rsp.pay_method;
     									msg += '할부'+ rsp.card_quota;
     									
-    									var payInstal = rsp.card_quota;
+    									var payInstal = rsp.card_quota+1;
     									$("#payInstal").val(payInstal);
     									
     							        var orderId = rsp.imp_uid;
@@ -258,7 +258,7 @@
     							    name : 'Flights',
     							    amount : 10,
     							    buyer_email : buyerEmail ,
-    							    buyer_name : buyerName,
+    							    buyer_name : buyerName ,
     							    buyer_tel : buyerPhone ,
     							    buyer_postcode : 1234 ,
     							  
@@ -277,7 +277,7 @@
     									msg += 'status '+ rsp.pay_method;
     									msg += '할부'+ rsp.card_quota;
     									
-    									var payInstal = rsp.card_quota;
+    									var payInstal = rsp.card_quota+1;
     									$("#payInstal").val(payInstal);
     									
     							        var orderId = rsp.imp_uid;
@@ -387,6 +387,7 @@
 			      <th scope="col">도착시간</th>
 			      <th scope="col">경유</th>
 			      <th scope="col">소요시간</th>
+			      <th scope="col">구간</th>
 			      <th scope="col">가격</th>
 			    </tr>
 			  </thead>
@@ -397,6 +398,12 @@
 			      <td>${flight.arrTime}</td>
 			      <td>${flight.stopOver}</td>
 			      <td>${flight.leadTime}</td>
+			        <c:if test="${flight.tripCourse == '1' }">
+					     	 <td>왕복 구간</td>
+					</c:if>
+					<c:if test="${flight.tripCourse == '2' }" >
+					     	 <td>편도 구간</td>
+					</c:if>
 			      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" /> 원</td>
 			    </tr>
 			  </tbody>

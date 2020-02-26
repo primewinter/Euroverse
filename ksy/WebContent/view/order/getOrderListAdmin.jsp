@@ -77,11 +77,13 @@ function fncGetUserList(currentPage) {
 		$('.fas.fa-list').on("click" , function (){
 			//var flightId = $("#flightId").val();
 			var flightId = $(this).next().val();
-			self.location ="/order/getFlightOrder?flightId="+flightId;
+			var orderId = $(this).next().next().val();
+			self.location ="/order/getFlightOrder?flightId="+flightId+"&orderId="+orderId;
 		})
 		$('.fas.fa-list-ul').on("click" , function (){
 			var roomId = $(this).next().val();
-			self.location ="/order/getRoomOrder?roomId="+roomId;
+			var orderId = $(this).next().next().val();
+			self.location ="/order/getRoomOrder?roomId="+roomId+"&orderId="+orderId;
 		})
 	})
 	

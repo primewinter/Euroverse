@@ -37,18 +37,14 @@
     </style>
     <script type="text/javascript">
     $( function () {
-	$('button.btn.btn-warning').on('click' , function () {
-		var orderId = $("#orderId").val();
-		var room = $("#roomCity").val();
-		var flight = $("#depCity").val();
-		alert("${order.orderId}");
-		if (room == null) {
-		self.location ="/view/flight/searchFlight.jsp";
-		}else if(flight == null){
-		self.location = "/view/room/searchRoom.jsp";
-		}
+	$('#home').on('click' , function () {
+		self.location ="/main.jsp";
+		
 		//  $("form").attr("method" , "POST").attr("action" , "/order/addOrderConfirm?orderId=${order.orderId}").submit();
 	});
+	$("#list").click(function (){
+		self.location = "/order/getOrderList";
+	})
 });
     </script>
 
@@ -77,6 +73,7 @@
 					      <th scope="col">도착시간</th>
 					      <th scope="col">경유</th>
 					      <th scope="col">소요시간</th>
+					      <th scope="col">구간</th>
 					      <th scope="col">가격</th>
 					    </tr>
 					  </thead>
@@ -87,12 +84,18 @@
 					      <td>${flight.arrTime}</td>
 					      <td>${flight.stopOver}</td>
 					      <td>${flight.leadTime}</td>
+					       <c:if test="${flight.tripCourse == '1' }">
+					     	 <td>왕복 구간</td>
+					      </c:if>
+					       <c:if test="${flight.tripCourse == '2' }">
+					     	 <td>편도 구간</td>
+					      </c:if>
 					      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" />원</td>
 					    </tr>
 					  </tbody>
 				</table>
 		</c:if>
-		 <c:if test="${flight.depCity == null }">
+		 <c:if test="${flight.depDate == null }">
 		 	<hr/>
 			<i class="fas fa-bed" id="iconr" style="Padding-left:20px;font-size:40px;"></i>
 				<br/>
@@ -172,8 +175,7 @@
 					</div> --%>
 					<div class="col-sm-2" style="margin-left:30px;">
 						<p>적립 된 포인트</p>
-							<%-- <c:if test="${point.usedType eq 'F' | point.usedType eq 'R' }"> --%>
-					 			<div id="addPoint" style="Padding-left:20px;">${point.addPoint} P </div>
+					 			<div id="addPoint" style="Padding-left:20px;">${order.addPoint} P </div>
 					</div>
 					<div class="col-sm-1" style="margin-left:20px;">
 						<i class="fas fa-equals" style="margin-left:15px;margin-top:10px;"></i>
@@ -202,11 +204,26 @@
 						  <div class="col-md-3">Email</div>
 						  <div class="col-md-9">${order.buyerEmail}</div>
 				</div>
+				<div class="row" style="margin-bottom: 15px" >
+						  <div class="col-md-3">할부</div>
+						  <div class="col-md-9">${order.payInstal} 개월</div>
+				</div>
+				<div class="row" style="margin-bottom: 15px" >
+						  <div class="col-md-3">결제방식</div>
+						  <c:if test="${order.payOpt == '0' }">
+							  <div class="col-md-9">휴대폰 소액 결제</div>
+						  </c:if>
+						   <c:if test="${order.payOpt == '1'}">
+							  <div class="col-md-9">카드결제</div>
+						  </c:if>
+				</div>
 			</div>
 		<hr/>
 	
 	   		 <div class="form-group" align="center">
-			<button type="button" class="btn btn-warning"  >확인</button>
+			<button type="button" class="btn btn-warning"  id="home" style="color:white;">메인으로</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<button type="button" class="btn btn-warning" id="list" style="color:white;">주문목록 바로가기</button>
 			</div>
 			
 </div>

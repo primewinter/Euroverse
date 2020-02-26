@@ -41,6 +41,7 @@ public class LikeDaoImpl implements LikeDao{
 	public Like getLike(Like like) throws Exception {
 
 		if( like.getRefId() == null ) {
+			System.out.println("refId 가 null일때 들어옴!");
 			String refId = sqlSession.selectOne("LikeMapper.getFlightRefId");
 			like.setRefId(refId);
 		}

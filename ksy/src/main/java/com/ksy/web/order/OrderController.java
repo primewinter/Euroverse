@@ -120,7 +120,7 @@ public class OrderController {
 		return "forward:/view/order/addFlightOrder.jsp";
 	}
 	@RequestMapping(value = "addFlightOrder", method = RequestMethod.POST)
-	public String addFlightOrder(
+	public String addFlightOrder( @RequestParam("payOpt")int payOpt,
 			@RequestParam("addPoint")int addPoint,		@RequestParam("buyerName")String buyerName ,
 			@RequestParam("buyerEmail")String buyerEmail , @RequestParam("buyerPhone")String buyerPhone,
 			@RequestParam("usedPoint")int usedPoint,@RequestParam("totalAmount")int totalAmount,
@@ -147,6 +147,7 @@ public class OrderController {
 		order.setOrderId(orderId);
 		order.setPayPoint(payPoint);
 		order.setPayInstal(payInstal);
+		order.setPayOpt(payOpt);
 		order.setActualAmount(actualAmount);
 		order.setTotalAmount(totalAmount);
 		System.out.println("user : "+user);
@@ -163,6 +164,7 @@ public class OrderController {
 		//포인트 적립
 		point.setUsedType("F");
 		point.setUsedPoint(addPoint);
+		order.setAddPoint(addPoint);
 		orderService.addPoint(point);
 		System.out.println("point 1 : "+point);
 		//포인트 사용
@@ -205,7 +207,7 @@ public class OrderController {
 
 	@RequestMapping(value = "addRoomOrder", method = RequestMethod.POST)
 	public String addRoomOrder(@RequestParam("usedPoint")int usedPoint,@RequestParam("totalAmount")int totalAmount,
-			@RequestParam("buyerName")String buyerName ,
+			@RequestParam("buyerName")String buyerName , @RequestParam("payOpt")int payOpt,
 			@RequestParam("buyerEmail")String buyerEmail , @RequestParam("buyerPhone")String buyerPhone,
 			@ModelAttribute("room")Room room, @RequestParam("orderId")String orderId,
 			@RequestParam("payPoint")int payPoint, @RequestParam("actualAmount")int actualAmount,
@@ -229,6 +231,7 @@ public class OrderController {
 		order.setOrderId(orderId);
 		order.setPayPoint(payPoint);
 		order.setPayInstal(payInstal);
+		order.setPayOpt(payOpt);
 		order.setActualAmount(actualAmount);
 		order.setTotalAmount(totalAmount);
 		order.setOrderStatus("1");//주문상태
@@ -240,6 +243,7 @@ public class OrderController {
 		//포인트 적립
 		point.setUsedType("R");
 		point.setUsedPoint(addPoint);
+		order.setAddPoint(addPoint);
 		orderService.addPoint(point);
 		System.out.println("point 1 : "+point);
 		//포인트 사용
@@ -251,13 +255,13 @@ public class OrderController {
 		//User Session 다시 받아오기
 		User reloadUser = userService.getUser(user.getUserId());
 		System.out.println("현재포인트는 "+reloadUser.getTotalPoint());
+		
 		session.setAttribute("user", reloadUser);
 
 		order.setAddPoint(addPoint); // db에는 안넣음..
 		model.addAttribute("room",room);
 		model.addAttribute("order",order);
 		model.addAttribute("point",point);
-		
 		return "forward:/view/order/addOrderConfirm.jsp";
 	}
 	
@@ -334,9 +338,14 @@ public class OrderController {
 		flight = flightService.getFlight(flightId);
 		order = orderService.getFlightOrder(flightId);
 		
-		//point Service , dao 만들기 Order에 point 관련 컬럼 지우기...
-		//pointService.
 		List<Point> point = orderService.pointList(orderId);
+		
+		User user = (User) session.getAttribute("user");
+		System.out.println("user  :: "+user);
+		User reloadUser = userService.getUser(user.getUserId());
+		System.out.println("현재포인트는 "+reloadUser.getTotalPoint());
+		
+		session.setAttribute("user", reloadUser);
 		
 		model.addAttribute("flight",flight);
 		model.addAttribute("order",order);
@@ -358,6 +367,12 @@ public class OrderController {
 		room = roomService.getRoom(roomId);
 		List<Point> point = orderService.pointList(orderId);
 
+		User user = (User) session.getAttribute("user");
+		System.out.println("user  :: "+user);
+		User reloadUser = userService.getUser(user.getUserId());
+		System.out.println("현재포인트는 "+reloadUser.getTotalPoint());
+		
+		session.setAttribute("user", reloadUser);
 		
 		model.addAttribute("room",room);
 		model.addAttribute("order",order);
