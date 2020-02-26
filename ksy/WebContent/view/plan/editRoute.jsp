@@ -1525,7 +1525,7 @@
 				
 					<div class="media" style="width: 100%;height:100%; padding: 10px;">
 					
-						<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-2" alt="https://travel-echo.com/wp-content/uploads/2019/11/polynesia-3021072_640-400x250.jpg" style="border-width: 1px; border-color: #D1D1D1; border-style: solid; width: 100px; height: 100px;">
+						<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-2" alt="img loading.." style="border-width: 1px; border-color: #D1D1D1; border-style: solid; width: 100px; height: 100px;">
 
 						<div class="media-body">	
 						
