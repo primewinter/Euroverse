@@ -135,12 +135,12 @@
 					phone : "${user.phone}"
 				}),
 				beforeSend : function() {
-					$("h6").text("문자 발송 중입니다... 잠시만 기다려 주세요.");
+					$("phoneMsg").text("문자 발송 중입니다... 잠시만 기다려 주세요.");
 				},
 				success : function(JSONData, Status) {
 					if (JSONData.result == "done") {
 						$("input[name='phoneCheck']").val(JSONData.phoneCheck);
-						$("h6").text("입력하신 번호로 문자 발송이 완료되었습니다.");
+						$("phoneMsg").text("입력하신 번호로 문자 발송이 완료되었습니다.");
 						$("input[name='phoneValue']").attr("type","text").attr("placeholder", "인증번호 입력");
 						$('#sendPhone').hide();
 						$('#removeDiv').hide();
@@ -165,12 +165,12 @@
 					email : "${user.email}"
 				}),
 				beforeSend : function() {
-					$("h6").text("메일 발송 중입니다...");
+					$("#mailMsg").text("메일 발송 중입니다...");
 				},
 				success : function(JSONData, Status) {
 					if (JSONData.result == "done") {
 						$("input[name='mailCheck']").val(JSONData.mailCheck);
-						$("h6").text("메일 발송이 완료되었습니다.");
+						$("#mailMsg").text("메일 발송이 완료되었습니다.");
 						$("input[name='mailValue']").attr("type", "text").attr("placeholder","인증번호 입력");
 						$('#sendMail').hide();
 						$('#emailRemoveDiv').hide();
@@ -207,7 +207,7 @@
 					<button type="button" id="sendPhone" class="btn btn-outline-primary">인증하기</button>
 					<input type="hidden" id="phone" name="phone"> <input type="hidden" name="phoneValue" value="">
 					<button type="button"  class="btn btn-outline-primary" id="phoneConfirm">인증번호확인</button>
-					<h6 style="margin: 20px;"></h6>
+					<h6 style="margin: 20px;" id="phoneMsg"></h6>
 					<input type="hidden" name="phoneCheck" value="">
 				</div>
 			</c:if>
@@ -218,7 +218,7 @@
 					<button type="button" id="sendMail" class="btn btn-outline-primary">인증하기</button>
 					<input type="hidden" name="mailValue" value="">
 					<button type="button" class="btn btn-outline-primary" id="confirm">인증번호확인</button>
-					<h6 style="margin: 20px;"></h6>
+					<h6 style="margin: 20px;" id="mailMsg"></h6>
 					<input type="hidden" name="mailCheck" value="">
 				</div>
 			</c:if>

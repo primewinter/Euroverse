@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:if test="${ ! empty user }">
-	<jsp:forward page="/main.jsp"/>
-</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -217,7 +214,6 @@
 			} 
 
 			if (phone.value == null || phone.value=="") {
-				alert("핸드폰 번호는 반드시 입력하셔야 합니다.");
 				swal({
 					  icon : 'warning',
 					  title : "핸드폰 번호는 반드시 입력하셔야 합니다.",
@@ -228,7 +224,6 @@
 			}
 
 			if (phone.value.length > 15 || phone.value.length < 9) {
-				alert("핸드폰 번호 형식에 맞지 않습니다.");
 				swal({
 					  icon : 'warning',
 					  title : "핸드폰 번호 형식에 맞지 않습니다.",
@@ -311,7 +306,6 @@
 				}
 
 				if (name2.value == null || name2.value == "") {
-					alert("이름은 반드시 입력하셔야 합니다.");
 					swal({
 						  icon : 'warning',
 						  title : "이름은 반드시 입력하셔야 합니다.",
@@ -322,7 +316,6 @@
 				}
 
 				if (email == null || email.length =="") {
-					alert("이메일은 반드시 입력하셔야 합니다.");
 					swal({
 						  icon : 'warning',
 						  title : "이메일은 반드시 입력하셔야 합니다.",
@@ -333,7 +326,6 @@
 				}
 				
 				if (email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1)) {
-					alert("이메일 형식이 아닙니다.");
 					swal({
 						  icon : 'warning',
 						  title : "이메일 형식이 아닙니다.",
@@ -418,31 +410,31 @@
 				<div id="phoneDiv" style="display:none">
 					<div class="form-group">
 						<div class="col-7 mx-auto">
-							<b>ID</b>
+							<b>아이디</b>
 							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
+								<span class="input-group-text"><i class="fas fa-user"></i></span> &nbsp;
 								<input type="text" class="form-control" placeholder="ID" id="userId1">
 							</div>
-							<h6></h6>
+							<h6 class="findPwdH6"></h6>
 						</div>
 					</div>
 				
 					<div class="form-group">
 						<div class="col-7 mx-auto">
-							<b>Name</b>
+							<b>이름</b>
 							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
+								<span class="input-group-text"><i class="fas fa-user"></i></span>&nbsp;
 								<input type="text" class="form-control" placeholder="Name" id="userName1">
 							</div>
-							<h6></h6>
+							<h6 class="findPwdH6"></h6>
 						</div>
 					</div>
 		
 					<div class="form-group">
 					 	<div class="col-7 mx-auto" style="margin-bottom: 40px;">
-					 		<b>Phone</b>
+					 		<b>핸드폰</b>
 					 		<div class="input-group-prepend">
-					 		  <span class="input-group-text"><i class="fas fa-phone"></i></span>
+					 		  <span class="input-group-text"><i class="fas fa-phone"></i></span>&nbsp;
 						      <input type="text" class="form-control" id="phone1" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"> - 
 						      <input type="text" class="form-control" id="phone2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"> - 
 						      <input type="text" class="form-control" id="phone3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4">
@@ -471,9 +463,9 @@
 					<div id="emailDiv" style="display:none">
 						<div class="form-group">
 							<div class="col-7 mx-auto">
-								<b>ID</b>
+								<b>아이디</b>
 								<div class="input-group-prepend">
-									<span class="input-group-text"><i class="fas fa-user"></i></span>
+									<span class="input-group-text"><i class="fas fa-user"></i></span>&nbsp;
 									<input type="text" class="form-control" placeholder="ID" id="userId2">
 								</div>
 							</div>
@@ -481,9 +473,9 @@
 						
 						<div class="form-group">
 							<div class="col-7 mx-auto">
-								<b>Name</b>
+								<b>이름</b>
 								<div class="input-group-prepend">
-									<span class="input-group-text"><i class="fas fa-user"></i></span>
+									<span class="input-group-text"><i class="fas fa-user"></i></span>&nbsp;
 									<input type="text" class="form-control" placeholder="Name"  id="userName2" >
 								</div>
 							</div>
@@ -491,9 +483,9 @@
 						
 						<div class="form-group">
 							<div class="col-7 mx-auto">
-							<b>Email</b>
+							<b>이메일</b>
 								<div class="input-group-prepend">
-									<span class="input-group-text"><i class="fas fa-globe"></i></span>
+									<span class="input-group-text"><i class="fas fa-globe"></i></span>&nbsp;
 									<input type="text" class="form-control" placeholder="email" id="emailId">
 									<span class="input-group-append">&nbsp;<i class="fas fa-at"></i>&nbsp;</span>
 									<select class="custom-select" id="choiceEmail">

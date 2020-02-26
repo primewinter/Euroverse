@@ -146,7 +146,7 @@
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container" style="max-width: 1000px;">
+	<div class="container" style="max-width: 1000px;" id="loadJquery">
 	
 		<div class="h4" id="boardTitle" style="font-weight: bold; margin-top: 40px;padding-left:10px;">
 			<c:if test="${param.boardName=='A'}">

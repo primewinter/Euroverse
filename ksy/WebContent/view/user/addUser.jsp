@@ -2,9 +2,6 @@
     pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<c:if test="${  !empty user }">
-	<jsp:forward page="/main.jsp"/>
-</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -489,14 +486,24 @@
 		
 		$("input[class='dreamCountry']").on("click",function(){
 			if($("input:checkbox[class=dreamCountry]:checked").length > 5){
-				alert("5개까지만 선택 가능합니다.");
+				swal({
+					   icon : 'warning',
+					  title : "가고싶은 나라는 5개까지만 선택 가능합니다.",
+					  text:" ",
+					  button : false,
+					})
 				$("input:checkbox[id=dreamCountry"+$(this).prev().val()+"]").prop("checked",false);
 			}
 		})
 		
 		$("input[class='tripStyle']").on("click",function(){
 			if($("input:checkbox[class=tripStyle]:checked").length > 3){
-				alert("3개까지만 선택 가능합니다.");
+				swal({
+					   icon : 'warning',
+					  title : "여행스타일은 3개까지만 선택 가능합니다.",
+					  text:" ",
+					  button : false,
+					})
 				$("input:checkbox[id=tripStyle"+$(this).prev().val()+"]").prop("checked",false);
 			}
 		})
@@ -527,9 +534,6 @@
 			 render.readAsDataURL(input.files[0]);
 		}
 	}
-	
-	
-	
 	
 	
 	

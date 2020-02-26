@@ -27,7 +27,7 @@
 		var phone = document.getElementById("phone");
 		var emailId = document.getElementById("emailId");
 		var choiceEmail = document.getElementById("choiceEmail");
-		var h6 = document.getElementsByTagName("h6");
+		var h6 = document.getElementsByClassName('searchIdH6');
 		/* 미리 만들어둔거 사용하니깐 넘 귀찮아서 걍 새로잡음 */
 		var name1 = $("input[id='userName1']");
 		var name2 = $("input[id='userName2']");
@@ -78,7 +78,7 @@
 		var phoneRadio = document.getElementById('phoneCheck');
 		var emailRadio = document.getElementById('emailCheck');
 		var phone = document.getElementById("phone");
-		var h6 = document.getElementsByTagName("h6");
+		var h6 = document.getElementsByClassName('searchIdH6');
 		phone.value = phone1.value + "-" + phone2.value + "-" + phone3.value ;
  
 		if(phoneRadio.checked==true){
@@ -187,13 +187,16 @@
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
-	<p style="font-size:30px; margin-left:500px; margin-top: 50px; margin-bottom: -20px" >
-	아이디찾기
-	<br><hr style="width: 600px;margin-bottom: -5px;">
-	<small style="margin-left:500px; ">원하시는 방법을 선택해주세요.</small>
-	</p>
 
 	<div class="container" style="margin-top: 70px;">
+		<div class="col-md-7 mx-auto" > 
+			<p style="font-size: 30px;" >
+			아이디찾기
+			<br><hr style="width: 600px;margin-bottom: -5px;">
+			<small style=" ">원하시는 방법을 선택해주세요.</small>
+			</p>
+		</div>
+		<div style="height: 40px;"></div>
 		<form id="searchIdForm">
 			<div class="form-group">
 				<div class="col-md-7 mx-auto" > 
@@ -205,27 +208,29 @@
 				<div id="phoneDiv" style="display:none">
 					<div class="form-group">
 						<div class="col-7 mx-auto">
-							<b>Name</b>
+							<b>이름</b>
 							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
+								<span class="input-group-text"><i class="fas fa-user"></i></span> &nbsp;
 								<input type="text" class="form-control" placeholder="Name" id="userName1">
 							</div>
-							<h6></h6>
+							<div style="height: 20px;"></div>
+							<h6 class="searchIdH6"></h6>
 						</div>
 					</div>
 				
 					<div class="form-group">
 					 	<div class="col-7 mx-auto">
-					 		<b>Phone</b>
+					 		<b>핸드폰</b>
 					 		<div class="input-group-prepend">
-					 		  <span class="input-group-text"><i class="fas fa-phone"></i></span>
+					 		  <span class="input-group-text"><i class="fas fa-phone"></i></span> &nbsp;
 						      <input type="text" class="form-control" id="phone1" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"> - 
 						      <input type="text" class="form-control" id="phone2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"> - 
 						      <input type="text" class="form-control" id="phone3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4">
 						      <input type="hidden" name="phone" id="phone"> 
 						      <input type="button" value="아이디찾기" onclick="javascript:next()" class="btn btn-outline-primary">
 						    </div>
-						    <h6></h6>
+						    <div style="height: 20px;"></div>
+						    <h6 class="searchIdH6"></h6>
 						</div>
 				 	 </div>
 				</div>
@@ -241,20 +246,21 @@
 				<div id="emailDiv" style="display:none">
 					<div class="form-group">
 						<div class="col-7 mx-auto">
-							<b>Name</b>
+							<b>이름</b>
 							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
+								<span class="input-group-text"><i class="fas fa-user"></i></span> &nbsp;
 								<input type="text" class="form-control" placeholder="Name"  id="userName2" >
 							</div>
-							<h6></h6>
+							<div style="height: 20px;"></div>
+							<h6 class="searchIdH6"></h6>
 						</div>
 					</div>
 					
 					<div class="form-group">
 						<div class="col-7 mx-auto">
-						<b>Email</b>
+						<b>이메일</b>
 							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-globe"></i></span>
+								<span class="input-group-text"><i class="fas fa-globe"></i></span> &nbsp;
 								<input type="text" class="form-control" placeholder="email" id="emailId">
 								<span class="input-group-append">&nbsp;<i class="fas fa-at"></i>&nbsp;</span>
 								<select class="custom-select" id="choiceEmail">
@@ -266,7 +272,8 @@
 							 	<input type="hidden" name="email" id="email">
 							 	<input type="button" onclick="javascript:next()" value="아이디찾기"  class="btn btn-outline-primary">
 							</div>
-							<h6></h6>
+							<div style="height: 20px;"></div>
+							<h6 class="searchIdH6"></h6>
 						</div>
 					</div>
 				</div>

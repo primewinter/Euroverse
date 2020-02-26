@@ -163,8 +163,8 @@ public class RoomController {
 
 			}
 			//광고 제거
-//			webElement = driver.findElement(By.cssSelector("#managed-overlay > button"));
-//			webElement.click();
+			webElement = driver.findElement(By.cssSelector("#managed-overlay > button"));
+			webElement.click();
 			
 			// 다른 곳 터치
 			driver.findElement(By.xpath("//*[@id=\"hds-marquee\"]/div[2]/div[1]/div/p")).click();
