@@ -152,7 +152,7 @@ public class Post {
 		
 		if(accStartDate != null) {
 			Date dateForDay = new Date(accStartDate.getTime());		
-			this.accStartDateStr = accStartDate.toString().substring(0,10) + " : "+dateForDay.toString().substring(0,3);
+			this.accStartDateStr = accStartDate.toString().substring(0,10);
 		}
 	}
 
@@ -165,7 +165,7 @@ public class Post {
 		
 		if(accEndDate != null) {
 			Date dateForDay = new Date(accEndDate.getTime());		
-			this.accEndDateStr = accEndDate.toString().substring(0,10) + " : "+dateForDay.toString().substring(0,3);
+			this.accEndDateStr = accEndDate.toString().substring(0,10);
 		}
 	}
 	

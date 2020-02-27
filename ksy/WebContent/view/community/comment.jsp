@@ -2,6 +2,7 @@
 <%@ page pageEncoding="EUC-KR"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 	<script type="text/javascript">
 
@@ -72,8 +73,9 @@
 				dataType : "json" ,
 				data : $('#'+cmtId+'addRcmt').serialize() ,
 				success : function(data) {
-					getCommentList(1);
-					$('#rcmtContent').val('');
+					$(".emptyRcmt").empty();
+					getRcmtList(1);
+					$('#rcmtContent'+cmtId).val('');
 					
 					//글 작성자에게 push 하기
 					var receiverId = data.postWriterId;
@@ -103,17 +105,22 @@
 			},  
 			success : function(JSONData , status) {
 				
-				 var output = "<div class='comment_wrap show'>"
+				 var totalCount = JSONData.resultPage.totalCount+JSONData.totalCount;
 				
-				 output += "<div class='comment_count'>"
-				 + "<div class='fl num_box'>댓글 <span id='totalCount'>"+JSONData.resultPage.totalCount+"</span>개</div></div>"
+				 var output = "<div class='comment_wrap show'>"
+				 + "<div class='comment_count'>"
+				 + "<div class='fl num_box'>댓글 <span id='totalCount'>"+totalCount+"</span>개</div></div>"
 				 + "<div class='comment_box'><ul class='cmt_list'>"
 				 for(var i in JSONData.list){
-						 output += "<li id='comment_li_"+JSONData.list[i].cmtId+"' class='ub-content'>"
+					 
+					 var timestamp = Number(JSONData.list[i].cmtDate);
+					 var date = new Date(timestamp);
+
+					 	 output += "<li id='comment_li_"+JSONData.list[i].cmtId+"' class='ub-content'>"
 						 + "<img src='../../resources/images/userImages/"+JSONData.list[i].userImg+"' class='card' alt='...' style='height: 40px; width: 40px; float: left; margin-top: 10px;'>"
 					if(JSONData.list[i].deleted == 'F'){	
 						 output += "<div class='cmt_info clear' style='margin-left: 65px; padding-top: 20px;'><div class='cmt_nickbox'><span class='gall_writer ub-writer'>"
-						 + "<span class='nickname me in' title='"+JSONData.list[i].nickName+"'>"+JSONData.list[i].nickName+"</span></span></div><span class='date_time'>"+JSONData.list[i].cmtDate+"</span>"
+						 + "<span class='nickname me in' title='"+JSONData.list[i].nickName+"'>"+JSONData.list[i].nickName+"</span></span></div><span class='date_time'>&emsp;"+date.getFullYear()+".0"+parseInt(date.getMonth()+1)+"."+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+"</span>"
 					if(JSONData.list[i].cmtWriterId == JSONData.userId){
 						 output += "<div class='cmt_updat' style='color: dimgray;font-size: 11px; margin-top: 4px;'>&nbsp;<span class='btn_cmt_updat' onclick='showUpdate("+JSONData.list[i].cmtId+");'> 수정</span><span class='btn_cmt_delete' onclick='deleteComment("+JSONData.list[i].cmtId+");'> 삭제</span></div>"
 					}
@@ -155,7 +162,7 @@
 						 + "<div class='cmt_write'>"
 						 + "<input type='text' name='nickName' id='nickName' value='${user.nickname}' readonly='readonly' style='text-align: center;font-size:13px;border: 1px solid #cecdce;color:gray;'>"
 						 + "&nbsp;<input type='checkbox' id='secret' name='secret' value='T' aria-label='Checkbox for following text input' style='font-size:12px;'> 비밀글 "
-						 + "<textarea id='rcmtContent' name='cmtContent' maxlength='150'></textarea>"
+						 + "<textarea id='rcmtContent"+JSONData.list[i].cmtId+"' name='cmtContent' maxlength='150'></textarea>"
 						 + "</div>"
 						 + "<div class='input-group mb-3'>"
 						 + "<div style='background-color: white;border: 0;width: 900px;'>"
@@ -165,7 +172,7 @@
 						 + "<input type='hidden' id='postId' name='postId' value='${post.postId}'/>"
 						 + "<input type='hidden' id='postWriterId' name='postWriterId' value='${post.postWriterId}'>"
 						 + "</form>"
-						 + "<div id='getRecommentList"+JSONData.list[i].cmtId+"'></div></div></div></li>"
+						 + "<div class='emptyRcmt' id='getRecommentList"+JSONData.list[i].cmtId+"'></div></div></div></li>"
 				 	}
 						 output += "</ul><br><div class='container text-center'><nav aria-label='Page navigation example'><ul class='pagination justify-content-center'>"
 					 
@@ -173,9 +180,10 @@
 						 output += "<li class='page-item'>"
 					 }
 					 if( JSONData.resultPage.currentPage > JSONData.resultPage.pageUnit ){
-					 }
 					 	 output += "<li class='page-item'>"
-					 	 + "<a class='page-link' onclick='getCommentList('"+JSONData.resultPage.currentPage+"-1')' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>"
+					 	 + "<a class='page-link' onclick='getCommentList('"+JSONData.resultPage.currentPage+"-1')' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a>"
+					 }
+					 	 output += "</li>"
 					 for(var i=JSONData.resultPage.beginUnitPage; i<=JSONData.resultPage.endUnitPage; i++){
 						 if(JSONData.resultPage.currentPage == i){
 							output +="<li class='page-item'>"
@@ -185,16 +193,18 @@
 						 if(JSONData.resultPage.currentPage != i){
 							output +="<li class='page-item'>"
 							+"<a class='page-link' onclick='getCommentList("+i+");'>"+i+"</a>"
-							+"</li>";
+							+"</li>"
 						 }
 					 }
-					 	 if( JSONData.resultPage.currentPage >= JSONData.resultPage.pageUnit ){
+					 	 if( JSONData.resultPage.endUnitPage >= JSONData.resultPage.maxPage ){
 							output += "<li class='page-item'>"
 						 }
-						 if( JSONData.resultPage.currentPage < JSONData.resultPage.pageUnit ){
-						 }
+						 if( JSONData.resultPage.endUnitPage < JSONData.resultPage.maxPage ){
 						 	output += "<li class='page-item'>"
-						 	+ "<a class='page-link' onclick='getCommentList('"+JSONData.resultPage.currentPage+"+1')' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li></ul></nav></div></div></div>"
+						 	+ "<a class='page-link' onclick='getCommentList('"+JSONData.resultPage.currentPage+"+1')' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a>"
+						 }
+						 	output += "</li>"
+						 	+ "</ul></nav></div></div></div>"
 				 
 					$("#getCommentList").html(output);
 		
@@ -219,10 +229,14 @@
 					$(".recmt").html("");
 					
 					 for(var i in JSONData.list){
-								 output = "<li id='comment_li_"+JSONData.list[i].cmtId+"' class='ub-content' style='height:117px;'>"
+						 
+						 var timestamp = Number(JSONData.list[i].cmtDate);
+						 var date = new Date(timestamp);
+					 
+								 var output = "<li id='comment_li_"+JSONData.list[i].cmtId+"' class='ub-content' style='height:117px;'>"
 								 + "<img src='../../resources/images/userImages/"+JSONData.list[i].userImg+"' class='card' alt='...' style='height: 40px; width: 40px; float: left; margin-top: 10px;'>"
 								 + "<div class='cmt_info clear' style='margin-left: 65px; padding-top: 20px; border-top: 1px solid #eee;'><div class='cmt_nickbox'><span class='gall_writer ub-writer'>"
-								 + "<span class='nickname me in' title='"+JSONData.list[i].nickName+"'>"+JSONData.list[i].nickName+"</span></span></div><span class='date_time'>"+JSONData.list[i].cmtDate+"</span>"
+								 + "<span class='nickname me in' title='"+JSONData.list[i].nickName+"'>"+JSONData.list[i].nickName+"</span></span></div><span class='date_time'>&emsp;"+date.getFullYear()+".0"+parseInt(date.getMonth()+1)+"."+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+"</span>"
 							if(JSONData.list[i].cmtWriterId == JSONData.userId){
 								 output += "<div class='cmt_updat' style='color: dimgray;font-size: 11px; margin-top: 4px;'>&nbsp;<span class='btn_cmt_updat' onclick='showUpdate("+JSONData.list[i].cmtId+");'> 수정</span><span class='btn_cmt_delete' onclick='deleteComment("+JSONData.list[i].cmtId+");'> 삭제</span></div>"
 							}

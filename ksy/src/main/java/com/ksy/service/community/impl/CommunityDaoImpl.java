@@ -31,12 +31,9 @@ public class CommunityDaoImpl implements CommunityDao{
 	}
 
 	synchronized public void addPost(Post post) throws Exception {
+		sqlSession.insert("CommunityMapper.addPost", post);
 		if( post.getBoardName().equals("D")) {
-			sqlSession.insert("CommunityMapper.addAccFindPost", post);
-			
 			sqlSession.insert("CommunityMapper.addParty", post.getPostWriterId());
-		}else {
-			sqlSession.insert("CommunityMapper.addPost", post);
 		}
 	}
 	
@@ -67,9 +64,12 @@ public class CommunityDaoImpl implements CommunityDao{
 	}
 	
 	public Post getPost(String postId, String userId, String boardName) throws Exception {
+		if(postId == null) {
+			postId = sqlSession.selectOne("CommunityMapper.getCurrvalPostId");
+		}else {
 		sqlSession.update("CommunityMapper.updateViews", postId);
 		sqlSession.update("CommunityMapper.updateBestPost", postId);
-		
+		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("postId", postId);
@@ -178,6 +178,16 @@ public class CommunityDaoImpl implements CommunityDao{
 		return sqlSession.selectOne("CommunityMapper.getCommentTotalCount", map);
 	}
 	
+	public int getRecommentTotalCount(Search search, String postId) throws Exception {
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("postId", postId);
+		
+		return sqlSession.selectOne("CommunityMapper.getRecommentTotalCount", map);
+	}
+	
 	public void addComment(Comment comment) throws Exception {
 		sqlSession.insert("CommunityMapper.addComment", comment);
 	}
@@ -253,6 +263,10 @@ public class CommunityDaoImpl implements CommunityDao{
 	
 	public void deletePost(String postId) throws Exception {
 		sqlSession.update("CommunityMapper.deletePost", postId);
+	}
+	
+	public void deletePartyUser(String partyId) throws Exception {
+		sqlSession.delete("CommunityMapper.deletePartyUser", partyId);
 	}
 
 }

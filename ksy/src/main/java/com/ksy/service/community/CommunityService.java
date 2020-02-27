@@ -68,5 +68,7 @@ public interface CommunityService {
 	public void monthBestReset() throws Exception ;
 	
 	public void deletePost(String postId) throws Exception;
+	
+	public void deletePartyUser(String partyId) throws Exception;
 
 }

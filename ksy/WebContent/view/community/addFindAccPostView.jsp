@@ -362,7 +362,7 @@
 		     <div class="col-sm-2">
 		      <select class="form-control" id="accPerson" name="accPerson" style="font-size:12px;">
 			      <option value="N" selected>인원선택</option>
-			    <c:forEach var="i" begin="1" end="30" >
+			    <c:forEach var="i" begin="2" end="30" >
 			      <option value="${i}">${i}</option>
 			    </c:forEach>
 		      </select>
