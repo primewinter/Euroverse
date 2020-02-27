@@ -118,16 +118,16 @@
 <div class="container">
 <br/><br/>
 			<h4 align="left" id="title" style="margin-left:480px;">
-				  <c:if test="${order.orderStatus == '1' }">
+				  <c:if test="${order.orderStatus == 'O' }">
 			      	주문완료
 			      </c:if>
-			      <c:if test="${order.orderStatus == '2' }">
+			      <c:if test="${order.orderStatus == 'A' }">
 			      	환불신청
 			      </c:if>
-			      <c:if test="${order.orderStatus == '3' }">
+			      <c:if test="${order.orderStatus == 'R' }">
 			      	환불 처리중
 				  </c:if>
-				  <c:if test="${order.orderStatus == '4' }">
+				  <c:if test="${order.orderStatus == 'C' }">
 				  	환불완료
 				  </c:if>
 			</h4>
@@ -154,10 +154,10 @@
 					      <td>${flight.arrTime}</td>
 					      <td>${flight.stopOver}</td>
 					      <td>${flight.leadTime}</td>
-					      <c:if test="${flight.tripCourse == '1' }">
+					      <c:if test="${flight.tripCourse == 'R' }">
 					     	 <td>왕복 구간</td>
 					      </c:if>
-					       <c:if test="${flight.tripCourse == '2' }">
+					       <c:if test="${flight.tripCourse == 'O' }">
 					     	 <td>편도 구간</td>
 					      </c:if>
 					      <!--  flight.price 로 바꿔줘야함 -->
@@ -202,7 +202,7 @@
 				<span  style="margin-top:5px;margin-left:10px;font-size:17px;">결제 완료 내역</span>
 			</div>
 			<div class="col-4">	
-				<c:if test="${order.orderStatus == '4' }">
+				<c:if test="${order.orderStatus == 'C' }">
 					<i class="fas fa-hand-holding-usd" style="font-size:40px;"></i>
 					<span  style="margin-left:10px;font-size:17px;">환불 내역</span>
 				</c:if>
@@ -253,7 +253,7 @@
 	                    	<div id="actualAmount" style="Padding-left:20px;"><fmt:formatNumber value="${order.actualAmount}" pattern="###,###" />원</div>
 	            		</div>
 	             </div>
-	             <c:if test="${order.orderStatus == '4' }">
+	             <c:if test="${order.orderStatus == 'C' }">
 	           <div class="col-4">  <!-- style="background-color:whitesmoke;width:40%;" -->
 	           		<div class="" style="margin-left:50px;">환불 금액</div>
 	           		<div class="row">
@@ -289,7 +289,7 @@
 						<p>총 포인트</p>
 							<div id="totalPoint" style="margin-left:10px;">${user.totalPoint} P </div>
 					</div>
-					 <c:if test="${order.orderStatus == '4' }">
+					 <c:if test="${order.orderStatus == 'C' }">
 					<div class="col-4" >
 						<p style="margin-left:50px;">환불 일시</p>
 							<div id="refundDate" style="margin-left:50px;">${order.refundDate} </div>

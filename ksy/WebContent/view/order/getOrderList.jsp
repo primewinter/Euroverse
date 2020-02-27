@@ -175,7 +175,7 @@ function fncGetUserList(currentPage) {
 	 <table class="table table-bordered" id="flight" >
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col"></th>
       <th scope="col">항공사</th>
       <th scope="col">출발도시 - 도착도시</th>
       <th scope="col">출발일시/도착일시</th>
@@ -202,16 +202,16 @@ function fncGetUserList(currentPage) {
 				      <td>${flight.stopOver}/${flight.leadTime}</td>
 				      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" />원/${flight.orderDate}</td>
 				      <td>
-					      <c:if test="${flight.orderStatus == '1' }">
+					      <c:if test="${flight.orderStatus == 'O' }">
 					      	주문완료
 					      </c:if>
-					      <c:if test="${flight.orderStatus == '2' }">
+					      <c:if test="${flight.orderStatus == 'A' }">
 					      	환불신청
 					      </c:if>
-					      <c:if test="${flight.orderStatus == '3' }">
+					      <c:if test="${flight.orderStatus == 'R' }">
 					      	환불 처리중
 					      </c:if>
-					      <c:if test="${flight.orderStatus == '4' }">
+					      <c:if test="${flight.orderStatus == 'C' }">
 					      	환불완료
 						  </c:if>
 					  </td>
@@ -226,7 +226,7 @@ function fncGetUserList(currentPage) {
 	 
 	  <thead>
 	    <tr>
-	      <th scope="col">#</th>
+	      <th scope="col"></th>
 	      <th scope="col">여행지</th>
 	      <th scope="col">숙소</th>
 	      <th scope="col">출발일시 - 도착일시</th>
@@ -253,16 +253,16 @@ function fncGetUserList(currentPage) {
 			    <td>${room.roomNum} 개 / 성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
 			    <td><fmt:formatNumber value="${room.price}" pattern="###,###" /> 원 /${room.orderDate}</td>
 			    <td> 
-			      <c:if test="${room.orderStatus == '1' }">
+			      <c:if test="${room.orderStatus == 'O' }">
 			      	주문완료
 			      </c:if>
-			      <c:if test="${room.orderStatus == '2' }">
+			      <c:if test="${room.orderStatus == 'A' }">
 			      	환불신청
 			      </c:if>
-			      <c:if test="${room.orderStatus == '3' }">
+			      <c:if test="${room.orderStatus == 'R' }">
 			      	환불 처리중
 			      </c:if>
-			      <c:if test="${room.orderStatus == '4' }">
+			      <c:if test="${room.orderStatus == 'C' }">
 			      	환불완료
 				  </c:if>
 				 </td>

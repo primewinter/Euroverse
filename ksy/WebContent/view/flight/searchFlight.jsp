@@ -480,7 +480,7 @@ function europe(obj) {
 			$("#arraw").attr("class","fas fa-arrows-alt-h");
 			$('#roundTrip').attr('class','col-sm-3 basic');
 			$('#right').attr('class','col-sm-3 change');
-			$("#tripCourses").val(1);
+			$("#tripCourses").val(R);
 			$("#arrIcon").show();
 		});
 	});
@@ -489,7 +489,7 @@ function europe(obj) {
 			$("#arraw").attr("class","fas fa-arrow-right");
 			$('#roundTrip').attr('class','col-sm-3 change');
 			$('#right').attr('class','col-sm-3 basic');
-			$("#tripCourses").val(2);
+			$("#tripCourses").val(O);
 			$("#arrIcon").hide();
 		});
 		
@@ -563,7 +563,7 @@ function europe(obj) {
 			<div class="row" style="Padding-left:5px;Padding-top:30px;">
 					<div class="col-sm-3" id="roundTrip">
 							<p class="roundTrip" style="color:white;margin-left:45px;Padding-top:10px;">왕복 구간 검색</p>
-              				<input type="hidden" name="tripCourse" id="tripCourses" value="1" >
+              				<input type="hidden" name="tripCourse" id="tripCourses" value="R" >
               		</div>
               		<div class="col-sm-3" id="right">
               			<p style="color:white;margin-left:-15px;Padding-top:10px;">편도 구간 검색</p>
@@ -679,6 +679,10 @@ function europe(obj) {
 				</div>
 				<br/>
 				<div class="row">
+					<!-- <div class="col-sm-2" id="totalNum">
+			   		 	<input type="text" id="peopleChoice" value="성인 1명 / 일반석" style="width:150px;" 
+			   		 	 title="인원 및 좌석 등급 선택" class="form-control" readonly="readonly" data-toggle="modal" data-target="#flightNum">
+			   		 </div> -->
 					<div class="col-sm-4" id="totalNum">
 			   		 	<input type="text" id="peopleChoice" value="성인 1명 / 일반석" style="width:150px;" 
 			   		 	 title="인원 및 좌석 등급 선택" class="form-control" readonly="readonly" data-toggle="modal" data-target="#flightNum">
@@ -755,10 +759,10 @@ function europe(obj) {
 						 &nbsp;&nbsp;&nbsp;&nbsp;
 						  <div class="input-group-append">
 							   <select class="form-control" id="grade" name="seatGrade" style="width:80%;">
-								 	<option value="0">일반석</option>
-									<option value="1">프리미엄 일반석</option>
-									<option value="2">비즈니스석</option>
-									<option value="3">일등석</option>
+								 	<option value="O">일반석</option>
+									<option value="R">프리미엄 일반석</option>
+									<option value="C">비즈니스석</option>
+									<option value="F">일등석</option>
 								</select>
 						</div>
 						

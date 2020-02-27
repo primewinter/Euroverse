@@ -392,7 +392,9 @@ public class RoomController {
 			for(WebElement list : grade){
 				detail8.add(list.getText());
 			}
-			 
+			synchronized (driver) {
+				driver.wait(800);
+			}
 			//System.out.println("detail : " + detail +"detail2 : "+ detail2 +"detail3 : "+ detail3+"detail4 : "+imgSrc);
 			for (int j = 0; j < detail.size(); j++) {
 				System.out.println("==============" + j + "¹ø ¼÷¼Ò =============");

@@ -101,13 +101,13 @@ public class FlightController {
 		String seatGrade = flight.getSeatGrade();
 		System.out.println("seat1"+seatGrade);
 		String grade = "";
-		if (seatGrade.equals("0")) {
+		if (seatGrade.equals("O")) {
 			 grade = "일반석";
-		}else if(seatGrade.equals("1")) {
+		}else if(seatGrade.equals("R")) {
 			 grade = "프리미엄 일반석";
-		}else if(seatGrade.equals("2")) {
+		}else if(seatGrade.equals("C")) {
 			 grade = "비즈니스석";
-		}else if(seatGrade.equals("3")) {
+		}else if(seatGrade.equals("F")) {
 			 grade = "일등석";
 		}
 		System.out.println("seat2"+seatGrade);
@@ -166,9 +166,9 @@ public class FlightController {
 			synchronized (driver) {
 				driver.wait(200);
 			}
-				if (tripCourse.equals("1")) {
+				if (tripCourse.equals("R")) {
 					driver.findElement(By.xpath("//*[@id=\"dBodyContent\"]/div[1]/div/div[1]/ul/li[1]/a")).click();
-				}else if(tripCourse.equals("2")) {
+				}else if(tripCourse.equals("O")) {
 					driver.findElement(By.xpath("//*[@id=\"dBodyContent\"]/div[1]/div/div[1]/ul/li[2]/a")).click();
 				}
 			synchronized (driver) {
@@ -183,7 +183,7 @@ public class FlightController {
 			}
 			webElement.sendKeys(depCity);
 			synchronized (driver) {
-				driver.wait(500);
+				driver.wait(1000);
 			}
 			driver.findElement(By.xpath("//*[@id=\"depCitySearch\"]/div[2]/div/ul/li/a")).click();
 			synchronized (driver) {
@@ -198,7 +198,7 @@ public class FlightController {
 			}
 			webElement.sendKeys(arrCity);
 			synchronized (driver) {
-				driver.wait(500);
+				driver.wait(1000);
 			}
 			driver.findElement(By.xpath("//*[@id=\"arrCitySearch\"]/div[2]/div/ul/li/a")).click();
 
@@ -211,7 +211,7 @@ public class FlightController {
 				driver.wait(500);
 			}
 		
-	if (flight.getTripCourse().equals("1")) { //왕복일때,,,
+	if (flight.getTripCourse().equals("R")) { //왕복일때,,,
 
 			// 년,월 아이콘 클릭 :  dep
 			driver.findElement(By.xpath("//*[@id=\"section0\"]/div[2]/strong/a")).click();
@@ -257,7 +257,7 @@ public class FlightController {
 			//달력 완료 -> 확인버튼 클릭
 			driver.findElement(By.cssSelector("#cal > div > div.dFoot > a.btn1.btn-enter")).click();
 			
-	}else if(flight.getTripCourse().equals("2")) { //편도일때
+	}else if(flight.getTripCourse().equals("O")) { //편도일때
 		 System.out.println("편도니???");
 			// 년,월 아이콘 클릭 :  dep
 			driver.findElement(By.xpath("//*[@id=\"section0\"]/div[2]/strong/a")).click();
