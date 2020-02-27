@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:if test="${  empty user }">
 	<jsp:forward page="/main.jsp"/>
 </c:if>
@@ -477,7 +478,7 @@ var maPageCode = 'M';
 				    			<div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
 				        			<!-- back content -->
 			 						<p style="font-size: 20px;">
-			 					 	${user.totalPoint}P 
+			 					 	<fmt:formatNumber value="${user.totalPoint}" pattern="###,###" />P
 			 						</p>
 				   				</div>
 							</div>

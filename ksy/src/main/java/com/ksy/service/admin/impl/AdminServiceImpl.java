@@ -113,7 +113,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		adminDao.deleteQnaComm(cmtId);
 	}
-	
+	//답변완료를 다시 다변없음으로 바꿈
 	@Override
 	public void backUpQnaGrade(String postId) throws Exception{
 		
@@ -122,5 +122,36 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.backUpQnaGrade(postId);
 	}
 	
-
+	@Override
+	public Map<String,Object> getPostReportList(Search search, String boardName) throws Exception{
+		
+		System.out.println(this.getClass()+"getPostReportList");
+		
+		List<Post> list= adminDao.getPostReportList(search, boardName);
+		int totalCount = adminDao.getPostTotalCount(search, boardName);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+		
+	}
+	
+	@Override
+	public Map<String , Object> getCommentList(Search search, String postId, String userId) throws Exception {
+		
+		List<Comment> list= adminDao.getCommentReportList(search, userId, postId);
+		int totalCount = adminDao.getCommentTotalCount(search, postId);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("totalCount", new Integer(totalCount));
+		
+		System.out.println(list);
+		
+		return map;
+	}
+	
+	
 }

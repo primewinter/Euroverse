@@ -113,4 +113,51 @@ public class AdminDaoImpl implements AdminDao {
 		sqlSession.update("AdminMapper.backUpQnaGrade", postId);
 	}
 	
+	@Override
+	public List<Post> getPostReportList(Search search, String boardName) throws Exception{
+		
+		System.out.println("AdminDaoImpl getPostReportList");
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("search", search);
+		map.put("boardName", boardName);
+		
+		return sqlSession.selectList("AdminMapper.getPostReportList", map);
+	}
+	
+	@Override
+	public List<Comment> getCommentReportList(Search search, String postId, String userId) throws Exception{
+		
+		System.out.println("AdminDaoImpl getCommentReportList");
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+		
+		map.put("search", search);
+		map.put("userId", userId);
+		map.put("postId", postId);
+		
+		return sqlSession.selectList("AdminMapper.getCommentList");
+	}
+	
+	public int getPostTotalCount(Search search, String boardName) throws Exception {
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("boardName", boardName);
+		
+		return sqlSession.selectOne("CommunityMapper.getPostTotalCount", map);
+	}
+	
+	public int getCommentTotalCount(Search search, String postId) throws Exception {
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("postId", postId);
+		
+		return sqlSession.selectOne("CommunityMapper.getCommentTotalCount", map);
+	}
+	
 }

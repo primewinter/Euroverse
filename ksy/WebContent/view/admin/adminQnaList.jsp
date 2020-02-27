@@ -137,6 +137,10 @@ table thead > tr{
 	});//end of function */
 	
 	
+	 function close(){
+     	$("#con").remove();
+     }
+	
 	//관리자가 리스트를 클릭했을경우 상세보기
 		function getAdminQnaList(postId,postContent,qnaFirstCate,postWriterId) {
 			
@@ -152,7 +156,6 @@ table thead > tr{
 				
 				qnaFirstCate = '기타';
 			}
-			
 			var display = 
 				'<div id="con" class="container">'+
 			        '<div class="inner">'+
@@ -171,8 +174,8 @@ table thead > tr{
 			                    '<button type="button" class="btn btn-primary" onclick="answer('+postId+')" style=" margin-left:5px; height:70px; display: inline-block">답변하기</button></div>'+
 			            '</div></div></div>';
         
-	    	$("#con").remove();
-	        $("#"+postId+"").html(display);
+	    	$("#con").remove();//다른 게시글을 클릭할경우 이전태그 지움
+	        $("#"+postId+"").html(display);//게시글을 클릭할경우 태그 어펜드
 			 
 	        	$.ajax({
 					url: "/admin/json/getQnaCommentList/"+postId,
@@ -197,8 +200,8 @@ table thead > tr{
 						            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
 						            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
 						        	'</div></div>';
-							        	
-							 $("#append").append(appendHtml); 
+						         	
+							 $("#append").append(appendHtml);
 							}//end of if
 						}//end of else
 					    
@@ -218,7 +221,8 @@ table thead > tr{
 	function answer(postId){ 
 		
        	var cmtContent = $('#content').val();
-       		
+       	$('#content').val('');	
+       	
        	 $.ajax({
 			url: "/admin/json/addQnaComment",
 			method: "POST",
@@ -243,7 +247,6 @@ table thead > tr{
 						console.log("리턴데이터 없음");	
 					}else{
 						console.log("리턴데이터 있음! => "+JSONData);
-						alert('cmtContent==>'+JSONData.list[0].cmtContent);
 				            var appendHtml =
 								'<div id="delCmt" style="padding:5px 25px" class="row">'+
 								'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
@@ -258,7 +261,6 @@ table thead > tr{
 						        	
 							 $("#append").append(appendHtml); 
 							 $("#content").val('');
-								 
 					}// end of else
 					
 				}// end of elseIf
@@ -308,7 +310,7 @@ table thead > tr{
 		<jsp:include page="/toolbar/pushBar.jsp"></jsp:include> 
 		<!-- 인클루드 end--> 
 
-	<div class="container">
+	<div onclick='close()' class="container">
 	
 	<div class="page-header text-info">
 
