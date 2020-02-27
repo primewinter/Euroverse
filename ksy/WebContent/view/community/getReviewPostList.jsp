@@ -352,7 +352,7 @@
                                     <fmt:formatDate value="${post.postDate}" pattern="yyyy.MM.dd"/> <i class="fas fa-comments"></i> ${post.comments} <i class="fas fa-heart"></i> ${post.postLikeCount} <i class="far fa-eye"></i> ${post.views}
                                 </p>
                                 <p class="card-title" style="font-size:14px;">${post.postTitle}</p>
-                                <p class="card-content">${post.postContent}</p>
+                                <p class="card-content"></p>
                                    
                                    
                                 <img src='/resources/images/userImages/${post.user.userImg}' style='border-radius:50%;width:25px;height:25px;border:solid 2px #009688;margin-right:0.5em;'>${post.nickName}<br>
