@@ -56,7 +56,7 @@
   	
   	<select id="getRoom" parameterType="String" resultMap="roomSelectMap">
   		SELECT 
-		r.room_id , r.room_name ,r.room_num , r.adult_num , r.child_num , r.check_in , r.check_out , r.price, r.room_img, r.main_service, r.family_service , r.sights , r.hotel_info, r.room_info , o.ORDER_DATE , o.ORDER_STATUS , o.order_id ,o.room_id
+		r.room_id , r.room_city , r.room_name ,r.room_num , r.adult_num , r.child_num , r.check_in , r.check_out , r.price, r.room_img, r.main_service, r.family_service , r.sights , r.hotel_info, r.room_info , o.ORDER_DATE , o.ORDER_STATUS , o.order_id ,o.room_id
 		FROM room r , orders o
 		WHERE r.room_id = #{roomId}
 			AND r.room_id=o.room_id(+)		

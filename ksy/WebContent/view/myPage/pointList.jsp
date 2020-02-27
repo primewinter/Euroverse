@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:if test="${  empty user }">
 	<jsp:forward page="/main.jsp"/>
 </c:if>
@@ -88,7 +89,9 @@
 				</div>
 				<!-- <h4 style="">보유포인트</h4> -->
 				<h2 style="padding-left:10px;margin-bottom: 15px;">
-					<b>${user.totalPoint} Point</b> 
+					<b>
+					<fmt:formatNumber value="${user.totalPoint}" pattern="###,###" />
+					 Point</b> 
 					<button type="button" class="btn btn-outline-warning waves-effect btn-sm ml-3">적립</button>
 					<button type="button" class="btn btn-outline-warning waves-effect btn-sm">차감</button>
 					<c:if test="${search.searchKeyword != null}">
@@ -120,10 +123,10 @@
 				      	<td>${point.usedData}</td>
 				      	<td>${point.usedContent}</td>
 				      	<c:if test="${point.usedData=='적립'}">
-				      		<td><i class="fas fa-plus" style="font-size: 10px; vertical-align: middle;"></i>${point.usedPoint}</td>
+				      		<td><i class="fas fa-plus" style="font-size: 10px; vertical-align: middle;"></i><fmt:formatNumber value="${point.usedPoint}" pattern="###,###" /></td>
 				      	</c:if>
 			      		<c:if test="${point.usedData=='차감'}">
-			      			<td><i class="fas fa-minus" style="font-size: 10px; vertical-align: middle;"></i>${point.usedPoint}</td>
+			      			<td><i class="fas fa-minus" style="font-size: 10px; vertical-align: middle;"></i><fmt:formatNumber value="${point.usedPoint}" pattern="###,###" /></td>
 			      		</c:if>
 					    <td>
 							<c:set var="pointDate" value="${fn:split(point.usedDate,' ')}"></c:set>

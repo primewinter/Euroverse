@@ -214,6 +214,7 @@ public class MyPageRestController {
 			
 			map.put("flightList", flightList);
 			map.put("roomList", roomList);
+			map.put("likeType", likeType);
 		
 		return map;
 	}
