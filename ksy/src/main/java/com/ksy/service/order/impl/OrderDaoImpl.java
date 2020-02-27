@@ -54,7 +54,7 @@ public class OrderDaoImpl implements OrderDao {
 	
 	public List<Order> getOrderRefund(Order order)throws Exception{
 		System.out.println("1");
-		if (order.getOrderStatus() == "4") {
+		if (order.getOrderStatus() == "C") {
 			System.out.println("2");
 			return sqlSession.selectOne("OrderMapper.refundStatus" , order);
 		} else {

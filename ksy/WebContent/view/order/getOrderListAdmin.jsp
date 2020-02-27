@@ -91,7 +91,7 @@ function fncGetUserList(currentPage) {
 	function order(orderId){
  			var orderState = $('#'+orderId+' option:selected').val();
  			console.log("orderId "+orderId);
- 			 if ( orderState == '3' ) {
+ 			 if ( orderState == 'A' ) {
  				
  				$( "#refundmodal3" ).modal('show');
 	 			var orderIds = $("#confirmModal3Id").val(orderId);
@@ -114,8 +114,8 @@ function fncGetUserList(currentPage) {
  	 						},
  	 						success : function (JSONData, status ) {
  	 							var displayValue = "<select class='custom-select' name='orderStatus' id='${flight.orderId}' onChange='order2('${flight.orderId}')' >"
- 	 							 displayValue +=  "<option selected value='3' >환불처리중</option>"
- 	 							+ "<option value='4'>환불완료</option>"
+ 	 							 displayValue +=  "<option selected value='R' >환불처리중</option>"
+ 	 							+ "<option value='C'>환불완료</option>"
  	 							+ "</select>";
  	 					
  	 							$("td #"+JSONData.orderId+"").html(displayValue);
@@ -133,7 +133,7 @@ function fncGetUserList(currentPage) {
  			
  			var orderState = $('#'+orderId+' option:selected').val();
  			console.log("orderId "+orderId);
- 			 if ( orderState == '4' ) {
+ 			 if ( orderState == 'C' ) {
  				
  				$( "#refundmodal4" ).modal('show');
 	 			var orderIds = $("#confirmModal4Id").val(orderId);
@@ -182,7 +182,7 @@ function fncGetUserList(currentPage) {
  			} */
  			var orderId = $(this).next().next().val();
  			$("#refundmodal4").modal("hide");
- 			$('#'+orderId+' option[value=3]').prop('selected', 'selected').change();
+ 			$('#'+orderId+' option[value=R]').prop('selected', 'selected').change();
  		})
  		$("#resetmodal3").click(function() {
  			/* if( typeof $("#refundmodal3")[0] != "undefined" ){
@@ -191,7 +191,7 @@ function fncGetUserList(currentPage) {
  			var orderId = $(this).next().next().val();
  			//alert(orderId);
  			$("#refundmodal3").modal("hide");
- 			$('#'+orderId+' option[value=2]').prop('selected', 'selected').change();
+ 			$('#'+orderId+' option[value=A]').prop('selected', 'selected').change();
  		})
  	})
 	/* ------------------------- 여기까징 ------------------------ */	 
@@ -273,23 +273,23 @@ function fncGetUserList(currentPage) {
 				      <td>${flight.stopOver}/${flight.leadTime}</td>
 				      <td id="appendStatus"><fmt:formatNumber value="${flight.price}" pattern="###,###" />원/${flight.orderDate}</td>
 				      <td id="${flight.orderId }">
-					     <c:if test="${flight.orderStatus == '1' }">
+					     <c:if test="${flight.orderStatus == 'O' }">
 					      	주문완료
 					      </c:if>
-					      <c:if test="${flight.orderStatus == '2' }">
+					      <c:if test="${flight.orderStatus == 'A' }">
 					      	<select class="custom-select" onChange="order('${flight.orderId}')" name="orderStatus"  id="${flight.orderId }" style="">
-							  <option selected value="2">환불신청</option>
-							  <option value="3">환불처리중</option>
-							  <option value="4" disabled >환불완료</option>
+							  <option selected value="A">환불신청</option>
+							  <option value="R">환불처리중</option>
+							  <option value="C" disabled >환불완료</option>
 							</select>
 					      </c:if>
-					         <c:if test="${flight.orderStatus == '3' }">
+					         <c:if test="${flight.orderStatus == 'R' }">
 					         <select class="custom-select" onChange="order2('${flight.orderId}')" name="orderStatus" id="${flight.orderId }s" style="">
-							  <option selected value="3">환불처리중</option>
-							  <option value="4" id="4">환불완료</option>
+							  <option selected value="R">환불처리중</option>
+							  <option value="C" id="4">환불완료</option>
 							</select>
 					         </c:if>
-					      <c:if test="${flight.orderStatus == '4' }">
+					      <c:if test="${flight.orderStatus == 'C' }">
 					      	<p>환불완료 <i class="far fa-clock"></i> ${flight.refundDate }</p>
 						  </c:if>
 					  
@@ -334,23 +334,23 @@ function fncGetUserList(currentPage) {
 			    <td><fmt:formatNumber value="${room.price}" pattern="###,###" /> 원 /${room.orderDate}</td>
 			    <td id="${room.orderId }"> 
 			    
-			      <c:if test="${room.orderStatus == '1' }">
+			      <c:if test="${room.orderStatus == 'O' }">
 			      	주문완료
 			      </c:if>
-			      <c:if test="${room.orderStatus == '2' }">
+			      <c:if test="${room.orderStatus == 'A' }">
 			      	<select class="custom-select" name="orderStatus" onChange="order('${room.orderId}')"  id="${room.orderId }" style="">
-					  <option selected value="2" id="2">환불신청</option>
-					  <option value="3" id="3">환불처리중</option>
-					  <option value="4" id="4">환불완료</option>
+					  <option selected value="A" id="2">환불신청</option>
+					  <option value="R" id="3">환불처리중</option>
+					  <option value="C" id="4">환불완료</option>
 					</select>
 			      </c:if>
-			         <c:if test="${room.orderStatus == '3' }">
+			         <c:if test="${room.orderStatus == 'R' }">
 			         <select class="custom-select" name="orderStatus" onChange="order2('${room.orderId}')"  id="${room.orderId }" style="">
 					  <option selected value="3">환불처리중</option>
 					  <option value="4" id="4">환불완료</option>
 					</select>
 			         </c:if>
-			      <c:if test="${room.orderStatus == '4' }">
+			      <c:if test="${room.orderStatus == 'C' }">
 			      		<p>환불완료 <i class="far fa-clock"></i> ${room.refundDate }</p>
 				  </c:if>
 				 </td>

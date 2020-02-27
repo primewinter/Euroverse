@@ -398,10 +398,10 @@
 			      <td>${flight.arrTime}</td>
 			      <td>${flight.stopOver}</td>
 			      <td>${flight.leadTime}</td>
-			        <c:if test="${flight.tripCourse == '1' }">
+			        <c:if test="${flight.tripCourse == 'R' }">
 					     	 <td>왕복 구간</td>
 					</c:if>
-					<c:if test="${flight.tripCourse == '2' }" >
+					<c:if test="${flight.tripCourse == 'O' }" >
 					     	 <td>편도 구간</td>
 					</c:if>
 			      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" /> 원</td>

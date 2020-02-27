@@ -18,9 +18,12 @@
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 	
-	<!-- asome icon CDN -->
+	<!-- fontAsome icon CDN -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />	
 
+	<!-- sweetalert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    
   	<!-- jQuery UI toolTip 사용 CSS-->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<!-- jQuery UI toolTip 사용 JS-->
@@ -141,8 +144,23 @@
 				//alert(price)
 				$("#"+bookMark).val(data.refId);
 				if(data.likeCheck == 'F'){
+					swal({
+           		  	    icon : 'success',
+           			    title : "북마크 취소",
+           			    text : " ",
+           			    button : false,
+           			    timer : 700
+            	  	});
 				  $("#"+bookMark).attr('class','btn btn-secondary');
 				}else{
+					swal({
+  	               		icon : 'success',
+  	               		title : "북마크 추가",
+  	               		text : " ",
+  	               		button : false,
+  	               		timer : 700
+  	               	});
+					
 				  $("#"+bookMark).attr('class','btn btn-light');
 				}      
 			},

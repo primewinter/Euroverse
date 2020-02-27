@@ -109,7 +109,7 @@ public class OrderRestController {
 		
 		Order order = new Order();
 		order.setOrderId(orderId);
-		order.setOrderStatus("4");
+		order.setOrderStatus("C");
 		
 		Map<String, Object> map =  orderService.getOrderRefund(order);
 		

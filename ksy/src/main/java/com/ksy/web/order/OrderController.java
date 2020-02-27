@@ -157,7 +157,7 @@ public class OrderController {
 		System.out.println("order : "+order);
 		System.out.println("point : "+point);
 		
-		order.setOrderStatus("1"); //주문상태
+		order.setOrderStatus("O"); //주문상태
 		System.out.println("order : "+order);
 		System.out.println("flight : "+flight);
 		//flight 상품 insert
@@ -237,7 +237,7 @@ public class OrderController {
 		order.setPayOpt(payOpt);
 		order.setActualAmount(actualAmount);
 		order.setTotalAmount(totalAmount);
-		order.setOrderStatus("1");//주문상태
+		order.setOrderStatus("O");//주문상태
 		
 		//상품 add
 		roomService.addRoom(room);

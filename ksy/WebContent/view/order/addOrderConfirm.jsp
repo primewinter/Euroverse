@@ -84,10 +84,10 @@
 					      <td>${flight.arrTime}</td>
 					      <td>${flight.stopOver}</td>
 					      <td>${flight.leadTime}</td>
-					       <c:if test="${flight.tripCourse == '1' }">
+					       <c:if test="${flight.tripCourse == 'R' }">
 					     	 <td>왕복 구간</td>
 					      </c:if>
-					       <c:if test="${flight.tripCourse == '2' }">
+					       <c:if test="${flight.tripCourse == 'O' }">
 					     	 <td>편도 구간</td>
 					      </c:if>
 					      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" />원</td>
@@ -221,7 +221,7 @@
 		<hr/>
 	
 	   		 <div class="form-group" align="center">
-			<button type="button" class="btn btn-warning"  id="home" style="color:white;">메인으로</button>
+			<button type="button" class="btn btn-warning"  id="home" style="color:white;">확인</button>
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			<button type="button" class="btn btn-warning" id="list" style="color:white;">주문목록 바로가기</button>
 			</div>

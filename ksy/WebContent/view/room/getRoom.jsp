@@ -126,12 +126,27 @@ $(function () {
 			success : function(data) {
 				var msg = '';
 				msg += data.msg;
-				alert(msg);
-				alert(data.refId);
+				//alert(msg);
+				//alert(data.refId);
 				$("#wish").val(data.refId);
 				if(data.likeCheck == 'F'){
+					swal({
+           		  	    icon : 'success',
+           			    title : "북마크 취소",
+           			    text : " ",
+           			    button : false,
+           			    timer : 700
+            	  	});
 				  $("#wish").attr('class','btn btn-secondary');
 				}else{
+					swal({
+  	               		icon : 'success',
+  	               		title : "북마크 추가",
+  	               		text : " ",
+  	               		button : false,
+  	               		timer : 700
+  	               	});
+					
 				  $("#wish").attr('class','btn btn-light');
 				}      
 			},
