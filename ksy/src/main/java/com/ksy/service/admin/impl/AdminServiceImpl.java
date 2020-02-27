@@ -128,7 +128,7 @@ public class AdminServiceImpl implements AdminService {
 		System.out.println(this.getClass()+"getPostReportList");
 		
 		List<Post> list= adminDao.getPostReportList(search, boardName);
-		int totalCount = adminDao.getPostTotalCount(search, boardName);
+		int totalCount = adminDao.getPostReportTotalCount(search, boardName);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );
@@ -142,7 +142,7 @@ public class AdminServiceImpl implements AdminService {
 	public Map<String , Object> getCommentList(Search search, String postId, String userId) throws Exception {
 		
 		List<Comment> list= adminDao.getCommentReportList(search, userId, postId);
-		int totalCount = adminDao.getCommentTotalCount(search, postId);
+		int totalCount = adminDao.getCommentReportTotalCount(search, postId);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );

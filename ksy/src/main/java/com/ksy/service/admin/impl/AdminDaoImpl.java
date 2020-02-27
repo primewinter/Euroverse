@@ -113,6 +113,7 @@ public class AdminDaoImpl implements AdminDao {
 		sqlSession.update("AdminMapper.backUpQnaGrade", postId);
 	}
 	
+	//관리자 신고게시판 게시글 조회
 	@Override
 	public List<Post> getPostReportList(Search search, String boardName) throws Exception{
 		
@@ -126,8 +127,23 @@ public class AdminDaoImpl implements AdminDao {
 		return sqlSession.selectList("AdminMapper.getPostReportList", map);
 	}
 	
+
+	
+	//관리자 신고게시판 게시글 총개수
 	@Override
-	public List<Comment> getCommentReportList(Search search, String postId, String userId) throws Exception{
+	public int getPostReportTotalCount(Search search, String boardName) throws Exception {
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("boardName", boardName);
+		
+		return sqlSession.selectOne("AdminMapper.getPostReportTotalCount", map);
+	}
+	
+	//관리자 신고게시판 댓글 조회
+	@Override
+	public List<Comment> getCommentReportList(Search search, String userId, String postId) throws Exception{
 		
 		System.out.println("AdminDaoImpl getCommentReportList");
 		
@@ -137,27 +153,19 @@ public class AdminDaoImpl implements AdminDao {
 		map.put("userId", userId);
 		map.put("postId", postId);
 		
-		return sqlSession.selectList("AdminMapper.getCommentList");
+		return sqlSession.selectList("AdminMapper.getCommentReportList",map);
 	}
 	
-	public int getPostTotalCount(Search search, String boardName) throws Exception {
-		
-		Map<String, Object> map=new HashMap<String, Object>();
-		
-		map.put("search", search);
-		map.put("boardName", boardName);
-		
-		return sqlSession.selectOne("CommunityMapper.getPostTotalCount", map);
-	}
-	
-	public int getCommentTotalCount(Search search, String postId) throws Exception {
+	// 관리자 신고게시판 댓글 총개수
+	@Override
+	public int getCommentReportTotalCount(Search search, String postId) throws Exception {
 		
 		Map<String, Object> map=new HashMap<String, Object>();
 		
 		map.put("search", search);
 		map.put("postId", postId);
 		
-		return sqlSession.selectOne("CommunityMapper.getCommentTotalCount", map);
+		return sqlSession.selectOne("AdminMapper.getCommentReportTotalCount", map);
 	}
 	
 }
