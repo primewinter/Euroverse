@@ -892,18 +892,12 @@
 
         <div class="recom_bottom_box clear" style="width: 890px;">
             <c:if test="${post.postLikeFlag == 'F' || post.postLikeFlag == null}">
-              <a href="#" class="hvr-fade">  
                 <i onclick="addBookMark(${post.postId})" class="far fa-bookmark fa-2x" style="float: right;"></i>
- 			  </a>	
             </c:if>
             <c:if test="${post.postLikeFlag == 'T' }">
-              <a href="#" class="hvr-fade">  
                 <i onclick="addBookMark(${post.postId})" class="fas fa-bookmark fa-2x" style="float: right;"></i>
-              </a>
             </c:if>
-            <a href="#" class="hvr-fade">
               <i class="far fa-angry" data-toggle="modal" data-target="#sendReport" onclick="reportshow('${post.postId}','P');" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</i>
-            </a>
             <h3 class="title ub-word" style="margin-bottom: 40px;">
                 <span class="title_subject" style="font-weight:bold;">${post.postTitle} </span> <span style="font-size:18px;"> [ ${post.accCount} / ${post.accPerson} ]</span>
                 <br><span style="font-size: 15px;">

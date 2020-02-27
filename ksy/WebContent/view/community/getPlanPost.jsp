@@ -21,7 +21,8 @@
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+    <!-- sweetalert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 	<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'> 
 	
@@ -952,18 +953,12 @@
 	  
 	     <div class="recom_bottom_box clear" style="width: 890px;"> 
           <c:if test="${post.postLikeFlag == 'F' || post.postLikeFlag == null}">
-	   	  <a href="#" class="hvr-fade">	
 	   		<i onclick="addBookMark(${post.postId})" class="far fa-bookmark fa-2x" style="float: right;"></i>
-	      </a>
 	      </c:if>
 	      <c:if test="${post.postLikeFlag == 'T' }">
-	  	  <a href="#" class="hvr-fade">	
 	  		<i onclick="addBookMark(${post.postId})" class="fas fa-bookmark fa-2x" style="float: right;"></i>
-	      </a>
 	      </c:if>
-	      <a href="#" class="hvr-fade">
          	<i class="far fa-angry" data-toggle="modal" data-target="#sendReport" onclick="reportshow('${post.postId}','P');" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</i>
-	      </a>	
 	     	  <h3 class="title ub-word" style="margin-bottom: 10px;">
 		      	<span class="title_subject" style="font-weight:bold;">${post.postTitle}</span>
 		      </h3>
@@ -1377,8 +1372,6 @@
 	<!-- Footer Start /////////////////////////// -->
 	<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 	<!-- Footer End	/////////////////////////// -->
-	
-	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
 	<script type="text/javascript">
 	

@@ -122,8 +122,20 @@ public class LoginSessionListener implements HttpSessionListener, HttpSessionAtt
 	}
 
 	@Override
-	public void attributeRemoved(HttpSessionBindingEvent event) {
-		// TODO Auto-generated method stub
+	public void attributeRemoved(HttpSessionBindingEvent se) {
+		User sessionUser = (User)se.getSession().getAttribute("user");
+		if( sessionUser != null ) {
+			System.out.println("session에서 가져온 User : "+sessionUser);
+			String userId = sessionUser.getUserId();
+			
+			for (Map.Entry<String, TimerTask> entry : checkMap.entrySet()) { 
+				if (entry.getKey().equals(userId)) { 
+					entry.getValue().cancel(); // TimerTask 종료
+					checkMap.remove(userId); 
+					System.out.println(userId + "님의 알림이 종료되었습니다."); 
+				} 
+			}
+		}
 		
 	}
 

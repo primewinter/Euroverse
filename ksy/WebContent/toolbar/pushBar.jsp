@@ -318,21 +318,23 @@
 <script type="text/javascript">
     var userId = '${user.userId}';
     var pushAddr = "ws://192.168.0.62:8080/userSocket/";
-    var webSocket;
+    var userSocket;
 
     if (userId != null && userId != '') { // 로그인 했을 때만 웹소켓 연결
-        pushAddr += userId;
-        webSocket = new WebSocket(pushAddr);
-
+        pushAddr += userId + "/"+userId;
+        console.log("접속한 주소 "+pushAddr);
+        userSocket = new WebSocket(pushAddr);
+    
         //웹 소켓이 연결되었을 때 호출되는 이벤트
-        webSocket.onopen = function(message) {
-            console.log('[push] : connection opened.')
+        userSocket.onopen = function(message) {
+            console.log('[push] : 연결됐다.')
+
             //웹 소켓에서 메시지가 날아 왔을 때 호출되는 이벤트
-            webSocket.onmessage = function(message) {
+            userSocket.onmessage = function(message) {
                 console.log("push 왔다 ::: " + message.data)
                 var obj = JSON.parse(message.data);
                 var pushType = obj.pushType;
-                console.log("pushType :: " + pushType);
+                //console.log("pushType :: " + pushType);
                 if (pushType == 'P') {
                     const Toast = Swal.mixin({
                         toast: true,
@@ -356,33 +358,31 @@
                     getUnreadCount(userId);
                 }
             };
+            console.log('[push] : 여기까지오나.')
         };
-
         //웹 소켓이 닫혔을 때 호출되는 이벤트
-        webSocket.onclose = function(message) {
+        userSocket.onclose = function(message) {
             console.log("push 접속이 끊어졌습니다.\n");
         };
         //웹 소켓이 에러가 났을 때 호출되는 이벤트
-        webSocket.onerror = function(message) {
+        userSocket.onerror = function(message) {
             console.log("push 에러가 발생했습니다.\n");
         };
     }
     //웹소켓 종료
     function disconnect() {
-        webSocket.close();
+        userSocket.close();
     }
 
     function sendPush(receiverId, pushType) {
         var push = new Object();
-        console.log("[sendPush] receiverId : " + receiverId + " || pushType : " + pushType);
+        //console.log("[sendPush] receiverId : " + receiverId + " || pushType : " + pushType);
         push.receiverId = receiverId;
         push.pushType = pushType;
-        webSocket.send(JSON.stringify({
+        userSocket.send(JSON.stringify({
             push
         }));
-        console.log("push 보냈음 ::" + JSON.stringify({
-            push
-        }));
+        //console.log("push 보냈음 ::" + JSON.stringify({push}));
     }
 
     function getPushList(userId) {
@@ -401,8 +401,8 @@
                 var search = result.search;
                 var totalCount = result.totalCount;
                 $(".totalCount").html(totalCount);
-                console.log("totalCount : " + totalCount);
-                console.log("list.size : " + list.size);
+                //console.log("totalCount : " + totalCount);
+                //console.log("list.size : " + list.size);
                 $(".pushList").html("");
                 if ( totalCount == 0 ) {
                     $('.pushList').append("<p style='margin:1em;font-size:10pt;text-align:center;color:#999999'><i class=\"far fa-bell fa-2x\"></i><br/>활동알림이 없습니다.<br/>내 글에 달린 댓글, 동행신청, 플래너초대 등 새로운 소식을 알려드립니다.</p>");
@@ -412,8 +412,8 @@
                     })
                 }
 
-                console.log("resultPage : " + resultPage);
-                console.log("search : " + search);
+                //console.log("resultPage : " + resultPage);
+                //console.log("search : " + search);
             },
             error: function(error, status) {
                 console.log("알림 내역 출력 실패");
@@ -556,8 +556,8 @@
         $("input:checkbox[name='chk']:checked").each(function() {
             arrayParam.push($(this).val());
         });
-        console.log("배열!!! \n");
-        console.log(arrayParam);
+        //console.log("배열!!! \n");
+        //console.log(arrayParam);
 
         var formData = JSON.stringify(arrayParam);
 
@@ -613,7 +613,7 @@
 
     function showRoomList(list) {
         var html = "";
-        console.log("채팅방 목록 개수 : " + list.length);
+        //console.log("채팅방 목록 개수 : " + list.length);
         html += "<table class='roomTable' style='border-collapse: separate;border-spacing:0 15px;width:90%;margin:5%;' >"
         for (var i in list) {
             html += "<tr onclick='enterRoom(\"" + list[i].chatRoomId + "\")'>";
@@ -664,7 +664,7 @@
 
             //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
             accChatSocket.onmessage = function(message) {
-                console.log("메시지 날아옴 :: " + message)
+                //console.log("메시지 날아옴 :: " + message)
                 var data = JSON.parse(message.data)
                 data.readers = [userId];
                 receiveAccChat(data);
@@ -685,7 +685,7 @@
     var userNickname = '${user.nickname}';
 
     function receiveAccChat(chat) {
-        console.log("들어왔따~!")
+        //console.log("들어왔따~!")
         var html = "";
         if (chat.senderId == 'system') {
             html += "<div class='msgA center' style=\"text-align:center;margin: 20px;background-color:#D8D8D8;border-radius:10px;\">";
@@ -876,7 +876,7 @@
                             "Content-Type": "application/json"
                         },
                         success: function(result) {
-                            console.log(result);
+                            //console.log(result);
                             console.log("quitChatRoom() 성공 :: " + quitId + " || db에서 가져온 닉네임 : " + result);
                             sendAccMessage(result);
                             getChatRoomList();
@@ -918,7 +918,7 @@
                             "Content-Type": "application/json"
                         },
                         success: function(result) {
-                            console.log(result);
+                            //console.log(result);
                             console.log("quitChatRoom() 성공 :: " + quitId + " || db에서 가져온 닉네임 : " + result);
                             sendAccMessage(result);
                             getChatRoomList();
@@ -956,14 +956,14 @@
             console.log("접속했다." + addr);
 
             planChatSocket.onmessage = function(message) {
-                console.log("메시지 받았다.")
+                //console.log("메시지 받았다.")
                 var json = JSON.parse(message.data);
-                console.log(Array.isArray(json));
+                //console.log(Array.isArray(json));
                 if (Array.isArray(json)) {
                     checkOnlineMembers(json);
-                    console.log("checkOnlineMembers")
+                    //console.log("checkOnlineMembers")
                 } else {
-                    console.log("receivePlanChat")
+                    //console.log("receivePlanChat")
                     receivePlanChat(json);
                 }
                 $(".planChat.output").scrollTop($(".planChat.output")[0].scrollHeight);
@@ -980,7 +980,7 @@
     }
 
     function receivePlanChat(chat) {
-        console.log("들어왔따~!")
+        //console.log("들어왔따~!")
         var html = "";
         if (chat.senderId == 'system') {
             html += "<div class='msg center' style=\"text-align:center;margin:20px;background-color:#D8D8D8;border-radius:10px;\">";
@@ -995,7 +995,7 @@
             html += "</div>"
         } else {
             html += "<div class='msg left' style=\"text-align:left;margin:10px;\">"
-            console.log("T ? F ? :: " + $("div.msg").last().hasClass('left') + " || " + $($("div.msg").last()).find('div.sender  font.senderId').html());
+            //console.log("T ? F ? :: " + $("div.msg").last().hasClass('left') + " || " + $($("div.msg").last()).find('div.sender  font.senderId').html());
             if ($("div.msg").last().hasClass('left') == true && $($("div.msg").last()).find('div.sender font.senderId').html() == chat.senderId) {
                 html += "<div class='sender' style='text-align:center;display: inline-block;vertical-align: center;'>";
                 html += "<font class='senderId' style='display:none;'>" + chat.senderId + "</font>";

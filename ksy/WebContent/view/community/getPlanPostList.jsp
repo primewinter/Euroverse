@@ -20,7 +20,8 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-
+    <!-- sweetalert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <!-- jQuery UI toolTip 사용 CSS-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!-- jQuery UI toolTip 사용 JS-->

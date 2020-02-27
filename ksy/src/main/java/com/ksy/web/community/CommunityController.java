@@ -592,8 +592,22 @@ public class CommunityController {
 				search.setSorting("0");
 			}
 			map = communityService.getBestPostList(search, boardName);
-		}else {
+			List<Post> list = (List<Post>)map.get("list");
+			for(Post post : list ) {
+				post.setUser(userService.getUser(post.getPostWriterId()));
+			}
+		}else if ( boardName.equals("F")) {
+			List<Post> list = (List<Post>)map.get("list");
+			for(Post post : list ) {
+				post.setUser(userService.getUser(post.getPostWriterId()));
+				post.setPostContent(communityService.getPost(post.getPostId(), post.getPostWriterId(), "F").getPostContent());
+			}
+		} else {
 			map = communityService.getPostList(search, boardName);
+			List<Post> list = (List<Post>)map.get("list");
+			for(Post post : list ) {
+				post.setUser(userService.getUser(post.getPostWriterId()));
+			}
 		}
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
@@ -609,6 +623,9 @@ public class CommunityController {
 		}else if( boardName.equals("E") ) {
 			
 			List<Post> postList = (List<Post>)map.get("list");
+			for(Post post : postList ) {
+				post.setUser(userService.getUser(post.getPostWriterId()));
+			}
 			List<Plan> planList = new ArrayList<Plan>();
 			
 			for(int i=0; i<postList.size(); i++) {
@@ -619,7 +636,9 @@ public class CommunityController {
 			model.addAttribute("plan", planList);
 			}
 			return "forward:/view/community/getPlanPostList.jsp";
-		}else {
+		}else if( boardName.equals("F") ) {
+			return "forward:/view/community/getReviewPostList.jsp";
+		} else {
 			return "forward:/view/community/getPostList.jsp";
 		}
 	}

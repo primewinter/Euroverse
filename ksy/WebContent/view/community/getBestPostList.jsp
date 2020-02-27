@@ -14,7 +14,8 @@
 	<title>Euroverse</title>
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
+	<!-- sweetalert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

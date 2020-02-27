@@ -161,6 +161,12 @@ public class UserRestController {
 		return returnMap;
 	}
 	
+	@RequestMapping(value="json/logout")
+	public void logout(HttpSession session) throws Exception {
+		session.removeAttribute("user");
+		session.invalidate();
+	}
+	
 	@RequestMapping(value="json/updateRole")
 	public Map updateRole(HttpSession session)throws Exception{
 		User user = (User)session.getAttribute("user");

@@ -698,6 +698,10 @@
         font-size: 15px;
     }
     
+    div.story-entry__content > span > img {
+        display:inherit;
+    }
+    
 
 </style>
 

@@ -208,15 +208,24 @@
     $("font:contains('로그아웃')").on("click", function() {
     	
     	swal({
-			   icon : 'success',
-			  title : "이용해주셔서 감사합니다.",
-			  text:" ",
+			 //icon : 'success',
+			  //title : "이용해주셔서 감사합니다.",
+			  text:"이용해주셔서 감사합니다.",
 			  button : false,
 			})
-    	setTimeout(function() {     
-
-
-    	location.href = "/user/logout";
+    	setTimeout(function() {
+            
+            
+            
+            $.ajax({
+            url: "/user/json/logout",
+            headers: {"Accept": "application/json","Content-Type": "application/json"},
+    		success : function(){
+    			console.log('${user.userId}님 로그아웃');
+                location.reload();
+    		}//success
+        }) //ajax
+            
     	
     	}, 700);
 

@@ -10,7 +10,8 @@
 	<meta charset="EUC-KR">
 	<title>Euroverse</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
+	<!-- sweetalert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
 

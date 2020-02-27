@@ -26,14 +26,14 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-
+    
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
     <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
-
+    
 
     <!-- Use Swiper from CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
@@ -60,7 +60,67 @@
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
-	
+        .post-sm {
+            font-size: 9pt;
+        }
+        .euro-btn {
+            color: white;
+            background-color: #009688;
+        }
+        .euro-btn:hover {
+            color:lightgray;
+            background-color: #005582;
+        }
+        .category {
+            font-size: 12pt;
+            font-weight: 400;
+            color: #999999;
+        }
+        .category span:hover{
+            font-size: 12pt;
+            font-weight: 700;
+            color: #00c2c7;
+        }
+        .ctgr-on {
+            color:#00c2c7;
+            font-weight: 700;
+        }
+        .ctgr-off {
+            color: #999999;
+        }
+        
+        .upper-wrap {
+            
+        }
+        .category {
+            float:left;
+            vertical-align: middle;
+        }
+        .search-section {
+            float:right;
+            vertical-align: middle;
+        }
+   /*     table {
+            90%;
+        }
+        thead th(1) {
+            width:10%;
+        }
+        thead th(2) {
+            width:50%;
+        }
+        thead th(3) {
+            width: 10%;
+        }
+        thead th(4) {
+            width: 10%;
+        }
+        thead th(5) {
+            width: 10%;
+        }
+        thead th(6) {
+            width: 10%;
+        }*/
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -130,7 +190,25 @@
 		    	fncGetUserList(1);
 		    }
 		}
-	
+        
+        jQuery(document).ready(function($) {
+         
+            var size = '${search.sorting}';
+            if(size.length==0 ) {
+                console.log(size.length+" badge-info");
+                $('.post-ctgr').addClass('ctgr-on');
+            } else {
+                console.log(size.length+" badge-secondary");
+                $('.post-ctgr').addClass('ctgr-off');
+            }
+            
+        });
+        
+        function getQnaList() {
+            self.location = '/community/getPostList?boardName=G';
+        }
+   
+   
 	</script>
 	
 </head>
@@ -146,7 +224,7 @@
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container" style="max-width: 1000px;" id="loadJquery">
 	
-		<div class="h4" id="boardTitle" style="font-weight: bold; margin-top: 40px;padding-left:10px;">
+		<div class="h4" id="boardTitle" style="font-weight: bold; margin-top:40px;padding-left:10px;">
 			<c:if test="${param.boardName=='A'}">
 			자유게시판
 			</c:if>
@@ -165,51 +243,60 @@
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
-	    <div class="row">
+	    <div class="row" style="margin: 10px;">
 		    
-		    <div class="col-md-12 text-right" style="margin: 10px 0 15px 0">
+		    <div class="col-md-12 text-right upper-wrap">
 		    
 		      <c:if test="${param.boardName == 'G'}">
-		    	<div style="float:left;padding-top:15px;padding-left:10px;font-size:18px;">
+		    	<div class='category' style="display:flex;">
+		    	<font>
+			    	<span class="post-ctgr" onclick="getQnaList()">전체</span>
+			    	|
 			    	<c:if test="${search.sorting == 5}">
-			    		<span class="badge badge-info" onclick="qnaKategotie('5')">루트</span>
-			    	</c:if>
-			    	<c:if test="${search.sorting != 5}">
-			    		<span class="badge badge-secondary" onclick="qnaKategotie('5')">루트</span>
+			    		<span class="ctgr-on" onclick="qnaKategotie('5')">루트</span>
 			        </c:if>
+			    	<c:if test="${search.sorting != 5}">
+			    		<span class="ctgr-off" onclick="qnaKategotie('5')">루트</span>
+			        </c:if>
+			        |
 			        <c:if test="${search.sorting == 0}">
-			    		<span class="badge badge-info" onclick="qnaKategotie('0')">도시</span>
+			    		<span class="ctgr-on" onclick="qnaKategotie('0')">도시</span>
 			    	</c:if>
 			    	<c:if test="${search.sorting != 0}">
-			    		<span class="badge badge-secondary" onclick="qnaKategotie('0')">도시</span>
+			    		<span class="ctgr-off" onclick="qnaKategotie('0')">도시</span>
 			        </c:if>
+			        |
 			        <c:if test="${search.sorting == 1}">
-			    		<span class="badge badge-info" onclick="qnaKategotie('1')">교통</span>
+			    		<span class="ctgr-on" onclick="qnaKategotie('1')">교통</span>
 			    	</c:if>
 			    	<c:if test="${search.sorting != 1}">
-			    		<span class="badge badge-secondary" onclick="qnaKategotie('1')">교통</span>
+			    		<span class="ctgr-off" onclick="qnaKategotie('1')">교통</span>
 			        </c:if>
+			        |
 			         <c:if test="${search.sorting == 2}">
-			    		<span class="badge badge-info" onclick="qnaKategotie('2')">숙소</span>
+			    		<span class="ctgr-on" onclick="qnaKategotie('2')">숙소</span>
 			    	</c:if>
 			    	<c:if test="${search.sorting != 2}">
-			    		<span class="badge badge-secondary" onclick="qnaKategotie('2')">숙소</span>
+			    		<span class="ctgr-off" onclick="qnaKategotie('2')">숙소</span>
 			        </c:if>
+			        |
 			         <c:if test="${search.sorting == 3}">
-			    		<span class="badge badge-info" onclick="qnaKategotie('3')">쇼핑,경비,환전</span>
+			    		<span class="ctgr-on" onclick="qnaKategotie('3')">쇼핑/경비/환전</span>
 			    	</c:if>
 			    	<c:if test="${search.sorting != 3}">
-			    		<span class="badge badge-secondary" onclick="qnaKategotie('3')">쇼핑,경비,환전</span>
+			    		<span class="ctgr-off" onclick="qnaKategotie('3')">쇼핑/경비/환전</span>
 			        </c:if>
+			        |
 			         <c:if test="${search.sorting == 4}">
-			    		<span class="badge badge-info" onclick="qnaKategotie('4')">기타</span>
+			    		<span class="ctgr-on" onclick="qnaKategotie('4')">기타</span>
 			    	</c:if>
 			    	<c:if test="${search.sorting != 4}">
-			    		<span class="badge badge-secondary" onclick="qnaKategotie('4')">기타</span>
+			    		<span class="ctgr-off" onclick="qnaKategotie('4')">기타</span>
 			        </c:if>
+                    </font>
 		    	</div>
 		      </c:if>
-		    
+		        <div class="search-section">
 			    <form class="form-inline mt-2 mt-md-0" name="detailForm" style="float:right;">
 			      <input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>
 			      
@@ -227,16 +314,16 @@
 			    </c:if>  
 			      
 				  <div class="form-group">
-				    <select class="form-control" name="searchCondition" style="height: 35px; width: 85px; font-size: 13px; margin-right: 2px;" >
+				    <select class="form-control form-control-sm" name="searchCondition" style="height: 35px; width: 85px; font-size: 13px; margin-right: 2px;" >
 						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>제목</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>닉네임</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>작성자</option>
 						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>태그</option>
 					</select>
 				  </div>
 				  
 				  <div class="form-group">
 				    <label class="sr-only" for="searchKeyword">검색어</label>
-				    <input type="text" class="form-control mr-sm-2" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
+				    <input type="text" class="form-control form-control-sm mr-sm-2" id="searchKeyword" name="searchKeyword"  placeholder="검색어"
 				    			 value="${! empty search.searchKeyword ? search.searchKeyword : '' }" style="height: 35px; font-size: 13px;" onKeyDown="onKeyDown();">
 				  </div>
 				  
@@ -247,7 +334,7 @@
 				  
 				</form>
 	    	</div>
-	    	
+            </div>
 		</div>
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
 		
@@ -257,18 +344,18 @@
       
         <thead>
           <tr>
-            <th scope="col">게시글번호</th>
+            <th scope="col" style="width: 10%">글번호</th>
           <c:if test="${param.boardName=='D'}">
-            <th scope="col">동행날짜</th>
+            <th scope="col" style="width: 5%">동행날짜</th>
           </c:if>
-            <th scope="col">제목</th>
+            <th scope="col" style="width: 50%">제목</th>
           <c:if test="${param.boardName=='D'}">
-            <th scope="col">인원</th>
+            <th scope="col" style="width: 5%">인원</th>
           </c:if>
-            <th scope="col">닉네임</th>
-            <th scope="col">작성일</th>
-            <th scope="col">조회수</th>
-            <th scope="col">추천수</th>
+            <th scope="col" style="width: 16%">작성자</th>
+            <th scope="col" style="width: 10%">작성일</th>
+            <th scope="col" style="width: 7%">조회수</th>
+            <th scope="col" style="width: 7%">추천수</th>
           </tr>
         </thead>
        
@@ -280,11 +367,11 @@
 		  <c:if test="${post.postGrade == 'N'}">
 		  	  <th scope="row" style="color:#CE1717;">공지 <i class="fas fa-bullhorn"></i></th>
 			  <td style="text-align:left;">
-			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/><span>${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
+                  <input type="hidden" id="postId" name="postId" value="${post.postId}"/><span>${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
 		  </c:if>
 		  <c:if test="${post.postGrade == 'B' || post.postGrade == null}">
 		  <c:set var="i" value="${ i+1 }" />
-			  <th scope="row">${ i }</th>
+              <th scope="row"><font class='post-sm'>${post.postId}</font></th>
 			<c:if test="${param.boardName == 'D'}">
 			  <c:if test="${post.accEndDate == null}">
 			    <td><fmt:formatDate value="${post.accStartDate}" pattern="yyyy-MM-dd"/></td>
@@ -322,15 +409,15 @@
 		   	  <td>${post.accCount}/${post.accPerson}</td>
 		  </c:if>
 		  </c:if>
-			  <td>${post.nickName}</td>
+			  <td><img src='/resources/images/userImages/${post.user.userImg}' style='border-radius:50%;width:25px;height:25px;border:solid 2px #009688;margin-right:0.5em;'>${post.nickName}</td>
 		  <c:if test="${param.boardName == 'D'}">
-		   	  <td><fmt:formatDate value="${post.postDate}" pattern="yyyy-MM-dd"/></td>
+              <td><font class='post-sm'><fmt:formatDate value="${post.postDate}" pattern="yyyy.MM.dd"/></font></td>
 		  </c:if>
 		  <c:if test="${param.boardName != 'D'}">
-			  <td><fmt:formatDate value="${post.postDate}" pattern="yyyy-MM-dd"/></td>
+              <td><font class='post-sm'><fmt:formatDate value="${post.postDate}" pattern="yyyy.MM.dd"/></font></td>
 		  </c:if>
-			  <td>${post.views}</td>
-			  <td>${post.postLikeCount}</td>
+                <td><font class='post-sm'>${post.views}</font></td>
+                <td><font class='post-sm'>${post.postLikeCount}</font></td>
 			</tr>
           </c:forEach>
         
@@ -339,7 +426,7 @@
       </table>
      </div>
 	  <!--  table End /////////////////////////////////////-->
-	  <button type="button" id="addpost_view" class="btn btn-dark">작성하기</button>
+	  <button type="button" id="addpost_view" class="btn btn-sm euro-btn">작성하기</button>
 	  
  	</div>
  	<!--  화면구성 div End /////////////////////////////////////-->

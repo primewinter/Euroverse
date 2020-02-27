@@ -24,30 +24,17 @@ import org.json.simple.parser.ParseException;
 import com.ksy.service.domain.Push;
 
 // handshake 설정하기 위한 클래스를 지정한다.
-@ServerEndpoint(value = "/userSocket/{userId}")
-
+@ServerEndpoint("/userSocket/{userId}")
 public class UserSocket {
 	
 			private static Map<String, Session> slMap = Collections.synchronizedMap(new HashMap<>());
 		
-			/* 웹 소켓이 연결되면 호출되는 이벤트
-			 * @throws IOException
-			 */
 			@OnOpen
 			public void handleOpen(@PathParam("userId") String userId, Session session) throws IOException {
-						System.out.println("::: [" + userId + "]client is now connected...");
+						System.out.println("::: [" + userId + "] 웹소켓 열림"+session);
 						slMap.put(userId, session);
 			}
 		
-			/**
-			 * 웹 소켓으로부터 메시지가 오면 호출되는 이벤트 :: 안 쓰일 이벤트
-			 * @param message
-			 * @return
-			 * @throws IOException
-			 * @throws JsonMappingException
-			 * @throws JsonGenerationException
-			 * @throws ParseException 
-			 */
 			@OnMessage
 			public void handleMessage(@PathParam("userId") String userId, String message, Session session)
 					throws JsonGenerationException, JsonMappingException, IOException, ParseException {
@@ -80,20 +67,18 @@ public class UserSocket {
 			}
 		
 			//웹 소켓이 에러가 나면 호출되는 이벤트
-			 /* 
-			 * @param t
-			 */
 			@OnError
 			public void handleError(Throwable t) {
 						t.printStackTrace();
 			}
 			
 			public void sendPush(String userId, Push push) throws Exception {
-				System.out.println("\n\nWebSocket :: sendPush "+userId);
 				for (Map.Entry<String, Session> entry : slMap.entrySet()) {
 					if (entry.getKey().equals(userId)) {
 						String result = new ObjectMapper().writeValueAsString(push);
-						entry.getValue().getBasicRemote().sendText(result);
+						Session se = entry.getValue();
+						se.getBasicRemote().sendText(result);
+						System.out.println("\n\nWebSocket :: sendPush "+userId+"\n"+se);
 					}
 				}
 				
