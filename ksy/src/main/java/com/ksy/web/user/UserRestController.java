@@ -356,7 +356,7 @@ public class UserRestController {
 		
 		String clientId = "zmMH7F27NTAzH6EBj4dk";
 		
-		String redirectUrl = URLEncoder.encode("http://localhost:8080/user/naverLoginLogic", "UTF-8");
+		String redirectUrl = URLEncoder.encode("http://192.168.0.70:8080/user/naverLoginLogic", "UTF-8");
 		
 		String naverLoginUrl = 	"https://nid.naver.com/oauth2.0/authorize?response_type=code" + 
 								"&client_id=" + clientId + 
@@ -376,7 +376,7 @@ public class UserRestController {
 	public Map loginKakao( HttpSession session ) throws Exception {
 		String clientId = "0813ef39292fbdbe6ad4d20b0a049724";
 
-		String redirectUrl = "http://localhost:8080/user/kakaoLoginLogic";
+		String redirectUrl = "http://192.168.0.70:8080/user/kakaoLoginLogic";
 		
 		String kakaoLoginUrl = 	"https://kauth.kakao.com/oauth/authorize?" + 
 								"client_id=" + clientId + 

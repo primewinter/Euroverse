@@ -110,6 +110,11 @@
 	
 	
 	$(function(){
+		
+		
+		
+		
+		
 		$(".nav-link:contains('회원가입')").addClass("disabled");
 			
 			var userId = $("#userId");
@@ -117,7 +122,14 @@
 			var pwdConfirm = $("#pwdConfirm");
 			var userName = $("#userName");
 			var nickname = $("#nickname");
-			$("input[name='email']").val($("#emailId").val()+"@"+$("#choiceEmail").val());
+			
+			if($("#choiceEmail option:selected").val()!='self'){
+				$("input[name='email']").val($("#emailId").val()+"@"+$("#choiceEmail").val());
+			}else if($("#choiceEmail").val()=='self'){
+				$("input[name='email']").val($("#emailId").val()+"@"+$("#selfEmail").val());
+			}
+	
+			
 			var email =  $("#email");
 			var emailId = $("#emailId");
 			var birth = $("input[name='birth']");
@@ -129,6 +141,8 @@
 			var phone3 = $("#phone3");
 			var image = $("input[name='image']");
 			var h6 = document.getElementsByClassName('addH6');
+			
+			
 	
 		$(document).on('keyup', '#userId', function(event) {
 			for(var i=0;i<userId.val().length;i++){
@@ -329,7 +343,12 @@
 			var pwdConfirm = $("#pwdConfirm");
 			var userName = $("#userName");
 			var nickname = $("#nickname");
-			$("input[name='email']").val($("#emailId").val()+"@"+$("#choiceEmail").val());
+			
+			if($("#choiceEmail").val()!='self'){
+				$("input[name='email']").val($("#emailId").val()+"@"+$("#choiceEmail").val());
+			}else if($("#choiceEmail").val()=='self'){
+				$("input[name='email']").val($("#emailId").val()+"@"+$("#selfEmail").val());
+			}
 			var email =  $("#email");
 			var birth = $("input[name='birth']");
 			var sex = $("input[name='sex']");
@@ -521,6 +540,19 @@
 					readImg(this);
 			    }
 		});
+		
+		$("#choiceEmail").change(function(){
+			
+			if($(this).val() == 'self'){
+				$("#selfEmail").css("display","block");
+			}else{
+				$("#selfEmail").css("display","none");
+			}
+			
+			
+		})
+		
+		
 	})
 	
 	function readImg(input){
@@ -561,7 +593,7 @@
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
-	
+	<input type="hidden" id="hehe" value="123123">
 	<!-- <p style="font-size:30px; margin-left:500px; margin-top: 50px; margin-bottom: -20px" >
 		회원가입
 		<br><hr style="width: 600px;margin-bottom: -5px;">
@@ -571,8 +603,14 @@
 	<div class="container" style="max-width: 1000px;">
 	
 		<div class="mx-auto" style="width: 50%;margin: 30px 30px;">
-			<div style="border-bottom: 1px solid #A6C0C1;padding-bottom: 5px;margin-bottom: 0px;font-size: 30px;font-weight: bolder;">회원가입</div>
-			<div>정보를 입력해주세요.</div>
+			<c:if test="${empty snsLogin}">
+				<div style="border-bottom: 1px solid #A6C0C1;padding-bottom: 5px;margin-bottom: 0px;font-size: 30px;font-weight: bolder;">회원가입</div>
+				<div>정보를 입력해주세요.</div>
+			</c:if>
+			<c:if test="${!empty snsLogin}">
+				<div style="border-bottom: 1px solid #A6C0C1;padding-bottom: 5px;margin-bottom: 0px;font-size: 30px;font-weight: bolder;">SNS간편회원가입</div>
+			</c:if>
+			
 		</div>
 	
 		<form>
@@ -581,7 +619,13 @@
 					<b>아이디</b>
 					<div class="input-group-prepend">
 						<span class="input-group-text"><i class="fas fa-user"></i></span> &nbsp;
-						<input type="text" class="form-control" placeholder="userId" id="userId" name="userId" style="ime-mode:inactive;">
+						<c:if test="${empty snsLogin }">
+							<input type="text" class="form-control" placeholder="userId" id="userId" name="userId" style="ime-mode:inactive;">
+						</c:if>
+						<c:if test="${!empty snsLogin }">
+							<input type="text" class="form-control" placeholder="userId" id="userId" name="userId" value="${snsLogin.userId}" style="ime-mode:inactive;" readonly="readonly">
+						</c:if>
+					
 					</div>
 					<h6 class="addH6"></h6>
 				</div>
@@ -616,7 +660,12 @@
 					<b>이름</b>
 					<div class="input-group-prepend">
 						<span class="input-group-text"><i class="fas fa-user"></i></span> &nbsp;
-						<input type="text" class="form-control" placeholder="Only Korean" name="userName" id="userName" onkeypress="if(!(event.keyCode < 47 && event.keyCode > 58)) event.returnValue=false;">
+						<c:if test="${empty snsLogin}">
+							<input type="text" class="form-control" placeholder="Only Korean" name="userName" id="userName" onkeypress="if(!(event.keyCode < 47 && event.keyCode > 58)) event.returnValue=false;">
+						</c:if>
+						<c:if test="${!empty snsLogin}">
+							<input type="text" class="form-control" placeholder="Only Korean" name="userName" id="userName" value="${snsLogin.userName}" onkeypress="if(!(event.keyCode < 47 && event.keyCode > 58)) event.returnValue=false;">
+						</c:if>
 					</div>
 					<h6 class="addH6"></h6>
 				</div>
@@ -627,11 +676,11 @@
 				<b>닉네임</b>
 					<div class="input-group-prepend">
 						<span class="input-group-text"><i class="fas fa-user"></i></span> &nbsp;
-						<c:if test="${loginType!='sns'}">
+						<c:if test="${empty snsLogin}">
 							<input type="text" class="form-control" placeholder="Nickname" name="nickname" id="nickname">
 						</c:if>
-						<c:if test="${loginType=='sns'}">
-							<input type="text" class="form-control" value="${snsUser.nickname}" name="nickname" id="nickname">
+						<c:if test="${!empty snsLogin}">
+							<input type="text" class="form-control" value="${snsLogin.nickname}" name="nickname" id="nickname">
 						</c:if>
 					</div>
 					<h6 class="addH6"></h6>
@@ -654,45 +703,27 @@
 					<b>이메일</b>
 					<div class="input-group-prepend ">
 						<span class="input-group-text" style="width: 40px;"><i class="fas fa-globe"></i></span> &nbsp;
-						
-						<c:if test="${loginType != 'sns' }">
+							<c:if test="${empty snsLogin}">
 							<input type="text" class="form-control" placeholder="email" id="emailId">
+							</c:if>
+							
+							<c:if test="${!empty snsLogin}">
+							<input type="text" class="form-control" placeholder="email" id="emailId" value="${snsLogin.emailId}">
+							</c:if>
 							
 							<span class="input-group-append pt-2">&nbsp;&nbsp;<i class="fas fa-at"></i>&nbsp;&nbsp;</span>
 							
+							<input type="text" style="width: 150px;display: none; " id="selfEmail">
 							<select class="custom-select" id="choiceEmail">
 								<option value="" disabled selected hidden>please choice....</option>
 							    <option value="gmail.com">gmail.com</option>
 							    <option value="naver.com">naver.com</option>
 							    <option value="daum.net">daum.net</option>
+							    <option value="self">직접입력</option>
+							    
 						 	</select>
-						</c:if>
-						
-						
-						<c:if test="${loginType == 'sns' }">
-							<input type="text" class="form-control" value="${snsUser.emailId}" id="emailId">
-							
-							<span class="input-group-append pt-2">&nbsp;&nbsp;<i class="fas fa-at"></i>&nbsp;&nbsp;</span>
-							
-							<select class="custom-select" id="choiceEmail">
-					   		<c:if test="${snsUser.choiceEmail=='gmail.com'}">
-							    <option value="gmail.com">gmail.com</option>
-							    <option value="naver.com">naver.com</option>
-							    <option value="daum.net">daum.net</option>
-					   		</c:if> 
-							<c:if test="${snsUser.choiceEmail=='naver.com'}">
-							    <option value="gmail.com">naver.com</option>
-							    <option value="google.com">gmail.com</option>
-							    <option value="daum.net">daum.net</option>
-							</c:if>			    
-							<c:if test="${snsUser.choiceEmail=='daum.net'}">
-							    <option value="gmail.com">daum.net</option>
-							    <option value="google.com">gmail.com</option>
-							    <option value="naver.com">naver.com</option>
-							</c:if>
-						 	</select>
-						</c:if>
-						
+						 	
+						 	
 					 	<input type="hidden" name="email" id="email">
 					</div>
 					<h6 class="addH6"></h6>
@@ -738,7 +769,7 @@
 			 <div class="form-group">
 				<div class="col-6 mx-auto">
 					<b>프로필 이미지</b>
-					<c:if test="${loginType!='sns'}">
+					<c:if test="${empty snsLogin}">
 						<div class="custom-file">
 						  <input type="file" class="custom-file-input" id="image" name="image" accept="image/*" >
 						  <label class="custom-file-label" for="customFile" ><i class="fas fa-camera-retro">size 360x360</i> </label>  
@@ -746,9 +777,9 @@
 						<h6 class="addH6"></h6>
 					</c:if>
 					<div id="preview" style="text-align: center;">
-						<c:if test="${loginType=='sns'}">
-							<img alt="" src="${snsUser.userImg}">
-							<input type="hidden" name="userImg" value="${snsUser.userImg}">
+						<c:if test="${!empty snsLogin}">
+							<img alt="" src="${snsLogin.userImg}">
+							<input type="hidden" name="userImg" value="${snsLogin.userImg}">
 						</c:if>
 					</div>
 				</div>
