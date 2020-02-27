@@ -74,7 +74,7 @@
 	$(function(){
 		$("#realComeBack").on("click",function(){
 		var nickname = 	$("#comeBackNickname");
-			$.ajax({
+			 $.ajax({
 				url : "/user/json/checkDuplicate",
 				method : "post",
 				dataType : "json",
@@ -87,7 +87,8 @@
 				}),
 				success : function(JSONData){
 					if(JSONData.result == 'ok'){
-						
+				
+						 
 						swal({
 							   icon : 'success',
 							  title : "복구 완료했습니다.",
@@ -99,7 +100,7 @@
 				    	}, 700);
 						
 						
-					}else{
+				}else{
 						swal({
 						   icon : 'warning',
 						  title : "중복된 닉네임입니다.",
@@ -108,7 +109,7 @@
 						})
 					}
 				}//success
-			})//ajax
+			})//ajax 
 		})
 		
 		$(document).on('keyup','#comeBackNickname',function(){
@@ -142,12 +143,13 @@
 						if(JSONData.result == 'ok'){
 							//h6[4].innerHTML ="";
 						}else{
-							swal({
+							/* swal({
 								   icon : 'warning',
 								  title : "중복된 닉네임입니다.",
 								  text:" ",
 								  button : false,
-								})
+								}) */
+							errorNickname.html("중복된 닉네임입니다.");
 						}
 					}//success
 				})//ajax

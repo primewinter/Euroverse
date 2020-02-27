@@ -475,7 +475,7 @@ var maPageCode = 'M';
 			      					  <!-- front content -->
 			    					<p style="font-size: 20px;"><i class="fas fa-coins"></i> Æ÷ÀÎÆ®</p>
 			  					</div>
-				    			<div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;">
+				    			<div class="back" style="border: 1px solid; text-align: center;padding-top: 45px;" id="totalPoint">
 				        			<!-- back content -->
 			 						<p style="font-size: 20px;">
 			 					 	<fmt:formatNumber value="${user.totalPoint}" pattern="###,###" />P

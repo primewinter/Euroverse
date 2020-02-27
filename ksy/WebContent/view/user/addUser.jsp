@@ -287,7 +287,7 @@
 			}
 		})
 		
-		$(document).on('keyup','#phone1',function(){
+/* 		$(document).on('keyup','#phone1',function(){
 			if(phone1.val().length > 3){
 				h6[8].innerHTML="핸드폰 번호를 확인해주세요.";
 			}else{
@@ -328,7 +328,7 @@
 					return;
 				}
 			}
-		})
+		}) */
 		
 		
 		
@@ -419,12 +419,12 @@
 				return;
 			}
 			
-			if($.trim(birth.val())==""){
+/* 			if($.trim(birth.val())==""){
 				submitAlert.prop("style","display : block");
 				alertMessage.html("생일을 확인해주세요.");
 				return;
 			}
-			
+			 */
 			if($.trim(email.val())=="@"+null){
 				submitAlert.prop("style","display : block");
 				alertMessage.html("이메일을 확인해주세요.");
@@ -439,19 +439,19 @@
 				return;
 			} 
 			
-			if($.trim(phone.val()).length <10){
+		/* 	if($.trim(phone.val()).length <10){
 				submitAlert.prop("style","display : block");
 				alertMessage.html("휴대폰 번호를 확인해주세요.");
 				return;
 			} 
-			
-			
+			 */
+		/* 	
 			if($("input:radio[name='sex']").is(":checked") == false){
 				submitAlert.prop("style","display : block");
 				alertMessage.html("성별을 선택해주세요.");
 				return;
 			}
-			
+			 */
 			
 			
 			 
@@ -772,7 +772,7 @@
 					<c:if test="${empty snsLogin}">
 						<div class="custom-file">
 						  <input type="file" class="custom-file-input" id="image" name="image" accept="image/*" >
-						  <label class="custom-file-label" for="customFile" ><i class="fas fa-camera-retro">size 360x360</i> </label>  
+						  <label class="custom-file-label" for="customFile" ><i class="fas fa-camera-retro"> Insert Image</i> </label>  
 						</div>
 						<h6 class="addH6"></h6>
 					</c:if>

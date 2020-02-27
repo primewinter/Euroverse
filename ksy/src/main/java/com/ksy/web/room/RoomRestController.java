@@ -58,56 +58,6 @@ public class RoomRestController {
 
 	
 	
-	@RequestMapping(value="/json/like/{cmtId}", method=RequestMethod.GET )
-	public void like(@PathVariable String cmtId, HttpSession session, HttpServletResponse response ) throws Exception {
-	  
-		System.out.println("/community/json/like : GET");
-		System.out.println(cmtId);
-		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		 
-		Like like = new Like();
-		User user=(User)session.getAttribute("user");
-	    like.setLikeUserId(user.getUserId());
-	    like.setRefId(cmtId);
-	    like.setLikeType("C");
-	    
-	    if(likeService.countByLike(like)==0){
-	    	likeService.addLike(like);
-	    }
-	    like=likeService.getLike(like);
-	   
-		Comment comment = communityService.getComment(cmtId);
-		
-		int cmtLikeCount = comment.getCmtLikeCount(); //게시판의 좋아요 카운트
-		String likeCheck = like.getLikeCheck(); //좋아요 체크 값
-		System.out.println("sdfdfsfsf"+likeCheck);
-		List<String> msgs = new ArrayList<String>();
-		System.out.println("들어가기전 댓글추천수 : "+cmtLikeCount);
-		if(likeCheck.equals("F")) {
-		  msgs.add("좋아요!");
-		  likeService.like_check(like);
-		  likeCheck="T";
-		  cmtLikeCount++;
-		  System.out.println("들어간 후 댓글 추천수 : "+cmtLikeCount);
-		  communityService.updateLike(cmtId);   //좋아요 갯수 증가
-		}else{
-		  msgs.add("좋아요 취소");
-		  likeService.like_check_cancel(like);
-		  likeCheck="F";
-		  cmtLikeCount--;
-		  System.out.println("들어간 후 댓글 추천수 : "+cmtLikeCount);
-		  communityService.updateUnlike(cmtId);   //좋아요 갯수 감소
-		}
-		JSONObject obj = new JSONObject();
-		obj.put("cmtId", like.getRefId());
-		obj.put("likeCheck", likeCheck);
-		obj.put("cmtLikeCount", cmtLikeCount);
-		obj.put("msg", msgs);
-		
-		out.println(obj);
-	}
-	
 	@RequestMapping(value="/json/addRoom",  method=RequestMethod.POST )
 	public void addRoom(@RequestBody Map jsonMap ,Room room  , HttpSession session, HttpServletResponse response 
 			,HttpServletRequest request) throws Exception {
@@ -181,31 +131,5 @@ public class RoomRestController {
 		
 	}
 	
-	@RequestMapping( value="json/likeUpdate", method=RequestMethod.POST )
-	public void likeUpdate( String postId, HttpServletResponse response, HttpSession session ) throws Exception {
-	
-		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out = response.getWriter();
-
-		Like like = new Like();
-		User user=(User)session.getAttribute("user");
-	    like.setLikeUserId(user.getUserId());
-	    like.setRefId(postId);
-	    like.setLikeType("A");
-	    
-	    if(likeService.countByLike(like)==0){
-	    	
-	    	likeService.addLike(like);
-	    	communityService.updatePostLike(postId);
-	    	
-	    	int likes=communityService.selectLike(postId);
-	    	
-	    	JSONObject obj = new JSONObject();
-	    	obj.put("like", likes);
-	    	out.println(obj);
-	    }else {
-	    	
-	    }	
-	}
 	
 }

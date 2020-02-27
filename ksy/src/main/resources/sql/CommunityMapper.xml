@@ -387,6 +387,7 @@
 						ORDER BY p.post_date desc ) countTable						
 	</select>
 
+
 	<insert  id="addComment"		parameterType="comment">
 		<selectKey resultType="String" keyProperty="cmtId" order="BEFORE">
 	    	SELECT NVL(MAX(cmt_id),0)+1 FROM comments
@@ -401,6 +402,7 @@
                 </choose> )
 	</insert>
 	
+	
 	<select id="rcmtNum" parameterType="map" resultMap="commentSelectMap">
 		SELECT
 		row_number() over(partition by c.parent_cmt_id order by c.parent_cmt_id , c.cmt_id) num , p.post_writer_id , l.like_check , c.* , u.user_img
@@ -408,6 +410,7 @@
 		WHERE c.cmt_id = l.ref_id(+) AND c.post_id = p.post_id AND u.user_id = c.writer_id AND c.post_id = #{postId} AND l.like_user_id(+) = #{userId} AND c.deleted IN ('F','Y') AND c.parent_cmt_id IS NOT NULL AND c.blocked IN ('N', 'F')
 		ORDER BY c.parent_cmt_id , c.cmt_date
 	</select>
+	
 	
 	<select id="getCommentList" parameterType="map" resultMap="commentSelectMap">
   		SELECT *

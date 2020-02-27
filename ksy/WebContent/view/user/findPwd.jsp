@@ -184,6 +184,8 @@
 	$(function() {
 		$('#confirm').hide();
 		$('#phoneConfirm').hide();
+		
+		
 		$('#sendPhone').click(function() {
 			var userId1 = $('#userId1');
 			var name1 = $('#userName1');
@@ -457,7 +459,7 @@
 					<div class="col-md-7 mx-auto" > 
 						<div class="custom-control custom-radio">
 							  <input type="radio" id="emailCheck" name="searchId" class="custom-control-input">
-							  <label class="custom-control-label" for="emailCheck"><h3>이메일로 아이디찾기</h3></label>
+							  <label class="custom-control-label" for="emailCheck"><h3>이메일로 비밀번호찾기</h3></label>
 						</div>
 					</div>
 					
