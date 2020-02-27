@@ -160,7 +160,7 @@
 	</update>	 
 	
 	<!-- 관리자 신고게시판에서 게시글목록 조회  -->
-	<select  id="getPostList"  parameterType="map"	resultMap="postSelectMap">
+	<select  id="getPostReportList"  parameterType="map"	resultMap="postSelectMap">
 	  	SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
   						FROM ( SELECT p.post_id , p.post_writer_id , p.plan_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , vt2.a acc_count , vt1.c comments , p.views , p.blocked , p.deleted , p.post_like_count , p.qna_kategorie

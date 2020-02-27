@@ -49,7 +49,7 @@ public class AdminRestController {
 	@RequestMapping(value="json/getUserList", method = RequestMethod.POST)
 	public Map<String, Object> getUserList(@RequestBody Search search ) throws Exception {
 		
-		System.out.println("\n\n restController getUserList");
+		System.out.println("\n\n restController getUserList\n\n");
 		
 		User user = new User();
 //		Search search = new Search();
@@ -79,36 +79,48 @@ public class AdminRestController {
 	@RequestMapping(value="json/addQnaComment", method = RequestMethod.POST)
 	public Map<String,Object> addQnaComment(@RequestBody Comment comment) throws Exception {
 		
-		System.out.println("AdminComtroller addQnaComment");
-		
+		//디버깅 method 시작
+		System.out.println("\n\nAdminComtroller addQnaComment\n\n");
+		//바인딩여부 디버깅
 		System.out.println("comment==>"+comment);
 		
-		adminService.addQnaComment(comment);
-		adminService.updateQnaGrade(comment.getPostId());
-		
 		Map<String, Object> map = adminService.getQnaCommentList(comment.getPostId());
+		List<String> list = (List<String>)map.get("list");//list.size 가 0일때 add 답변은 한개만 달수있게 하기위해
+		System.out.println("list size"+list.size());// list.size 디버깅
+		
+		//add와 update를 하고 난 comment를 다시 map에 담기위해 map 생성
+		Map<String,Object> realMap = new HashMap<String,Object>();
+		
+		//list.size 가 0일때  관리자 답변 add 문의글 상태답변완료 처리하기위해 update post_grade= 'Q'
+		if(list.size() == 0) {
+			//comment를 update와 add하고 난후 처음생성한 map과 다른map에 put
+			adminService.addQnaComment(comment);
+			adminService.updateQnaGrade(comment.getPostId());
+			realMap = adminService.getQnaCommentList(comment.getPostId());
+		}// if
+		
+		//답변을 달았는데 또다는경우 returnMap에 error메세지를 담아서 ajax로 보내기위한 map
 		Map<String, Object> returnMap = new HashMap<String, Object>();	
 		
-		List<Comment> list = (List<Comment>)map.get("list");
-		if(list.size() > 1) {
+		//디버깅
+		System.out.println("\n\n realMap 디버깅 "+realMap.get("list")+"\n\n");
+		
+		if(list.size() == 0) {
+			realMap.put("returnMsg", "ok");
+			return realMap;
+		}//if
+		else{
 			returnMap.put("returnMsg", "error");
 			return returnMap;
-		}else {
-			map.put("returnMsg", "ok");
-			return map;
-		}
+		}//else
 		
-		//if((List<Comment>)map.get("list")) {
-			
-	//	}
-		
-	}
+	}//method
 	
 	//관리자가 입력한 답변을 조회
 	@RequestMapping(value="json/getQnaCommentList/{postId}", method = RequestMethod.GET)
 	public Map<String,Object> getQnaCommentList(@PathVariable String postId) throws Exception {
 		
-		System.out.println("AdminComtroller getQnaComment");
+		System.out.println("\n\nAdminComtroller getQnaComment\n\n");
 		
 		System.out.println("postId==>"+postId);
 		
@@ -123,13 +135,15 @@ public class AdminRestController {
 	@RequestMapping(value="json/deleteQnaComm", method = RequestMethod.POST)
 	public void deleteQnaComm(@RequestBody Comment comment) throws Exception {
 		
-		System.out.println("AdminComtroller deleteQnaComm");
+		System.out.println("\n\nAdminComtroller deleteQnaComm\n\n");
 		System.out.println("comment ==>"+comment);
-		
+		// cmtId, postId가 바인딩된 comment
 		adminService.deleteQnaComm(comment.getCmtId());
+		System.out.println("delete실행 ==>"+comment);
+		
 		adminService.backUpQnaGrade(comment.getPostId());
 		
-		System.out.println("deleteQnaComm End");
+		System.out.println("\n\ndeleteQnaComm End\n\n");
 	}
 	
 

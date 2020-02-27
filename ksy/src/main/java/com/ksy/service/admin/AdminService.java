@@ -25,4 +25,10 @@ public interface AdminService {
 	
 	public void backUpQnaGrade(String postId) throws Exception;
 	
+	public Map<String,Object> getPostReportList(Search search, String boardName) throws Exception;
+	
+	public Map<String , Object> getCommentList(Search search, String postId, String userId) throws Exception;
+	
+	
+	
 }
