@@ -114,6 +114,7 @@ public class MyPageRestController {
 		
 		returnMap.put("title", "출석체크");
 		returnMap.put("start",date.format(today));
+		returnMap.put("point", reloadUser.getTotalPoint());
 		System.out.println(returnMap);
 		return returnMap;
 	}
