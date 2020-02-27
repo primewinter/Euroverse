@@ -163,6 +163,7 @@ function fncGetUserList(currentPage) {
 }
 function fncGetUserList2(currentPage2) {
 	$("#currentPage2").val(currentPage2)
+	$("#keyword").val("party");
 	$("#myOfferListForm").attr("method" , "POST").attr("action" , "/myPage/myOfferList").submit();
 }
 
@@ -226,7 +227,7 @@ $(function(){
 				if(JSONData.resultMsg =='ok'){
 					swal({
 						   icon : 'success',
-						  title : "성공적으로 동행에 참여했습니다.",
+						  title : "동행신청을 수락했습니다.",
 						  text:" ",
 						  button : false,
 					})
@@ -418,7 +419,7 @@ $(function(){
 					    	<img src="/resources/images/userImages/${partyOffer.userImg}" class="mr-3" alt="..." >
 					    	<div class="media-body">
 					      		<h5 class="mt-0 mb-1">${partyOffer.postTitle}</h5>
-				     			<small> 신청자  :</small>${partyOffer.toUserId}<br>
+				     			<small> 신청자  :</small>${partyOffer.fromUserId}<br>
 				  				<small> 신청메세지 :</small>  ${partyOffer.offerMsg}<br>
 								<small>  신청일자 : </small>   
 				     	 		<c:set var="partyOfferDate" value="${fn:split(partyOffer.offerDate,' ')}"></c:set>

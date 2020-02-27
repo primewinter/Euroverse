@@ -27,6 +27,41 @@
 
 	$( function () {
 		
+		
+		 $( 'td:nth-child(2)' ).on("click" , function() {
+			  	
+			 var price =  $(this).next().val();
+		     var roomCity =  $(this).next().next().val();
+		     var checkIn =  $(this).next().next().next().val();
+		     var checkOut = $(this).next().next().next().next().val();
+		     var adultNum = $(this).next().next().next().next().next().val();
+		     var childNum = $(this).next().next().next().next().next().next().val();
+		     var roomNum = $(this).next().next().next().next().next().next().next().val();
+		     var roomName = $(this).next().next().next().next().next().next().next().next().val();
+		     var roomAddr = $(this).next().next().next().next().next().next().next().next().next().val();
+		     
+		     var mainService = $(this).next().next().next().next().next().next().next().next().next().next().val();
+		     var familyService = $(this).next().next().next().next().next().next().next().next().next().next().next().val();
+		     var sights = $(this).next().next().next().next().next().next().next().next().next().next().next().next().val();
+		     var hotelInfo =  $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().val();
+		     var roomInfo = $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().next().val();
+		     
+		     //alert("price : "+price+"roomName : "+roomName+"adult : "+adultNum+"child : "+childNum+"checkOut : "+checkOut+"checkIn : "+checkIn+"roomNum : "+roomNum)
+		     //var location = $("#location").val();
+		     //var distance = $("#distance").val();
+		     //var grade = $("#grade").val();
+		     
+		     //$("#checkIn").val(checkIn);
+		     
+			 self.location ="/order/addRoomOrder?roomName="+roomName+"&price="+price+"&roomCity="+roomCity+"&checkIn="+checkIn
+					 +"&roomNum="+roomNum+"&adultNum="+adultNum+"&childNum="+childNum+"&checkOut="+checkOut+"&mainService="+mainService
+					 +"&familyService="+familyService+"&sights="+sights+"&hotelInfo="+hotelInfo+"&roomInfo="+roomInfo;
+					 
+			 
+		});
+		
+		
+		
 		$("td:nth-child(2)").on("click",function(){
 			 var type = $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().val();
 			var id = $(this).next().val();
@@ -91,8 +126,11 @@
 			success : function(JSONData) {
 				var flightList = JSONData.flightList;
 				var roomList = JSONData.roomList;
+				
+				
+				
 				$("#flightBody").html("");
-				$("#roomList").html("");
+				$("#roomBody").html("");
 				for(var i=0;i<flightList.length;i++){
 					$("#flightBody").append("<tr>");
 					$("#flightBody").append("<th scope='row'>"+i+"</th>");
@@ -117,7 +155,7 @@
 					$("#flightBody").append("<td>"+flightList[i].depTime+"-"+flightList[i].arrTime+" </td>");
 					$("#flightBody").append("<td>"+flightList[i].stopOver+"/"+flightList[i].leadTime+" </td>");
 					$("#flightBody").append("<td>"+flightList[i].price+"원</td>");
-					$("#flightBody").append("<td><i class='fas fa-heart deleteFlight' onclick='javascript:deleteLike("+flightList[i].flightId+")'></i></td> ");
+					$("#flightBody").append("<td><i class='fas fa-heart deleteFlight' onclick='javascript:deleteLike("+flightList[i].flightId+",'F')'></i></td> ");
 					$("#flightBody").append("</tr>");
 					
 			
@@ -127,16 +165,38 @@
 					$("#roomBody").append("<tr>");
 					$("#roomBody").append("<th scope='row'>"+i+"</th>");
 					$("#roomBody").append("<td>"+roomList[i].roomCity+"</td>");
-					$("#roomBody").append("<input type='hidden' id='roomId' value="+roomList[i].roomId+"/>");
-					$("#roomBody").append("<input type='hidden' value='room'/> ");
+					$("#roomBody").append("<input type='hidden' name='price' value="+roomList[i].price+" id='price'>");
+					$("#roomBody").append("<input type='hidden' name='roomCity' value="+roomList[i].roomCity+" id='roomCity'>");
+					$("#roomBody").append("<input type='hidden' name='checkIn' value="+roomList[i].checkIn+" id='checkIn'>");
+					$("#roomBody").append("<input type='hidden' name='checkOut' value="+roomList[i].checkOut+" id='checkOut'>");
+					$("#roomBody").append("<input type='hidden' name='adultNum' value="+roomList[i].adultNum+" id='adultNum'>");
+					$("#roomBody").append("<input type='hidden' name='childNum' value="+roomList[i].childNum+" id='childNum'>");
+					$("#roomBody").append("<input type='hidden' name='roomNum' value="+roomList[i].roomNum+" id='roomNum'>");
+					$("#roomBody").append("<input type='hidden' name='roomName' value="+roomList[i].roomName+" id='roomName'>");
+					$("#roomBody").append("<input type='hidden' name='roomAddr' value="+roomList[i].roomAddr+" id='roomAddr'>");
+					$("#roomBody").append("<input type='hidden' name='mainService' value="+roomList[i].mainService+" id='mainService'>");
+					$("#roomBody").append("<input type='hidden' name='familyService' value="+roomList[i].familyService+" id='familyService'>");
+					$("#roomBody").append("<input type='hidden' name='sights' value="+roomList[i].sights+" id='sights'>");
+					$("#roomBody").append("<input type='hidden' name='hotelInfo' value="+roomList[i].hotelInfo+" id='hotelInfo'>");
+					$("#roomBody").append("<input type='hidden' name='roomInfo' value="+roomList[i].roomInfo+" id='roomInfo'>");
+					
+					
 					$("#roomBody").append("<td>"+roomList[i].roomName+"</td>");
 					$("#roomBody").append("<td>"+roomList[i].checkIn+"-"+roomList[i].checkOut+"</td>");
 					$("#roomBody").append("<td>"+roomList[i].roomNum+"개/ 성인"+roomList[i].adultNum+"명 , 유아"+roomList[i].childNum+"명</td>");
 					$("#roomBody").append("<td>"+roomList[i].price+"원</td>");
-					$("#roomBody").append("<td><i class='fas fa-heart deleteFlight' onclick='javascript:deleteLike("+flightList[i].flightId+")'></i></td> ");
+					$("#roomBody").append("<td><i class='fas fa-heart deleteFlight' onclick='javascript:deleteLike("+flightList[i].flightId+",'R')'></i></td> ");
 					$("#roomBody").append("</tr>");
 					
 				} 
+				
+				
+				if(JSONData.likeType=='F'){
+					doShow()
+				}
+				if(JSONData.likeType=='R'){
+					show()
+				}
 				
 			},
 			error: function(request, status, error){
@@ -256,14 +316,27 @@
 				    ${status.count }
 				    </th>
 				    <td>${room.roomCity }</td>
-				    	<input type="hidden" name="${room.roomId}" id="roomId" value="${room.roomId}"/>
-				    	<input type="hidden" value="room">
+	    				<input type="hidden" name="price" value=" ${room.price}" id="price">
+				    	<input type="hidden" name="roomCity" value=" ${room.roomCity}" id="roomCity">
+				    	<input type="hidden" name="checkIn" value=" ${room.checkIn}" id="checkIn">
+				    	<input type="hidden" name="checkOut" value=" ${room.checkOut}" id="checkOut">
+				    	<input type="hidden" name="adultNum" value=" ${room.adultNum}" id="adultNum">
+				    	<input type="hidden" name="childNum" value=" ${room.childNum}" id="childNum">
+				    	<input type="hidden" name="roomNum" value=" ${room.roomNum}" id="roomNum">
+				    	<input type="hidden" name="roomName" value=" ${room.roomName}" id="roomName">
+				    	<input type="hidden" name="roomAddr" value=" ${room.roomAddr}" id="roomAddr">
+				    	
+				    	<input type="hidden" name="mainService" value=" ${room.mainService}" id="mainService">
+				    	<input type="hidden" name="familyService" value=" ${room.familyService}" id="familyService">
+				    	<input type="hidden" name="sights" value=" ${room.sights}" id="sights">
+				    	<input type="hidden" name="hotelInfo" value=" ${room.hotelInfo}" id="hotelInfo">
+				    	<input type="hidden" name="roomInfo" value=" ${room.roomInfo}" id="roomInfo">
 				    <td>${room.roomName}</td>
 				    <td>${room.checkIn} - ${room.checkOut }</td>
 				    <td>${room.roomNum} 개 / 성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
 				    <td>${room.price} 원 </td>
 				    <td> 
-				    <i class="fas fa-heart deleteFlight" onclick="javascript:deleteLike(${room.roomId})"></i>
+				    <i class="fas fa-heart deleteFlight" onclick="javascript:deleteLike(${room.roomId},'R')"></i>
 					 </td>
 			   	 </tr>
 		     </c:forEach> 
