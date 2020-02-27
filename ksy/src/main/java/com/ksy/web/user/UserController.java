@@ -178,6 +178,8 @@ public class UserController {
 //		}else {
 //			user.setUserImg("\\resources\\images\\userImages\\defaultUserImage.jpg");
 //		}
+		
+	if(user.getImage() !=null) {
 		MultipartFile mhsr = (MultipartFile)user.getImage();
 		if( mhsr.isEmpty() == false) {	//null 체크로 잡을 수 없음! 
 			String fileName = mhsr.getOriginalFilename();
@@ -188,6 +190,9 @@ public class UserController {
 		}else {
 			user.setUserImg("defaultUserImage.jpg");
 		}
+	}else {
+		user.setUserImg("defaultUserImage.jpg");
+	}
 		System.out.println("일단 여기까지!!@@!@!@@! 1111111111");
 		userService.addUser(user);
 		
@@ -566,6 +571,8 @@ public class UserController {
           System.out.println("thumbnail= "+googleProfile.get("picture"));
 		  System.out.println("=========================================");
 		  User user = new User();
+		  user.setUserName(googleProfile.get("name"));
+		  user.setUserId(googleProfile.get("email"));
 		  user.setNickname(googleProfile.get("given_name"));
 		  user.setEmail(googleProfile.get("email"));
 		  user.setEmailId(googleProfile.get("email").split("@")[0]);
@@ -574,10 +581,11 @@ public class UserController {
 		  
 		  model.addAttribute("snsUser" , user);
 		  model.addAttribute("loginType" , "sns");
+		  session.setAttribute("snsLogin", user);
 		  
 		  
-		  
-		return "forward:/user/addUser";
+		/* return "forward:/user/addUser"; */
+		  return "forward:/view/user/pathLoginInfo.jsp";
 	}
 	
 	
@@ -724,6 +732,7 @@ public class UserController {
 		System.out.println(profileMap.get("name"));
 		System.out.println(profileMap.get("nickname"));
 		System.out.println(profileMap.get("profile_image"));
+		user.setUserId(profileMap.get("email"));
 		user.setNickname(profileMap.get("nickname"));
 		user.setEmail(profileMap.get("email"));
 		user.setEmailId(profileMap.get("email").split("@")[0]);
@@ -739,11 +748,12 @@ public class UserController {
 		String userId = email.substring(0, index);
 		System.out.println("-----------------userId ? : " + userId);
 		
+		session.setAttribute("snsLogin", user);
 		model.addAttribute("snsUser",user);
 		model.addAttribute("loginType","sns");
 		
 		
-		return "forward:/user/addUser";
+		return "forward:/view/user/pathLoginInfo.jsp";
 	}
 	
 	
@@ -764,7 +774,7 @@ public class UserController {
 		
 		String postData = 	"grant_type=" + "authorization_code" + 
 							"&client_id=" + clientId + 
-							"&redirect_uri=" + "http://localhost:8080/user/kakaoLoginLogic" + 
+							"&redirect_uri=" + "http://192.168.0.70:8080/user/kakaoLoginLogic" + 
 							"&code=" + code;
 		
 		bw.write(postData);
@@ -869,6 +879,7 @@ public class UserController {
             System.out.println(b.get("nickname"));
             System.out.println(b.get("thumbnail_image_url"));
             System.out.println(kakaoAccount.get("email"));
+            user.setUserId(((String)kakaoAccount.get("email")));
             user.setNickname(b.get("nickname"));
             user.setUserImg(b.get("thumbnail_image_url"));
             user.setEmail((String)kakaoAccount.get("email"));
@@ -892,8 +903,8 @@ public class UserController {
         
         model.addAttribute("snsUser",user);
         model.addAttribute("loginType","sns");
-
-		return "forward:/user/addUser";
+        session.setAttribute("snsLogin", user);
+		return "forward:/view/user/pathLoginInfo.jsp";
 	}
 	
 	

@@ -118,9 +118,15 @@
 			var phone1 = $("#phone1");
 			var phone2 = $("#phone2");
 			var phone3 = $("#phone3");
-			$("input[name='email']").val($("#emailId").val()+"@"+$("#choiceEmail").val());
+			if($("#choiceEmail").val()!='self'){
+				$("input[name='email']").val($("#emailId").val()+"@"+$("#choiceEmail").val());
+			}else if($("#choiceEmail").val()=='self'){
+				$("input[name='email']").val($("#emailId").val()+"@"+$("#selfEmail").val());
+			}
+			
 			var email =  $("input[name='email']");
 			var emailId = $("#emailId");
+			
 			$(document).on('keyup','#nickname',function(){
 				for(var i=0;i<nickname.val().length;i++){
 					if(nickname.val()[i] == " "){
@@ -202,6 +208,16 @@
 					}
 				}
 			})
+			$("#choiceEmail").change(function(){
+			
+			if($(this).val() == 'self'){
+				$("#selfEmail").css("display","block");
+			}else{
+				$("#selfEmail").css("display","none");
+			}
+			
+			
+			})
 		})
 		
 		
@@ -245,10 +261,17 @@
 				var phone3 = $("#phone3");
 				var phone = $("input[name='phone']");
 				phone.val(phone1.val()+"-"+phone2.val()+"-"+phone3.val());
+				
+				if($("#choiceEmail").val()!='self'){
+					$("input[name='email']").val($("#emailId").val()+"@"+$("#choiceEmail").val());
+				}else if($("#choiceEmail").val()=='self'){
+					$("input[name='email']").val($("#emailId").val()+"@"+$("#selfEmail").val());
+				}
+				var email =  $("input[name='email']");
 				var emailId = $("#emailId");
 				var choiceEmail = $("#choiceEmail");
-				var email = $("input[name='email']")
-				email.val(emailId.val()+"@"+choiceEmail.val());
+				
+				
 				var h6 = document.getElementsByClassName("h6Class");
 	
 				if($("input:radio[name='pushAgree']").is(":checked") == false){
@@ -398,6 +421,8 @@
 				}
 			}
 		} */
+		
+		
 	</script>
 </head>
 <body>
@@ -483,12 +508,11 @@
 		     				<div style="width:10%; padding-bottom: 10px;">@</div>
 		     				
 		     				<div class="form-group" style="width: 45%;">
-			     				 <c:if test="${user.choiceEmail=='gmail.com'}">
+			     				 <%-- <c:if test="${user.choiceEmail=='gmail.com'}">
 				     				<select class="custom-select" id="choiceEmail">
 									    <option value="gmail.com" selected="selected">gmail.com</option>
 									    <option value="naver.com" >naver.com</option>
 									    <option value="daum.net">daum.net</option>
-									    <!-- 셀렉트 된 값이 없으면 기본 값 집어넣기-->
 								 	</select>
 								 </c:if>
 								 
@@ -497,7 +521,6 @@
 									    <option value="gmail.com" >gmail.com</option>
 									    <option value="naver.com" selected="selected">naver.com</option>
 									    <option value="daum.net">daum.net</option>
-									    <!-- 셀렉트 된 값이 없으면 기본 값 집어넣기-->
 								 	</select>
 								 </c:if>
 								 
@@ -506,29 +529,22 @@
 									    <option value="gmail.com" >gmail.com</option>
 									    <option value="naver.com" >naver.com</option>
 									    <option value="daum.net" selected="selected">daum.net</option>
-									    <!-- 셀렉트 된 값이 없으면 기본 값 집어넣기-->
 								 	</select>
 								 </c:if>	
-								 
-								 <!--걍 유저일때 보이게....  -->
-								 <c:if test="${user.choiceEmail=='user.com'}">
+								  --%>
+								 <!--더미데이터때문....  -->
+								<%--  <c:if test="${user.choiceEmail=='user.com'}"> --%>
+									<input type="text" style="width: 150px;display: none; " id="selfEmail">
 				     				<select class="custom-select" id="choiceEmail">
-									    <option value="gmail.com">gmail.com</option>
-									    <option value="naver.com" >naver.com</option>
-									    <option value="daum.net">daum.net</option>
+									    <option value="gmail.com" ${ ! empty user.choiceEmail && user.choiceEmail=='gamil.com' ? "selected" : "" }>gmail.com</option>
+									    <option value="naver.com" ${ ! empty user.choiceEmail && user.choiceEmail=='naver.com' ? "selected" : "" } >naver.com</option>
+									    <option value="daum.net" ${ ! empty user.choiceEmail && user.choiceEmail=='daum.net' ? "selected" : "" }>daum.net</option>
+									    <option value="self" ${ ! empty user.choiceEmail && user.choiceEmail !='gamil.com' && user.choiceEmail !='naver.com' && user.choiceEmail !='daum.net'  ? "selected" : "" }>직접입력</option>
 									    <!-- 셀렉트 된 값이 없으면 기본 값 집어넣기-->
 								 	</select>
-								 </c:if>	
+								 <%-- </c:if> --%>	
 								 	
 								 	<!-- 더미데이터때문에 집어넣어둔거 나중에 삭제하자 -->
-								 <c:if test="${user.choiceEmail=='google.com'}">
-				     				<select class="custom-select" id="choiceEmail">
-									    <option value="gmail.com" selected="selected">gmail.com</option>
-									    <option value="naver.com" >naver.com</option>
-									    <option value="daum.net">daum.net</option>
-									    <!-- 셀렉트 된 값이 없으면 기본 값 집어넣기-->
-								 	</select>
-								 </c:if>	
 								 <input type="hidden" name="email">
 						 	</div>
 						 	

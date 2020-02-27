@@ -174,7 +174,10 @@ public class CommunityController {
 			
 			post.setPlanId(copiedPlanId);
 		}
+		System.out.println(post.getPostDate());
 		communityService.addPost(post);
+		
+		post = communityService.getPost(post.getPostId(), user.getUserId(),post.getBoardName());
 
 		List<Tag> tags = new ArrayList<Tag>();
 	
@@ -629,5 +632,17 @@ public class CommunityController {
 		communityService.deletePost(postId);
 		
 		return "redirect:/community/getPostList?boardName="+boardName;
+	}
+	
+	@RequestMapping( value="deletePartyUser", method=RequestMethod.GET)
+	public String deletePartyUser( @RequestParam("partyId") String partyId, @RequestParam("postId") String postId, HttpSession session ) throws Exception {
+		
+		System.out.println("/community/deletePartyUser : GET");
+		
+		User user = (User)session.getAttribute("user");
+		
+		communityService.deletePartyUser(partyId);
+		
+		return "redirect:/community/getPost?postId="+postId+"&boardName=D";
 	}
 }

@@ -356,7 +356,7 @@
 			 $( ".fr .deletePost" ).on("click" , function() {
 	
 				 swal({
-						title:"게시글을 제하시겠습니까?",
+						title:"게시글을 삭제하시겠습니까?",
 						text:" ",
 						icon:"warning",
 						buttons: [ "아니오", "예"]
@@ -774,7 +774,17 @@
 					var slotCanUse = (slot - data);
 					
 					if( slotCanUse <= 0){
-						swal("슬롯 수가 부족합니다. 플래너 리스트에서 슬롯을 구매해주세요.");
+						 swal({
+								title:"슬롯 수가 부족합니다. 플래너 리스트에서 슬롯을 구매해주세요.",
+								text:"슬롯을 구매하러 가시겠습니까?",
+								icon:"warning",
+								buttons: [ "아니오", "예"]
+							}).then((YES) => {
+								if(YES){
+							    	self.location = "/plan/getPlanList";
+								}
+						    });
+
 					}else{
 						$('#addPlanModal').modal();
 					}
@@ -812,7 +822,16 @@
 			$('form.addPlanModal').attr('method', 'POST').attr("action" , "/plan/downloadPlan").attr("enctype","multipart/form-data").submit();
 		}
 		
+		$(function(){
+			$("a[href='#']").on("click", function(){
+				fncGetUserList(1);
+			});
+		});
 		
+		function fncGetUserList(currentPage) {
+			$("#currentPage").val(currentPage)
+			$("form[id='tagForm']").attr("method" , "POST").attr("action" , "/community/getPostList").submit();
+		}
 		
 	</script>
 	
@@ -1222,7 +1241,12 @@
 	         <c:set var="i" value="0"/>
 			 <c:forEach var="tag" items="${tag}" varStatus="last">
 			 <c:set var="i" value="${ i+1 }"/>
-	           <a href="" style="color: gray;">${tag.tagContent}</a>
+	            <form id="tagForm" style="display:inline-block;">
+				   <input type="hidden" name="boardName" value="${post.boardName}"/>	
+				   <input type="hidden" name="searchCondition" value="2"/>
+				   <input type="hidden" name="searchKeyword" value="${tag.tagContent}"/>
+		           <a href="#" style="color: gray;" type="button">${tag.tagContent}</a>
+		        </form>
 	         <c:if test="${!last.last}">
 	           <i>,</i>
 	         </c:if>

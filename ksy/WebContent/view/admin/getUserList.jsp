@@ -141,8 +141,16 @@
 							//milliSeconds 시간을 date에 담아서 재대로된 시간으로 표현하기 위한 방법
 							var regdate = new Date(JSONData.list[i].regDate);
 							var splitDate = regdate.getFullYear()+"-";
+							if(parseInt(regdate.getMonth())<9){
+								splitDate += "0"+parseInt(regdate.getMonth()+1)+"-";
+							}else{
 							splitDate += regdate.getMonth()+1+"-";
-							splitDate += regdate.getDate();
+							}
+							if(parseInt(regdate.getDate())<9){
+								splitDate += "0"+parseInt(regdate.getDate());
+							}else{
+								splitDate += regdate.getDate();
+							}
 							
 							//var splitDate = regDate.split(' ');
 							//alert(splitDate);

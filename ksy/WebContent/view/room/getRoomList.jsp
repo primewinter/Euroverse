@@ -116,7 +116,7 @@ $(function(){
 			     
 			     $("#checkIn").val(checkIn);
 			     
-				 alert(detailLink+"price"+price+"room : "+roomCity+"checkIn : "+checkIn);
+				 //alert(detailLink+"price"+price+"room : "+roomCity+"checkIn : "+checkIn);
 				 self.location ="/room/getRoom?detailLink="+detailLink+"&price="+price+"&roomCity="+roomCity+"&checkIn="+checkIn
 						 +"&roomNum="+roomNum+"&adultNum="+adultNum+"&childNum="+childNum+"&checkOut="+checkOut+"&location="+location
 						 +"&distance="+distance+"&grade="+grade+"&roomAddr="+roomAddr;

@@ -45,6 +45,8 @@ public interface CommunityDao {
 	public int getPostTotalCount(Search search, String boardName) throws Exception ;
 	
 	public int getCommentTotalCount(Search search, String postId) throws Exception ;
+	
+	public int getRecommentTotalCount(Search search, String postId) throws Exception ;
 
 	public void addComment(Comment comment) throws Exception ;
 	
@@ -75,4 +77,7 @@ public interface CommunityDao {
 	public void monthBestReset() throws Exception ;
 	
 	public void deletePost(String postId) throws Exception;
+	
+	public void deletePartyUser(String partyId) throws Exception;
+	
 }

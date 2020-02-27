@@ -15,11 +15,11 @@
 		 		<li class="page-item">
 			</c:if>
 			<c:if test="${ resultPage.currentPage > resultPage.pageUnit }">
-			</c:if>
 				<li class="page-item">
 		      <a class="page-link" href="javascript:fncGetUserList('${ resultPage.currentPage-1}')" aria-label="Previous">
 		        <span aria-hidden="true">&laquo;</span>
 		      </a>
+			</c:if>
 		    </li>
 		    
 		    <!--  Áß¾Ó  -->
@@ -44,11 +44,11 @@
 		  		<li class="page-item">
 			</c:if>
 			<c:if test="${ resultPage.endUnitPage < resultPage.maxPage }">
-			</c:if>
 				<li class="page-item">
 		      <a class="page-link" href="javascript:fncGetUserList('${resultPage.endUnitPage+1}')" aria-label="Next">
 		        <span aria-hidden="true">&raquo;</span>
 		      </a>
+			</c:if>
 		    </li>
 		  </ul>
 		</nav>

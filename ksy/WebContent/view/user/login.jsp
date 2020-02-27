@@ -47,7 +47,11 @@
     $(function() {
         // 네이버 아이디로 로그인 이미지 클릭 시 
         $("#naverLogin").on("click", function() {
-            $.ajax({
+        	
+    		window.open("/view/user/openNaver.jsp",
+					"popWin",
+					"left=500, top=100, width=537, height=750, marginwidth=0, marginheight=0, fullscreen=no, scrollbars=yes, scrolling=yes, menubar=no, resizable=no");
+/*             $.ajax({
                 url: "/user/json/naverLoginUrlMake",
                 method: "get",
                 dataType: "json",
@@ -58,14 +62,19 @@
                 success: function(JSONData) {
                     self.location = JSONData.url;
                 }
-            })
+            }) */
         })
 
         $("#googleLogin").on("click", function() {
-            $(self.location).attr("href", "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/analytics.readonly&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=http://localhost:8080/user/googleLoginLogic&response_type=code&client_id=474522905430-f6nkrljp2qocnq1mop0ve2oc5ng91q38.apps.googleusercontent.com");
+        	window.open("/view/user/openGoogle.jsp",
+					"popWin",
+					"left=500, top=100, width=537, height=750, marginwidth=0, marginheight=0, fullscreen=no, scrollbars=yes, scrolling=yes, menubar=no, resizable=no");
+          //  $(self.location).attr("href", "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/analytics.readonly&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=http://localhost:8080/user/googleLoginLogic&response_type=code&client_id=474522905430-f6nkrljp2qocnq1mop0ve2oc5ng91q38.apps.googleusercontent.com");
+        
+        
         })
 
-        $("#kakaoLogin").on("click", function() {
+/*         $("#kakaoLogin").on("click", function() {
             $.ajax({
                 url: "/user/json/kakaoLoginUrlMake", // 단순 URL을 만들기 위한 UserController 
                 method: "get", // 넘겨 줄 Data가 없으므로 get
@@ -78,7 +87,15 @@
                     self.location = JSONData.url; // json/kakaoLoginUrlMake에서 return을 Map<String, String>으로 했으며
                 }
             })
-        })
+        }) */
+        
+        
+        $("#kakaoLogin").on("click", function(){
+				// 새로 팝업창에서 카카오 로그인을 진행하기 위해 아무 의미없는 jsp로 연결
+				window.open("/view/user/openKakao.jsp",
+						"popWin",
+						"left=500, top=100, width=537, height=750, marginwidth=0, marginheight=0, fullscreen=no, scrollbars=yes, scrolling=yes, menubar=no, resizable=no");
+			})
     })
 
     $(document).ready(function() {
@@ -241,12 +258,11 @@
 	                        <h6 class="loginH6" style="color: #F00"></h6>
 	                    </div>
 	                    <h6 class="loginH6" style="color: #F00"></h6>
-	                    <a href="/user/searchId"> <span class="useruser" style="position:absolute; top:250px;left:100px;"><b>아이디찾기</b></span> </a>
-	                    <a href="/user/findPwd"> <span class="useruser" style="position:absolute; top:250px;left:175px;"><b>비밀번호찾기</b></span></a>
-	
 	                    <!-- <div style="text-align: right; position:absolute; top:215px;right:25px;font-size: 12px;">SNS간편회원가입</div> -->
 	                    <div style="text-align: center;position:absolute;top:235px;">
-	                        <img id="kakaoLogin" src="/resources/images/userImages/kakaoImage.png" width="40" height="40" style="border-radius: 100px; margin-left:240px;cursor: pointer;"/>
+		                    <a href="/user/searchId"> <span class="useruser" style="margin-left: 90px;"><b>아이디찾기</b></span> </a>
+		                    <a href="/user/findPwd"> <span class="useruser" style=""><b>비밀번호찾기</b></span></a>
+	                        <img id="kakaoLogin" src="/resources/images/userImages/kakaoImage.png" width="40" height="40" style="border-radius: 100px; margin-left:10px;cursor: pointer;"/>
 	                        <img id="naverLogin" src="/resources/images/userImages/naverImage.PNG" width="40" height="40" style="border-radius: 100px; margin-left: 10px;cursor:pointer;" />
 	                        <img id="googleLogin" src="/resources/images/userImages/googleImage.png" width="40" height="40" style="border-radius: 100px;margin-left:10px;cursor:pointer;"/>
 	                    </div>

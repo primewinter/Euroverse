@@ -97,10 +97,10 @@
 				<div style="width: 300px;"></div>
 				<div class="form-group" style="width: 540px;">
 					<input type="hidden" name="userId" id="userId" value="${userId}">
-					변경할 비밀번호<input type="text" class="form-control"  name="pwd" id="pwd">
+					변경할 비밀번호<input type="password" class="form-control"  name="pwd" id="pwd">
 					<div id="firstPwd" style="height: 20px; color: red;"></div>
 					<br>				
-					변경할 비밀번호 확인<input type="text" class="form-control"  id="pwdConfirm">
+					변경할 비밀번호 확인<input type="password" class="form-control"  id="pwdConfirm">
 					<div id="secondPwd" style="height: 20px; color: red;"></div>
 					<br>
 									

@@ -423,7 +423,7 @@
 			 $( ".fr .deletePost" ).on("click" , function() {
 	
 				 swal({
-						title:"게시글을 제하시겠습니까?",
+						title:"게시글을 삭제하시겠습니까?",
 						text:" ",
 						icon:"warning",
 						buttons: [ "아니오", "예"]
@@ -786,6 +786,43 @@
                 }
             });
         }
+        
+        $(function(){
+			$("a[href='#']").on("click", function(){
+				fncGetUserList(1);
+			});
+		});
+		
+		function fncGetUserList(currentPage) {
+			$("#currentPage").val(currentPage)
+			$("form[id='tagForm']").attr("method" , "POST").attr("action" , "/community/getPostList").submit();
+		}
+		
+		$(function(){
+			$("#goodbye").on("click", function(){
+				
+				var partyId = $(this).next().val();
+				
+				 swal({
+						title:"동행을 탈퇴하시겠습니까?",
+						text:" ",
+						icon:"info",
+						buttons: [ "아니오", "예"]
+				}).then((YES) => {
+					if(YES){
+						swal({
+							icon : 'success',
+							title : "동행 탈퇴 완료!",
+							text:" ",
+							button : false,
+						})
+				    	setTimeout(function() {     
+				    		self.location = "/community/deletePartyUser?postId="+postId+"&partyId="+partyId;
+				    	}, 700);
+					}
+			    });
+			});
+		});
 
     </script>
 
@@ -932,7 +969,12 @@
                         <c:set var="i" value="0" />
                         <c:forEach var="tag" items="${tag}" varStatus="last">
                             <c:set var="i" value="${ i+1 }" />
-                            <a href="" style="color: gray;">${tag.tagContent}</a>
+                             <form id="tagForm" style="display:inline-block;">
+							   <input type="hidden" name="boardName" value="${post.boardName}"/>	
+							   <input type="hidden" name="searchCondition" value="2"/>
+							   <input type="hidden" name="searchKeyword" value="${tag.tagContent}"/>
+					           <a href="#" style="color: gray;" type="button">${tag.tagContent}</a>
+					         </form>
                             <c:if test="${!last.last}">
                                 <i>,</i>
                             </c:if>
@@ -983,6 +1025,10 @@
                                                         <span style="font-family: 'Gothic A1', sans-serif; font-size: 13px;">${tripStyle}</span>
                                                         <button type="button" id="${party.partyUserId}" class="btn btn-outline-dark join-btn" style="width: 110px; font-size: 15px; height: 30px; line-height: 15px; margin: 0 0 3px 10px">채팅방 초대</button>
                                                     </c:forEach>
+                                                    <c:if test="${user.userId == party.partyUserId}">
+                                                    	<br><span style="font-size:13px;margin-top:5px;" class="badge badge-info" id="goodbye">탈퇴하기</span>
+                                                    	 <input type="hidden" name="partyId" value="${party.partyId}"/>
+                                                    </c:if>
                                                 </i></p>
                                         </div>
                                     </div>

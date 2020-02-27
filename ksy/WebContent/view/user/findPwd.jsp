@@ -359,7 +359,8 @@
 									"Content-Type" : "application/json"
 								},
 								data : JSON.stringify({
-									email : email
+									email : email,
+									userId : userId2.value
 								}),
 								beforeSend : function() {
 								 $("#mailAppendDiv").text("메일 발송 중입니다.");

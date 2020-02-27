@@ -125,12 +125,12 @@ public class CommunityServiceImpl implements CommunityService{
 		
 		List<Comment> list= communityDao.getCommentList(search, postId, userId);
 		int totalCount = communityDao.getCommentTotalCount(search, postId);
+		int totalCount2 = communityDao.getRecommentTotalCount(search, postId);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("totalCount2", new Integer(totalCount2));
 		map.put("list", list );
 		map.put("totalCount", new Integer(totalCount));
-		
-		System.out.println(list);
 		
 		return map;
 	}
@@ -192,5 +192,8 @@ public class CommunityServiceImpl implements CommunityService{
 	public void deletePost(String postId) throws Exception {
 		communityDao.deletePost(postId);
 	}
-
+	
+	public void deletePartyUser(String partyId) throws Exception {
+		communityDao.deletePartyUser(partyId);
+	}
 }

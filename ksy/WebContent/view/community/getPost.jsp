@@ -365,7 +365,7 @@
 			 $( ".fr .deletePost" ).on("click" , function() {
 
 				 swal({
-						title:"게시글을 제하시겠습니까?",
+						title:"게시글을 삭제하시겠습니까?",
 						text:" ",
 						icon:"warning",
 						buttons: [ "아니오", "예"]
@@ -539,6 +539,17 @@
 			self.location = "/community/getPost?postId="+postId+"&boardName="+boardName;
 		}
 		
+		$(function(){
+			$("a[href='#']").on("click", function(){
+				fncGetUserList(1);
+			});
+		});
+		
+		function fncGetUserList(currentPage) {
+			$("#currentPage").val(currentPage)
+			$("form[id='tagForm']").attr("method" , "POST").attr("action" , "/community/getPostList").submit();
+		}
+		
 	</script>
 	
 </head>
@@ -682,12 +693,17 @@
 	  
 	  <div class="tag_content_box">
 	     <div class="tagbox" style="font-size: 12px;">
-	       <i class="fas fa-tags"> 태그 </i>
+	       <i class="fas fa-tags"> 태그 &nbsp;</i>
 	       <span>
 	         <c:set var="i" value="0"/>
 			 <c:forEach var="tag" items="${tag}" varStatus="last">
 			 <c:set var="i" value="${ i+1 }"/>
-	           <a href="" style="color: gray;">${tag.tagContent}</a>
+			 <form id="tagForm" style="display:inline-block;">
+			   <input type="hidden" name="boardName" value="${post.boardName}"/>	
+			   <input type="hidden" name="searchCondition" value="2"/>
+			   <input type="hidden" name="searchKeyword" value="${tag.tagContent}"/>
+	           <a href="#" style="color: gray;" type="button">${tag.tagContent}</a>
+	         </form>
 	         <c:if test="${!last.last}">
 	           <i>,</i>
 	         </c:if>

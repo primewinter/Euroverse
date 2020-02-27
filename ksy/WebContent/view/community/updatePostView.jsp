@@ -434,17 +434,17 @@
 		 	  <input type="hidden" id="accCount" name="accCount" value="${post.accCount}"/>
 			    <label for="accDate" class="col-sm-1 control-label" style="font-size: 12px;">동행<br>시작일</label>
 			    <div class="col-sm-3">
-			      <input type="text" class="form-control" id="startDate" name="accStartDateStr" value="${post.accStartDate}" style="font-size: 12px;">
+			      <input type="text" class="form-control" id="startDate" name="accStartDateStr" value="${post.accStartDateStr}" style="font-size: 12px;">
 			    </div>
 			    <label for="accDate" class="col-sm-1 control-label" style="font-size: 12px;">동행<br>종료일</label>
 			     <div class="col-sm-3">
-			      <input type="text" class="form-control" id="endDate" name="accEndDateStr" value="${post.accEndDate}" style="font-size: 12px;">
+			      <input type="text" class="form-control" id="endDate" name="accEndDateStr" value="${post.accEndDateStr}" style="font-size: 12px;">
 			    </div>
 			 	<label for="accPerson" class="col-sm-1 control-label" style="font-size: 12px;">인원</label>
 			     <div class="col-sm-2">
 			      <select class="form-control" id="accPerson" name="accPerson" style="font-size:12px;">
 				      <option value="N" selected>인원선택</option>
-				    <c:forEach var="i" begin="1" end="30" >
+				    <c:forEach var="i" begin="2" end="30" >
 				    <c:if test="${post.accPerson == i}">
 				      <option value="${i}" selected>${i}</option>
 				    </c:if>
