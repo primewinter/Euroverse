@@ -1040,11 +1040,17 @@
         }
 
         function loadOwl(boardName) {
-            var itemsCnt = "";
+            var itemsCnt;
+            var timeOut;
             if (boardName == 'E') {
                 itemsCnt = 4;
-            } else {
+                timeOut = 6000
+            } else if (boardName == 'B') {
                 itemsCnt = 5;
+                timeOut = 8500
+            } else if (boardName == 'F') {
+                itemsCnt = 5;
+                timeOut = 8500
             }
             $('#owl-' + boardName).owlCarousel({
                 loop: true,
@@ -1054,7 +1060,7 @@
                 autoplay: true,
                 dots: true,
                 nav: true,
-                autoplayTimeout: 8500,
+                autoplayTimeout: timeOut,
                 smartSpeed: 450,
                 navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>'],
                 responsive: {
@@ -1100,7 +1106,7 @@
             tag += "<div class=\"card-body\">"
             tag += "<p class=\"card-title\">" + post.postTitle + "</p>"
             tag += "<p class=\"card-text\">" + planType + "<p>"
-            tag += "<p><img src='/resources/images/userImages/" + post.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
+            tag += "<p><img src='/resources/images/userImages/" + post.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;display:inherit;'>"
             tag += post.nickName + "</p>"
             tag += "</div></a></div>"
 
@@ -1167,7 +1173,7 @@
             }
             tag += "</div>"
             tag += "<div class=\"story-entry__content\" style=\"font-family:'Noto Sans KR';text-align:left;padding: 10px; width: 100%; bottom: 0px; font-size: 1em; font-weight: bold; position: absolute;background-color:black;opacity:70%;\">"
-            tag += "<img src='/resources/images/userImages/" + vo.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
+            tag += "<img src='/resources/images/userImages/" + vo.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;display:inherit;'>"
             tag += "<span style='font-size:0.8em;color:#CCC;font-weight:400;'>" + vo.nickName + "</span>"
             tag += "</div>"
             tag += "</div></a>"
