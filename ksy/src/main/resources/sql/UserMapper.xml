@@ -389,40 +389,13 @@ WHERE user_id = #{userId}
 
 
 
-<!-- <select id="getEndPlanList" parameterType="string"	resultMap="planSelectMap">
-		SELECT p.plan_id, p.plan_title, p.start_date, count(*)
-		FROM plan p, todo t
-		WHERE p.deleted = 'F'
-			AND p.plan_id = t.plan_id 
-			AND p.plan_status = 'C'
-			AND p.plan_id IN ( SELECT ref_id FROM party WHERE party_user_id = #{userId} AND party_type = 'P' )
-		GROUP BY p.plan_id, p.plan_title, p.start_date
-		ORDER BY p.plan_id
-</select> -->
-	
 
 
 
 
 
 
-
-
-
-
-<!-- <select id="getMyPostList" parameterType="map"	resultMap="postSelectMap">
-SELECT *
-  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
-										FROM post p, comments c
-										where p.post_id = c.post_id(+) AND p.post_writer_id = #{userId} AND p.qna_first_cate IS NULL AND p.deleted = 'F'
-										GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count 
-										ORDER BY p.post_date DESC) inner_table    
-			    WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
-	  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
-  		AND #{search.currentPage}*#{search.pageSize}
-</select> -->
-
+<!-- 
 <select id="getMyPostList" parameterType="map"	resultMap="postSelectMap">
 SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
@@ -447,20 +420,6 @@ GROUP BY p.post_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_
 ORDER BY p.post_date DESC) inner_table)
 </select>
 	
-
-<!-- <select id="getMyCommentList" parameterType="map"	resultMap="commentSelectMap">
-SELECT  *
-from(
-	SELECT inner_table.*, ROWNUM AS row_seq
-	from(
-		SELECT
-		 c.post_id , c.cmt_id , c.nickname , c.writer_id , c.cmt_date , c.cmt_content , c.secret , c.deleted , c.blocked , c.cmt_like_count
-		from Comments c
-		WHERE c.writer_id= #{userId}
-		order By c.cmt_date DESC) inner_table
-	WHERE rownum<![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} ) 
-WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1 AND #{search.currentPage}*#{search.pageSize}
-</select> -->
 
 
 
@@ -491,45 +450,7 @@ WHERE  p.post_id = c.post_id AND c.writer_id = #{userId} AND c.deleted = 'F'
 order By c.cmt_date DESC) inner_table
 )
 </select>
-
-
-
-<!-- Like -->
-
-<select id="getBookMarkList" parameterType="String"	resultMap="likeSelectMap">
-SELECT 
-like_id , like_type , ref_id , like_user_id , like_check
-FROM LIKES
-WHERE like_user_id = #{value} AND like_type = 'B' AND like_check = 'T'
-</select>
-
-<select id="getBookMarkPost" parameterType="String" resultMap="postSelectMap">
-SELECT
-post_id , post_writer_id , nickname , board_name , post_grade , post_title , post_content , post_date , views , blocked , deleted , post_like_count
-FROM POST
-WHERE post_id = #{value}
-</select>
-
-<select id="getLikeOrderList" parameterType="string" resultMap="likeSelectMap">
-SELECT 
-l.like_id , l.like_type , l.ref_id , l.like_user_id , l.like_check 
-FROM likes l
-WHERE l.like_user_id = #{userId} AND (l.like_type = 'F' OR l.like_type = 'R') AND l.like_check = 'T'
-</select>
-
-
-
-
-
-
-
-
-<!-- SELECT 
-	o.offer_id , o.offer_type , o.ref_id ,  o.offer_msg, o.offer_status, o.from_user_id, o.to_user_id, o.offer_date , p.plan_img , p.plan_title , u.user_img
-	FROM OFFER o , Plan p , Users u
-	WHERE o.to_user_id = #{userId} AND o.offer_type = 'P' AND p.plan_id = o.ref_id AND u.user_id = o.to_user_id -->
-
-
+ -->
 
 
 <!--   offer     -->

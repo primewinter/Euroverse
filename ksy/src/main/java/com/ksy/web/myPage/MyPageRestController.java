@@ -168,7 +168,7 @@ public class MyPageRestController {
 	    likeService.like_check_cancel(like);
 	    
 	    
-	    List<Post> bookMarkList = myPageService.getBookMarkList(user.getUserId());
+	    List<Post> bookMarkList = likeService.getBookMarkList(user.getUserId());
 	    
 		
 		Map map = new HashMap();
@@ -193,7 +193,7 @@ public class MyPageRestController {
 	    System.out.println("야아아압");
 	    likeService.like_check_cancel(like);
 	    System.out.println("호호호호호홓");
-		List<Like> likeList = myPageService.getLikeOrderList(user.getUserId());
+		List<Like> likeList = likeService.getLikeOrderList(user.getUserId());
 		System.out.println(likeList);
 		List<Flight> flightList = new ArrayList<Flight>();
 		List<Room> roomList = new ArrayList<Room>();

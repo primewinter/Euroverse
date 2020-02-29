@@ -80,4 +80,17 @@ public interface CommunityDao {
 	
 	public void deletePartyUser(String partyId) throws Exception;
 	
+
+	
+	
+	
+	
+	
+	///////////////////////////마이페이지에서 옮겨옴////////////////////////////
+	public List<Post> getMyPostList(Search search, String userId)throws Exception;
+	public int getMyPostListTotalCount(String userId)throws Exception;
+	
+	public List<Comment> getMyCommentList(Search search,String userId)throws Exception;
+	public int getMyCommentListTotalCount(String userId)throws Exception;
+	//////////////////////////////////////////////////////////////////////
 }

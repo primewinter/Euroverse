@@ -70,5 +70,16 @@ public interface CommunityService {
 	public void deletePost(String postId) throws Exception;
 	
 	public void deletePartyUser(String partyId) throws Exception;
+	
+	
+	
+	
+	//////////////////////마이페이지에서 옮김//////////////////////////
+	public Map<String , Object> getMyPostList(Search search, String userId)throws Exception;
+	public Map<String , Object> getMyCommentList(Search search , String userId)throws Exception;
+	/////////////////////////////////////////////////////////
+	
+	
+	
 
 }
