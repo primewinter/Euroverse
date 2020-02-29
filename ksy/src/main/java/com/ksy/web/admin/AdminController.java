@@ -90,7 +90,7 @@ public class AdminController {
 		
 	}// end of getUserList
 	
-	
+	//없어질예정
 	@RequestMapping(value="getUser", method=RequestMethod.GET)
 	public String getUser(@RequestParam("userId") String userId, Model model) throws Exception {
 		
