@@ -51,7 +51,8 @@ public class UserSocket {
 								System.out.println("\n\n\n>>>Push ´ñ±Û ¾Ë¸² :::: " + entry.getKey());
 								if (entry.getKey().equals(writer)) {
 									String result = new ObjectMapper().writeValueAsString(push);
-									entry.getValue().getBasicRemote().sendText(result);
+									//entry.getValue().getBasicRemote().sendText(result);
+									entry.getValue().getAsyncRemote().sendText(result);
 								}
 							}
 							

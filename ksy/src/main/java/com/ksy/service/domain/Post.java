@@ -2,6 +2,7 @@ package com.ksy.service.domain;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import com.ksy.common.util.Util;
 
@@ -41,6 +42,10 @@ public class Post {
 	private String prevId;
 	private String prevTitle;
 	private User user;
+	
+	private String imgSrc;
+	private String preview;
+	private List<Tag> tagList;
 	
 	
 	public User getUser() {
@@ -303,6 +308,30 @@ public class Post {
 
 	public void setQnaKategorie(String qnaKategorie) {
 		this.qnaKategorie = qnaKategorie;
+	}
+
+	public String getImgSrc() {
+		return imgSrc;
+	}
+
+	public void setImgSrc(String imgSrc) {
+		this.imgSrc = imgSrc;
+	}
+
+	public String getPreview() {
+		return preview;
+	}
+
+	public void setPreview(String preview) {
+		this.preview = preview;
+	}
+
+	public List<Tag> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(List<Tag> tagList) {
+		this.tagList = tagList;
 	}
 
 	@Override

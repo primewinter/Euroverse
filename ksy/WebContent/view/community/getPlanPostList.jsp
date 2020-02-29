@@ -32,6 +32,9 @@
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 		@import url(https://fonts.googleapis.com/css?family=Raleway:400,500,800);
+        div.plan-card:hover {
+            box-shadow: 0 0 11px rgba(33, 33, 33, .2);
+        }
 		figure.snip1200 {
 		  position: relative;
 		  overflow: hidden;
@@ -253,7 +256,7 @@
 		  	<c:if test="${post.planId == plan.planId}">
        	  
 		        <div class="col-md-4">
-		          <div class="card mb-4 shadow-sm">
+		          <div class="card mb-4 shadow-sm plan-card">
 		          
 		          <div style="position: relative;">
 		          

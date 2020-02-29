@@ -1,9 +1,11 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 
+
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 
@@ -14,6 +16,10 @@
     <title>Euroverse</title>
     <!-- 참조 : http://getbootstrap.com/css/   참조 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+   <!--MATERIAL DESIGN CDN-->
+    <link href="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -64,148 +70,76 @@
             font-size: 8pt;
         }
 
-        figure.snip1384 {
-            font-family: 'Raleway', Arial, sans-serif;
+        figure.preview-img {
             position: relative;
             overflow: hidden;
             margin: 10px;
             min-width: 230px;
             max-width: 315px;
             width: 100%;
-            color: #ffffff;
-            text-align: left;
-            font-size: 16px;
-            background-color: #000000;
+            height: 160px;
         }
 
-        figure.snip1384 * {
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            -webkit-transition: all 0.35s ease;
-            transition: all 0.35s ease;
-        }
-
-        figure.snip1384 img {
+        figure.preview-img img {
             max-width: 100%;
-            backface-visibility: hidden;
-            vertical-align: top;
+            //backface-visibility: hidden;
+            //vertical-align: top;
+            object-fit: cover;
+            transform: scale(1.0);
+            transition: transform .5s;
+        }
+        figure.preview-img img:hover {
+            transform: scale(1.3);
+            transition: .5s;
         }
 
-        figure.snip1384:after,
-        figure.snip1384 figcaption {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
+    
 
-        figure.snip1384:after {
-            content: '';
-            background-color: rgba(0, 0, 0, 0.65);
-            -webkit-transition: all 0.35s ease;
-            transition: all 0.35s ease;
-            opacity: 0;
-        }
-
-        figure.snip1384 figcaption {
-            z-index: 1;
-            padding: 40px;
-        }
-
-        figure.snip1384 h3,
-        figure.snip1384 .links {
-            width: 100%;
-            margin: 5px 0;
-            padding: 0;
-        }
-
-        figure.snip1384 h3 {
-            line-height: 1.1em;
-            font-weight: 700;
-            font-size: 1.4em;
-            text-transform: uppercase;
-            opacity: 0;
-        }
-
-        figure.snip1384 p {
-            font-size: 0.8em;
-            font-weight: 300;
-            letter-spacing: 1px;
-            opacity: 0;
-            top: 50%;
-            -webkit-transform: translateY(40px);
-            transform: translateY(40px);
-        }
-
-        figure.snip1384 i {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            padding: 20px 25px;
-            font-size: 34px;
-            opacity: 0;
-            -webkit-transform: translateX(-10px);
-            transform: translateX(-10px);
-        }
-
-        figure.snip1384 a {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 1;
-        }
-
-        figure.snip1384:hover img,
-        figure.snip1384.hover img {
-            zoom: 1;
-            filter: alpha(opacity=50);
-            -webkit-opacity: 0.5;
-            opacity: 0.5;
-        }
-
-        figure.snip1384:hover:after,
-        figure.snip1384.hover:after {
-            opacity: 1;
-            position: absolute;
-            top: 10px;
-            bottom: 10px;
-            left: 10px;
-            right: 10px;
-        }
-
-        figure.snip1384:hover h3,
-        figure.snip1384.hover h3,
-        figure.snip1384:hover p,
-        figure.snip1384.hover p,
-        figure.snip1384:hover i,
-        figure.snip1384.hover i {
-            -webkit-transform: translate(0px, 0px);
-            transform: translate(0px, 0px);
-            opacity: 1;
-        }
         div.review-row {
             padding: 1em;
         }
-        div.review-row:hover{
+
+        div.review-row:hover {
             box-shadow: 0 0 11px rgba(33, 33, 33, .2);
         }
-        .card-icons{
+
+        .card-icons {
             font-size: 10pt;
             color: #999999;
             //letter-spacing:1em;
             word-spacing: 0.7em;
         }
-        .card-content p>img {
-            display: none;
+
+        .card-title {
+            font-size: 15pt;
+        }
+
+        .card-content {
+            color: #999999;
+            font-size: 0.875em;
+            line-height: 140%;
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+
+        .card-profile {
+            color: #777777;
+            font-size: 0.875em;
+            margin-top: 1em;
         }
 
     </style>
 
     <!--  ///////////////////////// JavaScript ////////////////////////// -->
     <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".review-row").on("click", function() {
+                var postId = $(this).find('input[name="postId"]').val();
+                location.href='/community/getPost?postId='+postId+'&boardName=F';
+            });
+        
+        });
+                               
         function fncGetUserList(currentPage) {
             $("#currentPage").val(currentPage)
             $("form").attr("method", "POST").attr("action", "/community/getPostList").submit();
@@ -271,6 +205,7 @@
             }
         }
         
+        
 
     </script>
 
@@ -330,35 +265,40 @@
             <c:forEach var="post" items="${list}">
                 <c:set var="i" value="${ i+1 }" />
                 <div class="row review-row">
-                        <div class="col-md-4">
-                            <div style="position: relative;">
-                                <figure class="snip1384">
-                                    <img style="height:200px;width:300px;" src="/resources/images/planImg/${plan.planImg}" />
-                                    <figcaption>
-                                        <h3>제목</h3>
-                                        <p>
-                                            내용
-                                        </p>
-                                    </figcaption>
-                                    <a href="#"></a>
-                                </figure>
-                                <input type="hidden" id="postId" name="postId" value="${post.postId}" />
+                    <input type="hidden" id="postId" name="postId" value="${post.postId}" />
+                    <div class="col-md-4">
+                        <div style="position: relative;">
+                            <figure class="preview-img">
+                                <!--<img style="height:200px;width:300px;" src="/resources/images/commImg/"/>-->
+                                ${post.imgSrc}
+                                <a href="#"></a>
+                            </figure>
 
-                            </div>
                         </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <p class="card-icons">
-                                    <fmt:formatDate value="${post.postDate}" pattern="yyyy.MM.dd"/> <i class="fas fa-comments"></i> ${post.comments} <i class="fas fa-heart"></i> ${post.postLikeCount} <i class="far fa-eye"></i> ${post.views}
-                                </p>
-                                <p class="card-title" style="font-size:14px;">${post.postTitle}</p>
-                                <p class="card-content"></p>
-                                   
-                                   
-                                <img src='/resources/images/userImages/${post.user.userImg}' style='border-radius:50%;width:25px;height:25px;border:solid 2px #009688;margin-right:0.5em;'>${post.nickName}<br>
-                                    
-                                
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <div class="card-icons">
+                                <fmt:formatDate value="${post.postDate}" pattern="yyyy.MM.dd" /> <i class="fas fa-comments"></i> ${post.comments} <i class="fas fa-heart"></i> ${post.postLikeCount} <i class="far fa-eye"></i> ${post.views}
                             </div>
+                            <div class="card-title">${post.postTitle}</div>
+                            <div class="card-content">
+                                <c:set var="j" value="0" />
+                                <c:forEach var="tag" items="${post.tagList}" varStatus="last">
+                                    <c:set var="j" value="${ j+1 }" />
+                                    <form id="tagForm" style="display:inline-block;">
+                                        <input type="hidden" name="boardName" value="${post.boardName}" />
+                                        <input type="hidden" name="searchCondition" value="2" />
+                                        <input type="hidden" name="searchKeyword" value="${tag.tagContent}" />
+                                        <a href="#" style="color: gray;" type="button">#${tag.tagContent}</a>
+                                    </form>
+                                    <!--<c:if test="${!last.last}">
+                                        <i>,</i>
+                                    </c:if>-->
+                                </c:forEach>
+                            </div>
+                            <div class="card-profile"><img src='/resources/images/userImages/${post.user.userImg}' style='border-radius:50%;width:1.25em;height:1.25em;border:solid 2px #009688;margin-right:0.5em;'>${post.nickName}</div>
+                        </div>
                     </div>
                 </div>
             </c:forEach>

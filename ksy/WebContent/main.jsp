@@ -1257,11 +1257,11 @@
             $(".swiper-slide>a").click(function(e) {
 
                 var conCode = $(this).attr('con');
-                var conName = $(this).text();
+                var conName = $(this).text().trim();
                 var conHwa = $(this).attr('hwa');
                 countryInfo(conCode);
 
-                $('input[name="conMoney"]').attr('placeholder', conName.trim());
+                $('input[name="conMoney"]').attr('placeholder', conName);
                 $('.text').html(conHwa);
                 //popup(e);
                 //resultFun();
@@ -1483,10 +1483,10 @@
         conCode = $('.select-selected').attr('con');
         conName = $('.select-selected').text();
         conHwa = $('.select-selected').attr('hwa');
-        countryInfo(conCode);*/
+        countryInfo(conCode);
 
         $('input[name="conMoney"]').attr('placeholder', conName.trim());
-        $('.text').html(conHwa);
+        $('.text').html(conHwa);*/
 
         function closeAllSelect(elmnt) {
             /*a function that will close all select boxes in the document,

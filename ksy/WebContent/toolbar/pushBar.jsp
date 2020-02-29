@@ -239,7 +239,7 @@
 
 
 <div id="push-layer">
-    <div class="deletePush" style='padding: 5%;background-color:#7cc1d0;font-weight: 700'>
+    <div class="deletePush" style='padding: 5%;background-color:#8ad0d6;font-weight: 700'>
         <span>활동 알림&ensp;</span><span class="totalCount"></span>
         <span style='float:right;'><a href='javascript:deletePush()'><i class="far fa-trash-alt" style="color:white;"></i></a></span>
     </div>
@@ -255,7 +255,7 @@
     <ul>
         <!-- 채팅목록 -->
         <li>
-            <div class="accLobby title" style='padding: 5%;background-color:#7cc1d0;font-weight:700'>
+            <div class="accLobby title" style='padding: 5%;background-color:#8ad0d6;font-weight:700'>
                 동행 채팅
             </div>
             <div class="accLobby content" style="overflow-y:auto; width:300px; height:88%;"></div>
@@ -321,7 +321,7 @@
     var userSocket;
 
     if (userId != null && userId != '') { // 로그인 했을 때만 웹소켓 연결
-        pushAddr += userId + "/"+userId;
+        pushAddr += userId;
         console.log("접속한 주소 "+pushAddr);
         userSocket = new WebSocket(pushAddr);
     
