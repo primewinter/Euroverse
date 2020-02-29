@@ -42,22 +42,6 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
-	public List<Todo> getTodoList(String planId) throws Exception {
-		return planDao.getTodoList(planId);
-	}
-
-	@Override
-	public List<User> getPlanPartyList(String planId) throws Exception {
-		return planDao.getPlanPartyList(planId);
-	}
-
-
-	@Override
-	public String copyPlan(Plan plan) throws Exception {
-		return planDao.copyPlan(plan);
-	}
-	
-	@Override
 	public void addPlan(Plan plan) throws Exception {
 		planDao.addPlan(plan);
 	}
@@ -77,6 +61,12 @@ public class PlanServiceImpl implements PlanService {
 		planDao.deletePlan(planId);
 	}
 
+
+	@Override
+	public List<User> getPlanPartyList(String planId) throws Exception {
+		return planDao.getPlanPartyList(planId);
+	}
+
 	@Override
 	public void deletePlanParty(Party party) throws Exception {
 		planDao.deletePlanParty(party);
@@ -92,6 +82,18 @@ public class PlanServiceImpl implements PlanService {
 		planDao.addOffer(offer);
 	}
 
+
+	@Override
+	public String copyPlan(Plan plan) throws Exception {
+		return planDao.copyPlan(plan);
+	}
+	
+	
+	@Override
+	public List<Todo> getTodoList(String planId) throws Exception {
+		return planDao.getTodoList(planId);
+	}
+	
 	@Override
 	public void checkTodo(Todo todo) throws Exception {
 		planDao.checkTodo(todo);
@@ -102,16 +104,17 @@ public class PlanServiceImpl implements PlanService {
 		planDao.addTodo(todo);
 	}
 
-	@Override
-	public void updateTodoName(Todo todo) throws Exception {
-		planDao.updateTodoName(todo);
-	}
 
 	@Override
 	public void deleteTodo(String todoId) throws Exception {
 		planDao.deleteTodo(todoId);
 	}
-	
+
+	/* 안쓰는 메소드 - 나중에 지우기!! */
+	@Override
+	public void updateTodoName(Todo todo) throws Exception {
+		planDao.updateTodoName(todo);
+	}
 	
 	public List<Plan> getEndPlanList(String userId)throws Exception{
 		return planDao.getEndPlanList(userId);

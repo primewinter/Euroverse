@@ -35,6 +35,7 @@ public class PlanSubServiceImpl implements PlanSubService {
 		return planSubDao.getBudgetOverview(plan);
 	}
 
+	//안씀 - 나중에 지우기
 	@Override
 	public List<Daily> getBudgetList(String planId) throws Exception {
 		return planSubDao.getBudgetList(planId);
@@ -82,6 +83,7 @@ public class PlanSubServiceImpl implements PlanSubService {
 		planSubDao.deleteCityRoute(cityId);
 	}
 
+	//안씀 - 나중에 지우기
 	@Override
 	public City getCityRoute(String cityId) throws Exception {
 		return planSubDao.getCityRoute(cityId);
@@ -122,6 +124,7 @@ public class PlanSubServiceImpl implements PlanSubService {
 		planSubDao.addStuff(stuff);
 	}
 
+	//안씀 - 나중에 지우기
 	@Override
 	public void updateStuffName(Stuff stuff) throws Exception {
 		planSubDao.updateStuffName(stuff);

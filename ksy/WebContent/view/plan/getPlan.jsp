@@ -1348,7 +1348,7 @@
 		function controlClick(){
 			console.log("controlClick() ½ÇÇà")
 			
-			var string = "/plan/editRoute?planId="+planId;
+			var string = "/planSub/editRoute?planId="+planId;
 			$(self.location).attr("href", string);
 		}
 

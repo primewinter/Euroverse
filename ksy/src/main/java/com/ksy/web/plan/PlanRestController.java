@@ -54,47 +54,37 @@ public class PlanRestController {
 	
 	
 	
-	@RequestMapping( value = "json/getPlan/{planId}", method = RequestMethod.GET )
-	public Plan getPlan( @PathVariable String planId ) throws Exception {
-		
-		Plan plan = planService.getPlan(planId);
-		//지성아.............뒤질래..?
-		User planMaster = new User();
-		planMaster.setUserId(plan.getPlanMaster().getUserId());
-		planMaster.setSlot(3);
-		plan.setPlanMaster(planMaster);
-		return plan;
-	}
+
 	
 	
-	@RequestMapping( value = "json/updateUserSlot/{userId}", method = RequestMethod.GET )
-	public void updateUserSlot( @PathVariable String userId ) throws Exception {
-		
-		myPageService.updateUserSlot(userId);
-	}
+//	@RequestMapping( value = "json/updateUserSlot/{userId}", method = RequestMethod.GET )
+//	public void updateUserSlot( @PathVariable String userId ) throws Exception {
+//		
+//		myPageService.updateUserSlot(userId);
+//	}
 	
 	
-	@RequestMapping( value = "json/getPlanPartyList/{planId}", method = RequestMethod.GET )
-	public List<User> getPlanPartyList( @PathVariable String planId ) throws Exception {
-		
-		List<User> planPartyList = planService.getPlanPartyList(planId);
-		
-		return planPartyList;
-	}
+//	@RequestMapping( value = "json/getPlanPartyList/{planId}", method = RequestMethod.GET )
+//	public List<User> getPlanPartyList( @PathVariable String planId ) throws Exception {
+//		
+//		List<User> planPartyList = planService.getPlanPartyList(planId);
+//		
+//		return planPartyList;
+//	}
 	
-	@RequestMapping( value = "json/deletePlanParty/{planId}/{userId}", method = RequestMethod.GET )
-	public List<User> deletePlanParty( @PathVariable String planId, @PathVariable String userId ) throws Exception {
-		
-		Party party = new Party();
-		party.setRefId(planId);
-		party.setPartyUserId(userId);
-		
-		planService.deletePlanParty(party);
-		
-		List<User> planPartyList = planService.getPlanPartyList(planId);
-		
-		return planPartyList;
-	}
+	/* PlanController로 이동! */
+//	@RequestMapping( value = "json/deletePlanParty/{planId}/{userId}", method = RequestMethod.GET )
+//	public List<User> deletePlanParty( @PathVariable String planId, @PathVariable String userId ) throws Exception {
+//		
+//		Party party = new Party();
+//		party.setRefId(planId);
+//		party.setPartyUserId(userId);
+//		
+//		planService.deletePlanParty(party);
+//		
+//		List<User> planPartyList = planService.getPlanPartyList(planId);
+//		return planPartyList;
+//	}
 	
 	/* findUser...? Plan컨트롤러에 위치하는게 맞는가 */
 	@RequestMapping( value = "json/findUser/{planId}/{userId}", method = RequestMethod.GET )
@@ -129,19 +119,11 @@ public class PlanRestController {
 	public String addOffer( @RequestBody Offer offer, HttpSession session ) throws Exception {
 		
 		User user = (User)session.getAttribute("user");
-		//test용 if문 : 회원아이디 셋팅
-		if(user == null) {
-			user = new User();
-			user.setUserId("admin");
-		}
+		offer.setFromUserId(user.getUserId());
 		
-		String fromUserId = user.getUserId();
-		offer.setFromUserId(fromUserId);
-		
-		System.out.println("\n\nOffer :: "+offer);
 		planService.addOffer(offer);
 		
-		//플래너 초대 push 하기 method
+		/* 플래너 초대 push 하기 method */
 		Push push = new Push();
 		push.setPushType("I");
 		push.setRefId(offer.getRefId());
@@ -151,29 +133,28 @@ public class PlanRestController {
 		return offer.getToUserId();
 	}
 	
+	
+	@RequestMapping( value = "json/checkPlanCount/{userId}", method = RequestMethod.GET )
+	public int checkPlanCount( @PathVariable String userId ) throws Exception {
+		
+		 int planCount = planService.getPlanCount( userId );
+		 return planCount;
+	}
+	
+	
+	
 	@RequestMapping( value = "json/getTodoList/{planId}", method = RequestMethod.GET )
 	public List<Todo> getTodoList( @PathVariable String planId ) throws Exception {
 		
 		List<Todo> todoList = planService.getTodoList(planId);
-		
 		return todoList;
 	}
 	
-	/* checkTodo & updateTodoName 메소드 묶고 SQL을 다이나믹으로 만들수도 있을거같음! */
+	/* checkTodo & updateTodoName 메소드 묶고 SQL을 다이나믹으로 만들기! */
 	@RequestMapping( value = "json/checkTodo", method = RequestMethod.POST )
 	public void checkTodo( @RequestBody Todo todo ) throws Exception {
 		
 		planService.checkTodo(todo);
-	}
-	
-	@RequestMapping( value = "json/updateTodoName/{todoName}/{todoId}", method = RequestMethod.GET )
-	public void updateTodoName( @PathVariable String todoName, @PathVariable String todoId ) throws Exception {
-		
-		Todo todo = new Todo();
-		todo.setTodoName(todoName);
-		todo.setTodoId(todoId);
-		
-		planService.updateTodoName(todo);
 	}
 	
 	@RequestMapping( value = "json/addTodo", method = RequestMethod.POST )
@@ -182,8 +163,6 @@ public class PlanRestController {
 		planService.addTodo(todo);	//todo 등록 후
 		
 		List<Todo> todoList = planService.getTodoList(todo.getPlanId());	// 리스트 재검색해서 다시 뿌려주기!
-		//todoList.get(todoList.size()-1);
-		
 		return todoList.get(todoList.size()-1);
 	}
 	
@@ -193,16 +172,27 @@ public class PlanRestController {
 		planService.deleteTodo(todoId);
 	}
 	
-	
-	
-	
-	
-	@RequestMapping( value = "json/checkPlanCount/{userId}", method = RequestMethod.GET )
-	public int checkPlanCount( @PathVariable String userId ) throws Exception {
-		
-		 int planCount = planService.getPlanCount( userId );
-		 return planCount;
-	}
+//	@RequestMapping( value = "json/updateTodoName/{todoName}/{todoId}", method = RequestMethod.GET )
+//	public void updateTodoName( @PathVariable String todoName, @PathVariable String todoId ) throws Exception {
+//		
+//		Todo todo = new Todo();
+//		todo.setTodoName(todoName);
+//		todo.setTodoId(todoId);
+//		
+//		planService.updateTodoName(todo);
+//	}
 	
 
+//	@RequestMapping( value = "json/getPlan/{planId}", method = RequestMethod.GET )
+//	public Plan getPlan( @PathVariable String planId ) throws Exception {
+//		
+//		Plan plan = planService.getPlan(planId);
+//		//지성아.............뒤질래..?
+//		User planMaster = new User();
+//		planMaster.setUserId(plan.getPlanMaster().getUserId());
+//		planMaster.setSlot(3);
+//		plan.setPlanMaster(planMaster);
+//		return plan;
+//	}
+	
 }

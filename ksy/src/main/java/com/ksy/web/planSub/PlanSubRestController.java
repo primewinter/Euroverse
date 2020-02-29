@@ -45,12 +45,9 @@ public class PlanSubRestController {
 	public List<Daily> getDailyList( @PathVariable String planId ) throws Exception {
 		Plan plan = planService.getPlan(planId);
 		
-		//plan.setPlanTotalDays(planTotalDays);
 		List<Daily> dailyList = planSubService.getDailyList(plan);
-		
 		return dailyList;
 	}
-	
 	
 	@RequestMapping( value = "json/getDaily", method = RequestMethod.POST )
 	public Daily getDaily( @RequestBody Daily daily ) throws Exception {
@@ -64,27 +61,13 @@ public class PlanSubRestController {
 	@RequestMapping( value = "json/addDaily", method = RequestMethod.POST )
 	public List<Daily> addDaily( @RequestBody Daily daily ) throws Exception {
 		
-		System.out.println("\n\n\n\n /planSub/json/addDaily 실행");
-		System.out.println(" daily = "+daily +"\n\n\n");
-		
 		planSubService.addDaily(daily);
 		
 		Plan plan = planService.getPlan(daily.getPlanId());
-		
 		List<Daily> dailyList = planSubService.getDailyList(plan);
 		return dailyList;
 	}
 	
-	/*
-	 * @RequestMapping( value = "json/updateDaily/{dailyId}", method =
-	 * RequestMethod.GET ) public Daily updateDaily( @PathVariable String dailyId )
-	 * throws Exception {
-	 * 
-	 * 
-	 * //Daily daily = planSubService.getDaily(dailyId);
-	 * 
-	 * return daily; }
-	 */
 	@RequestMapping( value = "json/updateDaily", method = RequestMethod.POST )
 	public List<Daily> updateDaily( @RequestBody Daily daily ) throws Exception {
 		
@@ -92,7 +75,6 @@ public class PlanSubRestController {
 		
 		Plan plan = planService.getPlan(daily.getPlanId());
 		List<Daily> dailyList = planSubService.getDailyList(plan);
-		//List<Daily> dailyList = planSubService.getDailyList(daily.getPlanId());		//planId 어디서 갖고올지?
 		return dailyList;
 	}
 	
@@ -104,29 +86,23 @@ public class PlanSubRestController {
 	
 	
 	
-	
-	@RequestMapping( value = "json/getCityRouteList/{planId}", method = RequestMethod.GET )
-	public List<City> getCityRouteList( @PathVariable String planId ) throws Exception {
-		
-		List<City> cityList = planSubService.getCityRouteList(planId);
-		
-		return cityList;
-	}
-	
+
 	
 	//스크롤 레벨로 city_info 리스트 가져오기
 	@RequestMapping( value = "json/getCityListByScroll/{zoomLevel}", method = RequestMethod.GET )
 	public List<City> getCityListByScroll( @PathVariable int zoomLevel ) throws Exception {
 		
-		
 		List<City> cityInfoList = planSubService.getCityListByScroll(zoomLevel);
-		//List<City> cityList = planSubService.getCityRouteList(zoomLevel);
-		
 		return cityInfoList;
 	}
+
 	
-	
-	
+	@RequestMapping( value = "json/getCityRouteList/{planId}", method = RequestMethod.GET )
+	public List<City> getCityRouteList( @PathVariable String planId ) throws Exception {
+		
+		List<City> cityList = planSubService.getCityRouteList(planId);
+		return cityList;
+	}
 	
 	@RequestMapping( value = "json/addCityRoute", method = RequestMethod.POST )
 	public City addCityRoute( @RequestBody City city ) throws Exception {
@@ -134,31 +110,16 @@ public class PlanSubRestController {
 		planSubService.addCityRoute(city);
 		
 		List<City> cityList = planSubService.getCityRouteList(city.getPlanId());
-		
 		City newCity = cityList.get(cityList.size()-1);
-		
 		return newCity;
 	}
 	
-	@RequestMapping( value = "json/getCityRoute/{cityId}", method = RequestMethod.GET )
-	public City getCityRoute( @PathVariable String cityId ) throws Exception {
-		
-		City city = planSubService.getCityRoute(cityId);
-		
-		return city;
-	}
-	
-	// cityRoute 삭제하는 순간.... 마지막 도시가 아닌 이상 해당 도시 이후의 도시들 순서들 바뀜....ㅠㅠ 복잡
-	// deleteCityRoute -> updateCityVisitOrder -> 
 	@RequestMapping( value = "json/deleteCityRoute/{cityId}/{planId}", method = RequestMethod.GET )
 	public List<City> deleteCityRoute( @PathVariable String cityId, @PathVariable String planId ) throws Exception {
 		
 		planSubService.deleteCityRoute(cityId);
 		
-		//updateCityVisitOrder(City city) <= 지워진 도시 이후 도시들 순서 바껴야함..
-		
 		List<City> cityList = planSubService.getCityRouteList(planId);
-		
 		return cityList;
 	}
 	
@@ -168,16 +129,15 @@ public class PlanSubRestController {
 		planSubService.updateCityDuration(city);
 		
 		List<City> cityList = planSubService.getCityRouteList(city.getPlanId());
-		
 		return cityList;
 	}
+	
 	@RequestMapping( value = "json/updateTranType", method = RequestMethod.POST )
 	public List<City> updateTranType( @RequestBody City city ) throws Exception {
 		
 		planSubService.updateTranType(city);
 		
 		List<City> cityList = planSubService.getCityRouteList(city.getPlanId());
-		
 		return cityList;
 	}
 	
@@ -186,11 +146,16 @@ public class PlanSubRestController {
 		
 		planSubService.updateVisitOrder(city);
 		
-		//City returnCity = planSubService.getCityRoute(city.getCityId());
 		List<City> cityList = planSubService.getCityRouteList(city.getPlanId());
 		return cityList;
 	}
 	
+//	@RequestMapping( value = "json/getCityRoute/{cityId}", method = RequestMethod.GET )
+//	public City getCityRoute( @PathVariable String cityId ) throws Exception {
+//		
+//		City city = planSubService.getCityRoute(cityId);
+//		return city;
+//	}
 	
 	
 	
@@ -200,27 +165,6 @@ public class PlanSubRestController {
 		
 		List<Stuff> stuffList = planSubService.getStuffList(planId);
 		return stuffList;
-	}
-	
-	/* checkStuff & updateStuffName 메소드 묶고 SQL을 다이나믹으로 만들수도 있을거같음! */
-	@RequestMapping( value = "json/checkStuff/{stuffCheck}/{stuffId}", method = RequestMethod.GET )
-	public void checkStuff( @PathVariable String stuffId, @PathVariable String stuffCheck ) throws Exception {
-		
-		Stuff stuff = new Stuff();
-		stuff.setStuffId(stuffId);
-		stuff.setStuffCheck(stuffCheck);
-		
-		planSubService.checkStuff(stuff);
-	}
-	
-	@RequestMapping( value = "json/updateStuffName/{stuffName}/{stuffId}", method = RequestMethod.GET )
-	public void updateStuffName( @PathVariable String stuffName, @PathVariable String stuffId ) throws Exception {
-		
-		Stuff stuff = new Stuff();
-		stuff.setStuffName(stuffName);
-		stuff.setStuffId(stuffId);
-		
-		planSubService.updateStuffName(stuff);
 	}
 	
 	//GET으로 했더니 stuffName 한글 입력하면 깨져 들어와서 POST로 변경!!!
@@ -239,6 +183,26 @@ public class PlanSubRestController {
 		planSubService.deleteStuff(stuffId);
 	}
 	
+	/* checkStuff & updateStuffName 메소드 묶고 SQL을 다이나믹으로 만들어주기! */
+	@RequestMapping( value = "json/checkStuff/{stuffCheck}/{stuffId}", method = RequestMethod.GET )
+	public void checkStuff( @PathVariable String stuffId, @PathVariable String stuffCheck ) throws Exception {
+		
+		Stuff stuff = new Stuff();
+		stuff.setStuffId(stuffId);
+		stuff.setStuffCheck(stuffCheck);
+		
+		planSubService.checkStuff(stuff);
+	}
+	
+//	@RequestMapping( value = "json/updateStuffName/{stuffName}/{stuffId}", method = RequestMethod.GET )
+//	public void updateStuffName( @PathVariable String stuffName, @PathVariable String stuffId ) throws Exception {
+//		
+//		Stuff stuff = new Stuff();
+//		stuff.setStuffName(stuffName);
+//		stuff.setStuffId(stuffId);
+//		planSubService.updateStuffName(stuff);
+//	}
+
 	
 	
 	@RequestMapping( value = "json/getMemoList/{planId}", method = RequestMethod.GET )
@@ -252,13 +216,9 @@ public class PlanSubRestController {
 	public Memo addMemo( @RequestBody Memo memo, HttpSession session ) throws Exception {
 		
 		User user = (User)session.getAttribute("user");
-		//test용 if문 : 회원아이디 셋팅
-		if(user == null) {
-			user = new User();
-			user.setUserId("admin");
+		if(user != null) {
+			memo.setMemoRegUser(user.getUserId());
 		}
-		memo.setMemoRegUser(user.getUserId());
-		
 		
 		planSubService.addMemo(memo);
 		
@@ -286,11 +246,6 @@ public class PlanSubRestController {
 	@RequestMapping( value = "json/updateMemoCoordinates", method = RequestMethod.POST )
 	public void updateMemoCoordinates( @RequestBody Memo memo ) throws Exception {
 		planSubService.updateMemoCoordinates(memo);
-		
-		/*
-		 * List<Memo> memoList = planSubService.getMemoList(memo.getPlanId()); return
-		 * memoList;
-		 */
 	}
 	
 	
