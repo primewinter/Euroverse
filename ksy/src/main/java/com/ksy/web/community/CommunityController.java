@@ -134,7 +134,7 @@ public class CommunityController {
 				model.addAttribute("addAcc","addAcc");
 				return "forward:/view/community/check.jsp";
 			}
-			return "forward:/view/community/addFindAccPostView.jsp";
+			return "forward:/view/accompany/addFindAccPostView.jsp";
 
 		}else if( boardName.equals("E") ) {	//플래너 게시할거임
 			
@@ -223,7 +223,7 @@ public class CommunityController {
 			model.addAttribute("userList", userList);
 			model.addAttribute("party", party);
 			
-			return "forward:/view/community/getAccFindPost.jsp";
+			return "forward:/view/accompany/getAccFindPost.jsp";
 		}
 		
 		if( post.getPlanId() != null || post.getPlanId()=="" ) {
@@ -366,7 +366,7 @@ public class CommunityController {
 			model.addAttribute("userList", userList);
 			model.addAttribute("party", party);
 			
-			return "forward:/view/community/getAccFindPost.jsp";
+			return "forward:/view/accompany/getAccFindPost.jsp";
 		}
 		
 		if( post.getPlanId() != null || post.getPlanId()=="" ) {
@@ -497,7 +497,7 @@ public class CommunityController {
 			model.addAttribute("userList", userList);
 			model.addAttribute("party", party);
 			
-			return "forward:/view/community/getAccFindPost.jsp";
+			return "forward:/view/accompany/getAccFindPost.jsp";
 		}else if( boardName.equals("E") ) {
 			//플래너 게시물 가져오기
 			String planId = post.getPlanId();
@@ -613,7 +613,7 @@ public class CommunityController {
 	                String result = content.substring(startInt - 1, endInt + 1);
 	                post.setImgSrc(result);
 	            } else {
-	                post.setImgSrc("default_trip_img.jpg");
+	                post.setImgSrc("<img src='/resources/images/commImg/default_trip_img.jpeg'>");
 	            }
 			
 			}
@@ -653,6 +653,8 @@ public class CommunityController {
 			return "forward:/view/community/getPlanPostList.jsp";
 		}else if( boardName.equals("F") ) {
 			return "forward:/view/community/getReviewPostList.jsp";
+		}else if( boardName.equals("D") ) {
+			return "forward:/view/accompany/accMain.jsp";
 		} else {
 			return "forward:/view/community/getPostList.jsp";
 		}

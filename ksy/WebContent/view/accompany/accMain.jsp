@@ -1,11 +1,9 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 
-
 <!--  ///////////////////////// JSTL  ////////////////////////// -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 
@@ -16,10 +14,6 @@
     <title>Euroverse</title>
     <!-- 참조 : http://getbootstrap.com/css/   참조 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!--MATERIAL DESIGN CDN-->
-    <link href="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -66,9 +60,10 @@
 
     <!--  ///////////////////////// CSS ////////////////////////// -->
     <style>
-        .post-date {
-            font-size: 8pt;
+        .post-sm {
+            font-size: 9pt;
         }
+
         .euro-btn {
             color: white;
             background-color: #009688;
@@ -79,28 +74,25 @@
             background-color: #005582;
         }
 
-        figure.preview-img {
-            position: relative;
-            overflow: hidden;
-            margin: 10px;
-            min-width: 230px;
-            max-width: 315px;
-            width: 100%;
-            height: 160px;
+        .category {
+            font-size: 12pt;
+            font-weight: 400;
+            color: #999999;
         }
 
-        figure.preview-img img {
-            max-width: 100%;
-            //backface-visibility: hidden;
-            //vertical-align: top;
-            object-fit: cover;
-            transform: scale(1.0);
-            transition: transform .5s;
+        .category span:hover {
+            font-size: 12pt;
+            font-weight: 700;
+            color: #00c2c7;
         }
 
-        figure.preview-img img:hover {
-            transform: scale(1.3);
-            transition: .5s;
+        .ctgr-on {
+            color: #00c2c7;
+            font-weight: 700;
+        }
+
+        .ctgr-off {
+            color: #999999;
         }
 
         .upper-wrap {}
@@ -115,43 +107,8 @@
             vertical-align: middle;
         }
 
-
-
-        div.review-row {
-            padding: 1em;
-        }
-
-        div.review-row:hover {
-            box-shadow: 0 0 11px rgba(33, 33, 33, .2);
-        }
-
-        .card-icons {
-            font-size: 10pt;
-            color: #999999;
-            //letter-spacing:1em;
-            word-spacing: 0.7em;
-        }
-
-        .card-title {
-            font-size: 15pt;
-        }
-
-        .card-content {
-            color: #999999;
-            font-size: 0.875em;
-            line-height: 140%;
-            margin-top: 1em;
-            margin-bottom: 1em;
-        }
-
-        .card-profile {
-            color: #777777;
-            font-size: 0.875em;
-            margin-top: 1em;
-        }
-
         #boardTitle {
-            font-family: 'NIXGONM-Vb';
+             font-family: 'NIXGONM-Vb';
             /*            font-family: 'GmarketSansBold';*/
             /*        font-style: italic;*/
             display: inline-block;
@@ -166,14 +123,6 @@
 
     <!--  ///////////////////////// JavaScript ////////////////////////// -->
     <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $(".review-row").on("click", function() {
-                var postId = $(this).find('input[name="postId"]').val();
-                location.href = '/community/getPost?postId=' + postId + '&boardName=F';
-            });
-
-        });
-
         function fncGetUserList(currentPage) {
             $("#currentPage").val(currentPage)
             $("form").attr("method", "POST").attr("action", "/community/getPostList").submit();
@@ -239,6 +188,23 @@
             }
         }
 
+        jQuery(document).ready(function($) {
+
+            var size = '${search.sorting}';
+            if (size.length == 0) {
+                console.log(size.length + " badge-info");
+                $('.post-ctgr').addClass('ctgr-on');
+            } else {
+                console.log(size.length + " badge-secondary");
+                $('.post-ctgr').addClass('ctgr-off');
+            }
+
+        });
+
+        function getQnaList() {
+            self.location = '/community/getPostList?boardName=G';
+        }
+
     </script>
 
 </head>
@@ -248,14 +214,15 @@
     <!-- ToolBar Start /////////////////////////////////////-->
     <jsp:include page="/toolbar/toolBar.jsp" />
     <jsp:include page="/toolbar/pushBar.jsp" />
-    <jsp:include page="/view/community/sidebar.jsp" />
     <!-- ToolBar End /////////////////////////////////////-->
 
     <!--  화면구성 div Start /////////////////////////////////////-->
     <div class="container" style="max-width: 1000px;" id="loadJquery">
 
-        <div class="h4" id="boardTitle" style="font-weight: bold; margin-top: 40px;padding-left:10px;">
-            여행후기
+        <div class="h4" id="boardTitle" style="font-weight: bold; margin-top:40px;padding-left:10px;">
+            <c:if test="${param.boardName=='D'}">
+                동행찾기
+            </c:if>
         </div>
 
         <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -263,11 +230,10 @@
 
             <div class="col-md-12 text-right upper-wrap">
 
-                <div class='category' style="display:flex;">
-                </div>
                 <div class="search-section">
                     <form class="form-inline mt-2 mt-md-0" name="detailForm" style="float:right;">
                         <input type="hidden" id="boardName" name="boardName" value="${param.boardName}" />
+
 
                         <div class="form-group">
                             <select class="form-control form-control-sm" name="searchCondition" style="height: 35px; width: 85px; font-size: 13px; margin-right: 2px;">
@@ -293,48 +259,74 @@
         </div>
         <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 
-        <div class="container">
-            <c:set var="i" value="0" />
-            <c:forEach var="post" items="${list}">
-                <c:set var="i" value="${ i+1 }" />
-                <div class="row review-row">
-                    <input type="hidden" id="postId" name="postId" value="${post.postId}" />
-                    <div class="col-md-4">
-                        <div style="position: relative;">
-                            <figure class="preview-img">
-                                <!--<img style="height:200px;width:300px;" src="/resources/images/commImg/"/>-->
-                                ${post.imgSrc}
-                                <a href="#"></a>
-                            </figure>
+        <div class="table-responsive" style="font-size:14px;">
+            <!--  table Start /////////////////////////////////////-->
+            <table class="table table-hover" style="text-align:center;">
 
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <div class="card-icons">
-                                <fmt:formatDate value="${post.postDate}" pattern="yyyy.MM.dd" /> <i class="fas fa-comments"></i> ${post.comments} <i class="fas fa-heart"></i> ${post.postLikeCount} <i class="far fa-eye"></i> ${post.views}
-                            </div>
-                            <div class="card-title">${post.postTitle}</div>
-                            <div class="card-content">
-                                <c:set var="j" value="0" />
-                                <c:forEach var="tag" items="${post.tagList}" varStatus="last">
-                                    <c:set var="j" value="${ j+1 }" />
-                                    <form id="tagForm" style="display:inline-block;">
-                                        <input type="hidden" name="boardName" value="${post.boardName}" />
-                                        <input type="hidden" name="searchCondition" value="2" />
-                                        <input type="hidden" name="searchKeyword" value="${tag.tagContent}" />
-                                        <a href="#" style="color: gray;" type="button">#${tag.tagContent}</a>
-                                    </form>
-                                    <!--<c:if test="${!last.last}">
-                                        <i>,</i>
-                                    </c:if>-->
-                                </c:forEach>
-                            </div>
-                            <div class="card-profile"><img src='/resources/images/userImages/${post.user.userImg}' style='border-radius:50%;width:1.25em;height:1.25em;border:solid 2px #009688;margin-right:0.5em;'>${post.nickName}</div>
-                        </div>
-                    </div>
-                </div>
-            </c:forEach>
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 10%">글번호</th>
+                        <th scope="col" style="width: 5%">동행날짜</th>
+                        <th scope="col" style="width: 50%">제목</th>
+                        <th scope="col" style="width: 5%">인원</th>
+                        <th scope="col" style="width: 16%">작성자</th>
+                        <th scope="col" style="width: 10%">작성일</th>
+                        <th scope="col" style="width: 7%">조회수</th>
+                        <th scope="col" style="width: 7%">추천수</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <c:set var="i" value="0" />
+                    <c:forEach var="post" items="${list}">
+                        <tr>
+                            <c:if test="${post.postGrade == 'N'}">
+                                <th scope="row" style="color:#CE1717;">공지 <i class="fas fa-bullhorn"></i></th>
+                                <td style="text-align:left;">
+                                    <input type="hidden" id="postId" name="postId" value="${post.postId}" /><span>${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
+                            </c:if>
+                            <c:if test="${post.postGrade == 'B' || post.postGrade == null}">
+                                <c:set var="i" value="${ i+1 }" />
+                                <th scope="row">
+                                    <font class='post-sm'>${post.postId}</font>
+                                </th>
+                                <c:if test="${post.accEndDate == null}">
+                                    <td>
+                                        <fmt:formatDate value="${post.accStartDate}" pattern="yyyy.MM.dd" />
+                                    </td>
+                                </c:if>
+                                <c:if test="${post.accEndDate != null}">
+                                    <td>
+                                        <fmt:formatDate value="${post.accStartDate}" pattern="yyyy.MM.dd" /> ~
+                                        <fmt:formatDate value="${post.accEndDate}" pattern="yyyy.MM.dd" />
+                                    </td>
+                                </c:if>
+                                <td style="text-align:left;">
+                                    <input type="hidden" id="postId" name="postId" value="${post.postId}" />
+                                    <span style="color:black;">
+                                    </span>
+                                    ${post.postTitle} <span style="color:red;">(${post.comments})</span></td>
+                                    <td>${post.accCount}/${post.accPerson}</td>
+                            </c:if>
+                            <td><img src='/resources/images/userImages/${post.user.userImg}' style='border-radius:50%;width:25px;height:25px;border:solid 2px #009688;margin-right:0.5em;'>${post.nickName}</td>
+                            <td>
+                                <font class='post-sm'>
+                                    <fmt:formatDate value="${post.postDate}" pattern="yyyy.MM.dd" />
+                                </font>
+                            </td>
+                            <td>
+                                <font class='post-sm'>${post.views}</font>
+                            </td>
+                            <td>
+                                <font class='post-sm'>${post.postLikeCount}</font>
+                            </td>
+                        </tr>
+                    </c:forEach>
+
+                </tbody>
+
+            </table>
         </div>
         <!--  table End /////////////////////////////////////-->
         <button type="button" id="addpost_view" class="btn btn-sm euro-btn">작성하기</button>

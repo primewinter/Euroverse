@@ -222,19 +222,19 @@ $(document).ready(function() {
 	      left: 'title',
 	      right : 'choolCheck'
 	    },
-				eventSources: [{
-	events: function(start, callback) {
-	    $.ajax({
-	        url     : '/myPage/json/choolCheck',
-	        type    : 'get',
-	        dataType: 'json',
-	        success : function(doc) {
-	           	callback(doc);
-	        }
-	    });
-	}
-	}],
-	    editable: false,
+        eventSources: [{
+	       events: function(start, callback) {
+	           $.ajax({
+                    url     : '/myPage/json/choolCheck',
+                    type    : 'get',
+                    dataType: 'json',
+                    success : function(doc) {
+                        callback(doc);
+                    }
+                });
+	       }
+	    }],
+        editable: false,
 	    eventLimit : true,
 	    cache : true,
 	    locale: 'ko',
@@ -581,14 +581,14 @@ var maPageCode = 'M';
 				<div class="modal-body" >
 					<form>
 						<div class="form-group  text-center">
-							<label for="pwd" style="margin-bottom: 15px;">Password</label>
-							 <input type="password"	class="form-control" placeholder="Enter password" id="pwdId" name="pwd" style="width: 180px;">
+							<label for="pwd" style="margin-bottom: 15px;">회원정보 수정</label>
+							 <input type="password"	class="form-control" placeholder="비밀번호를 입력하세요" id="pwdId" name="pwd" style="width: 180px;">
 							 <input type="text" style="display: none;" >
 							 <div id="pwdMessage" style="color: red;"></div>
 						</div>
 						<div class="form-group text-center" style="padding-top: 5px;">
-							<button type="button" class="btn btn-outline-primary" style="margin-right: 5px;" id="pwdCheck">비밀번호체크</button>
-							<button type="button" class="btn btn-outline-secondary" id="cancle">취소 </button>
+							<button type="button" class="btn btn-outline-primary" style="margin-right: 5px;" id="pwdCheck">확인</button>
+							<button type="button" class="btn btn-outline-secondary" id="cancle">취소</button>
 						</div>
 					</form>
 				</div><!--modal body End  -->

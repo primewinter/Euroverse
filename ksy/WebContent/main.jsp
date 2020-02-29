@@ -577,16 +577,18 @@
 
 
     section>header {
-        font-family: 'GmarketSansBold';
-        /*        font-style: italic;*/
+        font-family: 'NIXGONM-Vb';
+/*        font-family: 'GmarketSansBold';*/
+/*        font-style: italic;*/
+        font-weight: bold;
         display: inline-block;
         /*background-color: #ffcf00;*/
-        background-color: #8ad0d6;
+        background-color: #ffde3e; /*#8ad0d6;*/
         text-align: left;
         margin-top: 2em;
         margin-bottom: 2em;
         margin-left: 5em;
-        /*transform: skew(-15deg)*/
+/*        transform: skew(-15deg);*/
     }
 
 
@@ -752,7 +754,7 @@
 
         <section class="new-plan aos-init aos-animate" data-aos="fade-right">
             <header class="plan-section__header">
-                <span class="col section__header__content">NEW PLANNER</span><span class="section__header__more">>>more</span>
+                <span class="col section__header__content">새로운 플래너</span><span class="section__header__more">>>more</span>
             </header>
 
             <div class="container">
@@ -770,7 +772,7 @@
 
         <section class="owl-review-section aos-init aos-animate" data-aos="fade-left">
             <header class="review-section__header">
-                <span class="col section__header__content">TRIP REVIEW</span><span class="section__header__more">>>more</span>
+                <span class="col section__header__content">새로운 여행 후기</span><span class="section__header__more">>>more</span>
             </header>
             <div class="container">
                 <div class="row">
@@ -786,7 +788,7 @@
 
         <section class="owl-info-section aos-init aos-animate" data-aos="fade-right">
             <header class="info-section__header">
-                <span class="col section__header__content">TRIP INFO</span><span class="section__header__more">>>more</span>
+                <span class="col section__header__content">새로운 여행 정보</span><span class="section__header__more">>>more</span>
             </header>
             <div class="container">
                 <div class="row">

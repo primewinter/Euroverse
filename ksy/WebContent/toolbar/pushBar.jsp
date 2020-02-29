@@ -151,8 +151,18 @@
         display: table;
         top: 30px;
         right: 10px;
-        z-index: 300;
+        z-index: 9999;
     }
+    
+    div.push-bar-menu.shrink {
+        position: fixed;
+        display: table;
+        top: 30px;
+        right: 10px;
+        z-index: 9999;
+    }
+    
+    
     div.icon {
         display: table-cell;
         vertical-align: middle;

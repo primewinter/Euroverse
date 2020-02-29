@@ -199,10 +199,6 @@
 				$(self.location).attr("href","/community/getPostList?boardName=A");
 			});
 			
-			$("a:contains('동행')").on("click" ,function(){
-				$(self.location).attr("href","/community/getPostList?boardName=D");
-			});
-			
 			
 			
 			
@@ -282,13 +278,6 @@
           <li class="nav-item">
             <a class="nav-link scroll" href="#A">
               자유게시판 &nbsp; <span data-feather="message-circle"></span>
-            </a>
-          </li>
-          
-          
-          <li class="nav-item">
-            <a class="nav-link scroll" href="#D">
-              동행  &nbsp; <span data-feather="users"></span>
             </a>
           </li>
         </ul>
