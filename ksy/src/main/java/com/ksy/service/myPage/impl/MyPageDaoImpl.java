@@ -108,63 +108,6 @@ public class MyPageDaoImpl implements MyPageDao{
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	public List<Post> getMyPostList(Search search, String userId){
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("search", search);
-		map.put("userId", userId);
-		
-		
-		return sqlSession.selectList("UserMapper.getMyPostList",map);
-	}
-	
-	public List<Comment> getMyCommentList(Search search, String userId){
-		System.out.println("myPageDaoImpl");
-		System.out.println("@@@@@@@@@@@@@@@@@@@@");
-		System.out.println(search);
-		System.out.println("유저아이디"+userId);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("search", search);
-		map.put("userId", userId);
-		
-		
-		return sqlSession.selectList("UserMapper.getMyCommentList",map);
-	}
-	
-	
-	
-	
-	/////////////////////////LIKE/////////////////////////////////////////
-	public List<Like> getBookMarkList(String userId)throws Exception{
-		System.out.println("myPageDaoImpl getBookMarkList()");
-		
-		return sqlSession.selectList("UserMapper.getBookMarkList",userId);
-	}
-	
-	
-	public Post getBookMarkPost(String postId)throws Exception{
-		System.out.println("myPageDaoImpl getBookMarkPost()");
-		
-		
-		
-		return sqlSession.selectOne("UserMapper.getBookMarkPost",postId);
-	}
-	
-	public List<Like> getLikeOrderList(String userId)throws Exception{
-		
-		return sqlSession.selectList("UserMapper.getLikeOrderList",userId);
-	}
-	
-	
 	/////////////////////////OFFER/////////////////////////////////////////
 	public List<Offer> getPlanOfferList(Search search , String userId)throws Exception{
 		System.out.println("myPageDaoImpl getPlanOfferList");
@@ -213,15 +156,7 @@ public class MyPageDaoImpl implements MyPageDao{
 	
 	
 	
-	public int getMyPostListTotalCount(String userId)throws Exception{
-		
-		return sqlSession.selectOne("UserMapper.getMyPostListTotalCount",userId);
-	}
-	
-	public int getMyCommentListTotalCount(String userId)throws Exception{
-		
-		return sqlSession.selectOne("UserMapper.getMyCommentListTotalCount",userId);
-	}
+
 
 	@Override
 	public int getPlanOfferListTotalList(String userId) throws Exception {

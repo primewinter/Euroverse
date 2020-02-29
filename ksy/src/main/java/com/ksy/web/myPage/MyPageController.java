@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ksy.common.Page;
 import com.ksy.common.Search;
+import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Flight;
 import com.ksy.service.domain.Like;
 import com.ksy.service.domain.Offer;
@@ -29,6 +30,7 @@ import com.ksy.service.domain.Post;
 import com.ksy.service.domain.Room;
 import com.ksy.service.domain.User;
 import com.ksy.service.flight.FlightService;
+import com.ksy.service.like.LikeService;
 import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.plan.PlanService;
 import com.ksy.service.room.RoomService;
@@ -57,6 +59,14 @@ public class MyPageController {
 	@Autowired
 	@Qualifier("roomServiceImpl")
 	private RoomService roomService;
+	
+	@Autowired
+	@Qualifier("likeServiceImpl")
+	private LikeService likeService;
+	
+	@Autowired
+	@Qualifier("communityServiceImpl")
+	private CommunityService communityService;
 	
 	
 
@@ -131,10 +141,10 @@ public class MyPageController {
 		
 		
 		System.out.println("여기는!!!!!!!!!!!!내게시글댓글리스트!!");
-		Map<String,Object> postMap = myPageService.getMyPostList(search, user.getUserId());
+		Map<String,Object> postMap = communityService.getMyPostList(search, user.getUserId());
 		
 		System.out.println("이게 나오나?!!???!!!!???!?!?!?!?!?!??!!??!?!!?!?!?!?");
-		Map<String , Object> commentMap = myPageService.getMyCommentList(search, user.getUserId());
+		Map<String , Object> commentMap = communityService.getMyCommentList(search, user.getUserId());
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)postMap.get("totalCount")).intValue(), pageUnit, 10);
 		Page resultPage2 = new Page( search.getCurrentPage2(), ((Integer)commentMap.get("totalCount")).intValue(), pageUnit, 10);
@@ -164,7 +174,7 @@ public class MyPageController {
 		
 		System.out.println("북마크리스트 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		User user = (User)session.getAttribute("user");
-		List<Post> likeList = myPageService.getBookMarkList(user.getUserId());
+		List<Post> likeList = likeService.getBookMarkList(user.getUserId());
 		System.out.println(likeList);
 		
 		
@@ -266,7 +276,7 @@ public class MyPageController {
 	
 	
 	@RequestMapping( value="addQna", method=RequestMethod.POST )
-	public String addPost( @ModelAttribute("post") Post post,  Model model, HttpSession session ) throws Exception {
+	public String addQna( @ModelAttribute("post") Post post,  Model model, HttpSession session ) throws Exception {
 		
 		System.out.println("/mypage/addQna : POST");
 	
@@ -327,7 +337,7 @@ public class MyPageController {
 		}
 		User user= (User)session.getAttribute("user");
 		
-		List<Like> likeList = myPageService.getLikeOrderList(user.getUserId());
+		List<Like> likeList = likeService.getLikeOrderList(user.getUserId());
 		System.out.println(likeList);
 		List<Flight> flightList = new ArrayList<Flight>();
 		List<Room> roomList = new ArrayList<Room>();

@@ -109,69 +109,6 @@ public class MyPageServiceImpl implements MyPageService{
 	}
 
 	
-
-	
-	public Map<String,Object> getMyPostList(Search search , String userId)throws Exception{
-		
-		List<Post> list= myPageDao.getMyPostList(search, userId);
-		int totalCount= myPageDao.getMyPostListTotalCount(userId);
-		//int totalCount = communityDao.getPostTotalCount(search, boardName);
-		System.out.println("호호호호홓호호!!!!!!!!!!!!!!!!!");
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list );
-		map.put("totalCount",totalCount);
-		//map.put("totalCount", new Integer(totalCount));
-		return map;
-	}
-	
-	
-	public Map<String,Object> getMyCommentList(Search search , String userId)throws Exception{
-		System.out.println("댓글!!!!!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		
-		List<Comment> list= myPageDao.getMyCommentList(search, userId);
-		int totalCount = myPageDao.getMyCommentListTotalCount(userId);
-		//int totalCount = communityDao.getPostTotalCount(search, boardName);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list );
-		map.put("totalCount",totalCount);
-		//map.put("totalCount", new Integer(totalCount));
-		System.out.println("이까지온거면 다 된거지!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		System.out.println(list);
-		return map;
-	}
-	
-	
-	
-	
-	/////////////////////////LIKE/////////////////////////////////////////
-	public List<Post> getBookMarkList(String userId)throws Exception{
-		System.out.println("myPageDaoImpl getBookMarkList()");
-		List<Like> list = myPageDao.getBookMarkList(userId);
-		List<Post> bookMarkList = new ArrayList<Post>();
-		
-		for(int i=0;i<list.size();i++) {
-			Post post = myPageDao.getBookMarkPost((list.get(i).getRefId()));
-			bookMarkList.add(post);
-		}
-		
-		
-		
-		return bookMarkList;
-	}
-	
-	
-	
-	public List<Like> getLikeOrderList(String userId)throws Exception{
-		
-		return myPageDao.getLikeOrderList(userId);
-	}
-	
-	
-	
-	
-	
-	
-	
 	/////////////////////////////OFFER///////////////////////////////
 	public Map<String,Object> getOfferList(Search search , String userId)throws Exception{
 		List<Offer> planOfferList = myPageDao.getPlanOfferList(search, userId);
@@ -189,14 +126,6 @@ public class MyPageServiceImpl implements MyPageService{
 		return returnMap;
 	
 	}
-	
-	
-	
-	/*
-	 * public int getPlanCount(String userId)throws Exception{
-	 * 
-	 * return myPageDao.getPlanCount(userId); }
-	 */
 	
 	public void addPartyMember(Offer offer)throws Exception{
 		myPageDao.addPartyMember(offer);

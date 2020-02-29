@@ -48,6 +48,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.common.net.HttpHeaders;
 import com.ksy.common.Page;
 import com.ksy.common.Search;
+import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.TripSurvey;
 import com.ksy.service.domain.User;
@@ -71,6 +72,11 @@ public class UserController {
 	@Autowired
 	@Qualifier("planServiceImpl")
 	private PlanService planService;
+	
+	@Autowired
+	@Qualifier("communityServiceImpl")
+	private CommunityService communityService;
+	
 
 	String uploadPath = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages";
 	
@@ -81,34 +87,23 @@ public class UserController {
 	
 	@RequestMapping(value="autoLogout")
 	public String autoLogout() {
-		System.out.println("자동로그아웃&&&&&&&&&&&&&&&&&&&&&&&&&&");
+		System.out.println(this.getClass()+"AutoLogin");
 		return "redirect:/view/user/autoLogout.jsp";
 	}
 	
-	@RequestMapping(value="login")
-	public String login() {
-		System.out.println(this.getClass()+"Login");
-		return "redirect:/user/getUser";
-	}
 	
 	@RequestMapping( value="logout", method=RequestMethod.GET )
 	public String logout(HttpSession session ) throws Exception{
-		System.out.println("로그아웃 됬습니다!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		System.out.println(this.getClass()+"logout");
-		
-		
 		session.removeAttribute("user");
 		session.invalidate();
-		
 		return "redirect:/main.jsp";
 	}
 	
 	@RequestMapping(value="unRegUser")
 	public String unRegUser(HttpSession session)throws Exception{
-		System.out.println("회원탈퇴");
 		User user = (User)session.getAttribute("user");
 		userService.unRegister(user.getUserId());
-		
 		session.removeAttribute("user");
 		session.invalidate();
 		return "redirect:/view/user/unRegUserConfirm.jsp";
@@ -116,22 +111,14 @@ public class UserController {
 	
 	@RequestMapping(value="comeBack",method = RequestMethod.GET)
 	public String comeBack(@RequestParam("userId")String userId , Model model)throws Exception{
-		System.out.println("comeBack@ GET@@@@@");
-		
-		
 		model.addAttribute("userId",userId);
-		
 		return"forward:/view/user/comeBack.jsp";
 	}
 	
 	@RequestMapping(value="comeBack" ,method = RequestMethod.POST)
 	public String comeBack(@ModelAttribute("user")User user , HttpSession session)throws Exception {
-		System.out.println("comeBack POST~~");
 		userService.comeBackUser(user);
 		User dbUser = userService.getUser(user.getUserId());
-		
-		/* session.setAttribute("user", dbUser); */
-		
 		return "redirect:/main.jsp";
 	}
 	
@@ -142,16 +129,8 @@ public class UserController {
 		if(session.getAttribute("user")!=null) {
 			return"redirect:/main.jsp";
 		}
-		
-//		List cityList = new ArrayList();
-//		List tripStyleList = new ArrayList();
-//		List cityImgList = new ArrayList();
-//		List tripStyleImgList = new ArrayList();
-	
 		List<TripSurvey> countryList = countryList();
 		List<TripSurvey> tripStyleList = tripStyleList();
-		
-		
 		model.addAttribute("countryList",countryList);
 		model.addAttribute("tripStyleList",tripStyleList);
 		return "forward:/view/user/addUser.jsp";
@@ -161,24 +140,21 @@ public class UserController {
 	public String addUser(@ModelAttribute("user")User user ,Model model , HttpSession session) throws Exception {
 		System.out.println("addUser POST Start");
 		System.out.println(user);
-		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-
-		
-		//다른방법
-//		if(user.getImage().isEmpty()==false) {
-//			MultipartFile mhsr = (MultipartFile)user.getImage();
-//			String path = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages";
-//			String originalName = "";
-//			originalName = new String(mhsr.getOriginalFilename().getBytes("8859_1"),"UTF-8");
-//			System.out.println(originalName);
-//			user.setUserImg("\\resources\\images\\userImages\\"+originalName);
-//			System.out.println("유저이미지"+user.getUserImg());
-//			File serverFile = new File(path+File.separator + originalName);
-//			mhsr.transferTo(serverFile);
-//		}else {
-//			user.setUserImg("\\resources\\images\\userImages\\defaultUserImage.jpg");
-//		}
-		
+		//		파일업로드다른방법
+		//		if(user.getImage().isEmpty()==false) {
+		//			MultipartFile mhsr = (MultipartFile)user.getImage();
+		//			String path = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages";
+		//			String originalName = "";
+		//			originalName = new String(mhsr.getOriginalFilename().getBytes("8859_1"),"UTF-8");
+		//			System.out.println(originalName);
+		//			user.setUserImg("\\resources\\images\\userImages\\"+originalName);
+		//			System.out.println("유저이미지"+user.getUserImg());
+		//			File serverFile = new File(path+File.separator + originalName);
+		//			mhsr.transferTo(serverFile);
+		//		}else {
+		//			user.setUserImg("\\resources\\images\\userImages\\defaultUserImage.jpg");
+		//		}
+				
 	if(user.getImage() !=null) {
 		MultipartFile mhsr = (MultipartFile)user.getImage();
 		if( mhsr.isEmpty() == false) {	//null 체크로 잡을 수 없음! 
@@ -193,24 +169,11 @@ public class UserController {
 	}else {
 		user.setUserImg("defaultUserImage.jpg");
 	}
-		System.out.println("일단 여기까지!!@@!@!@@! 1111111111");
 		userService.addUser(user);
-		
-		System.out.println(user);
-		System.out.println(user.getDreamCountry());
-		System.out.println(user.getCountryImg());
-		System.out.println(user.getStyleImg());
-		
-		
-		
-		
 		myPageService.deleteTripSurvey(user.getUserId());
-		
-		
 		
 		if(user.getDreamCountry()!=null) {
 			for(int i=0;i<(user.getDreamCountry().size())-1;i++) {
-				System.out.println(user.getDreamCountry().get(i));
 				TripSurvey tripSurvey = new TripSurvey();
 				tripSurvey.setUserId(user.getUserId());
 				tripSurvey.setSurveyChoice(user.getDreamCountry().get(i));
@@ -220,13 +183,9 @@ public class UserController {
 			}
 		}
 		
-		
-		System.out.println(user.getTripStyle());
-		
 		if(user.getTripStyle()!=null) {
 			
 			for(int j=0;j<(user.getTripStyle().size())-1;j++) {
-				System.out.println(user.getTripStyle().get(j));
 				TripSurvey tripSurvey = new TripSurvey();
 				tripSurvey.setUserId(user.getUserId());
 				tripSurvey.setSurveyChoice(user.getTripStyle().get(j));
@@ -235,13 +194,6 @@ public class UserController {
 				myPageService.addTripSurvey(tripSurvey);
 			}
 		}
-		System.out.println("일단 여기까지!!@@!@!@@! 22222222222222");
-		
-		/*
-		 * User newUser = (User)userService.getUser(user.getUserId());
-		 * session.setAttribute("user", newUser);
-		 */
-		
 		
 		return "redirect:/main.jsp";
 	}
@@ -259,7 +211,6 @@ public class UserController {
 		int travelDate =0;
 		
 		for(int i=0;i<planList.size();i++) {
-			System.out.println("으아아앙아!!!!!!!!");
 			System.out.println(planService.getPlan(planList.get(i).getPlanId()));
 			endPlanList.add(planService.getPlan(planList.get(i).getPlanId()));
 		}
@@ -283,17 +234,12 @@ public class UserController {
 		
 		search.setPageSize(10);
 		
-		Map<String,Object> postMap = myPageService.getMyPostList(search, user.getUserId());
-		Map<String , Object> commentMap = myPageService.getMyCommentList(search, user.getUserId());
+		Map<String,Object> postMap = communityService.getMyPostList(search, user.getUserId());
+		Map<String , Object> commentMap = communityService.getMyCommentList(search, user.getUserId());
 		int postCount = (int) postMap.get("totalCount");
 		int commentCount = (int)commentMap.get("totalCount");
 		
 		int partyCount = myPageService.partyCount(user.getUserId());
-		
-		
-		
-		
-		
 		
 		model.addAttribute("travelDate",travelDate);
 		model.addAttribute("travelHour",travelDate*24);
@@ -302,8 +248,7 @@ public class UserController {
 		model.addAttribute("postCount",postCount);
 		model.addAttribute("commentCount",commentCount);
 		model.addAttribute("partyCount",partyCount);
-		
-		
+
 		return "forward:/view/user/getUser.jsp";
 	}
 	
@@ -321,57 +266,36 @@ public class UserController {
 	
 	@RequestMapping(value="searchId",method=RequestMethod.POST)
 	public String searchUserId(@ModelAttribute("user") User user , Model model , HttpSession session) throws Exception {
-		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		System.out.println("UserController POST searchUserId");
 		List<String> idList = new ArrayList<String>();
 		
 		String authType="";
-		
 		User settingUser = new User();
+		
 		if(user.getPhone().equals("") || user.getPhone().equals("--") || user.getPhone().equals(" - - ")||user.getPhone()==null) {
 			settingUser.setUserName(user.getUserName());
 			settingUser.setEmail(user.getEmail());
-			//이거 통합된 메소드 사용하자
 			idList = userService.getUserIdList(settingUser);
 			authType = "email";
 		}else if(user.getEmail().equals("") || user.getEmail().equals(" @ ") || user.getEmail().equals("@") || user.getEmail()==null) {
 			settingUser.setUserName(user.getUserName());
 			settingUser.setPhone(user.getPhone());
-			//통합된 메소드 사용하기
 			idList = userService.getUserIdList(settingUser);
 			authType = "phone";
 		}
 		
 		List<String> starIdList = new ArrayList<String>();
 		for(int i=0;i<idList.size();i++) {
-			System.out.print("이거 써서 별표 달면 될듯!=="+idList.get(i).substring(0, 3));
 			String star="";
 			for(int j=0;j<idList.get(i).length()-3;j++) {
-				System.out.print("*");
 				star+="*";
 			}
 			starIdList.add(idList.get(i).substring(0,3)+star);
-			System.out.println();
-			
-			System.out.println("아이디는!!!!!!!===="+starIdList.get(i));
 		}
-		
-		
-		
-//		if(starIdList==null||starIdList.size()==0) {
-//			starIdList.add("일치하는 아이디가 없습니다.");
-//			authType = "일치하는 아이디가 없습니다.";
-//		}
-//		
-//		
-		
-		
-		System.out.println(starIdList);
 		
 		model.addAttribute("authType",authType);
 		model.addAttribute("starIdList" , starIdList);
 		model.addAttribute("user",user);
-		
 		
 		return"forward:/view/user/searchIdConfirm.jsp";
 	}
@@ -397,16 +321,13 @@ public class UserController {
 	@RequestMapping(value="updateUser",method=RequestMethod.POST)
 	public String updateUser(@ModelAttribute("user") User user ,HttpSession session, Model model) throws Exception {
 		System.out.println("userController updateUser POST");
-		System.out.println(user);
 		
-		//닉네임 , 이메일 , 폰 , 이미지 , pushagree
 		User currentUser = (User)session.getAttribute("user");
 		currentUser.setNickname(user.getNickname());
 		currentUser.setEmail(user.getEmail());
 		currentUser.setPhone(user.getPhone());
 		currentUser.setPushAgree(user.getPushAgree());
 		myPageService.deleteTripSurvey(currentUser.getUserId());
-		
 		
 		
 		MultipartFile mhsr = (MultipartFile)user.getImage();
@@ -427,7 +348,6 @@ public class UserController {
 				continue;
 			}
 			
-			System.out.println(user.getDreamCountry().get(i));
 			TripSurvey tripSurvey = new TripSurvey();
 			tripSurvey.setUserId(currentUser.getUserId());
 			tripSurvey.setSurveyChoice(user.getDreamCountry().get(i));
@@ -438,22 +358,20 @@ public class UserController {
 		
 		}
 		
-		System.out.println(user.getTripStyle());
 		if(user.getTripStyle()!=null) {
 			
-		for(int j=0;j<(user.getTripStyle().size());j++) {
-			if(user.getTripStyle().get(j).equals("")) {
-				continue;
+			for(int j=0;j<(user.getTripStyle().size());j++) {
+				if(user.getTripStyle().get(j).equals("")) {
+					continue;
+				}
+				
+				TripSurvey tripSurvey = new TripSurvey();
+				tripSurvey.setUserId(currentUser.getUserId());
+				tripSurvey.setSurveyChoice(user.getTripStyle().get(j));
+				tripSurvey.setSurveyImg(user.getStyleImg().get(j));
+				tripSurvey.setSurveyType("T");
+				myPageService.addTripSurvey(tripSurvey);
 			}
-			
-			System.out.println(user.getTripStyle().get(j));
-			TripSurvey tripSurvey = new TripSurvey();
-			tripSurvey.setUserId(currentUser.getUserId());
-			tripSurvey.setSurveyChoice(user.getTripStyle().get(j));
-			tripSurvey.setSurveyImg(user.getStyleImg().get(j));
-			tripSurvey.setSurveyType("T");
-			myPageService.addTripSurvey(tripSurvey);
-		}
 		
 		}
 		
@@ -500,8 +418,6 @@ public class UserController {
 		  bw.flush();
 		  int googleTokenResponseCode = googleTokenCon.getResponseCode();
 		  BufferedReader googleTokenBr =  null;
-		  System.out.println("과연?");
-		  System.out.println(googleTokenResponseCode);
 		  if( googleTokenResponseCode == 200 ) {
 				googleTokenBr = new BufferedReader(new InputStreamReader(googleTokenCon.getInputStream(), "UTF-8"));
 			}
@@ -512,20 +428,16 @@ public class UserController {
 		  String googleTokenLine = "";
 			StringBuffer googleTokenResponse = new StringBuffer();
 			
-		  System.out.println(googleTokenBr);
 		  while( (googleTokenLine = googleTokenBr.readLine()) != null ) {
 			  googleTokenResponse.append(googleTokenLine);
 			}
 		  
 		 googleTokenBr.close(); 
 		  
-		 System.out.println(googleTokenResponse.toString());
-		 
 		 JSONObject googleTokenJSONObject = (JSONObject)JSONValue.parse(googleTokenResponse.toString());
 		  
 		 ObjectMapper objectMapper = new ObjectMapper();
 		 Map<String , String> tokenMap = objectMapper.readValue(googleTokenJSONObject.toString(),new TypeReference<Map<String,String>>(){}); 
-		 System.out.println(tokenMap.get("access_token"));
 		 
 		 String token = tokenMap.get("access_token");
 		 String header = "Bearer " + token;
@@ -560,7 +472,6 @@ public class UserController {
           
           googleLoginBr.close();
           
-          System.out.println(googleLoginResponse.toString());
           JSONObject googleLoginJSONObject = (JSONObject)JSONValue.parse(googleLoginResponse.toString());
           Map<String,String> googleProfile = objectMapper.readValue(googleLoginJSONObject.toString(),new TypeReference<Map<String,Object>>(){});
           System.out.println("=============구글로그인 정보!================");
@@ -582,9 +493,6 @@ public class UserController {
 		  model.addAttribute("snsUser" , user);
 		  model.addAttribute("loginType" , "sns");
 		  session.setAttribute("snsLogin", user);
-		  
-		  
-		/* return "forward:/user/addUser"; */
 		  return "forward:/view/user/pathLoginInfo.jsp";
 	}
 	
@@ -594,20 +502,14 @@ public class UserController {
 		if(session.getAttribute("user")!=null) {
 			return"redirect:/main.jsp";
 		}
-		
-		
 		return "redirect:/view/user/findPwd.jsp";
 	}
 	
 	@RequestMapping(value="updatePwd" , method=RequestMethod.GET)
 	public String updatePwd(@RequestParam("userId") String userId , Model model,HttpSession session) {
-		/*
-		 * if(session.getAttribute("user")!=null) { return"redirect:/main.jsp"; }
-		 */
 		if(session.getAttribute("user")!=null) {
 			return"redirect:/main.jsp";
 		}
-		
 		model.addAttribute("userId" , userId);
 		return "forward:/view/user/updatePwd.jsp";
 	}
@@ -620,8 +522,6 @@ public class UserController {
 		if(session.getAttribute("user")!=null) {
 			return"redirect:/main.jsp";
 		}
-		
-		
 		
 		if(userService.getUser(user.getUserId())==null){
 			System.out.println("일치하는 데이터가 없음");
@@ -666,12 +566,10 @@ public class UserController {
 			tokenResponse.append(tokenJsonData);
 		}
 		tokenBr.close();
-		System.out.println("----------response ? : " + tokenResponse.toString());
 		JSONObject jsonObject = (JSONObject)JSONValue.parse(tokenResponse.toString());
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> tokenMap = objectMapper.readValue(jsonObject.toString(), new TypeReference<Map<String, String>>(){});
 		
-		System.out.println("-----------------------tokenMap : " + tokenMap);
 		
 		String accessToken = tokenMap.get("access_token");
 		
@@ -711,11 +609,9 @@ public class UserController {
             naverLoginBr.close();
             
             
-            System.out.println(naverLoginResponse.toString());
             
             jsonObject = (JSONObject)JSONValue.parse(naverLoginResponse.toString());
             profileMap = objectMapper.readValue(jsonObject.get("response").toString(), new TypeReference<Map<String, String>>(){});
-            System.out.println("히히히히"+profileMap);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -728,10 +624,6 @@ public class UserController {
 		String email = profileMap.get("email");
 		System.out.println("==================================================");
 		
-		System.out.println(profileMap.get("email"));
-		System.out.println(profileMap.get("name"));
-		System.out.println(profileMap.get("nickname"));
-		System.out.println(profileMap.get("profile_image"));
 		user.setUserId(profileMap.get("email"));
 		user.setNickname(profileMap.get("nickname"));
 		user.setEmail(profileMap.get("email"));
@@ -742,11 +634,9 @@ public class UserController {
 		
 		
 		
-		System.out.println("=====================================================");
 		int index = email.indexOf("@");
 		
 		String userId = email.substring(0, index);
-		System.out.println("-----------------userId ? : " + userId);
 		
 		session.setAttribute("snsLogin", user);
 		model.addAttribute("snsUser",user);
@@ -760,8 +650,6 @@ public class UserController {
 	@RequestMapping( value = "kakaoLoginLogic" )
 	public String kakaoLoginLogic( @RequestParam("code") String code, HttpSession session ,Model model) throws Exception {
 		String clientId = "0813ef39292fbdbe6ad4d20b0a049724";
-		
-		System.out.println("code---------------------------------" + code);
 		
 		String kakaoTokenUrl = 	"https://kauth.kakao.com/oauth/token";
         User user = new User();
@@ -800,18 +688,15 @@ public class UserController {
 		
 		kakaoTokenBr.close();
 		
-		System.out.println("----------response ? : " + kakaoTokenResponse.toString());
 			
 		JSONObject kakaoTokenJSONObject = (JSONObject)JSONValue.parse(kakaoTokenResponse.toString());
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		Map<String, String> tokenMap = objectMapper.readValue(kakaoTokenJSONObject.toString(), new TypeReference<Map<String, String>>(){});
-		System.out.println("-----------------------tokenMap : " + tokenMap);
 		
 		String token = tokenMap.get("access_token");
 		
-		System.out.println("---------------------카카오 로그인 시 accesstoken ? : " + token);
 		
 		session.setAttribute("accessToken", token);
 		session.setAttribute("refreshToken", tokenMap.get("refresh_token"));
@@ -853,7 +738,6 @@ public class UserController {
             
             kakaoLoginBr.close();
             
-            System.out.println(kakaoLoginResponse.toString());
             
             JSONObject kakaoLoginJSONObject = (JSONObject)JSONValue.parse(kakaoLoginResponse.toString());
             
@@ -871,14 +755,6 @@ public class UserController {
             //System.out.println(profileMap.get("email"));
             
             System.out.println("==========================");
-            System.out.println("---------------------------------profileMap ? : "+ profileMap);
-            System.out.println("---------------------------------userId ? : "+ kakaoId);
-            System.out.println("===================kakao account : "+kakaoAccount);
-            System.out.println("하아압!!"+kakaoAccount.get("profile"));
-            
-            System.out.println(b.get("nickname"));
-            System.out.println(b.get("thumbnail_image_url"));
-            System.out.println(kakaoAccount.get("email"));
             user.setUserId(((String)kakaoAccount.get("email")));
             user.setNickname(b.get("nickname"));
             user.setUserImg(b.get("thumbnail_image_url"));

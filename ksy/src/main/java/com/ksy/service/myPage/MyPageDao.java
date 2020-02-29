@@ -13,41 +13,18 @@ import com.ksy.service.domain.Post;
 import com.ksy.service.domain.TripSurvey;
 
 public interface MyPageDao {
+	
 	public void addPoint(Point point) throws Exception;
 	public List<Point> getPointList(Search search ,String userId) throws Exception;
 	public int getPointListTotalCount(Search search ,String userId)throws Exception;
 	public List getChoolCheckList(String userId)throws Exception;
-	
-	
-	
-	
-	
 	public void updateTotalPoint(Point point)throws Exception;
-	
-	
 	public void updateUserSlot(String userId) throws Exception;
-	
 	
 	/////////////////////survey/////////////////////////////////////////
 	public void addTripSurvey(TripSurvey tripSurvey) throws Exception;
 	public List<TripSurvey> getTripSurveyList(String userId) throws Exception;
 	public void deleteTripSurvey(String userId)throws Exception;
-	
-	
-	//////////////////////community///////////////////////////////////////////////
-	public List<Post> getMyPostList(Search search, String userId)throws Exception;
-	public int getMyPostListTotalCount(String userId)throws Exception;
-	
-	public List<Comment> getMyCommentList(Search search,String userId)throws Exception;
-	public int getMyCommentListTotalCount(String userId)throws Exception;
-	
-	
-	
-	/////////////////////////Like/////////////////////////////////////////
-	public List<Like> getBookMarkList(String userId)throws Exception;
-	public Post getBookMarkPost(String postId)throws Exception;
-	
-	public List<Like> getLikeOrderList(String userId)throws Exception;
 	
 	
 	//////////////////////////////offer///////////////////////////////////////
@@ -57,7 +34,6 @@ public interface MyPageDao {
 	public int getPlanOfferListTotalList(String userId)throws Exception;
 	public int getPartyOfferListTotalList(String userId)throws Exception;
 	
-	//public int getPlanCount(String userId)throws Exception;
 	public void addPartyMember(Offer offer)throws Exception;
 	
 	public Offer getOffer(String offerId)throws Exception;
