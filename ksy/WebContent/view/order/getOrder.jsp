@@ -333,7 +333,7 @@
 	
 	   		 <div class="form-group" align="center">
 			<button type="button" class="btn btn-warning"  >확인</button>
-			<c:if test="${order.orderStatus == '1' &&  user.role != 'A'}">
+			<c:if test="${order.orderStatus == 'O' &&  user.role != 'A'}">
 			<button type="button" class="btn btn-info" id="refundApp1" data-toggle="modal" data-target="#refund">
 			   환불 신청
 			</button>

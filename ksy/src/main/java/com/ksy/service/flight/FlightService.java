@@ -12,8 +12,6 @@ public interface FlightService {
 	
 	public Flight getFlight(String flightId) throws Exception;
 	
-	public void getOrderRefund (Flight flight) throws Exception ;
-	
 	public Map<String,Object> getFlightList(Search search,String buyerId) throws Exception;
  
 	public Map<String,Object> getFlightListAdmin(Search search) throws Exception;
