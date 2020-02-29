@@ -227,6 +227,12 @@
 		GROUP BY p.post_id , vt2.a , vt1.c , p.plan_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , DBMS_LOB.SUBSTR(p.post_content, 4000, 1) , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , l.like_check , next_id , next_title , prev_id , prev_title , p.qna_kategorie
 	</select>
 	
+	<select id ="getPostContent" parameterType="string" resultMap="postSelectMap">
+		SELECT DBMS_LOB.SUBSTR(p.post_content, 4000, 1) post_content 
+		FROM post
+		WHERE post_id = #{postId} 
+	</select>
+	
 	<select  id="getTagList" 	parameterType="string"		resultMap="tagSelectMap">
 		SELECT
 		tag_id , post_id , tag_content
@@ -249,7 +255,7 @@
 	<select  id="getPostList"  parameterType="map"	resultMap="postSelectMap">
 	  	SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-  						FROM ( SELECT p.post_id , p.post_writer_id , p.plan_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , vt2.a acc_count , vt1.c comments , p.views , p.blocked , p.deleted , p.post_like_count , p.qna_kategorie
+  						FROM ( SELECT p.post_id , p.post_writer_id , p.plan_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date ,  vt2.a acc_count , vt1.c comments , p.views , p.blocked , p.deleted , p.post_like_count , p.qna_kategorie
 										FROM post p, comments c, tag t, party r,   ( SELECT post_id , count(*) c FROM comments WHERE deleted IN ('F','Y') GROUP BY post_id ) vt1, ( SELECT ref_id , count(*) a FROM party WHERE party_type = 'A' GROUP BY ref_id ) vt2
 										<if test="search.searchCondition != null">
 										  <trim prefix="WHERE" prefixOverrides="AND | OR">

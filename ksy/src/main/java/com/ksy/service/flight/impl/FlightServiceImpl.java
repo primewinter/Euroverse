@@ -36,10 +36,6 @@ public class FlightServiceImpl implements FlightService{
 		return flightDao.getFlight(flightId);
 	}
 	
-	public void getOrderRefund(Flight flight) throws Exception {
-		flightDao.getOrderRefund(flight);
-	}
-	
 	public Map<String,Object> getFlightList (Search search , String buyerId ) throws Exception {
 		List<Flight> list= (List<Flight>) flightDao.getFlightList(search, buyerId);
 		Map<String, Object> map = new HashMap<String, Object>();

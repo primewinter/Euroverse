@@ -24,47 +24,75 @@
 	$(document).ready(function(){
 		Show();
 	})
+	
+/* 	function addFlightOrder(airline , depCity , arrCity , price, depDate , arrDate , stopOver , leadTime , tripCourse , seatGrade , depTime , arrTime , infantNum , adultNum , childNum){
+		alert("키") 
+		self.location ="/order/addFlightOrder?airline="+airline+"&depCity="+depCity+"&arrCity="+arrCity+"&price="+price
+		  +"&depDate="+depDate+"&arrDate="+arrDate+"&stopOver="+stopOver+"&leadTime="+leadTime
+		  +"&tripCourse="+tripCourse+"&seatGrade="+seatGrade+"&depTime="+depTime+"&arrTime="+arrTime
+		  +"&infantNum="+infantNum+"&adultNum="+adultNum+"&childNum="+childNum;
+	}
+	 */
+	 
+	 function addFlightOrder(num){
+		 var airline = $("#airline"+num).val()
+		 var depCity = $("#depCity"+num).val()
+		 var arrCity  = $("#arrCity"+num).val()
+		 var price = $("#price"+num).val()
+		 var depDate = $("#depDate"+num).val()
+		 var arrDate  = $("#arrDate"+num).val()
+		 var stopOver = $("#stopOver"+num).val()
+		 var leadTime = $("#leadTime"+num).val()
+		 var tripCourse  = $("#tripCourse"+num).val()
+		 var seatGrade  = $("#seatGrade"+num).val()
+		 var depTime = $("#depTime"+num).val()
+		 var arrTime = $("#arrTime"+num).val().split(':')
+		 var infantNum = $("#infantNum"+num).val().split(':')
+		 var adultNum = $("#adultNum"+num).val()
+		 var childNum = $("#childNum"+num).val()
+		 $(self.location).attr("href","/order/addFlightOrder?airline="+airline+"&depCity="+depCity+"&arrCity="+arrCity+"&price="+price
+				  +"&depDate="+depDate+"&arrDate="+arrDate+"&stopOver="+stopOver+"&leadTime="+leadTime
+				  +"&tripCourse="+tripCourse+"&seatGrade="+seatGrade+"&depTime="+depTime+"&arrTime="+arrTime[0]
+				  +"&infantNum="+infantNum[0]+"&adultNum="+adultNum+"&childNum="+childNum);
+	 }
+	function addRoomOrder(num){
+		var price = $("#roomPrice"+num).val()
+		var roomName = $("#roomName"+num).val()
+		var roomCity = $("#roomCity"+num).val()
+		var checkIn = $("#checkIn"+num).val()
+		var roomNum = $("#roomNum"+num).val()
+		var adultNum = $("#roomAdultNum"+num).val()
+		var childNum = $("#roomAchildNum"+num).val()
+		var checkOut = $("#checkOut"+num).val()
+		var mainService = $("#mainService"+num).val()
+		var familyService = $("#familyService"+num).val()
+		var sights = $("#sights"+num).val()
+		var hotelInfo = $("#hotelInfo"+num).val()
+		var roomInfo = $("#roomInfo"+num).val()
+		 $(self.location).attr("href","/order/addRoomOrder?roomName="+roomName+"&price="+price+"&roomCity="+roomCity+"&checkIn="+checkIn
+				 +"&roomNum="+roomNum+"&adultNum="+adultNum+"&childNum="+childNum+"&checkOut="+checkOut+"&mainService="+mainService
+				 +"&familyService="+familyService+"&sights="+sights+"&hotelInfo="+hotelInfo+"&roomInfo="+roomInfo);
+		
+		
+		
+		
+		
+/* 		 self.location ="/order/addRoomOrder?roomName="+roomName+"&price="+price+"&roomCity="+roomCity+"&checkIn="+checkIn
+		 +"&roomNum="+roomNum+"&adultNum="+adultNum+"&childNum="+childNum+"&checkOut="+checkOut+"&mainService="+mainService
+		 +"&familyService="+familyService+"&sights="+sights+"&hotelInfo="+hotelInfo+"&roomInfo="+roomInfo;
+ */		 
+ 
+	}
 
 	$( function () {
 		
 		
-		 $( 'td:nth-child(2)' ).on("click" , function() {
-			  	
-			 var price =  $(this).next().val();
-		     var roomCity =  $(this).next().next().val();
-		     var checkIn =  $(this).next().next().next().val();
-		     var checkOut = $(this).next().next().next().next().val();
-		     var adultNum = $(this).next().next().next().next().next().val();
-		     var childNum = $(this).next().next().next().next().next().next().val();
-		     var roomNum = $(this).next().next().next().next().next().next().next().val();
-		     var roomName = $(this).next().next().next().next().next().next().next().next().val();
-		     var roomAddr = $(this).next().next().next().next().next().next().next().next().next().val();
-		     
-		     var mainService = $(this).next().next().next().next().next().next().next().next().next().next().val();
-		     var familyService = $(this).next().next().next().next().next().next().next().next().next().next().next().val();
-		     var sights = $(this).next().next().next().next().next().next().next().next().next().next().next().next().val();
-		     var hotelInfo =  $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().val();
-		     var roomInfo = $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().next().val();
-		     
-		     //alert("price : "+price+"roomName : "+roomName+"adult : "+adultNum+"child : "+childNum+"checkOut : "+checkOut+"checkIn : "+checkIn+"roomNum : "+roomNum)
-		     //var location = $("#location").val();
-		     //var distance = $("#distance").val();
-		     //var grade = $("#grade").val();
-		     
-		     //$("#checkIn").val(checkIn);
-		     
-			 self.location ="/order/addRoomOrder?roomName="+roomName+"&price="+price+"&roomCity="+roomCity+"&checkIn="+checkIn
-					 +"&roomNum="+roomNum+"&adultNum="+adultNum+"&childNum="+childNum+"&checkOut="+checkOut+"&mainService="+mainService
-					 +"&familyService="+familyService+"&sights="+sights+"&hotelInfo="+hotelInfo+"&roomInfo="+roomInfo;
-					 
-			 
-		});
-		
-		
 		
 		$("td:nth-child(2)").on("click",function(){
-			 var type = $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().val();
+			 var type = $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().val(); 
 			var id = $(this).next().val();
+			console.log(type)
+			alert(type)
 			if( type=="flight" ){
 						
 				 var airline = $(this).next().val();
@@ -90,9 +118,30 @@
 		  +"&depDate="+depDate+"&arrDate="+arrDate+"&stopOver="+stopOver+"&leadTime="+leadTime
 		  +"&tripCourse="+tripCourse+"&seatGrade="+seatGrade+"&depTime="+depTime+"&arrTime="+arrTime
 		  +"&infantNum="+infantNum+"&adultNum="+adultNum+"&childNum="+childNum;
-			}else if(type=="room"){
+			}else if(type!="flight"){
 				alert("숙소~")
-				self.location ="/order/addRoomOrder?roomId="+id;
+				var price =  $(this).next().val();
+			     var roomCity =  $(this).next().next().val();
+			     var checkIn =  $(this).next().next().next().val();
+			     var checkOut = $(this).next().next().next().next().val();
+			     var adultNum = $(this).next().next().next().next().next().val();
+			     var childNum = $(this).next().next().next().next().next().next().val();
+			     var roomNum = $(this).next().next().next().next().next().next().next().val();
+			     var roomName = $(this).next().next().next().next().next().next().next().next().val();
+			     var roomAddr = $(this).next().next().next().next().next().next().next().next().next().val();
+			     
+			     var mainService = $(this).next().next().next().next().next().next().next().next().next().next().val();
+			     var familyService = $(this).next().next().next().next().next().next().next().next().next().next().next().val();
+			     var sights = $(this).next().next().next().next().next().next().next().next().next().next().next().next().val();
+			     var hotelInfo =  $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().val();
+			     var roomInfo = $(this).next().next().next().next().next().next().next().next().next().next().next().next().next().next().val();
+			     
+			     self.location ="/order/addRoomOrder?roomName="+roomName+"&price="+price+"&roomCity="+roomCity+"&checkIn="+checkIn
+				 +"&roomNum="+roomNum+"&adultNum="+adultNum+"&childNum="+childNum+"&checkOut="+checkOut+"&mainService="+mainService
+				 +"&familyService="+familyService+"&sights="+sights+"&hotelInfo="+hotelInfo+"&roomInfo="+roomInfo;
+				 
+		 
+				
 			}
 		})
 	})
@@ -126,76 +175,88 @@
 			success : function(JSONData) {
 				var flightList = JSONData.flightList;
 				var roomList = JSONData.roomList;
+				var flight = "F";
+				var room = "R";
+				console.log(flightList)
+				console.log(roomList)
+				alert("룸리스트 길이"+roomList.length)
+				alert("룸리스트 길이"+roomList.roomName)
 				
-				
-				
+				if(JSONData.likeType=='F'){
 				$("#flightBody").html("");
-				$("#roomBody").html("");
+				
+				
 				for(var i=0;i<flightList.length;i++){
 					$("#flightBody").append("<tr>");
-					$("#flightBody").append("<th scope='row'>"+i+"</th>");
-					$("#flightBody").append("<td>"+flightList[i].airline+"</td>");
-					$("#flightBody").append("<input type='hidden'  name='airline'  value="+flightList[i].airline+" />");
-					$("#flightBody").append("<input type='hidden'  name='depCity'  value="+flightList[i].depCity+" />");
-					$("#flightBody").append("<input type='hidden'  name='arrCity'  value="+flightList[i].arrCity+" />");
-					$("#flightBody").append("<input type='hidden'  name='price'  value="+flightList[i].price+" />");
-					$("#flightBody").append("<input type='hidden'  name='depDate'  value="+flightList[i].depDate+" />");
-					$("#flightBody").append("<input type='hidden'  name='stopOver'  value="+flightList[i].arrDate+" />");
-					$("#flightBody").append("<input type='hidden'  name='leadTime'  value="+flightList[i].stopOver+" />");
-					$("#flightBody").append("<input type='hidden'  name='tripCourse'  value="+flightList[i].leadTime+" />");
-					$("#flightBody").append("<input type='hidden'  name='seatGrade'  value="+flightList[i].tripCourse+" />");
-					$("#flightBody").append("<input type='hidden'  name='depTime'  value="+flightList[i].seatGrade+" />");
-					$("#flightBody").append("<input type='hidden'  name='arrTime'  value="+flightList[i].depTime+" />");
-					$("#flightBody").append("<input type='hidden'  name='infantNum'  value="+flightList[i].arrTime+" />");
-					$("#flightBody").append("<input type='hidden'  name='adultNum'  value="+flightList[i].infantNum+" />");
-					$("#flightBody").append("<input type='hidden'  name='childNum'  value="+flightList[i].adultNum+" />");
-					$("#flightBody").append("<input type='hidden'  name='airline'  value="+flightList[i].childNum+" />");
+					$("#flightBody").append("<th scope='row'>"+(i+1)+"</th>");
+					/* $("#flightBody").append("<td onclick='javascript:addFlightOrder()'>"+flightList[i].airline+"</td>"); */
+					/* $("#flightBody").append("<td onclick='javascript:addFlightOrder("+flightList[i].airline+","+flightList[i].depCity+","+flightList[i].arrCity+","+flightList[i].price+","+flightList[i].depDate+","+flightList[i].arrDate+","+flightList[i].stopOver+","+flightList[i].leadTime+","+flightList[i].tripCourse+","+flightList[i].seatGrade+","+flightList[i].depTime+","+flightList[i].arrTime+","+flightList[i].infantNum+","+flightList[i].adultNum+","+flightList[i].childNum+")'>"+flightList[i].airline+"</td>"); */
+					 $("#flightBody").append("<td onclick='javascript:addFlightOrder("+i+")'>"+flightList[i].airline+"</td>");
+					$("#flightBody").append("<input type='hidden'  name='airline' id='airline"+i+"' value="+flightList[i].airline+" />");
+					$("#flightBody").append("<input type='hidden'  name='depCity' id='depCity"+i+"'   value="+flightList[i].depCity+" />");
+					$("#flightBody").append("<input type='hidden'  name='arrCity' id='arrCity"+i+"'   value="+flightList[i].arrCity+" />");
+					$("#flightBody").append("<input type='hidden'  name='price' id='price"+i+"'   value="+flightList[i].price+" />");
+					$("#flightBody").append("<input type='hidden'  name='depDate' id='depDate"+i+"'   value="+flightList[i].depDate+" />");
+					$("#flightBody").append("<input type='hidden'  name='stopOver' id='stopOver"+i+"'   value="+flightList[i].arrDate+" />");
+					$("#flightBody").append("<input type='hidden'  name='leadTime' id='leadTime"+i+"'   value="+flightList[i].stopOver+" />");
+					$("#flightBody").append("<input type='hidden'  name='tripCourse' id='tripCourse"+i+"'   value="+flightList[i].leadTime+" />");
+					$("#flightBody").append("<input type='hidden'  name='seatGrade' id='seatGrade"+i+"'   value="+flightList[i].tripCourse+" />");
+					$("#flightBody").append("<input type='hidden'  name='depTime' id='depTime"+i+"'   value="+flightList[i].seatGrade+" />");
+					$("#flightBody").append("<input type='hidden'  name='arrTime' id='arrTime"+i+"'   value="+flightList[i].depTime+" />");
+					$("#flightBody").append("<input type='hidden'  name='infantNum' id='infantNum"+i+"'   value="+flightList[i].arrTime+" />");
+					$("#flightBody").append("<input type='hidden'  name='adultNum' id='adultNum"+i+"'   value="+flightList[i].infantNum+" />");
+					$("#flightBody").append("<input type='hidden'  name='childNum' id='childNum"+i+"'   value="+flightList[i].adultNum+" />");
+					$("#flightBody").append("<input type='hidden'  name='airline' id='airline"+i+"'   value="+flightList[i].childNum+" />");
 					$("#flightBody").append("<input type='hidden' value='flight' />");
 					$("#flightBody").append("<td>"+flightList[i].depCity+"/"+flightList[i].arrCity+"</td>");
 					$("#flightBody").append("<td>"+flightList[i].depTime+"-"+flightList[i].arrTime+" </td>");
 					$("#flightBody").append("<td>"+flightList[i].stopOver+"/"+flightList[i].leadTime+" </td>");
 					$("#flightBody").append("<td>"+flightList[i].price+"원</td>");
-					$("#flightBody").append("<td><i class='fas fa-heart deleteFlight' onclick='javascript:deleteLike("+flightList[i].flightId+",'F')'></i></td> ");
+					/* $("#flightBody").append("<td><i class='fas fa-heart deleteFlight' onclick='javascript:deleteLike("+flightList[i].flightId+","+flight+")'></i></td> "); */
+					$("#flightBody").append("<td><i class='fas fa-heart deleteFlight' onclick='javascript:deleteLike("+flightList[i].flightId+",\"F\")'></i></td> ");
 					$("#flightBody").append("</tr>");
 					
-			
 				}
+			 	$('#room').hide(); 
+		        $('#iconr').hide();
+		        $('#flight').show();
+		        $('#iconf').show();
 				
-				for(var j=0;roomList.length;j++){
-					$("#roomBody").append("<tr>");
-					$("#roomBody").append("<th scope='row'>"+i+"</th>");
-					$("#roomBody").append("<td>"+roomList[i].roomCity+"</td>");
-					$("#roomBody").append("<input type='hidden' name='price' value="+roomList[i].price+" id='price'>");
-					$("#roomBody").append("<input type='hidden' name='roomCity' value="+roomList[i].roomCity+" id='roomCity'>");
-					$("#roomBody").append("<input type='hidden' name='checkIn' value="+roomList[i].checkIn+" id='checkIn'>");
-					$("#roomBody").append("<input type='hidden' name='checkOut' value="+roomList[i].checkOut+" id='checkOut'>");
-					$("#roomBody").append("<input type='hidden' name='adultNum' value="+roomList[i].adultNum+" id='adultNum'>");
-					$("#roomBody").append("<input type='hidden' name='childNum' value="+roomList[i].childNum+" id='childNum'>");
-					$("#roomBody").append("<input type='hidden' name='roomNum' value="+roomList[i].roomNum+" id='roomNum'>");
-					$("#roomBody").append("<input type='hidden' name='roomName' value="+roomList[i].roomName+" id='roomName'>");
-					$("#roomBody").append("<input type='hidden' name='roomAddr' value="+roomList[i].roomAddr+" id='roomAddr'>");
-					$("#roomBody").append("<input type='hidden' name='mainService' value="+roomList[i].mainService+" id='mainService'>");
-					$("#roomBody").append("<input type='hidden' name='familyService' value="+roomList[i].familyService+" id='familyService'>");
-					$("#roomBody").append("<input type='hidden' name='sights' value="+roomList[i].sights+" id='sights'>");
-					$("#roomBody").append("<input type='hidden' name='hotelInfo' value="+roomList[i].hotelInfo+" id='hotelInfo'>");
-					$("#roomBody").append("<input type='hidden' name='roomInfo' value="+roomList[i].roomInfo+" id='roomInfo'>");
 					
-					
-					$("#roomBody").append("<td>"+roomList[i].roomName+"</td>");
-					$("#roomBody").append("<td>"+roomList[i].checkIn+"-"+roomList[i].checkOut+"</td>");
-					$("#roomBody").append("<td>"+roomList[i].roomNum+"개/ 성인"+roomList[i].adultNum+"명 , 유아"+roomList[i].childNum+"명</td>");
-					$("#roomBody").append("<td>"+roomList[i].price+"원</td>");
-					$("#roomBody").append("<td><i class='fas fa-heart deleteFlight' onclick='javascript:deleteLike("+flightList[i].flightId+",'R')'></i></td> ");
-					$("#roomBody").append("</tr>");
-					
-				} 
-				
-				
-				if(JSONData.likeType=='F'){
-					doShow()
 				}
 				if(JSONData.likeType=='R'){
-					show()
+				
+					$("#roomBody").html("");
+		 			for(var j=0;j<roomList.length;j++){
+						$("#roomBody").append("<tr>");
+						$("#roomBody").append("<th scope='row'>"+(j+1)+"</th>");
+					 	$("#roomBody").append("<td onclick='javascript:addRoomOrder("+j+")'>"+roomList[j].roomCity+"</td>"); 
+						$("#roomBody").append("<input type='hidden' name='price' id='roomPrice"+j+"' value="+roomList[j].price+" id='price'>");
+						$("#roomBody").append("<input type='hidden' name='roomCity' id='roomCity"+j+"' value="+roomList[j].roomCity+" id='roomCity'>");
+						$("#roomBody").append("<input type='hidden' name='checkIn' id='checkIn"+j+"' value="+roomList[j].checkIn+" id='checkIn'>");
+						$("#roomBody").append("<input type='hidden' name='checkOut' id='checkOut"+j+"' value="+roomList[j].checkOut+" id='checkOut'>");
+						$("#roomBody").append("<input type='hidden' name='adultNum' id='roomAdultNum"+j+"' value="+roomList[j].adultNum+" id='adultNum'>");
+						$("#roomBody").append("<input type='hidden' name='childNum' id='roomChildNum"+j+"' value="+roomList[j].childNum+" id='childNum'>");
+						$("#roomBody").append("<input type='hidden' name='roomNum' id='roomNum"+j+"' value="+roomList[j].roomNum+" id='roomNum'>");
+						$("#roomBody").append("<input type='hidden' name='roomName' id='roomName"+j+"' value="+roomList[j].roomName+" id='roomName'>");
+						$("#roomBody").append("<input type='hidden' name='roomAddr' id='roomAddr"+j+"' value="+roomList[j].roomAddr+" id='roomAddr'>");
+						$("#roomBody").append("<input type='hidden' name='mainService' id='mainService"+j+"' value="+roomList[j].mainService+" id='mainService'>");
+						$("#roomBody").append("<input type='hidden' name='familyService' id='familyService"+j+"' value="+roomList[j].familyService+" id='familyService'>");
+						$("#roomBody").append("<input type='hidden' name='sights' id='sights"+j+"' value="+roomList[j].sights+" id='sights'>");
+						$("#roomBody").append("<input type='hidden' name='hotelInfo' id='hotelInfo"+j+"' value="+roomList[j].hotelInfo+" id='hotelInfo'>");
+						$("#roomBody").append("<input type='hidden' name='roomInfo' id='roomInfo"+j+"' value="+roomList[j].roomInfo+" id='roomInfo'>");
+						$("#roomBody").append("<td>"+roomList[j].roomName+"</td>");
+						$("#roomBody").append("<td>"+roomList[j].checkIn+"-"+roomList[j].checkOut+"</td>");
+						$("#roomBody").append("<td>"+roomList[j].roomNum+"개/ 성인"+roomList[j].adultNum+"명 , 유아"+roomList[j].childNum+"명</td>");
+						$("#roomBody").append("<td>"+roomList[j].price+"원</td>");
+						$("#roomBody").append("<td><i class='fas fa-heart deleteFlight' onclick='javascript:deleteLike("+roomList[j].roomId+",\"R\")'></i></td> ");
+						$("#roomBody").append("</tr>");
+					 	$('#flight').hide();
+				        $('#iconf').hide();
+				        $('#room').show();
+				        $('#iconr').show();
+						
+					}  
 				}
 				
 			},

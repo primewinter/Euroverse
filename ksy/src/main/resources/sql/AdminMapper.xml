@@ -95,7 +95,7 @@
 	<select  id="getUserList"  parameterType="search"	resultMap="adminSelectMap">
 		  	SELECT *
 		  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-		  			FROM (	SELECT user_id , user_name , nickname, sex, total_point, reg_date
+		  			FROM (	SELECT user_id , user_name , nickname, role, sex, total_point, reg_date
 							FROM users
 							<if test="searchCondition != null">
 							<where>

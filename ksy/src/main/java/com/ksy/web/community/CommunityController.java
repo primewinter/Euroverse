@@ -597,10 +597,25 @@ public class CommunityController {
 				post.setUser(userService.getUser(post.getPostWriterId()));
 			}
 		}else if ( boardName.equals("F")) {
+			map = communityService.getPostList(search, boardName);
 			List<Post> list = (List<Post>)map.get("list");
 			for(Post post : list ) {
+				System.out.println("첫번째 포스트 : "+post);
 				post.setUser(userService.getUser(post.getPostWriterId()));
-				post.setPostContent(communityService.getPost(post.getPostId(), post.getPostWriterId(), "F").getPostContent());
+				Post contentPost = communityService.getMainPost(post.getPostId(), post.getPostWriterId(), boardName);
+				List<Tag> tag = communityService.getTagList(post.getPostId());
+				post.setTagList(tag);
+				String content = contentPost.getPostContent();
+				
+				if (content.contains("<img")) {
+	                int startInt = content.indexOf("img");
+	                int endInt = content.indexOf(">", startInt);
+	                String result = content.substring(startInt - 1, endInt + 1);
+	                post.setImgSrc(result);
+	            } else {
+	                post.setImgSrc("default_trip_img.jpg");
+	            }
+			
 			}
 		} else {
 			map = communityService.getPostList(search, boardName);

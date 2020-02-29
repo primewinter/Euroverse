@@ -85,7 +85,6 @@ public class CommunityDaoImpl implements CommunityDao{
 		map.put("postId", postId);
 		map.put("userId", userId);
 		map.put("boardName", boardName);
-		
 		return sqlSession.selectOne("CommunityMapper.getPost", map);
 	}
 	
