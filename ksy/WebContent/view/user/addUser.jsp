@@ -439,12 +439,12 @@
 				return;
 			} 
 			
-		/* 	if($.trim(phone.val()).length <10){
+		 	if($.trim(phone.val()).length <10){
 				submitAlert.prop("style","display : block");
 				alertMessage.html("휴대폰 번호를 확인해주세요.");
 				return;
 			} 
-			 */
+			 
 		/* 	
 			if($("input:radio[name='sex']").is(":checked") == false){
 				submitAlert.prop("style","display : block");

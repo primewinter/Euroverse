@@ -261,9 +261,11 @@ table thead > tr{
 						        	
 							 $("#append").append(appendHtml); 
 							 $("#content").val('');
-					}// end of else
+							 $(".state").val('');
+							 $(".state").val('<span class="badge badge-pill badge-success">답변완료</span>');
 					
-				}// end of elseIf
+					}// end of else
+				}//end of elseIf
 						
 			},// end of success
 			error:function(request,status,error){
@@ -390,13 +392,13 @@ table thead > tr{
 				    <!--========= END ========== -->
 				    
 				  <!-- 답변상태  -->
-				  <td style="font-weight: bold; color: dimgray;">
-				  <c:if test="${post.postGrade != 'Q' }">
-		   			<span class="badge badge-pill badge-secondary">답변없음</span>
-		   			</c:if>	
-					<c:if test="${post.postGrade == 'Q' }">
-		   			<span class="badge badge-pill badge-success">답변완료</span>
-			   		</c:if>
+				  <td class="state" style="font-weight: bold; color: dimgray;">
+					  <c:if test="${post.postGrade != 'Q' }">
+			   				<span class="badge badge-pill badge-secondary">답변없음</span>
+			   			 </c:if>	
+						<c:if test="${post.postGrade == 'Q' }">
+			   			<span class="badge badge-pill badge-success">답변완료</span>
+				   		</c:if>
 				  </td>
 				  <!--========= END ========== -->
 				  

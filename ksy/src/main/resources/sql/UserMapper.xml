@@ -95,38 +95,6 @@
 		<result property="boardName" 	column="board_name" 		jdbcType="CHAR" />
 	</resultMap>
 
-<!-- 
-<resultMap id="statsSelectMap" type="stats">
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-</resultMap>
-
-
-
-<resultMap id="" type="">
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-</resultMap>
-
-
-<resultMap id="" type="">
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-	<result property=""		column=""			jdbcType=""/>
-</resultMap>
-
- -->
 
 <resultMap type="plan" id="planSelectMap">
 		<result	jdbcType="VARCHAR"		column="plan_id"		property="planId"/>
@@ -200,7 +168,7 @@
 <insert id="addUser" parameterType="user">
 	INSERT INTO USERS
 	( user_id , user_name , nickname , pwd , role , email , phone , user_img , sex , birth , slot ,  push_agree , reg_date) 
-	VALUES(#{userId} , #{userName} , #{nickname} , #{pwd} , 'G' , #{email} , #{phone} , #{userImg,jdbcType=VARCHAR} , #{sex} , #{birth} , 3 , #{pushAgree,jdbcType=CHAR} , systimestamp )
+	VALUES(#{userId} , #{userName} , #{nickname} , #{pwd} , 'G' , #{email,jdbcType=VARCHAR} , #{phone,jdbcType=VARCHAR} , #{userImg,jdbcType=VARCHAR} , #{sex,jdbcType=CHAR} , #{birth,jdbcType=VARCHAR} , 3 , #{pushAgree,jdbcType=CHAR} , systimestamp )
 </insert>
 
 
