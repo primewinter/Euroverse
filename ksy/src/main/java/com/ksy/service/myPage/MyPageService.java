@@ -27,22 +27,9 @@ public interface MyPageService {
 	public List<TripSurvey> getTripSurveyList(String userId) throws Exception;
 	public void deleteTripSurvey(String userId)throws Exception;
 	
-	
-	
-	public Map<String , Object> getMyPostList(Search search, String userId)throws Exception;
-	public Map<String , Object> getMyCommentList(Search search , String userId)throws Exception;
-	
 	public void updateUserSlot(String userId) throws Exception;  
 	
-	
-	
-	
-	/////////////////////////Like/////////////////////////////////////////
-	public List<Post> getBookMarkList(String userId)throws Exception;
-	
-	public List<Like> getLikeOrderList(String userId)throws Exception;
-	
-	
+
 	////////////////////////Offer//////////////////////////////////////////
 	public Map<String , Object> getOfferList(Search search , String userId) throws Exception;
 

@@ -196,4 +196,42 @@ public class CommunityServiceImpl implements CommunityService{
 	public void deletePartyUser(String partyId) throws Exception {
 		communityDao.deletePartyUser(partyId);
 	}
+	
+	
+	
+	
+	
+	////////////////////마이페이지에서 옮김////////////////////////////////////
+public Map<String,Object> getMyPostList(Search search , String userId)throws Exception{
+		
+		List<Post> list= communityDao.getMyPostList(search, userId);
+		int totalCount= communityDao.getMyPostListTotalCount(userId);
+		//int totalCount = communityDao.getPostTotalCount(search, boardName);
+		System.out.println("호호호호홓호호!!!!!!!!!!!!!!!!!");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("totalCount",totalCount);
+		//map.put("totalCount", new Integer(totalCount));
+		return map;
+	}
+	
+	
+	public Map<String,Object> getMyCommentList(Search search , String userId)throws Exception{
+		System.out.println("댓글!!!!!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		
+		List<Comment> list= communityDao.getMyCommentList(search, userId);
+		int totalCount = communityDao.getMyCommentListTotalCount(userId);
+		//int totalCount = communityDao.getPostTotalCount(search, boardName);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("totalCount",totalCount);
+		//map.put("totalCount", new Integer(totalCount));
+		System.out.println("이까지온거면 다 된거지!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println(list);
+		return map;
+	}
+	///////////////////////////////////////////////////////////////////////////
+	
+	
+	
 }

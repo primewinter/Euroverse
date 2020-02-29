@@ -267,5 +267,48 @@ public class CommunityDaoImpl implements CommunityDao{
 	public void deletePartyUser(String partyId) throws Exception {
 		sqlSession.delete("CommunityMapper.deletePartyUser", partyId);
 	}
+	
+	
+	
+	
+	
+	
+	
+	//////////////////////마이페이지에서 옮김/////////////////////////////
+	public List<Post> getMyPostList(Search search, String userId){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("userId", userId);
+		
+		
+		return sqlSession.selectList("CommunityMapper.getMyPostList",map);
+	}
+	
+	public List<Comment> getMyCommentList(Search search, String userId){
+		System.out.println("myPageDaoImpl");
+		System.out.println("@@@@@@@@@@@@@@@@@@@@");
+		System.out.println(search);
+		System.out.println("유저아이디"+userId);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("userId", userId);
+		
+		
+		return sqlSession.selectList("CommunityMapper.getMyCommentList",map);
+	}
+	
+	public int getMyPostListTotalCount(String userId)throws Exception{
+		
+		return sqlSession.selectOne("CommunityMapper.getMyPostListTotalCount",userId);
+	}
+	
+	public int getMyCommentListTotalCount(String userId)throws Exception{
+		
+		return sqlSession.selectOne("CommunityMapper.getMyCommentListTotalCount",userId);
+	}
+	/////////////////////////////////////////////////////////////
 
 }

@@ -67,6 +67,53 @@ public class OrderController {
 	int pageSize;
 	
 	
+	@RequestMapping(value = "flightOrder" , method = RequestMethod.GET)
+	public String flightOrder(@RequestParam("flightId")String flightId,Model model,HttpSession session)throws Exception {
+		User user = (User) session.getAttribute("user");
+		Order order = new Order();
+		System.out.println("user : "+user);
+		order.setBuyer(user);
+		
+		Flight flight = (Flight)flightService.getFlight(flightId);
+		User reloadUser = userService.getUser(user.getUserId());
+		System.out.println("현재포인트는 "+reloadUser.getTotalPoint());
+		session.setAttribute("user", reloadUser);
+		
+		System.out.println("userPoint :: "+user.getTotalPoint());
+		System.out.println("flight :: "+flight);
+		System.out.println("order :: "+order);
+		model.addAttribute("flight", flight);
+		model.addAttribute("order", order);
+		model.addAttribute("user", user);
+		
+		
+		return "forward:/view/order/addFlightOrder.jsp";
+	}
+	
+	
+	@RequestMapping(value = "roomOrder" , method = RequestMethod.GET)
+	public String roomOrder(@RequestParam("roomId")String roomId,Model model,HttpSession session)throws Exception {
+		User user = (User) session.getAttribute("user");
+		Order order = new Order();
+		System.out.println("user : "+user);
+		order.setBuyer(user);
+		
+		Room room = (Room)roomService.getRoom(roomId);
+		User reloadUser = userService.getUser(user.getUserId());
+		System.out.println("현재포인트는 "+reloadUser.getTotalPoint());
+		session.setAttribute("user", reloadUser);
+		
+		System.out.println("userPoint :: "+user.getTotalPoint());
+		System.out.println("order :: "+order);
+		model.addAttribute("room", room);
+		model.addAttribute("order", order);
+		model.addAttribute("user", user);
+		
+		
+		return "forward:/view/order/addRoomOrder.jsp";
+	}
+	
+	
 	@RequestMapping(value = "addFlightOrder", method = RequestMethod.GET)
 	public String addFlightOrder( 
 			@RequestParam("depCity")String depCity, @RequestParam("tripCourse")String tripCourse,
