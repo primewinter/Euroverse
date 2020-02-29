@@ -431,7 +431,7 @@
 	    $(function(){
 	    	$("#addReport").on("click", function(){
 
-	    		if( !$("input:radio[name='customRadio']:checked").val() ){
+	    		if( !$("input:radio[name='reportReason']:checked").val() ){
 	    			swal({
            				icon : 'warning',
            			    title : '신고사유는 반드시 선택해주세요.',
@@ -576,19 +576,19 @@
 	            <p>신고사유 선택</p>
             <form id="reportform" class="sendReport">
 				<div class="custom-control custom-radio">
-				  <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="F">
+				  <input type="radio" id="customRadio1" name="reportReason" class="custom-control-input" value="F">
 				  <label class="custom-control-label" for="customRadio1" style="font-size:13px; padding-bottom:6px;">욕설</label>
 				</div>
 				<div class="custom-control custom-radio">
-				  <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" value="A">
+				  <input type="radio" id="customRadio2" name="reportReason" class="custom-control-input" value="A">
 				  <label class="custom-control-label" for="customRadio2" style="font-size:13px; padding-bottom:6px;">음란물</label>
 				</div>
 				<div class="custom-control custom-radio">
-				  <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input" value="R">
+				  <input type="radio" id="customRadio3" name="reportReason" class="custom-control-input" value="R">
 				  <label class="custom-control-label" for="customRadio3" style="font-size:13px; padding-bottom:6px;">허위사실</label>
 				</div>
 				<div class="custom-control custom-radio">
-				  <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input" value="E">
+				  <input type="radio" id="customRadio4" name="reportReason" class="custom-control-input" value="E">
 				  <label class="custom-control-label" for="customRadio4" style="font-size:13px;">기타</label>
 				  <input type="text" class="form-control" id="reportContent" name="reportContent" placeholder="기타 내용을 입력하세요." style="font-size:13px;"/>
 				</div>
@@ -696,10 +696,10 @@
 			   <input type="hidden" name="boardName" value="${post.boardName}"/>	
 			   <input type="hidden" name="searchCondition" value="2"/>
 			   <input type="hidden" name="searchKeyword" value="${tag.tagContent}"/>
-	           <a href="#" style="color: gray;" type="button">${tag.tagContent}</a>
+	           <a href="#" style="color: gray;" type="button">#${tag.tagContent}</a>
 	         </form>
 	         <c:if test="${!last.last}">
-	           <i>,</i>
+	           <i>  </i>
 	         </c:if>
 	         </c:forEach>
 	       </span>  
