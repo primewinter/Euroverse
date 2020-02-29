@@ -41,43 +41,43 @@
 	
 	
 
-<!-- fontawesome CDN -->
-<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js" integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l" crossorigin="anonymous"></script>
-<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>
- -->
+	<!-- fontawesome CDN -->
+	<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js" integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l" crossorigin="anonymous"></script>
+	<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>
+	 -->
  
- <!-- 부트스트랩 아이콘 사용 cdn fontawesome.com  -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+	 <!-- 부트스트랩 아이콘 사용 cdn fontawesome.com  -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
 
-<!-- CSS 속성값 -->
-<style>
-	
-	/*include한 툴바 ui 설정값  */
-	.tollbar{
-		padding: 15px;
-	}
-	
-	h3{
-	font-size: 27px;
-	}
-	/* 이거 왜안되지?????????  */
-	table thead > tr{
-		border-color: blue;
-	}
-	.text-right{
-		padding : 8px;
-	}
-	.table-hover{
-	}
-	
-	.text-primary{
-		font-size: 14px;
-	}
-</style>
+	<!-- CSS 속성값 -->
+	<style>
+		
+		/*include한 툴바 ui 설정값  */
+		.tollbar{
+			padding: 15px;
+		}
+		
+		h3{
+		font-size: 27px;
+		}
+		/* 이거 왜안되지?????????  */
+		table thead > tr{
+			border-color: blue;
+		}
+		.text-right{
+			padding : 8px;
+		}
+		.table-hover{
+		}
+		
+		.text-primary{
+			font-size: 14px;
+		}
+	</style>
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
 	/* //=============    검색 / page 두가지 경우 모두  Event  처리 =============	 */
 	 function fncGetUserList(currentPage) {
@@ -279,9 +279,10 @@
 			<table class="table table-hover">
 	        <thead>
 		        <tr class="top shadow-sm p-3 mb-5 bg-white rounded " style="font-size:small;">
-		            <th scope="col">번호</th>
-		            <th scope="col">회원아이디</th>
+		            <th style="text-align:right;" scope="col">번호</th>
+		            <th style="text-align:center;" scope="col">회원아이디</th>
 		            <th scope="col">회원이름</th>
+		            <th scope="col">회원등급</th>
 		            <th scope="col">닉네임</th>
 		            <th scope="col">포인트</th>
 		            <th scope="col">성별</th>
@@ -294,11 +295,23 @@
 			  <c:forEach var="user" items="${list}">
 				<c:set var="i" value="${ i+1 }" />
 				<tr>
-				  <th scope="row">${ i }</th>
-				  <td style="font-weight: bold; color: dimgray;">
+				  <th style="text-align:right;" scope="row">${ i }</th>
+				  <td style="text-align:center; font-weight: bold; color: dimgray;">
 				  ${user.userId}
 				  <input type="hidden" id="userId" name="userId" value="${user.userId}"/></td>
 				  <td>${user.userName}</td>
+				  <c:if test="${user.role == 'Q' }">
+				  <td><div style=": #17a2b8;" class="badge badge-info">인증회원</div></td>
+				  </c:if>
+				  <c:if test="${user.role == 'G' }">
+				  <td><div class="badge badge-light">비인증회원</div></td>
+				  </c:if>
+				  <c:if test="${user.role == 'A' }">
+				  <td><div class="badge badge-warning">관리자</div></td>
+				  </c:if>
+				  <c:if test="${user.role == 'X' }">
+				  <td><div class="badge badge-dark">탈퇴회원</div></td>
+				  </c:if>
 				  <td>${user.nickname }</td>
 				  <td>${user.totalPoint }</td>
 				  <td>${user.sex }</td>

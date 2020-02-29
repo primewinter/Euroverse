@@ -35,9 +35,6 @@ public class FlightDaoImpl implements FlightDao {
 		return sqlSession.selectOne("FlightMapper.getFlight", flightId);
 	}
 	
-	public void getOrderRefund(Flight flight)throws Exception {
-		sqlSession.selectOne("FlightMapper.updateStatus", flight);
-	}
 	public List<Flight> getFlightList(Search search ,String buyerId ) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("search", search);
@@ -54,10 +51,7 @@ public class FlightDaoImpl implements FlightDao {
 		return sqlSession.selectOne("OrderMapper.getTotalCount", search);
 
 	}
-	
-//	public String makeCurrentPageSql(String sql, Search search) {
-//		return sqlSession.selectOne(sql, search);
-//	}
+
 
 
 }

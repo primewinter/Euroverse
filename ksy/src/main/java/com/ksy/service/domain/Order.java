@@ -12,7 +12,6 @@ public class Order {
 	private String orderStatus; //order_status
 	private Flight flightId; //flight_id
 	private Room roomId; //room_id
-	private Timestamp payDate; //pay_date
 	private int payOpt; //pay_opt
 	private int payInstal; //pay_instal
 	private int totalAmount; //total_amount
@@ -20,24 +19,8 @@ public class Order {
 	private int payPoint; //pay_point
 	private int addPoint;
 	private int usedPoint;
-	private String cardNo; //card_no
 	private String refundDate; //refund_date
 	
-	private String refId; //ref_id
-	private String usedType; //used_type  출석체크(C) , 슬롯구매(S) , 항공권,숙소 구매(B) , 포인트사용(U)
-	
-	public String getRefId() {
-		return refId;
-	}
-	public void setRefId(String refId) {
-		this.refId = refId;
-	}
-	public String getUsedType() {
-		return usedType;
-	}
-	public void setUsedType(String usedType) {
-		this.usedType = usedType;
-	}
 	public int getUsedPoint() {
 		return usedPoint;
 	}
@@ -122,23 +105,11 @@ public class Order {
 	public void setActualAmount(int actualAmount) {
 		this.actualAmount = actualAmount;
 	}
-	public String getCardNo() {
-		return cardNo;
-	}
-	public void setCardNo(String cardNo) {
-		this.cardNo = cardNo;
-	}
 	public String getRefundDate() {
 		return refundDate;
 	}
 	public void setRefundDate(String refundDate) {
 		this.refundDate = refundDate;
-	}
-	public Timestamp getPayDate() {
-		return payDate;
-	}
-	public void setPayDate(Timestamp payDate) {
-		this.payDate = payDate;
 	}
 	public int getPayPoint() {
 		return payPoint;
@@ -156,11 +127,11 @@ public class Order {
 	public String toString() {
 		return "Order [orderId=" + orderId + ", buyer=" + buyer + ", buyerName=" + buyerName + ", buyerPhone="
 				+ buyerPhone + ", buyerEmail=" + buyerEmail + ", orderDate=" + orderDate + ", orderStatus="
-				+ orderStatus + ", flightId=" + flightId + ", roomId=" + roomId + ", payDate=" + payDate + ", payOpt="
-				+ payOpt + ", payInstal=" + payInstal + ", totalAmount=" + totalAmount + ", actualAmount="
-				+ actualAmount + ", payPoint=" + payPoint + ", addPoint=" + addPoint + ", cardNo=" + cardNo
-				+ ", refundDate=" + refundDate + "]";
+				+ orderStatus + ", flightId=" + flightId + ", roomId=" + roomId + ", payOpt=" + payOpt + ", payInstal="
+				+ payInstal + ", totalAmount=" + totalAmount + ", actualAmount=" + actualAmount + ", payPoint="
+				+ payPoint + ", addPoint=" + addPoint + ", usedPoint=" + usedPoint + ", refundDate=" + refundDate + "]";
 	}
+	
 	
 
 	
