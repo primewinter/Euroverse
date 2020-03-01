@@ -34,6 +34,8 @@ public interface CommunityDao {
 
 	public List<Post> getPostList(Search search, String boardName) throws Exception ;
 	
+	public List<Post> getAllPostList(Search search) throws Exception ;
+	
 	public List<Post> getPlanPostList(Search search, String boardName) throws Exception ;
 	
 	public List<Post> getBestPostList(Search search, String boardName) throws Exception ;
@@ -43,6 +45,8 @@ public interface CommunityDao {
 	public List<Comment> rcmtNum(String postId, String userId) throws Exception ;
 	
 	public int getPostTotalCount(Search search, String boardName) throws Exception ;
+	
+	public int getAllPostTotalCount(Search search) throws Exception ;
 	
 	public int getCommentTotalCount(Search search, String postId) throws Exception ;
 	

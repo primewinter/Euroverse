@@ -34,7 +34,6 @@
 		<typeAlias alias="post" 	type="com.ksy.service.domain.Post" />
 		<typeAlias alias="push" 	type="com.ksy.service.domain.Push" />
 		<typeAlias alias="qna" 		type="com.ksy.service.domain.Qna" />
-		<typeAlias alias="recomment"	type="com.ksy.service.domain.Recomment" />
 		<typeAlias alias="report" 	type="com.ksy.service.domain.Report" />
 		<typeAlias alias="room" 	type="com.ksy.service.domain.Room" />
 		<typeAlias alias="stats" 	type="com.ksy.service.domain.Stats" />

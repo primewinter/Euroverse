@@ -253,6 +253,68 @@
 		SELECT SEQ_post_post_id.CURRVAL FROM dual
 	</select>
 	
+	<select id="getAllPostTotalCount" parameterType="search" resultType="int">
+		SELECT COUNT(*)
+	  	FROM(	SELECT p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_date , count(c.cmt_id) comments , p.views , p.blocked , p.deleted , p.post_like_count
+				FROM post p, comments c, tag t
+						<if test="searchCondition != null">
+						  <trim prefix="WHERE" prefixOverrides="AND | OR">
+							<if test="searchCondition == 0 and searchKeyword !='' ">
+						 		p.post_title LIKE '%${searchKeyword}%'
+							</if>
+							<if test="searchCondition == 1 and searchKeyword !='' ">
+						 		p.nickName LIKE '%${searchKeyword}%'
+							</if>
+							<if test="searchCondition == 2 and searchKeyword !='' ">
+						 		t.tag_content LIKE '%${searchKeyword}%'
+							</if>
+							<if test="searchCondition != null">
+								AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.deleted = 'F' AND p.blocked IN ('N', 'F') AND p.board_name in ('B', 'E', 'F', 'A', 'G')
+							</if> 
+						  </trim>
+						</if>
+						<if test="searchCondition == null">
+						  <where>
+							  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.deleted = 'F' AND p.blocked IN ('N', 'F') AND p.board_name in ('B', 'E', 'F', 'A', 'G')
+						  </where>
+						</if>
+						GROUP BY p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count
+						ORDER BY p.post_date desc ) countTable		
+	</select>
+	
+	<select id="getAllPostList" parameterType="search" resultMap="postSelectMap">
+		SELECT *
+  		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+  						FROM ( SELECT p.post_id , p.post_writer_id , p.plan_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date ,  vt2.a acc_count , vt1.c comments , p.views , p.blocked , p.deleted , p.post_like_count , p.qna_kategorie
+										FROM post p, comments c, tag t, party r,   ( SELECT post_id , count(*) c FROM comments WHERE deleted IN ('F','Y') GROUP BY post_id ) vt1, ( SELECT ref_id , count(*) a FROM party WHERE party_type = 'A' GROUP BY ref_id ) vt2
+										<if test="searchCondition != null">
+										  <trim prefix="WHERE" prefixOverrides="AND | OR">
+											<if test="searchCondition == 0 and searchKeyword !='' ">
+										 		p.post_title LIKE '%${searchKeyword}%'
+											</if>
+											<if test="searchCondition == 1 and searchKeyword !='' ">
+										 		p.nickName LIKE '%${searchKeyword}%'
+											</if>
+											<if test="searchCondition == 2 and searchKeyword !='' ">
+										 		t.tag_content LIKE '%${searchKeyword}%'
+											</if>
+											<if test="searchCondition != null">
+												AND vt2.ref_id(+) = r.ref_id AND vt1.post_id(+) = c.post_id AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.post_id = r.ref_id(+) AND p.deleted = 'F' AND p.blocked IN ('N', 'F') AND p.board_name in ('B', 'E', 'F', 'A', 'G')
+											</if> 
+										  </trim>
+										</if>
+										<if test="searchCondition == null">
+										  <where>
+											  vt2.ref_id(+) = r.ref_id AND vt1.post_id(+) = c.post_id AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.post_id = r.ref_id(+) AND p.deleted = 'F' AND p.blocked IN ('N', 'F') AND p.board_name in ('B', 'E', 'F', 'A', 'G')
+										  </where>
+										</if> 
+										GROUP BY vt1.c , vt2.a , p.post_id , p.plan_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , p.qna_kategorie
+										ORDER BY DECODE ( p.post_grade, 'N', 1, 'B', 2 ) , p.post_date desc ) inner_table
+  						WHERE ROWNUM <![CDATA[<=]]> #{currentPage}*#{pageSize} )
+  		WHERE row_seq BETWEEN (#{currentPage}-1)*#{pageSize}+1
+  		AND #{currentPage}*#{pageSize}
+	</select>
+	
 	<select  id="getPostList"  parameterType="map"	resultMap="postSelectMap">
 	  	SELECT *
   		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
@@ -264,7 +326,7 @@
 										 		p.post_title LIKE '%${search.searchKeyword}%'
 											</if>
 											<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
-										 		p.post_writer_id LIKE '%${search.searchKeyword}%'
+										 		p.nickName LIKE '%${search.searchKeyword}%'
 											</if>
 											<if test="search.searchCondition == 2 and search.searchKeyword !='' ">
 										 		t.tag_content LIKE '%${search.searchKeyword}%'
@@ -315,7 +377,7 @@
 										 		p.post_title LIKE '%${search.searchKeyword}%'
 											</if>
 											<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
-										 		p.post_writer_id LIKE '%${search.searchKeyword}%'
+										 		p.nickName LIKE '%${search.searchKeyword}%'
 											</if>
 											<if test="search.searchCondition == 2 and search.searchKeyword !='' ">
 										 		t.tag_content LIKE '%${search.searchKeyword}%'
@@ -375,7 +437,7 @@
 						 		p.post_title LIKE '%${search.searchKeyword}%'
 							</if>
 							<if test="search.searchCondition == 1 and search.searchKeyword !='' ">
-						 		p.post_writer_id LIKE '%${search.searchKeyword}%'
+						 		p.nickName LIKE '%${search.searchKeyword}%'
 							</if>
 							<if test="search.searchCondition == 2 and search.searchKeyword !='' ">
 						 		t.tag_content LIKE '%${search.searchKeyword}%'
