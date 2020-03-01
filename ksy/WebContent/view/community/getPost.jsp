@@ -539,15 +539,12 @@
 			self.location = "/community/getPost?postId="+postId+"&boardName="+boardName;
 		}
 		
-		$(function(){
-			$("a[href='#']").on("click", function(){
-				fncGetUserList(1);
-			});
-		});
-		
-		function fncGetUserList(currentPage) {
-			$("#currentPage").val(currentPage)
-			$("form[id='tagForm']").attr("method" , "POST").attr("action" , "/community/getPostList").submit();
+		function tagSearch(tagSort){
+			fncGetUserList(1, tagSort);
+		}
+	
+		function fncGetUserList(currentPage, tagSort) {
+			$("form[id='tagForm"+tagSort+"']").attr("method" , "POST").attr("action" , "/community/getAllPostList").submit();
 		}
 		
 	</script>
@@ -692,14 +689,13 @@
 	         <c:set var="i" value="0"/>
 			 <c:forEach var="tag" items="${tag}" varStatus="last">
 			 <c:set var="i" value="${ i+1 }"/>
-			 <form id="tagForm" style="display:inline-block;">
-			   <input type="hidden" name="boardName" value="${post.boardName}"/>	
-			   <input type="hidden" name="searchCondition" value="2"/>
+			 <form id="tagForm${i}" style="display:inline-block;">
+			   <input type="hidden" name="searchCondition" value="2"/>	
 			   <input type="hidden" name="searchKeyword" value="${tag.tagContent}"/>
-	           <a href="#" style="color: gray;" type="button">#${tag.tagContent}</a>
+	           <a style="color: gray;" type="button" onclick="tagSearch('${i}');">#${tag.tagContent}</a>
 	         </form>
 	         <c:if test="${!last.last}">
-	           <i>  </i>
+	           <i> </i>
 	         </c:if>
 	         </c:forEach>
 	       </span>  

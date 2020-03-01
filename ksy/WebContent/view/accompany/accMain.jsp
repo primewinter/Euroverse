@@ -266,13 +266,13 @@
                 <thead>
                     <tr>
                         <th scope="col" style="width: 10%">글번호</th>
-                        <th scope="col" style="width: 5%">동행날짜</th>
+                        <th scope="col" style="width: 12%">동행날짜</th>
                         <th scope="col" style="width: 50%">제목</th>
                         <th scope="col" style="width: 5%">인원</th>
                         <th scope="col" style="width: 16%">작성자</th>
                         <th scope="col" style="width: 10%">작성일</th>
                         <th scope="col" style="width: 7%">조회수</th>
-                        <th scope="col" style="width: 7%">추천수</th>
+                        <!--<th scope="col" style="width: 7%">추천수</th>-->
                     </tr>
                 </thead>
 
@@ -293,13 +293,13 @@
                                 </th>
                                 <c:if test="${post.accEndDate == null}">
                                     <td>
-                                        <fmt:formatDate value="${post.accStartDate}" pattern="yyyy.MM.dd" />
+                                        <fmt:formatDate value="${post.accStartDate}" pattern="MM.dd" />
                                     </td>
                                 </c:if>
                                 <c:if test="${post.accEndDate != null}">
                                     <td>
-                                        <fmt:formatDate value="${post.accStartDate}" pattern="yyyy.MM.dd" /> ~
-                                        <fmt:formatDate value="${post.accEndDate}" pattern="yyyy.MM.dd" />
+                                        <fmt:formatDate value="${post.accStartDate}" pattern="MM.dd" /> ~
+                                        <fmt:formatDate value="${post.accEndDate}" pattern="MM.dd" />
                                     </td>
                                 </c:if>
                                 <td style="text-align:left;">
@@ -318,9 +318,9 @@
                             <td>
                                 <font class='post-sm'>${post.views}</font>
                             </td>
-                            <td>
+                           <!-- <td>
                                 <font class='post-sm'>${post.postLikeCount}</font>
-                            </td>
+                            </td>-->
                         </tr>
                     </c:forEach>
 

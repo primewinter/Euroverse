@@ -37,6 +37,8 @@ public interface CommunityService {
 
 	public Map<String,Object> getPostList(Search search, String boardName) throws Exception;
 	
+	public Map<String, Object> getAllPostList(Search search) throws Exception;
+	
 	public Map<String, Object> getPlanPostList(Search search, String boardName) throws Exception ;
 	
 	public Map<String, Object> getBestPostList(Search search, String boardName) throws Exception ;

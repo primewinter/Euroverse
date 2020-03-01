@@ -571,6 +571,32 @@ public class CommunityController {
 		return "forward:/view/community/getPost.jsp";
 	}
 	
+	@RequestMapping( value="getAllPostList" )
+	public String getAllPostList( @ModelAttribute("search") Search search, Model model ) throws Exception {
+		
+		System.out.println("/community/getAllPostList : GET / POST");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		Map<String , Object> map = communityService.getAllPostList(search);
+		List<Post> list = (List<Post>)map.get("list");
+		for(Post post : list ) {
+			post.setUser(userService.getUser(post.getPostWriterId()));
+			List<Tag> tag = communityService.getTagList(post.getPostId());
+			post.setTagList(tag);
+		}
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
+		return "forward:/view/community/getAllPostList.jsp";
+	}
+	
 	@RequestMapping( value="getPostList" )
 	public String getPostList( @RequestParam("boardName") String boardName, @ModelAttribute("search") Search search, Model model, HttpServletRequest request ) throws Exception{
 		
@@ -674,9 +700,7 @@ public class CommunityController {
 	public String deletePartyUser( @RequestParam("partyId") String partyId, @RequestParam("postId") String postId, HttpSession session ) throws Exception {
 		
 		System.out.println("/community/deletePartyUser : GET");
-		
-		User user = (User)session.getAttribute("user");
-		
+	
 		communityService.deletePartyUser(partyId);
 		
 		return "redirect:/community/getPost?postId="+postId+"&boardName=D";

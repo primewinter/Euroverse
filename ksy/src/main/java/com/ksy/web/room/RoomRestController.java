@@ -60,7 +60,7 @@ public class RoomRestController {
 	
 	@RequestMapping(value="/json/addRoom",  method=RequestMethod.POST )
 	public void addRoom(@RequestBody Map jsonMap ,Room room  , HttpSession session, HttpServletResponse response 
-			,HttpServletRequest request) throws Exception {
+			 ) throws Exception {
 	  
 		System.out.println("/room/json/addRoom : POST");
 		response.setContentType("text/html;charset=utf-8");

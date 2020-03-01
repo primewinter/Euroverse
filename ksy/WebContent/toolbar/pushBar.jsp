@@ -327,7 +327,7 @@
 </div>
 <script type="text/javascript">
     var userId = '${user.userId}';
-    var pushAddr = "ws://192.168.0.62:8080/userSocket/";
+    var pushAddr = "ws://localhost:8080/userSocket/";
     var userSocket;
 
     if (userId != null && userId != '') { // 로그인 했을 때만 웹소켓 연결
@@ -338,7 +338,6 @@
         //웹 소켓이 연결되었을 때 호출되는 이벤트
         userSocket.onopen = function(message) {
             console.log('[push] : 연결됐다.')
-
             //웹 소켓에서 메시지가 날아 왔을 때 호출되는 이벤트
             userSocket.onmessage = function(message) {
                 console.log("push 왔다 ::: " + message.data)
@@ -385,8 +384,9 @@
     }
 
     function sendPush(receiverId, pushType) {
+        console.log('push 보낸다.');
         var push = new Object();
-        //console.log("[sendPush] receiverId : " + receiverId + " || pushType : " + pushType);
+        console.log("[sendPush] receiverId : " + receiverId + " || pushType : " + pushType);
         push.receiverId = receiverId;
         push.pushType = pushType;
         userSocket.send(JSON.stringify({

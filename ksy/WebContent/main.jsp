@@ -583,7 +583,7 @@
         font-weight: bold;
         display: inline-block;
         /*background-color: #ffcf00;*/
-        background-color: #ffde3e; /*#8ad0d6;*/
+        background-color: /*#ffde3e;*/ /*#8ad0d6; #4da185;*/ #97EBDB;
         text-align: left;
         margin-top: 2em;
         margin-bottom: 2em;
@@ -716,7 +716,7 @@
                 <div class="carousel-inner">
                     <!-- 슬라이드 쇼 -->
                     <div class="carousel-item active">
-                        <!--가로--> <img class="d-block w-100" src="/resources/images/mainImg/london%20(2).jpg" alt="First slide">
+                        <!--가로--> <img class="d-block w-100" src="/resources/images/mainImg/rome.jpg" alt="First slide">
                         <div class="carousel-caption d-none d-md-block">
                             <h2>유럽여행의 시작</h2>
                             <p>당신을 기다리는 백만 개의 플래너와 함께하세요.</p>
@@ -726,7 +726,7 @@
                         <img class="d-block w-100" src="/resources/images/mainImg/paris_3840x2400%20(2).jpg" alt="Second slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="/resources/images/mainImg/rome.jpg" alt="Third slide">
+                        <img class="d-block w-100" src="/resources/images/mainImg/london%20(2).jpg" alt="Third slide">
                     </div> <!-- / 슬라이드 쇼 끝 -->
                     <!-- 왼쪽 오른쪽 화살표 버튼 -->
                     <a class="carousel-control-prev" href="#main-carousel" data-slide="prev">

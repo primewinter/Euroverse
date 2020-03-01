@@ -74,7 +74,7 @@ public class OrderRestController {
 	public Map getOrderRefund(
 								@PathVariable("orderId")String orderId, 
 								@PathVariable("orderStatus")String orderStatus,
-						HttpSession session, Model model, HttpServletRequest request) throws Exception {
+						HttpSession session, Model model) throws Exception {
 		System.out.println("/getOrderRefund : GET");
 		Order order = new Order();
 		order.setOrderStatus(orderStatus);
