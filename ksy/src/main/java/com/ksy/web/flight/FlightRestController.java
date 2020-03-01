@@ -110,7 +110,7 @@ public class FlightRestController {
 	
 	@RequestMapping(value="/json/addFlight",  method=RequestMethod.POST )
 	public void addFlight(@RequestBody Map jsonMap ,Flight flight , HttpSession session, HttpServletResponse response 
-			,HttpServletRequest request) throws Exception {
+			) throws Exception {
 	  
 		System.out.println("/flight/json/addFlight : POST");
 		response.setContentType("text/html;charset=utf-8");
@@ -185,32 +185,6 @@ public class FlightRestController {
 		
 		
 	}
-	
-	@RequestMapping( value="json/likeUpdate", method=RequestMethod.POST )
-	public void likeUpdate( String postId, HttpServletResponse response, HttpSession session ) throws Exception {
-	
-		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out = response.getWriter();
 
-		Like like = new Like();
-		User user=(User)session.getAttribute("user");
-	    like.setLikeUserId(user.getUserId());
-	    like.setRefId(postId);
-	    like.setLikeType("A");
-	    
-	    if(likeService.countByLike(like)==0){
-	    	
-	    	likeService.addLike(like);
-	    	communityService.updatePostLike(postId);
-	    	
-	    	int likes=communityService.selectLike(postId);
-	    	
-	    	JSONObject obj = new JSONObject();
-	    	obj.put("like", likes);
-	    	out.println(obj);
-	    }else {
-	    	
-	    }	
-	}
 	
 }

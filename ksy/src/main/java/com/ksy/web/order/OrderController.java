@@ -262,7 +262,7 @@ public class OrderController {
 			@ModelAttribute("room")Room room, @RequestParam("orderId")String orderId,
 			@RequestParam("payPoint")int payPoint, @RequestParam("actualAmount")int actualAmount,
 			@RequestParam("payInstal")int payInstal,@RequestParam("addPoint")int addPoint,
-			HttpSession session, HttpServletRequest request , Model model) throws Exception {
+			HttpSession session, Model model) throws Exception {
 		System.out.println("/addRoomOrder : POST");
 		User user = (User) session.getAttribute("user");
 		Point point = new Point();
@@ -316,7 +316,7 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value = "getOrderList")
-	public ModelAndView getOrderList(@ModelAttribute("search") Search search, Model model, HttpServletRequest request,
+	public ModelAndView getOrderList(@ModelAttribute("search") Search search, Model model,
 			HttpSession session) throws Exception {
 
 		System.out.println("/getOrderList : GET+POST");
@@ -350,7 +350,7 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value = "getOrderListAdmin")
-	public ModelAndView getOrderListAdmin(@ModelAttribute("search") Search search, Model model, HttpServletRequest request,
+	public ModelAndView getOrderListAdmin(@ModelAttribute("search") Search search, Model model,
 			HttpSession session) throws Exception {
 
 		System.out.println("/getOrderListAdmin : GET+POST");
