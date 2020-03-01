@@ -97,6 +97,18 @@ public class CommunityServiceImpl implements CommunityService{
 		return map;
 	}
 	
+	public Map<String, Object> getAllPostList(Search search) throws Exception {
+		
+		List<Post> list= communityDao.getAllPostList(search);
+		int totalCount = communityDao.getAllPostTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
+	}
+	
 	public Map<String , Object> getPlanPostList(Search search, String boardName) throws Exception {
 		
 		List<Post> list = communityDao.getPlanPostList(search, boardName);
@@ -201,13 +213,13 @@ public class CommunityServiceImpl implements CommunityService{
 	
 	
 	
-	////////////////////¸¶ÀÌÆäÀÌÁö¿¡¼­ ¿Å±è////////////////////////////////////
+	////////////////////ë§ˆì´í˜ì´ì§€ì—ì„œ ì˜®ê¹€////////////////////////////////////
 public Map<String,Object> getMyPostList(Search search , String userId)throws Exception{
 		
 		List<Post> list= communityDao.getMyPostList(search, userId);
 		int totalCount= communityDao.getMyPostListTotalCount(userId);
 		//int totalCount = communityDao.getPostTotalCount(search, boardName);
-		System.out.println("È£È£È£È£ÃPÈ£È£!!!!!!!!!!!!!!!!!");
+		System.out.println("í˜¸í˜¸í˜¸í˜¸ï¿½Pí˜¸í˜¸!!!!!!!!!!!!!!!!!");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );
 		map.put("totalCount",totalCount);
@@ -217,7 +229,7 @@ public Map<String,Object> getMyPostList(Search search , String userId)throws Exc
 	
 	
 	public Map<String,Object> getMyCommentList(Search search , String userId)throws Exception{
-		System.out.println("´ñ±Û!!!!!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		System.out.println("ëŒ“ê¸€!!!!!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		
 		List<Comment> list= communityDao.getMyCommentList(search, userId);
 		int totalCount = communityDao.getMyCommentListTotalCount(userId);
@@ -226,7 +238,7 @@ public Map<String,Object> getMyPostList(Search search , String userId)throws Exc
 		map.put("list", list );
 		map.put("totalCount",totalCount);
 		//map.put("totalCount", new Integer(totalCount));
-		System.out.println("ÀÌ±îÁö¿Â°Å¸é ´Ù µÈ°ÅÁö!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println("ì´ê¹Œì§€ì˜¨ê±°ë©´ ë‹¤ ëœê±°ì§€!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		System.out.println(list);
 		return map;
 	}

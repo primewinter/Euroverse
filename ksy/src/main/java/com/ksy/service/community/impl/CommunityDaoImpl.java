@@ -116,6 +116,10 @@ public class CommunityDaoImpl implements CommunityDao{
 		return sqlSession.selectList("CommunityMapper.getPostList", map);
 	}
 	
+	public List<Post> getAllPostList(Search search) throws Exception {
+		return sqlSession.selectList("CommunityMapper.getAllPostList", search);
+	}
+	
 	public List<Post> getPlanPostList(Search search, String boardName) throws Exception {
 		
 		Map<String, Object> map=new HashMap<String, Object>();
@@ -165,6 +169,10 @@ public class CommunityDaoImpl implements CommunityDao{
 		map.put("boardName", boardName);
 		
 		return sqlSession.selectOne("CommunityMapper.getPostTotalCount", map);
+	}
+	
+	public int getAllPostTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getAllPostTotalCount", search);
 	}
 	
 	public int getCommentTotalCount(Search search, String postId) throws Exception {
