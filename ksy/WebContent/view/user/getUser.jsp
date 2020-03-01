@@ -18,6 +18,8 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+     <!-- sweetalert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 
 	<!-- 풀캘린더 cdn -->
@@ -40,6 +42,32 @@
 
 
 <style>
+    #calendar > div.fc-view-container > div > table > thead > tr > td > div > table > thead > tr {
+        background-color: rgb(151,235,219);
+    }
+    #calendar > div.fc-view-container > div > table {
+        font-size: 0.8em;
+    }
+    .fc-unthemed td.fc-today {
+        background : #cbf5ed;
+    }
+    .fc-event {
+        display: inline-block;
+        float:inherit;
+        background-color: #97ebdb;
+        //background-image: url( "/resources/images/icon/lb-circle.png" );
+        border: 1px solid #97ebdb;
+    }
+    .fc-content {
+        text-align: center;
+        //background-color: cornflowerblue;
+        width:4em;
+        height:3em;
+        
+    }
+    .fc-unthemed .fc-content, .fc-unthemed .fc-divider, .fc-unthemed .fc-list-heading td, .fc-unthemed .fc-list-view, .fc-unthemed .fc-popover, .fc-unthemed .fc-row, .fc-unthemed tbody, .fc-unthemed td, .fc-unthemed th, .fc-unthemed thead {
+        border-color: white;
+    }
 
 	#userInfoDiv .allInfo{
 		display: inline-block;
@@ -152,6 +180,7 @@
 	.h6Class{
 		color: red;
 	}
+    
 	
 
 </style>
@@ -159,7 +188,8 @@
 <script>
 
 $(document).ready(function() {
-	
+    
+    
 	var Calendar = FullCalendar.Calendar;
 	var Draggable = FullCalendarInteraction.Draggable;
 
@@ -219,7 +249,7 @@ $(document).ready(function() {
 	        }
 	      },
 	    header: {
-	      left: 'title',
+	      left: 'title next, prev',
 	      right : 'choolCheck'
 	    },
         eventSources: [{
@@ -229,18 +259,41 @@ $(document).ready(function() {
                     type    : 'get',
                     dataType: 'json',
                     success : function(doc) {
-                        callback(doc);
+                        console.log("출첵하고 가져온 데이터 events ");
+                        //console.log(doc);
+                        //callback(doc);
+                        
+                        var events = [];
+                        $(doc).each(function() {
+                          events.push({
+                            imageurl: $(this).attr('imageurl'),
+                            start: $(this).attr('start'), // will be parsed
+                            title : $(this).attr('title')
+                          });
+                        });
+                        console.log(events);
+                        callback(events);
+                        $('div.fc-content').css('background-color','#97ebdb');
                     }
                 });
-	       }
-	    }],
+           }
+        }],
         editable: false,
 	    eventLimit : true,
 	    cache : true,
-	    locale: 'ko',
-	    height: 480
+	    /*locale: 'ko',*/
+	    height: 480 ,
 	  });
-	calendar.render();	
+	calendar.render();
+    
+    
+    setTimeout(function() {
+        alert('http://webisfree.com');
+        }, 3000);
+    
+    
+    
+    
 
 })
 
@@ -342,6 +395,7 @@ var maPageCode = 'M';
 			}
 		}
 	}
+    
 	
 	
 	

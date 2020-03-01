@@ -259,7 +259,7 @@
         /*        background-color: #8ad0d6;*/
         font-family: 'NIXGONM-Vb';
         height: 70px;
-        background-color: rgba(255, 222, 62, 0.7);
+        background-color: rgba(151,235,219, 0.7);
         /*rgba(255,246,143, 0.8);*/
     }
 

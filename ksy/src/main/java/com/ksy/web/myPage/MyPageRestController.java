@@ -112,7 +112,8 @@ public class MyPageRestController {
 		System.out.println("차차아아아아아아앙아@@@@@@@@@@@@@@@@@@@@@@");
 		
 		
-		returnMap.put("title", "출석체크");
+		returnMap.put("imageurl", "/resources/images/icon/lb-circle.png");
+		//returnMap.put("title", "출석체크");
 		returnMap.put("start",date.format(today));
 		returnMap.put("point", reloadUser.getTotalPoint());
 		System.out.println(returnMap);
@@ -132,7 +133,9 @@ public class MyPageRestController {
 		List list = new ArrayList();
 		for(int i=0;i<choolCheckList.size();i++) {
 			Map eventMap = new HashMap();
-			eventMap.put("title", "출석체크");
+			eventMap.put("imageurl", "/resources/images/icon/lb-circle.png");
+			//eventMap.put("title", "<img src='/resources/images/icon/lb-circle.png' style='width:20px;height:auto;'>");
+			//eventMap.put("title", "출석");
 			String startDate = new SimpleDateFormat("yyyy-MM-dd").format(choolCheckList.get(i).getUsedDate());
 			eventMap.put("start",startDate);
 			list.add(eventMap);
