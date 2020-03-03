@@ -125,7 +125,7 @@
     <script type="text/javascript">
         function fncGetUserList(currentPage) {
             $("#currentPage").val(currentPage)
-            $("form").attr("method", "POST").attr("action", "/community/getPostList").submit();
+            $("form[name='detailForm']").attr("method", "POST").attr("action", "/community/getPostList").submit();
         }
 
         $(function() {
