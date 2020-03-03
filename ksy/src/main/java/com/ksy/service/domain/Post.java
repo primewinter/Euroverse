@@ -46,6 +46,7 @@ public class Post {
 	private String imgSrc;
 	private String preview;
 	private List<Tag> tagList;
+	private List<Comment> cmtList;
 	
 	
 	public User getUser() {
@@ -332,6 +333,14 @@ public class Post {
 
 	public void setTagList(List<Tag> tagList) {
 		this.tagList = tagList;
+	}
+
+	public List<Comment> getCmtList() {
+		return cmtList;
+	}
+
+	public void setCmtList(List<Comment> cmtList) {
+		this.cmtList = cmtList;
 	}
 
 	@Override

@@ -66,6 +66,12 @@
 	 
 
 </script>
+<style>
+    th, td {
+        font-size: 0.9em;
+    }
+    
+</style>
 
 
 </head>
@@ -84,11 +90,11 @@
 			<form id="pointListForm">
 			 	<input type="hidden" id="currentPage" name="currentPage" value=0 /> 
 			
-				<div class="h4" style="font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
+				<div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
 					보유포인트
 				</div>
 				<!-- <h4 style="">보유포인트</h4> -->
-				<h2 style="padding-left:10px;margin-bottom: 15px;">
+				<h2 style="font-family:'NIXGONM-Vb';padding-left:10px;margin-bottom: 15px;">
 					<b>
 					<fmt:formatNumber value="${user.totalPoint}" pattern="###,###" />
 					 Point</b> 
@@ -109,18 +115,22 @@
 			</form>
 			  <thead>
 			    <tr>
-			      <th scope="col"></th>
-			      <th scope="col">상태(적립/차감)</th>
+			      <!--<th scope="col"></th>-->
+			      <th scope="col">사용일시</th>
 			      <th scope="col">내용</th>
 			      <th scope="col">적립/차감포인트</th>
-			      <th scope="col">사용일시</th>
+			      <!--<th scope="col">사용일시</th>-->
 			    </tr>
 			  </thead>
-			  <tbody >
+			  <tbody>
 			  	<c:forEach var="point" items="${pointList}" varStatus="status">
 				    <tr>
-				     	<th scope="row">${status.count}</th>
-				      	<td>${point.usedData}</td>
+				     	<!--<th scope="row">${status.count}</th>-->
+                        <td>
+							<c:set var="pointDate" value="${fn:split(point.usedDate,' ')}"></c:set>
+							<c:out value="${pointDate[0]}"></c:out>
+						</td>   
+				      	<!--<td>${point.usedData}</td>-->
 				      	<td>${point.usedContent}</td>
 				      	<c:if test="${point.usedData=='적립'}">
 				      		<td><i class="fas fa-plus" style="font-size: 10px; vertical-align: middle;"></i><fmt:formatNumber value="${point.usedPoint}" pattern="###,###" /></td>
@@ -128,10 +138,7 @@
 			      		<c:if test="${point.usedData=='차감'}">
 			      			<td><i class="fas fa-minus" style="font-size: 10px; vertical-align: middle;"></i><fmt:formatNumber value="${point.usedPoint}" pattern="###,###" /></td>
 			      		</c:if>
-					    <td>
-							<c:set var="pointDate" value="${fn:split(point.usedDate,' ')}"></c:set>
-							<c:out value="${pointDate[0]}"></c:out>
-						</td>   
+					  
 				    </tr>
 			  	</c:forEach>
 			  	

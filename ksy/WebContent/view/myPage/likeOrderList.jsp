@@ -125,7 +125,7 @@
 	<div class="container" style="max-width: 1000px;">
 	
 		<!-- <div class="page-header"> <h3>찜목록</h3> </div> -->
-		<div class="h4" style="font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
+		<div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
 			내가 찜한 상품
 		</div>
 

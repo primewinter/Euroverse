@@ -353,7 +353,7 @@ $(function(){
 		
 	    <!-- <h1  style="margin-left: 240px; width: 1000px">플래너 초대목록</h1> -->
 	    
-	    <div class="h4" style="font-weight: bold; margin-top: 30px;margin-bottom:20px; padding-left:10px;">
+	    <div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 30px;margin-bottom:20px; padding-left:10px;">
 			플래너 초대목록
 		</div>
 				
@@ -408,7 +408,7 @@ $(function(){
 		</c:if>	
 				
 	       		<!-- <h1  style="margin-left: 240px; width: 1000px">동행 신청목록</h1> -->
-	       		<div class="h4" style="font-weight: bold; margin-top: 30px;margin-bottom:20px; padding-left:10px;">
+	       		<div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 30px;margin-bottom:20px; padding-left:10px;">
 					동행 신청목록
 				</div>
 		

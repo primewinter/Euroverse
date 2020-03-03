@@ -198,6 +198,11 @@ public class MyPageDaoImpl implements MyPageDao{
 		map.put("userId", userId);
 		return sqlSession.selectList("UserMapper.getQnaList",map);
 	}
+	@Override
+	public List<Comment> getAnswers(String postId) throws Exception {
+		
+		return sqlSession.selectList("UserMapper.getAnswers", postId);
+	}
 
 	@Override
 	public int getQnaListTotalCount(String userId) {

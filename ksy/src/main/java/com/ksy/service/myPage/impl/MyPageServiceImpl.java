@@ -167,6 +167,11 @@ public class MyPageServiceImpl implements MyPageService{
 	public Map<String , Object> getQnaList(Search search ,String userId) throws Exception {
 		List<Post> qnaList = myPageDao.getQnaList(search, userId);
 		int totalCount = myPageDao.getQnaListTotalCount(userId);
+		List<Comment> cmtList = new ArrayList<>();
+		for(Post post : qnaList) {
+			cmtList = myPageDao.getAnswers(post.getPostId());
+			post.setCmtList(cmtList);
+		}
 		
 		Map<String , Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("qnaList", qnaList);

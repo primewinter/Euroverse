@@ -52,6 +52,8 @@ public interface MyPageDao {
 	public List<Post> getQnaList(Search search , String userId)throws Exception;
 	public int getQnaListTotalCount(String userId);
 	
+	public List<Comment> getAnswers(String postId) throws Exception;
+	
 	public List<Comment> getQnaCommentList(String postId)throws Exception;
 	
 	public void deleteQna(String postId)throws Exception;

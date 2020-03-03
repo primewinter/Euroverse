@@ -583,7 +583,7 @@
         font-weight: bold;
         display: inline-block;
         /*background-color: #ffcf00;*/
-        background-color: /*#ffde3e;*/ /*#8ad0d6; #4da185;*/ #97EBDB;
+        background-color: #ffde3e; /*#8ad0d6; #4da185;*/ /*#97EBDB;*/
         text-align: left;
         margin-top: 2em;
         margin-bottom: 2em;

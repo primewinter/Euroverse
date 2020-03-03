@@ -384,7 +384,7 @@
                                 </c:if>
                                 <td style="text-align:left;">
                                     <input type="hidden" id="postId" name="postId" value="${post.postId}" />
-                                    <span style="color:black;">
+                                    <span style="color:black;font-family: 'NIXGONM-Vb';">
                                         <c:if test="${post.boardName=='G'}">
                                             <c:if test="${post.qnaKategorie=='G'}">
                                                 [∑Á∆Æ]

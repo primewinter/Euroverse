@@ -133,9 +133,9 @@ public class MyPageRestController {
 		List list = new ArrayList();
 		for(int i=0;i<choolCheckList.size();i++) {
 			Map eventMap = new HashMap();
-			eventMap.put("imageurl", "/resources/images/icon/lb-circle.png");
+			//eventMap.put("imageurl", "/resources/images/icon/lb-circle.png");
 			//eventMap.put("title", "<img src='/resources/images/icon/lb-circle.png' style='width:20px;height:auto;'>");
-			//eventMap.put("title", "√‚ºÆ");
+			eventMap.put("title", "<i class=\"fas fa-check\"></i>");
 			String startDate = new SimpleDateFormat("yyyy-MM-dd").format(choolCheckList.get(i).getUsedDate());
 			eventMap.put("start",startDate);
 			list.add(eventMap);

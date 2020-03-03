@@ -20,6 +20,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
      <!-- sweetalert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
 
 	<!-- 풀캘린더 cdn -->
@@ -52,21 +54,37 @@
         background : #cbf5ed;
     }
     .fc-event {
-        display: inline-block;
-        float:inherit;
-        background-color: #97ebdb;
-        //background-image: url( "/resources/images/icon/lb-circle.png" );
-        border: 1px solid #97ebdb;
+        border:0px;
+    }
+    td.fc-event-container {
+        background-color: aqua;
+        text-align: center;
+    }
+    .fc-title {
+        font-size: 2em;
+        color: #0086ad;
     }
     .fc-content {
-        text-align: center;
-        //background-color: cornflowerblue;
-        width:4em;
+        width:3em;
         height:3em;
+        border:0px;
+/*        border: 1px solid #0086ad;*/
+        border-radius:50%;
+/*        background-color: pink;*/
+        margin:0px;
         
     }
+    a.fc-day-grid-event {
+        width: 3em;
+        height: 3em;
+        display:inline-block;
+        background-color: transparent;
+    }
+    .fc .fc-row .fc-content-skeleton table, .fc .fc-row .fc-content-skeleton td, .fc .fc-row .fc-mirror-skeleton td {
+        background-color:transparent;
+    }
     .fc-unthemed .fc-content, .fc-unthemed .fc-divider, .fc-unthemed .fc-list-heading td, .fc-unthemed .fc-list-view, .fc-unthemed .fc-popover, .fc-unthemed .fc-row, .fc-unthemed tbody, .fc-unthemed td, .fc-unthemed th, .fc-unthemed thead {
-        border-color: white;
+        border-color: #f0f0f0;
     }
 
 	#userInfoDiv .allInfo{
@@ -181,6 +199,18 @@
 		color: red;
 	}
     
+    .fc-choolCheck-button {
+        width: 7em;
+        color: black;
+        font-family:'NIXGONM-Vb';
+        border: 0px;
+        background: #97ebdb;
+        font-size:0.8em;
+    }
+    .fc-left h2 {
+        font-family: 'NIXGONM-Vb';
+    }
+    
 	
 
 </style>
@@ -223,7 +253,7 @@ $(document).ready(function() {
 							stringDate : stringDate
 						}),
 						success : function(JSONData, Status) {
-									
+								
 								if(JSONData.error == 'error'){
 									
 									swal({
@@ -232,10 +262,9 @@ $(document).ready(function() {
 										  text:"내일 다시 시도해주세요.",
 										 
 										})
-									
 								}else{
 									calendar.addEvent(JSONData);
-									
+                                    
 									swal({
 										   icon : 'success',
 										  title : "출석체크 성공!",
@@ -249,7 +278,7 @@ $(document).ready(function() {
 	        }
 	      },
 	    header: {
-	      left: 'title next, prev',
+	      left: 'title',
 	      right : 'choolCheck'
 	    },
         eventSources: [{
@@ -260,20 +289,8 @@ $(document).ready(function() {
                     dataType: 'json',
                     success : function(doc) {
                         console.log("출첵하고 가져온 데이터 events ");
-                        //console.log(doc);
-                        //callback(doc);
-                        
-                        var events = [];
-                        $(doc).each(function() {
-                          events.push({
-                            imageurl: $(this).attr('imageurl'),
-                            start: $(this).attr('start'), // will be parsed
-                            title : $(this).attr('title')
-                          });
-                        });
-                        console.log(events);
-                        callback(events);
-                        $('div.fc-content').css('background-color','#97ebdb');
+                        callback(doc);
+                        chulCheckBtn(doc);
                     }
                 });
            }
@@ -286,17 +303,38 @@ $(document).ready(function() {
 	  });
 	calendar.render();
     
-    
-    setTimeout(function() {
-        alert('http://webisfree.com');
-        }, 3000);
-    
-    
+    $('.fc-choolCheck-button').on('hover', function() {
+        $(this).css('background', '#00c2c7');
+    });
     
     
 
 })
 
+    function chulCheckBtn(doc) {
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth()+1
+        var day = date.getDate();
+        if(month < 10){
+            month = "0"+month;
+        }
+        if(day < 10){
+            day = "0"+day;
+        }
+
+        var today = year+"-"+month+"-"+day;
+
+         
+        $(doc).each(function() {
+            console.log('오늘 : '+today);
+            if( today == $(this).attr('start')) {
+                console.log('담아오는 날짜 : '+$(this).attr('start'));
+                $('.fc-choolCheck-button').prop("disabled", true).html('출석 완료').unbind();
+            }
+        });
+        $('.fc-title').html('<i class="fas fa-check"></i>');
+    }
 
 var maPageCode = 'M';
 

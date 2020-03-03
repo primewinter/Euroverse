@@ -99,7 +99,7 @@
 	
 	
 	    <!-- <h3  style="margin-left: 320px; width: 1000px"><b>나의 북마크목록</b></h3> -->
-		<div class="h4" style="font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
+		<div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
 			나의 북마크
 		</div>
 		
@@ -120,7 +120,26 @@
 	  			<tbody>
 				  	<c:forEach var="bookMarkPost" items="${bookMarkList}" varStatus="status">
 				  		<tr>
-				  			<th scope="row">${status.count}</th>
+				  			<th scope="row">
+                                <c:if test="${bookMarkPost.boardName=='A'}">
+                                    자유게시판
+                                </c:if>
+                                <c:if test="${bookMarkPost.boardName=='B'}">
+                                    여행정보
+                                </c:if>
+                                <c:if test="${bookMarkPost.boardName=='D'}">
+                                    동행찾기
+                                </c:if>
+                                <c:if test="${bookMarkPost.boardName=='E'}">
+                                    플래너 공유
+                                </c:if>
+                                <c:if test="${bookMarkPost.boardName=='F'}">
+                                    여행후기
+                                </c:if>
+                                <c:if test="${bookMarkPost.boardName=='G'}">
+                                    QnA
+                                </c:if>
+				  			</th>
 				  			<c:set var="title" value="${bookMarkPost.postTitle}"/>
 							<td>${fn:substring(title,0,35)}
 								<c:if test="${fn:length(title)>35}">
