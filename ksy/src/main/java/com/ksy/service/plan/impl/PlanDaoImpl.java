@@ -38,14 +38,6 @@ public class PlanDaoImpl implements PlanDao {
 		return sqlSession.selectOne("PlanMapper.getPlan", planId);
 	}
 
-	public List<Todo> getTodoList(String planId) throws Exception {
-		return sqlSession.selectList("PlanMapper.getTodoList", planId);
-	}
-
-	public List<User> getPlanPartyList(String planId) throws Exception {
-		return sqlSession.selectList("PlanMapper.getPlanPartyList", planId);
-	}
-
 	synchronized public void addPlan(Plan plan) throws Exception {
 		sqlSession.insert("PlanMapper.addPlan", plan);
 		
@@ -61,6 +53,36 @@ public class PlanDaoImpl implements PlanDao {
 			sqlSession.insert("PlanSubMapper.addDefaultStuffs", string);
 		}
 	}
+	
+	public void updatePlan(Plan plan) throws Exception {
+		sqlSession.update("PlanMapper.updatePlan", plan);
+	}
+
+	public void updatePlanStatus(Plan plan) throws Exception {
+		sqlSession.update("PlanMapper.updatePlanStatus", plan);
+	}
+
+	public void deletePlan(String planId) throws Exception {
+		sqlSession.update("PlanMapper.deletePlan", planId);
+	}
+
+	public List<User> getPlanPartyList(String planId) throws Exception {
+		return sqlSession.selectList("PlanMapper.getPlanPartyList", planId);
+	}
+	
+	public void deletePlanParty(Party party) throws Exception {
+		sqlSession.delete("PlanMapper.deletePlanParty", party);
+	}
+
+	
+	public String checkUserFromParty(Party party) throws Exception {
+		return sqlSession.selectOne("PlanMapper.checkUserFromParty", party);
+	}
+
+	public void addOffer(Offer offer) throws Exception {
+		sqlSession.insert("PlanMapper.addOffer", offer);
+	}
+	
 	
 	@Override
 	synchronized public String copyPlan(Plan plan) throws Exception {
@@ -90,32 +112,10 @@ public class PlanDaoImpl implements PlanDao {
 	}
 	
 
-	public void updatePlan(Plan plan) throws Exception {
-		sqlSession.update("PlanMapper.updatePlan", plan);
+	public List<Todo> getTodoList(String planId) throws Exception {
+		return sqlSession.selectList("PlanMapper.getTodoList", planId);
 	}
 
-	public void updatePlanStatus(Plan plan) throws Exception {
-		sqlSession.update("PlanMapper.updatePlanStatus", plan);
-	}
-
-	public void deletePlan(String planId) throws Exception {
-		sqlSession.update("PlanMapper.deletePlan", planId);
-	}
-
-	public void deletePlanParty(Party party) throws Exception {
-		sqlSession.delete("PlanMapper.deletePlanParty", party);
-	}
-
-	
-	public String checkUserFromParty(Party party) throws Exception {
-		return sqlSession.selectOne("PlanMapper.checkUserFromParty", party);
-	}
-
-	public void addOffer(Offer offer) throws Exception {
-		sqlSession.insert("PlanMapper.addOffer", offer);
-	}
-
-	
 	public void checkTodo(Todo todo) throws Exception {
 		sqlSession.update("PlanMapper.checkTodo", todo);
 	}
@@ -124,24 +124,25 @@ public class PlanDaoImpl implements PlanDao {
 		sqlSession.insert("PlanMapper.addTodo", todo);
 	}
 
-	public void updateTodoName(Todo todo) throws Exception {
-		sqlSession.update("PlanMapper.updateTodoName", todo);
-	}
-
 	public void deleteTodo(String todoId) throws Exception {
 		sqlSession.delete("PlanMapper.deleteTodo", todoId);	
 	}
 	
+	/* 안쓰는 메소드 - 나중에 지우기!! */
+	public void updateTodoName(Todo todo) throws Exception {
+		sqlSession.update("PlanMapper.updateTodoName", todo);
+	}
+	
+	
+
+	public List<Plan> getEndPlanList(String userId)throws Exception{
+		return sqlSession.selectList("PlanMapper.getEndPlanList",userId);
+	}
 	
 	public int getPlanCount(String userId)throws Exception{
 		return sqlSession.selectOne("PlanMapper.getPlanCount",userId);
 	}
 		
-	public List<Plan> getEndPlanList(String userId)throws Exception{
-		return sqlSession.selectList("PlanMapper.getEndPlanList",userId);
-	}
-	
-	
 	
 	
 	public int getUndoneCount(String userId) throws Exception {
