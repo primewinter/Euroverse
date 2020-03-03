@@ -544,6 +544,7 @@
 		}
 	
 		function fncGetUserList(currentPage, tagSort) {
+			$("#currentPage").val(currentPage)
 			$("form[id='tagForm"+tagSort+"']").attr("method" , "POST").attr("action" , "/community/getAllPostList").submit();
 		}
 		

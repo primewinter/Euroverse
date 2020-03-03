@@ -194,7 +194,7 @@
     <script type="text/javascript">
         function fncGetUserList(currentPage) {
             $("#currentPage").val(currentPage)
-            $("form[name='detailForm']").attr("method", "POST").attr("action", "/community/getPostList").submit();
+            $("form").attr("method", "POST").attr("action", "/community/getPostList").submit();
         }
 
         $(function() {
@@ -252,7 +252,7 @@
     <div class="container" style="max-width: 1000px;">
 
         <div class="h4" id="boardTitle" style="font-weight: bold; margin-top: 40px;padding-left:10px;">
-            플래너공유
+            플래너 공유 ( 테스트용 : /plan/getPostList )
         </div>
 
         <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -310,7 +310,11 @@
                                             <div style="position: relative;">
 
                                                 <figure class="snip1200">
-                                                    <img style="height:300px;" width="100%" height="200px" src="/resources/images/planImg/${plan.planImg}" />
+                                                    <!-- <img style="height:300px;" width="100%" height="200px" src="/resources/images/planImg/${plan.planImg}" /> -->
+                                                    <!-- <img style="height:250px;" width="100%" src="https://maps.googleapis.com/maps/api/staticmap?size=400x290&mobile=true&visible=39,17&path=color:0x|weight:1|50.112,8.684|48.861,2.342|45.112,3.684&&markers=size:tiny%7Ccolor:red|50.112,8.684&markers=size:tiny%7Ccolor:red|48.861,2.342&markers=size:tiny%7Ccolor:red|45.112,3.684&key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4&format=png&maptype=roadmap&style=element:geometry%7Ccolor:0xebe3cd&style=element:labels.text.fill%7Ccolor:0x773d3c&style=element:labels.text.stroke%7Ccolor:0xf5f1e6&style=feature:administrative%7Celement:geometry%7Cvisibility:off&style=feature:administrative%7Celement:geometry.stroke%7Ccolor:0xc9b2a6&style=feature:administrative.land_parcel%7Cvisibility:off&style=feature:administrative.land_parcel%7Celement:geometry.stroke%7Ccolor:0xf0e5d1&style=feature:administrative.land_parcel%7Celement:labels.text.fill%7Ccolor:0xae9e90&style=feature:administrative.neighborhood%7Ccolor:0xfdf1dc%7Cvisibility:off&style=feature:landscape.natural%7Celement:geometry%7Ccolor:0xfff8e6&style=feature:poi%7Cvisibility:off&style=feature:poi%7Celement:geometry%7Ccolor:0xdfd2ae&style=feature:poi%7Celement:labels.text.fill%7Ccolor:0x93817c&style=feature:poi.park%7Celement:geometry.fill%7Ccolor:0xa5b076&style=feature:poi.park%7Celement:labels.text.fill%7Ccolor:0x447530&style=feature:road%7Cvisibility:off&style=feature:road%7Celement:geometry%7Ccolor:0xf5f1e6&style=feature:road%7Celement:labels%7Cvisibility:off&style=feature:road%7Celement:labels.icon%7Cvisibility:off&style=feature:road.arterial%7Celement:geometry%7Ccolor:0xfdfcf8&style=feature:road.highway%7Celement:geometry%7Ccolor:0xf8c967&style=feature:road.highway%7Celement:geometry.stroke%7Ccolor:0xe9bc62&style=feature:road.highway.controlled_access%7Celement:geometry%7Ccolor:0xe98d58&style=feature:road.highway.controlled_access%7Celement:geometry.stroke%7Ccolor:0xdb8555&style=feature:road.local%7Celement:labels.text.fill%7Ccolor:0x806b63&style=feature:transit%7Cvisibility:off&style=feature:transit.line%7Celement:geometry%7Ccolor:0xdfd2ae&style=feature:transit.line%7Celement:labels.text.fill%7Ccolor:0x8f7d77&style=feature:transit.line%7Celement:labels.text.stroke%7Ccolor:0xebe3cd&style=feature:transit.station%7Celement:geometry%7Ccolor:0xdfd2ae&style=feature:water%7Celement:geometry.fill%7Ccolor:0xd1ece5&style=feature:water%7Celement:labels.text%7Cvisibility:off&style=feature:water%7Celement:labels.text.fill%7Ccolor:0x92998d" />  -->
+                                                    
+                                                    <img style="height:250px;" width="100%" src="${plan.planImg}" />
+                                                    
                                                     <figcaption>
                                                         <p>
                                                             <c:choose>

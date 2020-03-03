@@ -1,15 +1,20 @@
 package com.ksy.web.plan;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -19,7 +24,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ksy.common.Page;
+import com.ksy.common.Search;
 import com.ksy.common.util.Util;
+import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.City;
 import com.ksy.service.domain.Daily;
 import com.ksy.service.domain.Day;
@@ -27,7 +35,9 @@ import com.ksy.service.domain.Memo;
 import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.Point;
+import com.ksy.service.domain.Post;
 import com.ksy.service.domain.Stuff;
+import com.ksy.service.domain.Tag;
 import com.ksy.service.domain.Todo;
 import com.ksy.service.domain.User;
 import com.ksy.service.myPage.MyPageService;
@@ -369,5 +379,130 @@ public class PlanController {
 		return "redirect:/plan/getPlanList?userId="+userId;
 	}
 	
+	
+	
+	@Value("#{commonProperties['postPageUnit']}")
+	int pageUnit;
+	
+	@Value("#{commonProperties['postPageSize']}")
+	int pageSize;
+	
+	@Autowired
+	@Qualifier("communityServiceImpl")
+	private CommunityService communityService;
+	
+	
+	/////// 테스트용 포스트리스트 함수
+	@RequestMapping( value="getPostList" )
+	public String getPostList( @RequestParam("boardName") String boardName, @ModelAttribute("search") Search search, Model model, HttpServletRequest request ) throws Exception{
+		
+		System.out.println("/community/getPostList : GET / POST");
+		System.out.println("boardName : "+boardName);
+		
+		String bestPost = request.getParameter("bestPost");
+		System.out.println(bestPost);
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		Map<String , Object> map = new HashMap<String, Object>();
+		
+		if( boardName.equals("C") ) {
+			if( search.getSorting() == null ) {
+				search.setSorting("0");
+			}
+			map = communityService.getBestPostList(search, boardName);
+			List<Post> list = (List<Post>)map.get("list");
+			for(Post post : list ) {
+				post.setUser(userService.getUser(post.getPostWriterId()));
+			}
+		}else if ( boardName.equals("F")) {
+			map = communityService.getPostList(search, boardName);
+			List<Post> list = (List<Post>)map.get("list");
+			for(Post post : list ) {
+				System.out.println("첫번째 포스트 : "+post);
+				post.setUser(userService.getUser(post.getPostWriterId()));
+				Post contentPost = communityService.getMainPost(post.getPostId(), post.getPostWriterId(), boardName);
+				List<Tag> tag = communityService.getTagList(post.getPostId());
+				post.setTagList(tag);
+				String content = contentPost.getPostContent();
+				
+				if (content.contains("<img")) {
+	                int startInt = content.indexOf("img");
+	                int endInt = content.indexOf(">", startInt);
+	                String result = content.substring(startInt - 1, endInt + 1);
+	                post.setImgSrc(result);
+	            } else {
+	                post.setImgSrc("<img src='/resources/images/commImg/default_trip_img.jpeg'>");
+	            }
+			
+			}
+		} else {
+			map = communityService.getPostList(search, boardName);
+			List<Post> list = (List<Post>)map.get("list");
+			for(Post post : list ) {
+				post.setUser(userService.getUser(post.getPostWriterId()));
+			}
+		}
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		// Model 과 View 연결
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		model.addAttribute("boardName", boardName);
+		
+		if( boardName.equals("C") ) {
+			return "forward:/view/community/getBestPostList.jsp";
+		}else if( boardName.equals("E") ) {
+			
+			List<Post> postList = (List<Post>)map.get("list");
+			for(Post post : postList ) {
+				post.setUser(userService.getUser(post.getPostWriterId()));
+			}
+			List<Plan> planList = new ArrayList<Plan>();
+			
+			for(int i=0; i<postList.size(); i++) {
+			Plan plan = planService.getPlan(postList.get(i).getPlanId());
+			
+			List<City> listCity = planSubService.getCityRouteList(plan.getPlanId());
+			plan.setCityList(listCity);
+			
+			String planImgString = "https://maps.googleapis.com/maps/api/staticmap?size=400x290&mobile=true&visible=39,17";
+			
+			//planImgString = planImgString + "&path=color:0x|weight:1|50.112,8.684|48.861,2.342|45.112,3.684"
+			//		+ "&markers=size:tiny%7Ccolor:red|50.112,8.684&markers=size:tiny%7Ccolor:red|48.861,2.342&markers=size:tiny%7Ccolor:red|45.112,3.684"
+			
+			planImgString = planImgString + "&path=color:0x|weight:1";
+			
+			for(City cityItem : listCity) {
+				planImgString = planImgString + "|" + cityItem.getCityLat() +","+ cityItem.getCityLng();
+			} //50.112,8.684|48.861,2.342|45.112,3.684
+			
+			for(City cityItem : listCity) {
+				planImgString = planImgString + "&markers=size:tiny%7Ccolor:red|" + cityItem.getCityLat() +","+ cityItem.getCityLng();
+			}
+			//planImgString = planImgString + "&markers=size:tiny%7Ccolor:red|50.112,8.684&markers=size:tiny%7Ccolor:red|48.861,2.342&markers=size:tiny%7Ccolor:red|45.112,3.684"
+			planImgString = planImgString + "&key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4&format=png&maptype=roadmap&style=element:geometry%7Ccolor:0xebe3cd&style=element:labels.text.fill%7Ccolor:0x773d3c&style=element:labels.text.stroke%7Ccolor:0xf5f1e6&style=feature:administrative%7Celement:geometry%7Cvisibility:off&style=feature:administrative%7Celement:geometry.stroke%7Ccolor:0xc9b2a6&style=feature:administrative.land_parcel%7Cvisibility:off&style=feature:administrative.land_parcel%7Celement:geometry.stroke%7Ccolor:0xf0e5d1&style=feature:administrative.land_parcel%7Celement:labels.text.fill%7Ccolor:0xae9e90&style=feature:administrative.neighborhood%7Ccolor:0xfdf1dc%7Cvisibility:off&style=feature:landscape.natural%7Celement:geometry%7Ccolor:0xfff8e6&style=feature:poi%7Cvisibility:off&style=feature:poi%7Celement:geometry%7Ccolor:0xdfd2ae&style=feature:poi%7Celement:labels.text.fill%7Ccolor:0x93817c&style=feature:poi.park%7Celement:geometry.fill%7Ccolor:0xa5b076&style=feature:poi.park%7Celement:labels.text.fill%7Ccolor:0x447530&style=feature:road%7Cvisibility:off&style=feature:road%7Celement:geometry%7Ccolor:0xf5f1e6&style=feature:road%7Celement:labels%7Cvisibility:off&style=feature:road%7Celement:labels.icon%7Cvisibility:off&style=feature:road.arterial%7Celement:geometry%7Ccolor:0xfdfcf8&style=feature:road.highway%7Celement:geometry%7Ccolor:0xf8c967&style=feature:road.highway%7Celement:geometry.stroke%7Ccolor:0xe9bc62&style=feature:road.highway.controlled_access%7Celement:geometry%7Ccolor:0xe98d58&style=feature:road.highway.controlled_access%7Celement:geometry.stroke%7Ccolor:0xdb8555&style=feature:road.local%7Celement:labels.text.fill%7Ccolor:0x806b63&style=feature:transit%7Cvisibility:off&style=feature:transit.line%7Celement:geometry%7Ccolor:0xdfd2ae&style=feature:transit.line%7Celement:labels.text.fill%7Ccolor:0x8f7d77&style=feature:transit.line%7Celement:labels.text.stroke%7Ccolor:0xebe3cd&style=feature:transit.station%7Celement:geometry%7Ccolor:0xdfd2ae&style=feature:water%7Celement:geometry.fill%7Ccolor:0xd1ece5&style=feature:water%7Celement:labels.text%7Cvisibility:off&style=feature:water%7Celement:labels.text.fill%7Ccolor:0x92998d";
+			plan.setPlanImg(planImgString);
+			
+			
+			planList.add(plan);
+			
+			model.addAttribute("boardName", boardName);
+			model.addAttribute("plan", planList);
+			}
+			return "forward:/view/plan/getPlanPostList.jsp";
+		}else if( boardName.equals("F") ) {
+			return "forward:/view/community/getReviewPostList.jsp";
+		}else if( boardName.equals("D") ) {
+			return "forward:/view/accompany/accMain.jsp";
+		} else {
+			return "forward:/view/community/getPostList.jsp";
+		}
+	}
 	
 }

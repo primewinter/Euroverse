@@ -126,7 +126,7 @@
     
         function fncGetUserList(currentPage) {
             $("#currentPage").val(currentPage)
-            $("form").attr("method", "POST").attr("action", "/community/getAllPostList").submit();
+            $("form[name='detailForm']").attr("method", "POST").attr("action", "/community/getAllPostList").submit();
         }
 
         $(function() {
@@ -179,6 +179,10 @@
         <div class="row" style="margin: 10px;">
 
             <div class="col-md-12 text-right upper-wrap">
+            
+	          	<%-- <span style="float:left;">
+		    		총 게시글 ${resultPage.totalCount} | 현재 ${resultPage.currentPage} 페이지
+		    	</span> --%>
 
                 <div class="search-section">
                     <form class="form-inline mt-2 mt-md-0" name="detailForm" style="float:right;">

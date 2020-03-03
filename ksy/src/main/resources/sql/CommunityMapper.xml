@@ -269,13 +269,13 @@
 						 		t.tag_content LIKE '%${searchKeyword}%'
 							</if>
 							<if test="searchCondition != null">
-								AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.deleted = 'F' AND p.blocked IN ('N', 'F') AND p.board_name in ('B', 'E', 'F', 'A', 'G')
+								AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.deleted = 'F' AND p.blocked IN ('N', 'F') AND p.board_name in ('B', 'E', 'F', 'A', 'G') AND p.post_grade = 'B'
 							</if> 
 						  </trim>
 						</if>
 						<if test="searchCondition == null">
 						  <where>
-							  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.deleted = 'F' AND p.blocked IN ('N', 'F') AND p.board_name in ('B', 'E', 'F', 'A', 'G')
+							  p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.deleted = 'F' AND p.blocked IN ('N', 'F') AND p.board_name in ('B', 'E', 'F', 'A', 'G') AND p.post_grade = 'B'
 						  </where>
 						</if>
 						GROUP BY p.post_id , p.post_writer_id , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count
@@ -299,17 +299,17 @@
 										 		t.tag_content LIKE '%${searchKeyword}%'
 											</if>
 											<if test="searchCondition != null">
-												AND vt2.ref_id(+) = r.ref_id AND vt1.post_id(+) = c.post_id AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.post_id = r.ref_id(+) AND p.deleted = 'F' AND p.blocked IN ('N', 'F') AND p.board_name in ('B', 'E', 'F', 'A', 'G')
+												AND vt2.ref_id(+) = r.ref_id AND vt1.post_id(+) = c.post_id AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.post_id = r.ref_id(+) AND p.deleted = 'F' AND p.blocked IN ('N', 'F') AND p.board_name in ('B', 'E', 'F', 'A', 'G') AND p.post_grade = 'B'
 											</if> 
 										  </trim>
 										</if>
 										<if test="searchCondition == null">
 										  <where>
-											  vt2.ref_id(+) = r.ref_id AND vt1.post_id(+) = c.post_id AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.post_id = r.ref_id(+) AND p.deleted = 'F' AND p.blocked IN ('N', 'F') AND p.board_name in ('B', 'E', 'F', 'A', 'G')
+											  vt2.ref_id(+) = r.ref_id AND vt1.post_id(+) = c.post_id AND p.post_id = c.post_id(+) AND p.post_id = t.post_id(+) AND p.post_id = r.ref_id(+) AND p.deleted = 'F' AND p.blocked IN ('N', 'F') AND p.board_name in ('B', 'E', 'F', 'A', 'G') AND p.post_grade = 'B'
 										  </where>
 										</if> 
 										GROUP BY vt1.c , vt2.a , p.post_id , p.plan_id , p.post_writer_id , p.acc_person , p.acc_start_date , p.acc_end_date , p.nickname , p.board_name , p.post_grade , p.post_title , p.post_date , p.views , p.blocked , p.deleted , p.post_like_count , p.qna_kategorie
-										ORDER BY DECODE ( p.post_grade, 'N', 1, 'B', 2 ) , p.post_date desc ) inner_table
+										ORDER BY p.post_date desc ) inner_table
   						WHERE ROWNUM <![CDATA[<=]]> #{currentPage}*#{pageSize} )
   		WHERE row_seq BETWEEN (#{currentPage}-1)*#{pageSize}+1
   		AND #{currentPage}*#{pageSize}
