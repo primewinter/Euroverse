@@ -300,7 +300,6 @@
     }
 </script>
 
-	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	<div class="modal fade " id="loginModal">
 	    <!-- <div class="modal-dialog modal-lg"> -->
 	    <div class="modal-dialog" id="loginModalDialog">
@@ -320,7 +319,7 @@
 								<label><b>아이디</b></label>		
 							</div>
 							<div class="input-container">		
-								<input type="password" name="pwd" id="loginPwd" required=""/>
+								<input type="password" name="pwd" id="loginPwd" required="" style="font-family: serif;"/>
 								<label><b>비밀번호</b></label>
 							</div>
 							
