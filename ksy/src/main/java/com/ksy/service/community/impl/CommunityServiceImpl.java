@@ -97,6 +97,12 @@ public class CommunityServiceImpl implements CommunityService{
 		return map;
 	}
 	
+	public List<Party> getMyPartyList(String userId) throws Exception {
+		List<Party> list = communityDao.getMyPartyList(userId);
+		
+		return list;
+	}
+	
 	public Map<String, Object> getAllPostList(Search search) throws Exception {
 		
 		List<Post> list= communityDao.getAllPostList(search);
