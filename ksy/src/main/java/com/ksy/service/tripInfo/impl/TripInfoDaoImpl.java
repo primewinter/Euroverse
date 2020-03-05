@@ -1,5 +1,7 @@
 package com.ksy.service.tripInfo.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,11 +30,11 @@ public class TripInfoDaoImpl implements TripInfoDao {
 
 	public void insertUrl(TripInfo tripInfo) {
 		sqlSession.insert("TripInfoMapper.insertUrl", tripInfo);
-	}
+	} 
 
-	public TripInfo getUrl(int id) {
+	public List<TripInfo> getUrl(String conName) {
 
-		return sqlSession.selectOne("TripInfoMapper.getUrl", id);
+		return sqlSession.selectList("TripInfoMapper.getUrl", conName);
 
 	}
 }

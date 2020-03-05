@@ -1146,7 +1146,7 @@
 		 	
 		 	var markerIcon = new google.maps.MarkerImage("/resources/images/icon/lb-circle.png", null, null, null, new google.maps.Size(9,9));
 		 	var myIcon = new google.maps.MarkerImage("/resources/images/icon/circle_blue.png", null, null, null, new google.maps.Size(12,12));
-			
+			var seagullImg = new google.maps.MarkerImage("/resources/images/icon/seagull.png", null, null, null, new google.maps.Size(12,12));
 			
 			/* 마커 생성 */
 	    	function createMarker( city, country, mPosition, img, cityInfo ){
@@ -1246,6 +1246,13 @@
 	    	} //createMyMarker( city, country, mPosition, img, cityInfo )
 	    	
 	    	
+	 		
+	 		var seagull = {
+	 			path: google.maps.SymbolPath.CIRCLE,
+	 	        scale: 8,
+	 	        strokeColor: '#393'
+	 		};
+	    	
 	    	
 	    	
 		    /* GoogleMap 에 뿌릴 것들  */
@@ -1277,7 +1284,11 @@
 					        icons: [{
 					            icon: lineSymbol,
 					            offset: '95%'
-					        }]
+					        }/*,
+					        {
+					            icon: seagull,
+					            offset: '100%'
+					        }*/]
 						});
 						routeLines[i-1].setPath(path);
 					}
@@ -1326,8 +1337,12 @@
 	 			    scale: 2,
 	 				rotation: 0,
 	 				anchor: new google.maps.Point(0,0)
-	 			}
+	 			};
 			
+	 		
+	 		
+	 		animateCircle(routeLines);
+	 		
 			
 		};	//initMap()
 		/* ------------------------------------ Google Map Script ------------------------------------ */
@@ -1398,7 +1413,12 @@
 							        icons: [{
 							            icon: lineSymbol2,
 							            offset: '95%'
-							        }]
+							        }
+							        /*,{
+							            icon: seagull,
+							            offset: '100%'
+							        }*/
+							        ]
 								});
 								routeLines[i-1].setPath(path);
 							}
@@ -1435,58 +1455,102 @@
 		
 		
 		function createMyMarker2( city, country, mPosition, img, cityInfo ){
-	    		console.log("create My Marker2.... city="+city+", country="+country+", mPosition="+mPosition+", img="+img+", cityInfo="+cityInfo );
-	    		
-	    		var myIcon2 = new google.maps.MarkerImage("/resources/images/icon/circle_blue.png", null, null, null, new google.maps.Size(12,12));
-	    		var myIconn = new google.maps.MarkerImage("/resources/images/icon/pin-red2.png", null, null, null, new google.maps.Size(22,22));
-	    		
-	    		
-	    		var myMarker = new google.maps.Marker({
-					position: mPosition,
-					icon: myIconn,
-					/* icon: {
-			            path: google.maps.SymbolPath.CIRCLE,
-			            scale: 5,
-			            strokeWeight:1
-			        }, */
-					//shape: shape2,
-					title: city
-					, zIndex: 2000 
-					, animation: google.maps.Animation.BOUNCE
-				});
-	    		
-	    		
-	    		
-	    		google.maps.event.addListener(myMarker, 'click', function() {
-					console.log("city name = "+myMarker.title);
-					
-					if(prv_infowindow){ prv_infowindow.close(); }
-					
-					//var markerLatLng = new google.maps.LatLng( mPosition.lat() , mPosition.lng() );		//구글의 함수로 만든 LatLng 객체라서 lat() 이런식의 함수로 수 뽑아줘야 함
-					//console.log(mPosition.lat()+"/"+mPosition.lng() );
-					
-					var infowindow = new google.maps.InfoWindow();
-					
-					var contentHtml = '<div class="media" style="width:300px; height:120px; padding:5px;">';
-					contentHtml = contentHtml + '<img class="align-self-start mr-2" src="/resources/images/cityImg/'+img+'" width="60px" height="60px">';
-					contentHtml = contentHtml + '<div class="media-body">';
-					contentHtml = contentHtml + '<h5 class="mt-0">'+ city +  '<div class="badge badge-primary text-wrap" style="width: 3rem; margin-left:10px; margin-top:0;" onClick="addCityRoute(\'' + myMarker.title + '\' )">'+'추가'+'</div>'  +'</h5>';
-					
-					contentHtml = contentHtml + '<p> 시티루트에 담긴 도시입니다~~~~~ </p>';
-					contentHtml = contentHtml + '<p>'+  cityInfo  +'</p>';
-					contentHtml = contentHtml + '</div>';
-					contentHtml = contentHtml + '</div>';
-					
-					infowindow.setContent(contentHtml);
-					infowindow.setPosition(myMarker.position);	//infowindow.setPosition(markerLatLng);
-					infowindow.open(map);
-					
-					prv_infowindow = infowindow;
-				}); 
-	    		
-	    		return myMarker;
-	    	} //createMyMarker( city, country, mPosition, img, cityInfo )
+    		console.log("create My Marker2.... city="+city+", country="+country+", mPosition="+mPosition+", img="+img+", cityInfo="+cityInfo );
+    		
+    		var myIcon2 = new google.maps.MarkerImage("/resources/images/icon/circle_blue.png", null, null, null, new google.maps.Size(12,12));
+    		var myIconn = new google.maps.MarkerImage("/resources/images/icon/pin-red2.png", null, null, null, new google.maps.Size(22,22));
+    		
+    		
+    		var myMarker = new google.maps.Marker({
+				position: mPosition,
+				icon: myIconn,
+				/* icon: {
+		            path: google.maps.SymbolPath.CIRCLE,
+		            scale: 5,
+		            strokeWeight:1
+		        }, */
+				//shape: shape2,
+				title: city
+				, zIndex: 2000 
+				, animation: google.maps.Animation.BOUNCE
+			});
+    		
+    		
+    		
+    		google.maps.event.addListener(myMarker, 'click', function() {
+				console.log("city name = "+myMarker.title);
+				
+				if(prv_infowindow){ prv_infowindow.close(); }
+				
+				//var markerLatLng = new google.maps.LatLng( mPosition.lat() , mPosition.lng() );		//구글의 함수로 만든 LatLng 객체라서 lat() 이런식의 함수로 수 뽑아줘야 함
+				//console.log(mPosition.lat()+"/"+mPosition.lng() );
+				
+				var infowindow = new google.maps.InfoWindow();
+				
+				var contentHtml = '<div class="media" style="width:300px; height:120px; padding:5px;">';
+				contentHtml = contentHtml + '<img class="align-self-start mr-2" src="/resources/images/cityImg/'+img+'" width="60px" height="60px">';
+				contentHtml = contentHtml + '<div class="media-body">';
+				contentHtml = contentHtml + '<h5 class="mt-0">'+ city +  '<div class="badge badge-primary text-wrap" style="width: 3rem; margin-left:10px; margin-top:0;" onClick="addCityRoute(\'' + myMarker.title + '\' )">'+'추가'+'</div>'  +'</h5>';
+				
+				contentHtml = contentHtml + '<p style="font-weight:900;font-size:14px;"> 여행루트에 추가된 도시입니다</p>';
+				contentHtml = contentHtml + '<p>'+  cityInfo  +'</p>';
+				contentHtml = contentHtml + '</div>';
+				contentHtml = contentHtml + '</div>';
+				
+				infowindow.setContent(contentHtml);
+				infowindow.setPosition(myMarker.position);	//infowindow.setPosition(markerLatLng);
+				infowindow.open(map);
+				
+				prv_infowindow = infowindow;
+			}); 
+    		
+    		return myMarker;
+	    } //createMyMarker( city, country, mPosition, img, cityInfo )
 		
+	    
+	    // Use the DOM setInterval() function to change the offset of the symbol
+	    // at fixed intervals.
+	    function animateCircle(routeLines) {
+	        var count = 0;
+	        var index = 0;
+	        
+	        window.setInterval(function() {
+	        	count = (count + 1) % 200;
+	
+		          var icons;
+		          
+		          icons = routeLines[index].get('icons');
+		          //console.log( " icons : "+JSON.stringify(icons[0]) )
+		          icons : [{"icon":{"path":2,"fillColor":"#8A8A8A","fillOpacity":1,"strokeWeight":2,"scale":2,"rotation":0,"anchor":{"x":0,"y":0}},"offset":"95%"},{"icon":{"path":0,"scale":8,"strokeColor":"#393"},"offset":"33.5%"}]
+		          
+		          var newOffset = (count / 2);
+		          
+		          if( newOffset >= 99.5 ){
+		        	  if( index < routeLines.length ){
+		        		  var jsonStr = "[ "+JSON.stringify(icons[0]) + ',{"icon":{"path":0,"scale":0},"offset":"'+ newOffset + '%' +'"}'+"]";
+		        		  //var jsonStr = "[ "+JSON.stringify(icons[0]) + ',{"icon":"seagullImg","offset":"'+ newOffset + '%' +'"}'+"]";
+		        		  
+				          icons = JSON.parse(jsonStr);
+		        		  routeLines[index].set('icons', icons );
+			        	  
+			        	  index = index + 1;
+			        	  if( index == routeLines.length ){
+			        		  index = 0;
+			        	  }
+			        	  newOffset = 0;
+		        	  }
+		          }
+		          
+		          var jsonStr = "[ "+JSON.stringify(icons[0]) + ',{"icon":{"path":0,"scale":9,"strokeColor":"#00CDD5"},"offset":"'+ newOffset + '%' +'"}'+"]";
+		          //var jsonStr = "[ "+JSON.stringify(icons[0]) + ',{"icon":"seagullImg","offset":"'+ newOffset + '%' +'"}'+"]";
+		          
+		          icons = JSON.parse(jsonStr);
+		          routeLines[index].set('icons', icons);
+		          
+		          //console.log(" offset : " + icons[1].offset);
+		          
+	      	}, 20);
+	    }
 		
 		
 		/* icon 사용을 위한 스크립트 */
@@ -1502,11 +1566,6 @@
 	<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=" type="text/javascript"></script> -->
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4&callback=initMap" type="text/javascript"></script>
 
-	
-<head>
-
-<meta charset="EUC-KR">
-<title>editRoute</title>
 
 </head>
 <body ><!-- onload="initializeMap()" -->

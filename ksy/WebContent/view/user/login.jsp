@@ -4,41 +4,99 @@
 <!DOCTYPE html>
 
 <style>
-    h6 {
-        margin-left: 13px;
-        margin-top: -10px;
-    }
-
-    #loginModal .modal-dialog>h2 {
-
-        color: #F0F8FF;
-        position: absolute;
-        top: 58px;
-        right: 215px;
-    }
 
 
-    #loginModal .modal-content {
+.text-center{
+	color:#fff;	
+	text-transform:uppercase;
+    font-size: 23px;
+    margin: -50px 0 80px 0;
+    display: block;
+    text-align: center;
+}
+.input-container{
+	position:relative;
+	margin-bottom:25px;
+}
+.input-container label{
+	position:absolute;
+	top:0px;
+	left:0px;
+	font-size:16px;
+    pointer-event:none;
+	transition: all 0.5s ease-in-out;
+}
+.input-container input{ 
+  border:0;
+  border-bottom:1px solid #555;  
+  background:transparent;
+  width:100%;
+  padding:8px 0 5px 0;
+  font-size:16px;
+}
+.input-container input:focus{ 
+ border:none;	
+ outline:none;
+ border-bottom:1px solid #e74c3c;	
+}
+/* .btn{
+	color:#fff;
+	background-color:#e74c3c;
+	outline: none;
+    border: 0;
+    color: #fff;
+	padding:10px 20px;
+	text-transform:uppercase;
+	margin-top:50px;
+	border-radius:2px;
+	cursor:pointer;
+	position:relative;
+} */
+/*.btn:after{
+	content:"";
+	position:absolute;
+	background:rgba(0,0,0,0.50);
+	top:0;
+	right:0;
+	width:100%;
+	height:100%;
+}*/
+.input-container input:focus ~ label,
+.input-container input:valid ~ label{
+	top:-12px;
+	font-size:12px;
+	
+}
 
-        width: 500px;
-        height: 350px;
-        position: absolute;
-        top: 100px;
-        right: 10px;
-    }
 
-    #loginModal #modalForm .form-group>input {
-        padding: 15px 20px;
-        border-radius: 25px;
-        background: rgba(217, 242, 253);
-        border: 2px;
-    }
 
-    .useruser {
-        font-size: 12px;
 
-    }
 
+
+
+
+
+
+
+#loginModal {
+        text-align: center;
+}
+ 
+@media screen and (min-width: 768px) { 
+        #loginModal:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+        }
+}
+ 
+#loginModalDialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+}
+   
 </style>
 
 
@@ -98,7 +156,7 @@
 			})
     })
 
-    $(document).ready(function() {
+ /*    $(document).ready(function() {      //아이디 저장하는 함수
         var userInputId = getCookie("userInputId"); //저장된 쿠기값 가져오기
         $("#loginUserId").val(userInputId);
 
@@ -123,8 +181,7 @@
                 setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
             }
         });
-    });
-
+    }); 
     function setCookie(cookieName, value, exdays) {
         var exdate = new Date();
         exdate.setDate(exdate.getDate() + exdays);
@@ -151,7 +208,7 @@
         }
         return unescape(cookieValue);
     }
-
+*/
 
     $(function() {
         var userId = $('#loginUserId');
@@ -175,7 +232,6 @@
     })
 
     function loginAjax(userId, pwd) {
-        var h6 = document.getElementsByClassName('loginH6');
         $.ajax({
             url: "/user/json/login",
             method: "post",
@@ -218,9 +274,19 @@
     					
     					});
     			}else if(JSONData.result =='errorId'){
-    				h6[2].innerHTML = "존재하지 않는 아이디입니다.";
+    				swal({
+ 					   icon : 'info',
+ 					  title : "존재하지 않는 아이디입니다.",
+ 					  text:" ",
+ 					  button : false,
+ 					})
     			}else if(JSONData.result =='errorPwd'){
-    				h6[2].innerHTML = "비밀번호가 틀렸습니다.";
+    				swal({
+ 					   icon : 'info',
+ 					  title : "비밀번호가 틀렸습니다.",
+ 					  text:" ",
+ 					  button : false,
+ 					})
     			}else{
     				swal({
   					  icon : 'warning',
@@ -234,42 +300,50 @@
     }
 </script>
 
-	
+	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	<div class="modal fade " id="loginModal">
 	    <!-- <div class="modal-dialog modal-lg"> -->
-	    <div class="modal-dialog ">
-	        <div class="modal-content">
-	            <div class="modal-body">
-	                <form id="modalForm">
-	                    <label class="form-check-label" style="position:relative; margin-top: 0px;top:70px;">
-	                        <input class="form-check-input" type="checkbox" id="idSaveCheck" style="margin-left: 10px;margin-top: 8px;">
-	                        <span style="margin-left: 25px;"><small>아이디저장</small></span>
-	                    </label>
-	                    <div class="form-group" style="margin-top: -20px;">
-	                        <div style="margin-bottom: 5px;">&nbsp;&nbsp;&nbsp;<b>ID</b></div>
-	                        <input type="text" class="form-control" id="loginUserId" name="userId">
-	                        <h6 class="loginH6" style="color: #F00"></h6>
-	                    </div>
-	
-	
-	                    <div class="form-group" style="margin-top: 45px">
-	                        <div style="margin-bottom: 5px;">&nbsp;&nbsp;&nbsp;<b>Password</b></div>
-	                        <input type="password" class="form-control" id="loginPwd" name="pwd">
-	                        <h6 class="loginH6" style="color: #F00"></h6>
-	                    </div>
-	                    <h6 class="loginH6" style="color: #F00"></h6>
-	                    <!-- <div style="text-align: right; position:absolute; top:215px;right:25px;font-size: 12px;">SNS간편회원가입</div> -->
-	                    <div style="text-align: center;position:absolute;top:235px;">
-		                    <a href="/user/searchId"> <span class="useruser" style="margin-left: 90px;"><b>아이디찾기</b></span> </a>
-		                    <a href="/user/findPwd"> <span class="useruser" style=""><b>비밀번호찾기</b></span></a>
-	                        <img id="kakaoLogin" src="/resources/images/userImages/kakaoImage.png" width="40" height="40" style="border-radius: 100px; margin-left:10px;cursor: pointer;"/>
-	                        <img id="naverLogin" src="/resources/images/userImages/naverImage.PNG" width="40" height="40" style="border-radius: 100px; margin-left: 10px;cursor:pointer;" />
-	                        <img id="googleLogin" src="/resources/images/userImages/googleImage.png" width="40" height="40" style="border-radius: 100px;margin-left:10px;cursor:pointer;"/>
-	                    </div>
-	                    <h6 class="loginH6"></h6>
-						<div style="height: 50px;"></div>
-	                    <button type="button" id="loginButton" class="btn btn-outline-primary" style="width:300px;margin-left: 85px; position:absolute; top:300px;">로그인</button>
-	
+	    <div class="modal-dialog" id="loginModalDialog">
+	        <div class="modal-content"  style="width: 800px;height:400px; margin-left: -140px;">
+	             <div class="modal-body">
+			                <img alt="" src="/resources/images/userImages/login.jpg" width="500px" height="398px;" style="margin-left: -20px;margin-top: -16px;">
+	                <form id="modalForm" style="margin-left: 500px;margin-top: -380px;font-family: 'NIXGONM-Vb';"> 
+	                	<div style="text-align: center; height: 110px;">
+	                		<img alt="" src="/resources/images/icon/euroverse_text.png" width="150px" height="80px;">
+	                	</div>
+	                	
+	                	
+	                	
+	                	<div>
+							<div class="input-container">
+								<input type="text" name="userId" id="loginUserId" required=""/>
+								<label><b>아이디</b></label>		
+							</div>
+							<div class="input-container">		
+								<input type="password" name="pwd" id="loginPwd" required=""/>
+								<label><b>비밀번호</b></label>
+							</div>
+							
+							<div style="text-align:center;font-size: 12px;">
+								<a href="/user/searchId"><b>아이디찾기</b></a>
+								┃
+								
+								<a href="/user/findPwd"><b>비밀번호찾기</b></a>
+							
+							</div>
+							
+							<div style="text-align: center;margin-top: 5px;">
+								<img id="kakaoLogin" src="/resources/images/userImages/kakaoImage.png" width="30" height="30" style="border-radius: 100px;cursor: pointer;"/>
+	                        <img id="naverLogin" src="/resources/images/userImages/naverImage.PNG" width="30" height="30" style="border-radius: 100px; margin-left: 10px;cursor:pointer;" />
+	                        <img id="googleLogin" src="/resources/images/userImages/googleImage.png" width="30" height="30" style="border-radius: 100px;margin-left:10px;cursor:pointer;"/>
+							
+							</div>
+							
+							
+							<div style="text-align: center;margin-top: 10px;">
+							<button type="button" id="loginButton" class="btn btn-outline-primary" style="width:200px;">로그인</button>
+							</div>
+	                	</div>
 	                </form>
 	            </div>
 	            <!--modal body End  -->

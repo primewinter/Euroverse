@@ -8,12 +8,19 @@ public class Party {
 	private String refId;			//ref_id
 	private String partyRole;		//party_role (CHAR) :: K(¡÷¿Œ¿Â), M(∏‚πˆ)
 	
+	private String postTitle;
 	private String partyUserNickname;
 
 	public Party() {
 		super();
 	}
-
+	
+	public String getPostTitle() {
+		return postTitle;
+	}
+	public void setPostTitle(String postTitle) {
+		this.postTitle = postTitle;
+	}
 	public String getPartyId() {
 		return partyId;
 	}
@@ -59,7 +66,8 @@ public class Party {
 	@Override
 	public String toString() {
 		return "Party [partyId=" + partyId + ", partyUserId=" + partyUserId + ", partyType=" + partyType + ", refId="
-				+ refId + ", partyRole=" + partyRole + ", partyUserNickname=" + partyUserNickname + "]";
+				+ refId + ", partyRole=" + partyRole + ", postTitle=" + postTitle + ", partyUserNickname="
+				+ partyUserNickname + "]";
 	}
 	
 }
