@@ -67,7 +67,6 @@ public class AdminServiceImpl implements AdminService {
 		
 		System.out.println("AdminServiceImpl getQnaCommList");
 		
-		Comment comment = new Comment();
 		List<Comment> list = adminDao.getQnaComment(postId);
 		
 		Map<String, Object> map = new HashMap<String,Object>();

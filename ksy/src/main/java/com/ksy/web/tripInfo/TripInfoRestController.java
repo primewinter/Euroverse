@@ -3,6 +3,7 @@ package com.ksy.web.tripInfo;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -79,14 +80,19 @@ public class TripInfoRestController {
 		return map;
 	}
 	
-	@RequestMapping( value="json/infinityClick", method=RequestMethod.GET )
-	public TripInfo infinityClick() throws Exception{
+	@RequestMapping( value="json/infinityClick/{conName}", method=RequestMethod.GET )
+	public TripInfo infinityClick(@PathVariable String conName) throws Exception{
 		
 		System.out.println("infinityClick rest Controller Start");
 		
+		//conName을 이용해서 url정보 list로 가져오기
+		List<TripInfo> list = tripInfoService.getUrl(conName);
+		
 		Random random = new Random();
 		int id = random.nextInt(73);
-		TripInfo tripInfo = tripInfoService.getUrl(id);
+		TripInfo tripInfo = list.get(id);
+//		TripInfo tripInfo = tripInfoService.getUrl(id);
+		
 		System.out.println("tripInfo 디버깅 ==>"+tripInfo);
 		
 		return tripInfo;
