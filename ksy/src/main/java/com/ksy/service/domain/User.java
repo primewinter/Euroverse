@@ -142,7 +142,7 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 		/////////////// EL 적용 위해 추가 ///////////
-		if(phone != null && phone.length() !=0 ){
+		if(phone.split("-").length==3){
 			phone1 = phone.split("-")[0];
 			phone2 = phone.split("-")[1];
 			phone3 = phone.split("-")[2];

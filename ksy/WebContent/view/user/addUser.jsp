@@ -43,6 +43,7 @@
 	div.carousel-inner {
 		width: 540px;
 		height: 320px;
+		margin-left: -40px;
 	}
 	
 	.carousel-inner {
@@ -335,7 +336,7 @@
 		
 	})
 		
-		
+			
 	$(function(){
 		$(".addUser").on("click",function(){
 			var userId = $("#userId");
@@ -353,7 +354,10 @@
 			var birth = $("input[name='birth']");
 			var sex = $("input[name='sex']");
 			$("input[name='phone']").val($("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val());
+			
 			var phone = $("#phone");
+			
+			
 			var image = $("input[name='image']");
 			var dreamCountry = $("input[name='dreamCountry']");
 			var tripStyle = $("input[name='tripStyle']");
@@ -366,95 +370,137 @@
 			
 			for(var i=0 ; i<h6.length ; i++){
 				if(h6[i].innerHTML != ""){
-					submitAlert.prop("style","display : block");
-					alertMessage.html(h6[i].innerHTML);
+					swal({
+						   icon : 'info',
+						  title : h6[i].innerHTML,
+						  text:" ",
+						  button : false,
+						})
+					
 					return;
 				}
 			}
 			
 			
 			if($.trim(userId.val())==""){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("아이디를 확인해주세요.");
+				swal({
+					   icon : 'info',
+					  title :"아이디를 확인해주세요.",
+					  text:" ",
+					  button : false,
+					})
 				return;
 			}else if($.trim(userId.val()) != userId.val()){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("아이디에 띄어쓰기는 사용할 수 없습니다.");
+				swal({
+					   icon : 'info',
+					  title : "아이디에 띄어쓰기는 사용할 수 없습니다.",
+					  text:" ",
+					  button : false,
+					})
 				return;
 			}
 			
 			if($.trim(pwd.val())==""){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("비밀번호를 확인해주세요.");
+				swal({
+					   icon : 'info',
+					  title : "비밀번호를 확인해주세요.",
+					  text:" ",
+					  button : false,
+					})
 				return;
 			}else if($.trim(pwd.val()) != pwd.val()){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("비밀번호에 띄어쓰기는 사용할 수 없습니다.");
+				swal({
+					   icon : 'info',
+					  title : "비밀번호에 띄어쓰기는 사용할 수 없습니다",
+					  text:" ",
+					  button : false,
+					})
 				return;
 			}
 			
 			if($.trim(pwdConfirm.val()) ==""){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("비밀번호를 확인해주세요.");
+				swal({
+					   icon : 'info',
+					  title : "비밀번호를 확인해주세요.",
+					  text:" ",
+					  button : false,
+					})
 				return;
 			}
 			
 			if($.trim(userName.val())==""){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("이름을 확인해주세요.");
+				swal({
+					   icon : 'info',
+					  title : "이름을 확인해주세요.",
+					  text:" ",
+					  button : false,
+					})
 				return;
 			}else if($.trim(userName.val()) != userName.val()){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("이름에 띄어쓰기는 사용할 수 없습니다.");
+				swal({
+					   icon : 'info',
+					  title : "이름에 띄어쓰기는 사용할 수 없습니다",
+					  text:" ",
+					  button : false,
+					})
 				return;
 			}
 			
 			if($.trim(nickname.val()) ==""){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("닉네임을 확인해주세요.");
+				swal({
+					   icon : 'info',
+					  title : "닉네임을 확인해주세요.",
+					  text:" ",
+					  button : false,
+					})
 				return;
 			}else if($.trim(nickname.val()) != nickname.val()){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("닉네임에 띄어쓰기는 사용할 수 없습니다.");
+				swal({
+					   icon : 'info',
+					  title : "닉네임에 띄어쓰기는 사용할 수 없습니다.",
+					  text:" ",
+					  button : false,
+					})
 				return;
 			}
 			
-/* 			if($.trim(birth.val())==""){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("생일을 확인해주세요.");
-				return;
-			}
-			 */
 			if($.trim(email.val())=="@"+null){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("이메일을 확인해주세요.");
+				swal({
+					   icon : 'info',
+					  title : "이메일을 확인해주세요.",
+					  text:" ",
+					  button : false,
+					})
 				return;
 			}else if ($.trim(email.val()) != "" && (email.val().indexOf('@') < 1 || email.val().indexOf('.') == -1)) {
-				submitAlert.prop("style","display : block");
-				alertMessage.html("이메일 형식이 아닙니다.");
+				swal({
+					   icon : 'info',
+					  title : "이메일 형식이 아닙니다.",
+					  text:" ",
+					  button : false,
+					})
 				return;
 			}else if($.trim(email.val()) != email.val()){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("이메일에 띄어쓰기는 사용할 수 없습니다.");
+				swal({
+					   icon : 'info',
+					  title : "이메일에 띄어쓰기는 사용할 수 없습니다.",
+					  text:" ",
+					  button : false,
+					})
 				return;
 			} 
 			
-		 	if($.trim(phone.val()).length <10){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("휴대폰 번호를 확인해주세요.");
+ 		 	/* if($.trim(phone.val()).length <10){
+				swal({
+					   icon : 'info',
+					  title : "휴대폰 번호를 확인해주세요.",
+					  text:" ",
+					  button : false,
+					})
 				return;
 			} 
-			 
-		/* 	
-			if($("input:radio[name='sex']").is(":checked") == false){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("성별을 선택해주세요.");
-				return;
-			}
 			 */
-			
-			
-			 
+			  
 			for(var i=1;i<=$("input:checkbox[class=dreamCountry]").length;i++){
 				 if($("input:checkbox[id=dreamCountry"+i+"]").is(":checked") == true) {
 					  var value = $("input:checkbox[id=dreamCountry"+i+"]").val();
@@ -475,17 +521,9 @@
 				}
 			}/* for End(tripStyle) */
 			
-			
-			
-			
 			sweetMan();
-	
-		/* 	 $("#myModal").modal({keyboard: false,backdrop: 'static'});
-			 $("#myModal").modal("show"); */
-		
 		});/* btn-primary End */
 	});/* function End */
-	
 	
 	
 	
@@ -578,12 +616,12 @@
 				if(value=='T'){
 					$("#pushAgreeTrue").prop("checked",true);
 					$("#pushAgreeFalse").prop("checked",false);
-					$("form").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
+					$("#addUserForm").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
 				}
 				else if(value=='F'){
 					$("#pushAgreeTrue").prop("checked",false);
 					$("#pushAgreeFalse").prop("checked",true);
-					$("form").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
+					$("#addUserForm").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
 				}
 			});
 	}	
@@ -613,10 +651,10 @@
 			
 		</div>
 	
-		<form>
+		<form id="addUserForm">
 			<div class="form-group">
 				<div class="col-6 mx-auto">
-					<b>아이디</b>
+					<b>아이디<i class="fas fa-asterisk" style="font-size: 10px;"></i></b>
 					<div class="input-group-prepend">
 						<span class="input-group-text"><i class="fas fa-user"></i></span> &nbsp;
 						<c:if test="${empty snsLogin }">
@@ -633,7 +671,7 @@
 		
 			<div class="form-group">
 				<div class="col-6 mx-auto">
-					<b>비밀번호</b>
+					<b>비밀번호<i class="fas fa-asterisk" style="font-size: 10px;"></i></b>
 					<div class="input-group-prepend">
 						<span class="input-group-text"><i class="fas fa-lock"></i></span> &nbsp;
 						<input type="password" class="form-control" placeholder="password" id="pwd" name="pwd">
@@ -644,7 +682,7 @@
 			
 			<div class="form-group">
 				<div class="col-6 mx-auto">
-					<b>비밀번호 확인</b>
+					<b>비밀번호 확인<i class="fas fa-asterisk" style="font-size: 10px;"></i></b>
 					<div class="input-group-prepend">
 						<span class="input-group-text"><i class="fas fa-lock"></i></span> &nbsp;
 						<input type="password" class="form-control" placeholder="password Confirm" id="pwdConfirm">
@@ -657,7 +695,7 @@
 		
 			<div class="form-group">
 				<div class="col-6 mx-auto">
-					<b>이름</b>
+					<b>이름<i class="fas fa-asterisk" style="font-size: 10px;"></i></b>
 					<div class="input-group-prepend">
 						<span class="input-group-text"><i class="fas fa-user"></i></span> &nbsp;
 						<c:if test="${empty snsLogin}">
@@ -673,7 +711,7 @@
 			
 			<div class="form-group">
 				<div class="col-6 mx-auto">
-				<b>닉네임</b>
+				<b>닉네임<i class="fas fa-asterisk" style="font-size: 10px;"></i></b>
 					<div class="input-group-prepend">
 						<span class="input-group-text"><i class="fas fa-user"></i></span> &nbsp;
 						<c:if test="${empty snsLogin}">
@@ -700,7 +738,7 @@
 		
 			<div class="form-group">
 				<div class="col-6 mx-auto">
-					<b>이메일</b>
+					<b>이메일<i class="fas fa-asterisk" style="font-size: 10px;"></i></b>
 					<div class="input-group-prepend ">
 						<span class="input-group-text" style="width: 40px;"><i class="fas fa-globe"></i></span> &nbsp;
 							<c:if test="${empty snsLogin}">

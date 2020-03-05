@@ -24,8 +24,16 @@ public class Flight {
 	private String refundDate; 
 	
 	private String orderId;
+	private String buyerId;
 	
 	
+	
+	public String getBuyerId() {
+		return buyerId;
+	}
+	public void setBuyerId(String buyerId) {
+		this.buyerId = buyerId;
+	}
 	public String getRefundDate() {
 		return refundDate;
 	}
