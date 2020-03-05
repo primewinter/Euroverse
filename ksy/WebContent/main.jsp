@@ -963,6 +963,7 @@
         });
 
         function randomImage(con) {
+            console.log("con :: "+con)
             $.ajax({
                 url: "/api/json/infinityClick/"+con,
                 method: "GET",
@@ -972,6 +973,8 @@
                     "Content-Type": "application/json"
                 },
                 success: function(JSONData, status) {
+                    console.log("랜덤이미지 출력")
+                    console.log(JSONData);
                     $('#infinityClick').attr('src', JSONData.url);
                     $('.effect5 figcaption h3').html(JSONData.info1 + JSONData.info2 + JSONData.info3 + JSONData.info4 + JSONData.info5);
                 }
