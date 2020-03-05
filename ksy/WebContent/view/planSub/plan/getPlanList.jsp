@@ -8,7 +8,7 @@
 
 <head>
 <meta charset="EUC-KR">
-<title>Euroverse</title>
+<title>getPlanList</title>
 
 <!-- 참조 : http://getbootstrap.com/css/   참조 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -97,6 +97,7 @@
 		    content: "image";
 		}
 		
+		      
 	</style>
 
 
@@ -105,7 +106,7 @@
 		$(function(){
 			
 			$('.showAddPlanModal').on('click', function(){
-				//$('#addPlanModal').show();
+				$('#addPlanModal').show();
 			});
 			
 			$('#addPlan').on('click', function(){
@@ -113,7 +114,7 @@
 			});
 			
 			$('#showUpdateSlotModal').on('click', function(){
-				//$('#updateSlotModal').show();
+				$('#updateSlotModal').show();
 			});
 			
 			$('#updateUserSlot').on('click', function(){
@@ -129,7 +130,7 @@
 			
 			$( "#startDateString" ).datepicker({
 			      showOptions: { direction: "up" },
-				  //defaultDate : '1995-02-10',
+				  defaultDate : '1995-02-10',
 			      changeYear : true ,
 			      changeMonth : true ,
 			      //buttonImage: "/resources/images/userImages/CalendarICON.png",
@@ -149,9 +150,9 @@
 			//지성이꺼 갖다씀 - 파일용량 체크
 			$(".custom-file-input").on("change",function(){
 				  var fileSize = this.files[0].size;
-				    var maxSize = 600 * 600;
+				    var maxSize = 360 * 360;
 				    if(fileSize > maxSize) {
-				        $(".custom-file-label").html("<i class='fas fa-camera-retro'> size 600x600</i>");
+				        $(".custom-file-label").html("<i class='fas fa-camera-retro'> size 360x360</i>");
 				        alert("파일용량을 초과하였습니다.");
 				        //$("#preview").html("");
 				        return;
@@ -200,11 +201,6 @@
 				alertMessage.html("플래너 제목은 필수입니다.");
 				return;
 			}
-			if($.trim(planTitle).length > 20 ){
-				submitAlert.prop("style","display : block");
-				alertMessage.html("플래너 제목은 20자 이하로 입력해주세요.");
-				return;
-			}
 			if ($.trim(startDateString)=="") {
 				submitAlert.prop("style","display : block");
 				alertMessage.html("여행 시작일을 지정해주세요.");
@@ -251,7 +247,9 @@
 		}
 		
 	</script>
-	
+
+</head>
+<body>
 	<script>
 		
 		/* 모달창 닫기 */
@@ -260,26 +258,18 @@
 			if( typeof $("."+modalName)[0] != "undefined" ){
 				$("."+modalName)[0].reset();		//form에 모달 이름과 같은 클래스명 주기
 			}
-			//$("#"+modalName).hide();
+			$("#"+modalName).hide();
 		}
-		
 	</script>
-
-
-</head>
-<body>
 	
-	<!-- ToolBar 시작 -->
-	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-	<!-- ToolBar 끝 -->
 	
-	<%-- <a href="/index.jsp" >다시 메인으로</a><br/>
-	userId = ${user.userId} , userSlot = ${user.slot} , user.totalPoint = ${user.totalPoint} <br/><br/> --%>
+	<br/>
+	<a href="/index.jsp" >다시 메인으로</a><br/>
+	userId = ${user.userId} , userSlot = ${user.slot} , user.totalPoint = ${user.totalPoint}
+	<br/><br/>
 	
-	<div class="album py-5">
+	<div class="album py-5 bg-light">
 		<div class="container">
-		
-			
 			<div class="row">
 			
 				<c:if test="${list.size() != 0}">
@@ -290,14 +280,11 @@
 				          
 				          <div class="card mb-4 shadow-sm">
 				          
-				            <%-- <svg class="bd-placeholder-img card-img-top" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+				            <svg class="bd-placeholder-img card-img-top" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
 					            <rect width="100%" height="100%" fill="#99E1FF"/>
 					            <image xlink:href="/resources/images/planImg/${plan.planImg}" x="0" y="0" height="230" width="100%"/>
 					            <text x="50%" y="50%" fill="#eceeef" dy=".3em">${plan.planTitle}</text>
-					        </svg> --%>
-					        
-					        <img style="border-top-right-radius:3px;border-top-left-radius:3px;" width="100%" height="200px" src="/resources/images/planImg/${plan.planImg}"/>
-					        
+					        </svg>
 				            
 				            <div class="card-body">
 				              	<div class="d-flex justify-content-between align-items-center">
@@ -305,22 +292,8 @@
 						              	<c:if test="${plan.planDday < 0}"> &nbsp; </c:if>
 							            <c:if test="${plan.planDday == 0}"> D-Day </c:if>
 										<c:if test="${plan.planDday > 0}"> D-${plan.planDday} </c:if>
-										<c:if test="${plan.planStatus == 'C'}"><span style="color: #EE0D0D; font-weight: bolder;">여행완료!</span></c:if>
 						            </div>
-						            
-						            
-									<!-- <div class="plan_type" style="border: 1px solid blue;border-radius: 5px;"> -->
-									<span class="badge badge-primary" style="padding: 5px;">
-										<c:choose>
-											<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
-											<c:when test="${plan.planType == 'B'}">남자혼자</c:when>
-											<c:when test="${plan.planType == 'C'}">여자끼리</c:when>
-											<c:when test="${plan.planType == 'D'}">남자끼리</c:when>
-											<c:when test="${plan.planType == 'E'}">단체</c:when>
-											<c:when test="${plan.planType == 'F'}">부모님과</c:when>
-											<c:when test="${plan.planType == 'G'}">커플</c:when>
-										</c:choose>
-									</span>
+									<div>${plan.planType}</div>
 				              	</div>
 					            <div class="card-text">
 					            	<div style="font-weight: bolder; font-size: large; margin: 15px 3px;"> ${plan.planTitle}</div>
@@ -352,8 +325,8 @@
 				<!-- 플래너 등록 버튼 -->
 				<c:if test="${!empty user.slot }">
 					<c:forEach var="i" begin="1" end="${user.slot - list.size()}">
-						<div class="col-md-4" >
-				          <div class="card mb-4 shadow-sm showAddPlanModal" data-toggle="modal" data-target="#addPlanModal">
+						<div class="col-md-4">
+				          <div class="card mb-4 shadow-sm showAddPlanModal">
 				          
 				            <div class="card-body">
 				              <div class="card-text text-center"><br/><span data-feather="plus-circle"></span><br/><br/>새로운 플래너 만들기<br/><br/> </div>
@@ -367,7 +340,7 @@
 			
 				<!-- 슬롯 추가 버튼 -->
 				<div class="col-md-4">
-		          <div class="card mb-4 shadow-sm" id="showUpdateSlotModal" data-toggle="modal" data-target="#updateSlotModal">
+		          <div class="card mb-4 shadow-sm" id="showUpdateSlotModal">
 		            <div class="card-body">
 		              <p class="card-text text-center"><br/><span data-feather="lock"></span><br/><br/>슬롯 늘리기<br/><br/> </p>
 		            </div>
@@ -379,15 +352,9 @@
 	</div>
 	
 	
-	<!-- Footer Start /////////////////////////// -->
-	<jsp:include page="/toolbar/footer.jsp"></jsp:include>
-	<!-- Footer End	/////////////////////////// -->
-	
-	
-	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
 	<!-- /////////////////////	Modal : addPlan	///////////////////// -->
-	<div class="modal fade" id="addPlanModal" >
+	<div class="modal" id="addPlanModal" >
 	  <div class="modal-dialog">
 	  <h4 style="color: #FFFFFF; margin-top: 100px;">플래너 만들기</h4>
 	    <div class="modal-content">
@@ -461,7 +428,6 @@
 	      </div>
 	      
 	      <div class="modal-footer">
-	        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('addPlanModal')">Close</button> -->
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('addPlanModal')">Close</button>
 	        <button type="button" class="btn btn-primary" id="addPlan">Add Plan</button>
 	      </div>
@@ -507,7 +473,7 @@
 	<!-- /////////////////////	Modal : editPlan 끝	///////////////////// -->
 	
 	<!-- /////////////////////	Modal : 슬롯 늘리기 	///////////////////// -->	
-	<div class="modal fade" id="updateSlotModal">
+	<div class="modal" id="updateSlotModal">
 	  <div class="modal-dialog" >
 	  	<h4 style="color: #FFFFFF; margin-top: 100px;"> 슬롯 구매</h4>
 	  
@@ -535,8 +501,8 @@
 	      </div>
 	      
 	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('updateSlotModal')">아니오</button>
 	      	<c:if test="${user.totalPoint >= 500 }">
-	      		<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('updateSlotModal')">아니오</button>
 	      		<button type="button" class="btn btn-primary" id="updateUserSlot">예</button>
 	      	</c:if>
 	      </div>
@@ -554,6 +520,7 @@
 		/* https://github.com/feathericons/feather#feather 참고 */
 		feather.replace();
 		
+	
 	</script>
 
 

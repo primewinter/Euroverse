@@ -308,7 +308,7 @@ $(function() {
 			$("#depIcon").hide();
 			$("#arrIcon").hide();
 			$("#search").show();
-			$('footer').css("margin-top","-93");
+			$('footer').css("margin-top","-109");
 			
 		}
 	}

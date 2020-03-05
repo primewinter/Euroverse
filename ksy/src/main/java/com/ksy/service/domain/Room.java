@@ -32,7 +32,15 @@ public class Room {
 	private String refundDate;
 	private String orderId; //order_status
 	
+	private String buyerId;
 	
+	
+	public String getBuyerId() {
+		return buyerId;
+	}
+	public void setBuyerId(String buyerId) {
+		this.buyerId = buyerId;
+	}
 	public String getRefundDate() {
 		return refundDate;
 	}

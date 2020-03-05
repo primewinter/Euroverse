@@ -148,7 +148,7 @@
 	             <div class="col-sm-2" style="Padding-left:30px;">
 	            		 포인트 할인
 	                    <div class="row">
-	                    	<div id="usedPoint" style="Padding-left:20px;"> - ${point.usedPoint} P</div>
+	                    	<div id="usedPoint" style="Padding-left:20px;"> - ${order.payPoint} P</div>
 	            		</div>
 	             </div>
 	             <div class="col-sm-1">
