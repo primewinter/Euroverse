@@ -35,6 +35,8 @@ public interface CommunityService {
 	
 	public List<Comment> rcmtNum(String postId, String userId) throws Exception ;
 
+	public List<Party> getMyPartyList(String userId) throws Exception ;
+	
 	public Map<String,Object> getPostList(Search search, String boardName) throws Exception;
 	
 	public Map<String, Object> getAllPostList(Search search) throws Exception;

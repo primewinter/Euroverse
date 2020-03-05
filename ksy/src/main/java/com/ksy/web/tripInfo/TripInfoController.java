@@ -127,18 +127,18 @@ public class TripInfoController {
 //			
 //		}//end of outer_for
 		
-			System.out.println("infinityClick 시작");
-			Random random = new Random();
-			
-			int id = random.nextInt(73);//랜덤 난수 발생 67번까지 사진이 67개여서
-			System.out.println("id 디버깅 ==>"+id);
-			
-			tripInfo = service.getUrl(id);//사진마다 부여된 id값을 이용해서 랜덤으로 호출하기
-			
-			System.out.println("TripInfo 디버깅 ==>"+tripInfo);
-			
-			model.addAttribute("tripInfo",tripInfo);
-			System.out.println("model 디버깅==>"+model);
+//			System.out.println("infinityClick 시작");
+//			Random random = new Random();
+//			
+//			int id = random.nextInt(73);//랜덤 난수 발생 67번까지 사진이 67개여서
+//			System.out.println("id 디버깅 ==>"+id);
+//			
+//			tripInfo = service.getUrl(id);//사진마다 부여된 id값을 이용해서 랜덤으로 호출하기
+//			
+//			System.out.println("TripInfo 디버깅 ==>"+tripInfo);
+//			
+//			model.addAttribute("tripInfo",tripInfo);
+//			System.out.println("model 디버깅==>"+model);
 			
 		
 		return "forward:/view/tripInfo/infinityClick.jsp";

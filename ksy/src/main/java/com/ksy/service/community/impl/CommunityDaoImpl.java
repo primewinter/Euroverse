@@ -106,6 +106,10 @@ public class CommunityDaoImpl implements CommunityDao{
 		}
 	}
 	
+	public List<Party> getMyPartyList(String userId) throws Exception {
+		return sqlSession.selectList("CommunityMapper.getMyPartyList", userId);
+	}
+	
 	public List<Post> getPostList(Search search, String boardName) throws Exception {
 		
 		Map<String, Object> map=new HashMap<String, Object>();

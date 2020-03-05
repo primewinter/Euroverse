@@ -256,7 +256,7 @@
 </head>
 <body>
 
-<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
+<%-- <jsp:include page="/toolbar/toolBar.jsp"></jsp:include> --%>
 
 	<h3>infinityClick</h3>
 	
@@ -284,6 +284,38 @@
 
 	</div>
 	</div>
+	
+	<div id="wrapper" class="wrapper" style="overflow:hidden;">	
+	<h5>오늘의 환율</h5>	  
+	    <div class="list-group" id="list-tab" role="tablist" >
+	      <a class="list-group-item list-group-item-action" id="a" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR">
+	      <img src='/resources/images/tripInfoimges/Europe.png'/>&nbsp;  유럽</a>
+	      <a class="list-group-item list-group-item-action" id="b" data-toggle="list" href="#list-profile" hwa='포린트' mon="HUF" con="HUN">
+	      <img src='/resources/images/tripInfoimges/Hungary.gif'/>&nbsp; 헝가리</a>
+	      <a class="list-group-item list-group-item-action" id="c" data-toggle="list" href="#list-messages"hwa='코루나' mon="CZK" con="CZE">
+	      <img src='/resources/images/tripInfoimges/Czech.gif'/>&nbsp; 체코</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='크로네' mon="DKK" con="DNK">
+	      <img src='/resources/images/tripInfoimges/Denmark.gif'/>&nbsp; 덴마크</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR">
+	      <img src='/resources/images/tripInfoimges/England.gif'/>&nbsp; 영국</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='레우' mon="RON" con="ROU">
+	     <img src='/resources/images/tripInfoimges/Lithuania.gif'/>&nbsp; 루마니아</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='크로나' mon="SEK" con="SWE">
+	     <img src='/resources/images/tripInfoimges/Sweden.gif'/>&nbsp; 스웨덴</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='쿠나' mon="HRK" con="HRV">
+	     <img src='/resources/images/tripInfoimges/Croatia.gif'/>&nbsp; 크로아티아</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='프랑' mon="CHF" con="CHE">
+	     <img src='/resources/images/tripInfoimges/Swiss.gif'/>&nbsp; 스위스</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='레바' mon="BGN" con="BGR">
+	     <img src='/resources/images/tripInfoimges/Bulgaria.gif'/>&nbsp; 불가리아</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='리라' mon="TRY" con="TUR">
+	     <img src='/resources/images/tripInfoimges/Turkey.gif'/>&nbsp; 터키</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='크로네' mon="NOK" con="NOR">
+	      <img src='/resources/images/tripInfoimges/norway.gif'/>&nbsp; 노르웨이</a>
+	      <a class="list-group-item list-group-item-action" id="d" data-toggle="list" href="#list-settings" hwa='즈워티' mon="PLN" con="POL">
+	     <img src='/resources/images/tripInfoimges/Poland.png'/>&nbsp; 폴란드</a>
+	     </div>
+		</div>
 
 <!-- 	<script async
 		src="https://cse.google.com/cse.js?cx=015063284203154978978:emahxddazvy"></script>
