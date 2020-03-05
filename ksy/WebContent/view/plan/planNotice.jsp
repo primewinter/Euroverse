@@ -16,7 +16,7 @@
 
 <head>
 <meta charset="EUC-KR">
-<title>getPlanList</title>
+<title>Euroverse, 유럽 여행의 시작</title>
 
 <!-- 참조 : http://getbootstrap.com/css/   참조 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
