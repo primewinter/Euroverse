@@ -70,7 +70,16 @@
     th, td {
         font-size: 0.9em;
     }
-    
+    div.info {
+        display: none;
+/*        display: inline-block;*/
+        float: right;
+        background-color:#97ebdb;
+        border-radius: 10px;
+        padding:1em;
+        font-size: 10pt;
+        font-family:'NIXGONM-Vb';
+    }
 </style>
 
 
@@ -82,16 +91,21 @@
     <!-- <div style="height: 100px;"></div> -->
 
 
-	<div class="container" style="max-width: 1000px;">
+	<div class="container" style="width:60%;margin:auto;">
 	
 	
 	
-		<table class="table" style="text-align: center;">
+		<table class="table table-hover" style="text-align: center;">
 			<form id="pointListForm">
 			 	<input type="hidden" id="currentPage" name="currentPage" value=0 /> 
 			
 				<div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
 					보유포인트
+				</div>
+				<div class="info">
+				    <p>* 포인트 적립 *</p>
+				    1. 결제 시 실결제금액의 1%가 적립됩니다.<br/>
+				    2. 출석체크 시 100포인트가 적립됩니다.
 				</div>
 				<!-- <h4 style="">보유포인트</h4> -->
 				<h2 style="font-family:'NIXGONM-Vb';padding-left:10px;margin-bottom: 15px;">

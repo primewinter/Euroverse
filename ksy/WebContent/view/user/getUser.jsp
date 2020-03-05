@@ -499,15 +499,6 @@ var maPageCode = 'M';
 					  				<i class="fas fa-venus" style="color: #BD1010;"></i>
 					  			</c:if>
 				  			</div>
-				  			<%-- <div style="font-size: 16px;">
-				  				<span data-feather="user"></span> &nbsp; 
-					  			<c:if test="${user.sex == 'M'}">
-					  				남자 <i class="fas fa-male"></i>
-					  			</c:if>
-					  			<c:if test="${user.sex == 'F'}">
-					  				여자 <i class="fas fa-female"></i>
-					  			</c:if>
-				  			</div> --%>
 				  			<div style="font-size: 16px;">
 				  				<span data-feather="mail"></span> &nbsp; ${user.email}
 				  			</div>
@@ -515,6 +506,12 @@ var maPageCode = 'M';
 				  			<div style="font-size: 16px;">
 				  				<span data-feather="phone"></span> &nbsp; ${user.phone}
 				  			</div>
+				  			
+				  			<div style="font-size: 16px;">
+				  				<i class="far fa-calendar-alt"></i> &nbsp; <fmt:formatDate value="${user.regDate}" pattern="yyyy-MM-dd"/> 가입
+				  			</div>
+				  			
+				  			
 			  			</div>
 			  			
 			  		</div>
@@ -532,7 +529,7 @@ var maPageCode = 'M';
 				  			<c:forEach var="tripSurvey" items="${tripSurveyList}" varStatus="status" >
 								<c:if test="${tripSurvey.surveyType=='D'}">
 									 <%-- <img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="60px" height="47px" onmouseover="country('${tripSurvey.surveyChoice}')" onmouseout="country('')" style="margin:3px;cursor: help;" title="${tripSurvey.surveyChoice}"  > --%>
-									<span data-toggle="tooltip" data-placement="top" title="${tripSurvey.surveyChoice}"><img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="40px" height="37px" onmouseover="country('${tripSurvey.surveyChoice}')" onmouseout="country('')" style="margin:3px;cursor: help"></span>
+									<span data-toggle="tooltip" data-placement="top" title="${tripSurvey.surveyChoice}"><img src="/resources/images/tripInfoimges/${tripSurvey.surveyImg}" alt="..." width="42px" height="28px" onmouseover="country('${tripSurvey.surveyChoice}')" onmouseout="country('')" style="margin:3px;cursor: help"></span>
 								</c:if>
 							</c:forEach> 
 						</div>

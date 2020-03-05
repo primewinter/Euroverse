@@ -214,6 +214,7 @@
     <!-- ToolBar Start /////////////////////////////////////-->
     <jsp:include page="/toolbar/toolBar.jsp" />
     <jsp:include page="/toolbar/pushBar.jsp" />
+    <jsp:include page="/view/accompany/accSidebar.jsp"/>
     <!-- ToolBar End /////////////////////////////////////-->
 
     <!--  화면구성 div Start /////////////////////////////////////-->
@@ -265,11 +266,11 @@
 
                 <thead>
                     <tr>
-                        <th scope="col" style="width: 10%">글번호</th>
+                        <th scope="col" style="width: 7%">글번호</th>
                         <th scope="col" style="width: 12%">동행날짜</th>
-                        <th scope="col" style="width: 50%">제목</th>
-                        <th scope="col" style="width: 5%">인원</th>
-                        <th scope="col" style="width: 16%">작성자</th>
+                        <th scope="col" style="width: 38%">제목</th>
+                        <th scope="col" style="width: 7%">인원</th>
+                        <th scope="col" style="width: 18%">작성자</th>
                         <th scope="col" style="width: 10%">작성일</th>
                         <th scope="col" style="width: 7%">조회수</th>
                         <!--<th scope="col" style="width: 7%">추천수</th>-->
@@ -318,9 +319,6 @@
                             <td>
                                 <font class='post-sm'>${post.views}</font>
                             </td>
-                           <!-- <td>
-                                <font class='post-sm'>${post.postLikeCount}</font>
-                            </td>-->
                         </tr>
                     </c:forEach>
 

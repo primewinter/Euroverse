@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <c:if test="${  empty user }">
 		<jsp:forward page="/main.jsp"/>
 </c:if>
@@ -44,9 +46,10 @@
 
 
 	$(function(){
-		$( "td:nth-child(2)" ).on("click" , function() {
-			var postId = $(this).next().next().next().next().val();
-			var boardName = $(this).next().next().next().next().next().val();
+		$("tr.bookMark").on("click" , function() {
+			var postId =  $(this).find('input[name="postId"]').val();
+			var boardName = $(this).find('input[name="boardName"]').val();
+            //alert('postId : '+postId+" , boardName = "+boardName);
 			self.location ="/community/getPost?postId="+postId+"&boardName="+boardName;
 		});
 	})
@@ -64,7 +67,9 @@
 			cache : false ,
 			dataType : "json" ,
 			success : function(JSONData) {
-				var bookMarkList = JSONData.bookMarkList;
+                $('#'+postId).css('display','none');
+                
+				/*var bookMarkList = JSONData.bookMarkList;
 					$("tbody").html("");
 				for(var i=0;i<bookMarkList.length;i++){
 					$("tbody").append("<tr>");
@@ -78,7 +83,7 @@
 					$("tbody").append("<input type='hidden' name='postId' value="+bookMarkList[i].postId+"/>");
 					$("tbody").append("<input type='hidden' value="+bookMarkList[i].boardName+"/>");
 					$("tbody").append("</tr>");
-				}
+				}*/
 				     
 			},
 			error: function(request, status, error){
@@ -87,6 +92,11 @@
 		});
 	}
 </script>
+<style>
+    font.post-sm {
+        font-size:9pt;
+    }
+</style>
 </head>
 <body>
 
@@ -95,7 +105,7 @@
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>	
 	
 	
-	<div class="container" style="max-width: 1000px;">
+	<div class="container" style="width:60%;margin:auto;">
 	
 	
 	    <!-- <h3  style="margin-left: 320px; width: 1000px"><b>나의 북마크목록</b></h3> -->
@@ -108,19 +118,20 @@
 	 		<input type="hidden" id="currentPage" name="currentPage" value=0 /> 
 		</form>
 		
-		<table class="table" style="font-size: 14px;text-align: center; ">
+		<table class="table table-hover" style="font-size: 14px;text-align: center; ">
 			  <thead>
 			    <tr>
-			      <th scope="col"></th>
+			      <th scope="col">게시판</th>
 			      <th scope="col">제목</th>
 			      <th scope="col">닉네임</th>
+			      <th scope="col">작성일</th>
 			      <th scope="col"></th>
 			    </tr>
 			  </thead>
 	  			<tbody>
 				  	<c:forEach var="bookMarkPost" items="${bookMarkList}" varStatus="status">
-				  		<tr>
-				  			<th scope="row">
+				  		<tr class="bookMark" id="${bookMarkPost.postId}">
+				  			<td style="width:10%;">
                                 <c:if test="${bookMarkPost.boardName=='A'}">
                                     자유게시판
                                 </c:if>
@@ -139,18 +150,22 @@
                                 <c:if test="${bookMarkPost.boardName=='G'}">
                                     QnA
                                 </c:if>
-				  			</th>
+				  			</td>
 				  			<c:set var="title" value="${bookMarkPost.postTitle}"/>
-							<td>${fn:substring(title,0,35)}
+							<td style="width:50%;text-align: left;">${fn:substring(title,0,35)}
 								<c:if test="${fn:length(title)>35}">
 									......
 								</c:if>
+								<!--(${bookMarkPost.comments})-->
 							</td>
-				  			<td>${bookMarkPost.nickName}</td>
-				  			<td><i id="deleteBookMark${status.index}" class="fas fa-bookmark fa-2x" onclick="javascript:deleteBookMark(${bookMarkPost.postId})"></i></td>
+				  			<td style="width:12%">${bookMarkPost.nickName}</td>
+                            <td style="width:10%"><font class="post-sm">
+                            <fmt:formatDate value="${bookMarkPost.postDate}" pattern="yyyy-MM-dd"/>
+                            </font></td>
+                            <td style="width:8%;padding:6px;"><font size="5px"><i id="deleteBookMark${status.index}" class="fas fa-bookmark" onclick="javascript:deleteBookMark(${bookMarkPost.postId})"></i></font></td>
 				  			<input type="hidden" value="${status.index}">
-				  			<input type="hidden" value="${bookMarkPost.postId}"/>
-				  			<input type="hidden" value="${bookMarkPost.boardName}"/>
+				  			<input type="hidden" name="postId" value="${bookMarkPost.postId}"/>
+				  			<input type="hidden" name="boardName" value="${bookMarkPost.boardName}"/>
 				  		</tr>
 				  	</c:forEach>
 				  	

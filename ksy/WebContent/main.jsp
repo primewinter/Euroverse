@@ -114,6 +114,9 @@
         width: 640px;
         height: 720px;
     }
+    .owl-carousel .owl-item img {
+        display: inline-block;
+    }
 
     .carousel-caption {
         text-align: left;
@@ -959,9 +962,9 @@
             getMainPlanner("E");
         });
 
-        function randomImage() {
+        function randomImage(con) {
             $.ajax({
-                url: "/api/json/infinityClick",
+                url: "/api/json/infinityClick/"+con,
                 method: "GET",
                 dataType: "json",
                 headers: {
@@ -1265,6 +1268,10 @@
 
                 $('input[name="conMoney"]').attr('placeholder', conName);
                 $('.text').html(conHwa);
+                
+                randomImage(conCode);
+                
+                
                 //popup(e);
                 //resultFun();
             });

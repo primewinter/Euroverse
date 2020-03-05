@@ -57,7 +57,7 @@
 
 
         div.addQnA {
-            width: 50%;
+            width: 60%;
             padding: 2em;
         }
 
@@ -67,7 +67,7 @@
         }
 
         div.QnAList {
-            width: 50%;
+            width: 60%;
             margin: auto;
             padding: 0.5em;
         }
@@ -97,9 +97,6 @@
     <script>
         var maPageCode = 'Q';
         
-        function update(postId) {
-            $('#qnaUpdateForm'+postId).attr("method", "POST").attr("action", "/myPage/updateQna").submit();
-        }
         
         //게시글 수정 시 사용되는 카테고리 선택
         function selectCate(obj, postId) {
@@ -128,6 +125,51 @@
             }
             
         }
+        
+        function updateQnA(postId) {
+            var title = $('#qnaUpdateForm'+postId+' > table > tbody > tr:nth-child(1) > td:nth-child(2) > font.post-title > input[type=text]').val();
+            var content = $('#qnaUpdateForm'+postId+' > table > tbody > tr:nth-child(2) > td > textarea').html();
+            var category = $('#'+postId+'_firstCate').val();
+            if (title == "" || title == null) {
+                 Swal.fire({
+                    text: '제목을 입력해주세요.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#00c2c7',
+                    confirmButtonText: '예',
+                }).then((result) => {
+                    return;
+                });
+                
+            }
+
+            if (category == "" || category == null) {
+                Swal.fire({
+                    text: '카테고리를 선택해주세요.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#00c2c7',
+                    confirmButtonText: '예',
+                }).then((result) => {
+                    return;
+                });
+            }
+
+            if (content == "" || content == null) {
+                Swal.fire({
+                    text: '내용을 입력해주세요.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#00c2c7',
+                    confirmButtonText: '예',
+                }).then((result) => {
+                    return;
+                });
+
+            }
+            //alert($('#qnaUpdateForm'+postId).serialize());
+            $('#qnaUpdateForm'+postId).attr("method", "POST").attr("action", "/myPage/updateQna").submit();
+        }
 
         function fncGetUserList(currentPage) {
             $("#currentPage").val(currentPage)
@@ -146,18 +188,39 @@
                 var postContent = $('#postContent' + num).val();
 
                 if (postTitle == "" || postTitle == null) {
-                    alert("제목은 꼭 입력해주세요");
-                    return;
+                    Swal.fire({
+                        text: '제목을 입력해주세요.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#00c2c7',
+                        confirmButtonText: '예',
+                    }).then((result) => {
+                        return;
+                    });
                 }
 
                 if (qnaFirstCate == "" || qnaFirstCate == null) {
-                    alert("1차분류는 꼭 선택해주세요");
-                    return;
+                     Swal.fire({
+                        text: '카테고리를 선택해주세요.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#00c2c7',
+                        confirmButtonText: '예',
+                    }).then((result) => {
+                        return;
+                    });
                 }
 
                 if (postContent == "" || postContent == null) {
-                    alert("내용을 입력해주세요");
-                    return;
+                     Swal.fire({
+                        text: '내용을 입력해주세요.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#00c2c7',
+                        confirmButtonText: '예',
+                    }).then((result) => {
+                        return;
+                    });
 
                 }
 
@@ -383,8 +446,8 @@
                 <table class="table QnA">
                     <tbody>
                         <tr>
-                            <td rowspan="3" style='width:10%'>
-                                <img id="qimg" style="width: 40px;text-align:left;" alt="" src="/resources/images/admin/Qicon.png">
+                            <td rowspan="3" style='width:10%;text-align:right;'>
+                                <img id="qimg" style="width: 40px;" alt="" src="/resources/images/admin/Qicon.png">
                             </td>
                             <td colspan="4" style='width:90%;'>
                                 <c:if test="${qna.postGrade != 'Q' }">
@@ -497,13 +560,13 @@
 
                 $(this).parent().siblings('font.post-title').html('<input type="text" name="postTitle" value="'+title+'" style="width:80%;">');
                 $('#qnaUpdateForm'+postId+' > table > tbody > tr:nth-child(2) > td').html('<textarea name="postContent" class="md-textarea form-control" rows="3">'+content+'</textarea>');
-                var selectTag = "<br/><select id=\""+postId+"_firstCate\" class=\"form-control form-control-sm\" style=\"display:inline-block;width: 150px;\" onchange='selectCate(this, "+postId+")'>"
+                var selectTag = "<br/><select id=\""+postId+"_firstCate\" name=\"qnaFirstCate\" class=\"form-control form-control-sm\" style=\"display:inline-block;width: 150px;\" onchange='selectCate(this, "+postId+")'>"
                 selectTag += "<option disabled selected hidden>1차분류</option>"
                 selectTag += "<option value=\"A\">주문관련</option>"
                 selectTag += "<option value=\"B\">상품관련</option>"
                 selectTag += "<option value=\"C\">기타</option>"
                 selectTag += "</select>"
-                selectTag += "<select id=\""+postId+"_secondCate\" class=\"form-control custom-select-sm\" style=\"width: 150px; display:none;\"></select>";
+                selectTag += "<select id=\""+postId+"_secondCate\" name=\"qnaSecondCate\" class=\"form-control custom-select-sm\" style=\"width: 150px; display:none;\"></select>";
                 $('#qnaUpdateForm'+postId+' > table > tbody > tr:nth-child(1) > td:nth-child(2) > font.post-sm').html(selectTag);
                 
                 var submitBtn = "<button type=\"button\" class=\"btn btn-info btn-sm\" style='float:right;' onclick='updateQnA("+postId+")'>등록</button>"

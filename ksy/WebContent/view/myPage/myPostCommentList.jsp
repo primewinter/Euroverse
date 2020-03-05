@@ -68,23 +68,36 @@
                 self.location = "/community/getPost?postId=" + postId + "&boardName=" + boardName;
             });
 
-            $("#viewPost").on("click", function() {
+            $("div.viewPost").on("click", function() {
                 $("#postTable").css("display", "block");
                 $("#commentTable").css("display", "none");
                 $("#keyword").val("post");
             })
 
-            $("#viewComment").on("click", function() {
+            $("div.viewComment").on("click", function() {
                 $("#commentTable").css("display", "block");
                 $("#postTable").css("display", "none");
                 $("#keyword").val("comment");
             })
+            
+            $('#commentTable > table > tbody > tr').on("click", function(){
+                var postId = $(this).find('input[name="postId"]').val();
+                var boardName = $(this).find('input[name="boardName"]').val();
+                self.location = "/community/getPost?postId=" + postId + "&boardName=" + boardName;
+            })
         });
+        
 
     </script>
     <style>
         .post-sm {
             font-size: 9pt;
+        }
+        div.h4{
+            opacity:0.5;
+        }
+        div.h4:hover{
+            opacity: 1;
         }
 
     </style>
@@ -105,35 +118,35 @@
     </form>
 
 
-    <div class="container" style="max-width: 1000px;">
-
-        <div>
+    <div class="container" style="width:60%;margin:auto;">
+     <!--   <div>
             <div class="btn-group" role="group" aria-label="Basic example" style="margin-left: 10px;">
                 <button type="button" class="btn btn-outline-primary" id="viewPost">게시글</button>
                 <button type="button" class="btn btn-outline-primary" id="viewComment">댓 글</button>
             </div>
-        </div>
-
+        </div>-->
         <c:if test="${keyword!='post'}">
             <div id="postTable" style="display: none;">
         </c:if>
         <c:if test="${keyword=='post'}">
             <div id="postTable" style="display: block;">
         </c:if>
-
-        <!-- <h3  style=""><b>나의 게시글목록</b></h3> -->
-        <div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 30px;margin-bottom:20px; padding-left:10px;">
-            나의 게시글
+        <div class="tab-menu">
+            <div class="h4 viewPost" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;border-bottom: 1px solid white;">
+                나의 게시글
+            </div>
+            <div class="h4 viewComment" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight:bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
+            나의 댓글
+            </div>
         </div>
 
-
-        <table class="table" style="font-size: 14px;text-align: center;">
+        <table class="table table-hover" style="font-size: 14px;text-align: center;">
             <thead>
                 <tr>
                     <th scope="col" style="width: 10%;">게시판</th>
-                    <th scope="col" style="width: 50%;">제목</th>
+                    <th scope="col" style="width: 48%;">제목</th>
                     <th scope="col" style="width: 16%;">닉네임</th>
-                    <th scope="col" style="width: 10%;">작성일</th>
+                    <th scope="col" style="width: 12%;">작성일</th>
                     <th scope="col" style="width: 7%;">조회수</th>
                     <th scope="col" style="width: 7%;">추천수</th>
                 </tr>
@@ -162,7 +175,7 @@
                             </c:if>
                         </th>
                         <c:set var="title" value="${post.postTitle}" />
-                        <td>${fn:substring(title,0,20)}
+                        <td style="text-align: left;">${fn:substring(title,0,20)}
                             <c:if test="${fn:length(title)>20}">
                                 ......
                             </c:if>
@@ -206,37 +219,57 @@
     <c:if test="${keyword=='comment'}">
         <div id="commentTable" style="display: block;">
     </c:if>
-
-    <!-- <h3 style="margin-left: 320px; "><b>나의 댓글목록</b></h3> -->
-    <div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight:bold; margin-top: 30px;margin-bottom:20px; padding-left:10px;">
-        나의 댓글
+    <div class="tab-menu">
+        <div class="h4 viewPost" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
+            나의 게시글
+        </div>
+        <div class="h4 viewComment" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight:bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;border-bottom: 1px solid white;">
+            나의 댓글
+        </div>
     </div>
 
-
-    <table class="table" style="font-size: 14px; text-align: center;">
+    <table class="table table-hover" style="font-size: 14px; text-align: center;">
         <thead>
             <tr>
                 <th scope="col" style="width: 10%;">게시판</th>
-                <th scope="col" style="width: 20%;">제목</th>
                 <th scope="col" style="width: 50%;">댓글내용</th>
-                <th scope="col" style="width: 16%;">닉네임</th>
-                <th scope="col" style="width: 7%;">추천수</th>
-                <th scope="col" style="width: 10%;">댓글작성일</th>
+                <th scope="col" style="width: 20%;">닉네임</th>
+                <th scope="col" style="width: 8%;">추천수</th>
+                <th scope="col" style="width: 12%;">작성일</th>
             </tr>
         </thead>
         <tbody>
             <c:forEach var="comment" items="${commentList}" varStatus="status">
                 <tr>
-                    <th scope="row">${status.count}</th>
-                    <td>${comment.postTitle}</td>
-                    <input type="hidden" value="${comment.postId}">
-                    <input type="hidden" value="${comment.boardName}">
+                    <th scope="row">
+                            <c:if test="${comment.boardName=='A'}">
+                                자유게시판
+                            </c:if>
+                            <c:if test="${comment.boardName=='B'}">
+                                여행정보
+                            </c:if>
+                            <c:if test="${comment.boardName=='D'}">
+                                동행찾기
+                            </c:if>
+                            <c:if test="${comment.boardName=='E'}">
+                                플래너 공유
+                            </c:if>
+                            <c:if test="${comment.boardName=='F'}">
+                                여행후기
+                            </c:if>
+                            <c:if test="${comment.boardName=='G'}">
+                                QnA
+                            </c:if></th>
+                    <input type="hidden" name="postId" value="${comment.postId}">
+                    <input type="hidden" name="boardName" value="${comment.boardName}">
 
                     <c:set var="content" value="${comment.cmtContent}" />
-                    <td>${fn:substring(content,0,25)}
+                    <td style="text-align: left;">${fn:substring(content,0,25)}
                         <c:if test="${fn:length(content)>20}">
                             ......
                         </c:if>
+                        <br/>
+                        <font class="post-sm" style="color:#AAA">원문제목 : ${comment.postTitle}</font>
                     </td>
                     <td>${comment.nickName}</td>
                     <td>

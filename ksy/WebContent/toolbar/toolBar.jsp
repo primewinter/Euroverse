@@ -100,11 +100,14 @@
         text-align: center;
         transition: .3s;
     }
+
     #euroverse-logo {
-        position:relative;
+        position: relative;
         z-index: 5;
-        width: 300px;height: auto;
+        width: 300px;
+        height: auto;
     }
+
     #euroverse-logo.shrink {
         position: fixed;
         z-index: 9999;
@@ -136,14 +139,15 @@
         right: 15%;
         transition: .3s;
     }
+
     div.shrink-logo {
         display: none;
         height: 70px;
         widows: auto;
-        position:fixed;
+        position: fixed;
         z-index: 9999;
-        top:0px;
-        left:15%;
+        top: 0px;
+        left: 15%;
         transition: .3s;
     }
 
@@ -259,13 +263,32 @@
         /*        background-color: #8ad0d6;*/
         font-family: 'NIXGONM-Vb';
         height: 70px;
-        background-color: rgba(151,235,219, 0.7);
+        background-color: rgba(151, 235, 219, 0.7);
         /*rgba(255,246,143, 0.8);*/
     }
 
     nav.menu {
         margin-top: 1.2em;
         margin-bottom: 1.3em;
+    }
+
+
+    .admin-submenu {
+        background: white;
+        display: none;
+        height: auto;
+        padding: 1em;
+        margin: 0px;
+        border: 1px solid #CCC;
+        position: absolute;
+        top: 25px;
+        left:-17px;
+        width: 100px;
+        z-index: 200;
+    }
+
+    .admin-submenu:hover {
+        display: block;
     }
 
 </style>
@@ -275,11 +298,11 @@
     <div class="container toolbar ">
 
         <header class="blog-header py-3">
-           <div class="nav-scroller py-1 mb-2 shrink-logo">
+            <div class="nav-scroller py-1 mb-2 shrink-logo">
                 <a href="/main.jsp"><img src='/resources/images/icon/euroverse_text2.png' style="width:auto;height: 70px;"></a>
             </div>
             <div class="nav-scroller py-1 mb-2 toolbar-logo">
-                <a href="/main.jsp"><img id='euroverse-logo'src='/resources/images/icon/euroverse_text2.png'></a>
+                <a href="/main.jsp"><img id='euroverse-logo' src='/resources/images/icon/euroverse_text2.png'></a>
             </div>
             <div class="login-control">
                 <c:if test="${user.userId == null}">
@@ -287,7 +310,18 @@
                 </c:if>
                 <c:if test="${user.userId != null}">
                     <c:if test="${user.role == 'A'}">
-                        <font><i class="fas fa-cog"></i>회원관리</font>|<font><i class="fas fa-cog"></i>주문관리</font>|<font><i class="fas fa-cog"></i>QnA</font>
+                        <font class='admin-menu'><i class="fas fa-cog"></i>관리자</font>
+                        <ul class="admin-submenu">
+                            <li><a href="#">
+                                    주문관리
+                                </a></li>
+                            <li><a href="#">
+                                    회원관리
+                                </a></li>
+                            <li><a href="#">
+                                    QnA
+                                </a></li>
+                        </ul>
                     </c:if>
                     <font>주문내역</font>|<font>마이페이지</font>|<font>로그아웃</font>
                 </c:if>
@@ -303,7 +337,7 @@
             <li class="menu1"><a href="/plan/getPlanList"><span>플래너</span></a></li>
             <li class="menu2"><a href="/view/flight/searchFlight.jsp"><span>항공</span></a></li>
             <li class="menu3"><a href="/view/room/searchRoom.jsp"><span>숙소</span></a></li>
-            <li class="menu4"><a href="/community/getPostList?boardName=C"><span>커뮤니티<i class="fas fa-sort-down"></i></span></a>
+            <li class="menu4"><a href="/community/getPostList?boardName=C"><span>커뮤니티<i class="fas fa-caret-down"></i></span></a>
                 <ul class="menu4_s submenu">
                     <p></p>
                     <li><a href="#">
@@ -324,7 +358,6 @@
                     <li><a href="#">
                             <p>자유게시판</p>
                         </a></li>
-                    <!--<li><a href="#"><p>동행 찾기</p></a></li>-->
                 </ul>
             </li>
             <li class="menu5"><a href="#"><span>동행</span></a></li>
@@ -370,13 +403,13 @@
     $("font:contains('회원가입')").on("click", function() {
         location.href = "/user/addUser";
     });
-    $("font:contains('회원관리')").on("click", function() {
+    $("ul.admin-submenu > li > a:contains('회원관리')").on("click", function() {
         location.href = "/admin/getUserList";
     });
-    $("font:contains('QnA')").on("click", function() {
+    $("ul.admin-submenu > li > a:contains('QnA')").on("click", function() {
         location.href = "/admin/getAdminQnAList";
     });
-    $("font:contains('주문관리')").on("click", function() {
+    $("ul.admin-submenu > li > a:contains('주문관리')").on("click", function() {
         location.href = "/order/getOrderListAdmin";
     });
     $("font:contains('주문내역')").on("click", function() {
@@ -408,7 +441,7 @@
         $(self.location).attr("href", "/community/getPostList?boardName=F");
     });
 
-    $("a:contains('QnA')").on("click", function() {
+    $("p:contains('QnA')").on("click", function() {
         $(self.location).attr("href", "/community/getPostList?boardName=G");
     });
     $("a:contains('동행')").on("click", function() {
@@ -422,6 +455,18 @@
         $(this).children('ul').stop().fadeOut('fast');
     });
 
+    $('.admin-menu').mouseover(function() {
+        $('.admin-submenu').css('display', 'block');
+    }).mouseout(function(){
+        $('.admin-submenu').css('display', 'none');
+    });
+    
+    $('.admin-submenu').mouseover(function() {
+        $('.admin-submenu').css('display', 'block');
+    }).mouseout(function(){
+        $('.admin-submenu').css('display', 'none');
+    });
+    
 
     $(window).scroll(function() {
         if ($(document).scrollTop() > 170) {
@@ -431,8 +476,8 @@
             $('div.menu-bar').removeClass('sticky-top');
             $('div.login-control').removeClass('shrink');
         }
-        
-         if ($(document).scrollTop() > 230) {
+
+        if ($(document).scrollTop() > 230) {
             $('.shrink-logo').show();
         } else {
             $('.shrink-logo').hide();

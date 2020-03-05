@@ -77,11 +77,13 @@
 		/* Sidebar */
 		.sidebar {
 		  position: fixed;
-		  top: 240px;
+		  top: 300px;
 		  bottom: 0;
 		  left: 0;
 		  z-index: 40; /* Behind the navbar */
-		  padding: 48px 0 0; /* Height of navbar */
+		  padding: 48px; 0 0; /* Height of navbar */
+          width: 20%;
+            
 		  //box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 		  //background-color: white;
 		}

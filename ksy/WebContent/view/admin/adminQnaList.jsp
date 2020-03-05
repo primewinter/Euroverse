@@ -220,7 +220,7 @@ table thead > tr{
 	//관리자의 1:1문의 답변 관리자가 한 문의당 답변을 한개만 달수있도록 로직짜놓음
 	function answer(postId){ 
 		
-       	var cmtContent = $('#content').val();
+       	var cmtContent = $('#content').val().replace(/\n/g,"<br>");
        	$('#content').val('');	
        	
        	 $.ajax({

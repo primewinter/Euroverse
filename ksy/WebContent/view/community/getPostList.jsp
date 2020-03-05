@@ -100,27 +100,11 @@
             float:right;
             vertical-align: middle;
         }
-   /*     table {
-            90%;
+        #boardTitle {
+            display: inline-block;
+            background-color:#ffde3e;
+            font-family: 'NIXGONM-Vb';
         }
-        thead th(1) {
-            width:10%;
-        }
-        thead th(2) {
-            width:50%;
-        }
-        thead th(3) {
-            width: 10%;
-        }
-        thead th(4) {
-            width: 10%;
-        }
-        thead th(5) {
-            width: 10%;
-        }
-        thead th(6) {
-            width: 10%;
-        }*/
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -231,9 +215,6 @@
 			<c:if test="${param.boardName=='B'}">
 			여행정보
 			</c:if>
-			<c:if test="${param.boardName=='D'}">
-			동행찾기
-			</c:if>
 			<c:if test="${param.boardName=='F'}">
 			여행후기
 			</c:if>
@@ -335,106 +316,93 @@
 				</form>
 	    	</div>
             </div>
-		</div>
-		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
-		
-	<div class="table-responsive" style="font-size:14px;">	
-      <!--  table Start /////////////////////////////////////-->
-      <table class="table table-hover" style="text-align:center;">
-      
-        <thead>
-          <tr>
-            <th scope="col" style="width: 10%">글번호</th>
-          <c:if test="${param.boardName=='D'}">
-            <th scope="col" style="width: 5%">동행날짜</th>
-          </c:if>
-            <th scope="col" style="width: 50%">제목</th>
-          <c:if test="${param.boardName=='D'}">
-            <th scope="col" style="width: 5%">인원</th>
-          </c:if>
-            <th scope="col" style="width: 16%">작성자</th>
-            <th scope="col" style="width: 10%">작성일</th>
-            <th scope="col" style="width: 7%">조회수</th>
-            <th scope="col" style="width: 7%">추천수</th>
-          </tr>
-        </thead>
-       
-		<tbody>
-		
-		  <c:set var="i" value="0" />
-		  <c:forEach var="post" items="${list}">
-			<tr>
-		  <c:if test="${post.postGrade == 'N'}">
-		  	  <th scope="row" style="color:#CE1717;">공지 <i class="fas fa-bullhorn"></i></th>
-			  <td style="text-align:left;">
-                  <input type="hidden" id="postId" name="postId" value="${post.postId}"/><span>${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
-		  </c:if>
-		  <c:if test="${post.postGrade == 'B' || post.postGrade == null}">
-		  <c:set var="i" value="${ i+1 }" />
-              <th scope="row"><font class='post-sm'>${post.postId}</font></th>
-			<c:if test="${param.boardName == 'D'}">
-			  <c:if test="${post.accEndDate == null}">
-			    <td><fmt:formatDate value="${post.accStartDate}" pattern="yyyy-MM-dd"/></td>
-			  </c:if>
-			  <c:if test="${post.accEndDate != null}">
-			    <td><fmt:formatDate value="${post.accStartDate}" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${post.accEndDate}" pattern="yyyy-MM-dd"/></td>
-			  </c:if>
-			</c:if>
-			  <td style="text-align:left;">
-			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
-			  <span style="color:black;">
-			  <c:if test="${post.boardName=='G'}">
-				  <c:if test="${post.qnaKategorie=='G'}">
-					[루트]
-				  </c:if>
-				  <c:if test="${post.qnaKategorie=='H'}">
-					[도시]
-				  </c:if>
-				  <c:if test="${post.qnaKategorie=='I'}">
-					[교통]
-				  </c:if>
-				  <c:if test="${post.qnaKategorie=='J'}">
-					[숙소]
-				  </c:if>
-				  <c:if test="${post.qnaKategorie=='K'}">
-					[쇼핑,경비,환전]
-				  </c:if>
-				  <c:if test="${post.qnaKategorie=='L'}">
-					[기타]
-				  </c:if>
-			  </c:if>
-			  </span>
-			  ${post.postTitle} <span style="color:red;">(${post.comments})</span></td>
-		  <c:if test="${param.boardName == 'D'}">
-		   	  <td>${post.accCount}/${post.accPerson}</td>
-		  </c:if>
-		  </c:if>
-			  <td><img src='/resources/images/userImages/${post.user.userImg}' style='border-radius:50%;width:25px;height:25px;border:solid 2px #009688;margin-right:0.5em;'>${post.nickName}</td>
-		  <c:if test="${param.boardName == 'D'}">
-              <td><font class='post-sm'><fmt:formatDate value="${post.postDate}" pattern="yyyy.MM.dd"/></font></td>
-		  </c:if>
-		  <c:if test="${param.boardName != 'D'}">
-              <td><font class='post-sm'><fmt:formatDate value="${post.postDate}" pattern="yyyy.MM.dd"/></font></td>
-		  </c:if>
-                <td><font class='post-sm'>${post.views}</font></td>
-                <td><font class='post-sm'>${post.postLikeCount}</font></td>
-			</tr>
-          </c:forEach>
-        
-        </tbody>
-      
-      </table>
-     </div>
-	  <!--  table End /////////////////////////////////////-->
-	  <button type="button" id="addpost_view" class="btn btn-sm euro-btn">작성하기</button>
-	  
- 	</div>
- 	<!--  화면구성 div End /////////////////////////////////////-->
+        </div>
+        <!-- table 위쪽 검색 Start /////////////////////////////////////-->
+
+        <div class="table-responsive" style="font-size:14px;">
+            <!--  table Start /////////////////////////////////////-->
+            <table class="table table-hover" style="text-align:center;">
+
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 10%">글번호</th>
+                        <th scope="col" style="width: 50%">제목</th>
+                        <th scope="col" style="width: 16%">작성자</th>
+                        <th scope="col" style="width: 10%">작성일</th>
+                        <th scope="col" style="width: 7%">조회수</th>
+                        <th scope="col" style="width: 7%">추천수</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <c:set var="i" value="0" />
+                    <c:forEach var="post" items="${list}">
+                        <tr>
+                            <c:if test="${post.postGrade == 'N'}">
+                                <th scope="row" style="color:#CE1717;">공지 <i class="fas fa-bullhorn"></i></th>
+                                <td style="text-align:left;">
+                                    <input type="hidden" id="postId" name="postId" value="${post.postId}" /><span>${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
+                            </c:if>
+                            <c:if test="${post.postGrade == 'B' || post.postGrade == null}">
+                                <c:set var="i" value="${ i+1 }" />
+                                <th scope="row">
+                                    <font class='post-sm'>${post.postId}</font>
+                                </th>
+                                <td style="text-align:left;">
+                                    <input type="hidden" id="postId" name="postId" value="${post.postId}" />
+                                    <span style="color:black;font-family: 'NIXGONM-Vb';">
+                                        <c:if test="${post.boardName=='G'}">
+                                            <c:if test="${post.qnaKategorie=='G'}">
+                                                [루트]
+                                            </c:if>
+                                            <c:if test="${post.qnaKategorie=='H'}">
+                                                [도시]
+                                            </c:if>
+                                            <c:if test="${post.qnaKategorie=='I'}">
+                                                [교통]
+                                            </c:if>
+                                            <c:if test="${post.qnaKategorie=='J'}">
+                                                [숙소]
+                                            </c:if>
+                                            <c:if test="${post.qnaKategorie=='K'}">
+                                                [쇼핑,경비,환전]
+                                            </c:if>
+                                            <c:if test="${post.qnaKategorie=='L'}">
+                                                [기타]
+                                            </c:if>
+                                        </c:if>
+                                    </span>
+                                    ${post.postTitle} <span style="color:red;">(${post.comments})</span></td>
+                            </c:if>
+                            <td><img src='/resources/images/userImages/${post.user.userImg}' style='border-radius:50%;width:25px;height:25px;border:solid 2px #009688;margin-right:0.5em;'>${post.nickName}</td>
+                                <td>
+                                    <font class='post-sm'>
+                                        <fmt:formatDate value="${post.postDate}" pattern="yyyy.MM.dd" />
+                                    </font>
+                                </td>
+                            <td>
+                                <font class='post-sm'>${post.views}</font>
+                            </td>
+                            <td>
+                                <font class='post-sm'>${post.postLikeCount}</font>
+                            </td>
+                        </tr>
+                    </c:forEach>
+
+                </tbody>
+
+            </table>
+        </div>
+        <!--  table End /////////////////////////////////////-->
+        <button type="button" id="addpost_view" class="btn btn-sm euro-btn">작성하기</button>
+
+    </div>
+    <!-- PageNavigation Start... -->
+    <jsp:include page="../../common/pageNavigator_new.jsp" />
+    <!-- PageNavigation End... -->
+    <jsp:include page="/toolbar/footer.jsp" />
  	
- 	<!-- PageNavigation Start... -->
-	<jsp:include page="../../common/pageNavigator_new.jsp"/>
-	<!-- PageNavigation End... -->
-	<jsp:include page="/toolbar/footer.jsp" />
 </body>
 
 </html>                 

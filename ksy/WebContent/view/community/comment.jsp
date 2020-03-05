@@ -19,7 +19,7 @@
 	$(function(){
 		$("#addComment").on("click" , function() {
 			
-			var content = $("textarea[id='cmtContent']").val();
+			var content = $("textarea[id='cmtContent']").val().replace(/(\n|\r\n)/g, '<br>');
 
 			if( content.trim() == 0 ){
 				swal({
@@ -53,7 +53,7 @@
 	
 	function addRecomment(cmtId) {
 
-			var content = $("form[id='"+cmtId+"addRcmt'] textarea").val();
+			var content = $("form[id='"+cmtId+"addRcmt'] textarea").val().replace(/\n/g,"<br>");
 	
 			if( content.trim() == 0 ){
 				swal({
@@ -288,7 +288,7 @@
 		
 		function updateComment(cmtId){
 			
-			var content = $("#"+cmtId+"new").val();
+			var content = $("#"+cmtId+"new").val().replace(/\n/g,"<br>");
 
 			if(content.trim() == 0){
 				swal({

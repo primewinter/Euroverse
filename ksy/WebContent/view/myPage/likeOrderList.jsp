@@ -2,6 +2,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:if test="${  empty user }">
 	<jsp:forward page="/main.jsp"/>
 </c:if>
@@ -43,6 +44,7 @@
 	})
 
 	function doShow() { 
+        $('div.h4').toggleClass('on');
 	    if ($('#flight').is(":visible")) { 
 	        $('#flight').hide();
 	        $('#iconf').hide();
@@ -52,6 +54,7 @@
 	} 
 
 	function Show() { 
+         $('div.h4').toggleClass('on');
 	    if ($('#room').is(":visible")) { 
 	        $('#room').hide(); 
 	        $('#iconr').hide();
@@ -68,7 +71,8 @@
 			cache : false ,
 			dataType : "json" ,
 			success : function(JSONData) {
-				var flightList = JSONData.flightList;
+                $('#'+likeType+refId).css('display', 'none');
+				/*var flightList = JSONData.flightList;
 				var roomList = JSONData.roomList;
 				var flight = "F";
 				var room = "R";
@@ -107,7 +111,7 @@
 				        $('#room').show();
 				        $('#iconr').show();
 					}  
-				}
+				}*/
 			},
 			error: function(request, status, error){
 				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -116,50 +120,58 @@
 	}
 
 </script>
+<style>
+    div.h4{
+        opacity:0.5;
+    }
+    div.h4.on{
+        opacity:1;
+    }
+    div.h4:hover{
+        opacity: 1;
+    }
+    table {
+        font-size: 10pt;
+    }
+</style>
 </head>
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
-	<div class="container" style="max-width: 1000px;">
+	<div class="container" style="width:60%;margin:auto;">
 	
-		<!-- <div class="page-header"> <h3>찜목록</h3> </div> -->
-		<div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
-			내가 찜한 상품
+		<!--<div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;">
+			내가 찜한 상품:
+		</div>-->
+        <div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;" onclick="javascript:Show();">
+        내가 찜한 항공
+		</div>
+        <div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;font-weight: bold; margin-top: 40px;margin-bottom:20px;opacity: 1;">
+        /
+		</div>
+        <div class="h4 on" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;" onclick="javascript:doShow();">
+        내가 찜한 숙소
 		</div>
 
-	  	<div class="d-flex align-items-center" style="margin: 20px;">
-		  	<i class="fas fa-plane" id="iconf" style="font-size:40px; width: 50px;"></i>
-		  	<i class="fas fa-bed" id="iconr" style="font-size:40px; width: 50px;"></i>
-		  	
-		  	<div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-left: 20px;">
-			  <label class="btn btn-outline-primary active">
-			    <input type="radio" name="flight" id="option1" checked onclick="javascript:Show();"> Flight
-			  </label>
-			  <label class="btn btn-outline-primary">
-			    <input type="radio" name="room" id="option2" onclick="javascript:doShow();"> Room
-			  </label>
-			</div>
-	  	</div>
-	  	
-		<table class="table table-bordered" id="flight" style="text-align: center;">
+		<table class="table table-hover" id="flight" style="text-align: center;">
 		  <thead>
 		    <tr>
-		      <th scope="col">#</th>
+		      <th scope="col"></th>
 		      <th scope="col">항공사</th>
 		      <th scope="col">출발도시 - 도착도시</th>
-		      <th scope="col">출발일시/도착일시</th>
-		      <th scope="col">경유/소요시간</th>
+		      <th scope="col">출발일시 - 도착일시</th>
+		      <th scope="col">소요시간(경유)</th>
 		      <th scope="col">가격</th>
-		      <th scope="col">찜</th>
+		      <th scope="col"></th>
 		    </tr>
 		  </thead>
 		 
 		  <tbody id="flightBody">
 		   
 				<c:forEach var="flight" items = "${flightList}" varStatus="status" >
-					 <tr>
+					 <tr id="F${flight.flightId}">
 					      <th scope="row">
 					      ${status.count}
 					      </th>
@@ -167,12 +179,12 @@
 						      </td>
 						      	<input type="hidden"  value="${flight.flightId }" />
 						      	<input type="hidden" value="F"/>
-						      <td>${flight.depCity}/${flight.arrCity }</td>
+						      <td>${flight.depCity} - ${flight.arrCity }</td>
 						      <td>${flight.depTime} - ${flight.arrTime }</td>
-						      <td>${flight.stopOver}/${flight.leadTime}</td>
-						      <td>${flight.price}원</td>
+						      <td>${flight.leadTime}(${flight.stopOver})</td>
+						      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" />원</td>
 							 	<td>
-							 	<i class="fas fa-heart deleteFlight" onclick="javascript:deleteLike(${flight.flightId},'F')"></i>
+							 	    <i class="fas fa-heart deleteFlight" onclick="javascript:deleteLike(${flight.flightId},'F')"></i>
 							 	</td> 
 							 
 				   	 </tr>
@@ -187,11 +199,11 @@
 		 
 	
 	
-		 <table class="table table-bordered" id="room" style="text-align: center;" >
+		 <table class="table table-hover" id="room" style="text-align: center;" >
 		 
 		  <thead>
 		    <tr>
-		      <th scope="col">#</th>
+		      <th scope="col"></th>
 		      <th scope="col">여행지</th>
 		      <th scope="col">숙소</th>
 		      <th scope="col">출발일시 - 도착일시</th>
@@ -204,7 +216,7 @@
 		  <tbody id="roomBody">
 		   
 			<c:forEach var="room" items = "${roomList}" varStatus="status" >
-				 <tr>
+				 <tr id="R${room.roomId}">
 				    <th scope="row"  id="refund2" >
 				    ${status.count }
 				    </th>
@@ -213,12 +225,12 @@
 				      	<input type="hidden" value="R"/>
 
 				    <td>${room.roomName}</td>
-				    <td>${room.checkIn} - ${room.checkOut }</td>
+				    <td>${room.checkIn.substring(0,4)}.${room.checkIn.substring(4,6)}.${room.checkIn.substring(5,7)} - ${room.checkOut.substring(0,4)}.${room.checkOut.substring(4,6)}.${room.checkOut.substring(5,7)}</td>
 				    <td>${room.roomNum} 개 / 성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
-				    <td>${room.price} 원 </td>
+				    <td><fmt:formatNumber value="${room.price}" pattern="###,###" />원 </td>
 				    <td> 
-				    <i class="fas fa-heart deleteFlight" onclick="javascript:deleteLike(${room.roomId},'R')"></i>
-					 </td>
+				        <i class="fas fa-heart deleteFlight" onclick="javascript:deleteLike(${room.roomId},'R')"></i>
+				    </td>
 			   	 </tr>
 		     </c:forEach> 
 		     

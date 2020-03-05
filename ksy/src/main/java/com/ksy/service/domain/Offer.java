@@ -12,6 +12,7 @@ public class Offer {
 	private String offerMsg; 		//offer_msg
 	private String offerStatus; 	//offer_status (CHAR) :: S(제안중), A(수락), R(거절)
 	private String fromUserId; 		//from_user_id
+	private String fromUserNickname;
 	private String toUserId;		//to_user_id
 	private Timestamp offerDate; 	//offer_date
 	
@@ -114,6 +115,14 @@ public class Offer {
 
 	public void setPostTitle(String postTitle) {
 		this.postTitle = postTitle;
+	}
+
+	public String getFromUserNickname() {
+		return fromUserNickname;
+	}
+
+	public void setFromUserNickname(String fromUserNickname) {
+		this.fromUserNickname = fromUserNickname;
 	}
 
 	@Override

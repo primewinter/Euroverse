@@ -148,6 +148,12 @@
 		margin: 40px;
 	
 	}
+     div.h4{
+        opacity:0.5;
+    }
+    div.h4:hover{
+        opacity: 1;
+    }
 
 
 
@@ -300,12 +306,12 @@ $(function(){
 			$(self.location).attr("href", "/myPage/offerReject?offerId="+offerId);
 	    }, 700);
 	})
-	$("#viewPlan").on("click",function(){
+	$("div.viewPlan").on("click",function(){
 		$("#planTable").css("display","block");
 		$("#partyTable").css("display","none"); 
 		$("#keyword").val("plan");
 	})
-	$("#viewParty").on("click",function(){
+	$("div.viewParty").on("click",function(){
 	 	$("#partyTable").css("display","block");
 		$("#planTable").css("display","none"); 
 		$("#keyword").val("party");
@@ -324,14 +330,14 @@ $(function(){
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 		
 		
-	<div class="container" style="max-width: 1000px;">
+	<div class="container" style="width:60%;margin:auto;">
 		
-		<div>
+		<!--<div>
 			<div class="btn-group" role="group" aria-label="Basic example" style="margin-left: 10px;">
 				<button type="button" class="btn btn-outline-primary" id="viewPlan">플래너</button>
 				<button type="button" class="btn btn-outline-primary" id="viewParty">동 행</button>
 			</div>
-		</div>
+		</div>-->
 	
 	
 		<form id="myOfferListForm">
@@ -353,9 +359,12 @@ $(function(){
 		
 	    <!-- <h1  style="margin-left: 240px; width: 1000px">플래너 초대목록</h1> -->
 	    
-	    <div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 30px;margin-bottom:20px; padding-left:10px;">
+	    <div class="h4 viewPlan" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;">
 			플래너 초대목록
 		</div>
+        <div class="h4 viewParty" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
+        동행 신청목록
+        </div>
 				
 				<div class="row">
 					<!-- <div style="width: 300px;"></div> -->
@@ -406,9 +415,11 @@ $(function(){
 		<c:if test="${keyword=='party'}">
 			<div id="partyTable" style="display: block;">
 		</c:if>	
-				
-	       		<!-- <h1  style="margin-left: 240px; width: 1000px">동행 신청목록</h1> -->
-	       		<div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 30px;margin-bottom:20px; padding-left:10px;">
+               
+                <div class="h4 viewPlan" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
+                플래너 초대목록
+                </div>
+	       		<div class="h4 viewParty" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;">
 					동행 신청목록
 				</div>
 		
@@ -419,9 +430,8 @@ $(function(){
 					    	<img src="/resources/images/userImages/${partyOffer.userImg}" class="mr-3" alt="..." >
 					    	<div class="media-body">
 					      		<h5 class="mt-0 mb-1">${partyOffer.postTitle}</h5>
-				     			<small> 신청자  :</small>${partyOffer.fromUserId}<br>
-				  				<small> 신청메세지 :</small>  ${partyOffer.offerMsg}<br>
-								<small>  신청일자 : </small>   
+				     			${partyOffer.fromUserNickname}<br>
+				  				${partyOffer.offerMsg}<br>
 				     	 		<c:set var="partyOfferDate" value="${fn:split(partyOffer.offerDate,' ')}"></c:set>
 						   		<c:out value="${partyOfferDate[0]}"></c:out>
 				      			<br>

@@ -33,11 +33,12 @@
 		/* Sidebar */
 		.sidebar {
 		  position: fixed;
-		  top: 240px;
+		  top: 300px;
 		  bottom: 0;
 		  left: 0;
 		  z-index: 40; /* Behind the navbar */
 		  padding: 48px 0 0; /* Height of navbar */
+          width: 20%;
 		  //box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 		  //background-color: white;
 		}
@@ -135,7 +136,7 @@
 	<script>
 	
 		$(function(){
-			$(".nav-link:contains('내 정보 조회')").on("click" ,function(){
+			$(".nav-link:contains('정보')").on("click" ,function(){
 				$(self.location).attr("href","/user/getUser");
 			});
 			
@@ -143,20 +144,20 @@
 				$(self.location).attr("href","/user/updateUser");
 			}); */
 			
-			$(".nav-link:contains('포인트 사용 내역')").on("click" ,function(){
+			$(".nav-link:contains('포인트')").on("click" ,function(){
 				$(self.location).attr("href","/myPage/pointList");
 			});
 			
-			$(".nav-link:contains('내 게시글 / 댓글')").on("click" ,function(){
+			$(".nav-link:contains('게시글')").on("click" ,function(){
 				$(self.location).attr("href","/myPage/myPostCommentList");
 			});
 			
-			$(".nav-link:contains('북마크 목록')").on("click" ,function(){
+			$(".nav-link:contains('북마크')").on("click" ,function(){
 				$(self.location).attr("href","/myPage/myBookMarkList");
 			});
 			
 			
-			$(".nav-link:contains('플래너 초대 / 동행신청')").on("click" ,function(){
+			$(".nav-link:contains('초대')").on("click" ,function(){
 				//alert("구현중");
 				$(self.location).attr("href","/myPage/myOfferList");
 			});
@@ -166,12 +167,12 @@
 			}); */
 			
 			
-			$(".nav-link:contains('찜한 상품')").on("click" ,function(){
+			$(".nav-link:contains('상품')").on("click" ,function(){
 				//alert("구현중");
 				$(self.location).attr("href","/myPage/likeOrderList");
 			});
 			
-			$(".nav-link:contains('1:1 문의')").on("click" ,function(){
+			$(".nav-link:contains('문의')").on("click" ,function(){
 				$(self.location).attr("href","/myPage/addQnaAndQnaList");
 			});
 			
@@ -236,24 +237,24 @@
           </li>
           <li class="nav-item">
             <a class="nav-link scroll" href="#C">
-              내 게시글 / 댓글 &nbsp; <span data-feather="edit"></span>
+              나의 게시글 / 댓글 &nbsp; <span data-feather="edit"></span>
             </a>
           </li>
           
           <li class="nav-item">
             <a class="nav-link scroll" href="#B">
-              북마크 목록 &nbsp; <span data-feather="bookmark"></span>
+              나의 북마크 &nbsp; <span data-feather="bookmark"></span>
             </a>
           </li>
           
           <li class="nav-item">
             <a class="nav-link scroll" href="#O">
-              플래너 초대 / 동행신청  &nbsp; <span data-feather="users"></span>
+              플래너 초대 / 동행 신청  &nbsp; <span data-feather="users"></span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link scroll" href="#L">
-              찜한 상품  &nbsp; <span data-feather="heart"></span>
+              내가 찜한 상품  &nbsp; <span data-feather="heart"></span>
             </a>
           </li>
           <li class="nav-item">
