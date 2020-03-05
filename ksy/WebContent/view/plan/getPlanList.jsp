@@ -279,9 +279,6 @@
 	<div class="album py-5">
 		<div class="container">
 		
-			<div class="row text-center">
-			<div style="border: 1px solid;padding:15px;margin:20px;"><a href="/plan/getPostList?boardName=E">플래너 게시판으로</a></div>
-			</div>
 			
 			<div class="row">
 			

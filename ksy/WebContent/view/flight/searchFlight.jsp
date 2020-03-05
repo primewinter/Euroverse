@@ -239,7 +239,7 @@
  
  	$("#searchButton").on("click",function(){
 		
- 		 if ($("#tripCourses").val() == "2") {
+ 		 if ($("#tripCourses").val() == "O") {
 			 $("#to").val("0000-00-00");
  		 }
 					var loading = document.getElementById("loading");
@@ -331,7 +331,7 @@ function doShow() {
 			$("#arrIcon").hide();
 			$("#search").show();
 			$("#peopleChoice").show();
-			$('footer').css("margin-top","8");
+			$('footer').css("margin-top","-8");
 		}
 }
 function Show() { 
@@ -339,14 +339,14 @@ function Show() {
 		$("#europe").css("display","block");
 		$("#domestic").css("display","none");
 		$("#depIcon").show();
-		if ($("#tripCourses").val() == "2") {
+		if ($("#tripCourses").val() == "O") {
 			$("#arrIcon").hide();	
 		}else{
 			$("#arrIcon").show();
 		}
 		$("#search").hide();
 		$("#peopleChoice").hide();
-		$('footer').css("margin-top","-116");
+		$('footer').css("margin-top","-132");
 	}
 }
 
@@ -360,7 +360,7 @@ function domestic(obj) {
 	if ($('#domestic').css("display","block")) { 
 		$("#domestic").css("display","none");
 		$("#depIcon").show();
-		if ($("#tripCourses").val() == "2") {
+		if ($("#tripCourses").val() == "O") {
 			$("#arrIcon").hide();	
 		}else{
 			$("#arrIcon").show();
@@ -480,7 +480,7 @@ function europe(obj) {
 			$("#arraw").attr("class","fas fa-arrows-alt-h");
 			$('#roundTrip').attr('class','col-sm-3 basic');
 			$('#right').attr('class','col-sm-3 change');
-			$("#tripCourses").val(R);
+			$("#tripCourses").val("R");
 			$("#arrIcon").show();
 		});
 	});
@@ -489,7 +489,7 @@ function europe(obj) {
 			$("#arraw").attr("class","fas fa-arrow-right");
 			$('#roundTrip').attr('class','col-sm-3 change');
 			$('#right').attr('class','col-sm-3 basic');
-			$("#tripCourses").val(O);
+			$("#tripCourses").val("O");
 			$("#arrIcon").hide();
 		});
 		
