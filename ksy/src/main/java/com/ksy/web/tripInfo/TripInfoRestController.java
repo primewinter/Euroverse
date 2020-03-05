@@ -84,14 +84,21 @@ public class TripInfoRestController {
 	public TripInfo infinityClick(@PathVariable String conName) throws Exception{
 		
 		System.out.println("infinityClick rest Controller Start");
-		
+		System.out.println("conName ==>"+conName);
 		//conName을 이용해서 url정보 list로 가져오기
 		List<TripInfo> list = tripInfoService.getUrl(conName);
 		
+		//랜덤메서드 생성
 		Random random = new Random();
-		int id = random.nextInt(73);
-		TripInfo tripInfo = list.get(id);
+		// tripInfo 도메인 생성
+		TripInfo tripInfo = new TripInfo();
+		
+		for (int i = 0; i < list.size(); i++) {
+		
+		int id = random.nextInt(i);
+		tripInfo = list.get(id);
 //		TripInfo tripInfo = tripInfoService.getUrl(id);
+		}
 		
 		System.out.println("tripInfo 디버깅 ==>"+tripInfo);
 		
