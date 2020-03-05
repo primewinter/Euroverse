@@ -109,7 +109,6 @@
 	}/*========= end of function =========*/
 	
 	
-	
 	$(function() {
 		 
 		$(".form-control").keyup(function(){
@@ -155,32 +154,33 @@
 							//var splitDate = regDate.split(' ');
 							//alert(splitDate);
 							
+							//회원등급 플래그 값을 결과값으로 넣기위한  if문
+							
+							var stringRole = '';
+							
+							if(JSONData.list[i].role == 'Q'){
+								stringRole = '<div style=": #17a2b8;" class="badge badge-info">인증회원</div>'; 
+							}else if(JSONData.list[i].role = 'G'){
+								stringRole = '<div class="badge badge-light">비인증회원</div>';
+							}else if(JSONData.lsit[i].role == 'A') {
+								stringRole = '<div class="badge badge-warning">관리자</div>';
+							}else if(JSONData.list[i].role == 'X' ){
+								stringRole = '<div class="badge badge-dark">탈퇴회원</div>'
+							}
+							
 							var appendHtml = "<tr>"+
-												"<th scope='row'>"+(i+1)+"</th>"+
-												"<td style='font-weight: bold; color: dimgray;'>"+JSONData.list[i].userId+
-												"<input type='hidden' id='userId' name='userId' value='"+JSONData.list[i].userId+"'/></td>"+
+												"<th style='text-align:right;' scope='row'>"+(i+1)+"</th>"+
+												"<td style='text-align:center; font-weight: bold; color: dimgray;'>"+JSONData.list[i].userId+
+												"</td>"+
 												"<td>"+JSONData.list[i].userName+"</td>"+
+												"<td>"+stringRole+"</td>"+
 												"<td>"+JSONData.list[i].nickname+"</td>"+
 												"<td>"+JSONData.list[i].totalPoint+"</td>"+
 												"<td>"+JSONData.list[i].sex+"</td>"+
 												"<td>"+splitDate+"</td></tr>";
 												
 							$('.userTab').append(appendHtml);
-							
-							/* $('.userTab').append("<tr>");
-							$('.userTab').append("<th scope='row'>"+(i+1)+"</th>");
-							$('.userTab').append("<td style='font-weight: bold; color: dimgray;'>"+JSONData.list[i].userId);
-							$('.userTab').append("<input type='hidden' id='userId' name='userId' value='"+JSONData.list[i].userId+"'/></td>");
-							$('.userTab').append("<td>"+JSONData.list[i].userName+"</td>");
-							$('.userTab').append("<td>"+JSONData.list[i].nickname+"</td>");
-							$('.userTab').append("<td>"+JSONData.list[i].totalPoint+"</td>");
-							$('.userTab').append("<td>"+JSONData.list[i].sex+"</td>");
-							$('.userTab').append("<td>"+splitDate+"</td>");
-							$('.userTab').append("</tr>"); */
-							
 						}/* end of for  */
-						
-						
 					}/* end of else  */
 					
 				},/* end of seccess  */
@@ -188,9 +188,7 @@
 				error:function(request,status,error){
 			        console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
 			    }/* end of error  */
-			    
 			});/* end of ajax  */
-			
 		}); /* keyUp event end  */
 		
 	}); /* function end  */
@@ -241,7 +239,7 @@
 						<c:if test="${empty search.searchCondition }">
 						<option class="from-option" value="0" selected="selected" >아이디</option>
 						<option class="from-option" value="1" >닉네임</option>
-						<option class="from-option" value="2"  >이름</option>
+						<option class="from-option" value="2" >이름</option>
 						</c:if>
 						
 						<c:if test="${!empty search.searchCondition }">

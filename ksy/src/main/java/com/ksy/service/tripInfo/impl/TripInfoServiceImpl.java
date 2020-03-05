@@ -1,5 +1,9 @@
 package com.ksy.service.tripInfo.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -31,8 +35,11 @@ public class TripInfoServiceImpl implements TripInfoService{
 		tripInfoDao.insertUrl(tripInfo);
 	}
 	//@Override
-	public TripInfo getUrl(int id) throws Exception {
-		return tripInfoDao.getUrl(id);
+	public List<TripInfo> getUrl(String conName) throws Exception {
+		
+		System.out.println("TripInfoServiceImpl getUrl");
+		
+		return tripInfoDao.getUrl(conName);
 	}
 	
 }

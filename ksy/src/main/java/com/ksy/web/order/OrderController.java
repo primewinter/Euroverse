@@ -138,9 +138,11 @@ public class OrderController {
 		flight.setDepCity(depCity);
 		flight.setArrCity(arrCity);
 		flight.setDepDate(depDate);
-//		if (arrDate.equals("00000000")) {
-//			arrDate = null;
-//		} arrDate 편도일때 저대로 넣을지 null로 넣을지 고민,,
+		if (arrDate.equals("00000000")) {
+			arrDate = "none";
+			flight.setArrDate(arrDate);
+			System.out.println("편도인가요? : "+flight.getArrDate());
+		} // arrDate 편도일때 저대로 넣을지 null로 넣을지 고민,,
 		flight.setArrDate(arrDate);
 		flight.setDepTime(depTime);
 		flight.setArrTime(arrTime);
@@ -218,9 +220,12 @@ public class OrderController {
 		orderService.addPoint(point);
 		System.out.println("point 1 : "+point);
 		//포인트 사용
-		point.setUsedType("U");
-		point.setUsedPoint(usedPoint);
-		orderService.addPoint(point);
+		if (payPoint != 0) {
+			System.out.println("포인트 사용시 들어옵니다");
+			point.setUsedType("U");
+			point.setUsedPoint(usedPoint);
+			orderService.addPoint(point);
+		}
 		//total에 합산하기
 		myPageService.updateTotalPoint(point);
 		//User Session 다시 받아오기
@@ -297,9 +302,12 @@ public class OrderController {
 		orderService.addPoint(point);
 		System.out.println("point 1 : "+point);
 		//포인트 사용
-		point.setUsedType("U");
-		point.setUsedPoint(usedPoint);
-		orderService.addPoint(point);
+		if (payPoint != 0) {
+			System.out.println("포인트 사용시 들어옵니다");
+			point.setUsedType("U");
+			point.setUsedPoint(usedPoint);
+			orderService.addPoint(point);
+		}
 		//total에 합산하기
 		myPageService.updateTotalPoint(point);
 		//User Session 다시 받아오기

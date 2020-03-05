@@ -201,7 +201,9 @@
 				$(self.location).attr("href","/community/getPostList?boardName=A");
 			});
 			
-			
+			$("a:contains('참여중인동행목록(테스트)')").on("click" ,function(){
+				$(self.location).attr("href","/community/getMyPartyList");
+			});
 			
 			
 		});
@@ -282,6 +284,16 @@
               자유게시판 &nbsp; <span data-feather="message-circle"></span>
             </a>
           </li>
+          
+      <!--========================== 동행테스트 ===============================-->    
+           <li class="nav-item">
+            <a class="nav-link scroll" href="#O">
+              참여중인동행목록(테스트)
+            </a>
+          </li>
+      <!-- ======================================================== -->   
+          
+          
         </ul>
 
        

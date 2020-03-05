@@ -29,6 +29,7 @@
 		<result property="orderDate" 		column="ORDER_DATE" 	jdbcType="TIMESTAMP"/>
 	  	<result property="orderStatus" 		column="ORDER_STATUS"	jdbcType="CHAR"/>
 	  	<result property="orderId" 		column="ORDER_ID"	jdbcType="VARCHAR"/>
+	  	<result property="buyerId"		column="BUYER_ID" 		jdbcType="VARCHAR" />
   	</resultMap>
   	
   	 <insert id="addRoom" parameterType="room">

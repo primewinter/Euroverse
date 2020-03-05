@@ -43,8 +43,8 @@
             min-width: 220px;
             max-height: 310px;
             width: 100%;
-            background: #000000;
-            color: #ffffff;
+            background: white;
+            color: darkgray;
             text-align: center;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
             font-size: 16px;
@@ -69,7 +69,7 @@
             left: 7%;
             right: 7%;
             bottom: 45%;
-            border: 1px solid white;
+            border: 1px solid darkgray;
             border-width: 1px 1px 0;
         }
 
@@ -82,7 +82,7 @@
             width: 100%;
         }
 
-        figure.snip1200 h4 {
+        figure.snip1200 h5 {
             display: table;
             margin: 0 auto;
             padding: 0 10px;
@@ -90,29 +90,30 @@
             text-align: center;
             width: auto;
             text-transform: uppercase;
-            font-weight: 400;
+            font-weight: 600;
+            font-family: 'NIXGONM-Vb';
         }
 
-        figure.snip1200 h4 span {
+        figure.snip1200 h5 span {
             font-weight: 800;
         }
 
-        figure.snip1200 h4:before,
-        figure.snip1200 h4:after {
+        figure.snip1200 h5:before,
+        figure.snip1200 h5:after {
             position: absolute;
             display: block;
             width: 1000%;
             height: 1px;
             content: '';
-            background: white;
+            background: darkgray;
             top: 50%;
         }
 
-        figure.snip1200 h4:before {
+        figure.snip1200 h5:before {
             left: -1000%;
         }
 
-        figure.snip1200 h4:after {
+        figure.snip1200 h5:after {
             right: -1000%;
         }
 
@@ -245,7 +246,7 @@
     <!-- ToolBar Start /////////////////////////////////////-->
     <jsp:include page="/toolbar/toolBar.jsp" />
     <jsp:include page="/view/community/sidebar.jsp" />
-    <%-- <jsp:include page="/toolbar/pushBar.jsp" /> --%>
+    <%-- <jsp:include page="/toolbar/pushBar.jsp" /> --%> 
     <!-- ToolBar End /////////////////////////////////////-->
 
     <!--  화면구성 div Start /////////////////////////////////////-->
@@ -310,7 +311,7 @@
                                             <div style="position: relative;">
 
                                                 <figure class="snip1200">
-                                                    <img style="height:300px;" width="100%" height="200px" src="/resources/images/planImg/${plan.planImg}" />
+                                                    <img style="height:250px;" width="100%" src="${plan.planImg}" />
                                                     <figcaption>
                                                         <p>
                                                             <c:choose>
@@ -325,7 +326,7 @@
                                                             <br>${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate} </c:if>
                                                         </p>
                                                         <div class="heading">
-                                                            <h4>${plan.planTitle}</h4>
+                                                            <h5>${plan.planTitle}</h5>
                                                         </div>
                                                     </figcaption>
                                                     <a href="#"></a>

@@ -94,7 +94,7 @@
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container" style="max-width: 1000px;">
+	<div class="container" style="width:60%;margin:auto;">
 	
 		<div class="h4" id="boardTitle" style="font-weight: bold; margin-top: 40px;padding-left:10px;">
 			인기글게시판
@@ -167,91 +167,97 @@
       
         <thead>
           <tr>
-            <th scope="col">게시글번호</th>
-            <th scope="col">제목</th>
-            <th scope="col">닉네임</th>
-            <th scope="col">작성일</th>
-            <th scope="col">조회수</th>
-            <th scope="col">추천수</th>
+            <th scope="col" style="width: 10%">글번호</th>
+            <th scope="col" style="width: 50%">제목</th>
+            <th scope="col" style="width: 16%">작성자</th>
+            <th scope="col" style="width: 10%">작성일</th>
+            <th scope="col" style="width: 7%">조회수</th>
+            <th scope="col" style="width: 7%">추천수</th>
           </tr>
         </thead>
-       
-		<tbody>
-		
-		  <c:set var="i" value="0" />
-		  <c:forEach var="post" items="${list}">
-			<tr>
-		  <c:if test="${post.postGrade == 'N'}">
-			  <th scope="row" style="color:#CE1717;">공지 <i class="fas fa-bullhorn"></i></th>
-			  <td style="text-align:left;">
-			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
-			  <input type="hidden" id="boardName" name="boardName" value="${post.boardName}"/>
-			  <span>${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
-		  </c:if>
-		  <c:if test="${post.postGrade == 'B' || post.postGrade == null}">
-		  <c:set var="i" value="${ i+1 }" />
-			  <th scope="row">${ i }</th>
-			  <td style="text-align:left;">
-			  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
-			  <input type="hidden" id="boardName" name="boardName" value="${post.boardName}"/>
-				    <c:if test="${post.boardName=='A'}">
-						[자유게시판]
-					</c:if>
-					<c:if test="${post.boardName=='B'}">
-						[여행정보]
-					</c:if>
-					<c:if test="${post.boardName=='D'}">
-						[동행찾기]
-					</c:if>
-					<c:if test="${post.boardName=='E'}">
-						[플래너공유]
-					</c:if>
-					<c:if test="${post.boardName=='F'}">
-						[여행후기]
-					</c:if>
-					<c:if test="${post.boardName=='G'}">
-					  <c:if test="${post.qnaKategorie=='G'}">
-						[QnA 루트]
-					  </c:if>
-					  <c:if test="${post.qnaKategorie=='H'}">
-						[QnA 도시]
-					  </c:if>
-					  <c:if test="${post.qnaKategorie=='I'}">
-						[QnA 교통]
-					  </c:if>
-					  <c:if test="${post.qnaKategorie=='J'}">
-						[QnA 숙소]
-					  </c:if>
-					  <c:if test="${post.qnaKategorie=='K'}">
-						[QnA 쇼핑,경비,환전]
-					  </c:if>
-					  <c:if test="${post.qnaKategorie=='L'}">
-						[QnA 기타]
-					  </c:if>
-					</c:if>
-			  	  ${post.postTitle} <span style="color:red;">(${post.comments})</span></td>
-			  	  
-			</c:if>
-			  <td>${post.nickName}</td>
-			  <td><fmt:formatDate value="${post.postDate}" pattern="yyyy-MM-dd"/></td>
-			  <td>${post.views}</td>
-			  <td>${post.postLikeCount}</td>
-			</tr>
-          </c:forEach>
+
+        <tbody>
+
+          <c:set var="i" value="0" />
+          <c:forEach var="post" items="${list}">
+            <tr>
+                <c:if test="${post.postGrade == 'N'}">
+                    <th scope="row" style="color:#CE1717;">공지 <i class="fas fa-bullhorn"></i></th>
+                    <td style="text-align:left;">
+                        <input type="hidden" id="postId" name="postId" value="${post.postId}" />
+                        <input type="hidden" id="boardName" name="boardName" value="${post.boardName}" />
+                        <span>${post.postTitle}</span> <span style="color:red;">(${post.comments})</span></td>
+                </c:if>
+                <c:if test="${post.postGrade == 'B' || post.postGrade == null}">
+                    <c:set var="i" value="${ i+1 }" />
+                    <th scope="row"><font class='post-sm'>${post.postId}</font></th>
+                    <td style="text-align:left;">
+                        <input type="hidden" id="postId" name="postId" value="${post.postId}" />
+                        <input type="hidden" id="boardName" name="boardName" value="${post.boardName}" />
+                        <c:if test="${post.boardName=='A'}">
+                            [자유게시판]
+                        </c:if>
+                        <c:if test="${post.boardName=='B'}">
+                            [여행정보]
+                        </c:if>
+                        <c:if test="${post.boardName=='D'}">
+                            [동행찾기]
+                        </c:if>
+                        <c:if test="${post.boardName=='E'}">
+                            [플래너공유]
+                        </c:if>
+                        <c:if test="${post.boardName=='F'}">
+                            [여행후기]
+                        </c:if>
+                        <c:if test="${post.boardName=='G'}">
+                            <c:if test="${post.qnaKategorie=='G'}">
+                                [QnA 루트]
+                            </c:if>
+                            <c:if test="${post.qnaKategorie=='H'}">
+                                [QnA 도시]
+                            </c:if>
+                            <c:if test="${post.qnaKategorie=='I'}">
+                                [QnA 교통]
+                            </c:if>
+                            <c:if test="${post.qnaKategorie=='J'}">
+                                [QnA 숙소]
+                            </c:if>
+                            <c:if test="${post.qnaKategorie=='K'}">
+                                [QnA 쇼핑,경비,환전]
+                            </c:if>
+                            <c:if test="${post.qnaKategorie=='L'}">
+                                [QnA 기타]
+                            </c:if>
+                        </c:if>
+                        ${post.postTitle} <span style="color:red;">(${post.comments})</span>
+                    </td>
+
+                </c:if>
+                <td><img src='/resources/images/userImages/${post.user.userImg}' style='border-radius:50%;width:25px;height:25px;border:solid 2px #009688;margin-right:0.5em;'>${post.nickName}</td>
+                <td>
+                    <font class='post-sm'>
+                        <fmt:formatDate value="${post.postDate}" pattern="yyyy.MM.dd" />
+                    </font>
+                </td>
+                <td><font class='post-sm'>${post.views}</font></td>
+                <td><font class='post-sm'>${post.postLikeCount}</font></td>
+            </tr>
+           </c:forEach>
+
+          </tbody>
+
+          </table>
         
-        </tbody>
-      
-      </table>
-     </div>
-	
- 	</div>
- 	<!--  화면구성 div End /////////////////////////////////////-->
- 	
- 	<!-- PageNavigation Start... -->
-	<jsp:include page="../../common/pageNavigator_new.jsp"/>
-	<!-- PageNavigation End... -->
-	
-	<jsp:include page="/toolbar/footer.jsp" />
+        </div>
+
+    </div>
+    <!--  화면구성 div End /////////////////////////////////////-->
+
+    <!-- PageNavigation Start... -->
+    <jsp:include page="../../common/pageNavigator_new.jsp" />
+    <!-- PageNavigation End... -->
+
+    <jsp:include page="/toolbar/footer.jsp" />
 </body>
 
-</html>                  
+</html>
