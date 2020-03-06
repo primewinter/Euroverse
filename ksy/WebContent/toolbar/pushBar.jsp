@@ -146,10 +146,9 @@
 
     /*아이콘들*/
     div.push-bar-menu {
-        opacity: 40%;
         position: fixed;
         display: table;
-        top: 30px;
+        top: 5px;
         right: 10px;
         z-index: 9999;
     }
@@ -166,13 +165,13 @@
     div.icon {
         display: table-cell;
         vertical-align: middle;
-        border: solid 2px #858585;
-        border-radius: 5px;
+        /*border: solid 2px #858585;
+        border-radius: 5px;*/
         width: 40px;
         height: 40px;
         color: #858585;
         font-size: 17pt;
-        text-align: center;
+        /*text-align: center;*/
     }
 
 
@@ -229,20 +228,20 @@
 
 
 <div class="push-bar-menu">
-   <div style=“display:table-row;margin:5px;”>
+   <div class="icon-table" style=“display:table-row;”>
         <div class="icon push-list" title="활동알림">
-            <i class="far fa-bell" ></i>
-            <span class="unreadCount" style='position: absolute; right: 10px; top:-5px; '></span>
+            <i class="fas fa-bell" ></i>
+            <span class="unreadCount" style='position: relative; right: 10px; top:-10px; '></span>
         </div>
     </div>
-    <div style=“display:table-row;margin:5px;”>
+    <div class="icon-table" style=“display:table-row;”>
         <div class="icon acc-chat" title="동행채팅">
-            <i class="far fa-comments" ></i>
+            <i class="fas fa-comments" ></i>
         </div>
     </div>
-    <div style=“display:table-row;margin:5px;”>
+    <div class="icon-table" style=“display:table-row;”>
         <div class="icon plan-chat" title="플래너 채팅">
-            <i class="far fa-comment fa-flip-horizontal"></i>
+            <i class="fas fa-comment fa-flip-horizontal"></i>
         </div>
     </div>
 </div>
@@ -1134,6 +1133,21 @@
         $(".fas.fa-arrow-left").on("click", function() {
             $('#pos1').prop('checked', true);
             disconnectAcc();
+        });
+        
+        $(window).scroll(function() {
+           
+            if ($(document).scrollTop() > 180) {
+                $('.icon-table').css('display', 'inline-block');
+                $('.push-bar-menu').css('margin-top', '10px');
+                $('div.icon').css('color','#323232');
+                $('div.icon').css('font-weight','100');
+            } else {
+                $('.icon-table').css('display','table-row');
+                $('div.icon').css('color','#858585');
+                $('.push-bar-menu').css('margin-top', '0px');
+                
+            }
         });
 
 

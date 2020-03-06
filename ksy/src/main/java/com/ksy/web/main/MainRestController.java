@@ -283,7 +283,29 @@ public class MainRestController {
 		for(int i=0; i<postList.size(); i++) {
 			Plan plan = planService.getPlan(postList.get(i).getPlanId());
 			postList.get(i).setUser(userService.getUser(postList.get(i).getPostWriterId()));
+			//planList.add(plan);
+			List<City> listCity = planSubService.getCityRouteList(plan.getPlanId());
+			plan.setCityList(listCity);
+			
+			String planImgString = "https://maps.googleapis.com/maps/api/staticmap?size=250x220&mobile=true&visible=43,7";
+			planImgString = planImgString + "&path=color:black|weight:1";
+			
+			for(City cityItem : listCity) {
+				planImgString = planImgString + "|" + cityItem.getCityLat() +","+ cityItem.getCityLng();
+			} //50.112,8.684|48.861,2.342|45.112,3.684
+			
+			for(City cityItem : listCity) {
+				planImgString = planImgString + "&markers=size:tiny%7Ccolor:red|" + cityItem.getCityLat() +","+ cityItem.getCityLng();
+			}
+			
+			planImgString = planImgString + "&key=AIzaSyCMoE1_1g-id6crD_2M4nCDF4IsmcncLU4&format=png&maptype=roadmap";
+			planImgString = planImgString + "&style=element:geometry%7Ccolor:0xebe3cd&style=element:labels.text.fill%7Ccolor:0x79524f&style=element:labels.text.stroke%7Ccolor:0xf5f1e6&style=feature:administrative%7Celement:geometry.stroke%7Ccolor:0xc9b2a6&style=feature:administrative.land_parcel%7Celement:geometry.stroke%7Ccolor:0xdcd2be&style=feature:administrative.land_parcel%7Celement:labels%7Cvisibility:off&style=feature:administrative.land_parcel%7Celement:labels.text.fill%7Ccolor:0xae9e90&style=feature:landscape.natural%7Celement:geometry%7Ccolor:0xfcf9f5&style=feature:poi%7Celement:geometry%7Ccolor:0xe7dec2&style=feature:poi%7Celement:labels.text%7Cvisibility:off&style=feature:poi%7Celement:labels.text.fill%7Ccolor:0x93817c&style=feature:poi.business%7Cvisibility:off&style=feature:poi.park%7Celement:geometry.fill%7Ccolor:0xe8edde&style=feature:poi.park%7Celement:labels.text%7Cvisibility:off&style=feature:poi.park%7Celement:labels.text.fill%7Ccolor:0x447530&style=feature:road%7Cvisibility:off&style=feature:road%7Celement:geometry%7Ccolor:0xf5f1e6&style=feature:road.arterial%7Celement:geometry%7Ccolor:0xfdfcf8&style=feature:road.highway%7Celement:geometry%7Ccolor:0xf8c967&style=feature:road.highway%7Celement:geometry.stroke%7Ccolor:0xe9bc62&style=feature:road.highway.controlled_access%7Celement:geometry%7Ccolor:0xe98d58&style=feature:road.highway.controlled_access%7Celement:geometry.stroke%7Ccolor:0xdb8555&style=feature:road.local%7Celement:labels%7Cvisibility:off&style=feature:road.local%7Celement:labels.text.fill%7Ccolor:0x806b63&style=feature:transit.line%7Celement:geometry%7Ccolor:0xdfd2ae&style=feature:transit.line%7Celement:labels.text.fill%7Ccolor:0xa0938b&style=feature:transit.line%7Celement:labels.text.stroke%7Ccolor:0xebe3cd&style=feature:transit.station%7Celement:geometry%7Ccolor:0xdfd2ae&style=feature:water%7Celement:geometry.fill%7Ccolor:0xdaedec&style=feature:water%7Celement:labels.text.fill%7Ccolor:0x83a39e";
+			
+			plan.setPlanImg(planImgString);
+			
 			planList.add(plan);
+			
+			
 		}
 
 		returnMap.put("list", map.get("list"));

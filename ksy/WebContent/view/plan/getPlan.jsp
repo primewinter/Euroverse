@@ -238,10 +238,13 @@
 		
 		/* Sidebar */
 		.sidebar {
-		  position: fixed;
-		  top: 180px;
-		  bottom: 0;
+/*		  position: absolute;*/
+          /*margin-top: 70px;*/
+		  /*top: 300px;*/
+/*		  bottom: 0;*/
+          max-height: 600px;
 		  left: 0;
+          width: 20%;
 		  z-index: 40; /* Behind the navbar */
 		  padding: 48px 0 0; /* Height of navbar */
 		  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
@@ -250,7 +253,7 @@
 		.sidebar-sticky {
 		  position: relative;
 		  top: 0;
-		  height: calc(100vh - 48px);
+		  /*height: calc(100vh - 48px);*/
 		  padding-top: .5rem;
 		  overflow-x: hidden;
 		  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
@@ -1028,6 +1031,15 @@
 		
 		$(document).ready(function(){
 			$('.deleteTodo').hide();
+            $('#blank-top').hide();
+             $(window).scroll(function() {
+                if ($(document).scrollTop() > 300) {
+                    $('#blank-top').show();
+                } else {
+                    $('#blank-top').hide();
+                }
+             });
+
 			
 			/* $('.todo_item').hover(
 		        function() {
@@ -1950,9 +1962,9 @@
 		<div class="row">
 		
 			<!-- 좌측 Plan 툴바 구성 Start /////////////////////////////////////////////////////////// -->
-			<nav class="col-md-2 d-none d-md-block sidebar" style="padding-top:0px; padding-left:20px;" id="navbar-scrollspy">
+			<nav class="col-md-2 d-none d-md-block sidebar sticky-top" style="padding-top:0px; padding-left:20px;" id="navbar-scrollspy">
 		      <div class="sidebar-sticky">
-		      
+                <div id="blank-top" style="height: 70px"></div>
 		        <ul class="nav flex-column">
 		        
 		          <li class="nav-item">

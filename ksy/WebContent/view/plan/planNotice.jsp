@@ -116,7 +116,7 @@
 			</div> -->
 			
 			<!--  style="background-image: url('/resources/images/mainImg/venice_main2.jpg');  -->
-			<div class="bg" style="margin-top: 52px;">
+			<div class="bg" style="">
 				<div style="opacity: 100%;padding: 140px 300px; float: right;text-align: right;">
 				  <!-- <h1 class="display-4">유로버스에 오신걸 환영합니다!</h1> -->
 				  <p class="lead" style="font-weight: 500;">유로버스의 플래너 기능을 사용하시려면<br/>회원으로 로그인 되어있어야 합니다.</p>

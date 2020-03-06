@@ -206,10 +206,10 @@
 		      <th scope="col"></th>
 		      <th scope="col">여행지</th>
 		      <th scope="col">숙소</th>
-		      <th scope="col">출발일시 - 도착일시</th>
+		      <th scope="col">체크인 - 체크아웃</th>
 		      <th scope="col">객실수/숙박인원</th>
 		      <th scope="col">가격</th>
-		      <th scope="col">찜</th>
+		      <th scope="col"></th>
 		    </tr>
 		  </thead>
 		 

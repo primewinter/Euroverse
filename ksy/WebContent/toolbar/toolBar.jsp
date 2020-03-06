@@ -297,11 +297,11 @@
 <div class="toolbar-wrapper justify-content-center">
     <div class="container toolbar ">
 
-        <header class="blog-header py-3">
-            <div class="nav-scroller py-1 mb-2 shrink-logo">
+        <header class="blog-header">
+            <div class="nav-scroller  mb-2 shrink-logo">
                 <a href="/main.jsp"><img src='/resources/images/icon/euroverse_text2.png' style="width:auto;height: 70px;"></a>
             </div>
-            <div class="nav-scroller py-1 mb-2 toolbar-logo">
+            <div class="nav-scroller  mb-2 toolbar-logo">
                 <a href="/main.jsp"><img id='euroverse-logo' src='/resources/images/icon/euroverse_text2.png'></a>
             </div>
             <div class="login-control">

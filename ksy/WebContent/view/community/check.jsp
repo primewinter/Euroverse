@@ -179,7 +179,7 @@
 	<c:if test="${empty user}">	
 		<!-- <div class="h4" style="text-align:center;">게시글 조회는 로그인 후 이용 가능합니다.</div> -->
 		<div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center">
-			<div class="bg" style="margin-top: 52px;">
+			<div class="bg" style="">
 				<div style="opacity: 100%;padding: 140px 300px; float: left;text-align: left;">
 				  <!-- <h1 class="display-4">유로버스에 오신걸 환영합니다!</h1> -->
 				  <p class="lead" style="font-weight: 500;">유로버스의 게시글을 조회하시려면<br/>회원으로 로그인 되어있어야 합니다.</p>

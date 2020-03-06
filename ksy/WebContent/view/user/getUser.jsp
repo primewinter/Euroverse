@@ -264,7 +264,7 @@ $(document).ready(function() {
 										})
 								}else{
 									calendar.addEvent(JSONData);
-                                    
+                                    chulCheckBtn(doc);
 									swal({
 										   icon : 'success',
 										  title : "출석체크 성공!",
@@ -288,8 +288,8 @@ $(document).ready(function() {
                     type    : 'get',
                     dataType: 'json',
                     success : function(doc) {
-                        console.log("출첵하고 가져온 데이터 events ");
                         callback(doc);
+                        console.log("출첵하고 가져온 데이터 events ");
                         chulCheckBtn(doc);
                     }
                 });
@@ -453,7 +453,7 @@ var maPageCode = 'M';
 		
 		
 <div id="main">	
-	<div class="container" style="max-width: 1000px;">
+	<div class="container" style="width:70%;margin:auto;">
 					
 		<div id="userProfileDiv" style="width:100%;height:230px;padding-top: 30px;">
 			
