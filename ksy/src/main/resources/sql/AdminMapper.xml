@@ -135,10 +135,8 @@
 									</if>
 								</where>
 							</if> ) countTable						
-							
-							
-							
 	</select>
+	
 	
 	<!-- 관리자가 게시글에서 신고처리 버튼을 누를 경우 blocked 컬럼이 true로 플래그처리 -->
 	<update id="adminPostBlocked" parameterType="string">
@@ -299,6 +297,7 @@
 		WHERE post_id = ${value}
 	</update>
 	
+	<!-- 관리자가 댓글을 삭제할경우 답변없음 처리를 위해 grade를 다시null로 설정  -->
 	<update id="backUpQnaGrade" parameterType="string">
 		UPDATE post
 			<set>
@@ -318,7 +317,7 @@
 		WHERE cmt_id = #{value}
 	</update>
 	
-	
+	<!-- 회원들이 올린 문의글 조회 -->
 	<select id="getAdminQnAList" parameterType="search" resultMap="postSelectMap">
 		SELECT *
 		FROM (
@@ -346,7 +345,7 @@
 		  			AND #{currentPage}*#{pageSize}
 	</select>
 	
-	
+	<!-- 회원들이 올린 문의글 총갯수 -->
 	<select id="getAdminQnaListTotalCount" parameterType="search" resultType="int">
 		SELECT COUNT(*) FROM(
 			SELECT inner_table.*, ROWNUM AS row_seq		

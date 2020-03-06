@@ -963,6 +963,7 @@
         });
 
         function randomImage(con) {
+            console.log("con :: "+con)
             $.ajax({
                 url: "/api/json/infinityClick/"+con,
                 method: "GET",
@@ -972,8 +973,10 @@
                     "Content-Type": "application/json"
                 },
                 success: function(JSONData, status) {
-                    $('#infinityClick').attr('src', JSONData.url);
-                    $('.effect5 figcaption h3').html(JSONData.info1 + JSONData.info2 + JSONData.info3 + JSONData.info4 + JSONData.info5);
+                    console.log("랜덤이미지 출력")
+                    console.log(JSONData);
+                    $('#infinityClick').attr('src', JSONData.conUrl);
+                    $('.effect5 figcaption h3').html(JSONData.conInfo1 + JSONData.conInfo2 + JSONData.conInfo3 + JSONData.conInfo4);
                 }
             })
         }
@@ -1110,7 +1113,7 @@
             tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + post.postId + "&boardName=E\">";
             tag += "<div class=\"card\" style=\"height:100%;\">"
             tag += "<div class=\"planner-image-wrap\">"
-            tag += "<img  class=\"card-img-top\" src='/resources/images/planImg/" + plan.planImg + "'>";
+            tag += "<img  class=\"card-img-top\" src='" + plan.planImg + "'>";
             tag += "</div>"
             tag += "<div class=\"card-body\">"
             tag += "<p class=\"card-title\">" + post.postTitle + "</p>"

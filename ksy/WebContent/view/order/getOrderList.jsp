@@ -172,7 +172,7 @@ function fncGetUserList(currentPage) {
   	<br/><br/>
   	<i class="fas fa-plane" id="iconf" style="font-size:40px;Padding-left:180px;" ></i>
   	<i class="fas fa-bed" id="iconr" style="font-size:40px;Padding-left:180px;"></i>
-	 <table class="table table-bordered" id="flight" >
+	 <table class="table table-hover" id="flight" >
   <thead>
     <tr>
       <th scope="col"></th>
@@ -222,16 +222,17 @@ function fncGetUserList(currentPage) {
 	 
 	
 	
-	 <table class="table table-bordered" id="room" >
+	 <table class="table table-hover" id="room" >
 	 
 	  <thead>
 	    <tr>
 	      <th scope="col"></th>
 	      <th scope="col">여행지</th>
 	      <th scope="col">숙소</th>
-	      <th scope="col">출발일시 - 도착일시</th>
+	      <th scope="col">체크인 - 체크아웃</th>
 	      <th scope="col">객실수/숙박인원</th>
-	      <th scope="col">가격/결제일시</th>
+          <th scope="col">가격</th>
+	      <th scope="col">결제일시</th>
 	      <th scope="col">주문상태</th>
 	    </tr>
 	  </thead>
@@ -250,8 +251,9 @@ function fncGetUserList(currentPage) {
 			    <td>${room.roomCity }</td>
 			    <td>${room.roomName}</td>
 			    <td>${room.checkIn} - ${room.checkOut }</td>
-			    <td>${room.roomNum} 개 / 성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
-			    <td><fmt:formatNumber value="${room.price}" pattern="###,###" /> 원 /${room.orderDate}</td>
+			    <td>${room.roomNum} 개 / 성인 ${room.adultNum}명, 유아 ${room.childNum}명</td>
+                 <td><fmt:formatNumber value="${room.price}" pattern="###,###" /> 원 </td>
+                 <td>${room.orderDate}</td>
 			    <td> 
 			      <c:if test="${room.orderStatus == 'O' }">
 			      	주문완료

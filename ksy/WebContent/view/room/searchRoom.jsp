@@ -493,7 +493,7 @@ $(function() {
  	 <jsp:include page="/toolbar/pushBar.jsp" />
  
 <form>
-<div class="wrapper" style="margin-top:60px;">	
+<div class="wrapper" style="">	
 <br>
 <br>
 <br>

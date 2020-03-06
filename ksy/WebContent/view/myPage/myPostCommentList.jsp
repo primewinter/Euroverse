@@ -135,6 +135,9 @@
             <div class="h4 viewPost" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;border-bottom: 1px solid white;">
                 나의 게시글
             </div>
+            <div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;font-weight: bold; margin-top: 40px;margin-bottom:20px;opacity: 1;">
+            |
+            </div>
             <div class="h4 viewComment" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight:bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
             나의 댓글
             </div>
@@ -223,6 +226,9 @@
         <div class="h4 viewPost" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
             나의 게시글
         </div>
+        <div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;font-weight: bold; margin-top: 40px;margin-bottom:20px;opacity: 1;">
+        |
+		</div>
         <div class="h4 viewComment" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight:bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;border-bottom: 1px solid white;">
             나의 댓글
         </div>

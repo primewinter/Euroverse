@@ -29,7 +29,7 @@
 	 	SELECT 
 	 	con_id, con_url, con_name, con_info1, con_info2, con_info3, con_info4
 	 	FROM INFINITYCLICK
-		WHERE con_name = ${value}
+		WHERE con_name = '${value}'
 	 </select>
 	 
 	 <select 	id="getconName"	 parameterType="String" resultMap="tripInfoSelectMap" >

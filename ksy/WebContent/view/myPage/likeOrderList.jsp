@@ -149,7 +149,7 @@
         내가 찜한 항공
 		</div>
         <div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;font-weight: bold; margin-top: 40px;margin-bottom:20px;opacity: 1;">
-        /
+        |
 		</div>
         <div class="h4 on" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;" onclick="javascript:doShow();">
         내가 찜한 숙소
@@ -206,10 +206,10 @@
 		      <th scope="col"></th>
 		      <th scope="col">여행지</th>
 		      <th scope="col">숙소</th>
-		      <th scope="col">출발일시 - 도착일시</th>
+		      <th scope="col">체크인 - 체크아웃</th>
 		      <th scope="col">객실수/숙박인원</th>
 		      <th scope="col">가격</th>
-		      <th scope="col">찜</th>
+		      <th scope="col"></th>
 		    </tr>
 		  </thead>
 		 
