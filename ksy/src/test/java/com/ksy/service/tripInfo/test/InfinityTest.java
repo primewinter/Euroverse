@@ -1,5 +1,6 @@
 package com.ksy.service.tripInfo.test;
 
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -29,7 +30,7 @@ public class InfinityTest {
 	@Qualifier("tripInfoServiceImpl")
 	private TripInfoService service;
 
-	@Test
+//	@Test
 	public void addinfinityTest() throws Exception {
 
 		System.out.println("infinityClickTest Ω√¿€!");
@@ -75,13 +76,15 @@ public class InfinityTest {
 
 	}
 
-	// @Test
+//	@Test
 	public void infinityTest() throws Exception {
 
 		TripInfo tripInfo = new TripInfo();
 
-//		tripInfo = service.getUrl(1);
+		List<TripInfo> list = service.getUrl("GBR");
+		list.get(1);
+		System.out.println("list===>"+list);
 
-//		Assert.assertEquals(1, tripInfo.getId());
+//		Assert.assertEquals(59, tripInfo.getConId());
 	}
 }
