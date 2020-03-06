@@ -87,18 +87,21 @@ public class TripInfoRestController {
 		System.out.println("conName ==>"+conName);
 		//conName을 이용해서 url정보 list로 가져오기
 		List<TripInfo> list = tripInfoService.getUrl(conName);
+		System.out.println("list디버깅 ==>"+list);
+		
+		//list의 size만큼 랜던난수를 발생시키기위해 만든 필드
+		int indexNo = list.size();
 		
 		//랜덤메서드 생성
 		Random random = new Random();
+		
 		// tripInfo 도메인 생성
 		TripInfo tripInfo = new TripInfo();
-		
-		for (int i = 0; i < list.size(); i++) {
-		
-		int id = random.nextInt(i);
+
+		//id 에 난수 담고 난수를 이용해서 list에서 목록 뽑아오기
+		int id = random.nextInt(indexNo);
 		tripInfo = list.get(id);
 //		TripInfo tripInfo = tripInfoService.getUrl(id);
-		}
 		
 		System.out.println("tripInfo 디버깅 ==>"+tripInfo);
 		
@@ -106,41 +109,41 @@ public class TripInfoRestController {
 		
 	}
 	
-	@RequestMapping( value="json/exchange/{conCode}", method=RequestMethod.GET )
-	public Map<String,Object> exchange(@PathVariable String conCode ) throws Exception{
-		
-		System.out.println("json/exchage :: GET");
-		
-		HttpClient httpClient = new DefaultHttpClient();
-		
-		System.out.println("conName 디버깅 ==>"+conCode);
-		
-		String addr = "http://apis.data.go.kr/1262000/CountryBasicService/getCountryBasicList?ServiceKey=";
-		String serviceKey="FZiC%2BGu2IHC5gmO3z1BLlSTFhEUKOdGmXwctgo8iuycxvGX8dSswTxpjzBcwxwAhuNDyrQCj%2BEdi4VSsu1XxIA%3D%3D";
-		String parameter = "";
-		parameter = parameter +"&"+"isoCode1="+conCode;
-		String url = addr+serviceKey+parameter; 
-		HttpGet httpGet = new HttpGet(url);
-		httpGet.setHeader("Accept", "application/json");
-		httpGet.setHeader("Content-Type", "application/json");
-		HttpResponse httpResponse = httpClient.execute(httpGet);
-		
-		System.out.println("=================================================================");
-		System.out.println("httpResponse  ===>"+httpResponse);
-		
-		HttpEntity httpEntity = httpResponse.getEntity();
-		
-		System.out.println("httpEntity ====>"+httpEntity);
-		InputStream is = httpEntity.getContent();
-		BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
-		
-		JSONObject jsonObject = (JSONObject)JSONValue.parse(br);
-		System.out.println(jsonObject);
-		Map<String, Object> map = (Map<String,Object>)jsonObject;
-		System.out.println("map===>"+map);
-		
-		return map;
-		
-	}
+//	@RequestMapping( value="json/exchange/{conCode}", method=RequestMethod.GET )
+//	public Map<String,Object> exchange(@PathVariable String conCode ) throws Exception{
+//		
+//		System.out.println("json/exchage :: GET");
+//		
+//		HttpClient httpClient = new DefaultHttpClient();
+//		
+//		System.out.println("conName 디버깅 ==>"+conCode);
+//		
+//		String addr = "http://apis.data.go.kr/1262000/CountryBasicService/getCountryBasicList?ServiceKey=";
+//		String serviceKey="FZiC%2BGu2IHC5gmO3z1BLlSTFhEUKOdGmXwctgo8iuycxvGX8dSswTxpjzBcwxwAhuNDyrQCj%2BEdi4VSsu1XxIA%3D%3D";
+//		String parameter = "";
+//		parameter = parameter +"&"+"isoCode1="+conCode;
+//		String url = addr+serviceKey+parameter; 
+//		HttpGet httpGet = new HttpGet(url);
+//		httpGet.setHeader("Accept", "application/json");
+//		httpGet.setHeader("Content-Type", "application/json");
+//		HttpResponse httpResponse = httpClient.execute(httpGet);
+//		
+//		System.out.println("=================================================================");
+//		System.out.println("httpResponse  ===>"+httpResponse);
+//		
+//		HttpEntity httpEntity = httpResponse.getEntity();
+//		
+//		System.out.println("httpEntity ====>"+httpEntity);
+//		InputStream is = httpEntity.getContent();
+//		BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+//		
+//		JSONObject jsonObject = (JSONObject)JSONValue.parse(br);
+//		System.out.println(jsonObject);
+//		Map<String, Object> map = (Map<String,Object>)jsonObject;
+//		System.out.println("map===>"+map);
+//		
+//		return map;
+//		
+//	}
 	
 }

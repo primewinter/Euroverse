@@ -1179,8 +1179,8 @@
 					
 					var infowindow = new google.maps.InfoWindow();
 					
-					var contentHtml = '<div class="media" style="width:300px; height:120px; padding:5px;">';
-					contentHtml = contentHtml + '<img class="align-self-start mr-2" src="/resources/images/cityImg/'+img+'" width="60px" height="60px">';
+					var contentHtml = '<div class="media" style="width:340px; height:130px; padding:5px;">';
+					contentHtml = contentHtml + '<img class="align-self-start mr-3" src="/resources/images/cityImg/'+img+'" width="60px" height="60px">';
 					contentHtml = contentHtml + '<div class="media-body">';
 					contentHtml = contentHtml + '<h5 class="mt-0">'+ makingMarker.title +  '<div class="badge badge-primary text-wrap" style="width: 3rem; margin-left:10px; margin-top:0;" onClick="addCityRoute(\'' + makingMarker.title + '\' )">'+'추가'+'</div>'  +'</h5>';
 					contentHtml = contentHtml + '<p>'+  cityInfo  +'</p>';
@@ -1225,8 +1225,8 @@
 					
 					var infowindow = new google.maps.InfoWindow();
 					
-					var contentHtml = '<div class="media" style="width:300px; height:120px; padding:5px;">';
-					contentHtml = contentHtml + '<img class="align-self-start mr-2" src="/resources/images/cityImg/'+img+'" width="60px" height="60px">';
+					var contentHtml = '<div class="media" style="width:340px; height:130px; padding:5px;">';
+					contentHtml = contentHtml + '<img class="align-self-start mr-3" src="/resources/images/cityImg/'+img+'" width="60px" height="60px">';
 					contentHtml = contentHtml + '<div class="media-body">';
 					contentHtml = contentHtml + '<h5 class="mt-0">'+ city +  '<div class="badge badge-primary text-wrap" style="width: 3rem; margin-left:10px; margin-top:0;" onClick="addCityRoute(\'' + myMarker.title + '\' )">'+'추가'+'</div>'  +'</h5>';
 					
@@ -1253,7 +1253,8 @@
 	 	        strokeColor: '#393'
 	 		};
 	    	
-	    	
+	 		var busIcon = new google.maps.MarkerImage("https://www.pngfind.com/pngs/m/82-822378_icono-bus-png-bus-png-icon-transparent-png.png", null, null, null, new google.maps.Size(20,20));
+    		
 	    	
 		    /* GoogleMap 에 뿌릴 것들  */
 			function initMapItems(){
@@ -1286,9 +1287,10 @@
 					            offset: '95%'
 					        }/*,
 					        {
-					            icon: seagull,
-					            offset: '100%'
-					        }*/]
+					        	icon: "https://www.pngfind.com/pngs/m/82-822378_icono-bus-png-bus-png-icon-transparent-png.png",
+					        	offset: '100%'
+					        }*/
+					        ]
 						});
 						routeLines[i-1].setPath(path);
 					}
@@ -1325,8 +1327,6 @@
 			leftControlDiv.innerHTML = thtml;
 			map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(leftControlDiv);
 		    
-
-
 			
 	 		lineSymbol2 = {
 		 			//path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
@@ -1339,7 +1339,6 @@
 	 				anchor: new google.maps.Point(0,0)
 	 			};
 			
-	 		
 	 		
 	 		animateCircle(routeLines);
 	 		
@@ -1438,6 +1437,7 @@
 						}
 						
 					}
+					animateCircle(routeLines);
 				},
 				error:function(request,status,error){
 					console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
@@ -1514,14 +1514,19 @@
 	        var count = 0;
 	        var index = 0;
 	        
+	        /*
 	        window.setInterval(function() {
+	        	
+	        	
 	        	count = (count + 1) % 200;
 	
-		          var icons;
+		          var icons = routeLines[index].get('icons');
 		          
-		          icons = routeLines[index].get('icons');
-		          //console.log( " icons : "+JSON.stringify(icons[0]) )
-		          icons : [{"icon":{"path":2,"fillColor":"#8A8A8A","fillOpacity":1,"strokeWeight":2,"scale":2,"rotation":0,"anchor":{"x":0,"y":0}},"offset":"95%"},{"icon":{"path":0,"scale":8,"strokeColor":"#393"},"offset":"33.5%"}]
+		          
+		          
+		          
+		          console.log( " icons : "+JSON.stringify(icons) );
+		          //icons : [{"icon":{"path":2,"fillColor":"#8A8A8A","fillOpacity":1,"strokeWeight":2,"scale":2,"rotation":0,"anchor":{"x":0,"y":0}},"offset":"95%"},{"icon":{"path":0,"scale":8,"strokeColor":"#393"},"offset":"33.5%"}]
 		          
 		          var newOffset = (count / 2);
 		          
@@ -1529,6 +1534,46 @@
 		        	  if( index < routeLines.length ){
 		        		  var jsonStr = "[ "+JSON.stringify(icons[0]) + ',{"icon":{"path":0,"scale":0},"offset":"'+ newOffset + '%' +'"}'+"]";
 		        		  //var jsonStr = "[ "+JSON.stringify(icons[0]) + ',{"icon":"seagullImg","offset":"'+ newOffset + '%' +'"}'+"]";
+		        		  
+				          //icons = JSON.parse(jsonStr);
+		        		  
+				          icons[1].offset = (count / 2) + '%';
+				          
+				          routeLines[index].set('icons', icons );
+			        	  
+			        	  index = index + 1;
+			        	  if( index == routeLines.length ){
+			        		  index = 0;
+			        	  }
+			        	  newOffset = 0;
+		        	  }
+		          }
+		          
+		          //var jsonStr = "[ "+JSON.stringify(icons[0]) + ',{"icon":{"path":0,"scale":9,"strokeColor":"#00CDD5"},"offset":"'+ newOffset + '%' +'"}'+"]";
+		          //var jsonStr = "[ "+JSON.stringify(icons[0]) + ',{"icon": "http://192.168.0.60:8080/resources/images/icon/_logo.png" ,"offset":"'+ newOffset + '%' +'"}'+"]";
+		          
+		          //icons = JSON.parse(jsonStr);
+		          
+		          
+		          icons[1].offset = (count / 2) + '%';
+		          routeLines[index].set('icons', icons);
+		          
+	      	}, 20);
+	        */
+	        
+	        
+	        window.setInterval(function() {
+	        	  count = (count + 1) % 200;
+		          var icons;
+		          icons = routeLines[index].get('icons');
+		          //console.log( " icons : "+JSON.stringify(icons) );
+		          //icons : [{"icon":{"path":2,"fillColor":"#8A8A8A","fillOpacity":1,"strokeWeight":2,"scale":2,"rotation":0,"anchor":{"x":0,"y":0}},"offset":"95%"},{"icon":{"path":0,"scale":8,"strokeColor":"#393"},"offset":"33.5%"}]
+		          
+		          var newOffset = (count / 2);
+		          
+		          if( newOffset >= 99.5 ){
+		        	  if( index < routeLines.length ){
+		        		  var jsonStr = "[ "+JSON.stringify(icons[0]) + ',{"icon":{"path":0,"scale":0},"offset":"'+ newOffset + '%' +'"}'+"]";
 		        		  
 				          icons = JSON.parse(jsonStr);
 		        		  routeLines[index].set('icons', icons );
@@ -1542,14 +1587,13 @@
 		          }
 		          
 		          var jsonStr = "[ "+JSON.stringify(icons[0]) + ',{"icon":{"path":0,"scale":9,"strokeColor":"#00CDD5"},"offset":"'+ newOffset + '%' +'"}'+"]";
-		          //var jsonStr = "[ "+JSON.stringify(icons[0]) + ',{"icon":"seagullImg","offset":"'+ newOffset + '%' +'"}'+"]";
+		          //var jsonStr = "[ "+JSON.stringify(icons[0]) + ',{"icon": "http://192.168.0.60:8080/resources/images/icon/_logo.png" ,"offset":"'+ newOffset + '%' +'"}'+"]";
 		          
 		          icons = JSON.parse(jsonStr);
 		          routeLines[index].set('icons', icons);
 		          
-		          //console.log(" offset : " + icons[1].offset);
-		          
 	      	}, 20);
+	        
 	    }
 		
 		
@@ -1584,12 +1628,12 @@
 				
 					<div class="media" style="width: 100%;height:100%; padding: 10px;">
 					
-						<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-2" alt="img loading.." style="border-width: 1px; border-color: #D1D1D1; border-style: solid; width: 100px; height: 100px;">
+						<img src="/resources/images/planImg/${plan.planImg}" class="align-self-center mr-2" alt="img loading.." style="border-width: 1px; border-color: #D1D1D1; border-style: solid; width: 90px; height: 90px;">
 
 						<div class="media-body">	
 						
 						    <div style="margin-left: 13px;height: 100px; font-size: 13px;">
-						    	<span style="color: #EE0D0D; font-weight: bolder;"><c:if test="${plan.planStatus == 'C'}">여행완료!</c:if></span>
+						    	<span style="color: #EE0D0D; font-weight: bolder;"><c:if test="${plan.planStatus == 'C'}">여행완료!</c:if> </span>
 						    	<div class="plan_type plan_buttons">
 									<c:choose>
 										<c:when test="${plan.planType == 'A'}">여자혼자</c:when>
@@ -1618,7 +1662,7 @@
 							      			<c:if test="${plan.planPartySize > 1}"><span data-feather="users"></span></c:if>
 							                <c:if test="${plan.planPartySize == 1}"><span data-feather="user"></span></c:if> ${plan.planPartySize}
 							      </div>
-							      ${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate}</c:if> ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp; 
+							      ${plan.startDateString.substring(0,10)} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate.substring(0,10)}</c:if> <!--  ( ${plan.planTotalDays}일 ) &nbsp;&nbsp;&nbsp;&nbsp;  -->
 							      <c:if test="${plan.planDday == 0}"> D-Day </c:if>
 							      <c:if test="${plan.planDday > 0}"> D - ${plan.planDday} </c:if>
 						    </div>
