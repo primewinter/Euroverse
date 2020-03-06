@@ -44,10 +44,10 @@
                 var flightId = $("#flightIds").val();
                 var roomId = $("#roomIds").val("");
                 var orderStatus = $("#orderStatus").val();
-                orderStatus = 2;
+                orderStatus = "A";
 
                 $.ajax({
-                    url: "/order/json/getOrderRefund/" + orderId + "/" + 2,
+                    url: "/order/json/getOrderRefund/" + orderId + "/" + "A",
                     method: "GET",
                     dataType: "json",
                     headers: {

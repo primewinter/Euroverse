@@ -185,7 +185,7 @@
 
                 var qnaFirstCate = $('#qnaFirstCate' + num).val();
                 var postTitle = $('#postTitle' + num).val();
-                var postContent = $('#postContent' + num).val();
+                var postContent = $('#postContent' + num).val().replace(/\n/g,"<br>");;
 
                 if (postTitle == "" || postTitle == null) {
                     Swal.fire({
