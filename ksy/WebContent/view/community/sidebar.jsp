@@ -201,11 +201,6 @@
 				$(self.location).attr("href","/community/getPostList?boardName=A");
 			});
 			
-			$("a:contains('참여중인동행목록(테스트)')").on("click" ,function(){
-				$(self.location).attr("href","/community/getMyPartyList");
-			});
-			
-			
 		});
 		
 		function checkBoard(){
@@ -242,8 +237,6 @@
 	  <a href="#D">동행</a>
 	</div> -->
 	
-	
-	
 	<!-- 좌측 Plan 툴바 구성 Start /////////////////////////////////////////////////////////// -->
 	<nav class="col-md-2 d-none d-md-block sidebar" style="padding-top:0px; padding-left:25px;padding-right: 20px;">
       <div class="sidebar-sticky">
@@ -255,8 +248,6 @@
               	
             </a>
           </li>
-          
-          
           
           <li class="nav-item">
             <a class="nav-link scroll" href="#E">
@@ -283,19 +274,8 @@
             <a class="nav-link scroll" href="#A">
               자유게시판 &nbsp; <span data-feather="message-circle"></span>
             </a>
-          </li>
-          
-      <!--========================== 동행테스트 ===============================-->    
-           <li class="nav-item">
-            <a class="nav-link scroll" href="#O">
-              참여중인동행목록(테스트)
-            </a>
-          </li>
-      <!-- ======================================================== -->   
-          
-          
+          </li> 
         </ul>
-
        
         <!-- Top 버튼 -->
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-5 mb-1 text-muted">
@@ -308,7 +288,6 @@
       </div>
     </nav>
 	<!-- 좌측 Plan 툴바 구성 End //////////////////////////////////////////////////// -->
-	
 	
 	<script>
 		/* icon 사용을 위한 스크립트 */

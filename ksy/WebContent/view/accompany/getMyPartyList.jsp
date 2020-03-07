@@ -62,6 +62,41 @@
 		    margin-left: 10px;
 		}
 	</style>
+	
+	<script>
+
+		$(function(){
+			$("#goodbye").on("click", function(){
+				
+				var partyId = $(this).next().val();
+				var refId = $(this).next().next().val();
+				
+				 swal({
+						title:"µ¿ÇàÀ» Å»ÅðÇÏ½Ã°Ú½À´Ï±î?",
+						text:" ",
+						icon:"info",
+						buttons: [ "¾Æ´Ï¿À", "¿¹"]
+				}).then((YES) => {
+					if(YES){
+						swal({
+							icon : 'success',
+							title : "µ¿Çà Å»Åð ¿Ï·á!",
+							text:" ",
+							button : false,
+						})
+				    	setTimeout(function() {     
+				    		self.location = "/community/deletePartyUser?postId="+refId+"&partyId="+partyId;
+				    	}, 700);
+					}
+			    });
+			});
+		});
+		
+		function getPost(postId) {
+            self.location = "/community/getPost?postId="+postId+"&boardName=D";
+        }
+	
+	</script>
 
 </head>
 <body>
@@ -75,32 +110,40 @@
 
 	 <div class="row" style="font-family: 'Gothic A1', sans-serif;">
        
-         <div class="col-md-12" style="margin-top: 10px;border-top: 1px solid gainsboro;border-bottom: 1px solid gainsboro;border-left: 1px solid gainsboro;border-right: 1px solid gainsboro;height: 190px;">
              <c:set var="i" value="0" />
-             <c:forEach var="userList" items="${userList}">
-                 <c:forEach var="party" items="${party}">
+             <c:forEach var="partyList" items="${list}">
+             <c:set var="i" value="${ i+1 }" />
+         	 <div class="col-md-12" style="margin-top: 10px;border-top: 1px solid gainsboro;border-bottom: 1px solid gainsboro;border-left: 1px solid gainsboro;border-right: 1px solid gainsboro;height: 190px;">
+             <c:forEach var="party" items="${partyList}">
+             	<c:forEach var="userList" items="${userList}">
                      <c:if test="${userList.userId == party.partyUserId}">
-                         <c:set var="i" value="${ i+1 }" />
                          <c:if test="${party.partyRole == 'K'}">
                             <div class="partyKing" style="max-width: 18rem;float: left;border-radius: 10px;width: 165px;height: 174px; margin-left:10px;">
-                         	   <span>${party.postTitle}</span>
+                         	   <span onclick="getPost('${party.refId}');">${party.postTitle}</span>
                                  <img src="/resources/images/userImages/${userList.userImg}" class="card" style="margin-left: 46px;margin-top: 23px;border: 2px solid red;">
                                  <div class="card-body text-dark" style="padding:0;">
                                      <h5 class="card-title" style="font-size: 13px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
-                                     <p class="card-text" style="text-align:center;"></p>
+                                     <p class="card-text" style="text-align:center;">
+                                       <c:forEach var="tripStyle" items="${userList.tripStyle}">
+                                           <span style="font-family: 'Gothic A1', sans-serif; font-size: 13px;">${tripStyle}</span>
+                                       </c:forEach>
+                                     </p>
                                  </div>
                              </div>
                          </c:if>
                          <c:if test="${party.partyRole == 'M'}">
                              <div class="partyMember" style="max-width: 18rem;float: left;border-radius: 10px;width: 165px;height: 174px; margin-left:30px;">
-                               <span>${party.postTitle}</span>
                                  <img src="/resources/images/userImages/${userList.userImg}" class="card" style="margin-left: 46px;margin-top: 23px;border: 2px solid silver;">
                                  <div class="card-body text-dark" style="padding:0;">
                                      <h5 class="card-title" style="font-size: 13px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
                                      <p class="card-text" style="text-align:center;">
+                                       <c:forEach var="tripStyle" items="${userList.tripStyle}">
+                                           <span style="font-family: 'Gothic A1', sans-serif; font-size: 13px;">${tripStyle}</span>
+                                       </c:forEach>
 	                                     <c:if test="${user.userId == party.partyUserId}">
 	                                     	<span style="font-size:13px;margin-top:5px;" class="badge badge-info" id="goodbye">Å»ÅðÇÏ±â</span>
 	                                     	<input type="hidden" name="partyId" value="${party.partyId}"/>
+	                                     	<input type="hidden" name="postId" value="${party.refId}"/>
 	                                     </c:if>
                                      </p>
                                  </div>
@@ -109,9 +152,10 @@
                      </c:if>
                  </c:forEach>
              </c:forEach>
+			 </div>
+             </c:forEach>
          </div>
      </div>
-	</div>
 
 	 <jsp:include page="/toolbar/footer.jsp" />
 
