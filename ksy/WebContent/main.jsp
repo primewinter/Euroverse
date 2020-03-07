@@ -114,6 +114,7 @@
         width: 640px;
         height: 720px;
     }
+
     .owl-carousel .owl-item img {
         display: inline-block;
     }
@@ -139,7 +140,7 @@
         display: inline-block;
         vertical-align: middle;
         width: 600px;
-        height: 500px;
+        height: 400px;
         overflow: hidden;
         /*box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);*/
     }
@@ -313,23 +314,12 @@
 
 
     #countryMoney {
-        width: 300px;
-        height: 300px;
-        border: 1px solid teal;
         border-radius: 10px;
-
     }
 
     /* 금액입력창 css  */
     .countryMoney {
-        width: 300px;
-        top: 50px;
-        position: relative;
-        justify-content: center;
-        text-align: right;
         color: #309EFE;
-        font-size: 17px;
-
     }
 
 
@@ -581,17 +571,26 @@
 
     section>header {
         font-family: 'NIXGONM-Vb';
-/*        font-family: 'GmarketSansBold';*/
-/*        font-style: italic;*/
+        /*        font-family: 'GmarketSansBold';*/
+        /*        font-style: italic;*/
         font-weight: bold;
         display: inline-block;
         /*background-color: #ffcf00;*/
-        background-color: #ffde3e; /*#8ad0d6; #4da185;*/ /*#97EBDB;*/
+        background-color: #ffde3e;
+        /*#8ad0d6; #4da185;*/
+        /*#97EBDB;*/
         text-align: left;
         margin-top: 2em;
         margin-bottom: 2em;
         margin-left: 5em;
-/*        transform: skew(-15deg);*/
+        /*        transform: skew(-15deg);*/
+    }
+    div.random-text>header {
+        font-family: 'NIXGONM-Vb';
+        font-weight: bold;
+        display: inline-block;
+        background-color: #ffde3e;
+        text-align: left;
     }
 
 
@@ -702,11 +701,15 @@
     span.section__header__more {
         font-size: 15px;
     }
-    
-    div.story-entry__content > span > img {
-        display:inherit;
+
+    div.story-entry__content>span>img {
+        display: inherit;
     }
     
+    div.countryMoney input {
+        display: inline-block;
+        width: 30%;
+    }
 
 </style>
 
@@ -811,21 +814,36 @@
                 <figure class="effect5">
                     <img id="infinityClick" src="https://tistory4.daumcdn.net/tistory/2141493/skin/images/simg06.png">
                     <figcaption>
-                        <h3>여행지<em>추천</em></h3>
+                        <h4>클릭해보세요!</h4>
                     </figcaption>
                 </figure>
             </div>
-            <div class="random-text"></div>
-
-
-
+            <div style="display: inline-block;float:left;padding:2em;width:50%;">
+                <div class="random-text" style="">
+                    <header>
+                        <span class="col section__header__content">여행지 추천</span><span class="section__header__more">>>사진을 클릭해보세요</span>
+                    </header>
+                    <h3></h3>
+                </div>
+                <div class="currency-convertor" style="text-align: center;">
+                    <!-- =========== 환율금액입력 ====================  -->
+                    <div class="input-group cur-result">
+                        <div class="countryMoney">
+                            <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()" style="width:150px;">원
+                            <i class="fas fa-angle-double-right" style="margin-left:30px;margin-right:30px;"></i>
+                            <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="" style="width:150px;">
+                            <span class='text'>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         <div style="clear: both"></div>
-        
-<hr>    
-           <section>
+
+        <section>
             <!-- 클래스명은 변경하면 안 됨 -->
-            <div class="swiper-container" style="margin: 3em;">
+            <div class="swiper-container" style="margin: 1em;">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide"><a id="a" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR">
                             <img src='/resources/images/tripInfoimges/Europe.png' />
@@ -886,29 +904,8 @@
                 <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
 
             </div>
-                 <div style="padding:5em;text-align: center;left:300px;">
-                  <!-- =========== 환율금액입력 ====================  -->
-            <div class="input-group flex-nowrap cur-result">
-                <div class="countryMoney">
-                    <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()">원
-                    <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="">
-                    <div class='text'>
-                    </div>
-                </div>
-            </div>
-               </div>
-            
-        <div style="clear: both"></div>
-            <div class="cur-select" style="display: none;">
-                <select>
-                    <option value="0" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR"><img class='cur-select-img' src='/resources/images/tripInfoimges/Europe.png' />EU</option>
-                    <option value="1" data-toggle="list" href="#list-profile" hwa='포린트' mon="HUF" con="HUN" ><img class='cur-select-img' src='/resources/images/tripInfoimges/Hungary.gif'/>헝가리</option>
-                    <option value="2" data-toggle="list" href="#list-messages" hwa='코루나' mon="CZK" con="CZE"><img class='cur-select-img'  src='/resources/images/tripInfoimges/Czech.gif'/>체코</option>
-                    <option value="3" data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR" ><img class='cur-select-img' src='/resources/images/tripInfoimges/England.gif'/>영국</option>
-                    <option value="4"  data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR" > <img class='cur-select-img'src='/resources/images/tripInfoimges/Swiss.gif'/>스위스</option>
-                </select>
-            </div>
 
+            <div style="clear: both"></div>
 
             <!-- ============국가정보출력 box ================ -->
             <div class="popupLayer">
@@ -929,14 +926,14 @@
 
             </div>
 
-      
+
 
         </section>
-        
-        
-        
-        
-           
+
+
+
+
+
 
     </main>
 
@@ -963,9 +960,9 @@
         });
 
         function randomImage(con) {
-            console.log("con :: "+con)
+            console.log("con :: " + con)
             $.ajax({
-                url: "/api/json/infinityClick/"+con,
+                url: "/api/json/infinityClick/" + con,
                 method: "GET",
                 dataType: "json",
                 headers: {
@@ -976,7 +973,22 @@
                     console.log("랜덤이미지 출력")
                     console.log(JSONData);
                     $('#infinityClick').attr('src', JSONData.conUrl);
-                    $('.effect5 figcaption h3').html(JSONData.conInfo1 + JSONData.conInfo2 + JSONData.conInfo3 + JSONData.conInfo4);
+                    var html = '';
+                    console.log('JSONData.conInfo1 :' + JSONData.conInfo1 + ', JSONData.conInfo2 :' + JSONData.conInfo2 + ', JSONData.conInfo3:' + JSONData.conInfo3 + ', JSONData.conInfo4:' + JSONData.conInfo4);
+                    if (JSONData.conInfo1 != null) {
+                        html += JSONData.conInfo1;
+                    }
+                    if (JSONData.conInfo2 != null) {
+                        html += JSONData.conInfo2;
+                    }
+                    if (JSONData.conInfo3 != null) {
+                        html += JSONData.conInfo3;
+                    }
+                    if (JSONData.conInfo4 != null) {
+                        html += JSONData.conInfo4;
+                    }
+
+                    $('.random-text h3').html(html);
                 }
             })
         }
@@ -1122,45 +1134,8 @@
             tag += post.nickName + "</p>"
             tag += "</div></a></div>"
 
-
-            /*
-            tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + post.postId + "&boardName=E\">";
-            tag += "<div class=\"story-entry__image-wrap\">"
-            tag += "<figure class = \"snip1384\" >"
-            tag += "<img src='/resources/images/planImg/" + plan.planImg + "'>";
-            tag += "<figcaption>"
-            tag += "<h3>" + post.postTitle + "</h3>"
-            tag += "<p>"
-            tag += "<img src='/resources/images/userImages/" + post.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
-            tag += post.nickName + "</p>"
-            tag += "<i class=\"ion-ios-arrow-right\"></i></figcaption></figure>"
-            tag += "</div>"
-            tag += "</a>"
-            tag += "</div>"
-            */
             $("#owl-E").append(tag);
 
-            /*
-            //var tag = "<div class=\"swiper-slide\">";
-            tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
-            tag += "<article class=\"story-entry story-story-item\">"
-            tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + post.postId + "&boardName=E\">";
-            tag += "<div class=\"story-entry__image-wrap\">"
-            tag += "<figure class = \"snip1384\" >"
-            tag += "<img src='/resources/images/planImg/" + plan.planImg + "'>";
-            tag += "<figcaption>"
-            tag += "<h3>" + post.postTitle + "</h3>"
-            tag += "<p>"
-            tag += "<img src='/resources/images/userImages/" + post.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
-            tag += post.nickName + "</p>"
-            tag += "<i class=\"ion-ios-arrow-right\"></i></figcaption></figure>"
-            tag += "</div>"
-            tag += "</a>"
-            tag += "</article></li>"
-            //tag += "</div>"
-
-            $('.plan-stories__content').append(tag);
-            //$('section.new-plan > section > ul > div > div.swiper-wrapper').append(tag);*/
         }
 
         function appendTag(vo, boardName) {
@@ -1195,12 +1170,10 @@
 
             if (boardName == 'F') {
                 $('.review-stories__content').append(tag);
-                //$('section.main-best > section > ul > div > div.swiper-wrapper').append(tag);
             } else if (boardName == 'C') {
                 $('.best-stories__content').append(tag);
             } else {
                 $('.recent-stories__content').append(tag);
-                //$('section.container.recent > ul > div > div.swiper-wrapper').append(tag);
             }
 
         }
@@ -1270,11 +1243,11 @@
                 countryInfo(conCode);
 
                 $('input[name="conMoney"]').attr('placeholder', conName);
-                $('.text').html(conHwa);
-                
+                $('span.text').html(conHwa);
+
                 randomImage(conCode);
-                
-                
+
+
                 //popup(e);
                 //resultFun();
             });
@@ -1318,10 +1291,11 @@
                     function(data) {
 
                         var mon = $(".swiper-slide.on>a").attr('mon');
+                         $('#result').val('');
 
                         if (mon == undefined) {
-                            $("#result").val("국가를 선택하세요")
-                                .return;
+                            $("#result").val("국가를 선택하세요");
+                            return;
                         }
 
                         var price = $("input[name='conMoney1']").val();
@@ -1334,7 +1308,7 @@
                         price = price.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
                         num = num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 
-                        $('#result').attr("value", num);
+                        $('#result').val(num);
                     })
             }
         }
@@ -1447,7 +1421,7 @@
             /*for each element, create a new DIV that will act as the selected item:*/
             a = document.createElement("DIV");
             a.setAttribute("class", "select-selected");
-            
+
             a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
             x[i].appendChild(a);
             /*for each element, create a new DIV that will contain the option list:*/
@@ -1490,15 +1464,15 @@
                 this.classList.toggle("select-arrow-active");
             });
         }
-        
-     /*   통화이름 보이기
-        conCode = $('.select-selected').attr('con');
-        conName = $('.select-selected').text();
-        conHwa = $('.select-selected').attr('hwa');
-        countryInfo(conCode);
 
-        $('input[name="conMoney"]').attr('placeholder', conName.trim());
-        $('.text').html(conHwa);*/
+        /*   통화이름 보이기
+           conCode = $('.select-selected').attr('con');
+           conName = $('.select-selected').text();
+           conHwa = $('.select-selected').attr('hwa');
+           countryInfo(conCode);
+
+           $('input[name="conMoney"]').attr('placeholder', conName.trim());
+           $('.text').html(conHwa);*/
 
         function closeAllSelect(elmnt) {
             /*a function that will close all select boxes in the document,

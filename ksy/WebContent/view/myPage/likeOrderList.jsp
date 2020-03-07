@@ -180,7 +180,7 @@
 						      	<input type="hidden"  value="${flight.flightId }" />
 						      	<input type="hidden" value="F"/>
 						      <td>${flight.depCity} - ${flight.arrCity }</td>
-						      <td>${flight.depTime} - ${flight.arrTime }</td>
+						      <td>${flight.depDate.substring(0,4)}/${flight.depDate.substring(4,6)}/${flight.depDate.substring(6,8)} ${flight.depTime} - ${flight.arrDate.substring(0,4)}/${flight.arrDate.substring(4,6)}/${flight.arrDate.substring(6,8)} ${flight.arrTime }</td>
 						      <td>${flight.leadTime}(${flight.stopOver})</td>
 						      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" />원</td>
 							 	<td>

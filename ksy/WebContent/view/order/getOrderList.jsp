@@ -8,13 +8,30 @@
 <head>
 <title>구매 목록조회</title>
 <meta charset="EUC-KR">
+	 <!-- 참조 : http://getbootstrap.com/css/   참조 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/carousel/">
+    <!-- sweetalert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 	
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	
 	
 	
@@ -45,6 +62,7 @@
         #flight , #room {
         	width: 80%;
 			margin:auto;
+            font-size: 11pt;
         }
     </style>
     
@@ -71,6 +89,7 @@ function fncGetUserList(currentPage) {
  })
 
  function doShow() { 
+     
 	    if ($('#flight').is(":visible")) { 
 	        $('#flight').hide();
 	        $('#iconf').hide();
@@ -137,7 +156,6 @@ function fncGetUserList(currentPage) {
 	 <jsp:include page="/toolbar/pushBar.jsp" />
 	<div class="container">
 			
-		<%-- <div class="col-md-6 text-right">
 			<form class="form-inline" name="detailForm">
 			<input type="hidden" name="imp_uid" value= "${purchase.imp_uid}" id="imp_uid"/>
 				<div class="form-group">
@@ -156,7 +174,6 @@ function fncGetUserList(currentPage) {
 				  <button type="button" class="btn btn-default">검색</button>
 				  <input type="hidden" id="currentPage" name="currentPage" value="" />
 			</form>
-		</div> --%>
 		</div>
 		<br/>
 <div class="btn-group btn-group-toggle" data-toggle="buttons" style="Padding-left:180px;" >
@@ -177,10 +194,11 @@ function fncGetUserList(currentPage) {
     <tr>
       <th scope="col"></th>
       <th scope="col">항공사</th>
-      <th scope="col">출발도시 - 도착도시</th>
-      <th scope="col">출발일시/도착일시</th>
-      <th scope="col">경유/소요시간</th>
-      <th scope="col">가격/결제일시</th>
+      <th scope="col">출발</th>
+      <th scope="col">도착</th>
+      <th scope="col">소요시간(경유)</th>
+        <th scope="col">가격</th>
+        <th scope="col">결제일시</th>
       <th scope="col">주문상태</th>
     </tr>
   </thead>
@@ -197,10 +215,14 @@ function fncGetUserList(currentPage) {
 			      <input type="hidden" name="orderId" id="orderId" value="${flight.orderId}"/>
 			      </th>
 				       <td id="refund">${flight.airline}</td>
-				      <td>${flight.depCity}/${flight.arrCity }</td>
-				      <td>${flight.depTime} - ${flight.arrTime }</td>
-				      <td>${flight.stopOver}/${flight.leadTime}</td>
-				      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" />원/${flight.orderDate}</td>
+				      <td>${flight.depCity}<br/>${flight.depDate.substring(0,4)}/${flight.depDate.substring(4,6)}/${flight.depDate.substring(6,8)} ${flight.depTime}</td>
+				      <td>${flight.arrCity}<br/>
+				      <c:if test="${flight.arrDate=='none'}">${flight.depDate.substring(0,4)}/${flight.depDate.substring(4,6)}/${flight.depDate.substring(6,8)}</c:if>
+				      <c:if test="${flight.arrDate!='none'}">${flight.arrDate.substring(0,4)}/${flight.arrDate.substring(4,6)}/${flight.arrDate.substring(6,8)}</c:if>
+				      ${flight.arrTime}</td>
+				      <td>${flight.leadTime}(${flight.stopOver})</td>
+                     <td><fmt:formatNumber value="${flight.price}" pattern="###,###" />원</td>
+                     <td>${flight.orderDate}</td>
 				      <td>
 					      <c:if test="${flight.orderStatus == 'O' }">
 					      	주문완료
@@ -250,9 +272,9 @@ function fncGetUserList(currentPage) {
 			    </th>
 			    <td>${room.roomCity }</td>
 			    <td>${room.roomName}</td>
-			    <td>${room.checkIn} - ${room.checkOut }</td>
-			    <td>${room.roomNum} 개 / 성인 ${room.adultNum}명, 유아 ${room.childNum}명</td>
-                 <td><fmt:formatNumber value="${room.price}" pattern="###,###" /> 원 </td>
+			    <td>${room.checkIn.substring(0,6)}/${room.checkIn.substring(6,8)}/${room.checkIn.substring(8,10)} - ${room.checkOut.substring(0,6)}/${room.checkOut.substring(6,8)}/${room.checkOut.substring(8,10)}</td>
+			    <td>${room.roomNum}개<br/>성인 ${room.adultNum}명, 유아 ${room.childNum}명</td>
+                 <td><fmt:formatNumber value="${room.price}" pattern="###,###" />원 </td>
                  <td>${room.orderDate}</td>
 			    <td> 
 			      <c:if test="${room.orderStatus == 'O' }">
