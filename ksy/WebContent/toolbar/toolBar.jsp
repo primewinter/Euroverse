@@ -107,7 +107,7 @@
         z-index: 5;
         width: 200px;
         height: auto;
-        margin-top:10px;
+        margin-top:px;
         margin-bottom: 5px;
     }
 
@@ -138,14 +138,14 @@
         color: black;
         position: fixed;
         z-index: 9999;
-        top: 0.7em;
+        top: 0.4em;
         right: 15%;
         transition: .3s;
     }
 
     div.shrink-logo {
         display: none;
-        height: 70px;
+        height: 60px;
         widows: auto;
         position: fixed;
         z-index: 9999;
@@ -265,13 +265,13 @@
     .menu-bar {
         /*        background-color: #8ad0d6;*/
         font-family: 'NIXGONM-Vb';
-        height: 70px;
+        height: 60px;
         background-color: rgba(151, 235, 219, 0.7);
         /*rgba(255,246,143, 0.8);*/
     }
 
     nav.menu {
-        margin-top: 1.2em;
+        margin-top: 0.7em;
         margin-bottom: 1.3em;
     }
 
@@ -306,7 +306,7 @@
 
         <header class="blog-header">
             <div class="nav-scroller  mb-2 shrink-logo">
-                <a href="/main.jsp"><img src='/resources/images/icon/euroverse_text2.png' style="width:auto;height: 70px;"></a>
+                <a href="/main.jsp"><img src='/resources/images/icon/euroverse_text2.png' style="width:auto;height: 60px;"></a>
             </div>
             <div class="nav-scroller  mb-2 toolbar-logo">
                 <a href="/main.jsp"><img id='euroverse-logo' src='/resources/images/icon/euroverse_text3.png'></a>
@@ -330,6 +330,9 @@
                             <li><a href="#">
                                     QnA
                                 </a></li>
+                            <li><a href="#">
+                                신고관리
+                            </a></li>
                         </ul>
                     </c:if>
                     <font>주문내역</font>|<font>마이페이지</font>|<font>로그아웃</font>
@@ -346,7 +349,7 @@
             <li class="menu1"><a href="/plan/getPlanList"><span>플래너</span></a></li>
             <li class="menu2"><a href="/view/flight/searchFlight.jsp"><span>항공</span></a></li>
             <li class="menu3"><a href="/view/room/searchRoom.jsp"><span>숙소</span></a></li>
-            <li class="menu4"><a href="/community/getPostList?boardName=C"><span>커뮤니티<i class="fas fa-caret-down"></i></span></a>
+            <li class="menu4" style="margin-left: 0.9em;margin-right: 0.8em;"><a href="/community/getPostList?boardName=C"><span>커뮤니티<i class="fas fa-caret-down"></i></span></a>
                 <ul class="menu4_s submenu">
                     <p></p>
                     <li><a href="#">
@@ -417,6 +420,9 @@
     });
     $("ul.admin-submenu > li > a:contains('QnA')").on("click", function() {
         location.href = "/admin/getAdminQnAList";
+    });
+    $("ul.admin-submenu > li > a:contains('신고')").on("click", function() {
+        location.href = "/admin/getPostReportList";
     });
     $("ul.admin-submenu > li > a:contains('주문관리')").on("click", function() {
         location.href = "/order/getOrderListAdmin";
