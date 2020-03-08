@@ -214,11 +214,15 @@
     <!-- ToolBar Start /////////////////////////////////////-->
     <jsp:include page="/toolbar/toolBar.jsp" />
     <jsp:include page="/toolbar/pushBar.jsp" />
-    <jsp:include page="/view/accompany/accSidebar.jsp"/>
+    
     <!-- ToolBar End /////////////////////////////////////-->
 
     <!--  화면구성 div Start /////////////////////////////////////-->
-    <div class="container" style="max-width: 1000px;" id="loadJquery">
+    <div>
+        <div class="row">
+            <jsp:include page="/view/accompany/accSidebar.jsp"/>
+            
+        <div style="width:60%;margin-left:5%">
 
         <div class="h4" id="boardTitle" style="font-weight: bold; margin-top:40px;padding-left:10px;">
             <c:if test="${param.boardName=='D'}">
@@ -328,7 +332,8 @@
         </div>
         <!--  table End /////////////////////////////////////-->
         <button type="button" id="addpost_view" class="btn btn-sm euro-btn">작성하기</button>
-
+            </div>
+        </div>
     </div>
     <!--  화면구성 div End /////////////////////////////////////-->
 

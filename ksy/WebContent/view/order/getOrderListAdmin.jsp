@@ -60,6 +60,13 @@
     <script type="text/javascript">
         $(document).ready(function() {
             Show();
+            $("div.h4.flightList").on("click",function(){
+                Show();
+            })
+            $("div.h4.roomList").on("click",function(){
+                doShow();
+            })
+            
         })
 
         function fncGetUserList(currentPage) {
@@ -74,20 +81,22 @@
         });
 
         function doShow() {
+            $('div.h4.roomList').css('opacity','1');
+            $('div.h4.flightList').css('opacity','0.5');
             if ($('#flight').is(":visible")) {
                 $('#flight').hide();
                 $('#iconf').hide();
                 $('#room').show();
-                $('#iconr').show(); // id값을 받아서 숨기기 
             }
         }
 
         function Show() {
+            $('div.h4.flightList').css('opacity','1');
+            $('div.h4.roomList').css('opacity','0.5');
             if ($('#room').is(":visible")) {
                 $('#room').hide();
                 $('#iconr').hide();
                 $('#flight').show();
-                $('#iconf').show(); // id값을 받아서 숨기기 
             }
         }
 
@@ -210,40 +219,8 @@
                 $('#' + orderId + ' option[value=A]').prop('selected', 'selected').change();
             })
         })
-        /* ------------------------- 여기까징 ------------------------ */
-        ////////////////////////////////////////////////////
-        /*     $( function () {
-        		$('.delete:contains("배")').on("click" , function () {
-              jQuery.ajax({
-                "url": "http://www.myservice.com/payments/cancel",
-                "type": "POST",
-                "contentType": "application/json",
-                "data": JSON.stringify({
-                  "merchant_uid": "mid_" + new Date().getTime(), // 주문번호
-                  "cancel_request_amount": 100, // 환불금액
-                  "reason": "테스트 결제 환불" // 환불사유
-                  //"refund_holder": "홍길동", // [가상계좌 환불시 필수입력] 환불 가상계좌 예금주
-                 // "refund_bank": "88" // [가상계좌 환불시 필수입력] 환불 가상계좌 은행코드(ex. KG이니시스의 경우 신한은행은 88번)
-                  //"refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 가상계좌 번호
-                }),
-                "dataType": "json"
-              });
-            });
-            }); */
-
-
-        ////////////////////////////////////////////////////
         
-        $("div.flightList").on("click",function(){
-//            $("#planTable").css("display","block");
-//            $("#room").css("display","none"); 
-            Show();
-        })
-        $("div.roomList").on("click",function(){
-//            $("#partyTable").css("display","block");
-//            $("#flight").css("display","none"); 
-            doShow();
-        })
+        
 
     </script>
 
@@ -254,23 +231,15 @@
     <jsp:include page="/toolbar/pushBar.jsp" />
     <form>
         <div class="container getOrderListAdmin">
-         <!--   <div class="btn-group btn-group-toggle" data-toggle="buttons" style="Padding-left:180px;">
-                <label class="btn btn-secondary active">
-                    <input type="radio" name="flight" id="option1" checked onclick="javascript:Show();"> Flight
-                </label>
-                <label class="btn btn-secondary">
-                    <input type="radio" name="room" id="option2" onclick="javascript:doShow();"> Room
-                </label>
-            </div>-->
 
-            <div class="h4 flightList" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;">
-                항공 주문내역
+            <div class="h4 flightList" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
+                항공 주문관리
             </div>
             <div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;font-weight: bold; margin-top: 40px;margin-bottom:20px;opacity: 1;">
             |
             </div>
             <div class="h4 roomList" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
-                숙소 주문내역
+                숙소 주문관리
             </div>
 
             <!--

@@ -137,10 +137,13 @@
 </head>
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp" />
-	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
-	<div class="container" style="width:60%;margin:auto;">
+	<div>
+        <div class="row">
+            <jsp:include page="/view/user/userSideBar.jsp"/>
+            <div sytle="width:80%;margin-left:10%;">
+	<div class="container" style="width:100%;">
 	
 		<!--<div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;">
 			내가 찜한 상품:
@@ -180,7 +183,7 @@
 						      	<input type="hidden"  value="${flight.flightId }" />
 						      	<input type="hidden" value="F"/>
 						      <td>${flight.depCity} - ${flight.arrCity }</td>
-						      <td>${flight.depTime} - ${flight.arrTime }</td>
+						      <td>${flight.depDate.substring(0,4)}/${flight.depDate.substring(4,6)}/${flight.depDate.substring(6,8)} ${flight.depTime} - ${flight.arrDate.substring(0,4)}/${flight.arrDate.substring(4,6)}/${flight.arrDate.substring(6,8)} ${flight.arrTime }</td>
 						      <td>${flight.leadTime}(${flight.stopOver})</td>
 						      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" />원</td>
 							 	<td>
@@ -242,7 +245,9 @@
 		</table>
 		
 	</div>	
-	
+            </div>
+        </div>
+    </div>
 	
 	
 </body>

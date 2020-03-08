@@ -86,7 +86,7 @@
  
 
  $(function () {
-	 $(".btn.btn-secondary").click(function () {
+	 $(".heart").click(function () {
 		 var bookMark = $(this).prev().val();
 		 var flightId = $(this).val();
 		 console.log(bookMark);
@@ -151,7 +151,7 @@
            			    button : false,
            			    timer : 700
             	  	});
-				  $("#"+bookMark).attr('class','btn btn-secondary');
+				  $("#"+bookMark).attr('class','btn btn-outline-danger heart');
 				}else{
 					swal({
   	               		icon : 'success',
@@ -161,7 +161,7 @@
   	               		timer : 700
   	               	});
 					
-				  $("#"+bookMark).attr('class','btn btn-light');
+				  $("#"+bookMark).attr('class','btn btn-danger heart');
 				}      
 			},
 			error: function(request, status, error){
@@ -216,10 +216,9 @@
 			      <td><fmt:formatNumber value="${flight.price}" pattern="###,###" />원</td>
 			      <td>
 			      
-			      <!-- <input type="hidden"  name="flightId" id="flightId" value="" />  -->
-			     <%--  <i class="far fa-heart"  onclick="addWish('${flight.price }');" id="${flight.price }" style="font-size:15px;"></i> --%>
+			     <!--<i class="far fa-heart"  onclick="addWish('${flight.price }');" id="${flight.price }" style="font-size:15px;"></i>-->
 			     	<input type="hidden" id="addBookMark" value="flight${i}"/>
-			     	<button type="button" class="btn btn-secondary" id="flight${i}" value="T" style="width:50px;">찜</button>
+                    <button type="button" class="btn btn-outline-danger heart" id="flight${i}" value="T" style="width:30px;height:30px;padding:initial;" onclick="addWish('${flight.price }');"><i class="fas fa-heart" style="width:30px;height:auto;"></i></button>
 			     	<input type="hidden"  name="airline" value="${flight.airline }" />
 					<input type="hidden"  name="depCity"  value="${flight.depCity }" />
 					<input type="hidden"  name="arrCity" value="${flight.arrCity }" />
@@ -237,7 +236,7 @@
 					<input type="hidden"  name="childNum"  value="${flight.childNum }" >
 			     
 			      </td>
-			      <td><button type="button" class="btn btn-info"  style="width:100px;">예약하기</button>
+			      <td><button type="button" class="btn btn-info btn-sm"  style="width:100px;">예약하기</button>
 			      	<input type="hidden"  name="airline"  value="${flight.airline }" />
 					<input type="hidden"  name="depCity"  value="${flight.depCity }" />
 					<input type="hidden"  name="arrCity"  value="${flight.arrCity }" />
