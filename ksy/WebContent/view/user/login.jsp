@@ -239,10 +239,10 @@
     			console.log(JSONData);
     			if(JSONData.result == 'ok'){
     				$("#loginModal").modal("hide");
-    				
+    				var userId = JSONData.userId;
     				swal({
 						   icon : 'success',
-						  title : "로그인 성공",
+						  title : userId+"님 환영합니다.",
 						  text:" ",
 						  button : false,
 						})
