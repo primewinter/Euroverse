@@ -139,7 +139,7 @@
         position: relative;
         display: inline-block;
         vertical-align: middle;
-        width: 600px;
+        width: 400px;
         height: 400px;
         overflow: hidden;
         /*box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);*/
@@ -173,7 +173,6 @@
     }
 
     .effect5 figcaption h3 {
-        font-family: '양진체';
         font-size: 1.3em;
         letter-spacing: 2px;
         /*font-weight: 100;*/
@@ -319,7 +318,9 @@
 
     /* 금액입력창 css  */
     .countryMoney {
-        color: #309EFE;
+        background: #ddd;
+        border-radius: 6px;
+        padding: 10px;
     }
 
 
@@ -682,11 +683,11 @@
         box-shadow: 0 0 11px rgba(33, 33, 33, .2);
     }
 
-    div.card-body {
+    div.item-body {
         height: 200px;
     }
 
-    div.card-body>p {
+    div.item-body>p {
         color: #999999;
     }
 
@@ -810,26 +811,41 @@
         <hr>
 
         <section class="main-infinite">
-            <div class="effect-wrap">
+           <div class="card" style="display: inline-block;float:left;padding:1em;width:40%;text-align: center;padding-top:2.5em;padding-left:2.5em;padding-right:2.5em;">
+           <!-- <div style="text-align:left;font-size:20pt;padding-left:0.5em;"><i class="fab fa-instagram"></i><br></div>-->
+              <figure class="effect5" style="">
+                    <img id="infinityClick" src="https://tistory4.daumcdn.net/tistory/2141493/skin/images/simg06.png">
+                    <figcaption>
+                        <h4>클릭해보세요!</h4>
+                    </figcaption>
+                </figure>
+              <div class="card-body">
+                <p class="card-text" style="display:none;text-align: left;font-size:10pt;"><!--<i class="fas fa-heart" style="color:red;"></i>-->좋아요 11.2k &nbsp;&nbsp;<!--<i class="fas fa-comment"></i>-->댓글 8.7k <span style="float:right;font-size:10pt;">2020.03.08</span></p>
+                
+                <div class="card-title random-title" style="font-family:'NIXGONM-Vb';font-weight:bold;text-align: left;font-size:17pt;color:cornflowerblue;"></div>
+                
+              </div>
+            </div>
+           <!-- <div class="effect-wrap">
                 <figure class="effect5">
                     <img id="infinityClick" src="https://tistory4.daumcdn.net/tistory/2141493/skin/images/simg06.png">
                     <figcaption>
                         <h4>클릭해보세요!</h4>
                     </figcaption>
                 </figure>
-            </div>
-            <div style="display: inline-block;float:left;padding:2em;width:50%;">
-                <div class="random-text" style="">
+            </div>-->
+            <div style="display: inline-block;float:left;padding:1em;width:60%;">
+                <div class="currency-convertor">
+                   <br><br>
+                    <div class="random-text" style="">
                     <header>
-                        <span class="col section__header__content">여행지 추천</span><span class="section__header__more">>>사진을 클릭해보세요</span>
+                        <span class="col section__header__content">환율 계산기</span><span class="section__header__more">>></span>
                     </header>
-                    <h3></h3>
-                </div>
-                <div class="currency-convertor" style="text-align: center;">
-                    <!-- =========== 환율금액입력 ====================  -->
+                    </div>
+                    <br><br>
                     <div class="input-group cur-result">
                         <div class="countryMoney">
-                            <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()" style="width:150px;">원
+                            <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()" style="width:150px;"> 원
                             <i class="fas fa-angle-double-right" style="margin-left:30px;margin-right:30px;"></i>
                             <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="" style="width:150px;">
                             <span class='text'>
@@ -837,13 +853,16 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <div style="clear: both"></div>
-
-        <section>
-            <!-- 클래스명은 변경하면 안 됨 -->
-            <div class="swiper-container" style="margin: 1em;">
+                <br><br><br>
+                <div class="random-text" style="">
+                    <header>
+                        <span class="col section__header__content">여행지 추천</span><span class="section__header__more">>>국가를 선택해보세요</span>
+                    </header>
+                    <br><br>
+                    <!--<h5 style='font-family:"NIXGONM-Vb" '>#여행지랜덤추천 #클릭</h5>-->
+                </div><!---->
+                <br>
+                <div class="swiper-container" style="margin: 1em;">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide"><a id="a" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR">
                             <img src='/resources/images/tripInfoimges/Europe.png' />
@@ -900,10 +919,17 @@
                 </div>
 
                 <!-- 네비게이션 -->
-                <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
-                <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
+                <div class="swiper-button-next" style="width: 10px;height: 5px;"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+                <div class="swiper-button-prev" style="width: 10px;height: 5px;"></div><!-- 이전 버튼 -->
 
             </div>
+            </div>
+        </section>
+        <div style="clear: both"></div>
+
+        <section>
+            <!-- 클래스명은 변경하면 안 됨 -->
+            
 
             <div style="clear: both"></div>
 
@@ -948,9 +974,9 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function($) {
-            randomImage();
+            randomImage('GBR');
             $("figure.effect5").on("click", function() {
-                randomImage();
+                randomImage('GBR');
             });
             //getBestList();
             //getRecentList("C");
@@ -988,7 +1014,7 @@
                         html += JSONData.conInfo4;
                     }
 
-                    $('.random-text h3').html(html);
+                    $('.random-title').html(html);
                 }
             })
         }
@@ -1127,7 +1153,7 @@
             tag += "<div class=\"planner-image-wrap\">"
             tag += "<img  class=\"card-img-top\" src='" + plan.planImg + "'>";
             tag += "</div>"
-            tag += "<div class=\"card-body\">"
+            tag += "<div class=\"card-body item-body\">"
             tag += "<p class=\"card-title\">" + post.postTitle + "</p>"
             tag += "<p class=\"card-text\">" + planType + "<p>"
             tag += "<p><img src='/resources/images/userImages/" + post.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;display:inherit;'>"
@@ -1315,7 +1341,7 @@
 
         new Swiper('.swiper-container', {
 
-            slidesPerView: 10, // 동시에 보여줄 슬라이드 갯수
+            slidesPerView: 5, // 동시에 보여줄 슬라이드 갯수
             spaceBetween: 30, // 슬라이드간 간격
             slidesPerGroup: 2, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
             //slidesPerColumn: 2,

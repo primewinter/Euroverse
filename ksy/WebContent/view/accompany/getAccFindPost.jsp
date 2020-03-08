@@ -398,6 +398,11 @@
             overflow: hidden;
             margin-left: 10px;
         }
+        .party-list{
+            border-radius: 20px;
+            border:solid 1px white;
+            background-color: rgba(151, 235, 219, 0.7);
+        }
  
     </style>
 
@@ -716,12 +721,6 @@
         jQuery(document).ready(function($) {
             checkRoom();
 
-            if ('${post.accCount}' == '${post.accPerson}' || '${user.userId}' == '${post.postWriterId}') {
-                $('#offer-party-btn').hide(); //동행신청 버튼
-            } else {
-                $('#offer-party-btn').show();
-            }
-
             $('.join-btn').hide();
             if ('${user.userId}' == '${post.postWriterId}') {
                 
@@ -831,7 +830,6 @@
     <!-- ToolBar Start /////////////////////////////////////-->
     <jsp:include page="/toolbar/toolBar.jsp" />
     <jsp:include page="/toolbar/pushBar.jsp" />
-    <jsp:include page="/view/community/sidebar.jsp"/>
     <!-- ToolBar End /////////////////////////////////////-->
 
     <div class="modal" tabindex="-1" role="dialog" id="sendReport">
@@ -876,7 +874,11 @@
     </div>
 
     <!--  화면구성 div Start /////////////////////////////////////-->
-    <div class="container" style="max-width: 930px;">
+    <div>
+        <div class="row">
+            <jsp:include page="/view/accompany/accSidebar.jsp"/>
+            
+        <div style="width:60%;margin-left:5%">
 
         <br>
 
@@ -986,9 +988,19 @@
             <div class="row" style="font-family: 'Gothic A1', sans-serif;">
                 <div class="col-xs-8 col-md-4"><i class="fas fa-user-times">${post.accCount}</i>
                     <button type="button" id="create-room-btn" class="btn btn-outline-dark" data-toggle="modal" data-target="#createChat" style="width: 110px; font-size: 15px; height: 30px; line-height: 15px; margin: 0 0 3px 10px">채팅방 개설</button>
-                    <button type="button" id='offer-party-btn' class="btn btn-outline-info" style="width: 100px; font-size: 15px; height: 30px; line-height: 15px; margin: 0 0 3px 10px" onclick="inviteUser()">동행신청</button>
+                    <c:set var="loop_flag" value="false" />
+                    <c:forEach var="party" items="${party}">
+                      <c:if test="${loop_flag==false}">
+                           <c:if test="${party.partyUserId==user.userId}">
+                           </c:if>
+                           <c:if test="${party.partyUserId!=user.userId}">
+                               <button type="button" id='offer-party-btn' class="btn btn-outline-info" style="width: 100px; font-size: 15px; height: 30px; line-height: 15px; margin: 0 0 3px 10px" onclick="inviteUser()">동행신청</button>
+                                <c:set var="loop_flag" value="true" />
+                           </c:if>
+                      </c:if>
+                    </c:forEach>
                 </div>
-                <div class="col-md-12" style="margin-top: 10px;border-top: 1px solid gainsboro;border-bottom: 1px solid gainsboro;border-left: 1px solid gainsboro;border-right: 1px solid gainsboro;height: 190px;">
+                <div class="col-md-12 party-list" style="margin-top: 10px;height: 190px;">
                     <c:set var="i" value="0" />
                     <c:forEach var="userList" items="${userList}">
                         <c:forEach var="party" items="${party}">
@@ -996,9 +1008,9 @@
                                 <c:set var="i" value="${ i+1 }" />
                                 <c:if test="${party.partyRole == 'K'}">
                                     <div class="partyKing" style="max-width: 18rem;float: left;border-radius: 10px;width: 165px;height: 174px; margin-left:10px;">
-                                        <img src="/resources/images/userImages/${userList.userImg}" class="card" style="margin-left: 46px;margin-top: 23px;border: 2px solid red;">
+                                        <img src="/resources/images/userImages/${userList.userImg}" class="card" style="margin-left: 46px;margin-top: 23px;border: 2px solid #0086ad;">
                                         <div class="card-body text-dark" style="padding:0;">
-                                            <h5 class="card-title" style="font-size: 13px; text-align: center;margin-top: 7px;font-weight: bold;">${userList.nickname}</h5>
+                                            <h5 class="card-title" style="font-size: 13px; text-align: center;margin-top: 7px;font-weight: bold;"><i class="fas fa-crown"></i> ${userList.nickname}</h5>
                                             <p class="card-text" style="text-align:center;"><i class="fas fa-bus">
                                                     <c:forEach var="tripStyle" items="${userList.tripStyle}">
                                                         <span style="font-family: 'Gothic A1', sans-serif; font-size: 13px;">${tripStyle}</span>
@@ -1047,7 +1059,7 @@
 		   </ul>
 
         </div>
-
+            </div>
     </div>
 
     <!-- 댓글 jsp include -->

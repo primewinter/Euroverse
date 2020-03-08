@@ -137,10 +137,13 @@
 </head>
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp" />
-	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
-	<div class="container" style="width:60%;margin:auto;">
+	<div>
+        <div class="row">
+            <jsp:include page="/view/user/userSideBar.jsp"/>
+            <div sytle="width:80%;margin-left:10%;">
+	<div class="container" style="width:100%;">
 	
 		<!--<div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;">
 			내가 찜한 상품:
@@ -242,7 +245,9 @@
 		</table>
 		
 	</div>	
-	
+            </div>
+        </div>
+    </div>
 	
 	
 </body>

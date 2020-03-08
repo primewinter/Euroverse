@@ -175,11 +175,13 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	<jsp:include page="/toolbar/pushBar.jsp" />
-	<jsp:include page="/view/community/sidebar.jsp"/>
    	<!-- ToolBar End /////////////////////////////////////-->
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container" style="width:60%;margin:auto;">
+	<div class="row">
+            <jsp:include page="/view/community/sidebar.jsp"/>
+            
+        <div style="width:60%;margin-left:5%;">
 	
 		<div class="h4" id="boardTitle" style="font-weight: bold; margin-top:40px;padding-left:10px;">
 			인기글게시판
@@ -334,7 +336,7 @@
           </table>
         
         </div>
-
+        </div>
     </div>
     <!--  화면구성 div End /////////////////////////////////////-->
 
