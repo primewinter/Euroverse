@@ -46,6 +46,8 @@ public interface CommunityDao {
 	
 	public List<Party> getMyPartyList(String userId) throws Exception ;
 	
+	public List<Offer> getMyOfferList(String userId) throws Exception ;
+	
 	public int getPostTotalCount(Search search, String boardName) throws Exception ;
 	
 	public int getAllPostTotalCount(Search search) throws Exception ;

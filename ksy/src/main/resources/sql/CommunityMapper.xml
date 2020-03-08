@@ -64,6 +64,19 @@
 		<result property="reportUserId" 			column="report_user_id" 			jdbcType="VARCHAR"/>
 	</resultMap>
 	
+	<resultMap id="offerSelectMap" type="offer">
+		<result property="offerId" 			column="offer_id" 			jdbcType="VARCHAR"/>
+		<result property="offerStatus" 			column="offer_status" 			jdbcType="CHAR"/>
+		<result property="refId" 			column="ref_id" 			jdbcType="VARCHAR"/>
+		<result property="fromUserId" 			column="from_user_id" 			jdbcType="VARCHAR"/>
+		<result property="toUserId" 			column="to_user_id" 			jdbcType="VARCHAR"/>
+		<result property="offerDate" 			column="offer_date" 			jdbcType="TIMESTAMP"/>
+		<result property="offerType" 			column="offer_type" 			jdbcType="CHAR"/>
+		<result property="offerMsg" 			column="offer_msg" 			jdbcType="VARCHAR"/>
+		
+		<result property="postTitle" 	column="post_title" 	jdbcType="VARCHAR" />
+	</resultMap>
+	
 	<resultMap id="tagSelectMap" type="tag">
 		<result property="tagId"	column="tag_id"		jdbcType="VARCHAR"/>
 		<result property="postId"	column="post_id"	jdbcType="VARCHAR"/>
@@ -320,6 +333,12 @@
 		SELECT party_id , party_user_id , party_type , ref_id , party_role
 		FROM party
 		WHERE party_user_id = #{userId} AND party_type = 'A'
+	</select>
+	
+	<select id="getMyOfferList" parameterType="string" resultMap="offerSelectMap">
+		SELECT o.offer_id , o.offer_type , o.ref_id , o.offer_status , o.from_user_id , o.to_user_id , o.offer_date , o.offer_msg , p.post_title
+		FROM offer o, post p
+		WHERE o.ref_id = p.post_id AND o.offer_status IN ('S','R') AND o.offer_type ='A' AND o.from_user_id = #{userId}
 	</select>
 	
 	<select  id="getPostList"  parameterType="map"	resultMap="postSelectMap">
