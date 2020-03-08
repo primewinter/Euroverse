@@ -146,7 +146,7 @@
 	
 	.media-body{
 		margin: 40px;
-	
+	    padding:0px;
 	}
      div.h4{
         opacity:0.5;
@@ -328,11 +328,12 @@ $(function(){
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 		
-			<div class="row">
-            <jsp:include page="/view/user/userSideBar.jsp"/>
+		
+ <div>
+        <div class="row">
+            <jsp:include page="/view/accompany/accSidebar.jsp"/>
             
-        <div style="width:60%;margin-left:5%;">	
-	<div class="container" style="width:100%;margin:auto;">
+        <div style="width:60%;margin-left:5%">
 		
 		<!--<div>
 			<div class="btn-group" role="group" aria-label="Basic example" style="margin-left: 10px;">
@@ -350,82 +351,10 @@ $(function(){
 	 		</c:if>
 		</form>
 	
-		<c:if test="${keyword!='plan'}">
-			<div id="planTable" style="display: none;">
-		</c:if>
-		<c:if test="${keyword=='plan'}">
-			<div id="planTable" style="display: block;">
-		</c:if>
-		
-		
-		
 	    <!-- <h1  style="margin-left: 240px; width: 1000px">플래너 초대목록</h1> -->
 	    
-	    <div class="h4 viewPlan" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;">
-			플래너 초대목록
-		</div>
-       <!-- <div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;font-weight: bold; margin-top: 40px;margin-bottom:20px;opacity: 1;">
-        |
-		</div>
-        <div class="h4 viewParty" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
-        동행 신청목록
-        </div>-->
-				
-				<div class="row">
-					<!-- <div style="width: 300px;"></div> -->
-					<table class="table">
-						<!-- <div class="row"> -->
-							<c:forEach var="planOffer" items="${planOfferList}" varStatus="status" >
-								<div style="width: 300px;" >
-					    		    <div class="card profile-card-3">
-					    		        <div class="background-block">
-					    		            <img src="/resources/images/planImg/${planOffer.planImg}" alt="profile-sample1" class="background"/>
-					    		        </div>
-					    		        <div class="profile-thumb-block">
-					    		            <img src="/resources/images/userImages/${planOffer.userImg}" alt="profile-image" class="profile"/>
-					    		        </div>
-					    		        <div class="card-content">
-					                    		<b>${planOffer.planTitle}</b>
-					                    		<small>
-					                    			<br>${planOffer.offerMsg} 
-					                    			<br>초대자  ${planOffer.fromUserId} 
-					                    			<br>
-					                    			 <c:set var="planOfferDate" value="${fn:split(planOffer.offerDate,' ')}"></c:set>
-							   						 <c:out value="${planOfferDate[0]}"></c:out>
-					                    		</small>
-					                    		<br>
-					                    <button id="planOfferAccept${status.index}" type="button" class="btn btn-outline-primary planAccept">수락</button>
-										<button id="planOfferReject${status.index}" type="button" class="btn btn-outline-secondary planReject">거절</button>		
-										<input type="hidden" value="${planOffer.offerId}">
-										<input type="hidden" value="${status.index}">
-					                    </div>
-					                </div>
-					    		</div>
-							</c:forEach>
-					    <!-- </div> -->
-					</table>
-				</div>
-				<c:if test="${ empty planOfferList}">
-				    <div class="text-center" style="margin-bottom: 70px;">초대된 플래너가 없습니다</div>
-				</c:if>
-			<jsp:include page="../../common/pageNavigator_new.jsp"/>
-		</div><!-- planTable EndDiv -->
-	
-		
-		
-		<c:if test="${keyword!='party'}">
-			<div id="partyTable" style="display: none;">
-		</c:if>	
-		<c:if test="${keyword=='party'}">
 			<div id="partyTable" style="display: block;">
-		</c:if>	
                
-                <div class="h4 viewPlan" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
-                플래너 초대목록
-                </div>
-                <div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;font-weight: bold; margin-top: 40px;margin-bottom:20px;opacity: 1;">
-                |
-                </div>
 	       		<div class="h4 viewParty" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;">
 					동행 신청목록
 				</div>
@@ -433,18 +362,21 @@ $(function(){
 				<ul class="list-unstyled" style="margin-left: 0px;">
 					<c:forEach var="partyOffer" items="${partyOfferList}" varStatus="status" >
 						<li class="media" style="width: 100%;">
-					   		<div style="width: 100px;"></div>
-					    	<img src="/resources/images/userImages/${partyOffer.userImg}" class="mr-3" alt="..." >
-					    	<div class="media-body">
-                                ${partyOffer.fromUserNickname}님<br>
+					   		<div style="font-size:11pt;">
+					   		    <img src="/resources/images/userImages/${partyOffer.userImg}" class="mr-3" alt="..." >
+					   		</div>
+					    	
+					    	<div class="media-body" style="font-size:11pt;">
+                               ${partyOffer.postTitle}<br>
+                                ${partyOffer.fromUserNickname}님께서 동행 신청을 하셨습니다.<br><br>
 					      		<h5 class="mt-0 mb-1">${partyOffer.offerMsg}</h5>
 				     			
-				  				${partyOffer.postTitle}<br>
+				  				<br>
 				     	 		<c:set var="partyOfferDate" value="${fn:split(partyOffer.offerDate,' ')}"></c:set>
 						   		<c:out value="${partyOfferDate[0]}"></c:out>
 				      			<br>
-								<button id="partyOfferAccept${status.index}" type="button" class="btn btn-primary partyAccept">수락</button>
-								<button id="partyOfferReject${status.index}" type="button" class="btn btn-secondary partyReject">거절</button>			      
+								<button id="partyOfferAccept${status.index}" type="button" class="btn btn-info partyAccept">수락</button>
+								<button id="partyOfferReject${status.index}" type="buttony" class="btn btn-secondary partyReject">거절</button>			      
 						   		<input type="hidden" value="${partyOffer.offerId}">
 								<input type="hidden" value="${status.index}">
 					    	</div>

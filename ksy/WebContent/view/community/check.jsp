@@ -107,7 +107,7 @@
 								$("input[name='phoneCheck']").val(
 										JSONData.phoneCheck);
 								$("#errorMsg").text("입력하신 번호로 문자 발송이 완료되었습니다.");
-
+								$("#phoneCheckDiv").css("display","block")
 								$("input[name='phoneValue']").attr("type",
 										"text").attr("placeholder", "인증번호 입력").attr("id","phoneValue");
 
@@ -132,8 +132,6 @@
 		var phoneCheck = $("input[name='phoneCheck']").val();
 		var phoneValue = $("input[name='phoneValue']").val();
 		
-		alert($("input[name='phoneCheck']").val());
-		alert($("input[name='phoneValue']").val());
 		
 			if(phoneCheck == phoneValue){
 					$.ajax({
@@ -145,13 +143,25 @@
 							"Content-Type" : "application/json"
 						},
 						success : function(JSONData, Status) {
-							alert(JSONData.returnMsg)
-							$("#authModal").modal("hide");
-							 $(self.location).attr("href", "/community/getPostList?boardName=D");
+							swal({
+								icon : 'success',
+								title : "인증 완료했습니다.",
+								text:" ",
+								button : false,
+							})
+					    	setTimeout(function() {     
+								$("#authModal").modal("hide");
+				    			$(self.location).attr("href", "/community/getPostList?boardName=D");
+					    	}, 700);
 						}
 					})	
 			}else{
-				alert("인증번호와 일치하지않습니다.")
+				swal({
+					icon : 'error',
+					title : "인증 실패했습니다.",
+					text:" ",
+					button : false,
+				})
 			}
 		}
 	
@@ -226,7 +236,7 @@
 		<!-- Modal -->
 		<div class="modal fade" id="authModal">
 		  <div class="modal-dialog bounceln animated"  role="document">
-		    <div class="modal-content" id="authContent" style="width: 600px; height: 300px; margin-top: 150px;">
+		    <div class="modal-content" id="authContent" style="width: 600px; height: 330px; margin-top: 150px;">
 		      <div class="modal-body" id="authBody" style="text-align: center; padding: 20px 60px;">
 		       	  <p style="font-size: 30px; font-weight:bold; margin: 15px;">본인인증</p>
 		       	  <p>휴대폰 번호를 입력한 후 인증절차를 거쳐주세요</p>
@@ -238,7 +248,7 @@
 			      <input type="hidden" name="phone" id="phone"> 
 			      <input type="button" value="인증번호 전송" id="authButton" class="btn btn-outline-primary">  
 					<!-- <input type="hidden" id="updatePwd" onclick="javascript:auth()" class="btn btn-outline-primary"> -->
-				  <input type="hidden" name="phoneCheck" value="">
+				  	<input type="hidden" name="phoneCheck" value="">
 			    </div>
 			    
 			    <div style="height: 10px"></div>

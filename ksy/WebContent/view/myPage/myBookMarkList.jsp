@@ -101,11 +101,12 @@
 <body>
 
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>	
 	
-	
-	<div class="container" style="width:60%;margin:auto;">
+		<div class="row">
+            <jsp:include page="/view/user/userSideBar.jsp"/>
+            
+        <div style="width:60%;margin-left:5%;">
 	
 	
 	    <!-- <h3  style="margin-left: 320px; width: 1000px"><b>나의 북마크목록</b></h3> -->
@@ -175,7 +176,7 @@
 				  	
 				 </tbody>
 		</table>
-		
+            </div>
 	</div>
 
 </body>

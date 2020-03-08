@@ -887,10 +887,12 @@
 
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp" />
-	<jsp:include page="/view/community/sidebar.jsp"/>
 	<jsp:include page="/toolbar/pushBar.jsp"/>
    	<!-- ToolBar End /////////////////////////////////////-->
-   	
+   		<div class="row">
+            <jsp:include page="/view/community/sidebar.jsp"/>
+            
+        <div style="width:60%;margin-left:5%;">
    	
    	<div class="modal" tabindex="-1" role="dialog" id="sendReport" >
 	  <div class="modal-dialog" role="document" style="width:300px;">

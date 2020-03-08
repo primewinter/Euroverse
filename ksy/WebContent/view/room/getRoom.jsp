@@ -30,7 +30,7 @@
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	  body {
-			font-family: "Nanum Gothic", "Malgun Gothic", "돋움", Dotum, "돋움", Dotum, Arial, Helvetica, sans-serif;
+			font-family: "Nanum Gothic";
         }
         
     </style>
@@ -137,7 +137,7 @@ $(function () {
            			    button : false,
            			    timer : 700
             	  	});
-				  $("#wish").attr('class','btn btn-secondary');
+				  $("#wish").attr('class','btn btn-outline-secondary');
 				}else{
 					swal({
   	               		icon : 'success',
@@ -147,7 +147,7 @@ $(function () {
   	               		timer : 700
   	               	});
 					
-				  $("#wish").attr('class','btn btn-light');
+				  $("#wish").attr('class','btn btn-danger');
 				}      
 			},
 			error: function(request, status, error){
@@ -179,7 +179,7 @@ $(function () {
 <form>
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	 <jsp:include page="/toolbar/pushBar.jsp" />
-	<div class="container" style="margin-left:300px;">
+	<div class="container" style="margin-left:25%;">
 		<hr/>
 		<div class="row">
 		<br/>
@@ -203,11 +203,11 @@ $(function () {
 										<i class="fas fa-won-sign" style="font-size:22px;"><fmt:formatNumber value="${room.price}" pattern="###,###" /> 원</i>
 								</div>
 								<br/>
-								<!-- <i class="far fa-heart" id="wish" style="font-size:25px;"></i> -->
-			  				   	<button type="button" class="btn btn-secondary" id="wish" value="R" style="width:50px;">찜</button>
+								<!--<i class="far fa-heart" id="wish" style="font-size:25px;"></i> -->
+                                 <button type="button" class="btn btn-outline-secondary" id="wish" value="R" style="height:38px"><i class="fas fa-heart"></i></button>
 								
 								
-								<button type="button" class="btn btn-info" style="margin-top:-10px;width:120px;" id="reserve">예약하기</button>
+								<button type="button" class="btn btn-info" style="" id="reserve">예약하기</button>
 									<input type="hidden" name="price" value=" ${room.price}" id="price">
 							    	<input type="hidden" name="roomCity" value=" ${room.roomCity}" id="roomCity">
 							    	<input type="hidden" name="checkIn" value=" ${room.checkIn}" id="checkIn">

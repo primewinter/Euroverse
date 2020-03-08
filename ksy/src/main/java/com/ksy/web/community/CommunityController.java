@@ -30,12 +30,12 @@ import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.City;
 import com.ksy.service.domain.Daily;
 import com.ksy.service.domain.Day;
+import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.Post;
 import com.ksy.service.domain.Stuff;
 import com.ksy.service.domain.User;
-import com.ksy.service.like.LikeService;
 import com.ksy.service.myPage.MyPageService;
 import com.ksy.service.plan.PlanService;
 import com.ksy.service.planSub.PlanSubService;
@@ -50,11 +50,7 @@ public class CommunityController {
 	@Autowired
 	@Qualifier("communityServiceImpl")
 	private CommunityService communityService;
-	
-	@Autowired
-	@Qualifier("likeServiceImpl")
-	private LikeService likeService;
-	
+
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
@@ -736,15 +732,30 @@ public class CommunityController {
 		if(user == null) {
 			return "forward:/view/community/check.jsp";
 		}
-		List<Party> party = new ArrayList<Party>();
 		List<User> userList = new ArrayList<User>();
-		List<Party> myPartyList = communityService.getMyPartyList(user.getUserId());
+		List<Party> myPartyList = communityService.getMyPartyList(user.getUserId()); //회원이 참여중인 파티들 리스트
+		List<List> listMap = new ArrayList<List>();
 		
 		for(int i=0; i<myPartyList.size(); i++) {
-			List<Party> partyList = communityService.getParty(myPartyList.get(i).getRefId());
+			List<Party> partyList = communityService.getParty(myPartyList.get(i).getRefId()); //회원이 참여중인 파티의 postId 가져와서 파티 참여 회원들 목록 가져오기
+			listMap.add(partyList);
+			
 			for(int j=0; j<partyList.size(); j++) {
-				party.add(partyList.get(j));
 				User partyUser = userService.getUser(partyList.get(j).getPartyUserId());
+				
+				List<TripSurvey> tripSurvey = myPageService.getTripSurveyList(partyList.get(j).getPartyUserId());
+				
+				List<String> tripStyle = new ArrayList<String>();
+				
+				for(int s=0; s<tripSurvey.size(); s++) {
+					
+					if(tripSurvey.get(s).getSurveyType().equals("T")) {
+						String surveyChoice = tripSurvey.get(s).getSurveyChoice();
+						tripStyle.add(surveyChoice);
+						partyUser.setTripStyle(tripStyle);
+					}
+				}
+				
 				for(int k=0; k<userList.size(); k++) {
 					if(userList.get(k).getUserId().equals(partyList.get(j).getPartyUserId())) {
 						userList.remove(k);
@@ -753,9 +764,26 @@ public class CommunityController {
 				userList.add(partyUser);
 			}
 		}
+		model.addAttribute("list", listMap);
 		model.addAttribute("userList", userList);
-		model.addAttribute("party", party);
 		
 		return "forward:/view/accompany/getMyPartyList.jsp";
+	}
+	
+	@RequestMapping( value="getMyOfferList", method=RequestMethod.GET)
+	public String getMyOfferList( HttpSession session, Model model ) throws Exception {
+		
+		System.out.println("/community/getMyOfferList : GET");
+		
+		User user = (User)session.getAttribute("user");
+		
+		if(user == null) {
+			return "forward:/view/community/check.jsp";
+		}
+		List<Offer> list = communityService.getMyOfferList(user.getUserId());
+		
+		model.addAttribute("list", list);
+		
+		return "forward:/view/accompany/getMyOfferList.jsp";
 	}
 }

@@ -2,7 +2,7 @@
 
 	
 	<!-- ICON 사용을 위한 스크립트 임포트 -->
-	<!-- https://feathericons.com/ -->
+<!--	 https://feathericons.com/ -->
 	<script src="https://unpkg.com/feather-icons"></script>
 	
 	
@@ -12,25 +12,23 @@
 	<style type="text/css">
 		/* body {
 		  font-size: .875rem;
-		} */
+		} 
 		.feather {
 		  width: 16px;
 		  height: 16px;
 		  vertical-align: text-bottom;
-		}
+		}*/
 		
 		/* Sidebar */
 		.sidebar {
-		  position: fixed;
-		  top: 300px;
-		  bottom: 0;
+		  /*position: fixed;*/
+		  /*top: 300px;*/
+		  /*bottom: 0;*/
+		  max-height: 600px;
 		  left: 0;
-		  z-index: 40; /* Behind the navbar */
-		  padding: 48px; 0 0; /* Height of navbar */
           width: 20%;
-            
-		  //box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-		  //background-color: white;
+		  z-index: 40; /* Behind the navbar */
+		  padding: 48px 0 0; /* Height of navbar */
 		}
 		.sidebar-sticky {
 		  position: relative;
@@ -122,80 +120,30 @@
 
 		$(function(){
 		
-			$("a:contains('인기글게시판')").on("click" ,function(){
-				$(self.location).attr("href","/community/getPostList?boardName=C");
+			$("a:contains('참여')").on("click" ,function(){
+				$(self.location).attr("href","/community/getMyPartyList");
 			});
-			
-			$("a:contains('플래너공유')").on("click" ,function(){
-				$(self.location).attr("href","/community/getPostList?boardName=E");
+            $("a:contains('찾기')").on("click" ,function(){
+				$(self.location).attr("href","/community/getPostList?boardName=D");
 			});
-			
-			$("a:contains('여행후기')").on("click" ,function(){
-				$(self.location).attr("href","/community/getPostList?boardName=F");
+            $("a:contains('신청')").on("click" ,function(){
+				$(self.location).attr("href","/myPage/myOfferList?searchKeyword=party");
 			});
-			
-			$("a:contains('여행정보')").on("click" ,function(){
-				$(self.location).attr("href","/community/getPostList?boardName=B");
-			});
-			
-			$("a:contains('QnA')").on("click" ,function(){
-				$(self.location).attr("href","/community/getPostList?boardName=G");
-			});
-			
-			$("a:contains('자유게시판')").on("click" ,function(){
-				$(self.location).attr("href","/community/getPostList?boardName=A");
-			});
-			
-			
 			
 			
 		});
 		
-		function checkBoard(){
-
-			var boardName = '${param.boardName}';
-			
-			$('.nav-link').each( function(index){
-				
-				var boardNameThis = $(this).attr('href').substring(1,2);
-				console.log(boardNameThis);
-				
-				if( boardNameThis == boardName ){
-					//var appendHtml = '<span class="sr-only">(current)</span>';
-					//$(this).append(appendHtml);
-					$(this).addClass('active');
-				}
-			});
-		}
-		
-		setTimeout(function(){
-			checkBoard();
-		},5);
-	
 	</script>
 
-	<!-- <div class="sidebar">
-	  <a class="active" href="/main.jsp">EUROVERSE</a>
-	  <a href="#C">인기글게시판</a>
-	  <a href="#E">플래너공유</a>
-	  <a href="#F">여행후기</a>
-	  <a href="#B">여행정보</a>
-	  <a href="#G">QnA</a>
-	  <a href="#A">자유게시판</a>
-	  <a href="#D">동행</a>
-	</div> -->
-	
-	
 	
 	<!-- 좌측 Plan 툴바 구성 Start /////////////////////////////////////////////////////////// -->
-	<nav class="col-md-2 d-none d-md-block sidebar" style="padding-top:0px; padding-left:25px;padding-right: 20px;">
+	<nav class="col-md-2 d-none d-md-block sidebar sticky-top" style="padding-top:0px; padding-left:25px;padding-right: 20px;">
       <div class="sidebar-sticky">
-      
+       <div id="blank-top" style="height: 70px"></div>
         <ul class="nav flex-column" style="text-align: right;">
           <li class="nav-item">
             <a class="nav-link" href="#C">
               동행찾기 &nbsp; <span data-feather="star"></span>
-              	
             </a>
           </li>
           
@@ -204,6 +152,11 @@
           <li class="nav-item">
             <a class="nav-link scroll" href="#E">
               참여중인 동행 &nbsp; <span data-feather="cloud"></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link scroll" href="#E">
+              동행신청 목록 &nbsp; <span data-feather="cloud"></span>
             </a>
           </li>
          <!-- <li class="nav-item">
@@ -247,5 +200,13 @@
 		/* icon 사용을 위한 스크립트 */
 		/* https://github.com/feathericons/feather#feather 참고 */
 		feather.replace();
+        $('#blank-top').hide();
+             $(window).scroll(function() {
+                if ($(document).scrollTop() > 300) {
+                    $('#blank-top').show();
+                } else {
+                    $('#blank-top').hide();
+                }
+             });
 	</script>
 	

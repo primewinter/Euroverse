@@ -245,12 +245,14 @@
 
     <!-- ToolBar Start /////////////////////////////////////-->
     <jsp:include page="/toolbar/toolBar.jsp" />
-    <jsp:include page="/view/community/sidebar.jsp" />
     <%-- <jsp:include page="/toolbar/pushBar.jsp" /> --%> 
     <!-- ToolBar End /////////////////////////////////////-->
 
     <!--  화면구성 div Start /////////////////////////////////////-->
-    <div class="container" style="max-width: 1000px;">
+	<div class="row">
+            <jsp:include page="/view/community/sidebar.jsp"/>
+            
+        <div style="width:60%;margin-left:5%;">
 
         <div class="h4" id="boardTitle" style="font-weight: bold; margin-top: 40px;padding-left:10px;">
             플래너공유
@@ -312,23 +314,6 @@
 
                                                 <figure class="snip1200">
                                                     <img style="height:250px;" width="100%" src="${plan.planImg}" />
-                                                    <figcaption>
-                                                        <p>
-                                                            <c:choose>
-                                                                <c:when test="${plan.planType == 'A'}">여자혼자</c:when>
-                                                                <c:when test="${plan.planType == 'B'}">남자혼자</c:when>
-                                                                <c:when test="${plan.planType == 'C'}">여자끼리</c:when>
-                                                                <c:when test="${plan.planType == 'D'}">남자끼리</c:when>
-                                                                <c:when test="${plan.planType == 'E'}">단체</c:when>
-                                                                <c:when test="${plan.planType == 'F'}">부모님과</c:when>
-                                                                <c:when test="${plan.planType == 'G'}">커플</c:when>
-                                                            </c:choose>
-                                                            <br>${plan.startDateString} <c:if test="${plan.endDate != null}"> ~ ${plan.endDate} </c:if>
-                                                        </p>
-                                                        <div class="heading">
-                                                            <h5>${plan.planTitle}</h5>
-                                                        </div>
-                                                    </figcaption>
                                                     <a href="#"></a>
                                                 </figure>
                                                 <input type="hidden" id="postId" name="postId" value="${post.postId}" />
@@ -338,11 +323,29 @@
                                             <div class="card-body" style="font-size:13px;">
                                                 
                                                 <div class="card-text">
-                                                    <span style="font-size:14px;">${post.postTitle}</span> <span style="color:red;">(${post.comments})</span><br><img src='/resources/images/userImages/${post.user.userImg}' style='border-radius:50%;width:25px;height:25px;border:solid 2px #009688;margin-right:0.5em;'>${post.nickName}<br>
+                                                    <span style="font-size:14px;font-weight: bold;">${post.postTitle}</span> <span style="color:red;">(${post.comments})</span>
+                                                    <span class='card-icons' style='float:right'><fmt:formatDate value="${post.postDate}" pattern="yyyy.MM.dd" /> </span>
+                                                    <br><br>
+                                                    <div class='card-icons' style='text-align:left;'>
+                                                        <c:choose>
+                                                            <c:when test="${plan.planType == 'A'}">여자혼자</c:when>
+                                                            <c:when test="${plan.planType == 'B'}">남자혼자</c:when>
+                                                            <c:when test="${plan.planType == 'C'}">여자끼리</c:when>
+                                                            <c:when test="${plan.planType == 'D'}">남자끼리</c:when>
+                                                            <c:when test="${plan.planType == 'E'}">단체</c:when>
+                                                            <c:when test="${plan.planType == 'F'}">부모님과</c:when>
+                                                            <c:when test="${plan.planType == 'G'}">커플</c:when>
+                                                        </c:choose>
+                                                        <br>${plan.startDateString}<c:if test="${plan.endDate != null}">-${plan.endDate}</c:if>
+                                                    </div>
+                                                    <br><br>
+                                                    <img src='/resources/images/userImages/${post.user.userImg}' style='border-radius:50%;width:25px;height:25px;border:solid 2px #009688;margin-right:0.5em;'>${post.nickName}
+                                                     <span class="card-icons" style='float:right;bottom:0px;'>
+                                                    <i class="fas fa-comments"></i>${post.comments} <i class="fas fa-heart"></i>${post.postLikeCount} <i class="far fa-eye"></i>${post.views}
+                                                </span>
+                                                <br>
                                                 </div>
-                                                <div class="card-icons">
-                                                    <fmt:formatDate value="${post.postDate}" pattern="yyyy.MM.dd" /> <i class="fas fa-comments"></i>${post.comments} <i class="fas fa-heart"></i>${post.postLikeCount} <i class="far fa-eye"></i>${post.views}
-                                                </div>
+                                               
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div class="btn-group">
                                                         <!--  <button type="button" class="btn btn-sm btn-outline-secondary">플래너가져오기</button>
@@ -365,7 +368,7 @@
         </div>
         <!--  table End /////////////////////////////////////-->
         <button type="button" id="addpost_view" class="btn btn-dark">작성하기</button>
-
+        </div>
     </div>
     <!--  화면구성 div End /////////////////////////////////////-->
 

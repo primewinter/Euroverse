@@ -306,11 +306,13 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp" />
-	<jsp:include page="/view/community/sidebar.jsp"/>
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  화면구성 div Start /////////////////////////////////////-->
-	<div class="container" style="max-width: 930px;">
+	<div class="row">
+            <jsp:include page="/view/community/sidebar.jsp"/>
+            
+        <div style="width:60%;margin-left:5%;">
 	
 	  <div class="page_head clear">
 		<div class="h4" style="text-align:left;font-weight:bold;margin: 40px 0 30px 80px;">
@@ -380,7 +382,7 @@
 		    </div>
 		  </div>
 		</form>
-		
+        </div>
 	</div>
 
 	<jsp:include page="/toolbar/footer.jsp"/>
