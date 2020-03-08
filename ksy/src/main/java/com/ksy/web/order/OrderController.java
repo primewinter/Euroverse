@@ -220,12 +220,11 @@ public class OrderController {
 		orderService.addPoint(point);
 		System.out.println("point 1 : "+point);
 		//포인트 사용
-		if (payPoint != 0) {
+		/* if (payPoint != 0) { */
 			System.out.println("포인트 사용시 들어옵니다");
 			point.setUsedType("U");
 			point.setUsedPoint(usedPoint);
 			orderService.addPoint(point);
-		}
 		//total에 합산하기
 		myPageService.updateTotalPoint(point);
 		//User Session 다시 받아오기
@@ -302,12 +301,10 @@ public class OrderController {
 		orderService.addPoint(point);
 		System.out.println("point 1 : "+point);
 		//포인트 사용
-		if (payPoint != 0) {
 			System.out.println("포인트 사용시 들어옵니다");
 			point.setUsedType("U");
 			point.setUsedPoint(usedPoint);
 			orderService.addPoint(point);
-		}
 		//total에 합산하기
 		myPageService.updateTotalPoint(point);
 		//User Session 다시 받아오기

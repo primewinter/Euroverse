@@ -30,6 +30,7 @@ import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.City;
 import com.ksy.service.domain.Daily;
 import com.ksy.service.domain.Day;
+import com.ksy.service.domain.Offer;
 import com.ksy.service.domain.Party;
 import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.Post;
@@ -767,5 +768,22 @@ public class CommunityController {
 		model.addAttribute("userList", userList);
 		
 		return "forward:/view/accompany/getMyPartyList.jsp";
+	}
+	
+	@RequestMapping( value="getMyOfferList", method=RequestMethod.GET)
+	public String getMyOfferList( HttpSession session, Model model ) throws Exception {
+		
+		System.out.println("/community/getMyOfferList : GET");
+		
+		User user = (User)session.getAttribute("user");
+		
+		if(user == null) {
+			return "forward:/view/community/check.jsp";
+		}
+		List<Offer> list = communityService.getMyOfferList(user.getUserId());
+		
+		model.addAttribute("list", list);
+		
+		return "forward:/view/accompany/getMyOfferList.jsp";
 	}
 }

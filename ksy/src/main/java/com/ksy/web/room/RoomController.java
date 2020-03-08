@@ -291,8 +291,8 @@ public class RoomController {
 			List<WebElement> name = driver
 					.findElements(By.cssSelector("#listings > ol > li > article > section > div > h3 > a"));
 			//숙소주소
-			List<WebElement> addr = driver
-					.findElements(By.cssSelector("#listings > ol > li > article > section > div > address > span"));
+			List<WebElement> addr = driver           
+					.findElements(By.xpath("//*[@id=\"listings\"]/ol/li/article/section/div/address/span"));
 			//숙소위치								
 			List<WebElement> location = driver     
 					.findElements(By.cssSelector("#listings > ol > li > article > section > div > div > div.additional-details.resp-module > div.location-info.resp-module > a"));
@@ -433,6 +433,11 @@ public class RoomController {
 				System.out.println("Room :: "+room);
 				}
 			}
+			
+			synchronized (driver) {
+				driver.wait(13500);
+
+			}
 		} catch (IndexOutOfBoundsException ie) {
 			System.out.println("IndexOutOfBounds");
 			ie.printStackTrace();
@@ -528,9 +533,6 @@ public class RoomController {
 			WebElement roomIn = driver.findElement(By.xpath("//*[@id=\"amenities\"]/div[2]/div/div[2]/div/div"));
 			String roomInfo = roomIn.getText();
 			room.setRoomInfo(roomInfo);
-			//큰 이미지
-//			WebElement image = driver.findElement(By.xpath("//*[@id=\"carousel-container\"]/div[1]/ul/li[1]"));
-//			String roomImg = image.getAttribute("data-desktop");
 			
 			model.addAttribute("room",room);
 			/////////////////////////////////////이미지////////////////////////////////////////////////////
@@ -634,7 +636,10 @@ public class RoomController {
 //				 System.out.println("List :: "+list.getText());
 //			 }
 			
-			Thread.sleep(1500);
+			synchronized (driver) {
+				driver.wait(1500);
+
+			}
 		} catch (IndexOutOfBoundsException ie) {
 			System.out.println("IndexOutOfBounds");
 			ie.printStackTrace();
