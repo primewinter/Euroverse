@@ -93,6 +93,7 @@
 		
 		function postLoad() {
 			$("form").attr("method" , "GET").attr("action" , "/admin/getPostReportList").submit();
+			$(".btn-secondary").attr('class','btn btn-secondary active')
 		}
 		
 		function cmtLoad(){
@@ -203,7 +204,7 @@
             
         <div class="btn-group btn-group-toggle" data-toggle="buttons" style="Padding-left:0px;">
             <label class="btn btn-secondary active">
-                <input type="radio" name="post" id="option1" checked onclick="javascript:postLoad();"> 게시글
+                <input type="radio" name="post" id="option1" onclick="javascript:postLoad();" checked> 게시글
             </label>
             <label class="btn btn-secondary">
                 <input type="radio" name="comment" id="option2" onclick="javascript:cmtLoad();"> 댓글
