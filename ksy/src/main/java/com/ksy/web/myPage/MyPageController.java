@@ -188,7 +188,7 @@ public class MyPageController {
 	@RequestMapping(value="myOfferList")
 	public String myOfferList(@ModelAttribute("search") Search search , HttpSession session , Model model)throws Exception {
 		if(session.getAttribute("user")==null) {
-			return"redirect:/main.jsp";
+			return"redirect:/view/community/check.jsp";
 		}
 		
 		System.out.println("오퍼리스트@!~!~~!@#!#@!@~@~@!~!@~@!~@!~@!~");
