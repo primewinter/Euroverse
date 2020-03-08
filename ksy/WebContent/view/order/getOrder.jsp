@@ -200,7 +200,12 @@
                     </div>
                     <div class="row" style="margin-bottom: 15px">
                         <div class="col-md-3">출발시간 - 도착시간</div>
-                        <div class="col-md-9">${flight.depTime} - ${flight.arrTime}</div>
+                        <div class="col-md-9">
+                          ${flight.depDate.substring(0,4)}/${flight.depDate.substring(4,6)}/${flight.depDate.substring(6,8)} &nbsp;&nbsp;${flight.depTime}
+					      <c:if test="${flight.tripCourse == 'R' }" >
+					      &nbsp;&nbsp;-&nbsp;&nbsp;${flight.arrDate.substring(0,4)}/${flight.arrDate.substring(4,6)}/${flight.arrDate.substring(6,8)} &nbsp;&nbsp;${flight.arrTime}
+					      </c:if>
+                        </div>
                     </div>
                     <div class="row" style="margin-bottom: 15px">
                         <div class="col-md-3">소요시간(경유)</div>
@@ -236,7 +241,9 @@
                     </div>
                     <div class="row" style="margin-bottom: 15px">
                         <div class="col-md-3">체크인 - 체크아웃</div>
-                        <div class="col-md-9">${room.checkIn} - ${room.checkOut}</div>
+                        <div class="col-md-9">
+                          ${room.checkIn.substring(0,6)}/${room.checkIn.substring(6,8)}/${room.checkIn.substring(8,10)} - ${room.checkOut.substring(0,6)}/${room.checkOut.substring(6,8)}/${room.checkOut.substring(8,10)}
+                        </div>
                     </div>
                     <div class="row" style="margin-bottom: 15px">
                         <div class="col-md-3">객실 수</div>
