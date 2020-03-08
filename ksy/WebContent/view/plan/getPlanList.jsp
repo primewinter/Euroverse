@@ -278,9 +278,12 @@
 	
 	<div class="album py-5">
 		<div class="container">
-		
+			<div class="row">
+				<div  class="align-bottom"  style="font-size:20px;margin:0 0 15px 30px;"><b style="font-size:22px;">${user.nickname}</b> 님의 유럽여행  <span style="font-size:13px;color:#838383;margin-left:30px;"> ${list.size()} 개의 플래너</span></div>
+			</div>
 			
 			<div class="row">
+			
 			
 				<c:if test="${list.size() != 0}">
 					<c:forEach var="plan" items="${list}">

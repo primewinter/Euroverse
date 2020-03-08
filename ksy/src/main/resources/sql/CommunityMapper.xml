@@ -74,7 +74,9 @@
 		<result property="offerType" 			column="offer_type" 			jdbcType="CHAR"/>
 		<result property="offerMsg" 			column="offer_msg" 			jdbcType="VARCHAR"/>
 		
+		<result property="toUserNickname" 			column="nickname" 		jdbcType="VARCHAR"/>
 		<result property="postTitle" 	column="post_title" 	jdbcType="VARCHAR" />
+		<result property="userImg"		column="user_img"		jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<resultMap id="tagSelectMap" type="tag">
@@ -336,9 +338,9 @@
 	</select>
 	
 	<select id="getMyOfferList" parameterType="string" resultMap="offerSelectMap">
-		SELECT o.offer_id , o.offer_type , o.ref_id , o.offer_status , o.from_user_id , o.to_user_id , o.offer_date , o.offer_msg , p.post_title
-		FROM offer o, post p
-		WHERE o.ref_id = p.post_id AND o.offer_status IN ('S','R') AND o.offer_type ='A' AND o.from_user_id = #{userId}
+		SELECT o.offer_id , o.offer_type , o.ref_id , o.offer_status , o.from_user_id , o.to_user_id , o.offer_date , o.offer_msg , p.post_title , u.user_img , u.nickname
+		FROM offer o, post p, users u
+		WHERE o.ref_id = p.post_id AND o.to_user_id = u.user_id AND o.offer_status IN ('S','R') AND o.offer_type ='A' AND o.from_user_id = #{userId}
 	</select>
 	
 	<select  id="getPostList"  parameterType="map"	resultMap="postSelectMap">
