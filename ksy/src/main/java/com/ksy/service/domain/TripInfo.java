@@ -11,8 +11,17 @@ public class TripInfo {
 	private String conInfo3;
 	private String conInfo4;
 	private String conName;
+	private String boardname;
 	
 	
+	
+	
+	public String getBoardname() {
+		return boardname;
+	}
+	public void setBoardname(String boardname) {
+		this.boardname = boardname;
+	}
 	public String getConUrl() {
 		return conUrl;
 	}
@@ -60,7 +69,8 @@ public class TripInfo {
 	@Override
 	public String toString() {
 		return "TripInfo [conUrl=" + conUrl + ", conId=" + conId + ", conInfo1=" + conInfo1 + ", conInfo2=" + conInfo2
-				+ ", conInfo3=" + conInfo3 + ", conInfo4=" + conInfo4 + ", conName=" + conName + "]";
+				+ ", conInfo3=" + conInfo3 + ", conInfo4=" + conInfo4 + ", conName=" + conName + ", boardname="
+				+ boardname + "]";
 	}
 	
 	

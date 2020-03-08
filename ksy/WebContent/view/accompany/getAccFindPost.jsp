@@ -400,8 +400,8 @@
         }
         .party-list{
             border-radius: 20px;
-            border:solid 1px white;
-            background-color: rgba(151, 235, 219, 0.7);
+            border:solid 1px #ddd;
+/*            background-color: rgba(151, 235, 219, 0.7);*/
         }
  
     </style>
@@ -992,6 +992,7 @@
                     <c:forEach var="party" items="${party}">
                       <c:if test="${loop_flag==false}">
                            <c:if test="${party.partyUserId==user.userId}">
+                               <c:set var="loop_flag" value="true" />
                            </c:if>
                            <c:if test="${party.partyUserId!=user.userId}">
                                <button type="button" id='offer-party-btn' class="btn btn-outline-info" style="width: 100px; font-size: 15px; height: 30px; line-height: 15px; margin: 0 0 3px 10px" onclick="inviteUser()">동행신청</button>

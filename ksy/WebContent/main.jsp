@@ -778,7 +778,6 @@
             </div>
         </section>
 
-        <hr>
 
 
         <section class="owl-review-section aos-init aos-animate" data-aos="fade-left">
@@ -795,7 +794,6 @@
             </div>
         </section>
 
-        <hr>
 
         <section class="owl-info-section aos-init aos-animate" data-aos="fade-right">
             <header class="info-section__header">
@@ -812,7 +810,6 @@
         </section>
 
 
-        <hr>
 
         <section class="main-infinite">
            <div class="card" style="display: inline-block;float:left;padding:1em;width:40%;text-align: center;padding-top:3em;padding-left:2.5em;padding-right:2.5em;">
