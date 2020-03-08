@@ -316,7 +316,7 @@ table thead > tr{
 	
 	<div class="page-header text-info">
 
-		<h3 class="font-weight-bold">1:1문의목록 상세조회</h3>
+		<h3 class="font-weight-bold">1:1문의 목록</h3>
 	
 	 </div>
 	    
@@ -365,9 +365,9 @@ table thead > tr{
 	    	</div>
 		</div>
 		
+		
 		<div class="table-responsive">
 		
-		<!-- =============================== 유저목록 게시판 테이블  시작 ============================-->
 			<table class="table table-hover">
 	        <thead>
 		        <tr class="top shadow-sm p-3 mb-5 bg-white rounded " style="font-size:small;">

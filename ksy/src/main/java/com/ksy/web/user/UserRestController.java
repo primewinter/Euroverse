@@ -136,7 +136,7 @@ public class UserRestController {
 				//탐캣의 디폴트 세션 유지시간은 30분
 				session.setAttribute("user", dbUser);
 				returnMap.put("result", "ok");
-				
+				returnMap.put("userId", dbUser.getUserId());
 				//get 먼저하고 없으면 바로 add하고 있으면 업데이하고 add하기
 				LoginUser loginUser = (LoginUser)myPageService.getLoginUser(dbUser.getUserId());
 				if(loginUser == null) {

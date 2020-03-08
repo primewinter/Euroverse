@@ -148,7 +148,7 @@
     div.push-bar-menu {
         position: fixed;
         display: table;
-        top: 8px;
+        top: 3px;
         right: 10px;
         z-index: 9999;
     }
@@ -156,7 +156,7 @@
     div.push-bar-menu.shrink {
         position: fixed;
         display: table;
-        top: 26px;
+        top: 18px;
         right: 10px;
         z-index: 9999;
     }
@@ -1136,7 +1136,7 @@
         
         $(window).scroll(function() {
            
-            if ($(document).scrollTop() > 180) {
+            if ($(document).scrollTop() > 160) {
                 $('.icon-table').css('display', 'inline-block');
                 $('.push-bar-menu').css('margin-top', '10px');
                 $('div.icon').css('color','#323232');
