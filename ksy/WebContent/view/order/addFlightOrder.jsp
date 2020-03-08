@@ -405,9 +405,9 @@
 			  <tbody>
 			    <tr>
 			      <th scope="row">${flight.airline}</th>
-			      <td>${flight.depDate.substring(0,4)}/${flight.depDate.substring(4,6)}/${flight.depDate.substring(6,8)} ${flight.depTime}</td>
+			      <td>${flight.depDate.substring(0,4)}/${flight.depDate.substring(4,6)}/${flight.depDate.substring(6,8)} &nbsp;&nbsp;${flight.depTime}</td>
 			      <c:if test="${flight.tripCourse == 'R' }" >
-			      <td>${flight.arrDate.substring(0,4)}/${flight.arrDate.substring(4,6)}/${flight.arrDate.substring(6,8)} ${flight.arrTime}</td>
+			      <td>${flight.arrDate.substring(0,4)}/${flight.arrDate.substring(4,6)}/${flight.arrDate.substring(6,8)} &nbsp;&nbsp;${flight.arrTime}</td>
 			      </c:if>
 			      <td>${flight.stopOver}</td>
 			      <td>${flight.leadTime}</td>

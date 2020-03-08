@@ -81,6 +81,7 @@
         font-family: 'NanumBarunGothic';
         font-weight: 500;
         overflow-y: scroll;
+        overflow-x:hidden;
     }
 
     div.toolbar-wrapper {
@@ -129,7 +130,7 @@
         float: right;*/
         color: #858585;
         font-size: 12pt;
-        padding-top: 5px;
+        padding-top: 10px;
         transition: .3s;
     }
 
@@ -137,7 +138,7 @@
         color: black;
         position: fixed;
         z-index: 9999;
-        top: 1.2em;
+        top: 0.7em;
         right: 15%;
         transition: .3s;
     }
@@ -300,7 +301,7 @@
 </style>
 
 <jsp:include page="/view/user/login.jsp"></jsp:include>
-<div class="toolbar-wrapper justify-content-center">
+<div class="toolbar-wrapper justify-content-center" style="margin-top:1em;">
     <div class="container toolbar ">
 
         <header class="blog-header">

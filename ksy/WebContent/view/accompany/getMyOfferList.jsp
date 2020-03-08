@@ -2,6 +2,7 @@
 <%@ page pageEncoding="EUC-KR" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 
@@ -54,6 +55,120 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
 	<style>
+		.profile-card-3 {
+		  position: relative;
+		  float: left;
+		  overflow: hidden;
+		  width: 85%;
+		  text-align: center;
+		  height:368px;
+		  border:none;
+		}
+		.profile-card-3 .background-block {
+		    float: left;
+		    width: 100%;
+		    height: 200px;
+		    overflow: hidden;
+		}
+		.profile-card-3 .background-block .background {
+		  width:40%;
+		  vertical-align: top;
+		  opacity: 0.9;
+		  -webkit-filter: blur(0.5px);
+		  filter: blur(0.5px);
+		   -webkit-transform: scale(1.8);
+		  transform: scale(2.8);
+		}
+		.profile-card-3 .card-content {
+		  width: 100%;
+		  padding: 15px 25px;
+		  color:#232323;
+		  float:left;
+		  background:#efefef;
+		  height:50%;
+		  border-radius:0 0 5px 5px;
+		  position: relative;
+		  z-index: 2;
+		}
+		.profile-card-3 .card-content::before {
+		    content: '';
+		    background: #efefef;
+		    width: 120%;
+		    height: 100%;
+		    left: 1px;
+		    bottom: 41px;
+		    position: absolute;
+		    z-index: -1;
+		    transform: rotate(-8deg);
+		}
+		.profile-card-3 .profile {
+		  border-radius: 50%;
+		  position: absolute;
+		  bottom: 50%;
+		  left: 50%;
+		  max-width: 100px;
+		  opacity: 1;
+		  box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.5);
+		  border: 2px solid rgba(255, 255, 255, 1);
+		  -webkit-transform: translate(-50%, 0%);
+		  transform: translate(-50%, 0%);
+		  z-index:3;
+		}
+		.profile-card-3 h2 {
+		  margin: 0 0 5px;
+		  font-weight: 600;
+		  font-size:25px;
+		}
+		.profile-card-3 h2 small {
+		  display: block;
+		  font-size: 15px;
+		  margin-top:10px;
+		}
+		.profile-card-3 i {
+		  display: inline-block;
+		    font-size: 16px;
+		    color: #232323;
+		    text-align: center;
+		    border: 1px solid #232323;
+		    width: 30px;
+		    height: 30px;
+		    line-height: 30px;
+		    border-radius: 50%;
+		    margin:0 5px;
+		}
+		.profile-card-3 .icon-block{
+		    float:left;
+		    width:100%;
+		    margin-top:15px;
+		}
+		.profile-card-3 .icon-block a{
+		    text-decoration:none;
+		}
+		.profile-card-3 i:hover {
+		  background-color:#232323;
+		  color:#fff;
+		  text-decoration:none;
+		}
+		
+		.media img{
+			width: 200px;
+			height: 200px;
+			border-radius: 50%;
+			box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.5);
+			border: 2px solid rgba(255, 255, 255, 1);
+		}
+		
+		.media-body{
+			margin: 40px;
+		    padding:0px;
+		}
+	     div.h4{
+	        opacity:0.5;
+	    }
+	    div.h4:hover{
+	        opacity: 1;
+	    }
+		
 	</style>
 	
 	<script>
@@ -67,19 +182,63 @@
     <jsp:include page="/toolbar/pushBar.jsp" />
     <!-- ToolBar End /////////////////////////////////////-->
 
-	<div class="container" style="width:60%;margin:auto;">
-
-		<c:forEach var="offer" items="${list}">
-		  <c:if test="${offer.offerStatus == 'R'}">
-		   다른 동행을 찾아보세요 ㅠ.ㅠ
-		  </c:if>
-			${offer.offerId} ${offer.offerMsg}${offer.toUserId}<br>${offer.postTitle}<br><br>
-		</c:forEach>
-
-
-
-
-     </div>
+        <div class="row">
+            <jsp:include page="/view/accompany/accSidebar.jsp"/>
+	            
+	        <div style="width:60%;margin-left:5%">
+			
+			<!--<div>
+				<div class="btn-group" role="group" aria-label="Basic example" style="margin-left: 10px;">
+					<button type="button" class="btn btn-outline-primary" id="viewPlan">플래너</button>
+					<button type="button" class="btn btn-outline-primary" id="viewParty">동 행</button>
+				</div>
+			</div>-->
+		
+		
+			<form id="myOfferListForm">
+		 		<input type="hidden" id="currentPage" name="currentPage" value=0 />
+		 		<input type="hidden" id="currentPage2" name="currentPage2" value=0 /> 
+		 		<c:if test="${!empty keyword}">
+		 			<input type="hidden" id="keyword" name="searchKeyword" value="${keyword}"/>
+		 		</c:if>
+			</form>
+		
+		    <!-- <h1  style="margin-left: 240px; width: 1000px">플래너 초대목록</h1> -->
+		    
+				<div id="partyTable" style="display: block;">
+	               
+		       		<div class="h4 viewParty" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;">
+						동행 제안목록
+					</div>
+			
+					<ul class="list-unstyled" style="margin-left: 0px;">
+						<c:forEach var="offer" items="${list}" varStatus="status" >
+							<li class="media" style="width: 100%;">
+						   		<div style="font-size:11pt;">
+						   		    <img src="/resources/images/userImages/${offer.userImg}" class="mr-3" alt="..." >
+						   		</div>
+						    	
+						    	<div class="media-body" style="font-size:11pt;">
+	                               ${offer.postTitle}<br>
+	                                ${offer.toUserNickname}님께 동행을 신청하였습니다.<br><br>
+						      		<h5 class="mt-0 mb-1">${offer.offerMsg}</h5>
+					     			
+					  				<br>
+					     	 		<c:set var="offerDate" value="${fn:split(offer.offerDate,' ')}"></c:set>
+							   		<c:out value="${offerDate[0]}"></c:out>
+					      			<br>
+						    	</div>
+					  		</li>
+						</c:forEach>
+					</ul>
+					
+					<c:if test="${ empty list}">
+					    <div class="text-center" style="margin-bottom: 70px;margin-top: 36px;">제안받은 동행 신청이 없습니다</div>
+					</c:if>
+				<jsp:include page="../../common/pageNavigator_new2.jsp"/>
+			</div><!-- partyTable EndDiv  -->
+	            </div>
+		</div>
 
 	 <jsp:include page="/toolbar/footer.jsp" />
 
