@@ -36,7 +36,6 @@
 
     </style>
     <script type="text/javascript">
-<<<<<<< HEAD
         $(function() {
             $("#refundApp2").click(function() {
 
@@ -295,7 +294,7 @@
 						}else if(point.getUsedType() == "U") {
 							order.setPayPoint(point.getUsedPoint());
 						} -->
-                                <div id="usedPoint" style="Padding-left:20px;"> - ${point.usedPoint} P</div>
+                                <div id="usedPoint" > - ${point.usedPoint} P</div>
                             </div>
 
                         </div>
@@ -327,7 +326,7 @@
             <hr style="width:60%;float:left;margin-right:700px;" />
 
 
-            <div class="row" style="Padding-left:190px;">
+            <div class="row" style="Padding-left:170px;">
                 <div class="col-sm-1" style="margin-top:10px;">
                     <i class="fas fa-plus"></i>
                 </div>

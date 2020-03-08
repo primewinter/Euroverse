@@ -435,9 +435,10 @@ $(function(){
 					   		<div style="width: 100px;"></div>
 					    	<img src="/resources/images/userImages/${partyOffer.userImg}" class="mr-3" alt="..." >
 					    	<div class="media-body">
-					      		<h5 class="mt-0 mb-1">${partyOffer.postTitle}</h5>
-				     			${partyOffer.fromUserNickname}<br>
-				  				${partyOffer.offerMsg}<br>
+                                ${partyOffer.fromUserNickname}ดิ<br>
+					      		<h5 class="mt-0 mb-1">${partyOffer.offerMsg}</h5>
+				     			
+				  				${partyOffer.postTitle}<br>
 				     	 		<c:set var="partyOfferDate" value="${fn:split(partyOffer.offerDate,' ')}"></c:set>
 						   		<c:out value="${partyOfferDate[0]}"></c:out>
 				      			<br>

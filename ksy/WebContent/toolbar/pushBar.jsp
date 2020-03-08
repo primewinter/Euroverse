@@ -220,7 +220,6 @@
 
     .push-bar-menu>div>div:hover {
         color: #339999;
-        border-color: #339999;
     }
     
 
@@ -1141,7 +1140,11 @@
                 $('.icon-table').css('display', 'inline-block');
                 $('.push-bar-menu').css('margin-top', '10px');
                 $('div.icon').css('color','#323232');
-                $('div.icon').css('font-weight','100');
+                $('div.icon').hover(function() {
+                    $(this).css('color','#339999');
+                }, function() {
+                    $(this).css('color','#323232');
+                })
             } else {
                 $('.icon-table').css('display','table-row');
                 $('div.icon').css('color','#858585');
