@@ -24,6 +24,14 @@
 			
 			/* window.open("about:blank","_self").close(); */
 		})
+        $('#blank-top').hide();
+             $(window).scroll(function() {
+                if ($(document).scrollTop() > 300) {
+                    $('#blank-top').show();
+                } else {
+                    $('#blank-top').hide();
+                }
+             });
 	</script>
 </head>
 <body>

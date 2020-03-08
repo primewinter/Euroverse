@@ -103,6 +103,12 @@ public class CommunityServiceImpl implements CommunityService{
 		return list;
 	}
 	
+	public List<Offer> getMyOfferList(String userId) throws Exception {
+		List<Offer> list = communityDao.getMyOfferList(userId);
+		
+		return list;
+	}
+	
 	public Map<String, Object> getAllPostList(Search search) throws Exception {
 		
 		List<Post> list= communityDao.getAllPostList(search);

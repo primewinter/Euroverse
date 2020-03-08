@@ -39,8 +39,6 @@
 		  z-index: 40; /* Behind the navbar */
 		  padding: 48px 0 0; /* Height of navbar */
           width: 20%;
-		  //box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-		  //background-color: white;
 		}
 		.sidebar-sticky {
 		  position: relative;
@@ -215,9 +213,9 @@
 
 
 	<!-- 좌측 Plan 툴바 구성 Start /////////////////////////////////////////////////////////// -->
-	<nav class="col-md-2 d-none d-md-block sidebar" style="padding-top:0px; padding-left:25px;padding-right: 20px;">
+	<nav class="col-md-2 d-none d-md-block sidebar sticky-top" style="padding-top:0px; padding-left:25px;padding-right: 20px;">
       <div class="sidebar-sticky">
-      
+       <div id="blank-top" style="height: 70px"></div>
         <ul class="nav flex-column" style="text-align: right;">
           
           <li class="nav-item">
@@ -287,67 +285,15 @@
 		/* icon 사용을 위한 스크립트 */
 		/* https://github.com/feathericons/feather#feather 참고 */
 		feather.replace();
+         $('#blank-top').hide();
+             $(window).scroll(function() {
+                if ($(document).scrollTop() > 270) {
+                    $('#blank-top').show();
+                } else {
+                    $('#blank-top').hide();
+                }
+             });
 	</script>
 
- 	<%-- <jsp:include page="/view/myPage/choolCheck.jsp"></jsp:include> --%> 
 
-
-<!-- 
-<div class="sidebar" style="width: 270px; margin-left: 30px;">
-  <div class="row" style="width: 270px;">
-  
- 		<ul class="nav flex-column" style="text-align: left;" >
-          
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-             	내정보조회
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-             	내정보수정
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-             	포인트 사용 목록
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-             	내 게시글 및 댓글
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              	북마크 목록
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" id="myOfferList">
-              	플래너 초대 및<br>
-           			&nbsp;&nbsp;&nbsp;   동행신청 목록
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              	찜한 상품 목록
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              	1:1문의
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" id="choolCheck" >
-              	출석체크
-            </a>
-          </li>
-          
-        </ul>
-  
-  </div>  
-</div> 
- -->
  

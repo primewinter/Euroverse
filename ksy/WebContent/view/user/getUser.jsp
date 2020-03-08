@@ -447,20 +447,22 @@ var maPageCode = 'M';
 <body>
 
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
-
+		<div class="row">
+            <jsp:include page="/view/user/userSideBar.jsp"/>
+            
+        <div style="width:70%;margin-left:0%;">
 		
 		
 <div id="main">	
-	<div class="container" style="width:70%;margin:auto;">
+	<div class="container" style="width:100%;margin:auto;">
 					
 		<div id="userProfileDiv" style="width:100%;height:230px;padding-top: 30px;">
 			
 			<div class="d-flex justify-content-between" style="padding: 0px 70px;">
 			
 				<!-- 유저이미지 / 유저정보 ////////////////////////////////////////// -->
-				<div class="row">
+				<div class="row" style="font-family: 'NIXGONM-Vb';">
 				
 					<!-- 유저이미지 -->
 			   		<div>
@@ -520,7 +522,7 @@ var maPageCode = 'M';
 		  		
 		  		
 		  		<!-- 가고싶은나라 / 여행스타일 /////////////////////////////// -->
-		  		<div style="width: 290px;border-left: 1px solid #E7E7E7; padding-left: 20px;margin-top: 30px;margin-bottom: 10px;float: right;">
+		  		<div style="font-family: 'NIXGONM-Vb';width: 290px;border-left: 1px solid #E7E7E7; padding-left: 20px;margin-top: 30px;margin-bottom: 10px;float: right;">
 					<div style="margin-bottom: 20px;">
 						<div style="margin-bottom: 5px;">
 							<span data-feather="flag"></span> &nbsp;가고싶은 나라
@@ -536,7 +538,7 @@ var maPageCode = 'M';
 					</div>
 					
 					<div>
-						<div style="margin-bottom: 5px;">
+						<div style="margin-bottom: 5px;font-family: 'NIXGONM-Vb';">
 							<span data-feather="compass"></span> &nbsp;여행스타일
 						</div>
 						<div style="margin-left: 20px;">
@@ -555,7 +557,7 @@ var maPageCode = 'M';
 		</div>  
 		<div style="height: 60px;"></div>		
 		<div class="row">
-			<div style="width: 625px;"><!-- 카드들 묶어놓음 -->
+			<div style="width: 625px;font-family: 'NIXGONM-Vb';"><!-- 카드들 묶어놓음 -->
 				<!-- 카드 여섯장 ///////////////////////////////////////////////// -->
 				<div style="text-align: center;margin-top: 60px;">
 			      	<div class="flip-container" ontouchstart="this.classList.toggle('hover');" style="display: inline-block;cursor:pointer" id="pointCard">
@@ -650,7 +652,8 @@ var maPageCode = 'M';
 			
 	</div><!-- main Div End -->
 			
-	
+        </div>
+    </div>
 	<script>
 		/* icon 사용을 위한 스크립트 */
 		feather.replace();

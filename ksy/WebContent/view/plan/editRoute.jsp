@@ -373,6 +373,7 @@
 			console.log("reorder() 실행")
 			
 			var startDate = new Date('${plan.startDate}');
+			var planTotalDays = 1;
 			
 		    $(".city_route").each(function(i, box) {
 		    	var cityId = $(box).find(".city_id").text().trim();
@@ -398,6 +399,7 @@
 		        
 		        var cityDuration = $(box).find('.cr_cityDuration').text();
 		        //alert(cityDuration)
+		        planTotalDays = planTotalDays + parseInt(cityDuration);
 		        
 		        startDate.setDate( startDate.getDate() + parseInt(cityDuration) );
 		        
@@ -407,6 +409,7 @@
 		        
 		        updateVisitOrder( cityId, visitOrder );
 		    });
+		    $('#plan-total-days').text(planTotalDays);
 			
 			setTimeout(function(){
 				getCityRouteList( planId );
@@ -480,7 +483,14 @@
 				buttons: [ "아니오", "예"]
 			}).then((YES) => {
 				if(YES){
-					swal("삭제되었습니다!", "", "success");
+					swal({
+						  icon : 'success',
+						  title : "삭제되었습니다!",
+						  text:" ",
+						  button : false,
+						  timer: 1000
+						});
+					//swal("삭제되었습니다!", "", "success");
 					
 					console.log( indexNew + "번째 cityRoute 삭제"  );
 					$($(".city_route")[indexNew] ).remove();
@@ -624,7 +634,14 @@
 				buttons: [ "아니오", "예"]
 			}).then((YES) => {
 				if(YES){
-					swal("추가되었습니다!", "", "success");
+					//swal("추가되었습니다!", "", "success");
+					swal({
+						  icon : 'success',
+						  title : "추가되었습니다!",
+						  text:" ",
+						  button : false,
+						  timer: 1000
+						});
 					
 					$.ajax({
 						url: "/planSub/json/addCityRoute",
@@ -1245,7 +1262,7 @@
 	    		return myMarker;
 	    	} //createMyMarker( city, country, mPosition, img, cityInfo )
 	    	
-	    	
+	  
 	 		
 	 		var seagull = {
 	 			path: google.maps.SymbolPath.CIRCLE,
@@ -1327,6 +1344,11 @@
 			leftControlDiv.innerHTML = thtml;
 			map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(leftControlDiv);
 		    
+			var rightControlDiv = document.createElement('div');
+			var thtml2 = '<div class="text-center rounded-circle" style="margin:18px;font-weight:900; color:white; font-size:12pt;border:solid 1.3px #A6A6A6; padding:10px; background-color:#007592;"><div style="margin:5px;"><span style="font-size:27px;" id="plan-total-days">'+ ${plan.planTotalDays} +'</span> 일</div></div>';
+			rightControlDiv.innerHTML = thtml2;
+			map.controls[google.maps.ControlPosition.RIGHT_TOP].push(rightControlDiv);
+			
 			
 	 		lineSymbol2 = {
 		 			//path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,

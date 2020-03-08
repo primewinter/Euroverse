@@ -161,6 +161,104 @@ public class AdminController {
 		return "forward:/view/admin/adminQnaList.jsp";
 	}
 	
+	@RequestMapping(value="getPostReportList", method=RequestMethod.GET)
+	public String getPostReportList(@ModelAttribute("search") Search search, Model model, HttpSession session ) throws Exception {
+		
+		System.out.println(this.getClass()+"getPostReportList Strat");
+		
+		User user = new User();
+		
+//		계정이 admin이 아닐경우 접속을 막기위해
+		user= (User)session.getAttribute("user");
+		if(!user.getUserId().equals("admin")) {
+			return "redirect:/";
+		}
+		
+		//현재 페이지가 null일 경우 디폴트 1로 유지
+		if(search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+				
+		Map<String,Object> map = adminservice.getPostReportList(search);
+		
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(),
+				pageUnit, pageSize);
+		
+		System.out.println(resultPage);
+		System.out.println("map.get==>"+map.get("list"));
+		
+		//view(jsp)로 데이터전송
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search",search);
+		
+		//디버깅
+		System.out.println("model ==>"+model);
+		
+		return "forward:/view/admin/getReportList.jsp";
+	}
+	
+	@RequestMapping(value="getCmtReportList", method=RequestMethod.GET)
+	public String getCmtReportList(@ModelAttribute("search") Search search, Model model, HttpSession session ) throws Exception {
+		
+		System.out.println(this.getClass()+"getCmtReportList Strat");
+		
+		User user = new User();
+		
+//		계정이 admin이 아닐경우 접속을 막기위해
+		user= (User)session.getAttribute("user");
+		if(!user.getUserId().equals("admin")) {
+			return "redirect:/";
+		}
+		
+		//현재 페이지가 null일 경우 디폴트 1로 유지
+		if(search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+				
+		Map<String,Object> map = adminservice.getCommentReportList(search);
+		
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(),
+				pageUnit, pageSize);
+		
+		System.out.println(resultPage);
+		System.out.println("map.get==>"+map.get("list"));
+		
+		//view(jsp)로 데이터전송
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search",search);
+		
+		//디버깅
+		System.out.println("model ==>"+model);
+		
+		return "forward:/view/admin/getReportList.jsp";
+	}
+	
+//	@RequestMapping(value="updatePostReport", method=RequestMethod.GET)
+//	public String updatePostReport(@RequestParam("refId") String refId, Model model, HttpSession session ) throws Exception {
+//		
+//		System.out.println(this.getClass()+"updatePostReport Strat");
+//		
+//		adminservice.updatePostReport(refId);
+//		
+//		return "forward:/view/admin/getReportList.jsp";
+//		
+//	}
+//	
+//	@RequestMapping(value="updateCmtReport", method=RequestMethod.GET)
+//	public String updateCmtReport(@RequestParam("refId") String refId, Model model, HttpSession session ) throws Exception {
+//		
+//		System.out.println(this.getClass()+"updateCmtReport Strat");
+//		
+//		adminservice.updateCommReport(refId);
+//		
+//		return "forward:/view/admin/getReportList.jsp";
+//		
+//	}
+	
 	
 	
 }//end of class

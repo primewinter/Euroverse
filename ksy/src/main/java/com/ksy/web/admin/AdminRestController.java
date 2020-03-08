@@ -146,5 +146,27 @@ public class AdminRestController {
 		System.out.println("\n\ndeleteQnaComm End\n\n");
 	}
 	
+	//게시글규제
+	@RequestMapping(value="json/updatePostReport/{refId}", method = RequestMethod.GET)
+	public void updatePostReport(@PathVariable String refId) throws Exception {
+		
+		System.out.println("\n\nAdminComtroller updatePostReport\n\n");
+		
+		System.out.println("postId==>"+refId);
+		
+		adminService.updatePostReport(refId);
+	}
+	
+	//댓글규제
+	@RequestMapping(value="json/updateCmtReport/{refId}", method = RequestMethod.GET)
+	public void updateCmtReport(@PathVariable String refId) throws Exception {
+		
+		System.out.println("\n\nAdminComtroller updateCmtReport\n\n");
+		
+		System.out.println("cmtId==>"+refId);
+		
+		adminService.updateCommReport(refId);
+	}
+	
 
 }

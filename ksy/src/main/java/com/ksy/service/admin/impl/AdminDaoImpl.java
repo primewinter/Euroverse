@@ -13,6 +13,7 @@ import com.ksy.common.Search;
 import com.ksy.service.admin.AdminDao;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Post;
+import com.ksy.service.domain.Report;
 import com.ksy.service.domain.User;
 
 @Repository("adminDaoImpl")
@@ -115,57 +116,36 @@ public class AdminDaoImpl implements AdminDao {
 	
 	//관리자 신고게시판 게시글 조회
 	@Override
-	public List<Post> getPostReportList(Search search, String boardName) throws Exception{
+	public List<Report> getPostReportList(Search search) throws Exception{
 		
 		System.out.println("AdminDaoImpl getPostReportList");
 		
-		Map<String,Object> map = new HashMap<String,Object>();
-		
-		map.put("search", search);
-		map.put("boardName", boardName);
-		
-		return sqlSession.selectList("AdminMapper.getPostReportList", map);
+		return sqlSession.selectList("AdminMapper.getPostReportList", search);
 	}
 	
 
 	
 	//관리자 신고게시판 게시글 총개수
 	@Override
-	public int getPostReportTotalCount(Search search, String boardName) throws Exception {
+	public int getPostReportTotalCount(Search search) throws Exception {
 		
-		Map<String, Object> map=new HashMap<String, Object>();
-		
-		map.put("search", search);
-		map.put("boardName", boardName);
-		
-		return sqlSession.selectOne("AdminMapper.getPostReportTotalCount", map);
+		return sqlSession.selectOne("AdminMapper.getPostReportTotalCount", search);
 	}
 	
 	//관리자 신고게시판 댓글 조회
 	@Override
-	public List<Comment> getCommentReportList(Search search, String userId, String postId) throws Exception{
+	public List<Report> getCommentReportList(Search search) throws Exception{
 		
 		System.out.println("AdminDaoImpl getCommentReportList");
 		
-		Map<String, Object> map = new HashMap<String,Object>();
-		
-		map.put("search", search);
-		map.put("userId", userId);
-		map.put("postId", postId);
-		
-		return sqlSession.selectList("AdminMapper.getCommentReportList",map);
+		return sqlSession.selectList("AdminMapper.getCommentReportList",search);
 	}
 	
 	// 관리자 신고게시판 댓글 총개수
 	@Override
-	public int getCommentReportTotalCount(Search search, String postId) throws Exception {
+	public int getCommentReportTotalCount(Search search) throws Exception {
 		
-		Map<String, Object> map=new HashMap<String, Object>();
-		
-		map.put("search", search);
-		map.put("postId", postId);
-		
-		return sqlSession.selectOne("AdminMapper.getCommentReportTotalCount", map);
+		return sqlSession.selectOne("AdminMapper.getCommentReportTotalCount", search);
 	}
 	
 }

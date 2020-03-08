@@ -38,15 +38,13 @@ public interface AdminDao {
 	
 	public void backUpQnaGrade(String postId) throws Exception;
 	
-	public List<Post> getPostReportList(Search search, String boardName) throws Exception;
+	public List<Report> getPostReportList(Search search) throws Exception;
 	
-	public List<Comment> getCommentReportList(Search search, String userId, String postId) throws Exception;
+	public List<Report> getCommentReportList(Search search) throws Exception;
 	
-	public int getPostReportTotalCount(Search search, String boardName) throws Exception;
+	public int getPostReportTotalCount(Search search) throws Exception;
 	
-	public int getCommentReportTotalCount(Search search, String postId) throws Exception;
-	
-	
+	public int getCommentReportTotalCount(Search search) throws Exception;
 	
 	
 }
