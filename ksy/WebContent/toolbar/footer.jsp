@@ -5,7 +5,7 @@
     	border-top: #D2D8DE thin solid;
         //background-color: #D2D8DE;
         color: white;
-        margin-top: 150px;
+        margin-top: 100px;
         margin-bottom: 0px;
         z-index: -1;
         bottom: 0px;
