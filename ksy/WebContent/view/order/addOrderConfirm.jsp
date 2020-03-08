@@ -80,8 +80,10 @@
 					  <tbody>
 					    <tr>
 					      <th scope="row">${flight.airline}</th>
-					      <td>${flight.depTime}</td>
-					      <td>${flight.arrTime}</td>
+					       <td>${flight.depDate.substring(0,4)}/${flight.depDate.substring(4,6)}/${flight.depDate.substring(6,8)} &nbsp;&nbsp;${flight.depTime}</td>
+					      <c:if test="${flight.tripCourse == 'R' }" >
+					      <td>${flight.arrDate.substring(0,4)}/${flight.arrDate.substring(4,6)}/${flight.arrDate.substring(6,8)} &nbsp;&nbsp;${flight.arrTime}</td>
+					      </c:if>
 					      <td>${flight.stopOver}</td>
 					      <td>${flight.leadTime}</td>
 					       <c:if test="${flight.tripCourse == 'R' }">
@@ -113,8 +115,8 @@
 					  <tbody>
 					    <tr>
 					      <th scope="row">${room.roomName}</th>
-					      <td>${room.checkIn}</td>
-					      <td>${room.checkOut}</td>
+					       <td>${room.checkIn.substring(0,6)}/${room.checkIn.substring(6,8)}/${room.checkIn.substring(8,10)}</td>
+			    		  <td>${room.checkOut.substring(0,6)}/${room.checkOut.substring(6,8)}/${room.checkOut.substring(8,10)}</td>
 					      <td>${room.roomNum} 개</td>
 					      <td>성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
 					      <td><fmt:formatNumber value="${room.price}" pattern="###,###" />원</td>
@@ -149,7 +151,7 @@
 		             <div class="col-sm-2" style="Padding-left:30px;">
 		            		 포인트 할인
 		                    <div class="row">
-		                    	<div id="usedPoint" style="Padding-left:20px;"> -${order.usedPoint} P</div>
+		                    	<div id="usedPoint" style="Padding-left:20px;"> -${order.payPoint} P</div>
 		            		</div>
 		             </div>
 	             <div class="col-sm-1">
@@ -165,7 +167,7 @@
 			<br/>
 			<hr style="width:50%;float:left;margin-right:700px;" />
 			
-				<div class="row" style="Padding-left:190px;">
+				<div class="row" style="Padding-left:180px;">
 					<div class="col-sm-1" style="margin-top:10px;">
 						<i class="fas fa-plus"></i>
 					</div>

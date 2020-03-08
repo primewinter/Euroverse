@@ -118,7 +118,8 @@
         function order(orderId) {
             var orderState = $('#' + orderId + ' option:selected').val();
             console.log("orderId " + orderId);
-            if (orderState == 'A') {
+            console.log("orderState " + orderState);
+            if (orderState == 'R') {
 
                 $("#refundmodal3").modal('show');
                 var orderIds = $("#confirmModal3Id").val(orderId);
@@ -271,7 +272,7 @@
                             </th>
                             <td id="refund">${flight.airline}</td>
                             <td>${flight.depCity} - ${flight.arrCity}<br />${flight.depDate} ${flight.depTime} - ${flight.arrDate} ${flight.arrTime}</td>
-                            <td>buyerId</td>
+                            <td>${flight.buyerId }</td>
                             <td id="appendStatus">
                                 <fmt:formatNumber value="${flight.price}" pattern="###,###" />원</td>
                             <td>${flight.orderDate}</td>
@@ -334,7 +335,7 @@
                             <td>${room.roomName}<br />${room.roomCity}</td>
                             <td>${room.checkIn} - ${room.checkOut }</td>
                             <td>${room.roomNum}개<br /><i class="fas fa-child"></i> ${room.adultNum}명, <i class="fas fa-baby"></i> ${room.childNum}명</td>
-                            <td>buyerId</td>
+                            <td>${room.buyerId }</td>
                             <td>
                                 <fmt:formatNumber value="${room.price}" pattern="###,###" />원</td>
                             <td>${room.orderDate}</td>
@@ -352,7 +353,7 @@
                                 </c:if>
                                 <c:if test="${room.orderStatus == 'R' }">
                                     <select class="custom-select custom-select-sm" name="orderStatus" onChange="order2('${room.orderId}')" id="${room.orderId }" style="">
-                                        <option selected value="3">환불처리중</option>
+                                        <option selected value="R">환불처리중</option>
                                         <option value="4" id="4">환불완료</option>
                                     </select>
                                 </c:if>

@@ -59,7 +59,7 @@ public class OrderRestController {
 		System.out.println("/order/json/updateOrderStatus : GET");
 		Order order = new Order();
 		order.setOrderId(orderId);
-		order.setOrderStatus("3");
+		order.setOrderStatus("R");
 		
 		
 		Map<String, Object> map = orderService.getOrderRefund(order);
