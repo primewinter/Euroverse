@@ -57,7 +57,7 @@
 
 
         div.addQnA {
-            width: 80%;
+            width: 100%;
             padding: 2em;
         }
 
@@ -67,7 +67,7 @@
         }
 
         div.QnAList {
-            width: 80%;
+            width: 100%;
             margin: auto;
             padding: 0.5em;
         }
@@ -397,10 +397,10 @@
     <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
     <jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 
-    <div>
-        <div class="row">
+	<div class="row">
             <jsp:include page="/view/user/userSideBar.jsp"/>
-            <div sytle="width:60%;margin-left:5%;">
+            
+        <div style="width:60%;margin-left:5%;">
             
 
     <form id="qnaForm">
@@ -525,7 +525,7 @@
         </c:forEach>
     </div>
         </div>
-
+    </div>
     <jsp:include page="../../common/pageNavigator_new.jsp" />
 
     <script>

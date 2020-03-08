@@ -86,12 +86,14 @@
 </head>
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>	
     <!-- <div style="height: 100px;"></div> -->
 
-
-	<div class="container" style="width:60%;margin:auto;">
+		<div class="row">
+            <jsp:include page="/view/user/userSideBar.jsp"/>
+            
+        <div style="width:60%;margin-left:5%;">
+	<div class="container" style="width:100%;margin:auto;">
 	
 	
 	
@@ -164,7 +166,8 @@
 		</table>
 	
 		<jsp:include page="../../common/pageNavigator_new.jsp"/>
-
+            </div>
+            </div>
 	</div>
 </body>
 	<jsp:include page="/toolbar/footer.jsp"></jsp:include>

@@ -139,10 +139,10 @@
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
-	<div>
-        <div class="row">
+		<div class="row">
             <jsp:include page="/view/user/userSideBar.jsp"/>
-            <div sytle="width:80%;margin-left:10%;">
+            
+        <div style="width:60%;margin-left:5%;">
 	<div class="container" style="width:100%;">
 	
 		<!--<div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;">
@@ -247,7 +247,6 @@
 	</div>	
             </div>
         </div>
-    </div>
 	
 	
 </body>

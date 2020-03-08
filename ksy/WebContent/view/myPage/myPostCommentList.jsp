@@ -106,7 +106,6 @@
 
 <body>
     <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-    <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
     <jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 
     <form id="myPostCommentListForm">
@@ -117,8 +116,11 @@
         </c:if>
     </form>
 
-
-    <div class="container" style="width:60%;margin:auto;">
+		<div class="row">
+            <jsp:include page="/view/user/userSideBar.jsp"/>
+            
+        <div style="width:60%;margin-left:5%;">
+    <div class="container" style="width:100%;margin:auto;">
      <!--   <div>
             <div class="btn-group" role="group" aria-label="Basic example" style="margin-left: 10px;">
                 <button type="button" class="btn btn-outline-primary" id="viewPost">°Ô½Ã±Û</button>
@@ -302,7 +304,7 @@
     <jsp:include page="../../common/pageNavigator_new2.jsp" />
 
     </div>
-
+            </div>
     </div>
 
     <jsp:include page="/toolbar/footer.jsp"></jsp:include>
