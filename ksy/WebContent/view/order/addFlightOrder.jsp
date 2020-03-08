@@ -393,7 +393,9 @@
 			    <tr>
 			      <th scope="col">항공사</th>
 			      <th scope="col">출발시간</th>
+			      <c:if test="${flight.tripCourse == 'R' }" >
 			      <th scope="col">도착시간</th>
+			      </c:if>
 			      <th scope="col">경유</th>
 			      <th scope="col">소요시간</th>
 			      <th scope="col">구간</th>
@@ -404,7 +406,9 @@
 			    <tr>
 			      <th scope="row">${flight.airline}</th>
 			      <td>${flight.depDate.substring(0,4)}/${flight.depDate.substring(4,6)}/${flight.depDate.substring(6,8)} ${flight.depTime}</td>
+			      <c:if test="${flight.tripCourse == 'R' }" >
 			      <td>${flight.arrDate.substring(0,4)}/${flight.arrDate.substring(4,6)}/${flight.arrDate.substring(6,8)} ${flight.arrTime}</td>
+			      </c:if>
 			      <td>${flight.stopOver}</td>
 			      <td>${flight.leadTime}</td>
 			        <c:if test="${flight.tripCourse == 'R' }">
