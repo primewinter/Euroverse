@@ -11,12 +11,66 @@ public class Report {
 	private String reportReason;//report_reason 욕설(F) , 음란물(A) , 허위사실(R)   
 	private String reportContent;//report_content
 	private Timestamp reportDate;//report_date 
+	private String blocked;//신고된 게시글 blocked false 처리
+	private String postTitle;//신고된 게시글제목
+	private String cmtContent;//신고된 댓글내용
+	private int cmtCount;// 게시글에 댓글개수
 	
 	
 	
 	public Report() {
 		
 	}
+	
+	
+
+	public String getBlocked() {
+		return blocked;
+	}
+
+
+
+	public void setBlocked(String blocked) {
+		this.blocked = blocked;
+	}
+
+
+
+	public String getPostTitle() {
+		return postTitle;
+	}
+
+
+
+	public void setPostTitle(String postTitle) {
+		this.postTitle = postTitle;
+	}
+
+
+
+	public String getCmtContent() {
+		return cmtContent;
+	}
+
+
+
+	public void setCmtContent(String cmtContent) {
+		this.cmtContent = cmtContent;
+	}
+
+
+
+	public int getCmtCount() {
+		return cmtCount;
+	}
+
+
+
+	public void setCmtCount(int cmtCount) {
+		this.cmtCount = cmtCount;
+	}
+
+
 
 	public String getReportId() {
 		return reportId;
@@ -106,7 +160,8 @@ public class Report {
 	public String toString() {
 		return "Report [reportId=" + reportId + ", reportUserId=" + reportUserId + ", refId=" + refId
 				+ ", reportTarget=" + reportTarget + ", reportReason=" + reportReason + ", reportContent="
-				+ reportContent + ", reportDate=" + reportDate + "]";
+				+ reportContent + ", reportDate=" + reportDate + ", blocked=" + blocked + ", postTitle=" + postTitle
+				+ ", cmtContent=" + cmtContent + ", cmtCount=" + cmtCount + "]";
 	}
 	
 	

@@ -13,6 +13,7 @@ import com.ksy.service.admin.AdminDao;
 import com.ksy.service.admin.AdminService;
 import com.ksy.service.domain.Comment;
 import com.ksy.service.domain.Post;
+import com.ksy.service.domain.Report;
 import com.ksy.service.domain.User;
 import com.ksy.service.myPage.MyPageDao;
 import com.ksy.service.user.UserDao;
@@ -31,7 +32,7 @@ public class AdminServiceImpl implements AdminService {
 	public AdminServiceImpl() {
 		// TODO Auto-generated constructor stub
 	}
-
+	//회원목록조회
 	@Override
 	public Map<String, Object> getUserList(Search search) throws Exception {
 		
@@ -46,22 +47,18 @@ public class AdminServiceImpl implements AdminService {
 		
 		return map;
 	}
+
+
 	@Override
-	public void updatePostReport(String postId) throws Exception{
+	public void addQnaComment(Comment comment) throws Exception {
 		
-		System.out.println("AdminServiceImpl updatePostReport");
+		System.out.println("AdminServiceImpl addQnaComment");
 		
-		adminDao.updatePostReport(postId);
+		adminDao.addQnaComment(comment);
 		
 	}
-	@Override
-	public void updateCommReport(String commId) throws Exception {
-		
-		System.out.println("AdminServiceImpl updateCommReport");
-		
-		adminDao.updateCommReport(commId);
-		
-	}
+	
+
 	@Override
 	public Map<String,Object> getQnaCommentList(String postId) throws Exception {
 		
@@ -73,14 +70,6 @@ public class AdminServiceImpl implements AdminService {
 		map.put("list", list);
 		
 		return map;
-	}
-	@Override
-	public void addQnaComment(Comment comment) throws Exception {
-		
-		System.out.println("AdminServiceImpl addQnaComment");
-		
-		adminDao.addQnaComment(comment);
-		
 	}
 	
 	//관리자qna 리스트 조회
@@ -122,12 +111,12 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public Map<String,Object> getPostReportList(Search search, String boardName) throws Exception{
+	public Map<String,Object> getPostReportList(Search search) throws Exception{
 		
 		System.out.println(this.getClass()+"getPostReportList");
 		
-		List<Post> list= adminDao.getPostReportList(search, boardName);
-		int totalCount = adminDao.getPostReportTotalCount(search, boardName);
+		List<Report> list= adminDao.getPostReportList(search);
+		int totalCount = adminDao.getPostReportTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );
@@ -138,10 +127,10 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public Map<String , Object> getCommentList(Search search, String postId, String userId) throws Exception {
+	public Map<String , Object> getCommentReportList(Search search) throws Exception {
 		
-		List<Comment> list= adminDao.getCommentReportList(search, userId, postId);
-		int totalCount = adminDao.getCommentReportTotalCount(search, postId);
+		List<Report> list= adminDao.getCommentReportList(search);
+		int totalCount = adminDao.getCommentReportTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list );
@@ -151,6 +140,27 @@ public class AdminServiceImpl implements AdminService {
 		
 		return map;
 	}
+	
+	//관리자가 댓글규제 ==> blocked = 'F' => 'T'
+	@Override
+	public void updateCommReport(String commId) throws Exception {
+		
+		System.out.println("AdminServiceImpl updateCommReport");
+		
+		adminDao.updateCommReport(commId);
+		
+	}
+	
+	//관리자가 게시글 ==> blocked = 'F' => 'T'
+	@Override
+	public void updatePostReport(String postId) throws Exception{
+		
+		System.out.println("AdminServiceImpl updatePostReport");
+		
+		adminDao.updatePostReport(postId);
+		
+	}
+
 	
 	
 }
