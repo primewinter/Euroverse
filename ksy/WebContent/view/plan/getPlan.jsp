@@ -215,7 +215,7 @@
 		}
       
       .list-container{
-      	margin-right: 280px;
+      	margin-right: 300px;
       	//width:75%;
       	//min-width: 550px;
       }
@@ -346,7 +346,7 @@
 	    max-height: 85%;
 	    list-style-type: none; 
 	    margin: 8px;
-	    padding: 5px; 
+	    padding: 6px 9px; 
 	    float: left;
 	    overflow: hidden auto;
 	    font-size: 14px;
@@ -1711,7 +1711,7 @@
 				
 				var coordinates = $memo.offset();
 				var memoLeft2 = coordinates.left - left_minus - 30;
-				var memoTop2 = coordinates.top - top_minus - 95;
+				var memoTop2 = coordinates.top - top_minus - 113;
 				console.log("coordinates = "+ memoLeft2 +"/"+ memoTop2 );
 				
 				var memoId = $memo.find('.memo_id').text();
@@ -2787,7 +2787,7 @@
 	        
 	      </div>
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('inviteUser')">Close</button>
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('inviteUser')">취소</button>
 	        <button type="button" class="btn btn-primary" id="addOffer">초대하기</button>
 	      </div>
 	    </div>
@@ -2845,6 +2845,7 @@
 	      </div>
 	      
 	      <div class="modal-body text-center">
+	      <br/>
 	        ${plan.startDateString} 부터 ${plan.endDate} 까지
 	        <br/>
 	        <span style="font-size:20px; color:#00AACC; font-weight:bold;">${plan.planTitle}</span> <span style="font-size:17px;"> 즐겁게 다녀오셨나요?</span>
@@ -2852,10 +2853,11 @@
 	        
 	        <span style="font-weight:bold;">여행완료 확정</span> 시 <br/>
 	        	내 여행정보 통계에 플래너 정보가 등록됩니다.
+	        	<br/><br/>
 	      </div>
 	      
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('planCompleteAlert')">Close</button>
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('planCompleteAlert')">취소</button>
 	        <button type="button" class="btn btn-primary" id="planComplete">여행완료 확정</button>
 	      </div>
 	    </div>
@@ -2888,7 +2890,7 @@
 	      </div>
 	      
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('uploadPlanAlert')">Close</button>
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="closeModal('uploadPlanAlert')">취소</button>
 	        <button type="button" class="btn btn-primary" id="uploadPlan">플래너 공유</button>
 	      </div>
 	    </div>
@@ -3182,7 +3184,7 @@
 			map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(leftControlDiv);
 			
 			var rightControlDiv = document.createElement('div');
-			var thtml2 = '<div class="text-center rounded-circle" style="margin:15px;font-weight:900; color:white; font-size:11pt;border:solid 1.3px #A6A6A6; padding:8px; background-color:#0080A0;"><div style="margin:5px;"><span style="font-size:27px;">'+ ${plan.planTotalDays} +'</span> 일</div></div>';
+			var thtml2 = '<div class="text-center rounded-circle" style="margin:15px;font-weight:900; color:white; font-size:11pt;border:solid 1.3px #818181; padding:8px; background-color:#0080A0;"><div style="margin:5px;"><span style="font-size:27px;">'+ ${plan.planTotalDays} +'</span> 일</div></div>';
 			rightControlDiv.innerHTML = thtml2;
 			map.controls[google.maps.ControlPosition.RIGHT_TOP].push(rightControlDiv);
 		    
