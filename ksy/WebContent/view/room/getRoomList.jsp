@@ -29,7 +29,8 @@
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	  body {
-			font-family: "Nanum Gothic", "Malgun Gothic", "돋움", Dotum, "돋움", Dotum, Arial, Helvetica, sans-serif;
+/*			font-family: "Nanum Gothic", "Malgun Gothic", "돋움", Dotum, "돋움", Dotum, Arial, Helvetica, sans-serif;*/
+          font-family: "Nanum Gothic";
         }
         
        /* 로딩용 css */

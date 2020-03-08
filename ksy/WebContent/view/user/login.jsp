@@ -299,7 +299,7 @@
 			                <img alt="" src="/resources/images/userImages/login.jpg" width="500px" height="398px;" style="margin-left: -20px;margin-top: -16px;">
 	                <form id="modalForm" style="margin-left: 500px;margin-top: -380px;font-family: 'NIXGONM-Vb';"> 
 	                	<div style="text-align: center; height: 110px;">
-	                		<img alt="" src="/resources/images/icon/euroverse_text.png" width="150px" height="80px;">
+	                		<img alt="" src="/resources/images/icon/euroverse_text.png" width="150px" height="auto;">
 	                	</div>
 	                	
 	                	

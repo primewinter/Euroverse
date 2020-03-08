@@ -32,9 +32,9 @@
 		
 		/* Sidebar */
 		.sidebar {
-		  position: fixed;
+		 /* position: fixed;
 		  top: 300px;
-		  bottom: 0;
+		  bottom: 0;*/
 		  left: 0;
 		  z-index: 40; /* Behind the navbar */
 		  padding: 48px 0 0; /* Height of navbar */
@@ -249,7 +249,7 @@
           
           <li class="nav-item">
             <a class="nav-link scroll" href="#O">
-              플래너 초대 / 동행 신청  &nbsp; <span data-feather="users"></span>
+              플래너 초대 &nbsp; <span data-feather="users"></span>
             </a>
           </li>
           <li class="nav-item">

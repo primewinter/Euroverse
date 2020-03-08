@@ -35,6 +35,15 @@
             margin-top: 10px;
             
         }
+         .orderForm, table{
+            font-size: 11pt;
+        }
+        div.h4 {
+            display: inline-block;
+            background-color:#ffde3e;
+            font-family: 'NIXGONM-Vb';
+            font-weight: bold;
+        }
         
         #reserInfo {
         line-height: 1.2;
@@ -131,7 +140,7 @@
     
     
     $( function () {
-    	$('.btn.btn-primary').on('click' , function () {
+    	$('.btn.btn-info').on('click' , function () {
     		var actualAmount = $("#actualAmount").val();
     		var payPoint = $("#payPoint").val(); //사용할 포인트
 	    	
@@ -221,7 +230,7 @@
   /* ================================= 현금결제 ================================================ */
     
     $( function () {
-    	$('.btn.btn-primary').on('click' , function () {
+    	$('.btn.btn-info').on('click' , function () {
     		var card = $("input[name='payOpt']:checked").val();
     		//alert(card);
     		var pay = $("#pay").val();
@@ -386,8 +395,8 @@
 	
 	
 	<input type="hidden" name="totalPoint" value= "${user.totalPoint }" id="totalPoint"/>
-	<i class="fas fa-bed" id="iconf" style="Padding-left:20px;font-size:40px;" ></i>
-	<br/>
+	<div class="h4">숙소 정보</div>
+	<br>
 		<table class="table">
 			  <thead>
 			    <tr>
@@ -402,8 +411,8 @@
 			  <tbody>
 			    <tr>
 			      <th scope="row">${room.roomName}</th>
-			      <td>${room.checkIn}</td>
-			      <td>${room.checkOut}</td>
+			      <td>${room.checkIn.substring(0,6)}/${room.checkIn.substring(6,8)}/${room.checkIn.substring(8,10)}</td>
+			      <td>${room.checkOut.substring(0,6)}/${room.checkOut.substring(6,8)}/${room.checkOut.substring(8,10)}</td>
 			      <td>${room.roomNum} 개</td>
 			      <td>성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
 			      <td><fmt:formatNumber value="${room.price}" pattern="###,###" /> 원</td>
@@ -412,10 +421,10 @@
 			  
 			</table>
 			<br/><br/>
-			<h4 align="left">주문자 정보</h4>
+			<div class="h4">주문자 정보</div>
 			
 		
-			<div class="input-group">
+			<div class="input-group input-group-sm">
 			  <div class="input-group-prepend">
 			      	<input type="radio"  checked="checked" id="basic" value="0" name="info" style="margin-top:5px;margin-right:10px;">기존 정보 가져오기 &nbsp;&nbsp;
  					<input type="radio" name="info" id="new" onclick="news()" value="1" style="margin-top:5px;margin-right:10px;">새로운 정보 입력
@@ -466,7 +475,7 @@
                  	<hr/>
                  	<div class="row">
                  	<p style="">전화번호 *</p>&nbsp;&nbsp;&nbsp;
-	                   		<select title="휴대전화 식별번호를 선택해주세요."  class="form-control" style="width:170px;" id="mobile0">
+	                   		<select title="휴대전화 식별번호를 선택해주세요."  class="form-control form-control-sm" style="width:170px;" id="mobile0">
 	                          <option value="">선택</option>
 	                          <option value="010">010</option>
 	                          <option value="011">011</option>
@@ -476,15 +485,15 @@
 	                          <option value="019">019</option>
 	                        </select>
 	                    <p style="Padding-left:10px;">-</p>&nbsp;&nbsp;&nbsp;
-	                        <input type="text" title="휴대전화 국번을 입력해주세요." style="width:170px;" class="form-control" maxlength="4" id="mobile1" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
+	                        <input type="text" title="휴대전화 국번을 입력해주세요." style="width:170px;" class="form-control form-control-sm" maxlength="4" id="mobile1" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
 	                   	<p style="Padding-left:10px;">-</p>&nbsp;&nbsp;&nbsp;
-	                   		<input type="text" title="휴대전화 뒷자리를 입력해주세요." style="width:170px;" class="form-control" maxlength="4" id="mobile2" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
+	                   		<input type="text" title="휴대전화 뒷자리를 입력해주세요." style="width:170px;" class="form-control form-control-sm" maxlength="4" id="mobile2" onkeyup="this.value=this.value.replace(/[^-0-9]/g,'');" onblur="this.value=this.value.replace(/[^-0-9]/g,'');">
                  	</div>
                   </div>
 			<br/><br/>
 			
 			<br/>	
-			<h4 align="left">결제 정보</h4>
+			<div class="h4">결제 정보</div>
 			
 			<div class="input-group">
 			  <div class="input-group-prepend">
@@ -544,7 +553,7 @@
 		<br/><br/>
 		<div class="form-group" align="center">
    		 <div class="col-sm-offset-4  col-sm-4 text-center">
-		<button type="button" class="btn btn-primary" id="order" >예약하기</button>
+		<button type="button" class="btn btn-info" id="order" >예약하기</button>
 		<input type="hidden" name="actualAmount" value= "${order.actualAmount }"/>
 		<input type="hidden" name="usedPoint" value= "${point.usedPoint }"/>
 		<input type="hidden" name="totalAmount" value= "${order.totalAmount }"/>

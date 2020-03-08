@@ -104,8 +104,10 @@
     #euroverse-logo {
         position: relative;
         z-index: 5;
-        width: 300px;
+        width: 200px;
         height: auto;
+        margin-top:10px;
+        margin-bottom: 5px;
     }
 
     #euroverse-logo.shrink {
@@ -290,6 +292,10 @@
     .admin-submenu:hover {
         display: block;
     }
+    .take-a-trip {
+        font-size: 11pt;
+        margin-bottom: 10px;
+    }
 
 </style>
 
@@ -302,7 +308,9 @@
                 <a href="/main.jsp"><img src='/resources/images/icon/euroverse_text2.png' style="width:auto;height: 70px;"></a>
             </div>
             <div class="nav-scroller  mb-2 toolbar-logo">
-                <a href="/main.jsp"><img id='euroverse-logo' src='/resources/images/icon/euroverse_text2.png'></a>
+                <a href="/main.jsp"><img id='euroverse-logo' src='/resources/images/icon/euroverse_text3.png'></a>
+                <br/>
+                <span class='take-a-trip'>T A K E&nbsp;&nbsp;A&nbsp;&nbsp;T R I P</span>
             </div>
             <div class="login-control">
                 <c:if test="${user.userId == null}">
@@ -477,7 +485,7 @@
             $('div.login-control').removeClass('shrink');
         }
 
-        if ($(document).scrollTop() > 230) {
+        if ($(document).scrollTop() > 170) {
             $('.shrink-logo').show();
         } else {
             $('.shrink-logo').hide();
