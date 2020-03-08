@@ -148,7 +148,7 @@
     div.push-bar-menu {
         position: fixed;
         display: table;
-        top: 5px;
+        top: 8px;
         right: 10px;
         z-index: 9999;
     }
@@ -156,7 +156,7 @@
     div.push-bar-menu.shrink {
         position: fixed;
         display: table;
-        top: 30px;
+        top: 26px;
         right: 10px;
         z-index: 9999;
     }
@@ -607,7 +607,7 @@
             success: function(result) {
                 console.log("채팅방 조회 성공");
                 if (result.length == 0 ) {
-                    $(".accLobby.content").html("<p style='margin:1em;font-size:10pt;text-align:center;color:#999999'><i class=\"far fa-question-circle fa-2x\"></i><br/>참여 중인 동행이 없습니다.<br/>휴대폰 본인인증 절차를 거친 후 동행에 참여하실 수 있습니다.</p>");
+                    $(".accLobby.content").html("<p style='margin:1em;font-size:10pt;text-align:center;color:#999999'><i class=\"far fa-question-circle fa-2x\"></i><br/>참여 중인 동행 채팅이 없습니다.<br/>휴대폰 본인인증 절차를 거친 후 동행에 참여하실 수 있습니다.</p>");
                 } else {
                     showRoomList(result);
                 }

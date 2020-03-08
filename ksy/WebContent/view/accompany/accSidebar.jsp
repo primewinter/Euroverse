@@ -12,12 +12,12 @@
 	<style type="text/css">
 		/* body {
 		  font-size: .875rem;
-		} 
+		} */
 		.feather {
 		  width: 16px;
 		  height: 16px;
 		  vertical-align: text-bottom;
-		}*/
+		}
 		
 		/* Sidebar */
 		.sidebar {
@@ -54,7 +54,7 @@
 		  color: #999;
 		}
 		.sidebar .nav-link.active {
-		  color: #007bff;
+		  color: #00c2c7;
 		}
 		.sidebar .nav-link:hover .feather,
 		.sidebar .nav-link.active .feather {
@@ -143,7 +143,7 @@
         <ul class="nav flex-column" style="text-align: right;">
           <li class="nav-item">
             <a class="nav-link" href="#C">
-              동행찾기 &nbsp; <span data-feather="star"></span>
+              동행찾기 &nbsp; <span data-feather="users"></span>
             </a>
           </li>
           
@@ -151,12 +151,12 @@
           
           <li class="nav-item">
             <a class="nav-link scroll" href="#E">
-              참여중인 동행 &nbsp; <span data-feather="cloud"></span>
+              참여중인 동행 &nbsp; <span data-feather="message-square"></span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link scroll" href="#E">
-              동행신청 목록 &nbsp; <span data-feather="cloud"></span>
+              동행신청 목록 &nbsp; <span data-feather="send"></span>
             </a>
           </li>
          <!-- <li class="nav-item">

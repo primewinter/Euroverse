@@ -81,13 +81,13 @@
 
 
     main section {
-        margin-top: 0.5em;
         margin-left: 5em;
         margin-right: 5em;
     }
 
     section.main-infinite {
-        margin: 10%;
+        width:80%;
+        margin:auto;
     }
 
     section.random-text {
@@ -600,7 +600,7 @@
     section.owl-review-section {
         /*        background-color: #f33f02;*/
         position: relative;
-        padding-top: 80px;
+        padding-top: 0px;
 
         &:after {
             content: '';
@@ -643,6 +643,7 @@
     .owl-carousel .owl-nav [class*='owl-'] {
         -webkit-transition: all .3s ease;
         transition: all .3s ease;
+        height;0px;
     }
 
     .owl-carousel .owl-nav [class*='owl-'].disabled:hover {
@@ -689,6 +690,9 @@
 
     div.item-body>p {
         color: #999999;
+    }
+    div.owl-dots {
+        height: 0px;
     }
 
     div.owl-stage-outer {
@@ -811,7 +815,7 @@
         <hr>
 
         <section class="main-infinite">
-           <div class="card" style="display: inline-block;float:left;padding:1em;width:40%;text-align: center;padding-top:2.5em;padding-left:2.5em;padding-right:2.5em;">
+           <div class="card" style="display: inline-block;float:left;padding:1em;width:40%;text-align: center;padding-top:3em;padding-left:2.5em;padding-right:2.5em;">
            <!-- <div style="text-align:left;font-size:20pt;padding-left:0.5em;"><i class="fab fa-instagram"></i><br></div>-->
               <figure class="effect5" style="">
                     <img id="infinityClick" src="https://tistory4.daumcdn.net/tistory/2141493/skin/images/simg06.png">
@@ -845,11 +849,10 @@
                     <br><br>
                     <div class="input-group cur-result">
                         <div class="countryMoney">
-                            <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()" style="width:150px;"> 원
-                            <i class="fas fa-angle-double-right" style="margin-left:30px;margin-right:30px;"></i>
-                            <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="" style="width:150px;">
-                            <span class='text'>
+                            <input type="text" name='conMoney1' class="form-control" placeholder="국가를 선택하세요" aria-describedby="addon-wrapping" value="" onkeydown="exchange()" style="width:150px;"> <span class='text'>
                             </span>
+                            <i class="fas fa-angle-double-right" style="margin-left:30px;margin-right:30px;"></i>
+                            <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="" style="width:150px;"> 원
                         </div>
                     </div>
                 </div>
@@ -1318,6 +1321,7 @@
 
                         var mon = $(".swiper-slide.on>a").attr('mon');
                          $('#result').val('');
+//                        $('input[name="conMoney1"]').val('');
 
                         if (mon == undefined) {
                             $("#result").val("국가를 선택하세요");
@@ -1325,6 +1329,9 @@
                         }
 
                         var price = $("input[name='conMoney1']").val();
+//                         var price = $("#result").val();
+                        
+                        
                         /* var num = price/ data.rates[cur] */
 
                         var num = Math.round(price.match(/\d+/) /
@@ -1335,6 +1342,8 @@
                         num = num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 
                         $('#result').val(num);
+//                        $('input[name="conMoney1"]').val(num);
+                        
                     })
             }
         }

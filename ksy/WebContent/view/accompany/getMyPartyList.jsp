@@ -110,7 +110,7 @@
 			참여중인 동행
 	    </div>
 
-	 <div class="row" style="font-family: 'Gothic A1', sans-serif;">
+	 <div class="row" style="text-align: center;">
        
              <c:set var="i" value="0" />
              <c:forEach var="partyList" items="${list}">
@@ -161,6 +161,10 @@
 			 </div>
              </c:forEach>
          </div>
+          <c:if test="${empty list}">
+             <br><br>
+              <div style="text-align: center;">참여 중인 동행이 없습니다.</div>
+             </c:if>
      </div>
 
 	 <jsp:include page="/toolbar/footer.jsp" />

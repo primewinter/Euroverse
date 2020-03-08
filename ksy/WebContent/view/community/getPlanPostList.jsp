@@ -293,7 +293,7 @@
         </div>
         <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 
-        <div class="table-responsive" style="font-size:14px;">
+        <div class="table-responsive" style="font-size:14px;overflow-x: hidden;">
             <!--  table Start /////////////////////////////////////-->
             <table class="table table-hover">
 
@@ -367,7 +367,7 @@
             </table>
         </div>
         <!--  table End /////////////////////////////////////-->
-        <button type="button" id="addpost_view" class="btn btn-dark">작성하기</button>
+        <button type="button" id="addpost_view" class="btn btn-info btn-sm">작성하기</button>
         </div>
     </div>
     <!--  화면구성 div End /////////////////////////////////////-->

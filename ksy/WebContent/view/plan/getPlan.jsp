@@ -274,7 +274,7 @@
 		  color: #999;
 		}
 		.sidebar .nav-link.active {
-		  color: #007bff;
+		  color: #00c2c7;
 		}
 		.sidebar .nav-link:hover .feather,
 		.sidebar .nav-link.active .feather {
