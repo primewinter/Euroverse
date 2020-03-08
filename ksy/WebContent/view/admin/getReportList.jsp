@@ -175,13 +175,15 @@
 			})//ajax
 		}//dispose()
 		
-		$('td:nth-child(6)').on("click", function(){
-			
-			var postId = $(this).val('input[name=postId]');
-			alert(postId);
-			$("form").attr("method" , "GET").attr("action" , "/admin/getPost").submit();	
-			})
-		})
+	/* 	$(function(){
+			$('td:nth-child(6)').on("click", function(){
+				
+				var refId = $(this).find("input[name='refId']").val();
+				var boardName = $(this).find("input[name='boardName']").val();
+				alert(boardName);
+				self.location ="/admin/getPost?postId="+refId;
+				});
+		}); */
 
     </script>
 
@@ -268,11 +270,13 @@
                         <td>${report.refId}</td>
                         <c:if test="${report.postTitle != null }">
                         <td>${report.postTitle}&nbsp;(${report.cmtCount })
-                        <input type="hidden" id="refId" name="refId" value="${report.refId}"/></td>
+                        <input type="hidden" id="refId" name="refId" value="${report.refId}"/>
+                        <input type="hidden" id="boardName" name="boardName" value="${report.boardName }"/></td>
                         </c:if>
                         <c:if test="${report.cmtContent != null }">
                         <td>${report.cmtContent }
-                        <input type="hidden" id="refId" name="refId" value="${report.refId}"/></td>
+                        <input type="hidden" id="refId" name="refId" value="${report.refId}"/>
+                        <input type="hidden" id="boardName" name="boardName" value="${report.boardName }"/></td>
                         </c:if>
                         <td><c:set var="reportDate" value="${fn:split(report.reportDate,' ')}"></c:set>
 						<c:out value="${reportDate[0]}"></c:out></td>
