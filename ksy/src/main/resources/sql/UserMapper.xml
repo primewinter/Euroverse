@@ -300,7 +300,7 @@ from(
 		SELECT
 		user_id , point_id , ref_id , used_type , used_point , used_date
 		from Point
-		WHERE user_id = #{userId}
+		WHERE user_id = #{userId} AND used_point != 0
 		<if test="search.searchKeyword == 'use'">
 			AND (used_type = 'U' OR used_type = 'S')
 		</if>
@@ -317,7 +317,7 @@ WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1 AND #{searc
 		SELECT
 		COUNT(*)
 		from Point
-		WHERE user_id = #{userId}
+		WHERE user_id = #{userId} AND used_point != 0
 		<if test="search.searchKeyword == 'use'">
 			AND (used_type = 'U' OR used_type = 'S')
 		</if>
@@ -518,9 +518,9 @@ FROM(
 	inner_table.*, ROWNUM AS row_seq
 	FROM (
 		SELECT 
-		o.offer_id , o.offer_type , o.ref_id ,  o.offer_msg, o.offer_status, o.from_user_id, o.to_user_id, o.offer_date , p.post_title , u.user_img, u.nickname
-		FROM OFFER o , Post p , Users u
-		WHERE o.to_user_id = #{userId} AND o.offer_type = 'A' AND p.post_id = o.ref_id AND u.user_id = o.to_user_id AND o.offer_status = 'S' AND p.deleted = 'F') inner_table
+		o.offer_id , o.offer_type , o.ref_id ,  o.offer_msg, o.offer_status, o.from_user_id, o.to_user_id, o.offer_date , p.post_title , u2.user_img, u.nickname
+		FROM OFFER o , Post p , Users u , Users u2
+		WHERE o.to_user_id = #{userId} AND u2.user_id = o.from_user_id AND o.offer_type = 'A' AND p.post_id = o.ref_id AND u.user_id = o.to_user_id AND o.offer_status = 'S' AND p.deleted = 'F') inner_table
  	WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage2}*#{search.pageSize} )
 WHERE row_seq BETWEEN (#{search.currentPage2}-1)*#{search.pageSize}+1
 AND #{search.currentPage2}*#{search.pageSize}

@@ -557,10 +557,12 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	<jsp:include page="/toolbar/pushBar.jsp" />
-	<jsp:include page="/view/community/sidebar.jsp"/>
    	<!-- ToolBar End /////////////////////////////////////-->
    	
-   	
+   		<div class="row">
+            <jsp:include page="/view/community/sidebar.jsp"/>
+            
+        <div style="width:60%;margin-left:5%;">
    	<div class="modal" tabindex="-1" role="dialog" id="sendReport" >
 	  <div class="modal-dialog" role="document" style="width:300px;">
 	    <div class="modal-content">
@@ -729,7 +731,7 @@
  	 </div>
  	 
    </div> 
- 	
+            </div>
  	<!-- ´ñ±Û jsp include -->
 	<jsp:include page="/view/community/comment.jsp"/>
 	

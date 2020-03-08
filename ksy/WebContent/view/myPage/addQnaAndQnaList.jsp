@@ -57,7 +57,7 @@
 
 
         div.addQnA {
-            width: 60%;
+            width: 80%;
             padding: 2em;
         }
 
@@ -67,7 +67,7 @@
         }
 
         div.QnAList {
-            width: 60%;
+            width: 80%;
             margin: auto;
             padding: 0.5em;
         }
@@ -395,9 +395,13 @@
 
 <body>
     <jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-    <jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
     <jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 
+    <div>
+        <div class="row">
+            <jsp:include page="/view/user/userSideBar.jsp"/>
+            <div sytle="width:60%;margin-left:5%;">
+            
 
     <form id="qnaForm">
         <input type="hidden" id="currentPage" name="currentPage" value=0 />
@@ -520,6 +524,7 @@
             <!-- 나의 1:1 문의 태그 시작 부분  -->
         </c:forEach>
     </div>
+        </div>
 
     <jsp:include page="../../common/pageNavigator_new.jsp" />
 

@@ -1,60 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 
-	<!-- <style>
-		body {
-		  margin: 0;
-		}
-		
-		.sidebar {
-		  margin: 0;
-		  padding: 0;
-		  width: 200px;
-		  background-color: #f1f1f1;
-		  position: fixed;
-		  height: 100%;
-		  overflow: auto;
-		}
-		
-		.sidebar a {
-		  display: block;
-		  color: black;
-		  padding: 16px;
-		  text-decoration: none;
-		}
-		 
-		.sidebar a.active {
-		  background-color: #45CCE2;
-		  color: white;
-		}
-		
-		.sidebar a:hover:not(.active) {
-		  background-color: #555;
-		  color: white;
-		}
-		
-		div.content {
-		  margin-left: 200px;
-		  padding: 1px 16px;
-		  height: 1000px;
-		}
-		
-		@media screen and (max-width: 700px) {
-		  .sidebar {
-		    width: 100%;
-		    height: auto;
-		    position: relative;
-		  }
-		  .sidebar a {float: left;}
-		  div.content {margin-left: 0;}
-		}
-		
-		@media screen and (max-width: 400px) {
-		  .sidebar a {
-		    text-align: center;
-		    float: none;
-		  }
-		}
-	</style> -->
 	
 	<!-- ICON 사용을 위한 스크립트 임포트 -->
 	<!-- https://feathericons.com/ -->
@@ -76,21 +21,19 @@
 		
 		/* Sidebar */
 		.sidebar {
-		  position: fixed;
-		  top: 300px;
-		  bottom: 0;
+		  /*position: fixed;*/
+		  /*top: 300px;*/
+		  /*bottom: 0;*/
+		  max-height: 600px;
 		  left: 0;
-		  z-index: 40; /* Behind the navbar */
-		  padding: 48px; 0 0; /* Height of navbar */
           width: 20%;
-            
-		  //box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-		  //background-color: white;
+		  z-index: 40; /* Behind the navbar */
+		  padding: 48px 0 0; /* Height of navbar */
+		  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 		}
 		.sidebar-sticky {
 		  position: relative;
 		  top: 0;
-		  height: calc(100vh - 48px);
 		  padding-top: .5rem;
 		  overflow-x: hidden;
 		  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
@@ -201,11 +144,6 @@
 				$(self.location).attr("href","/community/getPostList?boardName=A");
 			});
 			
-			$("a:contains('참여중인동행목록(테스트)')").on("click" ,function(){
-				$(self.location).attr("href","/community/getMyPartyList");
-			});
-			
-			
 		});
 		
 		function checkBoard(){
@@ -231,32 +169,16 @@
 	
 	</script>
 
-	<!-- <div class="sidebar">
-	  <a class="active" href="/main.jsp">EUROVERSE</a>
-	  <a href="#C">인기글게시판</a>
-	  <a href="#E">플래너공유</a>
-	  <a href="#F">여행후기</a>
-	  <a href="#B">여행정보</a>
-	  <a href="#G">QnA</a>
-	  <a href="#A">자유게시판</a>
-	  <a href="#D">동행</a>
-	</div> -->
 	
-	
-	
-	<!-- 좌측 Plan 툴바 구성 Start /////////////////////////////////////////////////////////// -->
-	<nav class="col-md-2 d-none d-md-block sidebar" style="padding-top:0px; padding-left:25px;padding-right: 20px;">
+	<nav class="col-md-2 d-none d-md-block sidebar sticky-top" style="margin-right:0px;padding-top:0px; padding-left:25px;padding-right: 20px;">
       <div class="sidebar-sticky">
-      
+       <div id="blank-top" style="height: 70px"></div>
         <ul class="nav flex-column" style="text-align: right;">
           <li class="nav-item">
             <a class="nav-link" href="#C">
               인기글게시판 &nbsp; <span data-feather="star"></span>
-              	
             </a>
           </li>
-          
-          
           
           <li class="nav-item">
             <a class="nav-link scroll" href="#E">
@@ -283,19 +205,8 @@
             <a class="nav-link scroll" href="#A">
               자유게시판 &nbsp; <span data-feather="message-circle"></span>
             </a>
-          </li>
-          
-      <!--========================== 동행테스트 ===============================-->    
-           <li class="nav-item">
-            <a class="nav-link scroll" href="#O">
-              참여중인동행목록(테스트)
-            </a>
-          </li>
-      <!-- ======================================================== -->   
-          
-          
+          </li> 
         </ul>
-
        
         <!-- Top 버튼 -->
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-5 mb-1 text-muted">
@@ -307,12 +218,18 @@
         
       </div>
     </nav>
-	<!-- 좌측 Plan 툴바 구성 End //////////////////////////////////////////////////// -->
-	
 	
 	<script>
 		/* icon 사용을 위한 스크립트 */
 		/* https://github.com/feathericons/feather#feather 참고 */
 		feather.replace();
+         $('#blank-top').hide();
+             $(window).scroll(function() {
+                if ($(document).scrollTop() > 300) {
+                    $('#blank-top').show();
+                } else {
+                    $('#blank-top').hide();
+                }
+             });
 	</script>
 	

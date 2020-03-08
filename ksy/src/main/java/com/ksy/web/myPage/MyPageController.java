@@ -239,8 +239,11 @@ public class MyPageController {
 		model.addAttribute("resultPage",resultPage);
 		model.addAttribute("resultPage2",resultPage2);
 		model.addAttribute("keyword",search.getSearchKeyword());
-		
-		return "forward:/view/myPage/myOfferList.jsp";
+		if( search.getSearchKeyword().equals("party")) {
+			return "forward:/view/accompany/offerList.jsp";
+		} else {
+			return "forward:/view/myPage/myOfferList.jsp";
+		}
 	}
 	
 	

@@ -145,12 +145,13 @@
 	             <div class="col-sm-1">
 	             	<i class="fas fa-minus-circle" style="margin-top:10px;"></i>
 	             </div>
-	             <div class="col-sm-2" style="Padding-left:30px;">
-	            		 포인트 할인
-	                    <div class="row">
-	                    	<div id="usedPoint" style="Padding-left:20px;"> - ${order.payPoint} P</div>
-	            		</div>
-	             </div>
+	             <%--  <c:if test="${point.usedType == 'U'}"> --%>
+		             <div class="col-sm-2" style="Padding-left:30px;">
+		            		 포인트 할인
+		                    <div class="row">
+		                    	<div id="usedPoint" style="Padding-left:20px;"> -${order.usedPoint} P</div>
+		            		</div>
+		             </div>
 	             <div class="col-sm-1">
 	             	<i class="fas fa-equals" style="margin-left:15px;margin-top:10px;"></i>
 	             </div>
@@ -173,6 +174,7 @@
 						<div id="payPoint" style="Padding-left:20px;">${order.payPoint} P</div>
 					 <i class="fas fa-minus-circle" style="margin-top:10px;"></i>
 					</div> --%>
+					  <%-- <c:if test="${point.usedType == 'R' || point.usedType == 'F' }"> --%>
 					<div class="col-sm-2" style="margin-left:30px;">
 						<p>적립 된 포인트</p>
 					 			<div id="addPoint" style="Padding-left:20px;">${order.addPoint} P </div>
