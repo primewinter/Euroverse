@@ -173,7 +173,7 @@ public class UserController {
 		myPageService.deleteTripSurvey(user.getUserId());
 		
 		if(user.getDreamCountry()!=null) {
-			for(int i=0;i<(user.getDreamCountry().size())-1;i++) {
+			for(int i=0;i<(user.getDreamCountry().size());i++) {
 				TripSurvey tripSurvey = new TripSurvey();
 				tripSurvey.setUserId(user.getUserId());
 				tripSurvey.setSurveyChoice(user.getDreamCountry().get(i));
@@ -185,7 +185,7 @@ public class UserController {
 		
 		if(user.getTripStyle()!=null) {
 			
-			for(int j=0;j<(user.getTripStyle().size())-1;j++) {
+			for(int j=0;j<(user.getTripStyle().size());j++) {
 				TripSurvey tripSurvey = new TripSurvey();
 				tripSurvey.setUserId(user.getUserId());
 				tripSurvey.setSurveyChoice(user.getTripStyle().get(j));
@@ -343,18 +343,18 @@ public class UserController {
 		
 		if(user.getDreamCountry()!=null) {
 			
-		for(int i=0;i<(user.getDreamCountry().size());i++) {
-			if(user.getDreamCountry().get(i).equals("")) {
-				continue;
+			for(int i=0;i<(user.getDreamCountry().size());i++) {
+				if(user.getDreamCountry().get(i).equals("")) {
+					continue;
+				}
+				
+				TripSurvey tripSurvey = new TripSurvey();
+				tripSurvey.setUserId(currentUser.getUserId());
+				tripSurvey.setSurveyChoice(user.getDreamCountry().get(i));
+				tripSurvey.setSurveyImg(user.getCountryImg().get(i));
+				tripSurvey.setSurveyType("D");
+				myPageService.addTripSurvey(tripSurvey);
 			}
-			
-			TripSurvey tripSurvey = new TripSurvey();
-			tripSurvey.setUserId(currentUser.getUserId());
-			tripSurvey.setSurveyChoice(user.getDreamCountry().get(i));
-			tripSurvey.setSurveyImg(user.getCountryImg().get(i));
-			tripSurvey.setSurveyType("D");
-			myPageService.addTripSurvey(tripSurvey);
-		}
 		
 		}
 		
