@@ -33,31 +33,31 @@
 
 <!-- 게시글 신고처리를 위한 postSelectMap Mapper  -->
 	<resultMap id="postSelectMap" type="post">
-		<result property="postId" 			column="post_id" 			jdbcType="VARCHAR"/>
-		<result property="postWriterId"	column="post_writer_id" 		jdbcType="VARCHAR" />
+		<result property="postId" 					column="post_id" 					jdbcType="VARCHAR"/>
+		<result property="postWriterId"				column="post_writer_id" 			jdbcType="VARCHAR" />
 		<result property="nickName" 				column="nickname" 					jdbcType="VARCHAR" />
-		<result property="boardName" 	column="board_name" 		jdbcType="CHAR" />
-		<result property="postGrade" 				column="post_grade" 					jdbcType="CHAR" />
-		<result property="postTitle" 				column="post_title" 					jdbcType="VARCHAR" />
-		<result property="postContent" 			column="post_content" 		jdbcType="CLOB" />
+		<result property="boardName" 				column="board_name" 				jdbcType="CHAR" />
+		<result property="postGrade" 				column="post_grade" 				jdbcType="CHAR" />
+		<result property="postTitle" 				column="post_title" 				jdbcType="VARCHAR" />
+		<result property="postContent" 				column="post_content" 				jdbcType="CLOB" />
 		<result property="postDate" 				column="post_date" 					jdbcType="TIMESTAMP" />
-		<result property="accCount"					column="acc_count"				jdbcType="NUMERIC"	/>
-		<result property="accPerson" 				column="acc_person" 					jdbcType="NUMERIC" />
-		<result property="accStartDate" 				column="acc_start_date" 					jdbcType="TIMESTAMP" />
-		<result property="accEndDate" 				column="acc_end_date" 					jdbcType="TIMESTAMP" />
-		<result property="postLikeCount" 				column="post_like_count" 					jdbcType="NUMERIC" />
-		<result property="planId" 				column="plan_id" 					jdbcType="VARCHAR" /> 
-		<result property="qnaFirstCate" 				column="qna_first_cate" 					jdbcType="CHAR" />
-		<result property="qnaSecondCate" 				column="qna_second_cate" 					jdbcType="CHAR" />
-		<result property="views" 				column="views" 					jdbcType="NUMERIC" />
-		<result property="comments" 				column="comments" 		jdbcType="NUMERIC"/>
-		<result property="blocked" 				column="blocked" 					jdbcType="CHAR" />
-		<result property="deleted" 				column="deleted" 					jdbcType="CHAR" />
-		<result property="postLikeFlag" 				column="like_check" 					jdbcType="CHAR" />
-		<result property="nextId" 				column="next_id" 		jdbcType="VARCHAR"/>
-		<result property="nextTitle" 				column="next_title" 					jdbcType="VARCHAR" />
-		<result property="prevId" 				column="prev_id" 					jdbcType="VARCHAR" />
-		<result property="prevTitle" 				column="prev_title" 					jdbcType="VARCHAR" />
+		<result property="accCount"					column="acc_count"					jdbcType="NUMERIC"	/>
+		<result property="accPerson" 				column="acc_person" 				jdbcType="NUMERIC" />
+		<result property="accStartDate" 			column="acc_start_date" 			jdbcType="TIMESTAMP" />
+		<result property="accEndDate" 				column="acc_end_date" 				jdbcType="TIMESTAMP" />
+		<result property="postLikeCount" 			column="post_like_count" 			jdbcType="NUMERIC" />
+		<result property="planId" 					column="plan_id" 					jdbcType="VARCHAR" /> 
+		<result property="qnaFirstCate" 			column="qna_first_cate" 			jdbcType="CHAR" />
+		<result property="qnaSecondCate" 			column="qna_second_cate" 			jdbcType="CHAR" />
+		<result property="views" 					column="views" 						jdbcType="NUMERIC" />
+		<result property="comments" 				column="comments" 					jdbcType="NUMERIC"/>
+		<result property="blocked" 					column="blocked" 					jdbcType="CHAR" />
+		<result property="deleted" 					column="deleted" 					jdbcType="CHAR" />
+		<result property="postLikeFlag" 			column="like_check" 				jdbcType="CHAR" />
+		<result property="nextId" 					column="next_id" 					jdbcType="VARCHAR"/>
+		<result property="nextTitle" 				column="next_title" 				jdbcType="VARCHAR" />
+		<result property="prevId" 					column="prev_id" 					jdbcType="VARCHAR" />
+		<result property="prevTitle" 				column="prev_title" 				jdbcType="VARCHAR" />
 	</resultMap>
 	
 	
@@ -91,7 +91,7 @@
 		<result property="postTitle" 				column="post_title" 			jdbcType="VARCHAR"/>
 		<result property="cmtContent" 				column="cmt_content" 			jdbcType="VARCHAR"/>
 		<result property="cmtCount" 				column="comments" 				jdbcType="VARCHAR"/>
-		<result property="boardname" 				column="BOARD_NAME" 				jdbcType="VARCHAR"/>
+		<result property="boardname" 				column="board_name" 			jdbcType="VARCHAR"/>
 	</resultMap>
 
 
@@ -166,8 +166,8 @@
 	<select  id="getPostReportList"  parameterType="search"	resultMap="reportSelectMap">
   		SELECT *
 		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-			FROM
-				( SELECT r.REPORT_ID,r.report_reason, r.REPORT_USER_ID, r.REPORT_TARGET, r.REF_ID, r.REPORT_DATE, p.POST_TITLE, p.BOARD_NAME, P.BLOCKED, vt1.c comments
+			   FROM
+				( SELECT r.REPORT_ID,r.report_reason, r.REPORT_USER_ID, r.REPORT_TARGET, r.REF_ID, r.REPORT_DATE, p.POST_TITLE, P.BLOCKED, vt1.c comments
 			      FROM REPORT r, post p, 
 			    	   ( SELECT post_id , count(*) c 
 			    		 FROM comments 
@@ -206,7 +206,7 @@
 		SELECT *
 			FROM ( SELECT inner_table.*, ROWNUM AS row_seq
 				   FROM
-				   ( SELECT r.REPORT_ID, r.REPORT_REASON, r.REPORT_USER_ID, r.REPORT_TARGET, r.REF_ID, r.REPORT_DATE, c.PARENT_CMT_ID, c.CMT_CONTENT, c.BLOCKED
+				   ( SELECT r.REPORT_ID, r.REPORT_REASON, r.REPORT_USER_ID, r.REPORT_TARGET, r.REF_ID, r.REPORT_DATE, c.PARENT_CMT_ID,  c.CMT_CONTENT, c.BLOCKED
 					 FROM REPORT r, comments c
 					 WHERE r.REF_ID = c.CMT_ID AND c.BLOCKED IN ('F','T')
 					 ORDER BY r.REPORT_DATE DESC ) inner_table
