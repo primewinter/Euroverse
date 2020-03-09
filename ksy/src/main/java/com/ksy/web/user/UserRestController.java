@@ -578,14 +578,26 @@ public class UserRestController {
 		Multipart	multi = new MimeMultipart("related");
 		MimeBodyPart mbp = new MimeBodyPart();
 		StringBuffer str = new StringBuffer();
-		str.append("<div style='width:1000px;height:800px;border:1px solid'>");
-			str.append("<div style='font-size:30px;margin:20px;text-align:center'>");
-			str.append("<img alt='에러러럴' src='cid:image' width='800px' height='500px'><br>");
-			str.append("<b>유럽여행의 시작</b><br>" + 
-					"당신을 기다리는 백만 개의 플래너와 함께하세요.<br>");
-			str.append("<small>인증번호</small> : <b>"+state+"</b>");
-			str.append("</div>");
-		str.append("</div>");
+		String tag = " <div style=\"width:1000px;height:800px;border-radius: 10px;background-color:#b2ecee;padding: 1em;text-align: center;\">\r\n" + 
+				"                <img src=\"resources/images/icon/euroverse_text3.png\" style='width:500px;height:auto;'>\r\n" + 
+				"            <div style=\"font-size:30px;margin:20px;text-align: center;background-color:white;border-radius: 10px;padding: 1em;\">\r\n" + 
+				"                <h4>Euroverse, 유럽 여행의 시작</h4>\r\n" + 
+				"                <span style=\"font-size:12pt;\">당신을 기다리는 백만 개의 플래너와 함께하세요. <br>\r\n" + 
+				"                <br>\r\n" + 
+				"                <hr>\r\n" + 
+				"                <br>인증번호는 다음과 같습니다.</span><br><br>\r\n" + 
+				"                <span style=\"font-size:12pt;\">"+state+"</span>\r\n" + 
+				"                <br><br>\r\n" + 
+				"            </div>";
+//		str.append("<div style='width:1000px;height:800px;border:1px solid'>");
+//			str.append("<div style='font-size:30px;margin:20px;text-align:center'>");
+//			str.append("<img alt='에러러럴' src='cid:image' width='500px' height='auto'><br>");
+//			str.append("<b>유럽여행의 시작</b><br>" + 
+//					"당신을 기다리는 백만 개의 플래너와 함께하세요.<br>");
+//			str.append("<small>인증번호</small> : <b>"+state+"</b>");
+//			str.append("</div>");
+//		str.append("</div>");
+		str.append(tag);
 		
 		
 		
@@ -594,7 +606,7 @@ public class UserRestController {
 		multi.addBodyPart(mbp);
 		
 		mbp = new MimeBodyPart();
-		FileDataSource fds = new FileDataSource("C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\icon\\temp_logo.png");
+		FileDataSource fds = new FileDataSource("C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\icon\\euroverse_text3.png");
 		
 		mbp.setDataHandler(new DataHandler(fds));
 		mbp.setHeader("Content-ID", "<image>");
