@@ -178,9 +178,12 @@
 	<!-- ToolBar 시작 -->
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	<jsp:include page="/toolbar/pushBar.jsp" />
-	<c:if test="${!empty user}">	
-		<jsp:include page="/view/community/sidebar.jsp"/>
-	</c:if>
+	
+	<div class="row">
+            
+        <div style="width:100%;">
+        
+
 	<!-- ToolBar 끝 -->
 
 	<!-- 화면구성 div Start ///////////////////////////// -->
@@ -213,14 +216,14 @@
 		  <div style="height: 120px;"></div>
 			<div class="h4" style="text-align:center;">동행찾기는 본인인증후 사용 가능합니다.</div>
 			<div style="text-align: center;margin-top: 50px;">
-			<button type="button" class="btn btn-outline-primary" id="userAuth">휴대폰으로 본인인증하기</button>
+			<button type="button" class="btn btn-outline-info" id="userAuth">휴대폰으로 본인인증하기</button>
 		  </div>
 		</c:if>
 		<c:if test="${post != null}">
 		  <div style="height: 120px;"></div>
 			<div class="h4" style="text-align:center;">동행찾기는 본인인증후 사용 가능합니다.</div>
 			<div style="text-align: center;margin-top: 50px;">
-			<button type="button" class="btn btn-outline-primary" id="userAuth">휴대폰으로 본인인증하기</button>
+			<button type="button" class="btn btn-outline-info" id="userAuth">휴대폰으로 본인인증하기</button>
 		  </div>
 		</c:if>
 	</c:if>	
@@ -262,7 +265,8 @@
 		    </div>
 		  </div>
 	    </div>
-
+        </div>
+    </div>
 	<!-- 화면구성 div End ///////////////////////////// -->
 	<jsp:include page="/toolbar/footer.jsp"></jsp:include>
 

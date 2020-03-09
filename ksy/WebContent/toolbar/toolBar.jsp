@@ -138,7 +138,7 @@
         color: black;
         position: fixed;
         z-index: 9999;
-        top: 0.4em;
+        top: 0.55em;
         right: 15%;
         transition: .3s;
     }

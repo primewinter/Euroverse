@@ -63,7 +63,7 @@
 
         #flight,
         #room {
-            width: 80%;
+            width: 100%;
             margin: auto;
             font-size: 11pt;
         }
@@ -163,10 +163,11 @@
 </head>
 
 <body>
-    <form>
         <jsp:include page="/toolbar/toolBar.jsp" />
         <jsp:include page="/toolbar/pushBar.jsp" />
-        <div class="container">
+        <div class="container" style="width:70%;margin: auto;">
+    <form>
+            <div class="container">
 
             <div class="h4 flightList" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;">
                 항공 주문내역
@@ -291,6 +292,7 @@
         </table>
         <!-- <button type="button" class="btn btn-info" style="margin-top:-10px;width:120px;" >Admin</button> -->
     </form>
+    </div>
     <jsp:include page="/toolbar/footer.jsp" />
 </body>
 

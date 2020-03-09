@@ -994,6 +994,9 @@
                                <c:set var="loop_flag" value="true" />
                            </c:if>
                     </c:forEach>
+                    <c:if test="${post.accCount==post.accPerson}">
+                         <c:set var="loop_flag" value="true" />
+                    </c:if>
                       <c:if test="${loop_flag==false}">
                                <button type="button" id='offer-party-btn' class="btn btn-outline-info" style="width: 100px; font-size: 15px; height: 30px; line-height: 15px; margin: 0 0 3px 10px" onclick="inviteUser()">동행신청</button>
                       </c:if>

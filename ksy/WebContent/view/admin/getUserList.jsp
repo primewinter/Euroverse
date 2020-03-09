@@ -74,6 +74,9 @@
 		.text-primary{
 			font-size: 14px;
 		}
+        .badge {
+            font-size: 100%;
+        }
 	</style>
 
 
@@ -211,11 +214,13 @@
 	<!-- 인클루드 end--> 
 		
 
-	<div class="container">
+	<div class="container" style="width:70%;margin:auto;">
 		
-	<div class="page-header text-info">
+	<div class="page-header">
 
-		<h3 class="font-weight-bold">회원목록조회</h3>
+		<div class="h4 viewPost" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;border-bottom: 1px solid white;">
+              회원 목록
+            </div><span style="font-size: 15px;font-family: 'NIXGONM-Vb';color:black;"> >>전체 ${resultPage.totalCount}명</span>
 	
 	 </div>
 	    
@@ -224,8 +229,7 @@
 	    
 	    	<!-- 검색조건 총 몇 건, 현재 페이지 나타내는 글씨  -->
 		    <div class="col-md-6 text-left">
-		    	<p class="text-primary">
-		    		Total  ${resultPage.totalCount } 건수, ${resultPage.currentPage}  페이지
+		    	<p class="">
 		    	</p>
 		    </div>
 		    

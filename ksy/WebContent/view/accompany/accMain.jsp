@@ -332,13 +332,14 @@
         </div>
         <!--  table End /////////////////////////////////////-->
         <button type="button" id="addpost_view" class="btn btn-sm euro-btn">작성하기</button>
+              <!-- PageNavigation Start... -->
+    <jsp:include page="../../common/pageNavigator_new.jsp" />
             </div>
         </div>
     </div>
     <!--  화면구성 div End /////////////////////////////////////-->
 
-    <!-- PageNavigation Start... -->
-    <jsp:include page="../../common/pageNavigator_new.jsp" />
+  
     <!-- PageNavigation End... -->
     <jsp:include page="/toolbar/footer.jsp" />
 </body>

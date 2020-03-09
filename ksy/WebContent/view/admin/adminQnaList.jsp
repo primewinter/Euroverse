@@ -53,15 +53,7 @@
 <!-- CSS 속성값 -->
 <style>
 	
-	/*include한 툴바 ui 설정값  */
-.tollbar{
-	padding: 15px;
-}
 
-h3{
-font-size: 27px;
-}
-/* 이거 왜안되지?????????  */
 table thead > tr{
 	border-color: blue;
 }
@@ -156,23 +148,20 @@ table thead > tr{
 				
 				qnaFirstCate = '기타';
 			}
+        
 			var display = 
 				'<div id="con" class="container">'+
-			        '<div class="inner">'+
-			            '<div style="padding:5px 25px" class="row">'+
-			                '<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
-			                    '<img id="qimg" style="width:40px; "alt="" src=\"/resources/images/admin/Qicon.png"\></div><div>'+
-			                    '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+postContent+'</div>'+
-			                    '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">'+qnaFirstCate+'</div>'+
-			                    '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-clock"></i>'+postWriterId+'님이 ㅇ분전에 질문하셨습니다.</div></div></div>'+
-			            '<div id="append" style=" height: auto; padding:15px 25px" class="row">'+
-			                '<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
-			                '<div style="text-align:right;display: inline-block; height: 70px; width: 70px;">'+
-			                    '<img style="width:40px;" src=\"/resources/images/admin/Aicon.png"\></div><div>'+
-			                    '<div style="width: 600px; height:100%; margin: 0px 5px 5px 10px;"><textarea id="content" class="form-control" style="min-height: 100px">'+
-			                    '</textarea></div></div><div>'+
-			                    '<button type="button" class="btn btn-primary" onclick="answer('+postId+')" style=" margin-left:5px; height:70px; display: inline-block">답변하기</button></div>'+
-			            '</div></div></div>';
+			        '<div class="inner" id="inner'+postId+'">'+
+			            '<div style="padding:10px 25px" class="row">'+
+			                '<div style="margin:8px;text-align:right;display: inline-block; height: auto; width: 105px;">'+
+			                    '<img id="qimg" style="width:40px; "alt="" src=\"/resources/images/admin/Qicon.png"\></div>'+
+//            '<div>'+
+			                    '<div style="width: 600px; height:20px; margin: 10px 5px 5px 29px;">'+postContent+'</div>'+
+//			                    '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">'+qnaFirstCate+'</div>'+
+//			                    '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-clock"></i>'+postWriterId+'님이 ㅇ분전에 질문하셨습니다.</div>'+
+//                                '</div>'+
+                        '</div></div>';
+			           
         
 	    	$("#con").remove();//다른 게시글을 클릭할경우 이전태그 지움
 	        $("#"+postId+"").html(display);//게시글을 클릭할경우 태그 어펜드
@@ -187,22 +176,39 @@ table thead > tr{
 						if( JSONData==null || JSONData=="" ){
 							console.log("리턴데이터 없음");	
 						}else{
-							console.log("리턴데이터 있음! => "+JSONData);	 
+							console.log("리턴데이터 있음! => ");
+                            console.log(JSONData.list.length);
 							if(JSONData.list.length != 0){
-								
+                                var date = new Date(JSONData.list[0].cmtDate);
+                                
 					            var appendHtml =
 									'<div id="delCmt" style="padding:5px 25px" class="row">'+
-									'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
+									'<div style="display: inline-block; height: auto; width: 110px;"></div>'+
 									'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
-						            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
-						            '<div class="qnaComment" style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[0].cmtContent+
-						            '<button type="button" class="btn btn-outline-danger btn-sm" style="margin-left:5px;" onclick="deleteCmt('+JSONData.list[0].cmtId+','+JSONData.list[0].postId+')">삭제</button></div>'+
-						            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
-						            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
-						        	'</div></div>';
+						            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div>'
+                                    +'<div>'+
+						            '<div class="qnaComment" style="width: 600px; height:auto; margin: 10px 5px 5px 20px;">'+JSONData.list[0].cmtContent+
+						            '<br><br><span style="color:darkgray">'+
+                                    date.getFullYear()+"년 "+parseInt(date.getMonth()+1)+"월 "+date.getDate()+"일 "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+'</span><button type="button" class="btn btn-outline-danger btn-sm" style="margin-left:5px;" onclick="deleteCmt('+JSONData.list[0].cmtId+','+JSONData.list[0].postId+')">삭제</button></div>'+'</div></div>';
+//						            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
+//						            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
+						        	
+                                
 						         	
-							 $("#append").append(appendHtml);
-							}//end of if
+							 $("#inner"+postId).append(appendHtml);
+                            
+							} else {
+                                
+                                var adminReply = '<div id="append" style=" height: auto; padding:15px 25px" class="row">'+
+                                    '<div style="display: inline-block; height: auto; width: 110px;"></div>'+
+			                         '<div style="text-align:right;display: inline-block; height: 70px; width: 70px;">'+
+			                         '<img style="width:40px;" src=\"/resources/images/admin/Aicon.png"\></div><div>'+
+			                         '<div style="width: 600px; height:100%; margin: 0px 5px 5px 10px;"><textarea id="content" class="form-control" style="min-height: 100px;margin-left:20px;">'+
+			                         '</textarea></div></div><div>'+
+			                         '<button type="button" class="btn btn-info btn-sm" onclick="answer('+postId+')" style=" margin-left:20px; height:auto; display: inline-block">등록</button></div>'+
+			                         '</div></div></div></div>';
+                                $("#inner"+postId).append(adminReply);
+                            }
 						}//end of else
 					    
 					},//end of success
@@ -247,22 +253,22 @@ table thead > tr{
 						console.log("리턴데이터 없음");	
 					}else{
 						console.log("리턴데이터 있음! => "+JSONData);
-				            var appendHtml =
-								'<div id="delCmt" style="padding:5px 25px" class="row">'+
-								'<div style="display: inline-block; height: 70px; width: 70px;"></div>'+
-								'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
-					            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div><div>'+
-					            '<div style="width: 600px; height:20px; margin: 5px 5px 5px 5px;">'+JSONData.list[0].cmtContent+
-					            '<button type="button" style="margin-left:5px;" class="btn btn-outline-danger btn-sm"' +
-					            'onclick="deleteCmt('+JSONData.list[0].cmtId+','+JSONData.list[0].postId+')">삭제</button></div>'+
-					            '<div style="height:20px; font-size:9pt;font-family:돋움; color:#4EC2F8; height:20px; margin: 2px 5px 5px 5px;">관련</div>'+
-					            '<div style="font-size:11pt; color: rgb(240, 168, 72);"><i class="fas fa-user-clock"></i>분전에 답변하셨습니다.</div>'+
-					        	'</div></div>';
-						        	
-							 $("#append").append(appendHtml); 
-							 $("#content").val('');
-							 $(".state").val('');
-							 $(".state").val('<span class="badge badge-pill badge-success">답변완료</span>');
+                        var date = new Date(JSONData.list[0].cmtDate);
+				        var appendHtml =
+									'<div id="delCmt" style="padding:5px 25px" class="row">'+
+									'<div style="display: inline-block; height: auto; width: 110px;"></div>'+
+									'<div style="margin:8px;text-align:right;display: inline-block; height: 70px; width: 70px;">'+
+						            '<img style="width:40px;" src="/resources/images/admin/Aicon.png"></div>'
+                                    +'<div>'+
+						            '<div class="qnaComment" style="width: 600px; height:auto; margin: 10px 5px 5px 20px;">'+JSONData.list[0].cmtContent+
+						            '<br><br><span style="color:darkgray">'+
+                                    date.getFullYear()+"년 "+parseInt(date.getMonth()+1)+"월 "+date.getDate()+"일 "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+'</span><button type="button" class="btn btn-outline-danger btn-sm" style="margin-left:5px;" onclick="deleteCmt('+JSONData.list[0].cmtId+','+JSONData.list[0].postId+')">삭제</button></div>'+'</div></div>';
+						         	
+                        $("#append").hide();
+                        $("#inner"+postId).append(appendHtml);
+                        $("#badge"+postId).removeClass('badge-secondary');
+                        $("#badge"+postId).addClass('badge-success');
+                        $("#badge"+postId).html('답변완료');
 					
 					}// end of else
 				}//end of elseIf
@@ -278,20 +284,35 @@ table thead > tr{
         
 		
 	function deleteCmt(cmtId, postId){
-		
+        $('#delCmt').hide();
 		$.ajax({
 			url: "/admin/json/deleteQnaComm",
 			method: "POST",
-			dataType: "json",
 			headers: { "Accept" : "application/json", "Content-Type" : "application/json" },
 			data: JSON.stringify({
 				postId: postId,
 				cmtId : cmtId
-			})
+			}),
+            success : function() {
+                
+                var adminReply = '<div id="append" style=" height: auto; padding:15px 25px" class="row">'+
+                                    '<div style="display: inline-block; height: auto; width: 110px;"></div>'+
+			                         '<div style="text-align:right;display: inline-block; height: 70px; width: 70px;">'+
+			                         '<img style="width:40px;" src=\"/resources/images/admin/Aicon.png"\></div><div>'+
+			                         '<div style="width: 600px; height:100%; margin: 0px 5px 5px 10px;"><textarea id="content" class="form-control" style="min-height: 100px;margin-left:20px;">'+
+			                         '</textarea></div></div><div>'+
+			                         '<button type="button" class="btn btn-info btn-sm" onclick="answer('+postId+')" style=" margin-left:20px; height:auto; display: inline-block">등록</button></div>'+
+			                         '</div></div></div></div>';
+                $("#inner"+postId).append(adminReply);
+                $("#badge"+postId).removeClass('badge-success');
+                $("#badge"+postId).addClass('badge-secondary');
+                $("#badge"+postId).html('답변없음');
+            },
+            error : function(err, status) {
+                console.log(err+status);
+            }
 
-		}).always(function( data) {
-			$("#append").children().last().remove();
-		  });
+		});
 		
 	};//end deleteCmt()
 	
@@ -308,11 +329,13 @@ table thead > tr{
     <jsp:include page="/toolbar/pushBar.jsp"></jsp:include> 
 
 
-	<div onclick='close()' class="container">
+	<div onclick='close()' class="container" style="width:70%;margin:auto;">
 	
 	<div class="page-header text-info">
 
-		<h3 class="font-weight-bold">1:1문의 목록</h3>
+		<div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;color:black;">
+        1:1 문의 목록
+		</div><span style="font-size: 15px;font-family: 'NIXGONM-Vb';color:black;"> >>전체 ${resultPage.totalCount}개</span>
 	
 	 </div>
 	    
@@ -321,9 +344,11 @@ table thead > tr{
 	    
 	    	<!-- 검색조건 총 몇 건, 현재 페이지 나타내는 글씨  -->
 		    <div class="col-md-6 text-left">
-		    	<p class="text-primary">
-		    		Total  ${resultPage.totalCount } 건수, ${resultPage.currentPage}  페이지
+<!--
+		    	<p style="font-size:10pt;">
+		    		Total  ${resultPage.totalCount }
 		    	</p>
+-->
 		    </div>
 		    
 		    
@@ -362,6 +387,8 @@ table thead > tr{
 		</div>
 		
 		
+		
+		
 		<div class="table-responsive">
 		
 			<table class="table table-hover">
@@ -385,52 +412,51 @@ table thead > tr{
 				
 				<!-- 게시글번호 -->
 				  <td class="no" >${ i }</td>
-				    <!--========= END ========== -->
 				    
-				  <!-- 답변상태  -->
 				  <td class="state" style="font-weight: bold; color: dimgray;">
 					  <c:if test="${post.postGrade != 'Q' }">
-			   				<span class="badge badge-pill badge-secondary">답변없음</span>
+			   				<span id="badge${post.postId}" class="badge badge-pill badge-secondary">답변없음</span>
 			   			 </c:if>	
 						<c:if test="${post.postGrade == 'Q' }">
-			   			<span class="badge badge-pill badge-success">답변완료</span>
+			   			<span id="badge${post.postId}" class="badge badge-pill badge-success">답변완료</span>
 				   		</c:if>
 				  </td>
-				  <!--========= END ========== -->
 				  
-				  <!--제목  -->
-				  <td class="postclick" 
-				  onclick="getAdminQnaList('${post.postId}','${post.postContent}','${post.qnaFirstCate}','${post.postWriterId}')" 
-				  style="text-align: left;">
+				  <td class="postclick"  onclick="getAdminQnaList('${post.postId}','${post.postContent}','${post.qnaFirstCate}','${post.postWriterId}')" style="text-align: left;">
 				  <input type="hidden" id="postId" name="postId" value="${post.postId}"/>
 				  <input type="hidden" id="postContent" name="postContent" value="${post.postContent}"/>
 				  <input type="hidden" id="qnaCate" name="qnaCate" value="${post.qnaFirstCate}"/>
 				  <input type="hidden" id="userId" name="userId" value="${post.postWriterId}"/>
-				  ${post.postTitle }</td>
-				    <!--========= END ========== -->
-				  <!-- 질문분류 종류  -->
+				  ${post.postTitle}</td>
 				  <td> 
-				  <c:if test="${post.qnaFirstCate=='A'}">
-				    	주문관련
-				   </c:if>
-				   <c:if test="${post.qnaFirstCate=='B'}">
-				    	상품관련
-				   </c:if>
-				   <c:if test="${post.qnaFirstCate=='C'}">
-				    	기타
-				   </c:if>
+				   <c:if test="${post.qnaFirstCate == 'A' }">
+                                        주문관련 >
+                    </c:if>
+                    <c:if test="${post.qnaFirstCate == 'B' }">
+                        상품관련 >
+                    </c:if>
+                    <c:if test="${post.qnaFirstCate == 'C' }">
+                        기타
+                    </c:if>
+                    <c:if test="${post.qnaSecondCate=='D'}">
+                        결제
+                    </c:if>
+                    <c:if test="${post.qnaSecondCate=='E'}">
+                        환불
+                    </c:if>
+                    <c:if test="${post.qnaSecondCate=='F'}">
+                        항공권
+                    </c:if>
+                    <c:if test="${post.qnaSecondCate=='G'}">
+                        숙소
+                    </c:if>
 					</td>  
-					 <!--========= END ========== -->
-				  <!-- 작성자 ID  -->  
 				  <td>${post.postWriterId }</td>
-				   <!--========= END ========== -->
-				   <!-- 작성일자  -->
 				  <td><c:set var="regDate" value="${fn:split(post.postDate,' ')}"></c:set>
 					<c:out value="${regDate[0]}"></c:out></td>
-					   <!--========= END ========== -->
 				</tr>
 				<tr>
-	          		<td id="${post.postId }" colspan="6" bgcolor="#E6E2E2" style="margin:0px;padding:0px 0px 0px 0px;"></td>
+	          		<td id="${post.postId}" colspan="6" bgcolor="#E6E2E2" style="margin:0px;padding:0px 0px 0px 0px;"></td>
 	          	</tr>
 	          </c:forEach>
 	     		

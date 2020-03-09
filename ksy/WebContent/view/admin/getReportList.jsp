@@ -37,12 +37,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 
-    <!-- Bootstrap Dropdown Hover CSS -->
-    <link href="/css/animate.min.css" rel="stylesheet">
-    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
-    <!-- Bootstrap Dropdown Hover JS -->
-    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-
 
     <!-- jQuery UI toolTip 사용 CSS-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -63,8 +57,18 @@
         }
         
         .getReportList {
-            width: 60%;
+            width: 70%;
             margin: auto;
+        }
+        
+        div.h4.postList, div.h4.cmtList {
+            opacity:0.5;
+        }
+        div.h4.postList:hover, div.h4.cmtList:hover {
+            opacity:1;
+        }
+        .table {
+            font-size: 10pt;
         }
 
 
@@ -72,8 +76,24 @@
 
     <!--  ///////////////////////// JavaScript ////////////////////////// -->
     <script type="text/javascript">
-        $(document).ready(function() {
-
+         $(document).ready(function() {
+            
+             if('${report}'=='post') {
+                $("div.h4.postList").css('opacity','1');
+            } else {
+                $("div.h4.cmtList").css('opacity','1');
+            }
+             
+             
+             
+             
+             $("div.h4.postList").on("click",function(){
+                postLoad();
+            });
+            
+             $("div.h4.cmtList").on("click",function(){
+                cmtLoad();
+            });
         })
         
         
@@ -93,7 +113,6 @@
 		
 		function postLoad() {
 			$("#aaaa").attr("method" , "GET").attr("action" , "/admin/getPostReportList").submit();
-			//$(self.location).attr("href","/admin/getPostReportList");
 		}
 		
 		function cmtLoad(){
@@ -212,15 +231,17 @@
                 <input type="hidden" id="currentPage" name="currentPage" value="" />
             </form> --%>
             
-        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="Padding-left:0px;">
-            <label class="btn btn-secondary active">
-                <input type="radio" name="post" id="option1" onclick="javascript:postLoad();" checked> 게시글
-            </label>
-            <label class="btn btn-secondary">
-                <input type="radio" name="comment" id="option2" onclick="javascript:cmtLoad();"> 댓글
-            </label>
-        </div>
-        
+            <div class="h4 postList" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity:0.5">
+                  게시글 신고목록
+            </div>
+            <div class="h4" style="font-family:'NIXGONM-Vb';display:inline-block;font-weight: bold; margin-top: 40px;margin-bottom:20px;opacity: 1;">
+                |
+            </div>
+            <div class="h4 cmtList" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity:0.5">
+                댓글 신고목록
+            </div>
+            
+                
      <form id="aaaa">
      	<input type="hidden" name="searchKeyword" value="post">
      
@@ -266,11 +287,11 @@
                         <c:if test="${report.reportReason == NULL }">
                         <td>&nbsp;</td>
                         </c:if>
-                        <c:if test="${report.reportContent != NULL}">
+                        <c:if test="${report.reportContent != null}">
                         <td>${report.reportContent}</td>
                         </c:if>
-                        <c:if test="${report.reportContent == NULL}">
-                        <td>내용없음</td>
+                        <c:if test="${report.reportContent == null}">
+                        <td>내용없음ㅇ${report.reportContent}</td>
                         </c:if>
                         <td>${report.refId}</td>
                         <c:if test="${report.postTitle != null }">
@@ -284,13 +305,13 @@
                         <td><c:set var="reportDate" value="${fn:split(report.reportDate,' ')}"></c:set>
 						<c:out value="${reportDate[0]}"></c:out></td>
                         <c:if test="${report.blocked == 'F' && report.postTitle != null }">
-                        <td><button type="button" class="btn btn-info" onclick='postdispose("${report.refId}")' id="${report.refId }">규제하기</button></td>
+                        <td style='padding:5px;'><button type="button" class="btn btn-info btn-sm" onclick='postdispose("${report.refId}")' id="${report.refId }">규제하기</button></td>
                         </c:if>
                         <c:if test="${report.blocked == 'F' && report.postTitle == null }">
-                        <td><button type="button" class="btn btn-info" onclick='cmtdispose("${report.refId}")' id="${report.refId }">규제하기</button></td>
+                        <td style='padding:5px;'><button type="button" class="btn btn-info btn-sm" onclick='cmtdispose("${report.refId}")' id="${report.refId }">규제하기</button></td>
                         </c:if>
                         <c:if test="${report.blocked == 'T' }">
-                        <td><button type="button" class="btn btn-primary">처리완료</button></td>
+                        <td style='padding:5px;'><button type="button" class="btn btn-primary">처리완료</button></td>
                         </c:if>
                     </tr>
                 </c:forEach>

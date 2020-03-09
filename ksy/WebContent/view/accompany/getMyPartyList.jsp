@@ -121,9 +121,6 @@
              <c:forEach var="party" items="${partyList}">
                 <c:if test="${loop_flag==false}">
                 <div onclick="getPost('${party.refId}');" style="margin-top:10px;font-family: 'NIXGONM-Vb';font-weight: bold;">${party.postTitle}
-                    <span style="font-size:13px;margin-top:5px;font-weight:normal;" class="badge badge-info" id="goodbye">Å»ÅðÇÏ±â</span>
-                    <input type="hidden" name="partyId" value="${party.partyId}"/>
-                    <input type="hidden" name="postId" value="${party.refId}"/>
                 </div>
                 <c:set var="loop_flag" value="true" />
                  </c:if>
@@ -150,8 +147,12 @@
                                      <p class="card-text" style="text-align:center;">
                                        <c:forEach var="tripStyle" items="${userList.tripStyle}">
                                            <span style="font-size: 13px;">${tripStyle}</span>
+                                           <c:if test="${party.partyUserId==user.userId}">
+                                             <span style="font-size:13px;margin-top:5px;font-weight:normal;" class="badge badge-info" id="goodbye">Å»ÅðÇÏ±â</span>
+                                            <input type="hidden" name="partyId" value="${party.partyId}"/>
+                                            <input type="hidden" name="postId" value="${party.refId}"/>    
+                                         </c:if>
                                        </c:forEach>
-	                                    
                                      </p>
                                  </div>
                              </div>
