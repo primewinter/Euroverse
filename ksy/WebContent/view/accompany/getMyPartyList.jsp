@@ -104,6 +104,7 @@
 	 <div>
         <div class="row">
             <jsp:include page="/view/accompany/accSidebar.jsp"/>
+
             
         <div style="width:60%;margin-left:5%">
       <div class="h4" id="boardTitle" style="font-weight: bold; margin-top:40px;padding-left:10px;">
@@ -163,10 +164,13 @@
          </div>
           <c:if test="${empty list}">
              <br><br>
-              <div style="text-align: center;">참여 중인 동행이 없습니다.</div>
-             </c:if>
+             <div style="text-align: center;">참여 중인 동행이 없습니다.</div>
+          </c:if>
+             <br>
      </div>
-
+     
+	 <jsp:include page="../../common/pageNavigator_new.jsp"/>
+	 
 	 <jsp:include page="/toolbar/footer.jsp" />
 
 </body>

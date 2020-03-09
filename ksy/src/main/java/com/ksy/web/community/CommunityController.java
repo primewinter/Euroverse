@@ -770,20 +770,40 @@ public class CommunityController {
 		return "forward:/view/accompany/getMyPartyList.jsp";
 	}
 	
-	@RequestMapping( value="getMyOfferList", method=RequestMethod.GET)
-	public String getMyOfferList( HttpSession session, Model model ) throws Exception {
+	@RequestMapping( value="getMyOfferList" )
+	public String getMyOfferList( @ModelAttribute("search") Search search, HttpSession session, Model model ) throws Exception {
 		
-		System.out.println("/community/getMyOfferList : GET");
+		System.out.println("/community/getMyOfferList : GET / POST");
 		
 		User user = (User)session.getAttribute("user");
 		
 		if(user == null) {
 			return "forward:/view/community/check.jsp";
 		}
-		List<Offer> list = communityService.getMyOfferList(user.getUserId());
 		
-		model.addAttribute("list", list);
+		if(search.getCurrentPage()==0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
 		
+		Map<String, Object> map = communityService.getMyOfferList(search, user.getUserId());
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+
 		return "forward:/view/accompany/getMyOfferList.jsp";
+	}
+	
+	@RequestMapping( value="deleteOffer", method=RequestMethod.GET )
+	public String deleteOffer( @RequestParam("offerId")String offerId, HttpSession session )throws Exception{
+		
+		System.out.println("/community/deleteOffer : GET");
+		
+		communityService.deleteOffer(offerId);
+		
+		return "redirect:/community/getMyOfferList";
 	}
 }

@@ -151,15 +151,15 @@
 		}
 		
 		.media img{
-			width: 200px;
-			height: 200px;
+			width: 150px;
+			height: 150px;
 			border-radius: 50%;
 			box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.5);
 			border: 2px solid rgba(255, 255, 255, 1);
 		}
 		
 		.media-body{
-			margin: 40px;
+			margin: 10px 30px 30px 50px;
 		    padding:0px;
 		}
 	     div.h4{
@@ -172,6 +172,39 @@
 	</style>
 	
 	<script>
+	
+		 function fncGetUserList(currentPage) {
+	         $("#currentPage").val(currentPage)
+	         $("form[id='myOfferListForm']").attr("method", "POST").attr("action", "/community/getMyOfferList").submit();
+	     }
+		 
+		 $(function(){
+			$(".fas.fa-times").on("click",function(){
+				
+				var offerId = $(this).next().val();
+				
+				 swal({
+						title:"목록에서 삭제하시겠습니까?",
+						text:" ",
+						icon:"warning",
+						buttons: [ "아니오", "예"]
+				}).then((YES) => {
+					if(YES){
+						
+						swal({
+							icon : 'success',
+							title : "삭제되었습니다!",
+							text:" ",
+							button : false,
+						})
+				    	setTimeout(function() {     
+				    		self.location = "/community/deleteOffer?offerId="+offerId;
+				    	}, 700);
+					}
+			    });
+			});
+		 });
+		 
 	</script>
 
 </head>
@@ -196,8 +229,7 @@
 		
 		
 			<form id="myOfferListForm">
-		 		<input type="hidden" id="currentPage" name="currentPage" value=0 />
-		 		<input type="hidden" id="currentPage2" name="currentPage2" value=0 /> 
+		 		<input type="hidden" id="currentPage" name="currentPage" value="" />
 		 		<c:if test="${!empty keyword}">
 		 			<input type="hidden" id="keyword" name="searchKeyword" value="${keyword}"/>
 		 		</c:if>
@@ -210,17 +242,22 @@
 		       		<div class="h4 viewParty" style="font-family:'NIXGONM-Vb';display:inline-block;background-color:#ffde3e;font-weight: bold; margin-top: 40px;margin-bottom:20px; padding-left:10px;opacity: 1;">
 						동행 제안목록
 					</div>
-			
-					<ul class="list-unstyled" style="margin-left: 0px;">
+					<span style="font-size: 14px;color: #838383;margin-left: 10px;">${resultPage.totalCount}개 신청 중</span>
+					<ul class="list-unstyled" style="margin-left: 10px;">
 						<c:forEach var="offer" items="${list}" varStatus="status" >
-							<li class="media" style="width: 100%;">
+							<li class="media" style="width: 100%;padding-top: 20px;">
 						   		<div style="font-size:11pt;">
 						   		    <img src="/resources/images/userImages/${offer.userImg}" class="mr-3" alt="..." >
 						   		</div>
 						    	
 						    	<div class="media-body" style="font-size:11pt;">
-	                               ${offer.postTitle}<br>
-	                                ${offer.toUserNickname}님께 동행을 신청하였습니다.<br><br>
+	                               ${offer.postTitle}
+	                               <c:if test="${offer.offerStatus == 'R'}">
+	                               &ensp;<i class="fas fa-times" style="color: #838383"></i>
+	                               <input type="hidden" name="offerId" value="${offer.offerId}"/>
+	                               </c:if>
+	                               <br>
+	                                ${offer.toUserNickname} 님께 동행을 신청하였습니다.<br><br>
 						      		<h5 class="mt-0 mb-1">${offer.offerMsg}</h5>
 					     			
 					  				<br>
@@ -235,7 +272,8 @@
 					<c:if test="${ empty list}">
 					    <div class="text-center" style="margin-bottom: 70px;margin-top: 36px;">제안받은 동행 신청이 없습니다</div>
 					</c:if>
-				<jsp:include page="../../common/pageNavigator_new2.jsp"/>
+					<br>
+				<jsp:include page="../../common/pageNavigator_new.jsp"/>
 			</div><!-- partyTable EndDiv  -->
 	            </div>
 		</div>

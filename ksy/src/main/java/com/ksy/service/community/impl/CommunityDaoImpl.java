@@ -63,6 +63,10 @@ public class CommunityDaoImpl implements CommunityDao{
 		sqlSession.delete("CommunityMapper.deleteTag", postId);
 	}
 	
+	public void deleteOffer(String offerId) throws Exception {
+		sqlSession.delete("CommunityMapper.deleteOffer", offerId);
+	}
+	
 	public Post getPost(String postId, String userId, String boardName) throws Exception {
 		if(postId == null) {
 			postId = sqlSession.selectOne("CommunityMapper.getCurrvalPostId");
@@ -110,8 +114,14 @@ public class CommunityDaoImpl implements CommunityDao{
 		return sqlSession.selectList("CommunityMapper.getMyPartyList", userId);
 	}
 	
-	public List<Offer> getMyOfferList(String userId) throws Exception {
-		return sqlSession.selectList("CommunityMapper.getMyOfferList", userId);
+	public List<Offer> getMyOfferList(Search search, String userId) throws Exception {
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		map.put("search", search);
+		map.put("userId", userId);
+		
+		return sqlSession.selectList("CommunityMapper.getMyOfferList", map);
 	}
 	
 	public List<Post> getPostList(Search search, String boardName) throws Exception {
@@ -177,6 +187,10 @@ public class CommunityDaoImpl implements CommunityDao{
 		map.put("boardName", boardName);
 		
 		return sqlSession.selectOne("CommunityMapper.getPostTotalCount", map);
+	}
+	
+	public int getMyOfferTotalCount(String userId) throws Exception {
+		return sqlSession.selectOne("CommunityMapper.getMyOfferTotalCount", userId);
 	}
 	
 	public int getAllPostTotalCount(Search search) throws Exception {

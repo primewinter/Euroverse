@@ -24,6 +24,8 @@ public interface CommunityDao {
 	
 	public void deleteTag(String postId) throws Exception ;
 	
+	public void deleteOffer(String offerId) throws Exception ;
+	
 	public Post getPost(String postId, String userId, String boardName) throws Exception ;
 	
 	public Post getMainPost(String postId, String userId, String boardName) throws Exception;
@@ -46,7 +48,9 @@ public interface CommunityDao {
 	
 	public List<Party> getMyPartyList(String userId) throws Exception ;
 	
-	public List<Offer> getMyOfferList(String userId) throws Exception ;
+	public List<Offer> getMyOfferList(Search search, String userId) throws Exception ;
+	
+	public int getMyOfferTotalCount(String userId) throws Exception ;
 	
 	public int getPostTotalCount(Search search, String boardName) throws Exception ;
 	
