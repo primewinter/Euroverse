@@ -75,8 +75,8 @@
 
         figure.snip1200 .heading {
             overflow: hidden;
-            -webkit-transform: translateY(50%);
-            transform: translateY(50%);
+            -webkit-transform: translateY(50%); 
+            transform: translateY(50%); 
             position: absolute;
             bottom: 0;
             width: 100%;
@@ -141,9 +141,9 @@
 
         figure.snip1200:hover img,
         figure.snip1200.hover img {
-            opacity: 0.25;
+            /* opacity: 0.25; */
             -webkit-transform: scale(1.1);
-            transform: scale(1.1);
+            transform: scale(1.1); 
         }
 
         figure.snip1200:hover figcaption,

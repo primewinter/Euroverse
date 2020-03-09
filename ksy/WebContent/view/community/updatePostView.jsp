@@ -363,7 +363,7 @@
 		<form class="form-horizontal">
 			<input type="hidden" id="postId" name="postId" value="${post.postId}"/>		
 			<input type="hidden" id="boardName" name="boardName" value="${param.boardName}"/>
-		  <div class="form-group">
+		  <div class="form-group" style="height:40px;">
 		    <label for="postTitle" class="col-sm-1 control-label" style="font-size: 12px;">제목</label>
 		    <c:if test="${user.role != 'A'}">
 			   <c:if test="${param.boardName == 'G'}">
@@ -430,7 +430,7 @@
 		 </div>
 		 
 		 <c:if test="${post.boardName == 'D'}">
-		 	<div class="form-group">
+		 	<div class="form-group" style="height:40px;">
 		 	  <input type="hidden" id="accCount" name="accCount" value="${post.accCount}"/>
 			    <label for="accDate" class="col-sm-1 control-label" style="font-size: 12px;">동행<br>시작일</label>
 			    <div class="col-sm-3">
@@ -458,7 +458,7 @@
 		 </c:if>
 		  
 		 <c:if test="${post.boardName == 'E'}"> 
-		  <div class="form-group">
+		  <div class="form-group" style="height:40px;">
 		 	<label for="planId" class="col-sm-1 control-label" style="font-size: 12px;">플래너 &nbsp;선택</label>
 		     <div class="col-sm-5">
 		      <select class="form-control" id="planId" style="color:#BC1911;">
@@ -475,10 +475,8 @@
 		    </div>
 		</div>
 	
-		<br>
-		
 		<div class="form-group">
-		    <label for="tagContent" class="control-label" style="font-size: 12px; float: left; margin-left: 30px;">태그등록</label>
+		    <label for="tagContent" class="control-label" style="font-size: 12px; float: left; margin-left: 35px;">태그등록</label>
 		    <div class="col-sm-5">
 		      <input type="text" class="form-control" id="appendTag" value="" maxlength="15" style="font-size: 12px; height:23px; width:200px; float:left;" onKeyDown="onKeyDown();">
 		      <i class="fas fa-plus" onclick="addTag()" style="float:left; margin-left:10px; margin-top:4px; font-size:12px;">등록하기</i>

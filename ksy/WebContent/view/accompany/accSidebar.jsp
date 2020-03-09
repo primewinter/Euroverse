@@ -129,6 +129,9 @@
             $("a:contains('신청')").on("click" ,function(){
 				$(self.location).attr("href","/myPage/myOfferList?searchKeyword=party");
 			});
+            $("a:contains('요청한')").on("click" ,function(){
+				$(self.location).attr("href","/community/getMyOfferList");
+			});
 			
 			
 		});
@@ -147,8 +150,6 @@
             </a>
           </li>
           
-          
-          
           <li class="nav-item">
             <a class="nav-link scroll" href="#E">
               참여중인 동행 &nbsp; <span data-feather="message-square"></span>
@@ -156,7 +157,13 @@
           </li>
           <li class="nav-item">
             <a class="nav-link scroll" href="#E">
-              동행신청 목록 &nbsp; <span data-feather="send"></span>
+              신청받은 동행 &nbsp; <span data-feather="file"></span>
+            </a>
+          </li>
+               
+         <li class="nav-item">
+            <a class="nav-link scroll" href="#E">
+              요청한 동행 &nbsp; <span data-feather="send"></span>
             </a>
           </li>
          <!-- <li class="nav-item">

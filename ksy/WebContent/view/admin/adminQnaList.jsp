@@ -304,13 +304,9 @@ table thead > tr{
 
 <body>
 
-	<!-- =============== 유로버스 툴바 인클루드  ========== -->
-		<jsp:include page="/toolbar/toolBar.jsp"></jsp:include> 
-	<!-- =========== 이까지  ================ -->
-	
-	<!-- 푸쉬바 인클루드  -->
-		<jsp:include page="/toolbar/pushBar.jsp"></jsp:include> 
-		<!-- 인클루드 end--> 
+    <jsp:include page="/toolbar/toolBar.jsp"></jsp:include> 
+    <jsp:include page="/toolbar/pushBar.jsp"></jsp:include> 
+
 
 	<div onclick='close()' class="container">
 	

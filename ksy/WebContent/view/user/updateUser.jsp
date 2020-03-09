@@ -427,14 +427,16 @@
 </head>
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
-	<jsp:include page="/view/user/userSideBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
 	
 	
 	
 	
-	<!-- <div id="main" > -->
-	<div class="container" style="max-width: 1000px;">
+ <div>
+        <div class="row">
+            <jsp:include page="/view/user/userSideBar.jsp"/>
+            
+        <div style="width:60%;margin-left:5%">
 	
 		<!-- <p style="font-size:30px; margin-left:500px; margin-top: 50px; margin-bottom: -20px" >
 			내정보수정<br><hr style="width: 600px;margin-bottom: -5px;">
@@ -496,7 +498,7 @@
 	     		  
 	     		  
 	     		  
-	       		  <div class="col-6 mx-auto m-3">
+	       		    <div class="col-6 mx-auto m-3">
 		     		<span style="font-weight: bolder; margin: 10px;">이메일</span>
 		     		
 		     		<div class="d-flex align-items-center"  style="text-align: center;">
@@ -507,51 +509,24 @@
 		     				
 		     				<div style="width:10%; padding-bottom: 10px;">@</div>
 		     				
+							<div>
+									<input type="text"  class="form-control" style="width: 150px;display: none; margin-bottom:  16px;" id="selfEmail">
+							</div>
 		     				<div class="form-group" style="width: 45%;">
-			     				 <%-- <c:if test="${user.choiceEmail=='gmail.com'}">
 				     				<select class="custom-select" id="choiceEmail">
-									    <option value="gmail.com" selected="selected">gmail.com</option>
-									    <option value="naver.com" >naver.com</option>
-									    <option value="daum.net">daum.net</option>
-								 	</select>
-								 </c:if>
-								 
-								 <c:if test="${user.choiceEmail=='naver.com'}">
-				     				<select class="custom-select" id="choiceEmail">
-									    <option value="gmail.com" >gmail.com</option>
-									    <option value="naver.com" selected="selected">naver.com</option>
-									    <option value="daum.net">daum.net</option>
-								 	</select>
-								 </c:if>
-								 
-								 <c:if test="${user.choiceEmail=='daum.net'}">
-				     				<select class="custom-select" id="choiceEmail">
-									    <option value="gmail.com" >gmail.com</option>
-									    <option value="naver.com" >naver.com</option>
-									    <option value="daum.net" selected="selected">daum.net</option>
-								 	</select>
-								 </c:if>	
-								  --%>
-								 <!--더미데이터때문....  -->
-								<%--  <c:if test="${user.choiceEmail=='user.com'}"> --%>
-									<input type="text" style="width: 150px;display: none; " id="selfEmail">
-				     				<select class="custom-select" id="choiceEmail">
-									    <option value="gmail.com" ${ ! empty user.choiceEmail && user.choiceEmail=='gamil.com' ? "selected" : "" }>gmail.com</option>
+									    <option value="gmail.com" ${ ! empty user.choiceEmail && user.choiceEmail=='gmail.com' ? "selected" : "" }>gmail.com</option>
 									    <option value="naver.com" ${ ! empty user.choiceEmail && user.choiceEmail=='naver.com' ? "selected" : "" } >naver.com</option>
 									    <option value="daum.net" ${ ! empty user.choiceEmail && user.choiceEmail=='daum.net' ? "selected" : "" }>daum.net</option>
 									    <option value="self" ${ ! empty user.choiceEmail && user.choiceEmail !='gamil.com' && user.choiceEmail !='naver.com' && user.choiceEmail !='daum.net'  ? "selected" : "" }>직접입력</option>
 									    <!-- 셀렉트 된 값이 없으면 기본 값 집어넣기-->
 								 	</select>
-								 <%-- </c:if> --%>	
-								 	
-								 	<!-- 더미데이터때문에 집어넣어둔거 나중에 삭제하자 -->
 								 <input type="hidden" name="email">
 						 	</div>
-						 	
-						 	
 		     				<h6 class="h6Class"></h6>
 		     		</div>
 	     		 </div>
+
+
 		     		 
 		     		 
 	     		<!-- 알림수신여부 ///////////////////////////////////// -->
@@ -748,7 +723,7 @@
 			<!-- </div>id main Div End    
 		</div> -->
 	</div>
-	
+    </div>
 	<script>
 		/* icon 사용을 위한 스크립트 */
 		feather.replace();

@@ -337,10 +337,24 @@
 		WHERE party_user_id = #{userId} AND party_type = 'A'
 	</select>
 	
-	<select id="getMyOfferList" parameterType="string" resultMap="offerSelectMap">
-		SELECT o.offer_id , o.offer_type , o.ref_id , o.offer_status , o.from_user_id , o.to_user_id , o.offer_date , o.offer_msg , p.post_title , u.user_img , u.nickname
-		FROM offer o, post p, users u
-		WHERE o.ref_id = p.post_id AND o.to_user_id = u.user_id AND o.offer_status IN ('S','R') AND o.offer_type ='A' AND o.from_user_id = #{userId}
+	<select id="getMyOfferList" parameterType="map" resultMap="offerSelectMap">
+		SELECT *
+		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+						FROM ( SELECT o.offer_id , o.offer_type , o.ref_id , o.offer_status , o.from_user_id , o.to_user_id , o.offer_date , o.offer_msg , p.post_title , u.user_img , u.nickname
+										FROM offer o, post p, users u
+										WHERE o.ref_id = p.post_id AND o.to_user_id = u.user_id AND o.offer_status IN ('S','R') AND o.offer_type ='A' AND o.from_user_id = #{userId}
+										ORDER BY o.offer_date DESC ) inner_table
+							WHERE ROWNUM <![CDATA[<=]]> #{search.currentPage}*#{search.pageSize} )
+  		WHERE row_seq BETWEEN (#{search.currentPage}-1)*#{search.pageSize}+1
+  		AND #{search.currentPage}*#{search.pageSize}	
+	</select>
+	
+	<select id="getMyOfferTotalCount" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		FROM ( SELECT o.offer_id , o.offer_type , o.ref_id , o.offer_status , o.from_user_id , o.to_user_id , o.offer_date , o.offer_msg , p.post_title , u.user_img , u.nickname
+										FROM offer o, post p, users u
+										WHERE o.ref_id = p.post_id AND o.to_user_id = u.user_id AND o.offer_status IN ('S','R') AND o.offer_type ='A' AND o.from_user_id = #{userId}
+							) countTable
 	</select>
 	
 	<select  id="getPostList"  parameterType="map"	resultMap="postSelectMap">
@@ -577,6 +591,11 @@
 	<delete id="deletePartyUser">
 		DELETE party
 		WHERE party_id = #{partyId} AND party_type = 'A'	
+	</delete>
+	
+	<delete id="deleteOffer">
+		DELETE offer
+		WHERE offer_id = #{offerId} AND offer_type = 'A'	
 	</delete>
 	
 	<insert id="addReport"	parameterType="report">

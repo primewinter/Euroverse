@@ -271,7 +271,7 @@
     }
 
     nav.menu {
-        margin-top: 0.7em;
+        margin-top: 0.8em;
         margin-bottom: 1.3em;
     }
 
