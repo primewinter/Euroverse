@@ -132,7 +132,7 @@ $(function () {
 				if(data.likeCheck == 'F'){
 					swal({
            		  	    icon : 'success',
-           			    title : "북마크 취소",
+           			    title : "찜 취소",
            			    text : " ",
            			    button : false,
            			    timer : 700
@@ -141,7 +141,7 @@ $(function () {
 				}else{
 					swal({
   	               		icon : 'success',
-  	               		title : "북마크 추가",
+  	               		title : "찜 추가",
   	               		text : " ",
   	               		button : false,
   	               		timer : 700
@@ -180,7 +180,6 @@ $(function () {
 	<jsp:include page="/toolbar/toolBar.jsp" />
 	 <jsp:include page="/toolbar/pushBar.jsp" />
 	<div class="container" style="margin-left:25%;">
-		<hr/>
 		<div class="row">
 		<br/>
 				
