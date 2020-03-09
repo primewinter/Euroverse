@@ -185,7 +185,7 @@
 			<br/>
 			<hr style="width:50%;float:left;margin-right:700px;" />
 			
-				<div class="row" style="Padding-left:160px;">
+				<div class="row" style="Padding-left:190px;">
 					<div class="col-sm-1" style="margin-top:10px;">
 						<i class="fas fa-plus"></i>
 					</div>
