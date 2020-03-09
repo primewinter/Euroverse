@@ -142,7 +142,7 @@
 	<!-- 좌측 Plan 툴바 구성 Start /////////////////////////////////////////////////////////// -->
 	<nav class="col-md-2 d-none d-md-block sidebar sticky-top" style="padding-top:0px; padding-left:25px;padding-right: 20px;">
       <div class="sidebar-sticky">
-       <div id="blank-top" style="height: 70px"></div>
+       <div id="blank-top" style="height: 60px"></div>
         <ul class="nav flex-column" style="text-align: right;">
           <li class="nav-item">
             <a class="nav-link" href="#C">
@@ -209,7 +209,7 @@
 		feather.replace();
         $('#blank-top').hide();
              $(window).scroll(function() {
-                if ($(document).scrollTop() > 300) {
+                if ($(document).scrollTop() > 125) {
                     $('#blank-top').show();
                 } else {
                     $('#blank-top').hide();

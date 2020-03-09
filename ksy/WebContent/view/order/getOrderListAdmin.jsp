@@ -271,7 +271,14 @@
                                 <input type="hidden" name="${flight.orderId }" value="${flight.orderId}" />
                             </th>
                             <td id="refund">${flight.airline}</td>
-                            <td>${flight.depCity} - ${flight.arrCity}<br />${flight.depDate} ${flight.depTime} - ${flight.arrDate} ${flight.arrTime}</td>
+                            <td>${flight.depCity} - ${flight.arrCity} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${flight.depTime}  
+                            <c:if test="${flight.arrDate=='none'}"> </c:if>
+                            <c:if test="${flight.arrDate!='none'}"> - ${flight.arrTime}</c:if>
+                            <br />
+	                            ${flight.depDate.substring(0,4)}/${flight.depDate.substring(4,6)}/${flight.depDate.substring(6,8)} 
+	                            <c:if test="${flight.arrDate=='none'}"> </c:if>
+	                            <c:if test="${flight.arrDate!='none'}"> - ${flight.arrDate.substring(0,4)}/${flight.arrDate.substring(4,6)}/${flight.arrDate.substring(6,8)}  </c:if>
+                           </td>
                             <td>${flight.buyerId }</td>
                             <td id="appendStatus">
                                 <fmt:formatNumber value="${flight.price}" pattern="###,###" />원</td>
@@ -332,7 +339,7 @@
                                 <input type="hidden" name="${room.roomId}" value="${room.roomId}" />
                                 <input type="hidden" name="${room.orderId }" value="${room.orderId}" />
                             </th>
-                            <td>${room.roomName}<br />${room.roomCity}</td>
+                            <td>${room.roomName}<br /> : ${room.roomCity}</td>
                             <td>${room.checkIn} - ${room.checkOut }</td>
                             <td>${room.roomNum}개<br /><i class="fas fa-child"></i> ${room.adultNum}명, <i class="fas fa-baby"></i> ${room.childNum}명</td>
                             <td>${room.buyerId }</td>

@@ -458,31 +458,28 @@ var maPageCode = 'M';
 	<div class="container" style="width:100%;margin:auto;">
 					
 		<div id="userProfileDiv" style="width:100%;height:230px;padding-top: 30px;">
-			
 			<div class="d-flex justify-content-between" style="padding: 0px 70px;">
 			
 				<!-- 유저이미지 / 유저정보 ////////////////////////////////////////// -->
 				<div class="row" style="font-family: 'NIXGONM-Vb';">
-				
 					<!-- 유저이미지 -->
 			   		<div>
 			   			<img alt="" src="/resources/images/userImages/${user.userImg}" style="border-radius: 180px;width:210px;height: 210px;border: 1px solid #DBE0E5;">
 				 	</div>
-				 	
 				 	<!-- 유저정보 -->
 				 	<div style="margin-left: 30px;margin-top: 20px;">
 				 	
 				 		<c:if test="${user.role == 'G' }">
-			                 <div class="badge badge-secondary">비인증회원
+			                 <div class="badge badge-secondary">비인증회원</div>
 	                 	</c:if>
 	                 	<c:if test="${user.role == 'Q' }">
-	                 		<div class="badge badge-info">인증회원
+	                 		<div class="badge badge-info">인증회원</div>
 	                 	</c:if>
 	                 	<c:if test="${user.role == 'A' }">
-	                 		<div class="badge badge-success" >관리자
+	                 		<div class="badge badge-success" >관리자</div>
 	                 	</c:if>
 	                 	
-	                 		</div> <!--badge End  -->
+	                 		 <!--badge End  -->
 	                 	<span data-toggle="tooltip" data-placement="top" title="내정보 수정">&nbsp;<span data-feather="settings" style="cursor: help" id="updateMyProfile"></span></span>
 	                 	
 					    <div class="nicknameClass" style="font-size: 25px;margin:  5px 0px 15px 0px;">
@@ -647,7 +644,7 @@ var maPageCode = 'M';
 						<div id="calendar"></div>
 				</div>
 			
-			
+        </div>
 		</div><!-- class ROW END -->		
 			
 	</div><!-- main Div End -->

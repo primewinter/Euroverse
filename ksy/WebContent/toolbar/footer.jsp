@@ -12,6 +12,7 @@
         left: 0;
         width: 100%;
         padding: 1.8% 7%;
+        max-height: 135px;
     }
     .footer-text {
         text-align: right;

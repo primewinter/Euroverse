@@ -297,8 +297,8 @@
     							        var orderId = rsp.imp_uid;
     							        $("#orderId").val(orderId);
     							        
-    							        var price = rsp.paid_amount;
-    							        $("#price").val(price);
+    							        /* var price = rsp.paid_amount;
+    							        $("#price").val(price); */
     							        
     							        
     							       /*  var orderDate = rsp.paid_at;
@@ -381,7 +381,7 @@
 	
 	<form>
 	<input type="hidden" name="orderId" value= "" id="orderId"/>
-	<input type="hidden" name="price" value= "" id="price"/>
+	<input type="hidden" name="price" value= "${room.price }" id="price"/>
 	<input type="hidden" name="userId" value= "" id="userId"/>
 	<input type="hidden" name="payInstal" value= "" id="payInstal"/>
 	<input type="hidden" name="payPoint" value= "" id="zeroPoint"/>

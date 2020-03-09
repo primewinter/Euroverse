@@ -107,6 +107,7 @@
             <jsp:include page="/view/user/userSideBar.jsp"/>
             
         <div style="width:60%;margin-left:5%;">
+        	<div class="container" style="width:100%;margin:auto;">
 	
 	
 	    <!-- <h3  style="margin-left: 320px; width: 1000px"><b>나의 북마크목록</b></h3> -->
@@ -176,6 +177,7 @@
 				  	
 				 </tbody>
 		</table>
+            </div>
             </div>
 	</div>
 

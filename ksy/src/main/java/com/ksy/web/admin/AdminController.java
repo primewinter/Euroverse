@@ -90,7 +90,7 @@ public class AdminController {
 		
 //		계정이 admin이 아닐경우 접속을 막기위해
 		user= (User)session.getAttribute("user");
-		if(!user.getUserId().equals("admin")) {
+		if(!user.getRole().equals("A")) {
 			return "redirect:/";
 		}
 		
@@ -152,7 +152,7 @@ public class AdminController {
 		
 //		계정이 admin이 아닐경우 접속을 막기위해
 		user= (User)session.getAttribute("user");
-		if(!user.getUserId().equals("admin")) {
+		if(!user.getRole().equals("A")) {
 			return "redirect:/";
 		}
 		
@@ -204,7 +204,7 @@ public class AdminController {
 		
 //		계정이 admin이 아닐경우 접속을 막기위해
 		user= (User)session.getAttribute("user");
-		if(!user.getUserId().equals("admin")) {
+		if(!user.getRole().equals("A")) {
 			return "redirect:/";
 		}
 		
@@ -230,6 +230,7 @@ public class AdminController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search",search);
+		model.addAttribute("report", "post");
 		
 		//디버깅
 		System.out.println("model ==>"+model);
@@ -246,7 +247,7 @@ public class AdminController {
 		
 //		계정이 admin이 아닐경우 접속을 막기위해
 		user= (User)session.getAttribute("user");
-		if(!user.getUserId().equals("admin")) {
+		if(!user.getRole().equals("A")) {
 			return "redirect:/";
 		}
 		
@@ -268,6 +269,7 @@ public class AdminController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search",search);
+		model.addAttribute("report", "cmt");
 		
 		//디버깅
 		System.out.println("model ==>"+model);
