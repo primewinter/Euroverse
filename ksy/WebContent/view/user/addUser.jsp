@@ -616,12 +616,32 @@
 				if(value=='T'){
 					$("#pushAgreeTrue").prop("checked",true);
 					$("#pushAgreeFalse").prop("checked",false);
-					$("#addUserForm").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
+					
+					
+					swal({
+						   icon : 'success',
+						  title : "회원가입 성공",
+						  text:" ",
+						  button : false,
+						})
+			    	setTimeout(function() {     
+						$("#addUserForm").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
+			    	}, 700);
+					
+					
 				}
 				else if(value=='F'){
 					$("#pushAgreeTrue").prop("checked",false);
 					$("#pushAgreeFalse").prop("checked",true);
-					$("#addUserForm").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
+					swal({
+						   icon : 'success',
+						  title : "회원가입 성공",
+						  text:" ",
+						  button : false,
+						})
+			    	setTimeout(function() {     
+						$("#addUserForm").attr("action","addUser").attr("method","post").attr("enctype","multipart/form-data").submit();
+			    	}, 700);
 				}
 			});
 	}	

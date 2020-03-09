@@ -395,13 +395,15 @@
 <body>
 	<jsp:include page="/toolbar/toolBar.jsp"></jsp:include>
 	<jsp:include page="/toolbar/pushBar.jsp"></jsp:include>
-	<p style="font-size:30px; margin-left:500px; margin-top: 50px; margin-bottom: -20px" >
-		비밀번호찾기
-		<br><hr style="width: 600px;margin-bottom: -5px;">
-		<small style="margin-left:500px; ">원하시는 방법을 선택해주세요.</small>
-	</p>
 	
 	<div class="container" style="margin-top: 70px;">
+		<div class="col-md-7 mx-auto" > 
+			<p style="font-size: 30px;" >
+			비밀번호찾기
+			<br><hr style="width: 600px;margin-bottom: -5px;">
+			<small style=" ">원하시는 방법을 선택해주세요.</small>
+			</p>
+		</div>
 		<form action="/user/updatePwd" method="post" id="pwdForm">
 			<div class="form-group">
 				<div class="col-md-7 mx-auto" style="margin-bottom: 24px;" > 
