@@ -661,7 +661,7 @@
         $('#pos2').prop('checked', true);
         chatRoomId = roomId;
         console.log("입장한 채팅방 번호 : " + roomId);
-        var accChatAddr = "ws://192.168.0.62:8080/accSocket/" + roomId + "/" + userId;
+        var accChatAddr = "ws://192.168.0.82:8080/accSocket/" + roomId + "/" + userId;
         accChatSocket = new WebSocket(accChatAddr);
         //웹 소켓이 연결되었을 때 호출되는 이벤트
         accChatSocket.onopen = function(message) {
@@ -957,7 +957,7 @@
 
 
     function connectPlanChat() {
-        var addr = "ws://192.168.0.62:8080/planSocket/" + planId + "/" + userId;
+        var addr = "ws://192.168.0.82:8080/planSocket/" + planId + "/" + userId;
         planChatSocket = new WebSocket(addr);
 
         planChatSocket.onopen = function(message) {
