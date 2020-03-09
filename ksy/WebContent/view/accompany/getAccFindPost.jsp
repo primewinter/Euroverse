@@ -990,16 +990,13 @@
                     <button type="button" id="create-room-btn" class="btn btn-outline-dark" data-toggle="modal" data-target="#createChat" style="width: 110px; font-size: 15px; height: 30px; line-height: 15px; margin: 0 0 3px 10px">채팅방 개설</button>
                     <c:set var="loop_flag" value="false" />
                     <c:forEach var="party" items="${party}">
-                      <c:if test="${loop_flag==false}">
                            <c:if test="${party.partyUserId==user.userId}">
                                <c:set var="loop_flag" value="true" />
                            </c:if>
-                           <c:if test="${party.partyUserId!=user.userId}">
-                               <button type="button" id='offer-party-btn' class="btn btn-outline-info" style="width: 100px; font-size: 15px; height: 30px; line-height: 15px; margin: 0 0 3px 10px" onclick="inviteUser()">동행신청</button>
-                                <c:set var="loop_flag" value="true" />
-                           </c:if>
-                      </c:if>
                     </c:forEach>
+                      <c:if test="${loop_flag==false}">
+                               <button type="button" id='offer-party-btn' class="btn btn-outline-info" style="width: 100px; font-size: 15px; height: 30px; line-height: 15px; margin: 0 0 3px 10px" onclick="inviteUser()">동행신청</button>
+                      </c:if>
                 </div>
                 <div class="col-md-12 party-list" style="margin-top: 10px;height: 190px;">
                     <c:set var="i" value="0" />
