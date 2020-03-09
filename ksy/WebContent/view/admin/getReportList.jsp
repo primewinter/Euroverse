@@ -92,8 +92,8 @@
 		});//end of function
 		
 		function postLoad() {
-			$("form").attr("method" , "GET").attr("action" , "/admin/getPostReportList").submit();
-			$(".btn-secondary").attr('class','btn btn-secondary active')
+			$("#aaaa").attr("method" , "GET").attr("action" , "/admin/getPostReportList").submit();
+			//$(self.location).attr("href","/admin/getPostReportList");
 		}
 		
 		function cmtLoad(){
@@ -220,6 +220,11 @@
                 <input type="radio" name="comment" id="option2" onclick="javascript:cmtLoad();"> 댓글
             </label>
         </div>
+        
+     <form id="aaaa">
+     	<input type="hidden" name="searchKeyword" value="post">
+     
+     </form>
 
 
     <form>
@@ -270,13 +275,11 @@
                         <td>${report.refId}</td>
                         <c:if test="${report.postTitle != null }">
                         <td>${report.postTitle}&nbsp;(${report.cmtCount })
-                        <input type="hidden" id="refId" name="refId" value="${report.refId}"/>
-                        <input type="hidden" id="boardName" name="boardName" value="${report.boardName }"/></td>
+                        <input type="hidden" id="refId" name="refId" value="${report.refId}"/></td>
                         </c:if>
                         <c:if test="${report.cmtContent != null }">
                         <td>${report.cmtContent }
-                        <input type="hidden" id="refId" name="refId" value="${report.refId}"/>
-                        <input type="hidden" id="boardName" name="boardName" value="${report.boardName }"/></td>
+                        <input type="hidden" id="refId" name="refId" value="${report.refId}"/></td>
                         </c:if>
                         <td><c:set var="reportDate" value="${fn:split(report.reportDate,' ')}"></c:set>
 						<c:out value="${reportDate[0]}"></c:out></td>
@@ -289,8 +292,6 @@
                         <c:if test="${report.blocked == 'T' }">
                         <td><button type="button" class="btn btn-primary">처리완료</button></td>
                         </c:if>
-                        
-                        
                     </tr>
                 </c:forEach>
             </tbody>

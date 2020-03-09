@@ -57,6 +57,10 @@ public class CommunityServiceImpl implements CommunityService{
 		communityDao.deleteTag(postId);
 	}
 	
+	public void deleteOffer(String offerId) throws Exception {
+		communityDao.deleteOffer(offerId);
+	}
+	
 	public Post getPost(String postId, String userId, String boardName) throws Exception {
 		return communityDao.getPost(postId, userId, boardName);
 	}
@@ -103,10 +107,15 @@ public class CommunityServiceImpl implements CommunityService{
 		return list;
 	}
 	
-	public List<Offer> getMyOfferList(String userId) throws Exception {
-		List<Offer> list = communityDao.getMyOfferList(userId);
+	public Map<String, Object> getMyOfferList(Search search, String userId) throws Exception {
+		List<Offer> list = communityDao.getMyOfferList(search, userId);
+		int totalCount = communityDao.getMyOfferTotalCount(userId);
 		
-		return list;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
 	}
 	
 	public Map<String, Object> getAllPostList(Search search) throws Exception {

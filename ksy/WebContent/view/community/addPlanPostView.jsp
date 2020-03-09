@@ -341,7 +341,7 @@
 
 		<div class="form-group">
 	
-		 	<label for="planId" class="col-sm-1 control-label" style="font-size: 12px;">플래너 &nbsp;선택</label>
+		 	<label for="planId" class="col-sm-1 control-label" style="font-size: 12px;">플래너<br>선택</label>
 		     <div class="col-sm-5">
 		     
 		      <select class="form-control" id="planId" name="planId">
@@ -367,7 +367,7 @@
 		<br>
 	
 		<div class="form-group">
-		    <label for="tagContent" class="control-label" style="font-size: 12px; float: left; margin-left: 30px;">태그등록</label>
+		    <label for="tagContent" class="control-label" style="font-size: 12px; float: left; margin-left: 40px;">태그등록</label>
 		    <div class="col-sm-5">
 		      <input type="text" class="form-control" id="appendTag" value="" maxlength="15" style="font-size: 12px; height:23px; width:200px; float:left;" onKeyDown="onKeyDown();">
 		      <i class="fas fa-plus" onclick="addTag()" style="float:left; margin-left:10px; margin-top:4px; font-size:12px;">등록</i>

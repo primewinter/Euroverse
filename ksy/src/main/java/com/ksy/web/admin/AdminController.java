@@ -52,21 +52,21 @@ public class AdminController {
 	@Qualifier("userServiceImpl")
 	private UserService userService;
 	
-	@Autowired
-	@Qualifier("communityServiceImpl")
-	private CommunityService communityService;
-	
-	@Autowired
-	@Qualifier("planServiceImpl")
-	private PlanService planService;
-	
-	@Autowired
-	@Qualifier("planSubServiceImpl")
-	private PlanSubService planSubService;
-	
-	@Autowired
-	@Qualifier("myPageServiceImpl")
-	private MyPageService myPageService;
+//	@Autowired
+//	@Qualifier("communityServiceImpl")
+//	private CommunityService communityService;
+//	
+//	@Autowired
+//	@Qualifier("planServiceImpl")
+//	private PlanService planService;
+//	
+//	@Autowired
+//	@Qualifier("planSubServiceImpl")
+//	private PlanSubService planSubService;
+//	
+//	@Autowired
+//	@Qualifier("myPageServiceImpl")
+//	private MyPageService myPageService;
 
 	
 	public AdminController() {
@@ -213,8 +213,12 @@ public class AdminController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
+		
+		System.out.println("이전@@");
 				
 		Map<String,Object> map = adminservice.getPostReportList(search);
+		
+		System.out.println("이후@@");
 		
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(),
 				pageUnit, pageSize);
@@ -271,136 +275,136 @@ public class AdminController {
 		return "forward:/view/admin/getReportList.jsp";
 	}
 	
-	@RequestMapping( value="getPost", method=RequestMethod.GET )
-	public String getPost( @RequestParam("postId") String postId, @RequestParam("boardName") String boardName, Model model, HttpSession session ) throws Exception {
-		
-		System.out.println("/community/getPost : GET");
-		
-		User user=(User)session.getAttribute("user");
-		
-		if(user == null) {
-			return "forward:/view/community/check.jsp";
-		}
-		Post post = communityService.getPost(postId, user.getUserId(), boardName);
-		
-		if( post == null ) {
-			model.addAttribute("delete", "delete");
-			
-			return "forward:/view/community/check.jsp";
-		}
-		List<Tag> tag = communityService.getTagList(postId);
-
-		User userProfile = userService.getUser(user.getUserId());
-		
-		model.addAttribute("user", userProfile);
-		model.addAttribute("post", post);
-		model.addAttribute("tag", tag);
-		
-		List<User> userList = new ArrayList<User>();
-		
-		if( boardName.equals("D") ) {
-			
-			if(user.getRole().equals("G")) {
-				return "forward:/view/community/check.jsp";
-			}
-			
-			List<Party> party = communityService.getParty(postId);
-		
-			for(int i=0; i<party.size(); i++) {
-				
-				User partyUser = userService.getUser(party.get(i).getPartyUserId());
-				List<TripSurvey> tripSurvey = myPageService.getTripSurveyList(party.get(i).getPartyUserId());
-				
-				List<String> tripStyle = new ArrayList<String>();
-				
-				for(int j=0; j<tripSurvey.size(); j++) {
-					
-					if(tripSurvey.get(j).getSurveyType().equals("T")) {
-						String surveyChoice = tripSurvey.get(j).getSurveyChoice();
-						tripStyle.add(surveyChoice);
-						partyUser.setTripStyle(tripStyle);
-					}
-				}
-				userList.add(partyUser);
-			}
-			System.out.println("userList : "+userList);
-			
-			model.addAttribute("userList", userList);
-			model.addAttribute("party", party);
-			
-			return "forward:/view/accompany/getAccFindPost.jsp";
-		}else if( boardName.equals("E") ) {
-			//플래너 게시물 가져오기
-			String planId = post.getPlanId();
-			
-			Plan plan = planService.getPlan( planId );
-			List<Daily> dailyList = planSubService.getDailyList(plan);		//dailyList
-			List<Stuff> stuffList = planSubService.getStuffList(planId);		//stuffList
-			List<Daily> budgetOverviewList = planSubService.getBudgetOverview(plan);
-			List<City> listCity = planSubService.getCityRouteList(planId);
-			List<Day> dayList = Util.cityListToDayList(listCity, plan.getStartDate() );
-			plan.setDayList(dayList);
-			plan.setCityList(listCity);
-			plan.setBudgetOverviewList(budgetOverviewList);
-			plan.setDailyList(dailyList);
-			plan.setStuffList(stuffList);
-			
-			/* FullCalendar addEvent 위한 JSON 만들기.. */
-			JSONArray cityArray = new JSONArray();
-			
-			for (City cityItem : listCity) {
-				JSONObject cityEvent = new JSONObject();
-
-				cityEvent.put("title", cityItem.getCityName());
-				cityEvent.put("start", cityItem.getStartDateStr());
-				cityEvent.put("end", cityItem.getEndDateStr());
-				cityEvent.put("textColor", "white");
-				if( cityItem.getCountry() != null ) {
-					if( cityItem.getCountry().equals("영국") ) {
-						cityEvent.put("color", "#F9A081");
-					}else if(cityItem.getCountry().equals("스위스") ) {
-						cityEvent.put("color", "#98E657");
-					}else if(cityItem.getCountry().equals("프랑스") ) {
-						cityEvent.put("color", "#8886F4");
-					}else if(cityItem.getCountry().equals("이탈리아") ) {
-						cityEvent.put("color", "#76A0F3");
-					}
-				}else {
-					cityEvent.put("color", "#51bec9");
-				}
-
-				cityArray.add(cityEvent);
-			}
-			
-			/* GoogleMap API를 위한 JSON 만들기.. */
-			JSONArray markerArray = new JSONArray();
-			for (City cityItem : listCity) {
-				JSONObject cityMarker = new JSONObject();
-				
-				JSONObject position = new JSONObject();
-				position.put("lat", Double.parseDouble( cityItem.getCityLat() ));
-				position.put("lng", Double.parseDouble( cityItem.getCityLng() ));
-				
-				cityMarker.put("position", position);
-				cityMarker.put("title", cityItem.getCityName());
-				
-				markerArray.add(cityMarker);
-			}
-			
-			plan.setPlanDday( Util.getDday(plan.getStartDate()));		//여행 D-Day
-			if( plan.getPlanTotalDays() != 0) {
-				plan.setEndDate( Util.getEndDate(plan.getStartDate(), plan.getPlanTotalDays()) );	//여행종료일자
-			}
-			
-			model.addAttribute("boardName", boardName);
-			model.addAttribute("plan", plan);
-			model.addAttribute("cityEventList", cityArray);
-			model.addAttribute("cityMarkerList", markerArray);
-			
-			return "forward:/view/community/getPlanPost.jsp";
-		}
-		return "forward:/view/community/getPost.jsp";
-	}
+//	@RequestMapping( value="getPost", method=RequestMethod.GET )
+//	public String getPost( @RequestParam("postId") String postId, @RequestParam("boardName") String boardName, Model model, HttpSession session ) throws Exception {
+//		
+//		System.out.println("/community/getPost : GET");
+//		
+//		User user=(User)session.getAttribute("user");
+//		
+//		if(user == null) {
+//			return "forward:/view/community/check.jsp";
+//		}
+//		Post post = communityService.getPost(postId, user.getUserId(), boardName);
+//		
+//		if( post == null ) {
+//			model.addAttribute("delete", "delete");
+//			
+//			return "forward:/view/community/check.jsp";
+//		}
+//		List<Tag> tag = communityService.getTagList(postId);
+//
+//		User userProfile = userService.getUser(user.getUserId());
+//		
+//		model.addAttribute("user", userProfile);
+//		model.addAttribute("post", post);
+//		model.addAttribute("tag", tag);
+//		
+//		List<User> userList = new ArrayList<User>();
+//		
+//		if( boardName.equals("D") ) {
+//			
+//			if(user.getRole().equals("G")) {
+//				return "forward:/view/community/check.jsp";
+//			}
+//			
+//			List<Party> party = communityService.getParty(postId);
+//		
+//			for(int i=0; i<party.size(); i++) {
+//				
+//				User partyUser = userService.getUser(party.get(i).getPartyUserId());
+//				List<TripSurvey> tripSurvey = myPageService.getTripSurveyList(party.get(i).getPartyUserId());
+//				
+//				List<String> tripStyle = new ArrayList<String>();
+//				
+//				for(int j=0; j<tripSurvey.size(); j++) {
+//					
+//					if(tripSurvey.get(j).getSurveyType().equals("T")) {
+//						String surveyChoice = tripSurvey.get(j).getSurveyChoice();
+//						tripStyle.add(surveyChoice);
+//						partyUser.setTripStyle(tripStyle);
+//					}
+//				}
+//				userList.add(partyUser);
+//			}
+//			System.out.println("userList : "+userList);
+//			
+//			model.addAttribute("userList", userList);
+//			model.addAttribute("party", party);
+//			
+//			return "forward:/view/accompany/getAccFindPost.jsp";
+//		}else if( boardName.equals("E") ) {
+//			//플래너 게시물 가져오기
+//			String planId = post.getPlanId();
+//			
+//			Plan plan = planService.getPlan( planId );
+//			List<Daily> dailyList = planSubService.getDailyList(plan);		//dailyList
+//			List<Stuff> stuffList = planSubService.getStuffList(planId);		//stuffList
+//			List<Daily> budgetOverviewList = planSubService.getBudgetOverview(plan);
+//			List<City> listCity = planSubService.getCityRouteList(planId);
+//			List<Day> dayList = Util.cityListToDayList(listCity, plan.getStartDate() );
+//			plan.setDayList(dayList);
+//			plan.setCityList(listCity);
+//			plan.setBudgetOverviewList(budgetOverviewList);
+//			plan.setDailyList(dailyList);
+//			plan.setStuffList(stuffList);
+//			
+//			/* FullCalendar addEvent 위한 JSON 만들기.. */
+//			JSONArray cityArray = new JSONArray();
+//			
+//			for (City cityItem : listCity) {
+//				JSONObject cityEvent = new JSONObject();
+//
+//				cityEvent.put("title", cityItem.getCityName());
+//				cityEvent.put("start", cityItem.getStartDateStr());
+//				cityEvent.put("end", cityItem.getEndDateStr());
+//				cityEvent.put("textColor", "white");
+//				if( cityItem.getCountry() != null ) {
+//					if( cityItem.getCountry().equals("영국") ) {
+//						cityEvent.put("color", "#F9A081");
+//					}else if(cityItem.getCountry().equals("스위스") ) {
+//						cityEvent.put("color", "#98E657");
+//					}else if(cityItem.getCountry().equals("프랑스") ) {
+//						cityEvent.put("color", "#8886F4");
+//					}else if(cityItem.getCountry().equals("이탈리아") ) {
+//						cityEvent.put("color", "#76A0F3");
+//					}
+//				}else {
+//					cityEvent.put("color", "#51bec9");
+//				}
+//
+//				cityArray.add(cityEvent);
+//			}
+//			
+//			/* GoogleMap API를 위한 JSON 만들기.. */
+//			JSONArray markerArray = new JSONArray();
+//			for (City cityItem : listCity) {
+//				JSONObject cityMarker = new JSONObject();
+//				
+//				JSONObject position = new JSONObject();
+//				position.put("lat", Double.parseDouble( cityItem.getCityLat() ));
+//				position.put("lng", Double.parseDouble( cityItem.getCityLng() ));
+//				
+//				cityMarker.put("position", position);
+//				cityMarker.put("title", cityItem.getCityName());
+//				
+//				markerArray.add(cityMarker);
+//			}
+//			
+//			plan.setPlanDday( Util.getDday(plan.getStartDate()));		//여행 D-Day
+//			if( plan.getPlanTotalDays() != 0) {
+//				plan.setEndDate( Util.getEndDate(plan.getStartDate(), plan.getPlanTotalDays()) );	//여행종료일자
+//			}
+//			
+//			model.addAttribute("boardName", boardName);
+//			model.addAttribute("plan", plan);
+//			model.addAttribute("cityEventList", cityArray);
+//			model.addAttribute("cityMarkerList", markerArray);
+//			
+//			return "forward:/view/community/getPlanPost.jsp";
+//		}
+//		return "forward:/view/community/getPost.jsp";
+//	}
 	
 //	@RequestMapping(value="updatePostReport", method=RequestMethod.GET)
 //	public String updatePostReport(@RequestParam("refId") String refId, Model model, HttpSession session ) throws Exception {

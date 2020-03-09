@@ -25,6 +25,8 @@ public interface CommunityService {
 	
 	public void deleteTag(String postId) throws Exception ;
 	
+	public void deleteOffer(String offerId) throws Exception ;
+	
 	public Post getPost(String postId, String userId, String boardName) throws Exception ;
 	
 	public Post getMainPost(String postId, String userId, String boardName) throws Exception;
@@ -37,7 +39,7 @@ public interface CommunityService {
 
 	public List<Party> getMyPartyList(String userId) throws Exception ;
 	
-	public List<Offer> getMyOfferList(String userId) throws Exception ;
+	public Map<String,Object> getMyOfferList(Search search, String userId) throws Exception ;
 	
 	public Map<String,Object> getPostList(Search search, String boardName) throws Exception;
 	
