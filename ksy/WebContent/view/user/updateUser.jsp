@@ -338,6 +338,10 @@
 						 $("#checkTripStyle").append("<input type='hidden' name='styleImg' value='"+styleImg+"'>");
 					}
 				}/* for End(tripStyle) */
+				
+						// alert($("input[name:'tripStyle']").val())
+						 // alert($("input[name:'dreamCountry']").val())
+				
 				$("#updateForm").attr("action","/user/updateUser").attr("method","post").attr("enctype","multipart/form-data").submit();
 			})
 			

@@ -520,7 +520,7 @@
 					  
 						swal({
 	  	               		icon : 'success',
-	  	               		title : "북마크 추가",
+	  	               		title : "북마크 목록에 추가되었습니다!",
 	  	               		text : " ",
 	  	               		button : false,
 	  	               		timer : 700
@@ -637,7 +637,11 @@
 	      </c:if>
          	<i class="far fa-angry" data-toggle="modal" data-target="#sendReport" onclick="reportshow('${post.postId}','P');" style="float: right; padding: 15px 30px 10px 10px; font-size: 11px;"> 신고하기</i>
 	     	  <h3 class="title ub-word" style="margin-bottom: 40px;">
-		      	<span class="title_subject" style="font-weight:bold;">${post.postTitle}</span>
+		      	<span class="title_subject" style="font-weight:bold;">
+		      	<c:if test="${post.postGrade == 'N'}">
+		      	[공지]
+		      	</c:if>
+		      	${post.postTitle}</span>
 		      </h3>
 	     </div>
 		
