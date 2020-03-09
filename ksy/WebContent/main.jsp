@@ -1528,6 +1528,26 @@
         /*if the user clicks anywhere outside the select box,
         then close all select boxes:*/
         document.addEventListener("click", closeAllSelect);
+        $('body > main > section.new-plan.aos-init.aos-animate > header > span.col.section__header__content').on('click', function() {
+             self.location = '/community/getPostList?boardName=E';
+        })
+        $('body > main > section.new-plan.aos-init.aos-animate > header > span.section__header__more').on('click', function(){
+            self.location = '/community/getPostList?boardName=E';
+        });
+        
+        $('body > main > section.owl-review-section.aos-init.aos-animate > header > span.col.section__header__content').on('click', function(){
+            self.location = '/community/getPostList?boardName=F';
+        })
+        $('body > main > section.owl-review-section.aos-init.aos-animate > header > span.section__header__more').on('click', function(){
+           self.location = '/community/getPostList?boardName=F';
+        });
+        
+        $('body > main > section.owl-info-section.aos-init.aos-animate > header > span.col.section__header__content').on('click', function() {
+            self.location = '/community/getPostList?boardName=B';
+        });
+        $('body > main > section.owl-info-section.aos-init.aos-animate > header > span.section__header__more').on('click', function() {
+            self.location = '/community/getPostList?boardName=B';
+        });
 
     </script>
 
