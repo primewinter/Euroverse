@@ -628,5 +628,7 @@ INSERT INTO city_info ( city_info_id, city_name, country, city_content, city_img
 VALUES ( TO_CHAR(seq_city_info_city_info_id.nextval), '바르샤바', '폴란드', '바르샤바는 폴란드의 수도이자 폴란드 최대 도시이고, 마조프셰주의 대표 도시이다.', 'warszawa.JPG', 52.2326047,20.7803259, 8  );
 
 
+총 78개
+
 
 10130

@@ -1711,7 +1711,7 @@
 				
 				var coordinates = $memo.offset();
 				var memoLeft2 = coordinates.left - left_minus - 30;
-				var memoTop2 = coordinates.top - top_minus - 113;
+				var memoTop2 = coordinates.top - top_minus - 102;
 				console.log("coordinates = "+ memoLeft2 +"/"+ memoTop2 );
 				
 				var memoId = $memo.find('.memo_id').text();
