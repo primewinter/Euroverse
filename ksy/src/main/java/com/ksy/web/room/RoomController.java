@@ -290,9 +290,9 @@ public class RoomController {
 			//숙소이름
 			List<WebElement> name = driver
 					.findElements(By.cssSelector("#listings > ol > li > article > section > div > h3 > a"));
-			//숙소주소
+			//숙소주소 //xpath : ("//*[@id=\"listings\"]/ol/li/article/section/div/address/span")
 			List<WebElement> addr = driver           
-					.findElements(By.xpath("//*[@id=\"listings\"]/ol/li/article/section/div/address/span"));
+					.findElements(By.className("address"));
 			//숙소위치								
 			List<WebElement> location = driver     
 					.findElements(By.cssSelector("#listings > ol > li > article > section > div > div > div.additional-details.resp-module > div.location-info.resp-module > a"));
@@ -393,21 +393,21 @@ public class RoomController {
 				detail8.add(list.getText());
 			}
 			synchronized (driver) {
-				driver.wait(800);
+				driver.wait(1000);
 			}
 			//System.out.println("detail : " + detail +"detail2 : "+ detail2 +"detail3 : "+ detail3+"detail4 : "+imgSrc);
 			for (int j = 0; j < detail.size(); j++) {
 				System.out.println("==============" + j + "번 숙소 =============");
-				for (int i = 0; i < 9; i++) {
-					System.out.println("t1(숙소이름) :: " + detail.get(i * j));
-					System.out.println("t2(주소) :: " + detail2.get(i * j));
-					System.out.println("t3(가격) :: " + detail3.get(i * j));
-					System.out.println("t4(이미지) :: "+detail4.get(i * j));
-					System.out.println("t5(링크) :: "+linkList.get(i*j));
-					System.out.println("t6(위치) :: "+detail6.get(i * j));
-					System.out.println("t7(거리간격) :: "+detail7.get(i * j));
-					System.out.println("t8(평점) :: "+detail8.get(i * j));
-				}
+//				for (int i = 0; i < 9; i++) {
+//					System.out.println("t1(숙소이름) :: " + detail.get(i * j));
+//					System.out.println("t2(주소) :: " + detail2.get(i * j));
+//					System.out.println("t3(가격) :: " + detail3.get(i * j));
+//					System.out.println("t4(이미지) :: "+detail4.get(i * j));
+//					System.out.println("t5(링크) :: "+linkList.get(i*j));
+//					System.out.println("t6(위치) :: "+detail6.get(i * j));
+//					System.out.println("t7(거리간격) :: "+detail7.get(i * j));
+//					System.out.println("t8(평점) :: "+detail8.get(i * j));
+//				}
 				List<Room> roomList = new ArrayList<Room>(); 
 				for(int i=0; i<detail.size();i++) { 
 				room = new Room();
@@ -435,7 +435,7 @@ public class RoomController {
 			}
 			
 			synchronized (driver) {
-				driver.wait(13500);
+				driver.wait(1500);
 
 			}
 		} catch (IndexOutOfBoundsException ie) {

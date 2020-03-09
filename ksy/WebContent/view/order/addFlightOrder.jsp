@@ -174,8 +174,8 @@
     							    pg : 'inicis', // version 1.1.0부터 지원.
     							    pay_method : 'card',
     							    merchant_uid : 'merchant_' + new Date().getTime(),
-    							    name : 'Flights',
-    							    amount : 10,
+    							    name : 'Euroverse',
+    							    amount : actualAmount ,
     							    buyer_email : buyerEmail ,
     							    buyer_name : buyerName ,
     							    buyer_tel : buyerPhone ,
@@ -264,8 +264,8 @@
     							    pg : 'danal', // version 1.1.0부터 지원.
     							    pay_method : 'card',
     							    merchant_uid : 'merchant_' + new Date().getTime(),
-    							    name : 'Flights',
-    							    amount : 10,
+    							    name : 'Euroverse',
+    							    amount : 10 ,
     							    buyer_email : buyerEmail ,
     							    buyer_name : buyerName ,
     							    buyer_tel : buyerPhone ,

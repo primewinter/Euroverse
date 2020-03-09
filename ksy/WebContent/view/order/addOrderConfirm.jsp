@@ -28,10 +28,21 @@
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
 	
-       body > div.container{
-        	border: 3px solid white;
-            margin-top: 10px;
-            
+        .getOrder {
+            width: 60%;
+            margin: auto;
+            font-size: 10pt;
+        }
+        
+        div.h4  {
+            font-family: 'NIXGONM-Vb';
+            font-weight: bold;
+            display: inline-block;
+            background-color: #ffde3e;
+        }
+        
+        table  {
+            font-size: 10pt;
         }
    
     </style>
@@ -55,7 +66,8 @@
 	 <jsp:include page="/toolbar/pushBar.jsp" />
 	<form>
 
-<div class="container"><br/>
+<div class="container getOrder" >
+<br/>
 
 	<div >
 	  <h3 align="center">${user.userName}님 예약이 정상적으로 완료되었습니다.</h3>
@@ -63,7 +75,10 @@
 	
 		 <c:if test="${room.roomCity == null }">
 		 	<hr/>
-			<i class="fas fa-plane" id="iconf" style="Padding-left:20px;font-size:40px;" ></i>
+		 	<div class="row">
+                    <div class="h4">항공 정보</div>
+            </div>
+			<!-- <i class="fas fa-plane" id="iconf" style="Padding-left:20px;font-size:40px;" ></i> -->
 				<br/>
 				<table class="table">
 					  <thead>
@@ -99,7 +114,10 @@
 		</c:if>
 		 <c:if test="${flight.depDate == null }">
 		 	<hr/>
-			<i class="fas fa-bed" id="iconr" style="Padding-left:20px;font-size:40px;"></i>
+			<!-- <i class="fas fa-bed" id="iconr" style="Padding-left:20px;font-size:40px;"></i> -->
+			<div class="row">
+                    <div class="h4">숙소 정보</div>
+            </div>
 				<br/>
 				<table class="table">
 					  <thead>
@@ -128,8 +146,8 @@
 		<br/>
 		
 		<div class="row">
-			<i class="fas fa-won-sign" style="Padding-left:20px;font-size:40px;"></i>
-			<h4 align="left" style="margin-top:5px;margin-left:10px;font-size:17px;">결제 완료 내역</h4>
+			<!-- <i class="fas fa-won-sign" style="Padding-left:20px;font-size:40px;"></i> -->
+			<div class="h4">결제 완료 내역</div>
 		</div>	
 			<hr/>
 			<div class="row">
@@ -167,21 +185,17 @@
 			<br/>
 			<hr style="width:50%;float:left;margin-right:700px;" />
 			
-				<div class="row" style="Padding-left:180px;">
+				<div class="row" style="Padding-left:160px;">
 					<div class="col-sm-1" style="margin-top:10px;">
 						<i class="fas fa-plus"></i>
 					</div>
-					<%-- <div class="col-sm-3">
-				 		사용한 포인트 
-						<div id="payPoint" style="Padding-left:20px;">${order.payPoint} P</div>
-					 <i class="fas fa-minus-circle" style="margin-top:10px;"></i>
-					</div> --%>
+					
 					  <%-- <c:if test="${point.usedType == 'R' || point.usedType == 'F' }"> --%>
 					<div class="col-sm-2" style="margin-left:30px;">
 						<p>적립 된 포인트</p>
 					 			<div id="addPoint" style="Padding-left:20px;">${order.addPoint} P </div>
 					</div>
-					<div class="col-sm-1" style="margin-left:20px;">
+					<div class="col-sm-1" style="margin-left:10px;">
 						<i class="fas fa-equals" style="margin-left:15px;margin-top:10px;"></i>
 					</div>
 					<div class="col-sm-2" style="margin-left:50px;">
@@ -191,8 +205,8 @@
 				</div>
 			<br/>
 		<div class="row">
-			<i class="fas fa-user" style="Padding-left:20px;font-size:40px;"></i>
-			<h4 align="left" style="margin-top:5px;margin-left:10px;font-size:17px;">구매자 정보</h4>
+			<!-- <i class="fas fa-user" style="Padding-left:20px;font-size:40px;"></i> -->
+			 <div class="h4">구매자 정보</div>
 		</div>
 		<hr/>
 			<div>
@@ -225,9 +239,9 @@
 		<hr/>
 	
 	   		 <div class="form-group" align="center">
-			<button type="button" class="btn btn-warning"  id="home" style="color:white;">확인</button>
+			<button type="button" class="btn btn-info"  id="home" style="color:white;">확인</button>
 			&nbsp;&nbsp;&nbsp;&nbsp;
-			<button type="button" class="btn btn-warning" id="list" style="color:white;">주문목록 바로가기</button>
+			<button type="button" class="btn btn-outline-info" id="list" >주문목록 바로가기</button>
 			</div>
 			
 </div>

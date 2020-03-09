@@ -202,10 +202,8 @@ $(function () {
 								<div class="row" style="margin-left:10px;">
 										<i class="fas fa-won-sign" style="font-size:22px;"><fmt:formatNumber value="${room.price}" pattern="###,###" /> 원</i>
 								</div>
-								<br/>
-								<!--<i class="far fa-heart" id="wish" style="font-size:25px;"></i> -->
+								<p></p>
                                  <button type="button" class="btn btn-outline-secondary" id="wish" value="R" style="height:38px"><i class="fas fa-heart"></i></button>
-								
 								
 								<button type="button" class="btn btn-info" style="" id="reserve">예약하기</button>
 									<input type="hidden" name="price" value=" ${room.price}" id="price">
@@ -223,6 +221,7 @@ $(function () {
 							    	<input type="hidden" name="sights" value=" ${room.sights}" id="sights">
 							    	<input type="hidden" name="hotelInfo" value=" ${room.hotelInfo}" id="hotelInfo">
 							    	<input type="hidden" name="roomInfo" value=" ${room.roomInfo}" id="roomInfo">
+							    <br/>
 							</div>
 					</div>
 					</div>
