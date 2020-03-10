@@ -92,11 +92,16 @@ public class LoginSessionListener implements HttpSessionListener, HttpSessionAtt
 								
 								Push push = new Push(); 
 								push.setPushType("P"); 
-								push.setRefId(todo.getPlanId());
-								push.setPushMsg(todo.getTodoName()); 
+//								push.setRefId(todo.getPlanId());
+//								push.setPushMsg(todo.getTodoName());
+								//=========================
+								push.setRefId("10027"); //영상 찍을 용도
+								push.setPushMsg("일정표 작성하기"); //영상 찍을 용도
+								//==========================
 								System.out.println("\n"+userId+"에게 보내는 PUSH ::: "+push); 
 								try {
-									webSocket.sendPush(userId, push);
+									//webSocket.sendPush(userId, push);
+									webSocket.sendPush("minho1", push);
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
@@ -105,8 +110,8 @@ public class LoginSessionListener implements HttpSessionListener, HttpSessionAtt
 							
 							Timer timer = new Timer(true); 
 							//timer.scheduleAtFixedRate(runTask, 0, 3*10*1000); // 3*10초마다 할 task 
-							//timer.scheduleAtFixedRate(runTask, 0, 2*6*10*1000);  // 2분마다 할 task 
-							timer.scheduleAtFixedRate(runTask, 0, 2*10*60*1000); //10분마다 할 task
+							timer.scheduleAtFixedRate(runTask, 0, 3*6*10*1000);  // 3분마다 할 task 
+							//timer.scheduleAtFixedRate(runTask, 0, 2*10*60*1000); //10분마다 할 task
 							//timer.scheduleAtFixedRate(runTask, 0, 24*60*60*1000); //1일마다 할 task
 							
 					}

@@ -288,7 +288,7 @@
 	</select>
 	
 	<select id="getSoonPlanId" parameterType="integer" resultMap = "planSelectMap">
-		SELECT p.plan_id, p.plan_title
+		SELECT p.plan_id, p.plan_title, p.start_date
 		FROM plan p
 		WHERE p.deleted = 'F' 
 			AND p.plan_status = 'R'

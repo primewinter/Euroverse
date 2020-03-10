@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ksy.common.Config;
 import com.ksy.common.Page;
 import com.ksy.common.Search;
 import com.ksy.common.util.Util;
@@ -141,16 +142,16 @@ public class PushRestController {
 	}
 	
 	
-	@Scheduled(cron = "0 0 10 * * *") //매일 10시에 문자 보내기
+	@Scheduled(cron = "0 50 10 * * *") //매일 10시에 문자 보내기
 	public void pushSMS() throws Exception {
 		// 1. d-30 planner
-		pushSMSPlan(30);
+		//pushSMSPlan(30);
 		// 2. d-7 planner
 		pushSMSPlan(7);
 		// 3. d-3 planner
-		pushSMSPlan(3);
+		//pushSMSPlan(3);
 		// 4. d-1 planner
-		pushSMSPlan(1);
+		//pushSMSPlan(1);
 	}
 	
 	public void pushSMSPlan(int leftDay) throws Exception {
@@ -158,9 +159,9 @@ public class PushRestController {
 		List<Plan> planList = planService.getSoonPlan(leftDay);
 		
 		System.out.println(":::::: Euroverse D-"+leftDay+" 여행 SMS 알림 서비스 실행 ::::::: ");
-		String appId = "";
-    	String apiKey = "";
-    	String sender = "";
+		String appId = Config.appid;
+    	String apiKey = Config.apikey;
+    	String sender = Config.sender;
     	String subject = "Euroverse 여행 알리미 : ";
 
 		String hostnamebefore = "api.bluehouselab.com";
@@ -169,7 +170,7 @@ public class PushRestController {
         CredentialsProvider credsProviderbefore = new BasicCredentialsProvider();
         credsProviderbefore.setCredentials(
             new AuthScope(hostnamebefore, 443, AuthScope.ANY_REALM),
-            new UsernamePasswordCredentials(appId, apiKey)
+            new UsernamePasswordCredentials(Config.appid, Config.apikey)
         );
 
         // Create AuthCache instance
@@ -191,27 +192,34 @@ public class PushRestController {
 		for( Plan plan : planList ) {
 			userList = plan.getPlanPartyList();
 			for(User user : userList) {
-				phoneList.add(user.getPhone());
+				String[] receiverPhone = user.getPhone().split("-");
+				String phone = "";
+				for(String temp:receiverPhone) {
+					phone += temp;
+				}
+				phoneList.add(phone);
 				System.out.println("문자 받는 사람 번호 : "+user.getPhone());
 			}
 			todoList = plan.getTodoList();
-			String content = "\n"
-					+ "여행 예정일("+plan.getStartDateString().substring(0, 10)+")이 "+leftDay+"일 앞으로 다가왔습니다.\n"
-					+"잊으신 건 없는지 확인해보세요!\n\n";
+			System.out.println("plan.getStartDateString() : "+plan.getStartDateString());
+			System.out.println(plan.getStartDate());
+			String content = ""
+					+ "여행 예정일("+plan.getStartDateString().substring(0, 10)+")이 "+leftDay+"일 앞으로 다가왔습니다."
+					+"잊으신 건 없는지 확인해보세요!";
 			for(Todo todo : todoList) {
-				content += todo.getTodoName()+"\n";
+				content += todo.getTodoName()+", ";
 			}
 			subject += plan.getPlanTitle();
 			System.out.println(" * * * 최종 문자 내용 * * * ");
-			System.out.println(subject+content+"\n\n");
-			/*
+			System.out.println(subject+content+"");
+			
 			try {
 	            HttpPost httpPostbefore = new HttpPost(urlbefore);
 	            httpPostbefore.setHeader("Content-type", "application/json; charset=utf-8");
 	            Map<String, Object> smsMap = new HashMap<String, Object>();
 	            smsMap.put("sender", sender);
 	            smsMap.put("subject", subject);
-	            smsMap.put("content", content);
+	            smsMap.put("content", subject+content);
 	            smsMap.put("receivers", phoneList);
 	            
 	            ObjectMapper objectMapper = new ObjectMapper();
@@ -239,7 +247,7 @@ public class PushRestController {
 	       } finally {
 	        	clientbefore.getConnectionManager().shutdown();
 	       }
-	            */
+	            
 		} // end of for문
 
 	}
