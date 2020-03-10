@@ -142,16 +142,16 @@ public class PushRestController {
 	}
 	
 	
-	@Scheduled(cron = "0 50 10 * * *") //매일 10시에 문자 보내기
+	@Scheduled(cron = "0 0 10 * * *") //매일 10시에 문자 보내기
 	public void pushSMS() throws Exception {
 		// 1. d-30 planner
-		//pushSMSPlan(30);
+		pushSMSPlan(30);
 		// 2. d-7 planner
 		pushSMSPlan(7);
 		// 3. d-3 planner
-		//pushSMSPlan(3);
+		pushSMSPlan(3);
 		// 4. d-1 planner
-		//pushSMSPlan(1);
+		pushSMSPlan(1);
 	}
 	
 	public void pushSMSPlan(int leftDay) throws Exception {
@@ -206,8 +206,10 @@ public class PushRestController {
 			String content = ""
 					+ "여행 예정일("+plan.getStartDateString().substring(0, 10)+")이 "+leftDay+"일 앞으로 다가왔습니다."
 					+"잊으신 건 없는지 확인해보세요!";
-			for(Todo todo : todoList) {
-				content += todo.getTodoName()+", ";
+			for(int i = 0; i<todoList.size();i++) {
+			//for(Todo todo : todoList) {
+				content += (i+1) +". "+todoList.get(i).getTodoName()+" ";
+				//content += todo.getTodoName();
 			}
 			subject += plan.getPlanTitle();
 			System.out.println(" * * * 최종 문자 내용 * * * ");
@@ -219,7 +221,7 @@ public class PushRestController {
 	            Map<String, Object> smsMap = new HashMap<String, Object>();
 	            smsMap.put("sender", sender);
 	            smsMap.put("subject", subject);
-	            smsMap.put("content", subject+content);
+	            smsMap.put("content", subject+" "+content);
 	            smsMap.put("receivers", phoneList);
 	            
 	            ObjectMapper objectMapper = new ObjectMapper();
