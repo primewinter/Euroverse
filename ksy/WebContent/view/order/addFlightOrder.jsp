@@ -175,7 +175,7 @@
     							    pay_method : 'card',
     							    merchant_uid : 'merchant_' + new Date().getTime(),
     							    name : 'Euroverse',
-    							    amount : actualAmount ,
+    							    amount : 100 ,
     							    buyer_email : buyerEmail ,
     							    buyer_name : buyerName ,
     							    buyer_tel : buyerPhone ,
@@ -202,9 +202,9 @@
     							        var orderId = rsp.imp_uid;
     							        $("#orderId").val(orderId);
     							        
-    							        var price = rsp.paid_amount;
+    							       /*  var price = rsp.paid_amount;
     							        $("#price").val(price);
-    							        
+    							         */
     							        
     							       /*  var orderDate = rsp.paid_at;
     							        $("#orderDate").val(orderDate); */
@@ -265,7 +265,7 @@
     							    pay_method : 'card',
     							    merchant_uid : 'merchant_' + new Date().getTime(),
     							    name : 'Euroverse',
-    							    amount : 10 ,
+    							    amount : 100 ,
     							    buyer_email : buyerEmail ,
     							    buyer_name : buyerName ,
     							    buyer_tel : buyerPhone ,

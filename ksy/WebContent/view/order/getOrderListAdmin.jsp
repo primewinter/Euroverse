@@ -2,6 +2,7 @@
     pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@page import="java.util.*" %>
 
 <html>
@@ -340,7 +341,9 @@
                                 <input type="hidden" name="${room.orderId }" value="${room.orderId}" />
                             </th>
                             <td>${room.roomName}<br /> : ${room.roomCity}</td>
-                            <td>${room.checkIn} - ${room.checkOut }</td>
+                            <td>${fn:trim(room.checkIn).substring(2,4)}/${fn:trim(room.checkIn).substring(4,6)}/${fn:trim(room.checkIn).substring(6,8)}
+			      		- ${fn:trim(room.checkOut).substring(2,4)}/${fn:trim(room.checkOut).substring(4,6)}/${fn:trim(room.checkOut).substring(6,8)}</td>
+                       
                             <td>${room.roomNum}°³<br /><i class="fas fa-child"></i> ${room.adultNum}Έν, <i class="fas fa-baby"></i> ${room.childNum}Έν</td>
                             <td>${room.buyerId }</td>
                             <td>
