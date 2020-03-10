@@ -15,18 +15,19 @@ public class Report {
 	private String postTitle;//신고된 게시글제목
 	private String cmtContent;//신고된 댓글내용
 	private int cmtCount;// 게시글에 댓글개수
-	private String boarName;
+	private String boardName;
 	
 	
 
 	
 	
-	public String getBoarName() {
-		return boarName;
+
+	public String getBoardName() {
+		return boardName;
 	}
 
-	public void setBoarName(String boarName) {
-		this.boarName = boarName;
+	public void setBoardName(String boardName) {
+		this.boardName = boardName;
 	}
 
 	public Report() {
@@ -159,19 +160,14 @@ public class Report {
 		this.reportDate = reportDate;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "Report [reportId=" + reportId + ", reportUserId=" + reportUserId + ", refId=" + refId
 				+ ", reportTarget=" + reportTarget + ", reportReason=" + reportReason + ", reportContent="
 				+ reportContent + ", reportDate=" + reportDate + ", blocked=" + blocked + ", postTitle=" + postTitle
-				+ ", cmtContent=" + cmtContent + ", cmtCount=" + cmtCount + ", boarName=" + boarName + "]";
+				+ ", cmtContent=" + cmtContent + ", cmtCount=" + cmtCount + ", boardName=" + boardName + "]";
 	}
-	
-	
-	
-	
-	
+
+
 	
 }
