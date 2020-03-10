@@ -3,6 +3,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@page import="java.util.*" %>
 
 <html>
@@ -243,7 +244,8 @@
                     <div class="row" style="margin-bottom: 15px">
                         <div class="col-md-3">체크인 - 체크아웃</div>
                         <div class="col-md-9">
-                          ${room.checkIn.substring(0,6)}/${room.checkIn.substring(6,8)}/${room.checkIn.substring(8,10)} - ${room.checkOut.substring(0,6)}/${room.checkOut.substring(6,8)}/${room.checkOut.substring(8,10)}
+                           ${fn:trim(room.checkIn).substring(0,4)}/${fn:trim(room.checkIn).substring(4,6)}/${fn:trim(room.checkIn).substring(6,8)} -
+			      ${fn:trim(room.checkOut).substring(0,4)}/${fn:trim(room.checkOut).substring(4,6)}/${fn:trim(room.checkOut).substring(6,8)}
                         </div>
                     </div>
                     <div class="row" style="margin-bottom: 15px">

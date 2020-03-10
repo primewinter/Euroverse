@@ -3,6 +3,7 @@
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@page import="java.util.*" %>    
 
 <html>
@@ -133,8 +134,8 @@
 					  <tbody>
 					    <tr>
 					      <th scope="row">${room.roomName}</th>
-					       <td>${room.checkIn.substring(0,6)}/${room.checkIn.substring(6,8)}/${room.checkIn.substring(8,10)}</td>
-			    		  <td>${room.checkOut.substring(0,6)}/${room.checkOut.substring(6,8)}/${room.checkOut.substring(8,10)}</td>
+					       <td>${fn:trim(room.checkIn).substring(0,4)}/${fn:trim(room.checkIn).substring(4,6)}/${fn:trim(room.checkIn).substring(6,8)}</td>
+			      <td>${fn:trim(room.checkOut).substring(0,4)}/${fn:trim(room.checkOut).substring(4,6)}/${fn:trim(room.checkOut).substring(6,8)}</td>
 					      <td>${room.roomNum} 개</td>
 					      <td>성인 ${room.adultNum} 명 , 유아 ${room.childNum} 명</td>
 					      <td><fmt:formatNumber value="${room.price}" pattern="###,###" />원</td>
