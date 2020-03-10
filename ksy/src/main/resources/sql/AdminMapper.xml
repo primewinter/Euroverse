@@ -91,7 +91,7 @@
 		<result property="postTitle" 				column="post_title" 			jdbcType="VARCHAR"/>
 		<result property="cmtContent" 				column="cmt_content" 			jdbcType="VARCHAR"/>
 		<result property="cmtCount" 				column="comments" 				jdbcType="VARCHAR"/>
-		<result property="boardname" 				column="board_name" 			jdbcType="VARCHAR"/>
+		<result property="boardName" 				column="board_name" 			jdbcType="VARCHAR"/>
 	</resultMap>
 
 
@@ -167,7 +167,7 @@
   		SELECT *
 		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
 			   FROM
-				( SELECT r.REPORT_ID,r.report_reason, r.REPORT_USER_ID, r.REPORT_CONTENT, r.REPORT_TARGET, r.REF_ID, r.REPORT_DATE, p.POST_TITLE, P.BLOCKED, vt1.c comments
+				( SELECT r.REPORT_ID,r.report_reason, r.REPORT_USER_ID, r.REPORT_CONTENT, r.REPORT_TARGET, r.REF_ID, r.REPORT_DATE, p.POST_TITLE, P.BLOCKED, p.BOARD_NAME, vt1.c comments
 			      FROM REPORT r, post p, 
 			    	   ( SELECT post_id , count(*) c 
 			    		 FROM comments 
@@ -187,7 +187,7 @@
 		SELECT COUNT(*)
 		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
 			FROM
-				( SELECT r.REPORT_ID,r.report_reason, r.REPORT_USER_ID, r.REPORT_CONTENT, r.REPORT_TARGET, r.REF_ID, r.REPORT_DATE, p.POST_TITLE, P.BLOCKED, vt1.c comments
+				( SELECT r.REPORT_ID,r.report_reason, r.REPORT_USER_ID, r.REPORT_CONTENT, r.REPORT_TARGET, r.REF_ID, r.REPORT_DATE, p.POST_TITLE, P.BLOCKED, p.BOARD_NAME, vt1.c comments
 			      FROM REPORT r, post p, 
 			    	   ( SELECT post_id , count(*) c 
 			    		 FROM comments 
