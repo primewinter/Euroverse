@@ -2,11 +2,10 @@ package com.ksy.web.push.util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -30,8 +29,8 @@ import com.ksy.service.user.UserService;
 @ServerEndpoint("/planSocket/{planId}/{userId}")
 public class PlanSocket {
 
-			private static Map<String, List<Session>> slMap = Collections.synchronizedMap(new HashMap<>());
-			private static Map<String, List<User>> users = Collections.synchronizedMap(new HashMap<>());
+			private static Map<String, List<Session>> slMap = new ConcurrentHashMap<>();
+			private static Map<String, List<User>> users = new ConcurrentHashMap<>();
 			private Chat chat = new Chat();
 			private String msg;
 			private UserService userService = (UserService)Util.getBean("userServiceImpl");

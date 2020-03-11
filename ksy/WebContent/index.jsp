@@ -81,13 +81,13 @@
 
 
     main section {
-        margin-top: 0.5em;
         margin-left: 5em;
         margin-right: 5em;
     }
 
     section.main-infinite {
-        margin: 10%;
+        width:80%;
+        margin:auto;
     }
 
     section.random-text {
@@ -115,6 +115,10 @@
         height: 720px;
     }
 
+    .owl-carousel .owl-item img {
+        display: inline-block;
+    }
+
     .carousel-caption {
         text-align: left;
     }
@@ -135,8 +139,8 @@
         position: relative;
         display: inline-block;
         vertical-align: middle;
-        width: 600px;
-        height: 500px;
+        width: 400px;
+        height: 400px;
         overflow: hidden;
         /*box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);*/
     }
@@ -169,7 +173,6 @@
     }
 
     .effect5 figcaption h3 {
-        font-family: '양진체';
         font-size: 1.3em;
         letter-spacing: 2px;
         /*font-weight: 100;*/
@@ -310,23 +313,14 @@
 
 
     #countryMoney {
-        width: 300px;
-        height: 300px;
-        border: 1px solid teal;
         border-radius: 10px;
-
     }
 
     /* 금액입력창 css  */
     .countryMoney {
-        width: 300px;
-        top: 50px;
-        position: relative;
-        justify-content: center;
-        text-align: right;
-        color: #309EFE;
-        font-size: 17px;
-
+        background: #ddd;
+        border-radius: 6px;
+        padding: 10px;
     }
 
 
@@ -577,16 +571,27 @@
 
 
     section>header {
-        font-family: 'GmarketSansBold';
+        font-family: 'NIXGONM-Vb';
+        /*        font-family: 'GmarketSansBold';*/
         /*        font-style: italic;*/
+        font-weight: bold;
         display: inline-block;
         /*background-color: #ffcf00;*/
-        background-color: #8ad0d6;
+        background-color: #ffde3e;
+        /*#8ad0d6; #4da185;*/
+        /*#97EBDB;*/
         text-align: left;
         margin-top: 2em;
         margin-bottom: 2em;
         margin-left: 5em;
-        /*transform: skew(-15deg)*/
+        /*        transform: skew(-15deg);*/
+    }
+    div.random-text>header {
+        font-family: 'NIXGONM-Vb';
+        font-weight: bold;
+        display: inline-block;
+        background-color: #ffde3e;
+        text-align: left;
     }
 
 
@@ -595,7 +600,7 @@
     section.owl-review-section {
         /*        background-color: #f33f02;*/
         position: relative;
-        padding-top: 80px;
+        padding-top: 0px;
 
         &:after {
             content: '';
@@ -638,6 +643,7 @@
     .owl-carousel .owl-nav [class*='owl-'] {
         -webkit-transition: all .3s ease;
         transition: all .3s ease;
+        height;0px;
     }
 
     .owl-carousel .owl-nav [class*='owl-'].disabled:hover {
@@ -678,12 +684,15 @@
         box-shadow: 0 0 11px rgba(33, 33, 33, .2);
     }
 
-    div.card-body {
+    div.item-body {
         height: 200px;
     }
 
-    div.card-body>p {
+    div.item-body>p {
         color: #999999;
+    }
+    div.owl-dots {
+        height: 0px;
     }
 
     div.owl-stage-outer {
@@ -697,7 +706,15 @@
     span.section__header__more {
         font-size: 15px;
     }
+
+    div.story-entry__content>span>img {
+        display: inherit;
+    }
     
+    div.countryMoney input {
+        display: inline-block;
+        width: 30%;
+    }
 
 </style>
 
@@ -710,7 +727,7 @@
                 <div class="carousel-inner">
                     <!-- 슬라이드 쇼 -->
                     <div class="carousel-item active">
-                        <!--가로--> <img class="d-block w-100" src="/resources/images/mainImg/london%20(2).jpg" alt="First slide">
+                        <!--가로--> <img class="d-block w-100" src="/resources/images/mainImg/rome.jpg" alt="First slide">
                         <div class="carousel-caption d-none d-md-block">
                             <h2>유럽여행의 시작</h2>
                             <p>당신을 기다리는 백만 개의 플래너와 함께하세요.</p>
@@ -720,7 +737,7 @@
                         <img class="d-block w-100" src="/resources/images/mainImg/paris_3840x2400%20(2).jpg" alt="Second slide">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="/resources/images/mainImg/rome.jpg" alt="Third slide">
+                        <img class="d-block w-100" src="/resources/images/mainImg/london%20(2).jpg" alt="Third slide">
                     </div> <!-- / 슬라이드 쇼 끝 -->
                     <!-- 왼쪽 오른쪽 화살표 버튼 -->
                     <a class="carousel-control-prev" href="#main-carousel" data-slide="prev">
@@ -748,7 +765,7 @@
 
         <section class="new-plan aos-init aos-animate" data-aos="fade-right">
             <header class="plan-section__header">
-                <span class="col section__header__content">NEW PLANNER</span><span class="section__header__more">>>more</span>
+                <span class="col section__header__content">새로운 플래너</span><span class="section__header__more">>>more</span>
             </header>
 
             <div class="container">
@@ -761,12 +778,11 @@
             </div>
         </section>
 
-        <hr>
 
 
         <section class="owl-review-section aos-init aos-animate" data-aos="fade-left">
             <header class="review-section__header">
-                <span class="col section__header__content">TRIP REVIEW</span><span class="section__header__more">>>more</span>
+                <span class="col section__header__content">새로운 여행 후기</span><span class="section__header__more">>>more</span>
             </header>
             <div class="container">
                 <div class="row">
@@ -778,11 +794,10 @@
             </div>
         </section>
 
-        <hr>
 
         <section class="owl-info-section aos-init aos-animate" data-aos="fade-right">
             <header class="info-section__header">
-                <span class="col section__header__content">TRIP INFO</span><span class="section__header__more">>>more</span>
+                <span class="col section__header__content">새로운 여행 정보</span><span class="section__header__more">>>more</span>
             </header>
             <div class="container">
                 <div class="row">
@@ -795,28 +810,59 @@
         </section>
 
 
-        <hr>
 
         <section class="main-infinite">
-            <div class="effect-wrap">
+           <div class="card" style="display: inline-block;float:left;padding:1em;width:40%;text-align: center;padding-top:3em;padding-left:2.5em;padding-right:2.5em;">
+           <!-- <div style="text-align:left;font-size:20pt;padding-left:0.5em;"><i class="fab fa-instagram"></i><br></div>-->
+              <figure class="effect5" style="">
+                    <img id="infinityClick" src="https://tistory4.daumcdn.net/tistory/2141493/skin/images/simg06.png">
+                    <figcaption>
+                        <h4>클릭해보세요!</h4>
+                    </figcaption>
+                </figure>
+              <div class="card-body">
+                <p class="card-text" style="display:none;text-align: left;font-size:10pt;"><!--<i class="fas fa-heart" style="color:red;"></i>-->좋아요 11.2k &nbsp;&nbsp;<!--<i class="fas fa-comment"></i>-->댓글 8.7k <span style="float:right;font-size:10pt;">2020.03.08</span></p>
+                
+                <div class="card-title random-title" style="font-family:'NIXGONM-Vb';font-weight:bold;text-align: left;font-size:17pt;color:cornflowerblue;"></div>
+                
+              </div>
+            </div>
+           <!-- <div class="effect-wrap">
                 <figure class="effect5">
                     <img id="infinityClick" src="https://tistory4.daumcdn.net/tistory/2141493/skin/images/simg06.png">
                     <figcaption>
-                        <h3>여행지<em>추천</em></h3>
+                        <h4>클릭해보세요!</h4>
                     </figcaption>
                 </figure>
-            </div>
-            <div class="random-text"></div>
-
-
-
-        </section>
-        <div style="clear: both"></div>
-        
-<hr>    
-           <section>
-            <!-- 클래스명은 변경하면 안 됨 -->
-            <div class="swiper-container" style="margin: 3em;">
+            </div>-->
+            <div style="display: inline-block;float:left;padding:1em;width:60%;">
+                <div class="currency-convertor">
+                   <br><br>
+                    <div class="random-text" style="">
+                    <header>
+                        <span class="col section__header__content">환율 계산기</span><span class="section__header__more">>></span>
+                    </header>
+                    </div>
+                    <br><br>
+                    <div class="input-group cur-result">
+                        <div class="countryMoney">
+                            <input type="text" name='conMoney1' class="form-control" placeholder="국가를 선택하세요" aria-describedby="addon-wrapping" value="" onkeydown="exchange()" style="width:150px;"> <span class='text'>
+                            </span>
+                            <i class="fas fa-angle-double-right" style="margin-left:30px;margin-right:30px;"></i>
+                            <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="" style="width:150px;"> 원
+                        </div>
+                    </div>
+                </div>
+                <br><br><br>
+                <div class="random-text" style="">
+                    <header>
+                        <span class="col section__header__content">여행지 추천</span><span class="section__header__more">>>국가를 선택해보세요</span>
+                    </header>
+                    <br><br>
+                    <!--<h5 style='font-family:"NIXGONM-Vb" '>#여행지랜덤추천 #클릭</h5>-->
+                </div><!---->
+                <br>
+                <div class="swiper-container" style="margin: 1em;">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide"><a id="a" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR">
                             <img src='/resources/images/tripInfoimges/Europe.png' />
@@ -873,33 +919,19 @@
                 </div>
 
                 <!-- 네비게이션 -->
-                <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
-                <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
+                <div class="swiper-button-next" style="width: 10px;height: 5px;"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+                <div class="swiper-button-prev" style="width: 10px;height: 5px;"></div><!-- 이전 버튼 -->
 
             </div>
-                 <div style="padding:5em;text-align: center;left:300px;">
-                  <!-- =========== 환율금액입력 ====================  -->
-            <div class="input-group flex-nowrap cur-result">
-                <div class="countryMoney">
-                    <input type="text" name='conMoney1' class="form-control" placeholder="대한민국" aria-describedby="addon-wrapping" value="" onkeydown="exchange()">원
-                    <input type="text" name='conMoney' id="result" class="form-control" placeholder="" readonly="readonly" value="">
-                    <div class='text'>
-                    </div>
-                </div>
             </div>
-               </div>
-            
+        </section>
         <div style="clear: both"></div>
-            <div class="cur-select" style="display: none;">
-                <select>
-                    <option value="0" data-toggle="list" href="#list-home" hwa='유로' mon="EUR" con="GBR"><img class='cur-select-img' src='/resources/images/tripInfoimges/Europe.png' />EU</option>
-                    <option value="1" data-toggle="list" href="#list-profile" hwa='포린트' mon="HUF" con="HUN" ><img class='cur-select-img' src='/resources/images/tripInfoimges/Hungary.gif'/>헝가리</option>
-                    <option value="2" data-toggle="list" href="#list-messages" hwa='코루나' mon="CZK" con="CZE"><img class='cur-select-img'  src='/resources/images/tripInfoimges/Czech.gif'/>체코</option>
-                    <option value="3" data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR" ><img class='cur-select-img' src='/resources/images/tripInfoimges/England.gif'/>영국</option>
-                    <option value="4"  data-toggle="list" href="#list-settings" hwa='파운드' mon="GBP" con="GBR" > <img class='cur-select-img'src='/resources/images/tripInfoimges/Swiss.gif'/>스위스</option>
-                </select>
-            </div>
 
+        <section>
+            <!-- 클래스명은 변경하면 안 됨 -->
+            
+
+            <div style="clear: both"></div>
 
             <!-- ============국가정보출력 box ================ -->
             <div class="popupLayer">
@@ -920,14 +952,14 @@
 
             </div>
 
-      
+
 
         </section>
-        
-        
-        
-        
-           
+
+
+
+
+
 
     </main>
 
@@ -942,9 +974,9 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function($) {
-            randomImage();
+            randomImage('GBR');
             $("figure.effect5").on("click", function() {
-                randomImage();
+                randomImage('GBR');
             });
             //getBestList();
             //getRecentList("C");
@@ -953,9 +985,10 @@
             getMainPlanner("E");
         });
 
-        function randomImage() {
+        function randomImage(con) {
+            console.log("con :: " + con)
             $.ajax({
-                url: "/api/json/infinityClick",
+                url: "/api/json/infinityClick/" + con,
                 method: "GET",
                 dataType: "json",
                 headers: {
@@ -963,8 +996,25 @@
                     "Content-Type": "application/json"
                 },
                 success: function(JSONData, status) {
-                    $('#infinityClick').attr('src', JSONData.url);
-                    $('.effect5 figcaption h3').html(JSONData.info1 + JSONData.info2 + JSONData.info3 + JSONData.info4 + JSONData.info5);
+                    console.log("랜덤이미지 출력")
+                    console.log(JSONData);
+                    $('#infinityClick').attr('src', JSONData.conUrl);
+                    var html = '';
+                    console.log('JSONData.conInfo1 :' + JSONData.conInfo1 + ', JSONData.conInfo2 :' + JSONData.conInfo2 + ', JSONData.conInfo3:' + JSONData.conInfo3 + ', JSONData.conInfo4:' + JSONData.conInfo4);
+                    if (JSONData.conInfo1 != null) {
+                        html += JSONData.conInfo1;
+                    }
+                    if (JSONData.conInfo2 != null) {
+                        html += JSONData.conInfo2;
+                    }
+                    if (JSONData.conInfo3 != null) {
+                        html += JSONData.conInfo3;
+                    }
+                    if (JSONData.conInfo4 != null) {
+                        html += JSONData.conInfo4;
+                    }
+
+                    $('.random-title').html(html);
                 }
             })
         }
@@ -1040,11 +1090,17 @@
         }
 
         function loadOwl(boardName) {
-            var itemsCnt = "";
+            var itemsCnt;
+            var timeOut;
             if (boardName == 'E') {
                 itemsCnt = 4;
-            } else {
+                timeOut = 6000
+            } else if (boardName == 'B') {
                 itemsCnt = 5;
+                timeOut = 8500
+            } else if (boardName == 'F') {
+                itemsCnt = 5;
+                timeOut = 8500
             }
             $('#owl-' + boardName).owlCarousel({
                 loop: true,
@@ -1054,7 +1110,7 @@
                 autoplay: true,
                 dots: true,
                 nav: true,
-                autoplayTimeout: 8500,
+                autoplayTimeout: timeOut,
                 smartSpeed: 450,
                 navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>'],
                 responsive: {
@@ -1095,54 +1151,17 @@
             tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + post.postId + "&boardName=E\">";
             tag += "<div class=\"card\" style=\"height:100%;\">"
             tag += "<div class=\"planner-image-wrap\">"
-            tag += "<img  class=\"card-img-top\" src='/resources/images/planImg/" + plan.planImg + "'>";
+            tag += "<img  class=\"card-img-top\" src='" + plan.planImg + "'>";
             tag += "</div>"
-            tag += "<div class=\"card-body\">"
+            tag += "<div class=\"card-body item-body\">"
             tag += "<p class=\"card-title\">" + post.postTitle + "</p>"
             tag += "<p class=\"card-text\">" + planType + "<p>"
-            tag += "<p><img src='/resources/images/userImages/" + post.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
+            tag += "<p><img src='/resources/images/userImages/" + post.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;display:inherit;'>"
             tag += post.nickName + "</p>"
             tag += "</div></a></div>"
 
-
-            /*
-            tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + post.postId + "&boardName=E\">";
-            tag += "<div class=\"story-entry__image-wrap\">"
-            tag += "<figure class = \"snip1384\" >"
-            tag += "<img src='/resources/images/planImg/" + plan.planImg + "'>";
-            tag += "<figcaption>"
-            tag += "<h3>" + post.postTitle + "</h3>"
-            tag += "<p>"
-            tag += "<img src='/resources/images/userImages/" + post.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
-            tag += post.nickName + "</p>"
-            tag += "<i class=\"ion-ios-arrow-right\"></i></figcaption></figure>"
-            tag += "</div>"
-            tag += "</a>"
-            tag += "</div>"
-            */
             $("#owl-E").append(tag);
 
-            /*
-            //var tag = "<div class=\"swiper-slide\">";
-            tag += "<li class=\"col-6 col-md-3 best-stories__content__item\">"
-            tag += "<article class=\"story-entry story-story-item\">"
-            tag += "<a class=\"story-entry-link\" href=\"/community/getPost?postId=" + post.postId + "&boardName=E\">";
-            tag += "<div class=\"story-entry__image-wrap\">"
-            tag += "<figure class = \"snip1384\" >"
-            tag += "<img src='/resources/images/planImg/" + plan.planImg + "'>";
-            tag += "<figcaption>"
-            tag += "<h3>" + post.postTitle + "</h3>"
-            tag += "<p>"
-            tag += "<img src='/resources/images/userImages/" + post.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
-            tag += post.nickName + "</p>"
-            tag += "<i class=\"ion-ios-arrow-right\"></i></figcaption></figure>"
-            tag += "</div>"
-            tag += "</a>"
-            tag += "</article></li>"
-            //tag += "</div>"
-
-            $('.plan-stories__content').append(tag);
-            //$('section.new-plan > section > ul > div > div.swiper-wrapper').append(tag);*/
         }
 
         function appendTag(vo, boardName) {
@@ -1167,7 +1186,7 @@
             }
             tag += "</div>"
             tag += "<div class=\"story-entry__content\" style=\"font-family:'Noto Sans KR';text-align:left;padding: 10px; width: 100%; bottom: 0px; font-size: 1em; font-weight: bold; position: absolute;background-color:black;opacity:70%;\">"
-            tag += "<img src='/resources/images/userImages/" + vo.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;'>"
+            tag += "<img src='/resources/images/userImages/" + vo.user.userImg + "' style='border-radius:50%;width:20px;height:20px;border:solid 2px white;margin-right:0.5em;display:inherit;'>"
             tag += "<span style='font-size:0.8em;color:#CCC;font-weight:400;'>" + vo.nickName + "</span>"
             tag += "</div>"
             tag += "</div></a>"
@@ -1177,12 +1196,10 @@
 
             if (boardName == 'F') {
                 $('.review-stories__content').append(tag);
-                //$('section.main-best > section > ul > div > div.swiper-wrapper').append(tag);
             } else if (boardName == 'C') {
                 $('.best-stories__content').append(tag);
             } else {
                 $('.recent-stories__content').append(tag);
-                //$('section.container.recent > ul > div > div.swiper-wrapper').append(tag);
             }
 
         }
@@ -1247,12 +1264,16 @@
             $(".swiper-slide>a").click(function(e) {
 
                 var conCode = $(this).attr('con');
-                var conName = $(this).text();
+                var conName = $(this).text().trim();
                 var conHwa = $(this).attr('hwa');
                 countryInfo(conCode);
 
-                $('input[name="conMoney"]').attr('placeholder', conName.trim());
-                $('.text').html(conHwa);
+                $('input[name="conMoney"]').attr('placeholder', conName);
+                $('span.text').html(conHwa);
+
+                randomImage(conCode);
+
+
                 //popup(e);
                 //resultFun();
             });
@@ -1295,14 +1316,19 @@
 
                     function(data) {
 
-                        var mon = $(".swiper-slide.on a").attr('mon');
+                        var mon = $(".swiper-slide.on>a").attr('mon');
+                         $('#result').val('');
+//                        $('input[name="conMoney1"]').val('');
 
                         if (mon == undefined) {
-                            $("#result").val("국가를 선택하세요")
-                                .return;
+                            $("#result").val("국가를 선택하세요");
+                            return;
                         }
 
                         var price = $("input[name='conMoney1']").val();
+//                         var price = $("#result").val();
+                        
+                        
                         /* var num = price/ data.rates[cur] */
 
                         var num = Math.round(price.match(/\d+/) /
@@ -1312,14 +1338,16 @@
                         price = price.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
                         num = num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 
-                        $('#result').attr("value", num);
+                        $('#result').val(num);
+//                        $('input[name="conMoney1"]').val(num);
+                        
                     })
             }
         }
 
         new Swiper('.swiper-container', {
 
-            slidesPerView: 10, // 동시에 보여줄 슬라이드 갯수
+            slidesPerView: 5, // 동시에 보여줄 슬라이드 갯수
             spaceBetween: 30, // 슬라이드간 간격
             slidesPerGroup: 2, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
             //slidesPerColumn: 2,
@@ -1425,7 +1453,7 @@
             /*for each element, create a new DIV that will act as the selected item:*/
             a = document.createElement("DIV");
             a.setAttribute("class", "select-selected");
-            
+
             a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
             x[i].appendChild(a);
             /*for each element, create a new DIV that will contain the option list:*/
@@ -1468,15 +1496,15 @@
                 this.classList.toggle("select-arrow-active");
             });
         }
-        
-     /*   통화이름 보이기
-        conCode = $('.select-selected').attr('con');
-        conName = $('.select-selected').text();
-        conHwa = $('.select-selected').attr('hwa');
-        countryInfo(conCode);*/
 
-        $('input[name="conMoney"]').attr('placeholder', conName.trim());
-        $('.text').html(conHwa);
+        /*   통화이름 보이기
+           conCode = $('.select-selected').attr('con');
+           conName = $('.select-selected').text();
+           conHwa = $('.select-selected').attr('hwa');
+           countryInfo(conCode);
+
+           $('input[name="conMoney"]').attr('placeholder', conName.trim());
+           $('.text').html(conHwa);*/
 
         function closeAllSelect(elmnt) {
             /*a function that will close all select boxes in the document,
@@ -1500,6 +1528,26 @@
         /*if the user clicks anywhere outside the select box,
         then close all select boxes:*/
         document.addEventListener("click", closeAllSelect);
+        $('body > main > section.new-plan.aos-init.aos-animate > header > span.col.section__header__content').on('click', function() {
+             self.location = '/community/getPostList?boardName=E';
+        })
+        $('body > main > section.new-plan.aos-init.aos-animate > header > span.section__header__more').on('click', function(){
+            self.location = '/community/getPostList?boardName=E';
+        });
+        
+        $('body > main > section.owl-review-section.aos-init.aos-animate > header > span.col.section__header__content').on('click', function(){
+            self.location = '/community/getPostList?boardName=F';
+        })
+        $('body > main > section.owl-review-section.aos-init.aos-animate > header > span.section__header__more').on('click', function(){
+           self.location = '/community/getPostList?boardName=F';
+        });
+        
+        $('body > main > section.owl-info-section.aos-init.aos-animate > header > span.col.section__header__content').on('click', function() {
+            self.location = '/community/getPostList?boardName=B';
+        });
+        $('body > main > section.owl-info-section.aos-init.aos-animate > header > span.section__header__more').on('click', function() {
+            self.location = '/community/getPostList?boardName=B';
+        });
 
     </script>
 

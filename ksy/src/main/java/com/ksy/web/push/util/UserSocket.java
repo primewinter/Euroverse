@@ -1,10 +1,9 @@
 package com.ksy.web.push.util;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -26,7 +25,7 @@ import com.ksy.service.domain.Push;
 @ServerEndpoint("/userSocket/{userId}")
 public class UserSocket {
 	
-			private static Map<String, Session> slMap = Collections.synchronizedMap(new HashMap<>());
+			private static Map<String, Session> slMap = new ConcurrentHashMap<>();
 		
 			@OnOpen
 			public void handleOpen(@PathParam("userId") String userId, Session session) throws IOException {

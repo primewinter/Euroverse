@@ -1,12 +1,11 @@
 package com.ksy.common.listener;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
@@ -27,8 +26,9 @@ import com.ksy.web.push.util.UserSocket;
 public class LoginSessionListener implements HttpSessionListener, HttpSessionAttributeListener {
 
 	//Field
-	private static Map<String, TimerTask> checkMap = Collections.synchronizedMap(new HashMap<String, TimerTask>());
-	private static Map<String, User> userMap = Collections.synchronizedMap(new HashMap<String, User>());
+	//private static Map<String, TimerTask> checkMap = Collections.synchronizedMap(new HashMap<String, TimerTask>());
+	private static Map<String, TimerTask> checkMap = new ConcurrentHashMap<String, TimerTask>();
+	private static Map<String, User> userMap = new ConcurrentHashMap<String, User>();
 	
 	public LoginSessionListener() {
 		System.out.println(this.getClass());
@@ -111,7 +111,7 @@ public class LoginSessionListener implements HttpSessionListener, HttpSessionAtt
 							Timer timer = new Timer(true); 
 							//timer.scheduleAtFixedRate(runTask, 0, 3*10*1000); // 3*10초마다 할 task 
 							//timer.scheduleAtFixedRate(runTask, 0, 3*6*10*1000);  // 3분마다 할 task 
-							timer.scheduleAtFixedRate(runTask, 0, 2*10*60*1000); //10분마다 할 task
+							timer.scheduleAtFixedRate(runTask, 0, 2*10*60*1000); //20분마다 할 task
 							//timer.scheduleAtFixedRate(runTask, 0, 24*60*60*1000); //1일마다 할 task
 							
 					}

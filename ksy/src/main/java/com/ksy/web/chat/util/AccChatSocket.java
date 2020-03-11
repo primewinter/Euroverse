@@ -2,11 +2,10 @@ package com.ksy.web.chat.util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -17,14 +16,10 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.socket.BinaryMessage;
 
 import com.ksy.common.util.Util;
 import com.ksy.service.domain.Chat;
@@ -36,13 +31,11 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.UpdateOptions;
 
 @ServerEndpoint("/accSocket/{roomId}/{userId}")
 public class AccChatSocket {
 
-	private static Map<String, List<Session>> accMap = Collections.synchronizedMap(new HashMap<>());
+	private static Map<String, List<Session>> accMap = new ConcurrentHashMap<>();
 	private static UserSocket webSocket = new UserSocket();
 	private Chat chat = new Chat();
 	private String msg;
