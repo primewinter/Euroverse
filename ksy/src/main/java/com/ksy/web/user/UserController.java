@@ -48,6 +48,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.common.net.HttpHeaders;
 import com.ksy.common.Page;
 import com.ksy.common.Search;
+import com.ksy.service.admin.AdminService;
 import com.ksy.service.community.CommunityService;
 import com.ksy.service.domain.Plan;
 import com.ksy.service.domain.TripSurvey;
@@ -77,12 +78,38 @@ public class UserController {
 	@Qualifier("communityServiceImpl")
 	private CommunityService communityService;
 	
+	
+	@Autowired
+	@Qualifier("adminServiceImpl")
+	private AdminService adminService;
+	
 
 	String uploadPath = "C:\\Users\\User\\git\\Euroverse\\ksy\\WebContent\\resources\\images\\userImages";
 	
 	
 	public UserController() {
 		System.out.println(this.getClass());
+	}
+	
+	
+	@RequestMapping(value="dbTest")
+	public void dbTest() throws Exception {
+		
+		Search search = new Search();
+		//현재 페이지가 null일 경우 디폴트 1로 유지
+		if(search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(10);
+		
+		//map에  getUserList 담기
+		Map<String, Object> map = adminService.getUserList(search);
+		
+		
+		
+		
+		System.out.println(map.get("list"));
+		
 	}
 	
 	@RequestMapping(value="autoLogout")
